@@ -1,3 +1,5 @@
+![Claude How To](claude-howto-logo.svg)
+
 # Claude Code Examples - Quick Reference Card
 
 ## 🚀 Installation Quick Commands

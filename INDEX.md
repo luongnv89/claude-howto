@@ -1,3 +1,5 @@
+![Claude How To](claude-howto-logo.svg)
+
 # Claude Code Examples - Complete Index
 
 This document provides a complete index of all example files organized by feature type.

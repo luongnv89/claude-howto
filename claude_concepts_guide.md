@@ -1,3 +1,5 @@
+![Claude How To](claude-howto-logo.svg)
+
 # Complete Guide to Claude Concepts
 
 A comprehensive reference guide covering Slash Commands, Subagents, Memory, MCP Protocol, and Agent Skills with tables, diagrams, and practical examples.

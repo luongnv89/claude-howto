@@ -1,4 +1,4 @@
-<img src="claude-ai-icon.webp" alt="Claude Logo" width="13%"/>
+![Claude How To](claude-howto-logo.svg)
 
 # Claude How To
 
