@@ -91,6 +91,9 @@ Guides you through PR preparation checklist including linting, testing, and comm
 - Creating conventional commit messages
 - Generating PR summary
 
+**Screenshot**
+![/pr](pr-slash-command.png)
+
 ### 3. `/generate-api-docs` - API Documentation Generator
 Generates comprehensive API documentation from source code.
 
