@@ -404,10 +404,10 @@ Access with: `/deploy/production`, `/test/unit`, `/docs/api`
 
 ## Related Concepts
 
-- **[Subagents](../02-subagents/)** - For complex, delegated tasks
-- **[Memory](../03-memory/)** - For persistent context
-- **[Skills](../05-skills/)** - For auto-invoked capabilities
-- **[Plugins](../06-plugins/)** - For bundled command collections
+- **[Memory](../02-memory/)** - For persistent context
+- **[Skills](../03-skills/)** - For auto-invoked capabilities
+- **[Subagents](../04-subagents/)** - For complex, delegated tasks
+- **[Plugins](../07-plugins/)** - For bundled command collections
 
 ## Resources
 

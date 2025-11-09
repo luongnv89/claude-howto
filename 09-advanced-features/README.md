@@ -1038,9 +1038,13 @@ Create `.claude/config.json` in your project:
 For more information about Claude Code and related features, see:
 
 - [Main Claude Code Guide](../README.md)
-- [Claude Code Basics](../01-basics/)
-- [Advanced Code Analysis](../02-code-analysis/)
-- [Collaboration Features](../03-collaboration/)
-- [Troubleshooting Guide](../troubleshooting.md)
+- [Slash Commands](../01-slash-commands/)
+- [Memory](../02-memory/)
+- [Skills](../03-skills/)
+- [Subagents](../04-subagents/)
+- [MCP](../05-mcp/)
+- [Hooks](../06-hooks/)
+- [Plugins](../07-plugins/)
+- [Checkpoints](../08-checkpoints/)
 - [Claude Documentation](https://docs.claude.com)
 - [MCP GitHub Servers](https://github.com/modelcontextprotocol/servers)

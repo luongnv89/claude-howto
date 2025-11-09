@@ -461,12 +461,11 @@ Use both together:
 
 ## Related Concepts
 
-- **[Planning Mode](../07-planning/)** - Create detailed implementation plans before coding
-- **[Memory Management](../06-memory/)** - Managing conversation history and context
-- **[Code Navigation](../05-code-navigation/)** - Understanding and navigating your codebase
-- **[Real-time Collaboration](../09-collaboration/)** - Working with teams using Claude Code
-- **[Error Handling](../10-error-handling/)** - Handling and recovering from errors
-- **[Best Practices](../11-best-practices/)** - General best practices for Claude Code usage
+- **[Advanced Features](../09-advanced-features/)** - Planning mode and other advanced capabilities
+- **[Memory Management](../02-memory/)** - Managing conversation history and context
+- **[Slash Commands](../01-slash-commands/)** - User-invoked shortcuts
+- **[Hooks](../06-hooks/)** - Event-driven automation
+- **[Plugins](../07-plugins/)** - Bundled extension packages
 
 ## Summary
 

@@ -533,9 +533,9 @@ graph LR
 - [Memory Hierarchy](./examples/)
 
 ### Integration Points
-- [MCP Protocol](../04-mcp/) - Live data access alongside memory
-- [Slash Commands](../02-slash-commands/) - Session-specific shortcuts
-- [Skills](../05-skills/) - Automated workflows with memory context
+- [MCP Protocol](../05-mcp/) - Live data access alongside memory
+- [Slash Commands](../01-slash-commands/) - Session-specific shortcuts
+- [Skills](../03-skills/) - Automated workflows with memory context
 
 ### Best Practices
 - [Code Organization](./examples/)

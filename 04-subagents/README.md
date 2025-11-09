@@ -719,10 +719,10 @@ Main Agent receives: "Build a new authentication feature"
 ### Related Features
 
 - **[Slash Commands](../01-slash-commands/)** - Quick user-invoked shortcuts
-- **[Memory](../03-memory/)** - Persistent cross-session context
-- **[MCP Protocol](../04-mcp-protocol/)** - Real-time external data access
-- **[Agent Skills](../05-agent-skills/)** - Reusable autonomous capabilities
-- **[Plugins](../06-plugins/)** - Bundled extension packages
+- **[Memory](../02-memory/)** - Persistent cross-session context
+- **[MCP Protocol](../05-mcp/)** - Real-time external data access
+- **[Skills](../03-skills/)** - Reusable autonomous capabilities
+- **[Plugins](../07-plugins/)** - Bundled extension packages
 
 ### Comparison with Other Features
 
@@ -803,8 +803,8 @@ Subagent provides:
 
 - [Claude Code Documentation](https://docs.claude.com/en/docs/claude-code/overview)
 - [Subagents in Claude Concepts Guide](../claude_concepts_guide.md#subagents)
-- [Agent Skills Guide](../05-agent-skills/)
-- [Memory and Context](../03-memory/)
+- [Skills Guide](../03-skills/)
+- [Memory and Context](../02-memory/)
 
 ---
 

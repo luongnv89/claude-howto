@@ -398,7 +398,7 @@ See the example files in this directory:
 
 For more information on related Claude Code features, see:
 - **[Checkpoints and Rewind](../08-checkpoints/)** - Save and restore conversation state
-- **[Custom Commands](../06-commands/)** - Create custom slash commands
-- **[Settings Configuration](../settings/)** - Configure Claude Code behavior
-- **[Advanced Features](../advanced-features/)** - Explore advanced Claude Code capabilities
+- **[Slash Commands](../01-slash-commands/)** - Create custom slash commands
+- **[Plugins](../07-plugins/)** - Bundled extension packages
+- **[Advanced Features](../09-advanced-features/)** - Explore advanced Claude Code capabilities
 - **[Main Concepts Guide](../claude_concepts_guide.md)** - Complete reference documentation

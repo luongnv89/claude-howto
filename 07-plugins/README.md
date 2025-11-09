@@ -526,11 +526,11 @@ Complete PR review workflow with security, testing, and documentation checks.
 The following Claude Code features work together with plugins:
 
 - **[Slash Commands](../01-slash-commands/)** - Individual commands bundled in plugins
-- **[Subagents](../03-subagents/)** - Specialized agents included as plugin components
-- **[MCP Servers](../04-mcp-servers/)** - Model Context Protocol integrations bundled in plugins
-- **[Hooks](../05-hooks/)** - Event handlers that trigger plugin workflows
-- **[Skills](../02-skills/)** - Domain expertise that can be wrapped into plugins
-- **[Environments](../07-environments/)** - Configuration and secrets management for plugins
+- **[Memory](../02-memory/)** - Persistent context for plugins
+- **[Skills](../03-skills/)** - Domain expertise that can be wrapped into plugins
+- **[Subagents](../04-subagents/)** - Specialized agents included as plugin components
+- **[MCP Servers](../05-mcp/)** - Model Context Protocol integrations bundled in plugins
+- **[Hooks](../06-hooks/)** - Event handlers that trigger plugin workflows
 
 ## Complete Example Workflow
 
@@ -592,5 +592,5 @@ The following Claude Code features work together with plugins:
 - [Official Plugin Examples](https://github.com/anthropic/claude-plugins)
 - [Plugin Development Guide](https://docs.claude.com/plugins/development)
 - [MCP Server Reference](https://spec.modelcontextprotocol.io/)
-- [Subagent Configuration Guide](../03-subagents/README.md)
-- [Hook System Reference](../05-hooks/README.md)
+- [Subagent Configuration Guide](../04-subagents/README.md)
+- [Hook System Reference](../06-hooks/README.md)

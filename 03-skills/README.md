@@ -615,7 +615,7 @@ const users = fetchUsersWithPosts(); // 1 query
 
 **File:** `.claude/skills/brand-voice/SKILL.md`
 
-```yaml
+```md
 ---
 name: Brand Voice Consistency
 description: Ensure all communication matches brand voice and tone guidelines
@@ -681,7 +681,6 @@ Help teams automate their development workflows with AI
 - "Leverage" (corporate-speak)
 - "Utilize" (use "use")
 - "Paradigm shift" (unclear)
-```
 
 **Good Example:**
 "Claude automates your code review process. Instead of manually checking each PR, Claude reviews security, performance, and quality—saving your team hours every week."
@@ -692,6 +691,8 @@ Why it works: Clear value, specific benefits, action-oriented
 "Claude leverages cutting-edge AI to provide comprehensive software development solutions."
 
 Why it doesn't work: Vague, corporate jargon, no specific value
+
+```
 
 **Template:** `email-template.txt`
 
@@ -741,7 +742,7 @@ Educational blog post:
 
 **File:** `.claude/skills/doc-generator/SKILL.md`
 
-```yaml
+```md
 ---
 name: API Documentation Generator
 description: Generate comprehensive, accurate API documentation from source code
@@ -767,8 +768,7 @@ when_to_use: When creating or updating API documentation
 ## Documentation Structure
 
 ### For Each Endpoint
-
-```markdown
+<document>
 ## GET /api/v1/users/:id
 
 ### Description
@@ -781,50 +781,41 @@ Brief explanation of what this endpoint does
 | id | string | Yes | User ID |
 
 ### Response
-
 **200 Success**
-```json
+
 {
   "id": "usr_123",
   "name": "John Doe",
   "email": "john@example.com",
   "created_at": "2025-01-15T10:30:00Z"
 }
-```
 
 **404 Not Found**
-```json
+
 {
   "error": "USER_NOT_FOUND",
   "message": "User does not exist"
 }
-```
 
 ### Examples
 
 **cURL**
-```bash
 curl -X GET "https://api.example.com/api/v1/users/usr_123" \
   -H "Authorization: Bearer YOUR_TOKEN"
-```
 
 **JavaScript**
-```javascript
 const user = await fetch('/api/v1/users/usr_123', {
   headers: { 'Authorization': 'Bearer token' }
 }).then(r => r.json());
-```
 
 **Python**
-```python
 response = requests.get(
     'https://api.example.com/api/v1/users/usr_123',
     headers={'Authorization': 'Bearer token'}
 )
 user = response.json()
+</document>
 ```
-```
-
 **Python Script:** `.claude/skills/doc-generator/scripts/generate-docs.py`
 
 ```python

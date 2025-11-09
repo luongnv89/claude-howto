@@ -9,14 +9,105 @@ Complete collection of examples for some important Claude Code features and conc
 | Feature | Description | Folder |
 |---------|-------------|--------|
 | **Slash Commands** | User-invoked shortcuts | [01-slash-commands/](01-slash-commands/) |
-| **Subagents** | Specialized AI assistants | [02-subagents/](02-subagents/) |
-| **Memory** | Persistent context | [03-memory/](03-memory/) |
-| **MCP Protocol** | External tool access | [04-mcp/](04-mcp/) |
-| **Skills** | Reusable capabilities | [05-skills/](05-skills/) |
-| **Plugins** | Bundled features | [06-plugins/](06-plugins/) |
-| **Hooks** | Event-driven automation | [07-hooks/](07-hooks/) |
+| **Memory** | Persistent context | [02-memory/](02-memory/) |
+| **Skills** | Reusable capabilities | [03-skills/](03-skills/) |
+| **Subagents** | Specialized AI assistants | [04-subagents/](04-subagents/) |
+| **MCP Protocol** | External tool access | [05-mcp/](05-mcp/) |
+| **Hooks** | Event-driven automation | [06-hooks/](06-hooks/) |
+| **Plugins** | Bundled features | [07-plugins/](07-plugins/) |
 | **Checkpoints** | Session snapshots & rewind | [08-checkpoints/](08-checkpoints/) |
 | **Advanced Features** | Planning, thinking, background tasks | [09-advanced-features/](09-advanced-features/) |
+
+---
+
+## 📚 Learning Path
+
+**New to Claude Code?** The folders are numbered in **recommended learning order**:
+
+| Order | Feature | Level | Time | Start Here |
+|-------|---------|-------|------|------------|
+| **1** | [Slash Commands](01-slash-commands/) | ⭐ Beginner | 30 min | ✅ **START** |
+| **2** | [Memory](02-memory/) | ⭐⭐ Beginner+ | 45 min | Essential |
+| **3** | [Skills](03-skills/) | ⭐⭐ Intermediate | 1 hour | Auto-invoke |
+| **4** | [Subagents](04-subagents/) | ⭐⭐⭐ Intermediate+ | 1.5 hours | Delegation |
+| **5** | [MCP](05-mcp/) | ⭐⭐⭐ Intermediate+ | 1 hour | Live data |
+| **6** | [Hooks](06-hooks/) | ⭐⭐ Intermediate | 1 hour | Automation |
+| **7** | [Plugins](07-plugins/) | ⭐⭐⭐⭐ Advanced | 2 hours | Bundles |
+| **8** | [Checkpoints](08-checkpoints/) | ⭐⭐ Intermediate | 45 min | Safe tests |
+| **9** | [Advanced](09-advanced-features/) | ⭐⭐⭐⭐⭐ Advanced | 2-3 hours | Power user |
+
+**Total**: ~10-12 hours | 📖 **[Complete Learning Roadmap →](LEARNING-ROADMAP.md)**
+
+---
+
+## 🎯 Quick Reference: Choose Your Features
+
+### Feature Comparison
+
+| Feature | Invocation | Persistence | Best For |
+|---------|-----------|------------|----------|
+| **Slash Commands** | Manual (`/cmd`) | Session only | Quick shortcuts |
+| **Memory** | Auto-loaded | Cross-session | Long-term learning |
+| **Skills** | Auto-invoked | Filesystem | Automated workflows |
+| **Subagents** | Auto-delegated | Isolated context | Task distribution |
+| **MCP Protocol** | Auto-queried | Real-time | Live data access |
+| **Hooks** | Event-triggered | Configured | Automation & validation |
+| **Plugins** | One command | All features | Complete solutions |
+| **Checkpoints** | Manual/Auto | Session-based | Safe experimentation |
+| **Planning Mode** | Manual/Auto | Plan phase | Complex implementations |
+| **Background Tasks** | Manual | Task duration | Long-running operations |
+
+### Use Case Matrix
+
+| Use Case | Recommended Features |
+|----------|---------------------|
+| **Team Onboarding** | Memory + Slash Commands + Plugins |
+| **Code Quality** | Subagents + Skills + Memory + Hooks |
+| **Documentation** | Skills + Subagents + Plugins |
+| **DevOps** | Plugins + MCP + Hooks + Background Tasks |
+| **Security Review** | Subagents + Skills + Hooks (read-only mode) |
+| **API Integration** | MCP + Memory |
+| **Quick Tasks** | Slash Commands |
+| **Complex Projects** | All Features + Planning Mode |
+| **Refactoring** | Checkpoints + Planning Mode + Hooks |
+| **Learning/Experimentation** | Checkpoints + Extended Thinking + Permission Mode |
+| **CI/CD Automation** | Headless Mode + Hooks + Background Tasks |
+| **Performance Optimization** | Planning Mode + Checkpoints + Background Tasks |
+
+---
+
+## ⚡ Getting Started
+
+### 15 Minutes - First Steps
+```bash
+# Copy your first slash command
+cp 01-slash-commands/optimize.md .claude/commands/
+
+# Try it!
+# In Claude Code: /optimize
+```
+
+### 1 Hour - Essential Setup
+```bash
+# 1. Slash commands (15 min)
+cp 01-slash-commands/*.md .claude/commands/
+
+# 2. Project memory (15 min)
+cp 02-memory/project-CLAUDE.md ./CLAUDE.md
+
+# 3. Install a skill (15 min)
+cp -r 03-skills/code-review ~/.claude/skills/
+
+# 4. Try them together (15 min)
+# See how they work in harmony!
+```
+
+### Weekend - Full Setup
+- **Day 1**: Slash Commands, Memory, Skills, Hooks
+- **Day 2**: Subagents, MCP integration, Plugins
+- **Result**: Complete Claude Code power user setup
+
+📖 **[Detailed milestones and exercises →](LEARNING-ROADMAP.md)**
 
 ---
 
@@ -47,9 +138,60 @@ cp 01-slash-commands/*.md /path/to/project/.claude/commands/
 
 ---
 
-## 02. Subagents
+## 02. Memory
 
-**Location**: [02-subagents/](02-subagents/)
+**Location**: [02-memory/](02-memory/)
+
+**What**: Persistent context across sessions
+
+**Examples**:
+- `project-CLAUDE.md` - Team-wide project standards
+- `directory-api-CLAUDE.md` - Directory-specific rules
+- `personal-CLAUDE.md` - Personal preferences
+
+**Installation**:
+```bash
+# Project memory
+cp 02-memory/project-CLAUDE.md /path/to/project/CLAUDE.md
+
+# Directory memory
+cp 02-memory/directory-api-CLAUDE.md /path/to/project/src/api/CLAUDE.md
+
+# Personal memory
+cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
+```
+
+**Usage**: Automatically loaded by Claude
+
+---
+
+## 03. Skills
+
+**Location**: [03-skills/](03-skills/)
+
+**What**: Reusable, auto-invoked capabilities with instructions and scripts
+
+**Examples**:
+- `code-review/` - Comprehensive code review with scripts
+- `brand-voice/` - Brand voice consistency checker
+- `doc-generator/` - API documentation generator
+
+**Installation**:
+```bash
+# Personal skills
+cp -r 03-skills/code-review ~/.claude/skills/
+
+# Project skills
+cp -r 03-skills/code-review /path/to/project/.claude/skills/
+```
+
+**Usage**: Automatically invoked when relevant
+
+---
+
+## 04. Subagents
+
+**Location**: [04-subagents/](04-subagents/)
 
 **What**: Specialized AI assistants with isolated contexts and custom prompts
 
@@ -62,43 +204,16 @@ cp 01-slash-commands/*.md /path/to/project/.claude/commands/
 
 **Installation**:
 ```bash
-cp 02-subagents/*.md /path/to/project/.claude/agents/
+cp 04-subagents/*.md /path/to/project/.claude/agents/
 ```
 
 **Usage**: Automatically delegated by main agent
 
 ---
 
-## 03. Memory
+## 05. MCP Protocol
 
-**Location**: [03-memory/](03-memory/)
-
-**What**: Persistent context across sessions
-
-**Examples**:
-- `project-CLAUDE.md` - Team-wide project standards
-- `directory-api-CLAUDE.md` - Directory-specific rules
-- `personal-CLAUDE.md` - Personal preferences
-
-**Installation**:
-```bash
-# Project memory
-cp 03-memory/project-CLAUDE.md /path/to/project/CLAUDE.md
-
-# Directory memory
-cp 03-memory/directory-api-CLAUDE.md /path/to/project/src/api/CLAUDE.md
-
-# Personal memory
-cp 03-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
-```
-
-**Usage**: Automatically loaded by Claude
-
----
-
-## 04. MCP Protocol
-
-**Location**: [04-mcp/](04-mcp/)
+**Location**: [05-mcp/](05-mcp/)
 
 **What**: Model Context Protocol for accessing external tools and APIs
 
@@ -115,7 +230,7 @@ export GITHUB_TOKEN="your_token"
 export DATABASE_URL="postgresql://..."
 
 # Copy configuration
-cp 04-mcp/github-mcp.json ~/.claude/mcp.json
+cp 05-mcp/github-mcp.json ~/.claude/mcp.json
 ```
 
 **Usage**:
@@ -126,55 +241,9 @@ cp 04-mcp/github-mcp.json ~/.claude/mcp.json
 
 ---
 
-## 05. Skills
+## 06. Hooks
 
-**Location**: [05-skills/](05-skills/)
-
-**What**: Reusable, auto-invoked capabilities with instructions and scripts
-
-**Examples**:
-- `code-review/` - Comprehensive code review with scripts
-- `brand-voice/` - Brand voice consistency checker
-- `doc-generator/` - API documentation generator
-
-**Installation**:
-```bash
-# Personal skills
-cp -r 05-skills/code-review ~/.claude/skills/
-
-# Project skills
-cp -r 05-skills/code-review /path/to/project/.claude/skills/
-```
-
-**Usage**: Automatically invoked when relevant
-
----
-
-## 06. Plugins
-
-**Location**: [06-plugins/](06-plugins/)
-
-**What**: Bundled collections of commands, agents, MCP, and hooks
-
-**Examples**:
-- `pr-review/` - Complete PR review workflow
-- `devops-automation/` - Deployment and monitoring
-- `documentation/` - Documentation generation
-
-**Installation**:
-```bash
-/plugin install pr-review
-/plugin install devops-automation
-/plugin install documentation
-```
-
-**Usage**: Use bundled slash commands and features
-
----
-
-## 07. Hooks
-
-**Location**: [07-hooks/](07-hooks/)
+**Location**: [06-hooks/](06-hooks/)
 
 **What**: Event-driven shell commands that execute automatically in response to Claude Code events
 
@@ -189,7 +258,7 @@ cp -r 05-skills/code-review /path/to/project/.claude/skills/
 **Installation**:
 ```bash
 mkdir -p ~/.claude/hooks
-cp 07-hooks/*.sh ~/.claude/hooks/
+cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
 
 # Configure in settings
@@ -208,6 +277,28 @@ echo '{
 - **Tool Hooks**: `PreToolUse:*`, `PostToolUse:*`
 - **Session Hooks**: `UserPromptSubmit`, `SessionStart`, `SessionEnd`
 - **Git Hooks**: `PreCommit`, `PostCommit`, `PrePush`
+
+---
+
+## 07. Plugins
+
+**Location**: [07-plugins/](07-plugins/)
+
+**What**: Bundled collections of commands, agents, MCP, and hooks
+
+**Examples**:
+- `pr-review/` - Complete PR review workflow
+- `devops-automation/` - Deployment and monitoring
+- `documentation/` - Documentation generation
+
+**Installation**:
+```bash
+/plugin install pr-review
+/plugin install devops-automation
+/plugin install documentation
+```
+
+**Usage**: Use bundled slash commands and features
 
 ---
 
@@ -355,52 +446,6 @@ See [config-examples.json](09-advanced-features/config-examples.json) for comple
 
 ---
 
-## Feature Comparison
-
-| Feature | Invocation | Persistence | Best For |
-|---------|-----------|------------|----------|
-| **Slash Commands** | Manual (`/cmd`) | Session only | Quick shortcuts |
-| **Subagents** | Auto-delegated | Isolated context | Task distribution |
-| **Memory** | Auto-loaded | Cross-session | Long-term learning |
-| **MCP Protocol** | Auto-queried | Real-time | Live data access |
-| **Skills** | Auto-invoked | Filesystem | Automated workflows |
-| **Plugins** | One command | All features | Complete solutions |
-| **Hooks** | Event-triggered | Configured | Automation & validation |
-| **Checkpoints** | Manual/Auto | Session-based | Safe experimentation |
-| **Planning Mode** | Manual/Auto | Plan phase | Complex implementations |
-| **Background Tasks** | Manual | Task duration | Long-running operations |
-
----
-
-## Getting Started
-
-### Week 1: Basics
-1. Copy slash commands to `.claude/commands/`
-2. Try `/optimize` and `/pr` commands
-3. Create project memory in `CLAUDE.md`
-
-### Week 2: Real-time Access
-1. Set up GitHub MCP
-2. Query PRs and issues
-3. Try multi-MCP configuration
-
-### Week 3: Distribution
-1. Create first subagent
-2. Test with complex task
-3. Delegate work to specialists
-
-### Week 4: Automation
-1. Install a skill
-2. Let Claude auto-invoke it
-3. Create custom skill
-
-### Week 5: Complete Solution
-1. Install a plugin
-2. Use bundled features
-3. Consider creating your own
-
----
-
 ## Directory Structure
 
 ```
@@ -410,25 +455,12 @@ See [config-examples.json](09-advanced-features/config-examples.json) for comple
 │   ├── pr.md
 │   ├── generate-api-docs.md
 │   └── README.md
-├── 02-subagents/
-│   ├── code-reviewer.md
-│   ├── test-engineer.md
-│   ├── documentation-writer.md
-│   ├── secure-reviewer.md
-│   ├── implementation-agent.md
-│   └── README.md
-├── 03-memory/
+├── 02-memory/
 │   ├── project-CLAUDE.md
 │   ├── directory-api-CLAUDE.md
 │   ├── personal-CLAUDE.md
 │   └── README.md
-├── 04-mcp/
-│   ├── github-mcp.json
-│   ├── database-mcp.json
-│   ├── filesystem-mcp.json
-│   ├── multi-mcp.json
-│   └── README.md
-├── 05-skills/
+├── 03-skills/
 │   ├── code-review/
 │   │   ├── SKILL.md
 │   │   ├── scripts/
@@ -440,18 +472,31 @@ See [config-examples.json](09-advanced-features/config-examples.json) for comple
 │   │   ├── SKILL.md
 │   │   └── generate-docs.py
 │   └── README.md
-├── 06-plugins/
-│   ├── pr-review/
-│   ├── devops-automation/
-│   ├── documentation/
+├── 04-subagents/
+│   ├── code-reviewer.md
+│   ├── test-engineer.md
+│   ├── documentation-writer.md
+│   ├── secure-reviewer.md
+│   ├── implementation-agent.md
 │   └── README.md
-├── 07-hooks/
+├── 05-mcp/
+│   ├── github-mcp.json
+│   ├── database-mcp.json
+│   ├── filesystem-mcp.json
+│   ├── multi-mcp.json
+│   └── README.md
+├── 06-hooks/
 │   ├── format-code.sh
 │   ├── pre-commit.sh
 │   ├── security-scan.sh
 │   ├── log-bash.sh
 │   ├── validate-prompt.sh
 │   ├── notify-team.sh
+│   └── README.md
+├── 07-plugins/
+│   ├── pr-review/
+│   ├── devops-automation/
+│   ├── documentation/
 │   └── README.md
 ├── 08-checkpoints/
 │   ├── checkpoint-examples.md
@@ -461,6 +506,42 @@ See [config-examples.json](09-advanced-features/config-examples.json) for comple
 │   ├── planning-mode-examples.md
 │   └── README.md
 └── README.md (this file)
+```
+
+---
+
+## Installation Quick Reference
+
+```bash
+# Slash Commands
+cp 01-slash-commands/*.md .claude/commands/
+
+# Memory
+cp 02-memory/project-CLAUDE.md ./CLAUDE.md
+
+# Skills
+cp -r 03-skills/code-review ~/.claude/skills/
+
+# Subagents
+cp 04-subagents/*.md .claude/agents/
+
+# MCP
+export GITHUB_TOKEN="token"
+cp 05-mcp/github-mcp.json .claude/mcp.json
+
+# Hooks
+mkdir -p ~/.claude/hooks
+cp 06-hooks/*.sh ~/.claude/hooks/
+chmod +x ~/.claude/hooks/*.sh
+
+# Plugins
+/plugin install pr-review
+
+# Checkpoints (auto-enabled, configure in settings)
+# See 08-checkpoints/README.md
+
+# Advanced Features (configure in settings)
+# See 09-advanced-features/config-examples.json
 ```
 
 ---
@@ -513,61 +594,6 @@ Claude:
 5. Runs post-deploy hook (health checks)
 6. Reports status
 ```
-
----
-
-## Installation Quick Reference
-
-```bash
-# Slash Commands
-cp 01-slash-commands/*.md .claude/commands/
-
-# Subagents
-cp 02-subagents/*.md .claude/agents/
-
-# Memory
-cp 03-memory/project-CLAUDE.md ./CLAUDE.md
-
-# MCP
-export GITHUB_TOKEN="token"
-cp 04-mcp/github-mcp.json .claude/mcp.json
-
-# Skills
-cp -r 05-skills/code-review ~/.claude/skills/
-
-# Plugins
-/plugin install pr-review
-
-# Hooks
-mkdir -p ~/.claude/hooks
-cp 07-hooks/*.sh ~/.claude/hooks/
-chmod +x ~/.claude/hooks/*.sh
-
-# Checkpoints (auto-enabled, configure in settings)
-# See 08-checkpoints/README.md
-
-# Advanced Features (configure in settings)
-# See 09-advanced-features/config-examples.json
-```
-
----
-
-## Use Case Matrix
-
-| Use Case | Recommended Features |
-|----------|---------------------|
-| **Team Onboarding** | Memory + Slash Commands + Plugins |
-| **Code Quality** | Subagents + Skills + Memory + Hooks |
-| **Documentation** | Skills + Subagents + Plugins |
-| **DevOps** | Plugins + MCP + Hooks + Background Tasks |
-| **Security Review** | Subagents + Skills + Hooks (read-only mode) |
-| **API Integration** | MCP + Memory |
-| **Quick Tasks** | Slash Commands |
-| **Complex Projects** | All Features + Planning Mode |
-| **Refactoring** | Checkpoints + Planning Mode + Hooks |
-| **Learning/Experimentation** | Checkpoints + Extended Thinking + Permission Mode |
-| **CI/CD Automation** | Headless Mode + Hooks + Background Tasks |
-| **Performance Optimization** | Planning Mode + Checkpoints + Background Tasks |
 
 ---
 
