@@ -1,11 +1,6 @@
 ---
-name: Brand Voice Consistency
-description: Ensure all communication matches brand voice and tone guidelines
-tags:
-  - brand
-  - writing
-  - consistency
-when_to_use: When creating marketing copy, customer communications, or public-facing content
+name: brand-voice-consistency
+description: Ensure all communication matches brand voice and tone guidelines. Use when creating marketing copy, customer communications, public-facing content, or when users mention brand voice, tone, or writing style.
 ---
 
 # Brand Voice Skill

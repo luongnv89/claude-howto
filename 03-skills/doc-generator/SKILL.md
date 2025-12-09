@@ -1,12 +1,6 @@
 ---
-name: API Documentation Generator
-description: Generate comprehensive, accurate API documentation from source code
-version: "1.0.0"
-tags:
-  - documentation
-  - api
-  - automation
-when_to_use: When creating or updating API documentation
+name: api-documentation-generator
+description: Generate comprehensive, accurate API documentation from source code. Use when creating or updating API documentation, generating OpenAPI specs, or when users mention API docs, endpoints, or documentation.
 ---
 
 # API Documentation Generator Skill

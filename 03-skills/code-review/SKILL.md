@@ -1,12 +1,6 @@
 ---
-name: Code Review Specialist
-description: Comprehensive code review with security, performance, and quality analysis
-version: "1.0.0"
-tags:
-  - code-review
-  - quality
-  - security
-when_to_use: When users ask to review code, analyze code quality, or evaluate pull requests
+name: code-review-specialist
+description: Comprehensive code review with security, performance, and quality analysis. Use when users ask to review code, analyze code quality, evaluate pull requests, or mention code review, security analysis, or performance optimization.
 ---
 
 # Code Review Skill

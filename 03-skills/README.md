@@ -6,6 +6,8 @@ Agent Skills are reusable, model-invoked capabilities packaged as folders contai
 
 ## Overview
 
+**Agent Skills** are modular capabilities that extend Claude's functionality. They package expertise into discoverable, reusable components that Claude **autonomously uses** based on context—unlike slash commands which require explicit user invocation.
+
 Agent Skills enable you to:
 - **Package domain expertise** - Encapsulate specialized knowledge and processes
 - **Ensure consistency** - Apply standardized approaches across all projects
@@ -13,7 +15,7 @@ Agent Skills enable you to:
 - **Scale workflows** - Reuse skills across multiple projects and teams
 - **Maintain quality** - Embed best practices directly into your workflow
 
-Skills are discovered automatically based on user requests and skill metadata, making them seamless to use without explicit commands.
+Skills are **model-invoked**, meaning Claude automatically decides when to use them based on your request, the skill's description, and the context of your work.
 
 ## Skill Architecture
 
@@ -52,38 +54,59 @@ sequenceDiagram
     Claude->>User: Generate Excel file
 ```
 
-## Skill Types & Locations Table
+## Skill Types & Locations
 
 | Type | Location | Scope | Shared | Sync | Best For |
 |------|----------|-------|--------|------|----------|
-| Pre-built | Built-in | Global | All users | Auto | Document creation |
-| Personal | `~/.claude/skills/` | Individual | No | Manual | Personal automation |
-| Project | `.claude/skills/` | Team | Yes | Git | Team standards |
-| Plugin | Via plugin install | Varies | Depends | Auto | Integrated features |
+| **Personal Skills** | `~/.claude/skills/` | Individual | No | Manual | Personal workflows, experimental skills |
+| **Project Skills** | `.claude/skills/` | Team | Yes | Git | Team standards, shared with team |
+| **Plugin Skills** | Via plugin install | Varies | Depends | Auto | Bundled with Claude Code plugins |
 
-## Pre-built Skills
+### How Skills Work
+Once created, skills work automatically—you simply describe what you need, and Claude detects and invokes the appropriate skill based on its description. **No slash commands needed.**
 
-```mermaid
-graph TB
-    A["Pre-built Skills"]
-    B["PowerPoint (pptx)"]
-    C["Excel (xlsx)"]
-    D["Word (docx)"]
-    E["PDF"]
+## Creating Custom Skills
 
-    A --> B
-    A --> C
-    A --> D
-    A --> E
+### Basic Directory Structure
+```
+my-skill/
+├── SKILL.md (required)
+├── reference.md (optional)
+├── scripts/
+│   └── helper.py
+└── templates/
+    └── template.txt
+```
 
-    B --> B1["Create presentations"]
-    B --> B2["Edit slides"]
-    C --> C1["Create spreadsheets"]
-    C --> C2["Analyze data"]
-    D --> D1["Create documents"]
-    D --> D2["Format text"]
-    E --> E1["Generate PDFs"]
-    E --> E2["Fill forms"]
+### SKILL.md Format
+```yaml
+---
+name: your-skill-name
+description: Brief description of what this Skill does and when to use it
+---
+
+# Your Skill Name
+
+## Instructions
+Provide clear, step-by-step guidance for Claude.
+
+## Examples
+Show concrete examples of using this Skill.
+```
+
+### Requirements
+- **name**: lowercase letters, numbers, hyphens only (max 64 characters)
+- **description**: what the Skill does AND when to use it (max 1024 characters)
+
+### Advanced Feature: Restrict Tool Access
+Limit which tools Claude can use with a Skill:
+
+```yaml
+---
+name: safe-file-reader
+description: Read files without making changes.
+allowed-tools: Read, Grep, Glob
+---
 ```
 
 ## Practical Examples
@@ -107,14 +130,8 @@ graph TB
 
 ```yaml
 ---
-name: Code Review Specialist
-description: Comprehensive code review with security, performance, and quality analysis
-version: "1.0.0"
-tags:
-  - code-review
-  - quality
-  - security
-when_to_use: When users ask to review code, analyze code quality, or evaluate pull requests
+name: code-review-specialist
+description: Comprehensive code review with security, performance, and quality analysis. Use when users ask to review code, analyze code quality, evaluate pull requests, or mention code review, security analysis, or performance optimization.
 ---
 
 # Code Review Skill
@@ -615,15 +632,10 @@ const users = fetchUsersWithPosts(); // 1 query
 
 **File:** `.claude/skills/brand-voice/SKILL.md`
 
-```md
+```yaml
 ---
-name: Brand Voice Consistency
-description: Ensure all communication matches brand voice and tone guidelines
-tags:
-  - brand
-  - writing
-  - consistency
-when_to_use: When creating marketing copy, customer communications, or public-facing content
+name: brand-voice-consistency
+description: Ensure all communication matches brand voice and tone guidelines. Use when creating marketing copy, customer communications, public-facing content, or when users mention brand voice, tone, or writing style.
 ---
 
 # Brand Voice Skill
@@ -742,16 +754,10 @@ Educational blog post:
 
 **File:** `.claude/skills/doc-generator/SKILL.md`
 
-```md
+```yaml
 ---
-name: API Documentation Generator
-description: Generate comprehensive, accurate API documentation from source code
-version: "1.0.0"
-tags:
-  - documentation
-  - api
-  - automation
-when_to_use: When creating or updating API documentation
+name: api-documentation-generator
+description: Generate comprehensive, accurate API documentation from source code. Use when creating or updating API documentation, generating OpenAPI specs, or when users mention API docs, endpoints, or documentation.
 ---
 
 # API Documentation Generator Skill
@@ -916,16 +922,32 @@ graph TB
 
 ## Best Practices
 
-### Do's
+### 1. Make Descriptions Specific
+- **Bad (Vague)**: "Helps with documents"
+- **Good (Specific)**: "Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction."
+
+### 2. Keep Skills Focused
+- One Skill = one capability
+- ✅ "PDF form filling"
+- ❌ "Document processing" (too broad)
+
+### 3. Include Trigger Terms
+- Add keywords in descriptions that match user requests
+- Helps Claude discover the Skill more easily
+- Example: "Use when working with PDF files or when the user mentions PDFs, forms, or document extraction"
+
+### 4. Test Thoroughly
+- Ask questions matching your description
+- Have teammates test for discoverability
+- Verify YAML syntax
+
+### Additional Do's
 - Use clear, descriptive names
 - Include comprehensive instructions
 - Add concrete examples
-- Document when to use the skill
 - Package related scripts and templates
 - Test with real scenarios
-- Include YAML metadata in SKILL.md
 - Organize skills by domain/purpose
-- Version your skills
 - Document dependencies
 
 ### Don'ts
@@ -937,6 +959,23 @@ graph TB
 - Don't assume Claude knows skill context
 - Don't create circular dependencies
 - Don't ignore performance implications
+
+## Troubleshooting Guide
+
+| Issue | Solution |
+|-------|----------|
+| Claude doesn't use Skill | Make description more specific with trigger terms |
+| Skill file not found | Verify path: `~/.claude/skills/name/SKILL.md` or `.claude/skills/name/SKILL.md` |
+| YAML errors | Check opening/closing `---`, indentation, no tabs (spaces only) |
+| Skills conflict | Use distinct trigger terms in descriptions |
+
+## Sharing Skills with Your Team
+
+1. Create Skill in `.claude/skills/` (project-level)
+2. Commit to git
+3. Team members pull changes — Skills available immediately
+
+For broader sharing, consider packaging your Skills as plugins.
 
 ## Installation Instructions
 
