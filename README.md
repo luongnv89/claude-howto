@@ -2,6 +2,9 @@
 
 # Claude How To
 
+[![Run in Smithery](https://smithery.ai/badge/skills/luongnv89)](https://smithery.ai/skills?ns=luongnv89&utm_source=github&utm_medium=badge)
+
+
 ## Contributors
 
 Thanks to everyone who has contributed to this project!
