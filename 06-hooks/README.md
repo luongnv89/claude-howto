@@ -516,10 +516,6 @@ MODEL_LIMITS = {
     "haiku": 200000,
 }
 
-def estimate_tokens(text: str) -> int:
-    """Estimate token count from text. ~4 characters per token on average."""
-    return len(text) // 4
-
 def read_transcript(transcript_path: str) -> list:
     """Read JSONL transcript file and return list of messages."""
     messages = []
@@ -561,7 +557,7 @@ def calculate_usage(messages: list) -> tuple[int, int]:
             if tool_input:
                 total_chars += len(json.dumps(tool_input))
 
-    estimated_tokens = estimate_tokens(str(total_chars))
+    estimated_tokens = total_chars // 4  # ~4 characters per token
     return total_chars, estimated_tokens
 
 def main():
