@@ -480,6 +480,191 @@ if __name__ == "__main__":
 }
 ```
 
+### Example 6: Context Usage Reporter (Stop Hook)
+
+This example shows how to create a hook that reports context/token usage after each Claude response. It reads the conversation transcript and estimates token usage.
+
+**How it works:**
+
+1. The hook receives `transcript_path` in the JSON input - this points to a JSONL file containing all conversation messages
+2. The script reads the transcript file and calculates total character count
+3. It estimates tokens using a simple heuristic (~4 characters per token)
+4. Outputs a one-line report showing estimated usage vs model capacity
+
+**File:** `.claude/hooks/context-usage.py`
+
+```python
+#!/usr/bin/env python3
+"""
+Context Usage Reporter Hook
+
+Reports estimated context/token usage after each Claude response.
+Uses the transcript_path field to read conversation history and estimate tokens.
+
+Limitations:
+- Token count is an ESTIMATE (~4 chars/token average)
+- Actual token usage depends on the tokenizer and includes system prompts
+- Use /context command for accurate real-time usage
+"""
+import json
+import sys
+import os
+
+# Model context limits (adjust based on your model)
+MODEL_LIMITS = {
+    "default": 200000,  # Claude Opus 4.5 / Sonnet
+    "haiku": 200000,
+}
+
+def estimate_tokens(text: str) -> int:
+    """Estimate token count from text. ~4 characters per token on average."""
+    return len(text) // 4
+
+def read_transcript(transcript_path: str) -> list:
+    """Read JSONL transcript file and return list of messages."""
+    messages = []
+    if not os.path.exists(transcript_path):
+        return messages
+
+    with open(transcript_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                try:
+                    messages.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+    return messages
+
+def calculate_usage(messages: list) -> tuple[int, int]:
+    """Calculate total characters and estimated tokens from messages."""
+    total_chars = 0
+
+    for msg in messages:
+        # Handle different message formats in transcript
+        if isinstance(msg, dict):
+            # Check common content fields
+            content = msg.get('content', '')
+            if isinstance(content, str):
+                total_chars += len(content)
+            elif isinstance(content, list):
+                # Handle content blocks (text, tool_use, etc.)
+                for block in content:
+                    if isinstance(block, dict):
+                        text = block.get('text', '') or block.get('content', '')
+                        total_chars += len(str(text))
+                    elif isinstance(block, str):
+                        total_chars += len(block)
+
+            # Also count tool inputs/outputs
+            tool_input = msg.get('tool_input', {})
+            if tool_input:
+                total_chars += len(json.dumps(tool_input))
+
+    estimated_tokens = estimate_tokens(str(total_chars))
+    return total_chars, estimated_tokens
+
+def main():
+    # Read hook input from stdin
+    input_data = json.load(sys.stdin)
+
+    # Get transcript path from hook input
+    transcript_path = input_data.get('transcript_path', '')
+
+    if not transcript_path:
+        # No transcript available, exit silently
+        sys.exit(0)
+
+    # Read and analyze transcript
+    messages = read_transcript(transcript_path)
+    total_chars, estimated_tokens = calculate_usage(messages)
+
+    # Get model limit (default to 200k)
+    max_tokens = MODEL_LIMITS.get("default", 200000)
+
+    # Calculate percentages
+    used_percent = (estimated_tokens / max_tokens) * 100
+    remaining_tokens = max_tokens - estimated_tokens
+    remaining_percent = 100 - used_percent
+
+    # Format the report (output as systemMessage so it appears in UI)
+    report = f"Context: ~{estimated_tokens:,}/{max_tokens:,} tokens ({remaining_percent:.1f}% remaining)"
+
+    # Output JSON with systemMessage to show in Claude Code UI
+    output = {
+        "systemMessage": report
+    }
+    print(json.dumps(output))
+    sys.exit(0)
+
+if __name__ == "__main__":
+    main()
+```
+
+**Configuration:**
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/context-usage.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Sample Output:**
+
+After each Claude response, you'll see a message like:
+```
+Context: ~45,230/200,000 tokens (77.4% remaining)
+```
+
+**Key Points:**
+
+| Aspect | Details |
+|--------|---------|
+| **Event** | `Stop` - runs after Claude finishes responding |
+| **Input** | Uses `transcript_path` field to access conversation history |
+| **Estimation** | ~4 characters per token (rough heuristic) |
+| **Output** | `systemMessage` field displays in Claude Code UI |
+| **Accuracy** | Estimate only - use `/context` for exact counts |
+
+**Why use Stop hook instead of UserPromptSubmit?**
+
+- `Stop` runs after Claude responds, giving a more complete picture
+- `UserPromptSubmit` runs before Claude processes, missing the response
+- Both work, but `Stop` shows total usage including Claude's response
+
+**Alternative: UserPromptSubmit for Pre-Response Check**
+
+If you want to check context BEFORE Claude processes your prompt:
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/context-usage.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## MCP Tool Hooks
 
 MCP tools follow the pattern `mcp__<server>__<tool>`:
