@@ -743,12 +743,6 @@ See [scripts/README.md](scripts/README.md) for more options.
 
 ---
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=luongnv89/claude-howto&type=date&legend=top-left)](https://www.star-history.com/#luongnv89/claude-howto&type=date&legend=top-left)
-
----
-
 **Last Updated**: December 2025
 **Claude Code Version**: 1.0+
 **Compatible Models**: Sonnet 4.5, Opus 4.1, Haiku 4.5
