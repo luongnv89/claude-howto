@@ -2115,7 +2115,7 @@ graph TB
 
 ---
 
-## Claude Code Plugins
+## Plugins
 
 ### Overview
 
