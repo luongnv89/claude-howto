@@ -107,24 +107,24 @@ Làm bài tự đánh giá hoặc chọn theo trình độ:
 
 | Trình độ | Bạn có thể... | Bắt đầu tại | Thời gian |
 |----------|--------------|-------------|-----------|
-| **Người mới** | Khởi động Claude Code và chat | [Slash Commands](01-slash-commands/) | ~2.5 giờ |
-| **Trung cấp** | Dùng CLAUDE.md và custom commands | [Skills](03-skills/) | ~3.5 giờ |
-| **Nâng cao** | Cấu hình MCP server và hooks | [Advanced Features](09-advanced-features/) | ~5 giờ |
+| **Người mới** | Khởi động Claude Code và chat | [Slash Commands](01-slash-commands/README.vi.md) | ~2.5 giờ |
+| **Trung cấp** | Dùng CLAUDE.md và custom commands | [Skills](03-skills/README.vi.md) | ~3.5 giờ |
+| **Nâng cao** | Cấu hình MCP server và hooks | [Advanced Features](09-advanced-features/README.vi.md) | ~5 giờ |
 
 **Lộ trình đầy đủ với cả 10 module:**
 
 | Thứ tự | Module | Trình độ | Thời gian |
 |--------|--------|----------|-----------|
-| 1 | [Slash Commands](01-slash-commands/) | Người mới | 30 phút |
-| 2 | [Memory](02-memory/) | Người mới+ | 45 phút |
-| 3 | [Checkpoints](08-checkpoints/) | Trung cấp | 45 phút |
-| 4 | [CLI Basics](10-cli/) | Người mới+ | 30 phút |
-| 5 | [Skills](03-skills/) | Trung cấp | 1 giờ |
-| 6 | [Hooks](06-hooks/) | Trung cấp | 1 giờ |
-| 7 | [MCP](05-mcp/) | Trung cấp+ | 1 giờ |
-| 8 | [Subagents](04-subagents/) | Trung cấp+ | 1.5 giờ |
-| 9 | [Advanced Features](09-advanced-features/) | Nâng cao | 2–3 giờ |
-| 10 | [Plugins](07-plugins/) | Nâng cao | 2 giờ |
+| 1 | [Slash Commands](01-slash-commands/README.vi.md) | Người mới | 30 phút |
+| 2 | [Memory](02-memory/README.vi.md) | Người mới+ | 45 phút |
+| 3 | [Checkpoints](08-checkpoints/README.vi.md) | Trung cấp | 45 phút |
+| 4 | [CLI Basics](10-cli/README.vi.md) | Người mới+ | 30 phút |
+| 5 | [Skills](03-skills/README.vi.md) | Trung cấp | 1 giờ |
+| 6 | [Hooks](06-hooks/README.vi.md) | Trung cấp | 1 giờ |
+| 7 | [MCP](05-mcp/README.vi.md) | Trung cấp+ | 1 giờ |
+| 8 | [Subagents](04-subagents/README.vi.md) | Trung cấp+ | 1.5 giờ |
+| 9 | [Advanced Features](09-advanced-features/README.vi.md) | Nâng cao | 2–3 giờ |
+| 10 | [Plugins](07-plugins/README.vi.md) | Nâng cao | 2 giờ |
 
 **[Lộ trình học đầy đủ ->](LEARNING-ROADMAP.vi.md)**
 
@@ -226,16 +226,16 @@ Giấy phép MIT. Miễn phí mãi mãi. Clone về, fork ra, biến nó thành 
 | Tính năng | Mô tả | Thư mục |
 |-----------|-------|---------|
 | **Feature Catalog** | Tham khảo đầy đủ kèm lệnh cài đặt | [CATALOG.md](CATALOG.md) |
-| **Slash Commands** | Phím tắt do người dùng gọi | [01-slash-commands/](01-slash-commands/) |
-| **Memory** | Bộ nhớ ngữ cảnh lâu dài | [02-memory/](02-memory/) |
-| **Skills** | Khả năng tái sử dụng | [03-skills/](03-skills/) |
-| **Subagents** | AI assistant chuyên biệt | [04-subagents/](04-subagents/) |
-| **MCP Protocol** | Truy cập công cụ bên ngoài | [05-mcp/](05-mcp/) |
-| **Hooks** | Tự động hóa theo sự kiện | [06-hooks/](06-hooks/) |
-| **Plugins** | Gói tính năng đóng gói sẵn | [07-plugins/](07-plugins/) |
-| **Checkpoints** | Snapshot phiên làm việc & tua lại | [08-checkpoints/](08-checkpoints/) |
-| **Advanced Features** | Planning, thinking, background tasks | [09-advanced-features/](09-advanced-features/) |
-| **CLI Reference** | Lệnh, flags và tùy chọn | [10-cli/](10-cli/) |
+| **Slash Commands** | Phím tắt do người dùng gọi | [01-slash-commands/](01-slash-commands/README.vi.md) |
+| **Memory** | Bộ nhớ ngữ cảnh lâu dài | [02-memory/](02-memory/README.vi.md) |
+| **Skills** | Khả năng tái sử dụng | [03-skills/](03-skills/README.vi.md) |
+| **Subagents** | AI assistant chuyên biệt | [04-subagents/](04-subagents/README.vi.md) |
+| **MCP Protocol** | Truy cập công cụ bên ngoài | [05-mcp/](05-mcp/README.vi.md) |
+| **Hooks** | Tự động hóa theo sự kiện | [06-hooks/](06-hooks/README.vi.md) |
+| **Plugins** | Gói tính năng đóng gói sẵn | [07-plugins/](07-plugins/README.vi.md) |
+| **Checkpoints** | Snapshot phiên làm việc & tua lại | [08-checkpoints/](08-checkpoints/README.vi.md) |
+| **Advanced Features** | Planning, thinking, background tasks | [09-advanced-features/](09-advanced-features/README.vi.md) |
+| **CLI Reference** | Lệnh, flags và tùy chọn | [10-cli/](10-cli/README.vi.md) |
 | **Blog Posts** | Ví dụ sử dụng thực tế | [Blog Posts](https://medium.com/@luongnv89) |
 
 </details>

@@ -97,17 +97,17 @@ graph TD
 
 | Bước | Tính năng | Độ khó | Thời gian | Cấp | Yêu cầu trước | Tại sao học | Lợi ích chính |
 |------|-----------|--------|-----------|-----|---------------|-------------|---------------|
-| **1** | [Slash Commands](01-slash-commands/) | ⭐ Người mới | 30 phút | Cấp 1 | Không có | Tăng năng suất ngay (55+ lệnh có sẵn + 5 skill đi kèm) | Tự động hóa tức thì, chuẩn hóa cho team |
-| **2** | [Memory](02-memory/) | ⭐⭐ Người mới+ | 45 phút | Cấp 1 | Không có | Nền tảng cho mọi tính năng khác | Ngữ cảnh lâu dài, lưu tùy chỉnh |
-| **3** | [Checkpoints](08-checkpoints/) | ⭐⭐ Trung cấp | 45 phút | Cấp 1 | Quản lý phiên | Khám phá an toàn | Thử nghiệm, phục hồi |
-| **4** | [CLI Basics](10-cli/) | ⭐⭐ Người mới+ | 30 phút | Cấp 1 | Không có | Dùng CLI cơ bản | Interactive & print mode |
-| **5** | [Skills](03-skills/) | ⭐⭐ Trung cấp | 1 giờ | Cấp 2 | Slash Commands | Kỹ năng tự động kích hoạt | Khả năng tái sử dụng, nhất quán |
-| **6** | [Hooks](06-hooks/) | ⭐⭐ Trung cấp | 1 giờ | Cấp 2 | Tools, Commands | Tự động hóa workflow (25 sự kiện, 4 loại) | Kiểm tra, cổng kiểm soát chất lượng |
-| **7** | [MCP](05-mcp/) | ⭐⭐⭐ Trung cấp+ | 1 giờ | Cấp 2 | Cấu hình | Truy cập dữ liệu thời gian thực | Tích hợp real-time, APIs |
-| **8** | [Subagents](04-subagents/) | ⭐⭐⭐ Trung cấp+ | 1.5 giờ | Cấp 2 | Memory, Commands | Xử lý nhiệm vụ phức tạp (6 agent có sẵn gồm Bash) | Ủy quyền, chuyên môn hóa |
-| **9** | [Advanced Features](09-advanced-features/) | ⭐⭐⭐⭐⭐ Nâng cao | 2–3 giờ | Cấp 3 | Tất cả phần trước | Công cụ power user | Planning, Auto Mode, Channels, Voice Dictation, permissions |
-| **10** | [Plugins](07-plugins/) | ⭐⭐⭐⭐ Nâng cao | 2 giờ | Cấp 3 | Tất cả phần trước | Giải pháp hoàn chỉnh | Onboarding team, phân phối |
-| **11** | [CLI Mastery](10-cli/) | ⭐⭐⭐ Nâng cao | 1 giờ | Cấp 3 | Khuyến nghị: Tất cả | Thành thạo command-line | Scripting, CI/CD, tự động hóa |
+| **1** | [Slash Commands](01-slash-commands/README.vi.md) | ⭐ Người mới | 30 phút | Cấp 1 | Không có | Tăng năng suất ngay (55+ lệnh có sẵn + 5 skill đi kèm) | Tự động hóa tức thì, chuẩn hóa cho team |
+| **2** | [Memory](02-memory/README.vi.md) | ⭐⭐ Người mới+ | 45 phút | Cấp 1 | Không có | Nền tảng cho mọi tính năng khác | Ngữ cảnh lâu dài, lưu tùy chỉnh |
+| **3** | [Checkpoints](08-checkpoints/README.vi.md) | ⭐⭐ Trung cấp | 45 phút | Cấp 1 | Quản lý phiên | Khám phá an toàn | Thử nghiệm, phục hồi |
+| **4** | [CLI Basics](10-cli/README.vi.md) | ⭐⭐ Người mới+ | 30 phút | Cấp 1 | Không có | Dùng CLI cơ bản | Interactive & print mode |
+| **5** | [Skills](03-skills/README.vi.md) | ⭐⭐ Trung cấp | 1 giờ | Cấp 2 | Slash Commands | Kỹ năng tự động kích hoạt | Khả năng tái sử dụng, nhất quán |
+| **6** | [Hooks](06-hooks/README.vi.md) | ⭐⭐ Trung cấp | 1 giờ | Cấp 2 | Tools, Commands | Tự động hóa workflow (25 sự kiện, 4 loại) | Kiểm tra, cổng kiểm soát chất lượng |
+| **7** | [MCP](05-mcp/README.vi.md) | ⭐⭐⭐ Trung cấp+ | 1 giờ | Cấp 2 | Cấu hình | Truy cập dữ liệu thời gian thực | Tích hợp real-time, APIs |
+| **8** | [Subagents](04-subagents/README.vi.md) | ⭐⭐⭐ Trung cấp+ | 1.5 giờ | Cấp 2 | Memory, Commands | Xử lý nhiệm vụ phức tạp (6 agent có sẵn gồm Bash) | Ủy quyền, chuyên môn hóa |
+| **9** | [Advanced Features](09-advanced-features/README.vi.md) | ⭐⭐⭐⭐⭐ Nâng cao | 2–3 giờ | Cấp 3 | Tất cả phần trước | Công cụ power user | Planning, Auto Mode, Channels, Voice Dictation, permissions |
+| **10** | [Plugins](07-plugins/README.vi.md) | ⭐⭐⭐⭐ Nâng cao | 2 giờ | Cấp 3 | Tất cả phần trước | Giải pháp hoàn chỉnh | Onboarding team, phân phối |
+| **11** | [CLI Mastery](10-cli/README.vi.md) | ⭐⭐⭐ Nâng cao | 1 giờ | Cấp 3 | Khuyến nghị: Tất cả | Thành thạo command-line | Scripting, CI/CD, tự động hóa |
 
 **Tổng thời gian học**: ~11–13 giờ (hoặc nhảy thẳng vào cấp của bạn để tiết kiệm thời gian)
 
@@ -219,10 +219,10 @@ cat error.log | claude -p "explain this error"
 
 Trước khi bắt đầu Cấp 2, hãy đảm bảo bạn đã nắm vững các khái niệm Cấp 1:
 
-- [ ] Có thể tạo và dùng slash commands ([01-slash-commands/](01-slash-commands/))
-- [ ] Đã thiết lập project memory qua CLAUDE.md ([02-memory/](02-memory/))
-- [ ] Biết cách tạo và khôi phục checkpoint ([08-checkpoints/](08-checkpoints/))
-- [ ] Có thể dùng `claude` và `claude -p` từ command line ([10-cli/](10-cli/))
+- [ ] Có thể tạo và dùng slash commands ([01-slash-commands/](01-slash-commands/README.vi.md))
+- [ ] Đã thiết lập project memory qua CLAUDE.md ([02-memory/](02-memory/README.vi.md))
+- [ ] Biết cách tạo và khôi phục checkpoint ([08-checkpoints/](08-checkpoints/README.vi.md))
+- [ ] Có thể dùng `claude` và `claude -p` từ command line ([10-cli/](10-cli/README.vi.md))
 
 > **Còn thiếu?** Xem lại các hướng dẫn được liên kết ở trên trước khi tiếp tục.
 
@@ -353,10 +353,10 @@ Thử workflow hoàn chỉnh này:
 
 Trước khi bắt đầu Cấp 3, hãy đảm bảo bạn nắm vững các khái niệm Cấp 2:
 
-- [ ] Có thể tạo và dùng skills với auto-invocation ([03-skills/](03-skills/))
-- [ ] Đã thiết lập hooks cho tự động hóa theo sự kiện ([06-hooks/](06-hooks/))
-- [ ] Có thể cấu hình MCP server để truy cập dữ liệu ngoài ([05-mcp/](05-mcp/))
-- [ ] Biết cách dùng subagent để ủy quyền nhiệm vụ ([04-subagents/](04-subagents/))
+- [ ] Có thể tạo và dùng skills với auto-invocation ([03-skills/](03-skills/README.vi.md))
+- [ ] Đã thiết lập hooks cho tự động hóa theo sự kiện ([06-hooks/](06-hooks/README.vi.md))
+- [ ] Có thể cấu hình MCP server để truy cập dữ liệu ngoài ([05-mcp/](05-mcp/README.vi.md))
+- [ ] Biết cách dùng subagent để ủy quyền nhiệm vụ ([04-subagents/](04-subagents/README.vi.md))
 
 > **Còn thiếu?** Xem lại các hướng dẫn được liên kết ở trên trước khi tiếp tục.
 
@@ -634,40 +634,40 @@ Repo này có hai skill tương tác bạn có thể dùng bất kỳ lúc nào 
 Dùng các checklist này để theo dõi tiến độ theo cấp. Chạy `/self-assessment` bất kỳ lúc nào để nhận hồ sơ kỹ năng cập nhật, hoặc `/lesson-quiz [bài học]` sau mỗi tutorial để xác nhận mức hiểu.
 
 ### 🟢 Cấp 1: Người mới
-- [ ] Hoàn thành [01-slash-commands](01-slash-commands/)
-- [ ] Hoàn thành [02-memory](02-memory/)
+- [ ] Hoàn thành [01-slash-commands](01-slash-commands/README.vi.md)
+- [ ] Hoàn thành [02-memory](02-memory/README.vi.md)
 - [ ] Đã tạo slash command tùy chỉnh đầu tiên
 - [ ] Đã thiết lập project memory
 - [ ] **Milestone 1A đạt được**
-- [ ] Hoàn thành [08-checkpoints](08-checkpoints/)
-- [ ] Hoàn thành cơ bản [10-cli](10-cli/)
+- [ ] Hoàn thành [08-checkpoints](08-checkpoints/README.vi.md)
+- [ ] Hoàn thành cơ bản [10-cli](10-cli/README.vi.md)
 - [ ] Đã tạo và quay lại checkpoint
 - [ ] Đã dùng interactive mode và print mode
 - [ ] **Milestone 1B đạt được**
 
 ### 🔵 Cấp 2: Trung cấp
-- [ ] Hoàn thành [03-skills](03-skills/)
-- [ ] Hoàn thành [06-hooks](06-hooks/)
+- [ ] Hoàn thành [03-skills](03-skills/README.vi.md)
+- [ ] Hoàn thành [06-hooks](06-hooks/README.vi.md)
 - [ ] Đã cài skill đầu tiên
 - [ ] Đã thiết lập PreToolUse hook
 - [ ] **Milestone 2A đạt được**
-- [ ] Hoàn thành [05-mcp](05-mcp/)
-- [ ] Hoàn thành [04-subagents](04-subagents/)
+- [ ] Hoàn thành [05-mcp](05-mcp/README.vi.md)
+- [ ] Hoàn thành [04-subagents](04-subagents/README.vi.md)
 - [ ] Đã kết nối GitHub MCP
 - [ ] Đã tạo subagent tùy chỉnh
 - [ ] Đã kết hợp các tích hợp trong một workflow
 - [ ] **Milestone 2B đạt được**
 
 ### 🔴 Cấp 3: Nâng cao
-- [ ] Hoàn thành [09-advanced-features](09-advanced-features/)
+- [ ] Hoàn thành [09-advanced-features](09-advanced-features/README.vi.md)
 - [ ] Đã dùng planning mode thành công
 - [ ] Đã cấu hình permission mode (6 chế độ kể cả auto)
 - [ ] Đã dùng auto mode với safety classifier
 - [ ] Đã dùng extended thinking toggle
 - [ ] Đã khám phá Channels và Voice Dictation
 - [ ] **Milestone 3A đạt được**
-- [ ] Hoàn thành [07-plugins](07-plugins/)
-- [ ] Hoàn thành [10-cli](10-cli/) nâng cao
+- [ ] Hoàn thành [07-plugins](07-plugins/README.vi.md)
+- [ ] Hoàn thành [10-cli](10-cli/README.vi.md) nâng cao
 - [ ] Đã thiết lập print mode (`claude -p`) CI/CD
 - [ ] Đã tạo JSON output cho tự động hóa
 - [ ] Đã tích hợp Claude vào CI/CD pipeline
