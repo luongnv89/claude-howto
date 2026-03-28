@@ -9,7 +9,7 @@
 [![Version](https://img.shields.io/badge/version-2.2.0-brightgreen)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-2.1+-purple)](https://code.claude.com)
 
-# Làm chủ Claude Code trong một cuối tuần
+# Nắm vững Claude Code trong vòng một cuối tuần
 
 Từ việc chỉ biết gõ lệnh `claude`, bạn sẽ tiến đến việc điều phối các agent, hooks, skills và MCP server — thông qua các hướng dẫn trực quan, template copy-paste sẵn và lộ trình học có hệ thống.
 
