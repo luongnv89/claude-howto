@@ -43,7 +43,7 @@ graph TB
         B2["Quy trình & hướng dẫn"]
     end
 
-    subgraph "Cấp 3: Tài nguyên (Khi cần)
+    subgraph "Cấp 3: Tài nguyên (Khi cần)"
         C["File đi kèm"]
         C1["Thực tế không giới hạn"]
         C2["Scripts, templates, docs"]
