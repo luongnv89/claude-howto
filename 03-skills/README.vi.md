@@ -372,7 +372,7 @@ Skill này cung cấp khả năng review code toàn diện tập trung vào:
    - Độ phức tạp Cyclomatic
    - Type safety
 
-## Template Review
+## Mẫu Review
 
 Với mỗi đoạn code được review, cung cấp:
 

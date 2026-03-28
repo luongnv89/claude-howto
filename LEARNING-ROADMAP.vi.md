@@ -154,8 +154,8 @@ cp 02-memory/project-CLAUDE.md ./CLAUDE.md
 
 #### Bước tiếp theo
 Sau khi quen rồi, đọc thêm:
-- [01-slash-commands/README.md](01-slash-commands/README.md)
-- [02-memory/README.md](02-memory/README.md)
+- [01-slash-commands/README.vi.md](01-slash-commands/README.vi.md)
+- [02-memory/README.vi.md](02-memory/README.vi.md)
 
 > **Kiểm tra mức hiểu**: Chạy `/lesson-quiz slash-commands` hoặc `/lesson-quiz memory` trong Claude Code để kiểm tra kiến thức vừa học.
 
@@ -200,8 +200,8 @@ cat error.log | claude -p "explain this error"
 - [ ] Hiểu khi nào nên dùng checkpoint để thử nghiệm an toàn
 
 #### Bước tiếp theo
-- Đọc: [08-checkpoints/README.md](08-checkpoints/README.md)
-- Đọc: [10-cli/README.md](10-cli/README.md)
+- Đọc: [08-checkpoints/README.vi.md](08-checkpoints/README.vi.md)
+- Đọc: [10-cli/README.vi.md](10-cli/README.vi.md)
 - **Sẵn sàng lên Cấp 2!** Tiếp tục với [Milestone 2A](#milestone-2a-tự-động-hóa-skills--hooks)
 
 > **Kiểm tra mức hiểu**: Chạy `/lesson-quiz checkpoints` hoặc `/lesson-quiz cli` để xác nhận bạn sẵn sàng lên Cấp 2.
@@ -282,8 +282,8 @@ chmod +x ~/.claude/hooks/pre-tool-check.sh
 #### Bước tiếp theo
 - Tạo skill tùy chỉnh của riêng bạn
 - Thiết lập thêm hook cho workflow của bạn
-- Đọc: [03-skills/README.md](03-skills/README.md)
-- Đọc: [06-hooks/README.md](06-hooks/README.md)
+- Đọc: [03-skills/README.vi.md](03-skills/README.vi.md)
+- Đọc: [06-hooks/README.vi.md](06-hooks/README.vi.md)
 
 > **Kiểm tra mức hiểu**: Chạy `/lesson-quiz skills` hoặc `/lesson-quiz hooks` trước khi tiếp tục.
 
@@ -334,8 +334,8 @@ Thử workflow hoàn chỉnh này:
 #### Bước tiếp theo
 - Thiết lập thêm MCP server (database, Slack, v.v.)
 - Tạo subagent tùy chỉnh cho lĩnh vực của bạn
-- Đọc: [05-mcp/README.md](05-mcp/README.md)
-- Đọc: [04-subagents/README.md](04-subagents/README.md)
+- Đọc: [05-mcp/README.vi.md](05-mcp/README.vi.md)
+- Đọc: [04-subagents/README.vi.md](04-subagents/README.vi.md)
 - **Sẵn sàng lên Cấp 3!** Tiếp tục với [Milestone 3A](#milestone-3a-tính-năng-nâng-cao)
 
 > **Kiểm tra mức hiểu**: Chạy `/lesson-quiz mcp` hoặc `/lesson-quiz subagents` để xác nhận sẵn sàng lên Cấp 3.
@@ -434,7 +434,7 @@ export CLAUDE_AGENT_TEAMS=1
 - [ ] Đã dùng `/loop` cho tác vụ lặp lại hoặc giám sát định kỳ
 
 #### Bước tiếp theo
-- Đọc: [09-advanced-features/README.md](09-advanced-features/README.md)
+- Đọc: [09-advanced-features/README.vi.md](09-advanced-features/README.vi.md)
 
 > **Kiểm tra mức hiểu**: Chạy `/lesson-quiz advanced` để kiểm tra mức độ thành thạo tính năng power user.
 
@@ -503,8 +503,8 @@ Tạo một CI/CD script đơn giản:
 - **Xử lý dữ liệu**: Chuyển đổi và phân tích data file
 
 #### Bước tiếp theo
-- Đọc: [07-plugins/README.md](07-plugins/README.md)
-- Đọc: [10-cli/README.md](10-cli/README.md)
+- Đọc: [07-plugins/README.vi.md](07-plugins/README.vi.md)
+- Đọc: [10-cli/README.vi.md](10-cli/README.vi.md)
 - Tạo phím tắt CLI và plugin dùng chung cho cả team
 - Thiết lập các batch processing script
 
@@ -538,7 +538,7 @@ Repo này có hai skill tương tác bạn có thể dùng bất kỳ lúc nào 
 
 1. Copy một slash command: `cp 01-slash-commands/optimize.md .claude/commands/`
 2. Thử trong Claude Code: `/optimize`
-3. Đọc: [01-slash-commands/README.md](01-slash-commands/README.md)
+3. Đọc: [01-slash-commands/README.vi.md](01-slash-commands/README.vi.md)
 
 **Kết quả**: Bạn sẽ có một slash command hoạt động và hiểu cơ bản
 

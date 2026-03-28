@@ -939,5 +939,5 @@ Các tính năng Claude Code sau hoạt động cùng với plugins:
 - [Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
 - [Tài liệu tham chiếu Plugins](https://code.claude.com/docs/en/plugins-reference)
 - [Tài liệu tham chiếu MCP Server](https://modelcontextprotocol.io/)
-- [Hướng dẫn cấu hình Subagent](../04-subagents/README.md)
-- [Tài liệu tham chiếu hệ thống Hook](../06-hooks/README.md)
+- [Hướng dẫn cấu hình Subagent](../04-subagents/README.vi.md)
+- [Tài liệu tham chiếu hệ thống Hook](../06-hooks/README.vi.md)
