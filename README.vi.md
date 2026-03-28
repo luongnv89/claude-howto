@@ -64,7 +64,7 @@ Bạn đang bỏ lãng 90% sức mạnh của Claude Code — và bạn không b
 - **Lộ trình học có hướng dẫn** đưa bạn từ người mới đến power user trong 11–13 giờ
 - **Tự đánh giá tích hợp** — chạy `/self-assessment` hoặc `/lesson-quiz hooks` ngay trong Claude Code để xác định điểm còn thiếu
 
-**[Bắt đầu lộ trình học ->](LEARNING-ROADMAP.md)**
+**[Bắt đầu lộ trình học ->](LEARNING-ROADMAP.vi.md)**
 
 ---
 
@@ -126,7 +126,7 @@ Làm bài tự đánh giá hoặc chọn theo trình độ:
 | 9 | [Advanced Features](09-advanced-features/) | Nâng cao | 2–3 giờ |
 | 10 | [Plugins](07-plugins/) | Nâng cao | 2 giờ |
 
-**[Lộ trình học đầy đủ ->](LEARNING-ROADMAP.md)**
+**[Lộ trình học đầy đủ ->](LEARNING-ROADMAP.vi.md)**
 
 ---
 
@@ -216,7 +216,7 @@ Bạn đã cài Claude Code rồi. Điều duy nhất ngăn bạn tăng năng su
 
 Giấy phép MIT. Miễn phí mãi mãi. Clone về, fork ra, biến nó thành của bạn.
 
-**[Bắt đầu lộ trình học ->](LEARNING-ROADMAP.md)** | **[Xem danh mục tính năng](CATALOG.md)** | **[Bắt đầu trong 15 phút](#-bắt-đầu-trong-15-phút)**
+**[Bắt đầu lộ trình học ->](LEARNING-ROADMAP.vi.md)** | **[Xem danh mục tính năng](CATALOG.md)** | **[Bắt đầu trong 15 phút](#-bắt-đầu-trong-15-phút)**
 
 ---
 
