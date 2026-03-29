@@ -90,10 +90,10 @@ Chạy `/lesson-quiz [chủ đề]` sau mỗi module. Quiz sẽ chỉ ra chính 
 
 ---
 
-## Được tin dùng bởi hơn 1.100 lập trình viên
+## Được tin dùng bởi hơn 3.900 lập trình viên
 
-- **Hơn 1.100 GitHub stars** từ các lập trình viên sử dụng Claude Code hàng ngày
-- **78 forks** — các team đang tùy chỉnh hướng dẫn này cho workflow riêng của họ
+- **Hơn 3.900 GitHub stars** từ các lập trình viên sử dụng Claude Code hàng ngày
+- **Hơn 460 forks** — các team đang tùy chỉnh hướng dẫn này cho workflow riêng của họ
 - **Được duy trì tích cực** — đồng bộ với mỗi bản phát hành Claude Code (phiên bản mới nhất: v2.2.0, tháng 3/2026)
 - **Được cộng đồng đóng góp** — đến từ các lập trình viên chia sẻ cấu hình thực tế của họ
 
