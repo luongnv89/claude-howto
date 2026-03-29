@@ -1,7 +1,3 @@
-📍 Checkpoints（檢查點）
-用途: 會話快照和回放
-難度: ⭐⭐ 中級 | 時間: 45 分鐘
-
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
@@ -311,3 +307,4 @@ Checkpoints 是 Claude Code 的自動功能，讓您可以安全地探索不同�
 - 安全地與版本控制系統整合
 
 請記住：checkpoints 不能取代 git。使用 checkpoints 進行快速實驗，使用 git 進行永久的程式碼變更。
+

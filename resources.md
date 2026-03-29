@@ -246,3 +246,4 @@ graph TD
 | **Scheduled Tasks** | 使用 `/loop` 和 cron 工具設定排程任務 | [進階功能](09-advanced-features/) |
 | **Chrome Integration** | 使用無頭 Chromium 進行瀏覽器自動化 | [進階功能](09-advanced-features/) |
 | **Keyboard Customization** | 自訂鍵盤快捷鍵，包含組合鍵序列 | [進階功能](09-advanced-features/) |
+

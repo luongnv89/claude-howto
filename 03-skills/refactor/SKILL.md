@@ -424,3 +424,4 @@ function processOrder(order) {
 ## 版本歷史
 
 - v1.0.0 (2025-01-15)：初始版本，包含 Fowler 方法論、分階段方法、使用者諮詢點
+

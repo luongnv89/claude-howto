@@ -798,3 +798,4 @@ chmod +x ~/.claude/skills/my-skill/scripts/*.py
 - [Memory 指南](../02-memory/) - 持久的上下文
 - [MCP（Model Context Protocol）](../05-mcp/) - 即時外部資料
 - [Hooks 指南](../06-hooks/) - 事件驅動自動化
+

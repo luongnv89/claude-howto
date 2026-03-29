@@ -22,3 +22,4 @@ tags: documentation, refactoring, organization
 7. **使用 Mermaid** 繪製所有圖表（架構、流程、結構）
 
 保持文件簡潔、易於掃讀，並與專案類型相關。
+

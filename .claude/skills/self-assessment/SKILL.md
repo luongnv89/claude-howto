@@ -435,3 +435,4 @@ description: Comprehensive Claude Code self-assessment and learning path advisor
 - "help me with MCP"
 - "explain slash commands"
 - "what is a checkpoint"
+

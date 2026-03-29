@@ -1838,3 +1838,4 @@ User: /config
 - [官方遠端控制文件](https://code.claude.com/docs/en/remote-control)
 - [官方按鍵繫結文件](https://code.claude.com/docs/en/keybindings)
 - [官方桌面應用程式文件](https://code.claude.com/docs/en/desktop)
+

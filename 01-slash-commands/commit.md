@@ -24,3 +24,4 @@ description: 使用上下文建立 git commit
 - `refactor:` 用於程式碼重構
 - `test:` 用於新增測試
 - `chore:` 用於維護任務
+

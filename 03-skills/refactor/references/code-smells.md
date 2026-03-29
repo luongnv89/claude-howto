@@ -667,3 +667,4 @@ const managerName = employee.getManagerName();
 - Fowler, M. (2018). *Refactoring: Improving the Design of Existing Code* (2nd ed.)
 - Kerievsky, J. (2004). *Refactoring to Patterns*
 - Feathers, M. (2004). *Working Effectively with Legacy Code*
+

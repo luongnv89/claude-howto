@@ -24,3 +24,4 @@ allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(npm t
    - 為什麼變更
    - 執行了哪些測試
    - 潛在影響
+

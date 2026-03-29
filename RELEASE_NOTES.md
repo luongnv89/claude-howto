@@ -6,3 +6,4 @@
 - 新增 `sandboxed` 和 `pycache` 至 cSpell 字典 (dc64618)
 
 **完整更新日誌**：https://github.com/luongnv89/claude-howto/compare/v2.1.0...v2.1.1
+

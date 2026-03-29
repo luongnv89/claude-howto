@@ -202,3 +202,4 @@ description: Interactive lesson-level quiz for Claude Code tutorials. Tests unde
 - "create a hook"
 - "what is MCP"
 - "review my code"
+

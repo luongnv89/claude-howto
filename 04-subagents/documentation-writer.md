@@ -96,3 +96,4 @@ curl -X GET https://api.example.com/api/users/abc123 \
   -H "Authorization: Bearer <token>"
 ```
 ```
+

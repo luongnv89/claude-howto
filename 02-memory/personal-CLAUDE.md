@@ -58,3 +58,4 @@ project/
 - **格式化**：Prettier（100 字元行寬）
 - **靜態分析**：ESLint 搭配 airbnb 設定
 - **測試框架**：Jest 搭配 React Testing Library
+

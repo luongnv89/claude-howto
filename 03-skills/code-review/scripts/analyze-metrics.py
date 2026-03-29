@@ -33,3 +33,4 @@ if __name__ == "__main__":
     metrics = analyze_code_metrics(code)
     for key, value in metrics.items():
         print(f"{key}: {value:.2f}")
+
