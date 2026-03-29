@@ -1,334 +1,334 @@
-# Security Policy
+# 安全政策
 
-## Overview
+## 概述
 
-The security of the Claude How To project is important to us. This document outlines our security practices and describes how to report security vulnerabilities responsibly.
+Claude How To 專案的安全性對我們來說非常重要。本文件概述了我們的安全實踐，並描述如何負責任地回報安全漏洞。
 
-## Supported Versions
+## 支援版本
 
-We provide security updates for the following versions:
+我們為以下版本提供安全更新：
 
-| Version | Status | Support Until |
-|---------|--------|---------------|
-| Latest (main) | ✅ Active | Current + 6 months |
-| 1.x releases | ✅ Active | Until next major version |
+| 版本 | 狀態 | 支援期限 |
+|------|------|---------|
+| 最新版（main） | 積極支援 | 當前版本 + 6 個月 |
+| 1.x 版本 | 積極支援 | 直到下一個主要版本 |
 
-**Note**: As an educational guide project, we focus on maintaining current best practices and documentation security rather than traditional version support. Updates are applied directly to the main branch.
+**注意**：作為教育指南專案，我們專注於維護最新的最佳實踐和文件安全性，而非傳統的版本支援。更新直接應用於 main 分支。
 
-## Security Practices
+## 安全實踐
 
-### Code Security
+### 程式碼安全
 
-1. **Dependency Management**
-   - All Python dependencies are pinned in `requirements.txt`
-   - Regular updates via dependabot and manual review
-   - Security scanning with Bandit on every commit
-   - Pre-commit hooks for security checks
+1. **依賴管理**
+   - 所有 Python 依賴都固定在 `requirements.txt` 中
+   - 透過 dependabot 和手動審查定期更新
+   - 每次提交都使用 Bandit 進行安全掃描
+   - 使用 pre-commit hooks 進行安全檢查
 
-2. **Code Quality**
-   - Linting with Ruff catches common issues
-   - Type checking with mypy prevents type-related vulnerabilities
-   - Pre-commit hooks enforce standards
-   - All changes reviewed before merging
+2. **程式碼品質**
+   - 使用 Ruff 進行 Lint 以捕獲常見問題
+   - 使用 mypy 進行型別檢查以防止型別相關漏洞
+   - Pre-commit hooks 強制執行標準
+   - 所有變更在合併前都需經過審查
 
-3. **Access Control**
-   - Branch protection on `main` branch
-   - Required reviews before merge
-   - Status checks must pass before merge
-   - Limited write access to repository
+3. **存取控制**
+   - `main` 分支啟用分支保護
+   - 合併前需要審查
+   - 合併前狀態檢查必須通過
+   - 限制倉庫的寫入權限
 
-### Documentation Security
+### 文件安全
 
-1. **No Secrets in Examples**
-   - All API keys in examples are placeholders
-   - Credentials are never hardcoded
-   - `.env.example` files show required variables
-   - Clear warnings about secret management
+1. **範例中不包含機密**
+   - 範例中的所有 API 金鑰都是佔位符
+   - 認證資訊永不寫死
+   - `.env.example` 檔案展示所需的變數
+   - 關於機密管理有清楚的警告
 
-2. **Security Best Practices**
-   - Examples demonstrate secure patterns
-   - Security warnings highlighted in documentation
-   - Links to official security guides
-   - Credential handling discussed in relevant sections
+2. **安全最佳實踐**
+   - 範例展示安全的模式
+   - 文件中明確標示安全警告
+   - 提供官方安全指南的連結
+   - 在相關章節討論認證處理
 
-3. **Content Review**
-   - All documentation reviewed for security issues
-   - Security considerations in contributing guidelines
-   - Validation of external links and references
+3. **內容審查**
+   - 所有文件都經過安全問題審查
+   - 貢獻指引中包含安全注意事項
+   - 驗證外部連結和參考
 
-### Dependency Security
+### 依賴安全
 
-1. **Scanning**
-   - Bandit scans all Python code for vulnerabilities
-   - Dependency vulnerability checks via GitHub security alerts
-   - Regular manual security audits
+1. **掃描**
+   - Bandit 掃描所有 Python 程式碼的漏洞
+   - 透過 GitHub 安全警報進行依賴漏洞檢查
+   - 定期手動安全稽核
 
-2. **Updates**
-   - Security patches applied promptly
-   - Major versions evaluated carefully
-   - Changelog includes security-related updates
+2. **更新**
+   - 安全修補程式迅速套用
+   - 主要版本謹慎評估
+   - 更新日誌包含安全相關更新
 
-3. **Transparency**
-   - Security updates documented in commits
-   - Vulnerability disclosures handled responsibly
-   - Public security advisories when appropriate
+3. **透明度**
+   - 安全更新記錄在提交中
+   - 漏洞揭露以負責任的方式處理
+   - 適當時發布公開安全通告
 
-## Reporting a Vulnerability
+## 回報漏洞
 
-### Security Issues We Care About
+### 我們關注的安全問題
 
-We appreciate reports on:
-- **Code vulnerabilities** in scripts or examples
-- **Dependency vulnerabilities** in Python packages
-- **Cryptography issues** in any code examples
-- **Authentication/Authorization flaws** in documentation
-- **Data exposure risks** in configuration examples
-- **Injection vulnerabilities** (SQL, command, etc.)
-- **SSRF/XXE/Path traversal** issues
+我們感謝以下方面的回報：
+- 腳本或範例中的**程式碼漏洞**
+- Python 套件中的**依賴漏洞**
+- 任何程式碼範例中的**密碼學問題**
+- 文件中的**認證/授權缺陷**
+- 配置範例中的**資料暴露風險**
+- **注入漏洞**（SQL、指令等）
+- **SSRF/XXE/路徑遍歷**問題
 
-### Security Issues Out of Scope
+### 超出範圍的安全問題
 
-These are outside the scope of this project:
-- Vulnerabilities in Claude Code itself (report to Anthropic)
-- Issues with external services or libraries (report to upstream)
-- Social engineering or user education (not applicable to this guide)
-- Theoretical vulnerabilities without proof of concept
-- Vulnerabilities in dependencies reported through official channels
+以下不在本專案的範圍內：
+- Claude Code 本身的漏洞（請向 Anthropic 回報）
+- 外部服務或函式庫的問題（請向上游回報）
+- 社會工程或使用者教育（不適用於本指南）
+- 沒有概念驗證的理論性漏洞
+- 透過官方管道回報的依賴漏洞
 
-## How to Report
+## 如何回報
 
-### Private Reporting (Preferred)
+### 私有回報（推薦）
 
-**For sensitive security issues, please use GitHub's private vulnerability reporting:**
+**對於敏感的安全問題，請使用 GitHub 的私有漏洞回報：**
 
-1. Visit: https://github.com/luongnv89/claude-howto/security/advisories
-2. Click "Report a vulnerability"
-3. Fill in the vulnerability details
-4. Include:
-   - Clear description of the vulnerability
-   - Affected component (file, section, example)
-   - Potential impact
-   - Steps to reproduce (if applicable)
-   - Suggested fix (if you have one)
+1. 前往：https://github.com/luongnv89/claude-howto/security/advisories
+2. 點擊「Report a vulnerability」
+3. 填寫漏洞詳情
+4. 包含：
+   - 漏洞的清楚描述
+   - 受影響的元件（檔案、章節、範例）
+   - 潛在影響
+   - 重現步驟（如適用）
+   - 建議的修正（如果你有的話）
 
-**What happens next:**
-- We'll acknowledge receipt within 48 hours
-- We'll investigate and assess severity
-- We'll work with you to develop a fix
-- We'll coordinate disclosure timeline
-- We'll credit you in the security advisory (unless you prefer anonymity)
+**接下來會發生什麼：**
+- 我們會在 48 小時內確認收到
+- 我們會調查並評估嚴重性
+- 我們會與你合作開發修正方案
+- 我們會協調揭露時間表
+- 我們會在安全通告中致謝（除非你希望匿名）
 
-### Public Reporting
+### 公開回報
 
-For non-sensitive issues or those already public:
+對於非敏感問題或已公開的問題：
 
-1. **Open a GitHub Issue** with label `security`
-2. Include:
-   - Title: `[SECURITY]` followed by brief description
-   - Detailed description
-   - Affected file or section
-   - Potential impact
-   - Suggested fix
+1. **開啟 GitHub Issue** 並標記 `security` 標籤
+2. 包含：
+   - 標題：`[SECURITY]` 後接簡短描述
+   - 詳細描述
+   - 受影響的檔案或章節
+   - 潛在影響
+   - 建議的修正
 
-## Vulnerability Response Process
+## 漏洞回應流程
 
-### Assessment (24 hours)
+### 評估（24 小時）
 
-1. We acknowledge receipt of the report
-2. We assess severity using [CVSS v3.1](https://www.first.org/cvss/v3.1/specification-document)
-3. We determine if it's in scope
-4. We contact you with initial assessment
+1. 我們確認收到回報
+2. 我們使用 [CVSS v3.1](https://www.first.org/cvss/v3.1/specification-document) 評估嚴重性
+3. 我們判斷是否在範圍內
+4. 我們與你聯繫，提供初步評估
 
-### Development (1-7 days)
+### 開發（1-7 天）
 
-1. We develop a fix
-2. We review and test the fix
-3. We create a security advisory
-4. We prepare release notes
+1. 我們開發修正方案
+2. 我們審查和測試修正
+3. 我們建立安全通告
+4. 我們準備發行說明
 
-### Disclosure (varies by severity)
+### 揭露（依嚴重性而定）
 
-**Critical (CVSS 9.0-10.0)**
-- Fix released immediately
-- Public advisory issued
-- 24-hour advance notice to reporters
+**嚴重（CVSS 9.0-10.0）**
+- 立即發布修正
+- 發布公開通告
+- 提前 24 小時通知回報者
 
-**High (CVSS 7.0-8.9)**
-- Fix released within 48-72 hours
-- 5-day advance notice to reporters
-- Public advisory on release
+**高（CVSS 7.0-8.9）**
+- 48-72 小時內發布修正
+- 提前 5 天通知回報者
+- 發布時公開通告
 
-**Medium (CVSS 4.0-6.9)**
-- Fix released in next regular update
-- Public advisory on release
+**中（CVSS 4.0-6.9）**
+- 在下次定期更新中發布修正
+- 發布時公開通告
 
-**Low (CVSS 0.1-3.9)**
-- Fix included in next regular update
-- Advisory on release
+**低（CVSS 0.1-3.9）**
+- 包含在下次定期更新中
+- 發布時通告
 
-### Publication
+### 發布
 
-We publish security advisories that include:
-- Description of the vulnerability
-- Affected components
-- Severity assessment (CVSS score)
-- Fix version
-- Workarounds (if applicable)
-- Credit to reporter (with permission)
+我們發布的安全通告包含：
+- 漏洞描述
+- 受影響元件
+- 嚴重性評估（CVSS 分數）
+- 修正版本
+- 替代方案（如適用）
+- 回報者致謝（經許可）
 
-## Best Practices for Reporters
+## 回報者的最佳實踐
 
-### Before Reporting
+### 回報前
 
-- **Verify the issue**: Can you reproduce it consistently?
-- **Search existing issues**: Is it already reported?
-- **Check documentation**: Is there guidance on secure usage?
-- **Test the fix**: Does your suggested fix work?
+- **驗證問題**：你能一致地重現嗎？
+- **搜尋現有 issues**：是否已被回報？
+- **查閱文件**：是否有安全使用的指引？
+- **測試修正**：你建議的修正是否有效？
 
-### When Reporting
+### 回報時
 
-- **Be specific**: Provide exact file paths and line numbers
-- **Include context**: Why is this a security issue?
-- **Show impact**: What could an attacker do?
-- **Provide steps**: How can we reproduce it?
-- **Suggest fixes**: How would you fix it?
+- **具體說明**：提供確切的檔案路徑和行號
+- **包含上下文**：為什麼這是安全問題？
+- **展示影響**：攻擊者可以做什麼？
+- **提供步驟**：我們如何重現？
+- **建議修正**：你會如何修正？
 
-### After Reporting
+### 回報後
 
-- **Be patient**: We have limited resources
-- **Be responsive**: Answer follow-up questions quickly
-- **Keep it confidential**: Don't publicly disclose before fix
-- **Respect coordination**: Follow our timeline for disclosure
+- **耐心等待**：我們的資源有限
+- **保持回應**：快速回答後續問題
+- **保持機密**：在修正前不要公開揭露
+- **尊重協調**：遵循我們的揭露時間表
 
-## Security Headers and Configuration
+## 安全標頭和配置
 
-### Repository Security
+### 倉庫安全
 
-- **Branch protection**: Main branch requires 2 approvals for changes
-- **Status checks**: All CI/CD checks must pass
-- **CODEOWNERS**: Designated reviewers for key files
-- **Signed commits**: Recommended for contributors
+- **分支保護**：main 分支需要 2 個批准才能變更
+- **狀態檢查**：所有 CI/CD 檢查必須通過
+- **CODEOWNERS**：關鍵檔案指定審查者
+- **簽章提交**：建議貢獻者使用
 
-### Development Security
+### 開發安全
 
 ```bash
-# Install pre-commit hooks
+# 安裝 pre-commit hooks
 pre-commit install
 
-# Run security scans locally
+# 在本地執行安全掃描
 bandit -c pyproject.toml -r scripts/
 mypy scripts/ --ignore-missing-imports
 ruff check scripts/
 ```
 
-### Dependency Security
+### 依賴安全
 
 ```bash
-# Check for known vulnerabilities
+# 檢查已知漏洞
 pip install safety
 safety check
 
-# Or use pip-audit
+# 或使用 pip-audit
 pip install pip-audit
 pip-audit
 ```
 
-## Security Guidelines for Contributors
+## 貢獻者的安全指引
 
-### When Writing Examples
+### 撰寫範例時
 
-1. **Never hardcode secrets**
+1. **永不寫死機密**
    ```python
-   # ❌ Bad
+   # 不好的做法
    api_key = "sk-1234567890"
 
-   # ✅ Good
+   # 好的做法
    api_key = os.getenv("API_KEY")
    ```
 
-2. **Warn about security implications**
+2. **警告安全影響**
    ```markdown
-   ⚠️ **Security Note**: Never commit `.env` files to git.
-   Add to `.gitignore` immediately.
+   **安全注意**：永遠不要將 `.env` 檔案提交到 git。
+   立即加入 `.gitignore`。
    ```
 
-3. **Use secure defaults**
-   - Enable authentication by default
-   - Use HTTPS where applicable
-   - Validate and sanitize inputs
-   - Use parameterized queries
+3. **使用安全的預設值**
+   - 預設啟用認證
+   - 在適用處使用 HTTPS
+   - 驗證和清理輸入
+   - 使用參數化查詢
 
-4. **Document security considerations**
-   - Explain why security matters
-   - Show secure vs. insecure patterns
-   - Link to authoritative sources
-   - Include warnings prominently
+4. **記錄安全注意事項**
+   - 解釋為什麼安全很重要
+   - 展示安全 vs 不安全的模式
+   - 連結到權威來源
+   - 明顯地包含警告
 
-### When Reviewing Contributions
+### 審查貢獻時
 
-1. **Check for exposed secrets**
-   - Scan for common patterns (api_key=, password=)
-   - Review configuration files
-   - Check environment variables
+1. **檢查暴露的機密**
+   - 掃描常見模式（api_key=、password=）
+   - 審查配置檔案
+   - 檢查環境變數
 
-2. **Verify secure coding practices**
-   - No hardcoded credentials
-   - Proper input validation
-   - Secure authentication/authorization
-   - Safe file handling
+2. **驗證安全程式碼實踐**
+   - 沒有寫死的認證資訊
+   - 適當的輸入驗證
+   - 安全的認證/授權
+   - 安全的檔案處理
 
-3. **Test security implications**
-   - Can this be misused?
-   - What's the worst case?
-   - Are there edge cases?
+3. **測試安全影響**
+   - 這可以被濫用嗎？
+   - 最壞情況是什麼？
+   - 是否有邊界情況？
 
-## Security Resources
+## 安全資源
 
-### Official Standards
+### 官方標準
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [CWE Top 25](https://cwe.mitre.org/top25/)
-- [CVSS Calculator](https://www.first.org/cvss/calculator/3.1)
+- [CVSS 計算器](https://www.first.org/cvss/calculator/3.1)
 
-### Python Security
-- [Python Security Advisories](https://www.python.org/dev/security/)
-- [PyPI Security](https://pypi.org/help/#security)
-- [Bandit Documentation](https://bandit.readthedocs.io/)
+### Python 安全
+- [Python 安全通告](https://www.python.org/dev/security/)
+- [PyPI 安全](https://pypi.org/help/#security)
+- [Bandit 文件](https://bandit.readthedocs.io/)
 
-### Dependency Management
-- [OWASP Dependency Check](https://owasp.org/www-project-dependency-check/)
-- [GitHub Security Alerts](https://docs.github.com/en/code-security/dependabot/dependabot-alerts/about-dependabot-alerts)
+### 依賴管理
+- [OWASP 依賴檢查](https://owasp.org/www-project-dependency-check/)
+- [GitHub 安全警報](https://docs.github.com/en/code-security/dependabot/dependabot-alerts/about-dependabot-alerts)
 
-### General Security
-- [Anthropic Security](https://www.anthropic.com/)
-- [GitHub Security Best Practices](https://docs.github.com/en/code-security)
+### 一般安全
+- [Anthropic 安全](https://www.anthropic.com/)
+- [GitHub 安全最佳實踐](https://docs.github.com/en/code-security)
 
-## Security Advisories Archive
+## 安全通告存檔
 
-Past security advisories are available in the [GitHub Security Advisories](https://github.com/luongnv89/claude-howto/security/advisories) tab.
+過去的安全通告可在 [GitHub 安全通告](https://github.com/luongnv89/claude-howto/security/advisories) 標籤中找到。
 
-## Contact
+## 聯繫
 
-For security-related questions or to discuss security practices:
+有關安全相關的問題或討論安全實踐：
 
-1. **Private Security Report**: Use GitHub's private vulnerability reporting
-2. **General Security Questions**: Open a discussion with `[SECURITY]` tag
-3. **Security Policy Feedback**: Create an issue with `security` label
+1. **私有安全回報**：使用 GitHub 的私有漏洞回報
+2. **一般安全問題**：開啟帶有 `[SECURITY]` 標籤的討論
+3. **安全政策回饋**：建立帶有 `security` 標籤的 issue
 
-## Acknowledgments
+## 致謝
 
-We appreciate the security researchers and community members who help keep this project secure. Contributors who report vulnerabilities responsibly will be acknowledged in our security advisories (unless they prefer anonymity).
+我們感謝安全研究人員和社群成員幫助保護本專案的安全。負責任地回報漏洞的貢獻者將在我們的安全通告中得到致謝（除非他們希望匿名）。
 
-## Policy Updates
+## 政策更新
 
-This security policy is reviewed and updated:
-- When new vulnerabilities are discovered
-- When security best practices evolve
-- When the project scope changes
-- Annually as a minimum
+本安全政策會在以下情況審查和更新：
+- 發現新的漏洞時
+- 安全最佳實踐演進時
+- 專案範圍變更時
+- 至少每年一次
 
-**Last Updated**: January 2026
-**Next Review**: January 2027
+**最後更新**：2026 年 1 月
+**下次審查**：2027 年 1 月
 
 ---
 
-Thank you for helping keep Claude How To secure! 🔒
+感謝你幫助保護 Claude How To 的安全！

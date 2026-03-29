@@ -1,70 +1,70 @@
 ---
 name: code-review-specialist
-description: Comprehensive code review with security, performance, and quality analysis. Use when users ask to review code, analyze code quality, evaluate pull requests, or mention code review, security analysis, or performance optimization.
+description: 涵蓋安全性、效能和品質分析的全面程式碼審查。在使用者要求審查程式碼、分析程式碼品質、評估 pull requests，或提到程式碼審查、安全分析或效能最佳化時使用。
 ---
 
-# Code Review Skill
+# 程式碼審查 Skill
 
-This skill provides comprehensive code review capabilities focusing on:
+此 skill 提供全面的程式碼審查能力，專注於：
 
-1. **Security Analysis**
-   - Authentication/authorization issues
-   - Data exposure risks
-   - Injection vulnerabilities
-   - Cryptographic weaknesses
-   - Sensitive data logging
+1. **安全性分析**
+   - 認證/授權問題
+   - 資料暴露風險
+   - 注入漏洞
+   - 密碼學弱點
+   - 敏感資料記錄
 
-2. **Performance Review**
-   - Algorithm efficiency (Big O analysis)
-   - Memory optimization
-   - Database query optimization
-   - Caching opportunities
-   - Concurrency issues
+2. **效能審查**
+   - 演算法效率（Big O 分析）
+   - 記憶體最佳化
+   - 資料庫查詢最佳化
+   - 快取機會
+   - 並行問題
 
-3. **Code Quality**
-   - SOLID principles
-   - Design patterns
-   - Naming conventions
-   - Documentation
-   - Test coverage
+3. **程式碼品質**
+   - SOLID 原則
+   - 設計模式
+   - 命名慣例
+   - 文件
+   - 測試覆蓋率
 
-4. **Maintainability**
-   - Code readability
-   - Function size (should be < 50 lines)
-   - Cyclomatic complexity
-   - Dependency management
-   - Type safety
+4. **可維護性**
+   - 程式碼可讀性
+   - 函式大小（應 < 50 行）
+   - 循環複雜度
+   - 相依性管理
+   - 型別安全
 
-## Review Template
+## 審查模板
 
-For each piece of code reviewed, provide:
+對於每段被審查的程式碼，提供：
 
-### Summary
-- Overall quality assessment (1-5)
-- Key findings count
-- Recommended priority areas
+### 摘要
+- 整體品質評估（1-5）
+- 關鍵發現數量
+- 建議的優先區域
 
-### Critical Issues (if any)
-- **Issue**: Clear description
-- **Location**: File and line number
-- **Impact**: Why this matters
-- **Severity**: Critical/High/Medium
-- **Fix**: Code example
+### 嚴重問題（如有）
+- **問題**：清楚的描述
+- **位置**：檔案和行號
+- **影響**：為什麼這很重要
+- **嚴重度**：Critical/High/Medium
+- **修復**：程式碼範例
 
-### Findings by Category
+### 依類別的發現
 
-#### Security (if issues found)
-List security vulnerabilities with examples
+#### 安全性（如發現問題）
+列出安全漏洞及範例
 
-#### Performance (if issues found)
-List performance problems with complexity analysis
+#### 效能（如發現問題）
+列出效能問題及複雜度分析
 
-#### Quality (if issues found)
-List code quality issues with refactoring suggestions
+#### 品質（如發現問題）
+列出程式碼品質問題及重構建議
 
-#### Maintainability (if issues found)
-List maintainability problems with improvements
+#### 可維護性（如發現問題）
+列出可維護性問題及改善方案
 
-## Version History
+## 版本歷史
 
-- v1.0.0 (2024-12-10): Initial release with security, performance, quality, and maintainability analysis
+- v1.0.0 (2024-12-10)：初始版本，包含安全性、效能、品質和可維護性分析

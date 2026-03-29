@@ -1,26 +1,26 @@
 ---
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*), Bash(git diff:*)
 argument-hint: [message]
-description: Create a git commit with context
+description: 使用上下文建立 git commit
 ---
 
-## Context
+## 上下文資訊
 
-- Current git status: !`git status`
-- Current git diff: !`git diff HEAD`
-- Current branch: !`git branch --show-current`
-- Recent commits: !`git log --oneline -10`
+- 目前 git 狀態：!`git status`
+- 目前 git 差異：!`git diff HEAD`
+- 目前分支：!`git branch --show-current`
+- 最近的提交紀錄：!`git log --oneline -10`
 
-## Your task
+## 你的任務
 
-Based on the above changes, create a single git commit.
+根據以上變更，建立一個 git commit。
 
-If a message was provided via arguments, use it: $ARGUMENTS
+如果透過參數提供了訊息，請使用它：$ARGUMENTS
 
-Otherwise, analyze the changes and create an appropriate commit message following conventional commits format:
-- `feat:` for new features
-- `fix:` for bug fixes
-- `docs:` for documentation changes
-- `refactor:` for code refactoring
-- `test:` for adding tests
-- `chore:` for maintenance tasks
+否則，請分析變更並依照 conventional commits 格式建立適當的提交訊息：
+- `feat:` 用於新功能
+- `fix:` 用於修復錯誤
+- `docs:` 用於文件變更
+- `refactor:` 用於程式碼重構
+- `test:` 用於新增測試
+- `chore:` 用於維護任務

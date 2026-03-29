@@ -3,34 +3,34 @@
   <img alt="Claude How To" src="resources/logos/claude-howto-logo.svg">
 </picture>
 
-# Complete Guide to Claude Concepts
+# Claude 概念完整指南
 
-A comprehensive reference guide covering Slash Commands, Subagents, Memory, MCP Protocol, and Agent Skills with tables, diagrams, and practical examples.
+涵蓋斜線指令、子代理、記憶體、MCP 協定和 Agent 技能的完整參考指南，附表格、圖表和實際範例。
 
 ---
 
-## Table of Contents
+## 目錄
 
-1. [Slash Commands](#slash-commands)
-2. [Subagents](#subagents)
-3. [Memory](#memory)
-4. [MCP Protocol](#mcp-protocol)
-5. [Agent Skills](#agent-skills)
-6. [Plugins](#plugins)
+1. [斜線指令](#斜線指令)
+2. [子代理](#子代理)
+3. [記憶體](#記憶體)
+4. [MCP 協定](#mcp-協定)
+5. [Agent 技能](#agent-技能)
+6. [外掛套件](#外掛套件)
 7. [Hooks](#hooks)
-8. [Checkpoints and Rewind](#checkpoints-and-rewind)
-9. [Advanced Features](#advanced-features)
-10. [Comparison & Integration](#comparison--integration)
+8. [檢查點與倒轉](#檢查點與倒轉)
+9. [進階功能](#進階功能)
+10. [比較與整合](#比較與整合)
 
 ---
 
-## Slash Commands
+## 斜線指令
 
-### Overview
+### 概覽
 
-Slash commands are user-invoked shortcuts stored as Markdown files that Claude Code can execute. They enable teams to standardize frequently-used prompts and workflows.
+斜線指令是以 Markdown 檔案儲存的使用者呼叫快捷方式，Claude Code 可以執行。它們讓團隊能夠標準化常用的提示和工作流程。
 
-### Architecture
+### 架構
 
 ```mermaid
 graph TD
@@ -41,7 +41,7 @@ graph TD
     E -->|Returns| F["Result in Context"]
 ```
 
-### File Structure
+### 檔案結構
 
 ```mermaid
 graph LR
@@ -53,29 +53,29 @@ graph LR
     E -->|contains| G["generate-readme.md"]
 ```
 
-### Command Organization Table
+### 指令組織表
 
-| Location | Scope | Availability | Use Case | Git Tracked |
+| 位置 | 範圍 | 可用性 | 使用案例 | Git 追蹤 |
 |----------|-------|--------------|----------|-------------|
-| `.claude/commands/` | Project-specific | Team members | Team workflows, shared standards | ✅ Yes |
-| `~/.claude/commands/` | Personal | Individual user | Personal shortcuts across projects | ❌ No |
-| Subdirectories | Namespaced | Based on parent | Organize by category | ✅ Yes |
+| `.claude/commands/` | 專案專屬 | 團隊成員 | 團隊工作流程、共享標準 | ✅ 是 |
+| `~/.claude/commands/` | 個人 | 個別使用者 | 跨專案的個人快捷方式 | ❌ 否 |
+| 子目錄 | 命名空間 | 基於父層 | 按類別組織 | ✅ 是 |
 
-### Features & Capabilities
+### 功能與能力
 
-| Feature | Example | Supported |
+| 功能 | 範例 | 支援 |
 |---------|---------|-----------|
-| Shell script execution | `bash scripts/deploy.sh` | ✅ Yes |
-| File references | `@path/to/file.js` | ✅ Yes |
-| Bash integration | `$(git log --oneline)` | ✅ Yes |
-| Arguments | `/pr --verbose` | ✅ Yes |
-| MCP commands | `/mcp__github__list_prs` | ✅ Yes |
+| Shell 腳本執行 | `bash scripts/deploy.sh` | ✅ 是 |
+| 檔案引用 | `@path/to/file.js` | ✅ 是 |
+| Bash 整合 | `$(git log --oneline)` | ✅ 是 |
+| 引數 | `/pr --verbose` | ✅ 是 |
+| MCP 指令 | `/mcp__github__list_prs` | ✅ 是 |
 
-### Practical Examples
+### 實際範例
 
-#### Example 1: Code Optimization Command
+#### 範例 1：程式碼最佳化指令
 
-**File:** `.claude/commands/optimize.md`
+**檔案：** `.claude/commands/optimize.md`
 
 ```markdown
 ---
@@ -101,17 +101,17 @@ Format your response with:
 - Recommended fix with code example
 ```
 
-**Usage:**
+**使用方式：**
 ```bash
-# User types in Claude Code
+# 使用者在 Claude Code 中輸入
 /optimize
 
-# Claude loads the prompt and waits for code input
+# Claude 載入提示並等待程式碼輸入
 ```
 
-#### Example 2: Pull Request Helper Command
+#### 範例 2：Pull Request 輔助指令
 
-**File:** `.claude/commands/pr.md`
+**檔案：** `.claude/commands/pr.md`
 
 ```markdown
 ---
@@ -143,16 +143,16 @@ Before creating a PR, execute these steps:
    - Potential impacts
 ```
 
-**Usage:**
+**使用方式：**
 ```bash
 /pr
 
-# Claude runs through checklist and prepares the PR
+# Claude 執行檢查清單並準備 PR
 ```
 
-#### Example 3: Hierarchical Documentation Generator
+#### 範例 3：階層式文件產生器
 
-**File:** `.claude/commands/docs/generate-api-docs.md`
+**檔案：** `.claude/commands/docs/generate-api-docs.md`
 
 ```markdown
 ---
@@ -178,7 +178,7 @@ Output format:
 - Add TypeScript types
 ```
 
-### Command Lifecycle Diagram
+### 指令生命週期圖
 
 ```mermaid
 sequenceDiagram
@@ -198,26 +198,26 @@ sequenceDiagram
     Claude->>User: Returns analysis
 ```
 
-### Best Practices
+### 最佳實務
 
-| ✅ Do | ❌ Don't |
+| ✅ 應做 | ❌ 不應做 |
 |------|---------|
-| Use clear, action-oriented names | Create commands for one-time tasks |
-| Document trigger words in description | Build complex logic in commands |
-| Keep commands focused on single task | Create redundant commands |
-| Version control project commands | Hardcode sensitive information |
-| Organize in subdirectories | Create long lists of commands |
-| Use simple, readable prompts | Use abbreviated or cryptic wording |
+| 使用清晰、以動作為導向的名稱 | 為一次性任務建立指令 |
+| 在描述中記錄觸發詞 | 在指令中建構複雜邏輯 |
+| 保持指令專注於單一任務 | 建立冗餘指令 |
+| 版本控制專案指令 | 硬編碼敏感資訊 |
+| 在子目錄中組織 | 建立過長的指令清單 |
+| 使用簡單、可讀的提示 | 使用縮寫或隱晦的措辭 |
 
 ---
 
-## Subagents
+## 子代理
 
-### Overview
+### 概覽
 
-Subagents are specialized AI assistants with isolated context windows and customized system prompts. They enable delegated task execution while maintaining clean separation of concerns.
+子代理是具有隔離上下文視窗和自訂系統提示的專門化 AI 助手。它們實現委派的任務執行，同時維持清晰的關注點分離。
 
-### Architecture Diagram
+### 架構圖
 
 ```mermaid
 graph TB
@@ -237,7 +237,7 @@ graph TB
     Main -->|synthesizes| User
 ```
 
-### Subagent Lifecycle
+### 子代理生命週期
 
 ```mermaid
 sequenceDiagram
@@ -257,16 +257,16 @@ sequenceDiagram
     MainAgent-->>User: Provide synthesis
 ```
 
-### Subagent Configuration Table
+### 子代理配置表
 
-| Configuration | Type | Purpose | Example |
+| 配置 | 類型 | 用途 | 範例 |
 |---------------|------|---------|---------|
-| `name` | String | Agent identifier | `code-reviewer` |
-| `description` | String | Purpose & trigger terms | `Comprehensive code quality analysis` |
-| `tools` | List/String | Allowed capabilities | `read, grep, diff, lint_runner` |
-| `system_prompt` | Markdown | Behavioral instructions | Custom guidelines |
+| `name` | String | Agent 識別碼 | `code-reviewer` |
+| `description` | String | 用途和觸發詞 | `Comprehensive code quality analysis` |
+| `tools` | List/String | 允許的能力 | `read, grep, diff, lint_runner` |
+| `system_prompt` | Markdown | 行為指令 | 自訂指南 |
 
-### Tool Access Hierarchy
+### 工具存取層級
 
 ```mermaid
 graph TD
@@ -279,11 +279,11 @@ graph TD
     C -->|Explicit List| C2["Bash(npm:*), Bash(test:*)"]
 ```
 
-### Practical Examples
+### 實際範例
 
-#### Example 1: Complete Subagent Setup
+#### 範例 1：完整的子代理設定
 
-**File:** `.claude/agents/code-reviewer.md`
+**檔案：** `.claude/agents/code-reviewer.md`
 
 ```yaml
 ---
@@ -329,7 +329,7 @@ For each issue:
 - **Fix**: Use JOIN or batch query
 ```
 
-**File:** `.claude/agents/test-engineer.md`
+**檔案：** `.claude/agents/test-engineer.md`
 
 ```yaml
 ---
@@ -370,7 +370,7 @@ You are expert at:
 - Report missing coverage areas
 ```
 
-**File:** `.claude/agents/documentation-writer.md`
+**檔案：** `.claude/agents/documentation-writer.md`
 
 ```yaml
 ---
@@ -415,45 +415,45 @@ You create:
 - Related topics
 ```
 
-#### Example 2: Subagent Delegation in Action
+#### 範例 2：子代理委派實例
 
 ```markdown
-# Scenario: Building a Payment Feature
+# 情境：建構支付功能
 
-## User Request
+## 使用者請求
 "Build a secure payment processing feature that integrates with Stripe"
 
-## Main Agent Flow
+## 主代理流程
 
-1. **Planning Phase**
-   - Understands requirements
-   - Determines tasks needed
-   - Plans architecture
+1. **規劃階段**
+   - 理解需求
+   - 確定所需任務
+   - 規劃架構
 
-2. **Delegates to Code Reviewer Subagent**
-   - Task: "Review the payment processing implementation for security"
-   - Context: Auth, API keys, token handling
-   - Reviews for: SQL injection, key exposure, HTTPS enforcement
+2. **委派給 Code Reviewer 子代理**
+   - 任務："Review the payment processing implementation for security"
+   - 上下文：Auth、API 金鑰、token 處理
+   - 審查項目：SQL injection、金鑰洩露、HTTPS 強制
 
-3. **Delegates to Test Engineer Subagent**
-   - Task: "Create comprehensive tests for payment flows"
-   - Context: Success scenarios, failures, edge cases
-   - Creates tests for: Valid payments, declined cards, network failures, webhooks
+3. **委派給 Test Engineer 子代理**
+   - 任務："Create comprehensive tests for payment flows"
+   - 上下文：成功情境、失敗、邊界情況
+   - 建立測試：有效支付、拒絕的卡片、網路故障、webhooks
 
-4. **Delegates to Documentation Writer Subagent**
-   - Task: "Document the payment API endpoints"
-   - Context: Request/response schemas
-   - Produces: API docs with curl examples, error codes
+4. **委派給 Documentation Writer 子代理**
+   - 任務："Document the payment API endpoints"
+   - 上下文：Request/Response schemas
+   - 產出：附 curl 範例的 API 文件、錯誤碼
 
-5. **Synthesis**
-   - Main agent collects all outputs
-   - Integrates findings
-   - Returns complete solution to user
+5. **綜合**
+   - 主代理收集所有輸出
+   - 整合結果
+   - 向使用者回傳完整方案
 ```
 
-#### Example 3: Tool Permission Scoping
+#### 範例 3：工具權限範圍設定
 
-**Restrictive Setup - Limited to Specific Commands**
+**限制性設定 - 僅限特定指令**
 
 ```yaml
 ---
@@ -476,7 +476,7 @@ This agent:
 This ensures the reviewer doesn't accidentally break anything.
 ```
 
-**Extended Setup - All Tools for Implementation**
+**擴展設定 - 用於實作的所有工具**
 
 ```yaml
 ---
@@ -500,7 +500,7 @@ This agent:
 Full capabilities for independent feature development.
 ```
 
-### Subagent Context Management
+### 子代理上下文管理
 
 ```mermaid
 graph TB
@@ -523,30 +523,30 @@ graph TB
     style D fill:#fff9c4
 ```
 
-### When to Use Subagents
+### 何時使用子代理
 
-| Scenario | Use Subagent | Why |
+| 情境 | 使用子代理 | 原因 |
 |----------|--------------|-----|
-| Complex feature with many steps | ✅ Yes | Separate concerns, prevent context pollution |
-| Quick code review | ❌ No | Not necessary overhead |
-| Parallel task execution | ✅ Yes | Each subagent has own context |
-| Specialized expertise needed | ✅ Yes | Custom system prompts |
-| Long-running analysis | ✅ Yes | Prevents main context exhaustion |
-| Single task | ❌ No | Adds latency unnecessarily |
+| 包含許多步驟的複雜功能 | ✅ 是 | 分離關注點，防止上下文污染 |
+| 快速程式碼審查 | ❌ 否 | 不必要的開銷 |
+| 並行任務執行 | ✅ 是 | 每個子代理有自己的上下文 |
+| 需要專業知識 | ✅ 是 | 自訂系統提示 |
+| 長時間運行的分析 | ✅ 是 | 防止主上下文耗盡 |
+| 單一任務 | ❌ 否 | 不必要地增加延遲 |
 
 ### Agent Teams
 
-Agent Teams coordinate multiple agents working on related tasks. Rather than delegating to one subagent at a time, Agent Teams allow the main agent to orchestrate a group of agents that collaborate, share intermediate results, and work toward a common goal. This is useful for large-scale tasks like full-stack feature development where a frontend agent, backend agent, and testing agent work in parallel.
+Agent Teams 協調多個代理處理相關任務。Agent Teams 不是一次委派給一個子代理，而是讓主代理協調一組代理進行協作、共享中間結果，並朝共同目標努力。這對於大型任務非常有用，例如全端功能開發，其中前端代理、後端代理和測試代理並行工作。
 
 ---
 
-## Memory
+## 記憶體
 
-### Overview
+### 概覽
 
-Memory enables Claude to retain context across sessions and conversations. It exists in two forms: automatic synthesis in claude.ai, and filesystem-based CLAUDE.md in Claude Code.
+記憶體使 Claude 能夠在工作階段和對話之間保留上下文。它以兩種形式存在：claude.ai 中的自動合成，以及 Claude Code 中基於檔案系統的 CLAUDE.md。
 
-### Memory Architecture
+### 記憶體架構
 
 ```mermaid
 graph TB
@@ -561,9 +561,9 @@ graph TB
     A -->|Uses context| C
 ```
 
-### Memory Hierarchy in Claude Code (7 Tiers)
+### Claude Code 中的記憶體層級（7 層）
 
-Claude Code loads memory from 7 tiers, listed from highest to lowest priority:
+Claude Code 從 7 層載入記憶體，按優先順序從高到低列出：
 
 ```mermaid
 graph TD
@@ -583,30 +583,30 @@ graph TD
     style G fill:#fff3e0,stroke:#333,color:#333
 ```
 
-### Memory Locations Table
+### 記憶體位置表
 
-| Tier | Location | Scope | Priority | Shared | Best For |
+| 層級 | 位置 | 範圍 | 優先順序 | 共享 | 最適合 |
 |------|----------|-------|----------|--------|----------|
-| 1. Managed Policy | Enterprise admin | Organization | Highest | All org users | Compliance, security policies |
-| 2. Project | `./CLAUDE.md` | Project | High | Team (Git) | Team standards, architecture |
-| 3. Project Rules | `.claude/rules/*.md` | Project | High | Team (Git) | Modular project conventions |
-| 4. User | `~/.claude/CLAUDE.md` | Personal | Medium | Individual | Personal preferences |
-| 5. User Rules | `~/.claude/rules/*.md` | Personal | Medium | Individual | Personal rule modules |
-| 6. Local | `.claude/local/CLAUDE.md` | Local | Low | Not shared | Machine-specific settings |
-| 7. Auto Memory | Automatic | Session | Lowest | Individual | Learned preferences, patterns |
+| 1. 託管政策 | 企業管理員 | 組織 | 最高 | 所有組織使用者 | 合規、安全政策 |
+| 2. 專案 | `./CLAUDE.md` | 專案 | 高 | 團隊（Git） | 團隊標準、架構 |
+| 3. 專案規則 | `.claude/rules/*.md` | 專案 | 高 | 團隊（Git） | 模組化的專案慣例 |
+| 4. 使用者 | `~/.claude/CLAUDE.md` | 個人 | 中 | 個人 | 個人偏好 |
+| 5. 使用者規則 | `~/.claude/rules/*.md` | 個人 | 中 | 個人 | 個人規則模組 |
+| 6. 本機 | `.claude/local/CLAUDE.md` | 本機 | 低 | 不共享 | 機器專屬設定 |
+| 7. 自動記憶 | 自動 | 工作階段 | 最低 | 個人 | 學習到的偏好、模式 |
 
-### Auto Memory
+### 自動記憶
 
-Auto Memory automatically captures user preferences and patterns observed during sessions. Claude learns from your interactions and remembers:
+自動記憶在工作階段期間自動擷取使用者的偏好和觀察到的模式。Claude 從您的互動中學習並記住：
 
-- Coding style preferences
-- Common corrections you make
-- Framework and tool choices
-- Communication style preferences
+- 編碼風格偏好
+- 您常做的更正
+- 框架和工具選擇
+- 溝通風格偏好
 
-Auto Memory works in the background and does not require manual configuration.
+自動記憶在背景運作，不需要手動配置。
 
-### Memory Update Lifecycle
+### 記憶體更新生命週期
 
 ```mermaid
 sequenceDiagram
@@ -625,11 +625,11 @@ sequenceDiagram
     Claude-->>User: "Memory saved!"
 ```
 
-### Practical Examples
+### 實際範例
 
-#### Example 1: Project Memory Structure
+#### 範例 1：專案記憶體結構
 
-**File:** `./CLAUDE.md`
+**檔案：** `./CLAUDE.md`
 
 ```markdown
 # Project Configuration
@@ -722,9 +722,9 @@ sequenceDiagram
 - Admin Panel: `/projects/admin`
 ```
 
-#### Example 2: Directory-Specific Memory
+#### 範例 2：目錄專屬記憶體
 
-**File:** `./src/api/CLAUDE.md`
+**檔案：** `./src/api/CLAUDE.md`
 
 ~~~~markdown
 # API Module Standards
@@ -790,9 +790,9 @@ All responses must follow this structure:
 - Tag cache keys with resource type
 ~~~~
 
-#### Example 3: Personal Memory
+#### 範例 3：個人記憶體
 
-**File:** `~/.claude/CLAUDE.md`
+**檔案：** `~/.claude/CLAUDE.md`
 
 ~~~~markdown
 # My Development Preferences
@@ -857,9 +857,9 @@ project/
 - **Test Framework**: Jest with React Testing Library
 ~~~~
 
-#### Example 4: Memory Update During Session
+#### 範例 4：工作階段中的記憶體更新
 
-**Session Interaction:**
+**工作階段互動：**
 
 ```markdown
 User: Remember that I prefer using React hooks instead of class components
@@ -884,9 +884,9 @@ Added to ./CLAUDE.md:
 - Use useMemo for expensive computations
 ```
 
-### Memory in Claude Web/Desktop
+### Claude Web/Desktop 中的記憶體
 
-#### Memory Synthesis Timeline
+#### 記憶體合成時間線
 
 ```mermaid
 graph LR
@@ -897,7 +897,7 @@ graph LR
     E -->|24 hours later| F["Memory Refreshed"]
 ```
 
-**Example Memory Summary:**
+**記憶體摘要範例：**
 
 ```markdown
 ## Claude's Memory of User
@@ -927,27 +927,27 @@ graph LR
 - Document architecture
 ```
 
-### Memory Features Comparison
+### 記憶體功能比較
 
-| Feature | Claude Web/Desktop | Claude Code (CLAUDE.md) |
+| 功能 | Claude Web/Desktop | Claude Code (CLAUDE.md) |
 |---------|-------------------|------------------------|
-| Auto-synthesis | ✅ Every 24h | ❌ Manual |
-| Cross-project | ✅ Shared | ❌ Project-specific |
-| Team access | ✅ Shared projects | ✅ Git-tracked |
-| Searchable | ✅ Built-in | ✅ Through `/memory` |
-| Editable | ✅ In-chat | ✅ Direct file edit |
-| Import/Export | ✅ Yes | ✅ Copy/paste |
-| Persistent | ✅ 24h+ | ✅ Indefinite |
+| 自動合成 | ✅ 每 24 小時 | ❌ 手動 |
+| 跨專案 | ✅ 共享 | ❌ 專案專屬 |
+| 團隊存取 | ✅ 共享專案 | ✅ Git 追蹤 |
+| 可搜尋 | ✅ 內建 | ✅ 透過 `/memory` |
+| 可編輯 | ✅ 在聊天中 | ✅ 直接編輯檔案 |
+| 匯入/匯出 | ✅ 是 | ✅ 複製/貼上 |
+| 持久性 | ✅ 24 小時+ | ✅ 無限期 |
 
 ---
 
-## MCP Protocol
+## MCP 協定
 
-### Overview
+### 概覽
 
-MCP (Model Context Protocol) is a standardized way for Claude to access external tools, APIs, and real-time data sources. Unlike Memory, MCP provides live access to changing data.
+MCP（Model Context Protocol）是 Claude 存取外部工具、API 和即時資料來源的標準化方式。與記憶體不同，MCP 提供對變動資料的即時存取。
 
-### MCP Architecture
+### MCP 架構
 
 ```mermaid
 graph TB
@@ -966,7 +966,7 @@ graph TB
     B -->|Response| A
 ```
 
-### MCP Ecosystem
+### MCP 生態系統
 
 ```mermaid
 graph TB
@@ -983,7 +983,7 @@ graph TB
     F -->|Docs| K["Google Drive"]
 ```
 
-### MCP Setup Process
+### MCP 設定流程
 
 ```mermaid
 sequenceDiagram
@@ -1003,24 +1003,24 @@ sequenceDiagram
     Claude->>User: ✅ MCP connected!
 ```
 
-### Available MCP Servers Table
+### 可用的 MCP 伺服器表
 
-| MCP Server | Purpose | Common Tools | Auth | Real-time |
+| MCP 伺服器 | 用途 | 常用工具 | 驗證 | 即時 |
 |------------|---------|--------------|------|-----------|
-| **Filesystem** | File operations | read, write, delete | OS permissions | ✅ Yes |
-| **GitHub** | Repository management | list_prs, create_issue, push | OAuth | ✅ Yes |
-| **Slack** | Team communication | send_message, list_channels | Token | ✅ Yes |
-| **Database** | SQL queries | query, insert, update | Credentials | ✅ Yes |
-| **Google Docs** | Document access | read, write, share | OAuth | ✅ Yes |
-| **Asana** | Project management | create_task, update_status | API Key | ✅ Yes |
-| **Stripe** | Payment data | list_charges, create_invoice | API Key | ✅ Yes |
-| **Memory** | Persistent memory | store, retrieve, delete | Local | ❌ No |
+| **Filesystem** | 檔案操作 | read, write, delete | 作業系統權限 | ✅ 是 |
+| **GitHub** | 倉庫管理 | list_prs, create_issue, push | OAuth | ✅ 是 |
+| **Slack** | 團隊溝通 | send_message, list_channels | Token | ✅ 是 |
+| **Database** | SQL 查詢 | query, insert, update | 憑證 | ✅ 是 |
+| **Google Docs** | 文件存取 | read, write, share | OAuth | ✅ 是 |
+| **Asana** | 專案管理 | create_task, update_status | API Key | ✅ 是 |
+| **Stripe** | 支付資料 | list_charges, create_invoice | API Key | ✅ 是 |
+| **Memory** | 持久記憶 | store, retrieve, delete | 本機 | ❌ 否 |
 
-### Practical Examples
+### 實際範例
 
-#### Example 1: GitHub MCP Configuration
+#### 範例 1：GitHub MCP 配置
 
-**File:** `.mcp.json` (project scope) or `~/.claude.json` (user scope)
+**檔案：** `.mcp.json`（專案範圍）或 `~/.claude.json`（使用者範圍）
 
 ```json
 {
@@ -1036,7 +1036,7 @@ sequenceDiagram
 }
 ```
 
-**Available GitHub MCP Tools:**
+**可用的 GitHub MCP 工具：**
 
 ~~~~markdown
 # GitHub MCP Tools
@@ -1080,9 +1080,9 @@ Reviewers: @bob, @charlie
 - `create_commit` - Create new commit
 ~~~~
 
-#### Example 2: Database MCP Setup
+#### 範例 2：Database MCP 設定
 
-**Configuration:**
+**配置：**
 
 ```json
 {
@@ -1098,7 +1098,7 @@ Reviewers: @bob, @charlie
 }
 ```
 
-**Example Usage:**
+**使用範例：**
 
 ```markdown
 User: Fetch all users with more than 10 orders
@@ -1119,56 +1119,56 @@ ORDER BY order_count DESC;
 - Charlie: 11 orders
 ```
 
-#### Example 3: Multi-MCP Workflow
+#### 範例 3：多 MCP 工作流程
 
-**Scenario: Daily Report Generation**
+**情境：每日報表產生**
 
 ```markdown
-# Daily Report Workflow using Multiple MCPs
+# 使用多個 MCP 的每日報表工作流程
 
-## Setup
-1. GitHub MCP - fetch PR metrics
-2. Database MCP - query sales data
-3. Slack MCP - post report
-4. Filesystem MCP - save report
+## 設定
+1. GitHub MCP - 取得 PR 指標
+2. Database MCP - 查詢銷售資料
+3. Slack MCP - 發佈報表
+4. Filesystem MCP - 儲存報表
 
-## Workflow
+## 工作流程
 
-### Step 1: Fetch GitHub Data
+### 步驟 1：取得 GitHub 資料
 /mcp__github__list_prs completed:true last:7days
 
-Output:
-- Total PRs: 42
-- Average merge time: 2.3 hours
-- Review turnaround: 1.1 hours
+輸出：
+- 總 PR 數：42
+- 平均合併時間：2.3 小時
+- 審查週轉時間：1.1 小時
 
-### Step 2: Query Database
+### 步驟 2：查詢資料庫
 SELECT COUNT(*) as sales, SUM(amount) as revenue
 FROM orders
 WHERE created_at > NOW() - INTERVAL '1 day'
 
-Output:
-- Sales: 247
-- Revenue: $12,450
+輸出：
+- 銷售量：247
+- 營收：$12,450
 
-### Step 3: Generate Report
-Combine data into HTML report
+### 步驟 3：產生報表
+將資料組合成 HTML 報表
 
-### Step 4: Save to Filesystem
-Write report.html to /reports/
+### 步驟 4：儲存到檔案系統
+將 report.html 寫入 /reports/
 
-### Step 5: Post to Slack
-Send summary to #daily-reports channel
+### 步驟 5：發佈到 Slack
+將摘要傳送到 #daily-reports 頻道
 
-Final Output:
-✅ Report generated and posted
-📊 47 PRs merged this week
-💰 $12,450 in daily sales
+最終輸出：
+✅ 報表已產生並發佈
+📊 本週合併了 47 個 PR
+💰 每日銷售額 $12,450
 ```
 
-#### Example 4: Filesystem MCP Operations
+#### 範例 4：Filesystem MCP 操作
 
-**Configuration:**
+**配置：**
 
 ```json
 {
@@ -1181,18 +1181,18 @@ Final Output:
 }
 ```
 
-**Available Operations:**
+**可用操作：**
 
-| Operation | Command | Purpose |
+| 操作 | 指令 | 用途 |
 |-----------|---------|---------|
-| List files | `ls ~/projects` | Show directory contents |
-| Read file | `cat src/main.ts` | Read file contents |
-| Write file | `create docs/api.md` | Create new file |
-| Edit file | `edit src/app.ts` | Modify file |
-| Search | `grep "async function"` | Search in files |
-| Delete | `rm old-file.js` | Delete file |
+| 列出檔案 | `ls ~/projects` | 顯示目錄內容 |
+| 讀取檔案 | `cat src/main.ts` | 讀取檔案內容 |
+| 寫入檔案 | `create docs/api.md` | 建立新檔案 |
+| 編輯檔案 | `edit src/app.ts` | 修改檔案 |
+| 搜尋 | `grep "async function"` | 搜尋檔案 |
+| 刪除 | `rm old-file.js` | 刪除檔案 |
 
-### MCP vs Memory: Decision Matrix
+### MCP vs 記憶體：決策矩陣
 
 ```mermaid
 graph TD
@@ -1209,7 +1209,7 @@ graph TD
     style D fill:#fff9c4
 ```
 
-### Request/Response Pattern
+### Request/Response 模式
 
 ```mermaid
 sequenceDiagram
@@ -1229,13 +1229,13 @@ sequenceDiagram
 
 ---
 
-## Agent Skills
+## Agent 技能
 
-### Overview
+### 概覽
 
-Agent Skills are reusable, model-invoked capabilities packaged as folders containing instructions, scripts, and resources. Claude automatically detects and uses relevant skills.
+Agent 技能是可重複使用的、由模型觸發的能力，打包為包含指令、腳本和資源的資料夾。Claude 會自動偵測並使用相關的技能。
 
-### Skill Architecture
+### 技能架構
 
 ```mermaid
 graph TB
@@ -1253,7 +1253,7 @@ graph TB
     F --> A
 ```
 
-### Skill Loading Process
+### 技能載入流程
 
 ```mermaid
 sequenceDiagram
@@ -1272,16 +1272,16 @@ sequenceDiagram
     Claude->>User: Generate Excel file
 ```
 
-### Skill Types & Locations Table
+### 技能類型與位置表
 
-| Type | Location | Scope | Shared | Sync | Best For |
+| 類型 | 位置 | 範圍 | 共享 | 同步 | 最適合 |
 |------|----------|-------|--------|------|----------|
-| Pre-built | Built-in | Global | All users | Auto | Document creation |
-| Personal | `~/.claude/skills/` | Individual | No | Manual | Personal automation |
-| Project | `.claude/skills/` | Team | Yes | Git | Team standards |
-| Plugin | Via plugin install | Varies | Depends | Auto | Integrated features |
+| 預建 | 內建 | 全域 | 所有使用者 | 自動 | 文件建立 |
+| 個人 | `~/.claude/skills/` | 個人 | 否 | 手動 | 個人自動化 |
+| 專案 | `.claude/skills/` | 團隊 | 是 | Git | 團隊標準 |
+| 外掛 | 透過外掛安裝 | 視情況 | 視情況 | 自動 | 整合功能 |
 
-### Pre-built Skills
+### 預建技能
 
 ```mermaid
 graph TB
@@ -1306,25 +1306,25 @@ graph TB
     E --> E2["Fill forms"]
 ```
 
-### Bundled Skills
+### 內建技能
 
-Claude Code now includes 5 bundled skills available out of the box:
+Claude Code 現在包含 5 個開箱即用的內建技能：
 
-| Skill | Command | Purpose |
+| 技能 | 指令 | 用途 |
 |-------|---------|---------|
-| **Simplify** | `/simplify` | Simplify complex code or explanations |
-| **Batch** | `/batch` | Run operations across multiple files or items |
-| **Debug** | `/debug` | Systematic debugging of issues with root cause analysis |
-| **Loop** | `/loop` | Schedule recurring tasks on a timer |
-| **Claude API** | `/claude-api` | Interact with the Anthropic API directly |
+| **Simplify** | `/simplify` | 簡化複雜的程式碼或說明 |
+| **Batch** | `/batch` | 跨多個檔案或項目執行操作 |
+| **Debug** | `/debug` | 系統性除錯問題，附根因分析 |
+| **Loop** | `/loop` | 在計時器上排程重複任務 |
+| **Claude API** | `/claude-api` | 直接與 Anthropic API 互動 |
 
-These bundled skills are always available and do not require installation or configuration.
+這些內建技能始終可用，不需要安裝或配置。
 
-### Practical Examples
+### 實際範例
 
-#### Example 1: Custom Code Review Skill
+#### 範例 1：自訂程式碼審查技能
 
-**Directory Structure:**
+**目錄結構：**
 
 ```
 ~/.claude/skills/code-review/
@@ -1337,7 +1337,7 @@ These bundled skills are always available and do not require installation or con
     └── compare-complexity.py
 ```
 
-**File:** `~/.claude/skills/code-review/SKILL.md`
+**檔案：** `~/.claude/skills/code-review/SKILL.md`
 
 ```yaml
 ---
@@ -1787,7 +1787,7 @@ When reviewing multiple findings, track:
 **Overall Code Quality:** 1-5 stars
 ~~~~
 
-## Usage Example
+## 使用範例
 
 ~~~~markdown
 User: Review this React component code
@@ -1833,9 +1833,9 @@ const users = fetchUsersWithPosts(); // 1 query
 - Props should have TypeScript types
 ~~~~
 
-#### Example 2: Brand Voice Skill
+#### 範例 2：品牌語調技能
 
-**Directory Structure:**
+**目錄結構：**
 
 ```
 .claude/skills/brand-voice/
@@ -1848,7 +1848,7 @@ const users = fetchUsersWithPosts(); // 1 query
     └── blog-post-template.md
 ```
 
-**File:** `.claude/skills/brand-voice/SKILL.md`
+**檔案：** `.claude/skills/brand-voice/SKILL.md`
 
 ```yaml
 ---
@@ -1917,17 +1917,17 @@ Help teams automate their development workflows with AI
 - "Utilize" (use "use")
 - "Paradigm shift" (unclear)
 ```
-## Examples
+## 範例
 
-### ✅ Good Example
+### ✅ 好的範例
 "Claude automates your code review process. Instead of manually checking each PR, Claude reviews security, performance, and quality—saving your team hours every week."
 
-Why it works: Clear value, specific benefits, action-oriented
+為什麼有效：清晰的價值、具體的好處、以行動為導向
 
-### ❌ Bad Example
+### ❌ 不好的範例
 "Claude leverages cutting-edge AI to provide comprehensive software development solutions."
 
-Why it doesn't work: Vague, corporate jargon, no specific value
+為什麼無效：模糊、企業術語、沒有具體價值
 
 ## Template: Email
 
@@ -1972,9 +1972,9 @@ Educational blog post:
 "Let's explore how agents improve code review workflows. Here's what we learned..."
 ```
 
-#### Example 3: Documentation Generator Skill
+#### 範例 3：文件產生器技能
 
-**File:** `.claude/skills/doc-generator/SKILL.md`
+**檔案：** `.claude/skills/doc-generator/SKILL.md`
 
 ~~~~yaml
 ---
@@ -2116,7 +2116,7 @@ if __name__ == '__main__':
     markdown = generate_markdown_docs(extractor.endpoints)
     print(markdown)
 ~~~~
-### Skill Discovery & Invocation
+### 技能發現與觸發
 
 ```mermaid
 graph TD
@@ -2132,7 +2132,7 @@ graph TD
     I --> J["Return Results"]
 ```
 
-### Skill vs Other Features
+### 技能 vs 其他功能
 
 ```mermaid
 graph TB
@@ -2158,13 +2158,13 @@ graph TB
 
 ---
 
-## Claude Code Plugins
+## Claude Code 外掛套件
 
-### Overview
+### 概覽
 
-Claude Code Plugins are bundled collections of customizations (slash commands, subagents, MCP servers, and hooks) that install with a single command. They represent the highest-level extension mechanism—combining multiple features into cohesive, shareable packages.
+Claude Code 外掛套件是斜線指令、子代理、MCP 伺服器和 hooks 的整合集合，可用單一指令安裝。它們代表最高級別的擴展機制 — 將多個功能組合成有凝聚力、可共享的套件。
 
-### Architecture
+### 架構
 
 ```mermaid
 graph TB
@@ -2182,7 +2182,7 @@ graph TB
     A -->|bundles| F
 ```
 
-### Plugin Loading Process
+### 外掛載入流程
 
 ```mermaid
 sequenceDiagram
@@ -2211,16 +2211,16 @@ sequenceDiagram
     Tools-->>Claude: Plugin installed ✅
 ```
 
-### Plugin Types & Distribution
+### 外掛類型與分發
 
-| Type | Scope | Shared | Authority | Examples |
+| 類型 | 範圍 | 共享 | 權限 | 範例 |
 |------|-------|--------|-----------|----------|
-| Official | Global | All users | Anthropic | PR Review, Security Guidance |
-| Community | Public | All users | Community | DevOps, Data Science |
-| Organization | Internal | Team members | Company | Internal standards, tools |
-| Personal | Individual | Single user | Developer | Custom workflows |
+| 官方 | 全域 | 所有使用者 | Anthropic | PR Review、Security Guidance |
+| 社群 | 公開 | 所有使用者 | 社群 | DevOps、Data Science |
+| 組織 | 內部 | 團隊成員 | 公司 | 內部標準、工具 |
+| 個人 | 個人 | 單一使用者 | 開發者 | 自訂工作流程 |
 
-### Plugin Definition Structure
+### 外掛定義結構
 
 ```yaml
 ---
@@ -2257,7 +2257,7 @@ config:
 ---
 ```
 
-### Plugin Structure
+### 外掛結構
 
 ```
 my-plugin/
@@ -2291,11 +2291,11 @@ my-plugin/
     └── plugin.test.js
 ```
 
-### Practical Examples
+### 實際範例
 
-#### Example 1: PR Review Plugin
+#### 範例 1：PR Review 外掛
 
-**File:** `.claude-plugin/plugin.json`
+**檔案：** `.claude-plugin/plugin.json`
 
 ```json
 {
@@ -2309,7 +2309,7 @@ my-plugin/
 }
 ```
 
-**File:** `commands/review-pr.md`
+**檔案：** `commands/review-pr.md`
 
 ```markdown
 ---
@@ -2328,7 +2328,7 @@ This command initiates a complete pull request review including:
 5. Performance impact assessment
 ```
 
-**File:** `agents/security-reviewer.md`
+**檔案：** `agents/security-reviewer.md`
 
 ```yaml
 ---
@@ -2346,22 +2346,22 @@ Specializes in finding security vulnerabilities:
 - Secure configuration
 ```
 
-**Installation:**
+**安裝：**
 
 ```bash
 /plugin install pr-review
 
-# Result:
-# ✅ 3 slash commands installed
-# ✅ 3 subagents configured
-# ✅ 2 MCP servers connected
-# ✅ 4 hooks registered
-# ✅ Ready to use!
+# 結果：
+# ✅ 已安裝 3 個斜線指令
+# ✅ 已配置 3 個子代理
+# ✅ 已連接 2 個 MCP 伺服器
+# ✅ 已註冊 4 個 hooks
+# ✅ 準備就緒！
 ```
 
-#### Example 2: DevOps Plugin
+#### 範例 2：DevOps 外掛
 
-**Components:**
+**元件：**
 
 ```
 devops-automation/
@@ -2388,9 +2388,9 @@ devops-automation/
     └── health-check.sh
 ```
 
-#### Example 3: Documentation Plugin
+#### 範例 3：文件外掛
 
-**Bundled Components:**
+**整合元件：**
 
 ```
 documentation/
@@ -2412,7 +2412,7 @@ documentation/
     └── adr-template.md
 ```
 
-### Plugin Marketplace
+### 外掛市集
 
 ```mermaid
 graph TB
@@ -2438,7 +2438,7 @@ graph TB
     D -->|Internal| D3["Compliance"]
 ```
 
-### Plugin Installation & Lifecycle
+### 外掛安裝與生命週期
 
 ```mermaid
 graph LR
@@ -2455,33 +2455,33 @@ graph LR
     J -->|Back| G
 ```
 
-### Plugin Features Comparison
+### 外掛功能比較
 
-| Feature | Slash Command | Skill | Subagent | Plugin |
+| 功能 | 斜線指令 | 技能 | 子代理 | 外掛 |
 |---------|---------------|-------|----------|--------|
-| **Installation** | Manual copy | Manual copy | Manual config | One command |
-| **Setup Time** | 5 minutes | 10 minutes | 15 minutes | 2 minutes |
-| **Bundling** | Single file | Single file | Single file | Multiple |
-| **Versioning** | Manual | Manual | Manual | Automatic |
-| **Team Sharing** | Copy file | Copy file | Copy file | Install ID |
-| **Updates** | Manual | Manual | Manual | Auto-available |
-| **Dependencies** | None | None | None | May include |
-| **Marketplace** | No | No | No | Yes |
-| **Distribution** | Repository | Repository | Repository | Marketplace |
+| **安裝** | 手動複製 | 手動複製 | 手動配置 | 一個指令 |
+| **設定時間** | 5 分鐘 | 10 分鐘 | 15 分鐘 | 2 分鐘 |
+| **打包** | 單一檔案 | 單一檔案 | 單一檔案 | 多個 |
+| **版本控制** | 手動 | 手動 | 手動 | 自動 |
+| **團隊共享** | 複製檔案 | 複製檔案 | 複製檔案 | 安裝 ID |
+| **更新** | 手動 | 手動 | 手動 | 自動提供 |
+| **依賴項** | 無 | 無 | 無 | 可能包含 |
+| **市集** | 否 | 否 | 否 | 是 |
+| **分發** | 倉庫 | 倉庫 | 倉庫 | 市集 |
 
-### Plugin Use Cases
+### 外掛使用案例
 
-| Use Case | Recommendation | Why |
+| 使用案例 | 建議 | 原因 |
 |----------|-----------------|-----|
-| **Team Onboarding** | ✅ Use Plugin | Instant setup, all configurations |
-| **Framework Setup** | ✅ Use Plugin | Bundles framework-specific commands |
-| **Enterprise Standards** | ✅ Use Plugin | Central distribution, version control |
-| **Quick Task Automation** | ❌ Use Command | Overkill complexity |
-| **Single Domain Expertise** | ❌ Use Skill | Too heavy, use skill instead |
-| **Specialized Analysis** | ❌ Use Subagent | Create manually or use skill |
-| **Live Data Access** | ❌ Use MCP | Standalone, don't bundle |
+| **團隊入職** | ✅ 使用外掛 | 即時設定，所有配置 |
+| **框架設定** | ✅ 使用外掛 | 打包框架專屬指令 |
+| **企業標準** | ✅ 使用外掛 | 集中分發，版本控制 |
+| **快速任務自動化** | ❌ 使用指令 | 過度複雜 |
+| **單一領域專業** | ❌ 使用技能 | 太重，改用技能 |
+| **專門化分析** | ❌ 使用子代理 | 手動建立或使用技能 |
+| **即時資料存取** | ❌ 使用 MCP | 獨立的，不需打包 |
 
-### When to Create a Plugin
+### 何時建立外掛
 
 ```mermaid
 graph TD
@@ -2497,20 +2497,20 @@ graph TD
     G -->|No| D
 ```
 
-### Publishing a Plugin
+### 發布外掛
 
-**Steps to publish:**
+**發布步驟：**
 
-1. Create plugin structure with all components
-2. Write `.claude-plugin/plugin.json` manifest
-3. Create `README.md` with documentation
-4. Test locally with `/plugin install ./my-plugin`
-5. Submit to plugin marketplace
-6. Get reviewed and approved
-7. Published on marketplace
-8. Users can install with one command
+1. 建立包含所有元件的外掛結構
+2. 撰寫 `.claude-plugin/plugin.json` manifest
+3. 建立附文件的 `README.md`
+4. 在本機使用 `/plugin install ./my-plugin` 測試
+5. 提交到外掛市集
+6. 獲得審查和核准
+7. 在市集上發布
+8. 使用者可以用一個指令安裝
 
-**Example submission:**
+**提交範例：**
 
 ~~~~markdown
 # PR Review Plugin
@@ -2549,39 +2549,39 @@ Complete PR review workflow with security, testing, and documentation checks.
 - CodeQL (optional)
 ~~~~
 
-### Plugin vs Manual Configuration
+### 外掛 vs 手動配置
 
-**Manual Setup (2+ hours):**
-- Install slash commands one by one
-- Create subagents individually
-- Configure MCPs separately
-- Set up hooks manually
-- Document everything
-- Share with team (hope they configure correctly)
+**手動設定（2+ 小時）：**
+- 逐一安裝斜線指令
+- 個別建立子代理
+- 分別配置 MCP
+- 手動設定 hooks
+- 記錄所有內容
+- 與團隊共享（希望他們能正確配置）
 
-**With Plugin (2 minutes):**
+**使用外掛（2 分鐘）：**
 ```bash
 /plugin install pr-review
-# ✅ Everything installed and configured
-# ✅ Ready to use immediately
-# ✅ Team can reproduce exact setup
+# ✅ 一切已安裝並配置
+# ✅ 立即可用
+# ✅ 團隊可以複製完全相同的設定
 ```
 
 ---
 
-## Comparison & Integration
+## 比較與整合
 
-### Feature Comparison Matrix
+### 功能比較矩陣
 
-| Feature | Invocation | Persistence | Scope | Use Case |
+| 功能 | 觸發方式 | 持久性 | 範圍 | 使用案例 |
 |---------|-----------|------------|-------|----------|
-| **Slash Commands** | Manual (`/cmd`) | Session only | Single command | Quick shortcuts |
-| **Subagents** | Auto-delegated | Isolated context | Specialized task | Task distribution |
-| **Memory** | Auto-loaded | Cross-session | User/team context | Long-term learning |
-| **MCP Protocol** | Auto-queried | Real-time external | Live data access | Dynamic information |
-| **Skills** | Auto-invoked | Filesystem-based | Reusable expertise | Automated workflows |
+| **斜線指令** | 手動（`/cmd`） | 僅限工作階段 | 單一指令 | 快速捷徑 |
+| **子代理** | 自動委派 | 隔離上下文 | 專門化任務 | 任務分配 |
+| **記憶體** | 自動載入 | 跨工作階段 | 使用者/團隊上下文 | 長期學習 |
+| **MCP 協定** | 自動查詢 | 即時外部 | 即時資料存取 | 動態資訊 |
+| **技能** | 自動觸發 | 基於檔案系統 | 可重複使用的專業 | 自動化工作流程 |
 
-### Interaction Timeline
+### 互動時間線
 
 ```mermaid
 graph LR
@@ -2602,9 +2602,9 @@ graph LR
     J -->|Uses| B
 ```
 
-### Practical Integration Example: Customer Support Automation
+### 實際整合範例：客戶支援自動化
 
-#### Architecture
+#### 架構
 
 ```mermaid
 graph TB
@@ -2630,60 +2630,60 @@ graph TB
     Output -->|Send| Reply["Customer Reply"]
 ```
 
-#### Request Flow
+#### 請求流程
 
 ```markdown
-## Customer Support Request Flow
+## 客戶支援請求流程
 
-### 1. Incoming Email
+### 1. 傳入的電子郵件
 "I'm getting error 500 when trying to upload files. This is blocking my workflow!"
 
-### 2. Memory Lookup
-- Loads CLAUDE.md with support standards
-- Checks customer history: VIP customer, 3rd incident this month
+### 2. 記憶體查詢
+- 載入包含支援標準的 CLAUDE.md
+- 查看客戶歷史：VIP 客戶，本月第 3 次事件
 
-### 3. MCP Queries
-- GitHub MCP: List open issues (finds related bug report)
-- Database MCP: Check system status (no outages reported)
-- Slack MCP: Check if engineering is aware
+### 3. MCP 查詢
+- GitHub MCP：列出開放的 issue（找到相關的錯誤報告）
+- Database MCP：檢查系統狀態（沒有報告中斷）
+- Slack MCP：檢查工程部門是否已知
 
-### 4. Skill Detection & Loading
-- Request matches "Technical Support" skill
-- Loads support response template from Skill
+### 4. 技能偵測與載入
+- 請求匹配「Technical Support」技能
+- 從技能載入支援回應模板
 
-### 5. Subagent Delegation
-- Routes to Tech Support Subagent
-- Provides context: customer history, error details, known issues
-- Subagent has full access to: read, bash, grep tools
+### 5. 子代理委派
+- 路由到 Tech Support 子代理
+- 提供上下文：客戶歷史、錯誤詳情、已知問題
+- 子代理有完整存取權限：read、bash、grep 工具
 
-### 6. Subagent Processing
-Tech Support Subagent:
-- Searches codebase for 500 error in file upload
-- Finds recent change in commit 8f4a2c
-- Creates workaround documentation
+### 6. 子代理處理
+Tech Support 子代理：
+- 在程式碼庫中搜尋檔案上傳中的 500 錯誤
+- 在 commit 8f4a2c 中找到最近的變更
+- 建立解決方法文件
 
-### 7. Skill Execution
-Response Generator Skill:
-- Uses Brand Voice guidelines
-- Formats response with empathy
-- Includes workaround steps
-- Links to related documentation
+### 7. 技能執行
+Response Generator 技能：
+- 使用品牌語調指南
+- 以同理心格式化回應
+- 包含解決方法步驟
+- 連結相關文件
 
-### 8. MCP Output
-- Posts update to #support Slack channel
-- Tags engineering team
-- Updates ticket in Jira MCP
+### 8. MCP 輸出
+- 發佈更新到 #support Slack 頻道
+- 標記工程團隊
+- 在 Jira MCP 中更新工單
 
-### 9. Response
-Customer receives:
-- Empathetic acknowledgment
-- Explanation of cause
-- Immediate workaround
-- Timeline for permanent fix
-- Link to related issues
+### 9. 回應
+客戶收到：
+- 同理心的確認
+- 原因說明
+- 即時解決方法
+- 永久修復的時間表
+- 相關問題的連結
 ```
 
-### Complete Feature Orchestration
+### 完整的功能協調
 
 ```mermaid
 sequenceDiagram
@@ -2710,7 +2710,7 @@ sequenceDiagram
     Claude->>User: Complete system delivered
 ```
 
-### When to Use Each Feature
+### 何時使用每個功能
 
 ```mermaid
 graph TD
@@ -2729,7 +2729,7 @@ graph TD
     G --> G1["✅ Auto-invoked expertise"]
 ```
 
-### Selection Decision Tree
+### 選擇決策樹
 
 ```mermaid
 graph TD
@@ -2754,94 +2754,94 @@ graph TD
 
 ---
 
-## Summary Table
+## 摘要表
 
-| Aspect | Slash Commands | Subagents | Memory | MCP | Skills | Plugins |
+| 面向 | 斜線指令 | 子代理 | 記憶體 | MCP | 技能 | 外掛 |
 |--------|---|---|---|---|---|---|
-| **Setup Difficulty** | Easy | Medium | Easy | Medium | Medium | Easy |
-| **Learning Curve** | Low | Medium | Low | Medium | Medium | Low |
-| **Team Benefit** | High | High | Medium | High | High | Very High |
-| **Automation Level** | Low | High | Medium | High | High | Very High |
-| **Context Management** | Single-session | Isolated | Persistent | Real-time | Persistent | All features |
-| **Maintenance Burden** | Low | Medium | Low | Medium | Medium | Low |
-| **Scalability** | Good | Excellent | Good | Excellent | Excellent | Excellent |
-| **Shareability** | Fair | Fair | Good | Good | Good | Excellent |
-| **Versioning** | Manual | Manual | Manual | Manual | Manual | Automatic |
-| **Installation** | Manual copy | Manual config | N/A | Manual config | Manual copy | One command |
+| **設定難度** | 簡單 | 中等 | 簡單 | 中等 | 中等 | 簡單 |
+| **學習曲線** | 低 | 中 | 低 | 中 | 中 | 低 |
+| **團隊效益** | 高 | 高 | 中 | 高 | 高 | 非常高 |
+| **自動化程度** | 低 | 高 | 中 | 高 | 高 | 非常高 |
+| **上下文管理** | 單一工作階段 | 隔離 | 持久 | 即時 | 持久 | 所有功能 |
+| **維護負擔** | 低 | 中 | 低 | 中 | 中 | 低 |
+| **可擴展性** | 良好 | 優秀 | 良好 | 優秀 | 優秀 | 優秀 |
+| **可共享性** | 尚可 | 尚可 | 良好 | 良好 | 良好 | 優秀 |
+| **版本控制** | 手動 | 手動 | 手動 | 手動 | 手動 | 自動 |
+| **安裝** | 手動複製 | 手動配置 | 不適用 | 手動配置 | 手動複製 | 一個指令 |
 
 ---
 
-## Quick Start Guide
+## 快速入門指南
 
-### Week 1: Start Simple
-- Create 2-3 slash commands for common tasks
-- Enable Memory in Settings
-- Document team standards in CLAUDE.md
+### 第 1 週：從簡單開始
+- 為常見任務建立 2-3 個斜線指令
+- 在設定中啟用記憶體
+- 在 CLAUDE.md 中記錄團隊標準
 
-### Week 2: Add Real-time Access
-- Set up 1 MCP (GitHub or Database)
-- Use `/mcp` to configure
-- Query live data in your workflows
+### 第 2 週：新增即時存取
+- 設定 1 個 MCP（GitHub 或 Database）
+- 使用 `/mcp` 進行配置
+- 在工作流程中查詢即時資料
 
-### Week 3: Distribute Work
-- Create first Subagent for specific role
-- Use `/agents` command
-- Test delegation with simple task
+### 第 3 週：分配工作
+- 為特定角色建立第一個子代理
+- 使用 `/agents` 指令
+- 用簡單任務測試委派
 
-### Week 4: Automate Everything
-- Create first Skill for repeated automation
-- Use Skill marketplace or build custom
-- Combine all features for full workflow
+### 第 4 週：全面自動化
+- 為重複自動化建立第一個技能
+- 使用技能市集或建構自訂技能
+- 結合所有功能以建立完整的工作流程
 
-### Ongoing
-- Review and update Memory monthly
-- Add new Skills as patterns emerge
-- Optimize MCP queries
-- Refine Subagent prompts
+### 持續進行
+- 每月審查和更新記憶體
+- 在模式出現時新增新技能
+- 最佳化 MCP 查詢
+- 精煉子代理提示
 
 ---
 
 ## Hooks
 
-### Overview
+### 概覽
 
-Hooks are event-driven shell commands that execute automatically in response to Claude Code events. They enable automation, validation, and custom workflows without manual intervention.
+Hooks 是回應 Claude Code 事件時自動執行的事件驅動 shell 指令。它們實現自動化、驗證和自訂工作流程，無需手動介入。
 
-### Hook Events
+### Hook 事件
 
-Claude Code supports **25 hook events** across four hook types (command, http, prompt, agent):
+Claude Code 支援 **25 個 hook 事件**，分為四種 hook 類型（command、http、prompt、agent）：
 
-| Hook Event | Trigger | Use Cases |
+| Hook 事件 | 觸發條件 | 使用案例 |
 |------------|---------|-----------|
-| **SessionStart** | Session begins/resumes/clear/compact | Environment setup, initialization |
-| **InstructionsLoaded** | CLAUDE.md or rules file loaded | Validation, transformation, augmentation |
-| **UserPromptSubmit** | User submits prompt | Input validation, prompt filtering |
-| **PreToolUse** | Before any tool runs | Validation, approval gates, logging |
-| **PermissionRequest** | Permission dialog shown | Auto-approve/deny flows |
-| **PostToolUse** | After tool succeeds | Auto-formatting, notifications, cleanup |
-| **PostToolUseFailure** | Tool execution fails | Error handling, logging |
-| **Notification** | Notification sent | Alerting, external integrations |
-| **SubagentStart** | Subagent spawned | Context injection, initialization |
-| **SubagentStop** | Subagent finishes | Result validation, logging |
-| **Stop** | Claude finishes responding | Summary generation, cleanup tasks |
-| **StopFailure** | API error ends turn | Error recovery, logging |
-| **TeammateIdle** | Agent team teammate idle | Work distribution, coordination |
-| **TaskCompleted** | Task marked complete | Post-task processing |
-| **TaskCreated** | Task created via TaskCreate | Task tracking, logging |
-| **ConfigChange** | Config file changes | Validation, propagation |
-| **CwdChanged** | Working directory changes | Directory-specific setup |
-| **FileChanged** | Watched file changes | File monitoring, rebuild triggers |
-| **PreCompact** | Before context compaction | State preservation |
-| **PostCompact** | After compaction completes | Post-compact actions |
-| **WorktreeCreate** | Worktree being created | Environment setup, dependency install |
-| **WorktreeRemove** | Worktree being removed | Cleanup, resource deallocation |
-| **Elicitation** | MCP server requests user input | Input validation |
-| **ElicitationResult** | User responds to elicitation | Response processing |
-| **SessionEnd** | Session terminates | Cleanup, final logging |
+| **SessionStart** | 工作階段開始/恢復/清除/壓縮 | 環境設定、初始化 |
+| **InstructionsLoaded** | CLAUDE.md 或規則檔案載入 | 驗證、轉換、擴充 |
+| **UserPromptSubmit** | 使用者提交提示 | 輸入驗證、提示過濾 |
+| **PreToolUse** | 任何工具執行前 | 驗證、核准關卡、記錄 |
+| **PermissionRequest** | 權限對話框顯示 | 自動核准/拒絕流程 |
+| **PostToolUse** | 工具成功後 | 自動格式化、通知、清理 |
+| **PostToolUseFailure** | 工具執行失敗 | 錯誤處理、記錄 |
+| **Notification** | 傳送通知 | 警報、外部整合 |
+| **SubagentStart** | 子代理啟動 | 上下文注入、初始化 |
+| **SubagentStop** | 子代理完成 | 結果驗證、記錄 |
+| **Stop** | Claude 完成回應 | 摘要產生、清理任務 |
+| **StopFailure** | API 錯誤結束回合 | 錯誤恢復、記錄 |
+| **TeammateIdle** | Agent Team 隊友閒置 | 工作分配、協調 |
+| **TaskCompleted** | 任務標記為完成 | 任務後處理 |
+| **TaskCreated** | 透過 TaskCreate 建立任務 | 任務追蹤、記錄 |
+| **ConfigChange** | 配置檔案變更 | 驗證、傳播 |
+| **CwdChanged** | 工作目錄變更 | 目錄專屬設定 |
+| **FileChanged** | 監控的檔案變更 | 檔案監控、重建觸發 |
+| **PreCompact** | 上下文壓縮前 | 狀態保存 |
+| **PostCompact** | 壓縮完成後 | 壓縮後操作 |
+| **WorktreeCreate** | 正在建立 Worktree | 環境設定、依賴安裝 |
+| **WorktreeRemove** | 正在移除 Worktree | 清理、資源釋放 |
+| **Elicitation** | MCP 伺服器請求使用者輸入 | 輸入驗證 |
+| **ElicitationResult** | 使用者回應徵詢 | 回應處理 |
+| **SessionEnd** | 工作階段終止 | 清理、最終記錄 |
 
-### Common Hooks
+### 常見 Hooks
 
-Hooks are configured in `~/.claude/settings.json` (user-level) or `.claude/settings.json` (project-level):
+Hooks 配置在 `~/.claude/settings.json`（使用者級別）或 `.claude/settings.json`（專案級別）中：
 
 ```json
 {
@@ -2872,73 +2872,73 @@ Hooks are configured in `~/.claude/settings.json` (user-level) or `.claude/setti
 }
 ```
 
-### Hook Environment Variables
+### Hook 環境變數
 
-- `$CLAUDE_FILE_PATH` - Path to file being edited/written
-- `$CLAUDE_TOOL_NAME` - Name of tool being used
-- `$CLAUDE_SESSION_ID` - Current session identifier
-- `$CLAUDE_PROJECT_DIR` - Project directory path
+- `$CLAUDE_FILE_PATH` - 正在編輯/寫入的檔案路徑
+- `$CLAUDE_TOOL_NAME` - 正在使用的工具名稱
+- `$CLAUDE_SESSION_ID` - 當前工作階段識別碼
+- `$CLAUDE_PROJECT_DIR` - 專案目錄路徑
 
-### Best Practices
+### 最佳實務
 
-✅ **Do:**
-- Keep hooks fast (< 1 second)
-- Use hooks for validation and automation
-- Handle errors gracefully
-- Use absolute paths
+✅ **應做：**
+- 保持 hooks 快速（< 1 秒）
+- 使用 hooks 進行驗證和自動化
+- 優雅地處理錯誤
+- 使用絕對路徑
 
-❌ **Don't:**
-- Make hooks interactive
-- Use hooks for long-running tasks
-- Hardcode credentials
+❌ **不應做：**
+- 不要讓 hooks 具有互動性
+- 不要將 hooks 用於長時間運行的任務
+- 不要硬編碼憑證
 
-**See**: [06-hooks/](06-hooks/) for detailed examples
+**參見**：[06-hooks/](06-hooks/) 以獲取詳細範例
 
 ---
 
-## Checkpoints and Rewind
+## 檢查點與倒轉
 
-### Overview
+### 概覽
 
-Checkpoints allow you to save conversation state and rewind to previous points, enabling safe experimentation and exploration of multiple approaches.
+檢查點允許您儲存對話狀態並倒轉到先前的時間點，實現安全的實驗和探索多種方法。
 
-### Key Concepts
+### 關鍵概念
 
-| Concept | Description |
+| 概念 | 說明 |
 |---------|-------------|
-| **Checkpoint** | Snapshot of conversation state including messages, files, and context |
-| **Rewind** | Return to a previous checkpoint, discarding subsequent changes |
-| **Branch Point** | Checkpoint from which multiple approaches are explored |
+| **檢查點** | 對話狀態的快照，包括訊息、檔案和上下文 |
+| **倒轉** | 返回到先前的檢查點，捨棄後續的變更 |
+| **分支點** | 從中探索多種方法的檢查點 |
 
-### Accessing Checkpoints
+### 存取檢查點
 
-Checkpoints are created automatically with every user prompt. To rewind:
+檢查點會在每次使用者提示時自動建立。要倒轉：
 
 ```bash
-# Press Esc twice to open the checkpoint browser
+# 按兩次 Esc 開啟檢查點瀏覽器
 Esc + Esc
 
-# Or use the /rewind command
+# 或使用 /rewind 指令
 /rewind
 ```
 
-When you select a checkpoint, you choose from five options:
-1. **Restore code and conversation** -- Revert both to that point
-2. **Restore conversation** -- Rewind messages, keep current code
-3. **Restore code** -- Revert files, keep conversation
-4. **Summarize from here** -- Compress conversation into a summary
-5. **Never mind** -- Cancel
+當您選擇一個檢查點時，您可以從五個選項中選擇：
+1. **還原程式碼和對話** -- 將兩者都倒轉到該時間點
+2. **還原對話** -- 倒轉訊息，保留當前程式碼
+3. **還原程式碼** -- 倒轉檔案，保留對話
+4. **從此處摘要** -- 將對話壓縮為摘要
+5. **取消** -- 取消
 
-### Use Cases
+### 使用案例
 
-| Scenario | Workflow |
+| 情境 | 工作流程 |
 |----------|----------|
-| **Exploring Approaches** | Save → Try A → Save → Rewind → Try B → Compare |
-| **Safe Refactoring** | Save → Refactor → Test → If fail: Rewind |
-| **A/B Testing** | Save → Design A → Save → Rewind → Design B → Compare |
-| **Mistake Recovery** | Notice issue → Rewind to last good state |
+| **探索方法** | 儲存 → 嘗試 A → 儲存 → 倒轉 → 嘗試 B → 比較 |
+| **安全重構** | 儲存 → 重構 → 測試 → 如果失敗：倒轉 |
+| **A/B 測試** | 儲存 → 設計 A → 儲存 → 倒轉 → 設計 B → 比較 |
+| **錯誤恢復** | 發現問題 → 倒轉到上一個正常狀態 |
 
-### Configuration
+### 配置
 
 ```json
 {
@@ -2946,143 +2946,143 @@ When you select a checkpoint, you choose from five options:
 }
 ```
 
-**See**: [08-checkpoints/](08-checkpoints/) for detailed examples
+**參見**：[08-checkpoints/](08-checkpoints/) 以獲取詳細範例
 
 ---
 
-## Advanced Features
+## 進階功能
 
-### Planning Mode
+### 規劃模式
 
-Create detailed implementation plans before coding.
+在編碼之前建立詳細的實作計畫。
 
-**Activation:**
+**啟動方式：**
 ```bash
 /plan Implement user authentication system
 ```
 
-**Benefits:**
-- Clear roadmap with time estimates
-- Risk assessment
-- Systematic task breakdown
-- Opportunity for review and modification
+**優點：**
+- 附時間估算的清晰路線圖
+- 風險評估
+- 系統性任務分解
+- 審查和修改的機會
 
-### Extended Thinking
+### 延伸思考
 
-Deep reasoning for complex problems.
+針對複雜問題的深度推理。
 
-**Activation:**
-- Toggle with `Alt+T` (or `Option+T` on macOS) during a session
-- Set `MAX_THINKING_TOKENS` environment variable for programmatic control
+**啟動方式：**
+- 在工作階段中使用 `Alt+T`（或 macOS 上的 `Option+T`）切換
+- 設定 `MAX_THINKING_TOKENS` 環境變數以進行程式化控制
 
 ```bash
-# Enable extended thinking via environment variable
+# 透過環境變數啟用延伸思考
 export MAX_THINKING_TOKENS=50000
 claude -p "Should we use microservices or monolith?"
 ```
 
-**Benefits:**
-- Thorough analysis of trade-offs
-- Better architectural decisions
-- Consideration of edge cases
-- Systematic evaluation
+**優點：**
+- 全面的權衡分析
+- 更好的架構決策
+- 邊界情況的考慮
+- 系統性評估
 
-### Background Tasks
+### 背景任務
 
-Run long operations without blocking the conversation.
+在不阻塞對話的情況下執行長時間操作。
 
-**Usage:**
+**使用方式：**
 ```bash
 User: Run tests in background
 
 Claude: Started task bg-1234
 
-/task list           # Show all tasks
-/task status bg-1234 # Check progress
-/task show bg-1234   # View output
-/task cancel bg-1234 # Cancel task
+/task list           # 顯示所有任務
+/task status bg-1234 # 檢查進度
+/task show bg-1234   # 查看輸出
+/task cancel bg-1234 # 取消任務
 ```
 
-### Permission Modes
+### 權限模式
 
-Control what Claude can do.
+控制 Claude 可以做什麼。
 
-| Mode | Description | Use Case |
+| 模式 | 說明 | 使用案例 |
 |------|-------------|----------|
-| **default** | Standard permissions with prompts for sensitive actions | General development |
-| **acceptEdits** | Automatically accept file edits without confirmation | Trusted editing workflows |
-| **plan** | Analysis and planning only, no file modifications | Code review, architecture planning |
-| **auto** | Automatically approve safe actions, prompt only for risky ones | Balanced autonomy with safety |
-| **dontAsk** | Execute all actions without confirmation prompts | Experienced users, automation |
-| **bypassPermissions** | Full unrestricted access, no safety checks | CI/CD pipelines, trusted scripts |
+| **default** | 帶敏感操作提示的標準權限 | 一般開發 |
+| **acceptEdits** | 不需確認自動接受檔案編輯 | 受信任的編輯工作流程 |
+| **plan** | 僅分析和規劃，不修改檔案 | 程式碼審查、架構規劃 |
+| **auto** | 自動核准安全操作，僅對風險操作提示 | 平衡的自主性與安全性 |
+| **dontAsk** | 不需確認提示即執行所有操作 | 有經驗的使用者、自動化 |
+| **bypassPermissions** | 完全不受限制的存取，無安全檢查 | CI/CD 管道、受信任的腳本 |
 
-**Usage:**
+**使用方式：**
 ```bash
-claude --permission-mode plan          # Read-only analysis
-claude --permission-mode acceptEdits   # Auto-accept edits
-claude --permission-mode auto          # Auto-approve safe actions
-claude --permission-mode dontAsk       # No confirmation prompts
+claude --permission-mode plan          # 唯讀分析
+claude --permission-mode acceptEdits   # 自動接受編輯
+claude --permission-mode auto          # 自動核准安全操作
+claude --permission-mode dontAsk       # 無確認提示
 ```
 
-### Headless Mode (Print Mode)
+### Headless 模式（列印模式）
 
-Run Claude Code without interactive input for automation and CI/CD using the `-p` (print) flag.
+使用 `-p`（列印）旗標在沒有互動輸入的情況下執行 Claude Code，用於自動化和 CI/CD。
 
-**Usage:**
+**使用方式：**
 ```bash
-# Run specific task
+# 執行特定任務
 claude -p "Run all tests"
 
-# Pipe input for analysis
+# 管道輸入進行分析
 cat error.log | claude -p "explain this error"
 
-# CI/CD integration (GitHub Actions)
+# CI/CD 整合（GitHub Actions）
 - name: AI Code Review
   run: claude -p "Review PR changes and report issues"
 
-# JSON output for scripting
+# 用於腳本編寫的 JSON 輸出
 claude -p --output-format json "list all functions in src/"
 ```
 
-### Scheduled Tasks
+### 排程任務
 
-Run tasks on a repeating schedule using the `/loop` command.
+使用 `/loop` 指令按重複排程執行任務。
 
-**Usage:**
+**使用方式：**
 ```bash
 /loop every 30m "Run tests and report failures"
 /loop every 2h "Check for dependency updates"
 /loop every 1d "Generate daily summary of code changes"
 ```
 
-Scheduled tasks run in the background and report results when complete. They are useful for continuous monitoring, periodic checks, and automated maintenance workflows.
+排程任務在背景執行，完成後報告結果。它們適用於持續監控、定期檢查和自動化維護工作流程。
 
-### Chrome Integration
+### Chrome 整合
 
-Claude Code can integrate with the Chrome browser for web automation tasks. This enables capabilities like navigating web pages, filling forms, taking screenshots, and extracting data from websites directly within your development workflow.
+Claude Code 可以與 Chrome 瀏覽器整合，進行 Web 自動化任務。這使得在開發工作流程中可以直接瀏覽網頁、填寫表單、截取螢幕截圖和從網站擷取資料等功能。
 
-### Session Management
+### 工作階段管理
 
-Manage multiple work sessions.
+管理多個工作階段。
 
-**Commands:**
+**指令：**
 ```bash
-/resume                # Resume a previous conversation
-/rename "Feature"      # Name the current session
-/fork                  # Fork into a new session
-claude -c              # Continue most recent conversation
-claude -r "Feature"    # Resume session by name/ID
+/resume                # 恢復先前的對話
+/rename "Feature"      # 命名當前工作階段
+/fork                  # 分叉為新的工作階段
+claude -c              # 繼續最近的對話
+claude -r "Feature"    # 按名稱/ID 恢復工作階段
 ```
 
-### Interactive Features
+### 互動功能
 
-**Keyboard Shortcuts:**
-- `Ctrl + R` - Search command history
-- `Tab` - Autocomplete
-- `↑ / ↓` - Command history
-- `Ctrl + L` - Clear screen
+**鍵盤快捷鍵：**
+- `Ctrl + R` - 搜尋指令歷史
+- `Tab` - 自動完成
+- `↑ / ↓` - 指令歷史
+- `Ctrl + L` - 清除螢幕
 
-**Multi-line Input:**
+**多行輸入：**
 ```bash
 User: \
 > Long complex prompt
@@ -3090,9 +3090,9 @@ User: \
 > \end
 ```
 
-### Configuration
+### 配置
 
-Complete configuration example:
+完整配置範例：
 
 ```json
 {
@@ -3114,19 +3114,19 @@ Complete configuration example:
 }
 ```
 
-**See**: [09-advanced-features/](09-advanced-features/) for comprehensive guide
+**參見**：[09-advanced-features/](09-advanced-features/) 以獲取完整指南
 
 ---
 
-## Resources
+## 資源
 
-- [Claude Code Documentation](https://code.claude.com/docs/en/overview)
-- [Anthropic Documentation](https://docs.anthropic.com)
-- [MCP GitHub Servers](https://github.com/modelcontextprotocol/servers)
+- [Claude Code 文件](https://code.claude.com/docs/en/overview)
+- [Anthropic 文件](https://docs.anthropic.com)
+- [MCP GitHub 伺服器](https://github.com/modelcontextprotocol/servers)
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
 
-*Last updated: March 2026*
-*For Claude Haiku 4.5, Sonnet 4.6, and Opus 4.6*
-*Now includes: Hooks, Checkpoints, Planning Mode, Extended Thinking, Background Tasks, Permission Modes (6 modes), Headless Mode, Session Management, Auto Memory, Agent Teams, Scheduled Tasks, Chrome Integration, Channels, Voice Dictation, and Bundled Skills*
+*最後更新：2026 年 3 月*
+*適用於 Claude Haiku 4.5、Sonnet 4.6 和 Opus 4.6*
+*現在包含：Hooks、檢查點、規劃模式、延伸思考、背景任務、權限模式（6 種模式）、Headless 模式、工作階段管理、自動記憶、Agent Teams、排程任務、Chrome 整合、頻道、語音輸入和內建技能*

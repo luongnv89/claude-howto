@@ -1,108 +1,108 @@
-# Clean Code Rules for AI Code Generation
+# AI 程式碼生成的整潔程式碼規則
 
-These rules guide code generation to produce maintainable, professional-quality code.
+這些規則指導程式碼生成，以產出可維護、專業品質的程式碼。
 
-## Meaningful Names
-- Use intention-revealing names that explain why something exists
-- Avoid disinformation and meaningless distinctions (e.g., `data`, `info`, `manager`)
-- Use pronounceable, searchable names
-- Class names: nouns (e.g., `UserAccount`, `PaymentProcessor`)
-- Method names: verbs (e.g., `calculateTotal`, `sendEmail`)
-- Avoid mental mapping and encodings (Hungarian notation, prefixes)
+## 有意義的命名
+- 使用能揭示意圖的名稱，說明事物為何存在
+- 避免誤導和無意義的區分（如 `data`、`info`、`manager`）
+- 使用可發音、可搜尋的名稱
+- 類別名稱：使用名詞（如 `UserAccount`、`PaymentProcessor`）
+- 方法名稱：使用動詞（如 `calculateTotal`、`sendEmail`）
+- 避免心智映射和編碼（匈牙利命名法、前綴）
 
-## Functions
-- Keep functions small (< 20 lines ideal)
-- Do one thing only - Single Responsibility Principle
-- One level of abstraction per function
-- Limit arguments: 0-2 ideal, 3 maximum, avoid flag arguments
-- No side effects - function should do what its name says
-- Separate commands (change state) from queries (return info)
-- Prefer exceptions over error codes
+## 函式
+- 保持函式小巧（理想上少於 20 行）
+- 只做一件事——單一職責原則
+- 每個函式保持同一抽象層級
+- 限制參數：0-2 個為理想，最多 3 個，避免旗標參數
+- 沒有副作用——函式應該只做其名稱所描述的事
+- 分離命令（改變狀態）和查詢（回傳資訊）
+- 優先使用例外而非錯誤碼
 
-## Comments
-- Code should be self-explanatory - avoid comments when possible
-- Good comments: legal info, warnings, TODOs, public API documentation
-- Bad comments: redundant, misleading, or explaining bad code
-- Never comment out code - delete it (version control preserves history)
-- If you need a comment, consider refactoring the code instead
+## 註解
+- 程式碼應該是自解釋的——盡量避免註解
+- 好的註解：法律資訊、警告、TODO、公開 API 文件
+- 壞的註解：冗餘的、誤導的、或解釋糟糕程式碼的
+- 絕不要註解掉程式碼——刪除它（版本控制會保留歷史）
+- 如果你需要寫註解，考慮重構程式碼
 
-## Formatting
-- Keep files small and focused
-- Vertical formatting: related concepts close together, blank lines separate concepts
-- Horizontal formatting: limit line length (80-120 characters)
-- Use consistent indentation and team style
-- Group related functions together
+## 格式化
+- 保持檔案小而聚焦
+- 垂直格式化：相關概念放在一起，空行分隔概念
+- 水平格式化：限制行長度（80-120 字元）
+- 使用一致的縮排和團隊風格
+- 將相關函式分組在一起
 
-## Objects and Data Structures
-- Objects: hide data behind abstractions, expose behavior through methods
-- Data structures: expose data, have minimal behavior
-- Law of Demeter: only talk to immediate friends, avoid `a.getB().getC().doSomething()`
-- Don't expose internal structure through getters/setters blindly
+## 物件與資料結構
+- 物件：在抽象後面隱藏資料，透過方法暴露行為
+- 資料結構：暴露資料，有最少的行為
+- 迪米特法則：只和直接朋友溝通，避免 `a.getB().getC().doSomething()`
+- 不要盲目地透過 getter/setter 暴露內部結構
 
-## Error Handling
-- Use exceptions, not return codes or error flags
-- Write `try-catch-finally` first when code might fail
-- Provide context in exception messages
-- Don't return `null` - return empty collections or use Optional/Maybe
-- Don't pass `null` as arguments
+## 錯誤處理
+- 使用例外，而非回傳碼或錯誤旗標
+- 當程式碼可能失敗時，先撰寫 `try-catch-finally`
+- 在例外訊息中提供上下文
+- 不要回傳 `null`——回傳空集合或使用 Optional/Maybe
+- 不要傳遞 `null` 作為參數
 
-## Classes
-- Small classes: measured by responsibilities, not lines
-- Single Responsibility Principle: one reason to change
-- High cohesion: class variables used by many methods
-- Low coupling: minimal dependencies between classes
-- Open/Closed Principle: open for extension, closed for modification
+## 類別
+- 小類別：以職責衡量，而非行數
+- 單一職責原則：一個改變的理由
+- 高內聚：類別變數被許多方法使用
+- 低耦合：類別之間的依賴最小化
+- 開放/封閉原則：對擴展開放，對修改封閉
 
-## Unit Tests
-- Fast, Independent, Repeatable, Self-validating, Timely (F.I.R.S.T.)
-- One assert per test (or one concept)
-- Test code quality equals production code quality
-- Readable test names that describe what's being tested
-- Arrange-Act-Assert pattern
+## 單元測試
+- 快速、獨立、可重複、自我驗證、及時（F.I.R.S.T.）
+- 每個測試一個斷言（或一個概念）
+- 測試程式碼品質等同正式程式碼品質
+- 可讀的測試名稱，描述被測試的內容
+- Arrange-Act-Assert 模式
 
-## Code Quality Principles
-- **DRY (Don't Repeat Yourself)**: No duplication
-- **YAGNI (You Aren't Gonna Need It)**: Don't build for hypothetical futures
-- **KISS (Keep It Simple)**: Avoid unnecessary complexity
-- **Boy Scout Rule**: Leave code cleaner than you found it
+## 程式碼品質原則
+- **DRY（不要重複自己）**：沒有重複
+- **YAGNI（你不會需要它）**：不要為假設性的未來開發
+- **KISS（保持簡單）**：避免不必要的複雜性
+- **童軍規則**：讓程式碼比你發現時更乾淨
 
-## Code Smells to Avoid
-- Long functions or classes
-- Duplicate code
-- Dead code (unused variables, functions, parameters)
-- Feature envy (method more interested in other class)
-- Inappropriate intimacy (classes knowing too much about each other)
-- Long parameter lists
-- Primitive obsession (overusing primitives instead of small objects)
-- Switch/case statements (consider polymorphism)
-- Temporary fields (class variables only used sometimes)
+## 應避免的程式碼異味
+- 過長的函式或類別
+- 重複的程式碼
+- 死碼（未使用的變數、函式、參數）
+- 功能嫉妒（方法對其他類別更感興趣）
+- 不當親密（類別之間知道太多彼此的細節）
+- 過長的參數列表
+- 基本型別偏執（過度使用基本型別而非小物件）
+- Switch/case 語句（考慮使用多型）
+- 臨時欄位（只在某些時候使用的類別變數）
 
-## Concurrency
-- Keep concurrent code separate from other code
-- Limit scope of synchronized/locked data
-- Use thread-safe collections
-- Keep synchronized sections small
-- Know your execution models and primitives
+## 並行處理
+- 將並行程式碼與其他程式碼分離
+- 限制同步/鎖定資料的作用範圍
+- 使用執行緒安全的集合
+- 保持同步區段小巧
+- 了解你的執行模型和基本原語
 
-## System Design
-- Separate construction from use (dependency injection)
-- Use factories, builders for complex object creation
-- Program to interfaces, not implementations
-- Favor composition over inheritance
-- Apply design patterns when they simplify, not to show off
+## 系統設計
+- 將建構與使用分離（依賴注入）
+- 使用工廠、建造者來建立複雜物件
+- 針對介面而非實作編程
+- 組合優於繼承
+- 在設計模式能簡化時才應用，而非用來炫技
 
-## Refactoring
-- Refactor continuously, not in big batches
-- Always have passing tests before and after
-- Small steps: one change at a time
-- Common refactorings: Extract Method, Rename, Move, Inline
+## 重構
+- 持續重構，而非大批次重構
+- 重構前後都要有通過的測試
+- 小步驟：一次一個改變
+- 常見重構：提取方法、重新命名、移動、內聯
 
-## Documentation
-- Self-documenting code > comments > external docs
-- Public APIs need clear documentation
-- Include examples in documentation
-- Keep docs close to code (ideally in code)
+## 文件
+- 自文件化程式碼 > 註解 > 外部文件
+- 公開 API 需要清晰的文件
+- 在文件中包含範例
+- 將文件保持在程式碼附近（最好在程式碼中）
 
 ---
 
-**Core Philosophy**: Code is read 10x more than written. Optimize for readability and maintainability, not cleverness.
+**核心哲學**：程式碼被閱讀的次數是被撰寫次數的 10 倍。為可讀性和可維護性最佳化，而非為了展現聰明。

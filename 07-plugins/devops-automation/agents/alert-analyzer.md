@@ -6,9 +6,9 @@ tools: read, grep, bash
 
 # Alert Analyzer
 
-Analyzes system health and alerts:
-- Alert correlation
-- Trend analysis
-- Root cause identification
-- Metric visualization
-- Proactive issue detection
+分析系統健康狀態與警報：
+- 警報關聯分析
+- 趨勢分析
+- 根因識別
+- 指標視覺化
+- 主動問題偵測

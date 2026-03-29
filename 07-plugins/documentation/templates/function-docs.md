@@ -1,38 +1,38 @@
-# Function: `functionName`
+# 函式：`functionName`
 
-## Description
-Brief description of what the function does.
+## 說明
+簡要說明此函式的功能。
 
-## Signature
+## 簽名
 ```typescript
 function functionName(param1: Type1, param2: Type2): ReturnType
 ```
 
-## Parameters
+## 參數
 
-| Parameter | Type | Required | Description |
+| 參數 | 類型 | 必填 | 說明 |
 |-----------|------|----------|-------------|
-| param1 | Type1 | Yes | Description of param1 |
-| param2 | Type2 | No | Description of param2 |
+| param1 | Type1 | 是 | param1 的說明 |
+| param2 | Type2 | 否 | param2 的說明 |
 
-## Returns
-**Type**: `ReturnType`
+## 回傳值
+**類型**：`ReturnType`
 
-Description of what is returned.
+回傳值的說明。
 
-## Throws
-- `Error`: When invalid input is provided
-- `TypeError`: When wrong type is passed
+## 拋出例外
+- `Error`：當提供無效輸入時
+- `TypeError`：當傳入錯誤類型時
 
-## Examples
+## 範例
 
-### Basic Usage
+### 基本用法
 ```typescript
 const result = functionName('value1', 'value2');
 console.log(result);
 ```
 
-### Advanced Usage
+### 進階用法
 ```typescript
 const result = functionName(
   complexParam1,
@@ -40,11 +40,11 @@ const result = functionName(
 );
 ```
 
-## Notes
-- Additional notes or warnings
-- Performance considerations
-- Best practices
+## 備註
+- 額外注意事項或警告
+- 效能考量
+- 最佳實踐
 
-## See Also
-- [Related Function](#)
-- [API Documentation](#)
+## 另請參閱
+- [相關函式](#)
+- [API 文件](#)

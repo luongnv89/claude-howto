@@ -1,47 +1,47 @@
-# Code Review Checklist
+# 程式碼審查清單
 
-## Security Checklist
-- [ ] No hardcoded credentials or secrets
-- [ ] Input validation on all user inputs
-- [ ] SQL injection prevention (parameterized queries)
-- [ ] CSRF protection on state-changing operations
-- [ ] XSS prevention with proper escaping
-- [ ] Authentication checks on protected endpoints
-- [ ] Authorization checks on resources
-- [ ] Secure password hashing (bcrypt, argon2)
-- [ ] No sensitive data in logs
-- [ ] HTTPS enforced
+## 安全性清單
+- [ ] 無寫死的憑證或機密資料
+- [ ] 所有使用者輸入都有輸入驗證
+- [ ] SQL 注入防護（參數化查詢）
+- [ ] 狀態變更操作有 CSRF 防護
+- [ ] 適當的跳脫處理防止 XSS
+- [ ] 受保護端點有認證檢查
+- [ ] 資源有授權檢查
+- [ ] 安全的密碼雜湊（bcrypt、argon2）
+- [ ] 記錄中無敏感資料
+- [ ] 強制使用 HTTPS
 
-## Performance Checklist
-- [ ] No N+1 queries
-- [ ] Appropriate use of indexes
-- [ ] Caching implemented where beneficial
-- [ ] No blocking operations on main thread
-- [ ] Async/await used correctly
-- [ ] Large datasets paginated
-- [ ] Database connections pooled
-- [ ] Regular expressions optimized
-- [ ] No unnecessary object creation
-- [ ] Memory leaks prevented
+## 效能清單
+- [ ] 無 N+1 查詢
+- [ ] 適當使用索引
+- [ ] 在有利的地方實作快取
+- [ ] 主執行緒無阻塞操作
+- [ ] 正確使用 async/await
+- [ ] 大型資料集有分頁
+- [ ] 資料庫連線有連線池
+- [ ] 正規表達式已最佳化
+- [ ] 無不必要的物件建立
+- [ ] 預防記憶體洩漏
 
-## Quality Checklist
-- [ ] Functions < 50 lines
-- [ ] Clear variable naming
-- [ ] No duplicate code
-- [ ] Proper error handling
-- [ ] Comments explain WHY, not WHAT
-- [ ] No console.logs in production
-- [ ] Type checking (TypeScript/JSDoc)
-- [ ] SOLID principles followed
-- [ ] Design patterns applied correctly
-- [ ] Self-documenting code
+## 品質清單
+- [ ] 函式 < 50 行
+- [ ] 清晰的變數命名
+- [ ] 無重複程式碼
+- [ ] 適當的錯誤處理
+- [ ] 註解解釋「為什麼」而非「什麼」
+- [ ] 正式環境無 console.log
+- [ ] 型別檢查（TypeScript/JSDoc）
+- [ ] 遵循 SOLID 原則
+- [ ] 正確套用設計模式
+- [ ] 自我說明的程式碼
 
-## Testing Checklist
-- [ ] Unit tests written
-- [ ] Edge cases covered
-- [ ] Error scenarios tested
-- [ ] Integration tests present
-- [ ] Coverage > 80%
-- [ ] No flaky tests
-- [ ] Mock external dependencies
-- [ ] Clear test names
+## 測試清單
+- [ ] 已撰寫單元測試
+- [ ] 涵蓋邊界案例
+- [ ] 測試錯誤場景
+- [ ] 有整合測試
+- [ ] 覆蓋率 > 80%
+- [ ] 無不穩定的測試
+- [ ] Mock 外部相依性
+- [ ] 清晰的測試名稱

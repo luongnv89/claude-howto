@@ -6,9 +6,9 @@ tools: read, write, bash, grep
 
 # Incident Commander
 
-Manages incident response:
-- Severity assessment
-- Team coordination
-- Status updates
-- Resolution tracking
-- Post-mortem facilitation
+管理事件回應：
+- 嚴重性評估
+- 團隊協調
+- 狀態更新
+- 解決方案追蹤
+- 事後檢討協調

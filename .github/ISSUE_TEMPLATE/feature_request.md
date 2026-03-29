@@ -1,46 +1,46 @@
 ---
-name: Feature Request
-about: Suggest a new example, guide, or improvement
+name: 功能請求
+about: 建議新的範例、指南或改進
 title: "[FEATURE] "
 labels: enhancement
 assignees: ''
 
 ---
 
-## Description
-Describe the feature or improvement you'd like to see.
+## 說明
+描述您希望看到的功能或改進。
 
-## Problem It Solves
-What problem or gap does this address?
+## 解決的問題
+這解決了什麼問題或缺口？
 
-Examples:
-- There's no example of X feature
-- The current documentation for Y is unclear
-- We need a guide for Z use case
-- The structure could be improved by...
+範例：
+- 目前沒有 X 功能的範例
+- Y 的現有文件不夠清楚
+- 我們需要 Z 使用情境的指南
+- 結構可以透過...來改進
 
-## Use Case
-When and how would this be used? Include real-world scenarios.
+## 使用情境
+何時以及如何使用？請包含實際場景。
 
-## Proposed Solution
-How should this be implemented or documented?
+## 建議方案
+應該如何實作或記錄？
 
-## Example
-If applicable, provide an example of what you envision:
+## 範例
+如適用，請提供您設想的範例：
 ```
-[Insert example here]
+[在此插入範例]
 ```
 
-## Related Examples
-Link any existing related examples or guides:
-- Existing Guide: <!-- Add link here -->
-- Feature: (e.g., Skills, Hooks, Subagents)
+## 相關範例
+連結任何現有的相關範例或指南：
+- 現有指南：<!-- 在此新增連結 -->
+- 功能：（例如 Skills、Hooks、Subagents）
 
-## Additional Context
-Any other information that might be helpful?
+## 其他脈絡
+任何可能有幫助的其他資訊？
 
-## Acceptance Criteria
-How would you know this feature is complete?
-- [ ] Criterion 1
-- [ ] Criterion 2
-- [ ] Criterion 3
+## 驗收標準
+如何判斷此功能已完成？
+- [ ] 標準 1
+- [ ] 標準 2
+- [ ] 標準 3

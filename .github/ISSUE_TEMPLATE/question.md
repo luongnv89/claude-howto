@@ -1,23 +1,23 @@
 ---
-name: Question
-about: Ask a question about Claude Code or this guide
+name: 問題
+about: 詢問關於 Claude Code 或本指南的問題
 title: "[QUESTION] "
 labels: question
 assignees: ''
 
 ---
 
-## Question
-What would you like to know?
+## 問題
+您想要了解什麼？
 
-## Context
-Provide some background or context for your question:
-- What are you trying to do?
-- What have you already tried?
-- What examples or guides have you looked at?
+## 脈絡
+請提供您問題的一些背景或脈絡：
+- 您正在嘗試做什麼？
+- 您已經嘗試了什麼？
+- 您參考了哪些範例或指南？
 
-## Relevant Topic
-Which topic is this related to?
+## 相關主題
+這與哪個主題相關？
 - [ ] Slash Commands
 - [ ] Memory
 - [ ] Skills
@@ -28,13 +28,13 @@ Which topic is this related to?
 - [ ] Checkpoints
 - [ ] Advanced Features
 - [ ] CLI Reference
-- [ ] Other
+- [ ] 其他
 
-## What You've Tried
-Have you already tried anything? What was the result?
+## 您已嘗試的內容
+您已經嘗試了什麼？結果如何？
 
-## Expected Outcome
-What would help you solve this?
+## 預期結果
+什麼能幫助您解決這個問題？
 
-## Additional Resources
-Any links or resources that might be relevant?
+## 其他資源
+任何可能相關的連結或資源？

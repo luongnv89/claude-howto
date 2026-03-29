@@ -3,12 +3,12 @@ name: Security Check
 description: Run security-focused code review
 ---
 
-# Security Check
+# 安全檢查
 
-Perform focused security analysis on code changes:
+對程式碼變更執行專注的安全分析：
 
-1. Authentication/authorization checks
-2. Data exposure risks
-3. Injection vulnerabilities
-4. Cryptographic weaknesses
-5. Sensitive data in logs
+1. 認證/授權檢查
+2. 資料暴露風險
+3. 注入漏洞
+4. 加密弱點
+5. 日誌中的敏感資料

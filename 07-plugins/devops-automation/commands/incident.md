@@ -3,14 +3,14 @@ name: Incident Response
 description: Handle production incidents with structured response
 ---
 
-# Incident Response
+# 事件回應
 
-Structured incident response workflow:
+結構化事件回應工作流程：
 
-1. Create incident record
-2. Assess severity and impact
-3. Notify on-call team
-4. Gather diagnostic information
-5. Coordinate response efforts
-6. Document resolution
-7. Schedule post-mortem
+1. 建立事件記錄
+2. 評估嚴重性與影響
+3. 通知值班團隊
+4. 收集診斷資訊
+5. 協調回應工作
+6. 記錄解決方案
+7. 安排事後檢討

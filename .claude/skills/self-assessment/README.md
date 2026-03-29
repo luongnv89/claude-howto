@@ -1,73 +1,73 @@
-# Self-Assessment & Learning Path Advisor
+# 自我評估與學習路徑顧問
 
-> Comprehensive Claude Code proficiency assessment that evaluates 10 feature areas, identifies skill gaps, and generates a personalized learning path to level up.
+> 全面的 Claude Code 能力評估，評估 10 個功能領域、找出技能缺口，並產生個人化的學習路徑來提升技能。
 
-## Highlights
+## 特色
 
-- Two assessment modes: Quick (8 questions, 2 min) and Deep (5 rounds, 5 min)
-- Evaluates 10 feature areas: Slash Commands, Memory, Skills, Hooks, MCP, Subagents, Checkpoints, Advanced Features, Plugins, CLI
-- Per-topic scoring with mastery levels (None / Basic / Proficient)
-- Gap analysis with dependency-aware prioritization
-- Personalized learning path with specific exercises and success criteria
-- Follow-up actions: start learning, deep dive, practice project, or retake
+- 兩種評估模式：快速（8 題，2 分鐘）與深入（5 回合，5 分鐘）
+- 評估 10 個功能領域：Slash Commands、Memory、Skills、Hooks、MCP、Subagents、Checkpoints、Advanced Features、Plugins、CLI
+- 各主題評分與精熟等級（未學 / 基礎 / 熟練）
+- 具依賴關係感知的缺口分析與優先排序
+- 個人化學習路徑，附具體練習與成功標準
+- 後續行動：開始學習、深入探討、實作專案、或重新評估
 
-## When to Use
+## 何時使用
 
-| Say this... | Skill will... |
+| 這樣說... | Skill 會... |
 |---|---|
-| "assess my level" | Run the assessment quiz and determine your level |
-| "where should I start" | Evaluate your experience and suggest a starting point |
-| "check my skills" | Produce a detailed skill profile across all 10 areas |
-| "what should I learn next" | Identify gaps and build a prioritized learning path |
+| "assess my level" | 執行評估測驗並判斷您的程度 |
+| "where should I start" | 評估您的經驗並建議起始點 |
+| "check my skills" | 產生涵蓋全部 10 個領域的詳細技能檔案 |
+| "what should I learn next" | 找出缺口並建立優先排序的學習路徑 |
 
-## How It Works
+## 運作方式
 
 ```mermaid
 graph TD
-    A["Choose assessment mode"] --> B["Answer quiz questions"]
-    B --> C["Score per-topic proficiency"]
-    C --> D["Generate personalized learning path"]
-    D --> E["Start learning or deep dive"]
+    A["選擇評估模式"] --> B["回答測驗題目"]
+    B --> C["各主題能力評分"]
+    C --> D["產生個人化學習路徑"]
+    D --> E["開始學習或深入探討"]
     style A fill:#4CAF50,color:#fff
     style E fill:#2196F3,color:#fff
 ```
 
-## Assessment Modes
+## 評估模式
 
-### Quick Assessment (~2 min)
-- 8 yes/no experience questions across 2 rounds
-- Determines overall level: Beginner / Intermediate / Advanced
-- Lists specific gaps with tutorial links
-- Best for: first-time users, quick check-ins
+### 快速評估（約 2 分鐘）
+- 2 回合共 8 個是/否經驗問題
+- 判斷總體程度：初學者 / 中級 / 進階
+- 列出具體缺口與教學連結
+- 適合：初次使用者、快速檢視
 
-### Deep Assessment (~5 min)
-- 5 rounds of questions covering 10 feature areas (2 topics per round)
-- Per-topic scoring (0-2 points each, 20 points total)
-- Mastery table with strength areas, priority gaps, and review items
-- Dependency-aware learning path with phases and time estimates
-- Recommended practice projects combining gap topics
-- Best for: experienced users wanting to level up, periodic skill reviews
+### 深入評估（約 5 分鐘）
+- 5 回合問題涵蓋 10 個功能領域（每回合 2 個主題）
+- 各主題評分（每題 0-2 分，滿分 20 分）
+- 精熟度一覽表，含優勢領域、優先缺口與複習項目
+- 具依賴關係感知的學習路徑，含階段與時間估算
+- 結合缺口主題的建議實作專案
+- 適合：想要提升能力的資深使用者、定期技能檢視
 
-## Usage
+## 使用方式
 
 ```
 /self-assessment
 ```
 
-## Output
+## 輸出內容
 
-### Skill Profile Table
-Shows per-topic score, mastery level, and status (Learn / Review / Mastered).
+### 技能檔案表
+顯示各主題分數、精熟等級與狀態（學習 / 複習 / 已精通）。
 
-### Personalized Learning Path
-- Organized into phases based on dependency order
-- Each topic includes: tutorial link, focus areas, key exercise, success criterion
-- Time estimate adjusted for topics already mastered
-- Practice projects combining multiple gap areas
+### 個人化學習路徑
+- 依據依賴順序組織成階段
+- 每個主題包含：教學連結、重點領域、關鍵練習、成功標準
+- 時間估算已依已精通的主題調整
+- 結合多個缺口領域的實作專案
 
-### Follow-up Actions
-After results, choose to:
-- Start the first gap tutorial with guided exercises
-- Deep dive into a specific gap area
-- Set up a practice project covering your gaps
-- Retake in a different assessment mode
+### 後續行動
+結果呈現後，您可以選擇：
+- 開始第一個缺口教學並搭配引導練習
+- 深入探討特定的缺口領域
+- 設定一個涵蓋您缺口的實作專案
+- 以不同的評估模式重新測驗

@@ -6,8 +6,8 @@ tools: read, grep, diff
 
 # Security Reviewer
 
-Specializes in finding security vulnerabilities:
-- Authentication/authorization issues
-- Data exposure
-- Injection attacks
-- Secure configuration
+專門尋找安全漏洞：
+- 認證/授權問題
+- 資料暴露
+- 注入攻擊
+- 安全配置

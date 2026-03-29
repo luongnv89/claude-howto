@@ -1,88 +1,88 @@
-# Project Configuration
+# 專案配置
 
-## Project Overview
-- **Name**: E-commerce Platform
-- **Tech Stack**: Node.js, PostgreSQL, React 18, Docker
-- **Team Size**: 5 developers
-- **Deadline**: Q4 2025
+## 專案概覽
+- **名稱**：電子商務平台
+- **技術棧**：Node.js、PostgreSQL、React 18、Docker
+- **團隊規模**：5 位開發人員
+- **截止日期**：2025 年第四季
 
-## Architecture
+## 架構
 @docs/architecture.md
 @docs/api-standards.md
 @docs/database-schema.md
 
-## Development Standards
+## 開發標準
 
-### Code Style
-- Use Prettier for formatting
-- Use ESLint with airbnb config
-- Maximum line length: 100 characters
-- Use 2-space indentation
+### 程式碼風格
+- 使用 Prettier 進行格式化
+- 使用 ESLint 搭配 airbnb 設定
+- 最大行寬：100 個字元
+- 使用 2 個空格縮排
 
-### Naming Conventions
-- **Files**: kebab-case (user-controller.js)
-- **Classes**: PascalCase (UserService)
-- **Functions/Variables**: camelCase (getUserById)
-- **Constants**: UPPER_SNAKE_CASE (API_BASE_URL)
-- **Database Tables**: snake_case (user_accounts)
+### 命名慣例
+- **檔案**：kebab-case（user-controller.js）
+- **類別**：PascalCase（UserService）
+- **函式/變數**：camelCase（getUserById）
+- **常數**：UPPER_SNAKE_CASE（API_BASE_URL）
+- **資料庫表格**：snake_case（user_accounts）
 
-### Git Workflow
-- Branch names: `feature/description` or `fix/description`
-- Commit messages: Follow conventional commits
-- PR required before merge
-- All CI/CD checks must pass
-- Minimum 1 approval required
+### Git 工作流程
+- 分支名稱：`feature/description` 或 `fix/description`
+- 提交訊息：遵循 conventional commits
+- 合併前需要 PR
+- 所有 CI/CD 檢查必須通過
+- 最少需要 1 個核准
 
-### Testing Requirements
-- Minimum 80% code coverage
-- All critical paths must have tests
-- Use Jest for unit tests
-- Use Cypress for E2E tests
-- Test filenames: `*.test.ts` or `*.spec.ts`
+### 測試要求
+- 最低 80% 程式碼覆蓋率
+- 所有關鍵路徑必須有測試
+- 使用 Jest 進行單元測試
+- 使用 Cypress 進行 E2E 測試
+- 測試檔名：`*.test.ts` 或 `*.spec.ts`
 
-### API Standards
-- RESTful endpoints only
-- JSON request/response
-- Use HTTP status codes correctly
-- Version API endpoints: `/api/v1/`
-- Document all endpoints with examples
+### API 標準
+- 僅使用 RESTful 端點
+- JSON 請求/回應
+- 正確使用 HTTP 狀態碼
+- API 端點版本化：`/api/v1/`
+- 所有端點附帶範例文件
 
-### Database
-- Use migrations for schema changes
-- Never hardcode credentials
-- Use connection pooling
-- Enable query logging in development
-- Regular backups required
+### 資料庫
+- 使用 migration 進行 schema 變更
+- 絕不寫死憑證
+- 使用連線池
+- 開發環境啟用查詢記錄
+- 需要定期備份
 
-### Deployment
-- Docker-based deployment
-- Kubernetes orchestration
-- Blue-green deployment strategy
-- Automatic rollback on failure
-- Database migrations run before deploy
+### 部署
+- 基於 Docker 的部署
+- Kubernetes 編排
+- 藍綠部署策略
+- 失敗時自動回滾
+- 部署前執行資料庫 migration
 
-## Common Commands
+## 常用指令
 
-| Command | Purpose |
+| 指令 | 用途 |
 |---------|---------|
-| `npm run dev` | Start development server |
-| `npm test` | Run test suite |
-| `npm run lint` | Check code style |
-| `npm run build` | Build for production |
-| `npm run migrate` | Run database migrations |
+| `npm run dev` | 啟動開發伺服器 |
+| `npm test` | 執行測試套件 |
+| `npm run lint` | 檢查程式碼風格 |
+| `npm run build` | 建置正式版本 |
+| `npm run migrate` | 執行資料庫 migration |
 
-## Team Contacts
-- Tech Lead: Sarah Chen (@sarah.chen)
-- Product Manager: Mike Johnson (@mike.j)
-- DevOps: Alex Kim (@alex.k)
+## 團隊聯絡人
+- 技術主管：Sarah Chen（@sarah.chen）
+- 產品經理：Mike Johnson（@mike.j）
+- DevOps：Alex Kim（@alex.k）
 
-## Known Issues & Workarounds
-- PostgreSQL connection pooling limited to 20 during peak hours
-- Workaround: Implement query queuing
-- Safari 14 compatibility issues with async generators
-- Workaround: Use Babel transpiler
+## 已知問題與解決方案
+- PostgreSQL 連線池在尖峰時段限制為 20
+- 解決方案：實作查詢佇列
+- Safari 14 與 async generators 的相容性問題
+- 解決方案：使用 Babel 轉譯器
 
-## Related Projects
-- Analytics Dashboard: `/projects/analytics`
-- Mobile App: `/projects/mobile`
-- Admin Panel: `/projects/admin`
+## 相關專案
+- 分析儀表板：`/projects/analytics`
+- 行動應用程式：`/projects/mobile`
+- 管理面板：`/projects/admin`

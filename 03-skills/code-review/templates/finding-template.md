@@ -1,46 +1,46 @@
-# Code Review Finding Template
+# 程式碼審查發現模板
 
-Use this template when documenting each issue found during code review.
+在程式碼審查中記錄每個發現的問題時使用此模板。
 
 ---
 
-## Issue: [TITLE]
+## 問題：[標題]
 
-### Severity
-- [ ] Critical (blocks deployment)
-- [ ] High (should fix before merge)
-- [ ] Medium (should fix soon)
-- [ ] Low (nice to have)
+### 嚴重度
+- [ ] Critical（阻擋部署）
+- [ ] High（合併前應修復）
+- [ ] Medium（應盡快修復）
+- [ ] Low（改善建議）
 
-### Category
-- [ ] Security
-- [ ] Performance
-- [ ] Code Quality
-- [ ] Maintainability
-- [ ] Testing
-- [ ] Design Pattern
-- [ ] Documentation
+### 類別
+- [ ] 安全性
+- [ ] 效能
+- [ ] 程式碼品質
+- [ ] 可維護性
+- [ ] 測試
+- [ ] 設計模式
+- [ ] 文件
 
-### Location
-**File:** `src/components/UserCard.tsx`
+### 位置
+**檔案：** `src/components/UserCard.tsx`
 
-**Lines:** 45-52
+**行號：** 45-52
 
-**Function/Method:** `renderUserDetails()`
+**函式/方法：** `renderUserDetails()`
 
-### Issue Description
+### 問題描述
 
-**What:** Describe what the issue is.
+**什麼：** 描述問題是什麼。
 
-**Why it matters:** Explain the impact and why this needs to be fixed.
+**為什麼重要：** 解釋影響以及為什麼需要修復。
 
-**Current behavior:** Show the problematic code or behavior.
+**目前行為：** 展示有問題的程式碼或行為。
 
-**Expected behavior:** Describe what should happen instead.
+**預期行為：** 描述應該發生什麼。
 
-### Code Example
+### 程式碼範例
 
-#### Current (Problematic)
+#### 目前（有問題的）
 
 ```typescript
 // Shows the N+1 query problem
@@ -51,7 +51,7 @@ users.forEach(user => {
 });
 ```
 
-#### Suggested Fix
+#### 建議修復
 
 ```typescript
 // Optimized with JOIN query
@@ -61,53 +61,53 @@ usersWithPosts.forEach(({ user, posts }) => {
 });
 ```
 
-### Impact Analysis
+### 影響分析
 
-| Aspect | Impact | Severity |
+| 面向 | 影響 | 嚴重度 |
 |--------|--------|----------|
-| Performance | 100+ queries for 20 users | High |
-| User Experience | Slow page load | High |
-| Scalability | Breaks at scale | Critical |
-| Maintainability | Hard to debug | Medium |
+| 效能 | 20 個使用者需要 100+ 個查詢 | High |
+| 使用者體驗 | 頁面載入緩慢 | High |
+| 可擴展性 | 在大規模時崩潰 | Critical |
+| 可維護性 | 難以除錯 | Medium |
 
-### Related Issues
+### 相關問題
 
-- Similar issue in `AdminUserList.tsx` line 120
-- Related PR: #456
-- Related issue: #789
+- `AdminUserList.tsx` 第 120 行有類似問題
+- 相關 PR：#456
+- 相關 issue：#789
 
-### Additional Resources
+### 額外資源
 
-- [N+1 Query Problem](https://en.wikipedia.org/wiki/N%2B1_problem)
-- [Database Join Documentation](https://docs.example.com/joins)
-- [Performance Optimization Guide](./docs/performance.md)
+- [N+1 查詢問題](https://en.wikipedia.org/wiki/N%2B1_problem)
+- [資料庫 Join 文件](https://docs.example.com/joins)
+- [效能最佳化指南](./docs/performance.md)
 
-### Reviewer Notes
+### 審查者備註
 
-- This is a common pattern in this codebase
-- Consider adding this to the code style guide
-- Might be worth creating a helper function
+- 這是此程式碼庫中的常見模式
+- 考慮將此加入程式碼風格指南
+- 可能值得建立一個輔助函式
 
-### Author Response (for feedback)
+### 作者回覆（用於回饋）
 
-*To be filled by the code author:*
+*由程式碼作者填寫：*
 
-- [ ] Fix implemented in commit: `abc123`
-- [ ] Fix status: Complete / In Progress / Needs Discussion
-- [ ] Questions or concerns: (describe)
+- [ ] 修復已在提交中實作：`abc123`
+- [ ] 修復狀態：完成 / 進行中 / 需要討論
+- [ ] 問題或疑慮：（描述）
 
 ---
 
-## Finding Statistics (for Reviewer)
+## 發現統計（供審查者）
 
-When reviewing multiple findings, track:
+審查多個發現時，追蹤：
 
-- **Total Issues Found:** X
-- **Critical:** X
-- **High:** X
-- **Medium:** X
-- **Low:** X
+- **發現的問題總數：** X
+- **Critical：** X
+- **High：** X
+- **Medium：** X
+- **Low：** X
 
-**Recommendation:** ✅ Approve / ⚠️ Request Changes / 🔄 Needs Discussion
+**建議：** ✅ 核准 / ⚠️ 請求變更 / 🔄 需要討論
 
-**Overall Code Quality:** 1-5 stars
+**整體程式碼品質：** 1-5 星

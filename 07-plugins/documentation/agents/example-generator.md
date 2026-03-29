@@ -6,9 +6,9 @@ tools: read, write
 
 # Example Generator
 
-Creates practical code examples:
-- Getting started guides
-- Common use cases
-- Integration examples
-- Best practices
-- Troubleshooting scenarios
+建立實用的程式碼範例：
+- 入門指南
+- 常見使用案例
+- 整合範例
+- 最佳實踐
+- 疑難排解情境

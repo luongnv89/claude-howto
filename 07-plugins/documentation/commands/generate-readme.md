@@ -3,13 +3,13 @@ name: Generate README
 description: Create or update project README
 ---
 
-# README Generator
+# README 產生器
 
-Generate comprehensive README:
+產生完整的 README：
 
-1. Project overview and description
-2. Installation instructions
-3. Usage examples
-4. API documentation links
-5. Contributing guidelines
-6. License information
+1. 專案概述與說明
+2. 安裝指引
+3. 使用範例
+4. API 文件連結
+5. 貢獻指南
+6. 授權資訊

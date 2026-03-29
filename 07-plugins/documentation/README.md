@@ -5,115 +5,115 @@
 
 # Documentation Plugin
 
-Comprehensive documentation generation and maintenance for your project.
+為您的專案提供全面的文件產生與維護。
 
-## Features
+## 功能
 
-✅ API documentation generation
-✅ README creation and updates
-✅ Documentation synchronization
-✅ Code comment improvements
-✅ Example generation
+✅ API 文件產生
+✅ README 建立與更新
+✅ 文件同步
+✅ 程式碼註解改善
+✅ 範例產生
 
-## Installation
+## 安裝
 
 ```bash
 /plugin install documentation
 ```
 
-## What's Included
+## 包含內容
 
 ### Slash Commands
-- `/generate-api-docs` - Generate API documentation
-- `/generate-readme` - Create or update README
-- `/sync-docs` - Sync docs with code changes
-- `/validate-docs` - Validate documentation
+- `/generate-api-docs` - 產生 API 文件
+- `/generate-readme` - 建立或更新 README
+- `/sync-docs` - 將文件與程式碼變更同步
+- `/validate-docs` - 驗證文件
 
 ### Subagents
-- `api-documenter` - API documentation specialist
-- `code-commentator` - Code comment improvements
-- `example-generator` - Code example creation
+- `api-documenter` - API 文件專家
+- `code-commentator` - 程式碼註解改善
+- `example-generator` - 程式碼範例建立
 
-### Templates
-- `api-endpoint.md` - API endpoint documentation template
-- `function-docs.md` - Function documentation template
-- `adr-template.md` - Architecture Decision Record template
+### 範本
+- `api-endpoint.md` - API 端點文件範本
+- `function-docs.md` - 函式文件範本
+- `adr-template.md` - 架構決策記錄範本
 
 ### MCP Servers
-- GitHub integration for documentation syncing
+- GitHub 整合，用於文件同步
 
-## Usage
+## 使用方式
 
-### Generate API Documentation
+### 產生 API 文件
 ```
 /generate-api-docs
 ```
 
-### Create README
+### 建立 README
 ```
 /generate-readme
 ```
 
-### Sync Documentation
+### 同步文件
 ```
 /sync-docs
 ```
 
-### Validate Documentation
+### 驗證文件
 ```
 /validate-docs
 ```
 
-## Requirements
+## 需求
 
 - Claude Code 1.0+
-- GitHub access (optional)
+- GitHub 存取權限（選用）
 
-## Example Workflow
+## 範例工作流程
 
 ```
-User: /generate-api-docs
+使用者：/generate-api-docs
 
-Claude:
-1. Scans all API endpoints in /src/api/
-2. Delegates to api-documenter subagent
-3. Extracts function signatures and JSDoc
-4. Organizes by module/endpoint
-5. Uses api-endpoint.md template
-6. Generates comprehensive markdown docs
-7. Includes curl, JavaScript, and Python examples
+Claude：
+1. 掃描 /src/api/ 中的所有 API 端點
+2. 委派給 api-documenter subagent
+3. 擷取函式簽名與 JSDoc
+4. 依模組/端點組織
+5. 使用 api-endpoint.md 範本
+6. 產生完整的 Markdown 文件
+7. 包含 curl、JavaScript 及 Python 範例
 
-Result:
-✅ API documentation generated
-📄 Files created:
+結果：
+✅ API 文件已產生
+📄 建立的檔案：
    - docs/api/users.md
    - docs/api/auth.md
    - docs/api/products.md
-📊 Coverage: 23/23 endpoints documented
+📊 覆蓋率：23/23 個端點已記錄
 ```
 
-## Templates Usage
+## 範本使用
 
-### API Endpoint Template
-Use for documenting REST API endpoints with full examples.
+### API 端點範本
+用於記錄 REST API 端點，包含完整範例。
 
-### Function Documentation Template
-Use for documenting individual functions/methods.
+### 函式文件範本
+用於記錄個別函式/方法。
 
-### ADR Template
-Use for documenting architectural decisions.
+### ADR 範本
+用於記錄架構決策。
 
-## Configuration
+## 組態設定
 
-Set up GitHub token for documentation syncing:
+設定 GitHub token 以進行文件同步：
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
 
-## Best Practices
+## 最佳實踐
 
-- Keep documentation close to code
-- Update docs with code changes
-- Include practical examples
-- Validate regularly
-- Use templates for consistency
+- 讓文件保持在程式碼附近
+- 隨著程式碼變更更新文件
+- 包含實用的範例
+- 定期驗證
+- 使用範本以確保一致性

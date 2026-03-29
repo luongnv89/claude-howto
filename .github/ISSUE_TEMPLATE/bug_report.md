@@ -1,43 +1,43 @@
 ---
-name: Bug Report
-about: Report an issue with an example, guide, or documentation
+name: 錯誤回報
+about: 回報範例、指南或文件中的問題
 title: "[BUG] "
 labels: bug
 assignees: ''
 
 ---
 
-## Description
-Brief description of the issue.
+## 說明
+問題的簡短描述。
 
-## Steps to Reproduce
-1. Step 1
-2. Step 2
-3. Step 3
+## 重現步驟
+1. 步驟 1
+2. 步驟 2
+3. 步驟 3
 
-## Expected Behavior
-What should happen?
+## 預期行為
+應該發生什麼？
 
-## Actual Behavior
-What actually happened?
+## 實際行為
+實際上發生了什麼？
 
-## Environment
-- **Claude Code Version**: (e.g., 1.0.5)
-- **Operating System**: (e.g., macOS 14.1, Ubuntu 22.04, Windows 11)
-- **Python Version**: (if relevant, e.g., 3.11)
-- **Affected Component**: (e.g., 01-slash-commands, 03-skills, etc.)
+## 環境
+- **Claude Code 版本**：（例如 1.0.5）
+- **作業系統**：（例如 macOS 14.1、Ubuntu 22.04、Windows 11）
+- **Python 版本**：（若相關，例如 3.11）
+- **受影響的元件**：（例如 01-slash-commands、03-skills 等）
 
-## Example Code
-If applicable, provide the example code that's not working:
+## 範例程式碼
+如適用，請提供無法正常運作的範例程式碼：
 ```
-[Insert code here]
+[在此插入程式碼]
 ```
 
-## Screenshots
-If applicable, add screenshots showing the issue.
+## 螢幕截圖
+如適用，請附上顯示問題的螢幕截圖。
 
-## Additional Context
-Any other context that might help us understand the issue?
+## 其他脈絡
+任何可能幫助我們理解問題的其他資訊？
 
-## Possible Solution
-If you have a suggestion for fixing this, share it here.
+## 可能的解決方案
+如果您有修復建議，請在此分享。

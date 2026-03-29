@@ -1,109 +1,109 @@
-# Changelog
+# 更新日誌
 
 ## v2.2.0 — 2026-03-26
 
-### Documentation
+### 文件
 
-- Sync all tutorials and references with Claude Code v2.1.84 (f78c094) @luongnv89
-  - Update slash commands to 55+ built-in + 5 bundled skills, mark 3 deprecated
-  - Expand hook events from 18 to 25, add `agent` hook type (now 4 types)
-  - Add Auto Mode, Channels, Voice Dictation to advanced features
-  - Add `effort`, `shell` skill frontmatter fields; `initialPrompt`, `disallowedTools` agent fields
-  - Add WebSocket MCP transport, elicitation, 2KB tool cap
-  - Add plugin LSP support, `userConfig`, `${CLAUDE_PLUGIN_DATA}`
-  - Update all reference docs (CATALOG, QUICK_REFERENCE, LEARNING-ROADMAP, INDEX)
-- Rewrite README as landing-page-structured guide (32a0776) @luongnv89
+- 將所有教學和參考文件與 Claude Code v2.1.84 (f78c094) 同步 @luongnv89
+  - 更新 slash commands 至 55+ 內建 + 5 個捆綁 skills，標記 3 個為已棄用
+  - 將 hook 事件從 18 個擴展至 25 個，新增 `agent` hook 類型（現為 4 種類型）
+  - 新增 Auto Mode、Channels、語音聽寫至進階功能
+  - 新增 `effort`、`shell` skill frontmatter 欄位；`initialPrompt`、`disallowedTools` agent 欄位
+  - 新增 WebSocket MCP 傳輸、elicitation、2KB 工具上限
+  - 新增 plugin LSP 支援、`userConfig`、`${CLAUDE_PLUGIN_DATA}`
+  - 更新所有參考文件（CATALOG、QUICK_REFERENCE、LEARNING-ROADMAP、INDEX）
+- 將 README 改寫為登陸頁風格的結構化指南 (32a0776) @luongnv89
 
-### Bug Fixes
+### 錯誤修正
 
-- Add missing cSpell words and README sections for CI compliance (93f9d51) @luongnv89
-- Add `Sandboxing` to cSpell dictionary (b80ce6f) @luongnv89
+- 新增缺少的 cSpell 單字和 README 區段以符合 CI 規範 (93f9d51) @luongnv89
+- 新增 `Sandboxing` 至 cSpell 字典 (b80ce6f) @luongnv89
 
-**Full Changelog**: https://github.com/luongnv89/claude-howto/compare/v2.1.1...v2.2.0
+**完整更新日誌**：https://github.com/luongnv89/claude-howto/compare/v2.1.1...v2.2.0
 
 ---
 
 ## v2.1.1 — 2026-03-13
 
-### Bug Fixes
+### 錯誤修正
 
-- Remove dead marketplace link failing CI link checks (3fdf0d6) @luongnv89
-- Add `sandboxed` and `pycache` to cSpell dictionary (dc64618) @luongnv89
+- 移除導致 CI 連結檢查失敗的無效 marketplace 連結 (3fdf0d6) @luongnv89
+- 新增 `sandboxed` 和 `pycache` 至 cSpell 字典 (dc64618) @luongnv89
 
-**Full Changelog**: https://github.com/luongnv89/claude-howto/compare/v2.1.0...v2.1.1
+**完整更新日誌**：https://github.com/luongnv89/claude-howto/compare/v2.1.0...v2.1.1
 
 ---
 
 ## v2.1.0 — 2026-03-13
 
-### Features
+### 功能
 
-- Add adaptive learning path with self-assessment and lesson quiz skills (1ef46cd) @luongnv89
-  - `/self-assessment` — interactive proficiency quiz across 10 feature areas with personalized learning path
-  - `/lesson-quiz [lesson]` — per-lesson knowledge check with 8-10 targeted questions
+- 新增自適應學習路徑，包含自我評估和課程測驗 skills (1ef46cd) @luongnv89
+  - `/self-assessment` — 跨 10 個功能領域的互動式能力測驗，附個人化學習路徑
+  - `/lesson-quiz [lesson]` — 每課知識測驗，包含 8-10 題目標問題
 
-### Bug Fixes
+### 錯誤修正
 
-- Update broken URLs, deprecations, and outdated references (8fe4520) @luongnv89
-- Fix broken links in resources and self-assessment skill (7a05863) @luongnv89
-- Use tilde fences for nested code blocks in concepts guide (5f82719) @VikalpP
-- Add missing words to cSpell dictionary (8df7572) @luongnv89
+- 更新失效的 URL、棄用項目和過時的參考 (8fe4520) @luongnv89
+- 修正 resources 和 self-assessment skill 中的失效連結 (7a05863) @luongnv89
+- 在概念指南中使用波浪號圍欄處理巢狀程式碼區塊 (5f82719) @VikalpP
+- 新增缺少的單字至 cSpell 字典 (8df7572) @luongnv89
 
-### Documentation
+### 文件
 
-- Phase 5 QA — fix consistency, URLs, and terminology across docs (00bbe4c) @luongnv89
-- Complete Phases 3-4 — new feature coverage and reference doc updates (132de29) @luongnv89
-- Add MCPorter runtime to MCP context bloat section (ef52705) @luongnv89
-- Add missing commands, features, and settings across 6 guides (4bc8f15) @luongnv89
-- Add style guide based on existing repo conventions (84141d0) @luongnv89
-- Add self-assessment row to guide comparison table (8fe0c96) @luongnv89
-- Add VikalpP to contributors list for PR #7 (d5b4350) @luongnv89
-- Add self-assessment and lesson-quiz skill references to README and roadmap (d5a6106) @luongnv89
+- 第 5 階段品質保證——修正跨文件的一致性、URL 和術語 (00bbe4c) @luongnv89
+- 完成第 3-4 階段——新功能覆蓋和參考文件更新 (132de29) @luongnv89
+- 在 MCP 上下文膨脹區段新增 MCPorter 執行環境 (ef52705) @luongnv89
+- 在 6 份指南中新增缺少的指令、功能和設定 (4bc8f15) @luongnv89
+- 根據現有倉庫慣例新增風格指南 (84141d0) @luongnv89
+- 在指南比較表中新增自我評估列 (8fe0c96) @luongnv89
+- 將 VikalpP 新增至貢獻者列表（PR #7）(d5b4350) @luongnv89
+- 在 README 和路線圖中新增 self-assessment 和 lesson-quiz skill 參考 (d5a6106) @luongnv89
 
-### New Contributors
+### 新貢獻者
 
-- @VikalpP made their first contribution in #7
+- @VikalpP 在 #7 中做出了首次貢獻
 
-**Full Changelog**: https://github.com/luongnv89/claude-howto/compare/v2.0.0...v2.1.0
+**完整更新日誌**：https://github.com/luongnv89/claude-howto/compare/v2.0.0...v2.1.0
 
 ---
 
 ## v2.0.0 — 2026-02-01
 
-### Features
+### 功能
 
-- Sync all documentation with Claude Code February 2026 features (487c96d)
-  - Update 26 files across all 10 tutorial directories and 7 reference documents
-  - Add documentation for **Auto Memory** — persistent learnings per project
-  - Add documentation for **Remote Control**, **Web Sessions**, and **Desktop App**
-  - Add documentation for **Agent Teams** (experimental multi-agent collaboration)
-  - Add documentation for **MCP OAuth 2.0**, **Tool Search**, and **Claude.ai Connectors**
-  - Add documentation for **Persistent Memory** and **Worktree Isolation** for subagents
-  - Add documentation for **Background Subagents**, **Task List**, **Prompt Suggestions**
-  - Add documentation for **Sandboxing** and **Managed Settings** (Enterprise)
-  - Add documentation for **HTTP Hooks** and 7 new hook events
-  - Add documentation for **Plugin Settings**, **LSP Servers**, and Marketplace updates
-  - Add documentation for **Summarize from Checkpoint** rewind option
-  - Document 17 new slash commands (`/fork`, `/desktop`, `/teleport`, `/tasks`, `/fast`, etc.)
-  - Document new CLI flags (`--worktree`, `--from-pr`, `--remote`, `--teleport`, `--teammate-mode`, etc.)
-  - Document new environment variables for auto memory, effort levels, agent teams, and more
+- 將所有文件與 Claude Code 2026 年 2 月功能同步 (487c96d)
+  - 更新 10 個教學目錄和 7 份參考文件中的 26 個檔案
+  - 新增 **Auto Memory（自動記憶）** 文件——每個專案的持久化學習
+  - 新增 **Remote Control（遠端控制）**、**Web Sessions（網頁工作階段）** 和 **Desktop App（桌面應用程式）** 文件
+  - 新增 **Agent Teams（代理團隊）** 文件（實驗性多代理協作）
+  - 新增 **MCP OAuth 2.0**、**Tool Search** 和 **Claude.ai Connectors** 文件
+  - 新增 subagents 的 **Persistent Memory（持久化記憶）** 和 **Worktree Isolation（工作樹隔離）** 文件
+  - 新增 **Background Subagents（背景子代理）**、**Task List（任務清單）**、**Prompt Suggestions（提示建議）** 文件
+  - 新增 **Sandboxing（沙箱）** 和 **Managed Settings（受管理設定）**（企業版）文件
+  - 新增 **HTTP Hooks** 和 7 個新 hook 事件文件
+  - 新增 **Plugin Settings**、**LSP Servers** 和 Marketplace 更新文件
+  - 新增 **Summarize from Checkpoint（從檢查點摘要）** 回溯選項文件
+  - 記錄 17 個新 slash commands（`/fork`、`/desktop`、`/teleport`、`/tasks`、`/fast` 等）
+  - 記錄新 CLI 旗標（`--worktree`、`--from-pr`、`--remote`、`--teleport`、`--teammate-mode` 等）
+  - 記錄 auto memory、effort 層級、agent teams 等的新環境變數
 
-### Design
+### 設計
 
-- Redesign logo to compass-bracket mark with minimal palette (20779db)
+- 將 logo 重新設計為羅盤-括號標誌搭配簡約色調 (20779db)
 
-### Bug Fixes / Corrections
+### 錯誤修正 / 更正
 
-- Update model names: Sonnet 4.5 → **Sonnet 4.6**, Opus 4.5 → **Opus 4.6**
-- Fix permission mode names: replace fictional "Unrestricted/Confirm/Read-only" with actual `default`/`acceptEdits`/`plan`/`dontAsk`/`bypassPermissions`
-- Fix hook events: remove fictional `PreCommit`/`PostCommit`/`PrePush`, add real events (`SubagentStart`, `WorktreeCreate`, `ConfigChange`, etc.)
-- Fix CLI syntax: replace `claude-code --headless` with `claude -p` (print mode)
-- Fix checkpoint commands: replace fictional `/checkpoint save/list/rewind/diff` with actual `Esc+Esc` / `/rewind` interface
-- Fix session management: replace fictional `/session list/new/switch/save` with real `/resume`/`/rename`/`/fork`
-- Fix plugin manifest format: migrate `plugin.yaml` → `.claude-plugin/plugin.json`
-- Fix MCP config paths: `~/.claude/mcp.json` → `.mcp.json` (project) / `~/.claude.json` (user)
-- Fix documentation URLs: `docs.claude.com` → `docs.anthropic.com`; remove fictional `plugins.claude.com`
-- Remove fictional configuration fields across multiple files
-- Update all "Last Updated" dates to February 2026
+- 更新模型名稱：Sonnet 4.5 → **Sonnet 4.6**，Opus 4.5 → **Opus 4.6**
+- 修正權限模式名稱：將虛構的「Unrestricted/Confirm/Read-only」替換為實際的 `default`/`acceptEdits`/`plan`/`dontAsk`/`bypassPermissions`
+- 修正 hook 事件：移除虛構的 `PreCommit`/`PostCommit`/`PrePush`，新增真實事件（`SubagentStart`、`WorktreeCreate`、`ConfigChange` 等）
+- 修正 CLI 語法：將 `claude-code --headless` 替換為 `claude -p`（列印模式）
+- 修正 checkpoint 指令：將虛構的 `/checkpoint save/list/rewind/diff` 替換為實際的 `Esc+Esc` / `/rewind` 介面
+- 修正工作階段管理：將虛構的 `/session list/new/switch/save` 替換為真實的 `/resume`/`/rename`/`/fork`
+- 修正 plugin manifest 格式：從 `plugin.yaml` 遷移至 `.claude-plugin/plugin.json`
+- 修正 MCP 配置路徑：`~/.claude/mcp.json` → `.mcp.json`（專案）/ `~/.claude.json`（使用者）
+- 修正文件 URL：`docs.claude.com` → `docs.anthropic.com`；移除虛構的 `plugins.claude.com`
+- 移除多個檔案中的虛構配置欄位
+- 將所有「最後更新」日期更新至 2026 年 2 月
 
-**Full Changelog**: https://github.com/luongnv89/claude-howto/compare/20779db...v2.0.0
+**完整更新日誌**：https://github.com/luongnv89/claude-howto/compare/20779db...v2.0.0

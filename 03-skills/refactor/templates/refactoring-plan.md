@@ -1,284 +1,284 @@
-# Refactoring Plan Template
+# 重構計畫模板
 
-Use this template to document and track your refactoring effort.
+使用此模板記錄和追蹤你的重構工作。
 
 ---
 
-## Project Information
+## 專案資訊
 
-| Field | Value |
+| 欄位 | 值 |
 |-------|-------|
-| **Project/Module** | [Project name] |
-| **Target Files** | [List of files to refactor] |
-| **Date Created** | [Date] |
-| **Author** | [Name] |
-| **Status** | Draft / In Review / Approved / In Progress / Completed |
+| **專案/模組** | [專案名稱] |
+| **目標檔案** | [要重構的檔案清單] |
+| **建立日期** | [日期] |
+| **作者** | [姓名] |
+| **狀態** | 草稿 / 審查中 / 已核准 / 進行中 / 已完成 |
 
 ---
 
-## Executive Summary
+## 執行摘要
 
-### Goals
-- [ ] [Primary goal: e.g., Improve readability of payment processing]
-- [ ] [Secondary goal: e.g., Reduce code duplication]
-- [ ] [Tertiary goal: e.g., Improve testability]
+### 目標
+- [ ] [主要目標：例如，改善付款處理的可讀性]
+- [ ] [次要目標：例如，減少程式碼重複]
+- [ ] [第三目標：例如，改善可測試性]
 
-### Constraints
-- [ ] [Constraint 1: e.g., Cannot change public API]
-- [ ] [Constraint 2: e.g., Must maintain backward compatibility]
-- [ ] [Constraint 3: e.g., No changes to database schema]
+### 限制
+- [ ] [限制 1：例如，不能變更公開 API]
+- [ ] [限制 2：例如，必須維持向後相容性]
+- [ ] [限制 3：例如，不能變更資料庫 schema]
 
-### Risk Level
-- [ ] Low - Minor changes, well-tested code
-- [ ] Medium - Moderate changes, some risk
-- [ ] High - Significant changes, careful attention needed
+### 風險等級
+- [ ] 低 - 小幅變更，程式碼測試完善
+- [ ] 中 - 適度變更，有一些風險
+- [ ] 高 - 顯著變更，需要謹慎注意
 
 ---
 
-## Pre-Refactoring Checklist
+## 重構前清單
 
-### Test Coverage Assessment
+### 測試覆蓋率評估
 
-| Metric | Current | Target | Status |
+| 指標 | 目前 | 目標 | 狀態 |
 |--------|---------|--------|--------|
-| Unit Test Coverage | __%  | ≥80% | |
-| Integration Tests | Yes/No | Yes | |
-| All Tests Passing | Yes/No | Yes | |
+| 單元測試覆蓋率 | __% | ≥80% | |
+| 整合測試 | 是/否 | 是 | |
+| 所有測試通過 | 是/否 | 是 | |
 
-### Required Before Starting
-- [ ] All tests passing
-- [ ] Code reviewed and understood
-- [ ] Backup/version control in place
-- [ ] User approval obtained
+### 開始前的必要條件
+- [ ] 所有測試通過
+- [ ] 程式碼已審查並理解
+- [ ] 備份/版本控制已就位
+- [ ] 已獲得使用者批准
 
 ---
 
-## Identified Code Smells
+## 已識別的程式碼壞味道
 
-### Summary
+### 摘要
 
-| # | Smell | Location | Severity | Priority |
+| # | 壞味道 | 位置 | 嚴重度 | 優先順序 |
 |---|-------|----------|----------|----------|
-| 1 | [e.g., Long Method] | [file:line] | High | P1 |
-| 2 | [e.g., Duplicate Code] | [file:line] | Medium | P2 |
-| 3 | [e.g., Feature Envy] | [file:line] | Low | P3 |
+| 1 | [例如 過長方法] | [file:line] | High | P1 |
+| 2 | [例如 重複程式碼] | [file:line] | Medium | P2 |
+| 3 | [例如 依戀情結] | [file:line] | Low | P3 |
 
-### Detailed Analysis
+### 詳細分析
 
-#### Smell #1: [Name]
+#### 壞味道 #1：[名稱]
 
-**Location**: `path/to/file.js:45-120`
+**位置**：`path/to/file.js:45-120`
 
-**Description**: [Detailed description of the problem]
+**描述**：[問題的詳細描述]
 
-**Impact**:
-- [Impact 1]
-- [Impact 2]
+**影響**：
+- [影響 1]
+- [影響 2]
 
-**Proposed Solution**: [Brief overview of how to fix]
+**提議的解決方案**：[如何修復的簡要概述]
 
 ---
 
-## Refactoring Phases
+## 重構階段
 
-### Phase A: Quick Wins (Low Risk)
+### 階段 A：快速勝利（低風險）
 
-**Objective**: Simple improvements with immediate value
+**目標**：具有即時價值的簡單改善
 
-**Estimated Changes**: [X files, Y methods]
+**估計變更**：[X 個檔案，Y 個方法]
 
-**User Approval Required**: Yes / No
+**需要使用者批准**：是 / 否
 
-| # | Task | File | Refactoring | Status |
+| # | 任務 | 檔案 | 重構手法 | 狀態 |
 |---|------|------|-------------|--------|
-| A1 | Rename variable `x` to `userCount` | utils.js:15 | Rename Variable | [ ] |
-| A2 | Remove unused `oldHandler()` | api.js:89 | Remove Dead Code | [ ] |
-| A3 | Extract duplicate validation | form.js:23,67 | Extract Method | [ ] |
+| A1 | 重新命名變數 `x` 為 `userCount` | utils.js:15 | 重新命名變數 | [ ] |
+| A2 | 移除未使用的 `oldHandler()` | api.js:89 | 移除死碼 | [ ] |
+| A3 | 提取重複的驗證 | form.js:23,67 | 提取方法 | [ ] |
 
-**Rollback Plan**: Revert commits A1-A3
+**回退計畫**：回退提交 A1-A3
 
 ---
 
-### Phase B: Structural Improvements (Medium Risk)
+### 階段 B：結構改善（中等風險）
 
-**Objective**: Improve code organization and clarity
+**目標**：改善程式碼組織和清晰度
 
-**Estimated Changes**: [X files, Y methods]
+**估計變更**：[X 個檔案，Y 個方法]
 
-**User Approval Required**: Yes
+**需要使用者批准**：是
 
-**Dependencies**: Phase A must be complete
+**相依性**：階段 A 必須完成
 
-| # | Task | File | Refactoring | Status |
+| # | 任務 | 檔案 | 重構手法 | 狀態 |
 |---|------|------|-------------|--------|
-| B1 | Extract `calculatePrice()` from long method | order.js:45 | Extract Method | [ ] |
-| B2 | Introduce `OrderDetails` parameter object | order.js:12 | Introduce Parameter Object | [ ] |
-| B3 | Move `formatAddress()` to Address class | customer.js:78 | Move Method | [ ] |
+| B1 | 從過長方法中提取 `calculatePrice()` | order.js:45 | 提取方法 | [ ] |
+| B2 | 引入 `OrderDetails` 參數物件 | order.js:12 | 引入參數物件 | [ ] |
+| B3 | 搬移 `formatAddress()` 到 Address 類別 | customer.js:78 | 搬移方法 | [ ] |
 
-**Rollback Plan**: Revert to post-Phase-A commit
+**回退計畫**：回退到階段 A 完成後的提交
 
 ---
 
-### Phase C: Architectural Changes (Higher Risk)
+### 階段 C：架構變更（較高風險）
 
-**Objective**: Address deeper structural issues
+**目標**：解決更深層的結構問題
 
-**Estimated Changes**: [X files, Y methods]
+**估計變更**：[X 個檔案，Y 個方法]
 
-**User Approval Required**: Yes
+**需要使用者批准**：是
 
-**Dependencies**: Phases A and B must be complete
+**相依性**：階段 A 和 B 必須完成
 
-| # | Task | File | Refactoring | Status |
+| # | 任務 | 檔案 | 重構手法 | 狀態 |
 |---|------|------|-------------|--------|
-| C1 | Replace price switch with polymorphism | pricing.js:30 | Replace Conditional with Polymorphism | [ ] |
-| C2 | Extract `NotificationService` class | user.js:100 | Extract Class | [ ] |
+| C1 | 以多型取代價格 switch | pricing.js:30 | 以多型取代條件式 | [ ] |
+| C2 | 提取 `NotificationService` 類別 | user.js:100 | 提取類別 | [ ] |
 
-**Rollback Plan**: Revert to post-Phase-B commit
+**回退計畫**：回退到階段 B 完成後的提交
 
 ---
 
-## Detailed Refactoring Steps
+## 詳細重構步驟
 
-### Task [ID]: [Task Name]
+### 任務 [ID]：[任務名稱]
 
-**Smell Addressed**: [Smell name]
+**處理的壞味道**：[壞味道名稱]
 
-**Refactoring Technique**: [Technique name]
+**重構技術**：[技術名稱]
 
-**Risk Level**: Low / Medium / High
+**風險等級**：低 / 中 / 高
 
-#### Context
+#### 上下文
 
-**Before** (Current State):
+**重構前**（目前狀態）：
 ```javascript
 // Paste current code here
 ```
 
-**After** (Expected State):
+**重構後**（預期狀態）：
 ```javascript
 // Paste expected code here
 ```
 
-#### Step-by-Step Mechanics
+#### 逐步操作步驟
 
-1. [ ] **Step 1**: [Description]
-   - Test: Run tests after this step
-   - Expected: All tests pass
+1. [ ] **步驟 1**：[描述]
+   - 測試：此步驟後執行測試
+   - 預期：所有測試通過
 
-2. [ ] **Step 2**: [Description]
-   - Test: Run tests after this step
-   - Expected: All tests pass
+2. [ ] **步驟 2**：[描述]
+   - 測試：此步驟後執行測試
+   - 預期：所有測試通過
 
-3. [ ] **Step 3**: [Description]
-   - Test: Run tests after this step
-   - Expected: All tests pass
+3. [ ] **步驟 3**：[描述]
+   - 測試：此步驟後執行測試
+   - 預期：所有測試通過
 
-#### Verification
+#### 驗證
 
-- [ ] All tests passing
-- [ ] Behavior unchanged
-- [ ] Code compiles
-- [ ] No new warnings
+- [ ] 所有測試通過
+- [ ] 行為不變
+- [ ] 程式碼可編譯
+- [ ] 無新的警告
 
-#### Commit Message
+#### 提交訊息
 ```
-refactor: [Describe the refactoring]
+refactor: [描述重構]
 ```
 
 ---
 
-## Progress Tracking
+## 進度追蹤
 
-### Phase Status
+### 階段狀態
 
-| Phase | Status | Started | Completed | Tests Passing |
+| 階段 | 狀態 | 開始時間 | 完成時間 | 測試通過 |
 |-------|--------|---------|-----------|---------------|
-| A | Not Started / In Progress / Done | | | |
-| B | Not Started / In Progress / Done | | | |
-| C | Not Started / In Progress / Done | | | |
+| A | 未開始 / 進行中 / 完成 | | | |
+| B | 未開始 / 進行中 / 完成 | | | |
+| C | 未開始 / 進行中 / 完成 | | | |
 
-### Issues Encountered
+### 遇到的問題
 
-| # | Issue | Resolution | Status |
+| # | 問題 | 解決方式 | 狀態 |
 |---|-------|------------|--------|
-| 1 | [Description] | [How resolved] | Open / Resolved |
+| 1 | [描述] | [如何解決] | 開放 / 已解決 |
 
 ---
 
-## Metrics Comparison
+## 指標比較
 
-### Before Refactoring
+### 重構前
 
-| Metric | File 1 | File 2 | Total |
+| 指標 | 檔案 1 | 檔案 2 | 總計 |
 |--------|--------|--------|-------|
-| Lines of Code | | | |
-| Cyclomatic Complexity | | | |
-| Maintainability Index | | | |
-| Number of Methods | | | |
-| Avg Method Length | | | |
+| 程式碼行數 | | | |
+| 循環複雜度 | | | |
+| 可維護性指數 | | | |
+| 方法數量 | | | |
+| 平均方法長度 | | | |
 
-### After Refactoring
+### 重構後
 
-| Metric | File 1 | File 2 | Total | Change |
+| 指標 | 檔案 1 | 檔案 2 | 總計 | 變化 |
 |--------|--------|--------|-------|--------|
-| Lines of Code | | | | |
-| Cyclomatic Complexity | | | | |
-| Maintainability Index | | | | |
-| Number of Methods | | | | |
-| Avg Method Length | | | | |
+| 程式碼行數 | | | | |
+| 循環複雜度 | | | | |
+| 可維護性指數 | | | | |
+| 方法數量 | | | | |
+| 平均方法長度 | | | | |
 
 ---
 
-## Post-Refactoring Checklist
+## 重構後清單
 
-- [ ] All tests passing
-- [ ] No new warnings or errors
-- [ ] Code compiles successfully
-- [ ] Manual verification completed
-- [ ] Documentation updated (if needed)
-- [ ] Code reviewed
-- [ ] Metrics improved
-- [ ] User sign-off obtained
-
----
-
-## Lessons Learned
-
-### What Went Well
-- [Item 1]
-- [Item 2]
-
-### What Could Be Improved
-- [Item 1]
-- [Item 2]
-
-### Recommendations for Future
-- [Item 1]
-- [Item 2]
+- [ ] 所有測試通過
+- [ ] 無新的警告或錯誤
+- [ ] 程式碼成功編譯
+- [ ] 手動驗證完成
+- [ ] 文件已更新（如需要）
+- [ ] 程式碼已審查
+- [ ] 指標已改善
+- [ ] 已獲得使用者簽核
 
 ---
 
-## Approvals
+## 經驗教訓
 
-| Role | Name | Date | Signature |
+### 做得好的地方
+- [項目 1]
+- [項目 2]
+
+### 可以改善的地方
+- [項目 1]
+- [項目 2]
+
+### 未來建議
+- [項目 1]
+- [項目 2]
+
+---
+
+## 核准
+
+| 角色 | 姓名 | 日期 | 簽名 |
 |------|------|------|-----------|
-| Plan Author | | | |
-| Technical Lead | | | |
-| Product Owner | | | |
+| 計畫作者 | | | |
+| 技術主管 | | | |
+| 產品負責人 | | | |
 
 ---
 
-## Appendix
+## 附錄
 
-### A. Related Documentation
-- [Link to relevant docs]
+### A. 相關文件
+- [相關文件連結]
 
-### B. Reference Materials
-- [Link to code smells catalog]
-- [Link to refactoring catalog]
+### B. 參考資料
+- [程式碼壞味道目錄連結]
+- [重構手法目錄連結]
 
-### C. Tools Used
-- [Testing framework]
-- [Linting tools]
-- [Complexity analysis tools]
+### C. 使用的工具
+- [測試框架]
+- [靜態分析工具]
+- [複雜度分析工具]

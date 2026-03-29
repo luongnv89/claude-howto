@@ -1,97 +1,97 @@
-# Blog Post Outline: [Title]
+# 部落格文章大綱：[標題]
 
-## Meta Information
+## 基本資訊
 
-| Attribute | Value |
+| 屬性 | 值 |
 |-----------|-------|
-| **Target Audience** | [Who is this for?] |
-| **Tone** | [Formal/Casual/Technical/Conversational] |
-| **Target Length** | [Word count range] |
-| **Main Takeaway** | [One sentence: what should readers remember?] |
-| **Keywords** | [SEO keywords if relevant] |
+| **目標受眾** | [這是給誰的？] |
+| **語氣** | [正式/隨意/技術性/對話式] |
+| **目標篇幅** | [字數範圍] |
+| **主要收穫** | [一句話：讀者應該記住什麼？] |
+| **關鍵字** | [SEO 關鍵字（如相關）] |
 
 ---
 
-## Proposed Structure
+## 提議的結構
 
-### 1. Introduction / Hook
+### 1. 引言 / 開場吸引
 
-**Opening Hook Options:**
-- [ ] Question that resonates with reader
-- [ ] Surprising statistic or fact
-- [ ] Brief story or scenario
-- [ ] Bold statement
+**開場選項：**
+- [ ] 與讀者產生共鳴的問題
+- [ ] 驚人的統計或事實
+- [ ] 簡短的故事或場景
+- [ ] 大膽的陳述
 
-**Context Setting:**
-- Background information needed
-- Why this topic matters now
+**背景設定：**
+- 需要的背景資訊
+- 為什麼這個主題現在很重要
 
-**Thesis Statement:**
-- Clear statement of what the post will cover
-
----
-
-### 2. [Section Title]
-
-**Key Points:**
-- Point A: [description]
-- Point B: [description]
-
-**Supporting Evidence:**
-- From [source]: [relevant data/quote]
-
-**Transition to next section:**
-- [How this connects to what's next]
+**論點陳述：**
+- 清楚陳述這篇文章將涵蓋什麼
 
 ---
 
-### 3. [Section Title]
+### 2. [章節標題]
 
-**Key Points:**
-- Point A: [description]
-- Point B: [description]
+**關鍵要點：**
+- 要點 A：[描述]
+- 要點 B：[描述]
 
-**Supporting Evidence:**
-- From [source]: [relevant data/quote]
+**支持證據：**
+- 來自 [來源]：[相關數據/引言]
 
-**Transition to next section:**
-- [How this connects to what's next]
-
----
-
-### 4. [Section Title] (add more sections as needed)
-
-**Key Points:**
-- Point A: [description]
-- Point B: [description]
-
-**Supporting Evidence:**
-- From [source]: [relevant data/quote]
+**過渡到下一節：**
+- [這如何連接到接下來的內容]
 
 ---
 
-### 5. Conclusion
+### 3. [章節標題]
 
-**Summary of Key Points:**
-- Recap point 1
-- Recap point 2
-- Recap point 3
+**關鍵要點：**
+- 要點 A：[描述]
+- 要點 B：[描述]
 
-**Final Thought / Call to Action:**
-- [What should readers do or think about next?]
+**支持證據：**
+- 來自 [來源]：[相關數據/引言]
 
----
-
-## Sources to Cite
-
-1. [Source Name](#) - Used for: [what information]
-2. [Source Name](#) - Used for: [what information]
-3. [Source Name](#) - Used for: [what information]
+**過渡到下一節：**
+- [這如何連接到接下來的內容]
 
 ---
 
-## Notes for Drafting
+### 4. [章節標題]（根據需要新增更多章節）
 
-- [Any specific requirements or constraints]
-- [Things to emphasize]
-- [Things to avoid]
+**關鍵要點：**
+- 要點 A：[描述]
+- 要點 B：[描述]
+
+**支持證據：**
+- 來自 [來源]：[相關數據/引言]
+
+---
+
+### 5. 結論
+
+**關鍵要點摘要：**
+- 回顧要點 1
+- 回顧要點 2
+- 回顧要點 3
+
+**結語 / 行動呼籲：**
+- [讀者接下來應該做什麼或思考什麼？]
+
+---
+
+## 引用來源
+
+1. [來源名稱](#) - 用途：[什麼資訊]
+2. [來源名稱](#) - 用途：[什麼資訊]
+3. [來源名稱](#) - 用途：[什麼資訊]
+
+---
+
+## 起草備註
+
+- [任何特定的要求或限制]
+- [要強調的內容]
+- [要避免的內容]

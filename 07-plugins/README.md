@@ -5,13 +5,17 @@
 
 # Claude Code Plugins
 
-This folder contains complete plugin examples that bundle multiple Claude Code features into cohesive, installable packages.
+📦 Plugins（外掛）
+用途: 功能集合套件
+難度: ⭐⭐⭐ 進階 | 時間: 2 小時
 
-## Overview
+本資料夾包含完整的 plugin 範例，將多個 Claude Code 功能捆綁成一致的、可安裝的套件。
 
-Claude Code Plugins are bundled collections of customizations (slash commands, subagents, MCP servers, and hooks) that install with a single command. They represent the highest-level extension mechanism—combining multiple features into cohesive, shareable packages.
+## 概述
 
-## Plugin Architecture
+Claude Code Plugins 是自訂項目（slash commands、subagents、MCP 伺服器和 hooks）的捆綁集合，只需一個命令即可安裝。它們代表最高層級的擴充機制——將多種功能結合成一致的、可分享的套件。
+
+## Plugin 架構
 
 ```mermaid
 graph TB
@@ -29,7 +33,7 @@ graph TB
     A -->|bundles| F
 ```
 
-## Plugin Loading Process
+## Plugin 載入流程
 
 ```mermaid
 sequenceDiagram
@@ -58,18 +62,18 @@ sequenceDiagram
     Tools-->>Claude: Plugin installed ✅
 ```
 
-## Plugin Types & Distribution
+## Plugin 類型與發布
 
-| Type | Scope | Shared | Authority | Examples |
-|------|-------|--------|-----------|----------|
-| Official | Global | All users | Anthropic | PR Review, Security Guidance |
-| Community | Public | All users | Community | DevOps, Data Science |
-| Organization | Internal | Team members | Company | Internal standards, tools |
-| Personal | Individual | Single user | Developer | Custom workflows |
+| 類型 | 範圍 | 共享 | 授權 | 範例 |
+|------|------|------|------|------|
+| Official | 全域 | 所有使用者 | Anthropic | PR Review、Security Guidance |
+| Community | 公開 | 所有使用者 | 社群 | DevOps、Data Science |
+| Organization | 內部 | 團隊成員 | 公司 | 內部標準、工具 |
+| Personal | 個人 | 單一使用者 | 開發者 | 自訂工作流程 |
 
-## Plugin Definition Structure
+## Plugin 定義結構
 
-Plugin manifest uses JSON format in `.claude-plugin/plugin.json`:
+Plugin manifest 使用 JSON 格式，位於 `.claude-plugin/plugin.json`：
 
 ```json
 {
@@ -85,28 +89,28 @@ Plugin manifest uses JSON format in `.claude-plugin/plugin.json`:
 }
 ```
 
-## Plugin Structure Example
+## Plugin 結構範例
 
 ```
 my-plugin/
 ├── .claude-plugin/
-│   └── plugin.json       # Manifest (name, description, version, author)
-├── commands/             # Skills as Markdown files
+│   └── plugin.json       # Manifest（名稱、描述、版本、作者）
+├── commands/             # 以 Markdown 檔案定義的 Skills
 │   ├── task-1.md
 │   ├── task-2.md
 │   └── workflows/
-├── agents/               # Custom agent definitions
+├── agents/               # 自訂 agent 定義
 │   ├── specialist-1.md
 │   ├── specialist-2.md
 │   └── configs/
-├── skills/               # Agent Skills with SKILL.md files
+├── skills/               # 含 SKILL.md 檔案的 Agent Skills
 │   ├── skill-1.md
 │   └── skill-2.md
-├── hooks/                # Event handlers in hooks.json
+├── hooks/                # hooks.json 中的事件處理器
 │   └── hooks.json
-├── .mcp.json             # MCP server configurations
-├── .lsp.json             # LSP server configurations
-├── settings.json         # Default settings
+├── .mcp.json             # MCP 伺服器配置
+├── .lsp.json             # LSP 伺服器配置
+├── settings.json         # 預設設定
 ├── templates/
 │   └── issue-template.md
 ├── scripts/
@@ -119,34 +123,34 @@ my-plugin/
     └── plugin.test.js
 ```
 
-### LSP server configuration
+### LSP 伺服器配置
 
-Plugins can include Language Server Protocol (LSP) support for real-time code intelligence. LSP servers provide diagnostics, code navigation, and symbol information as you work.
+Plugins 可以包含 Language Server Protocol (LSP) 支援，用於即時程式碼智慧分析。LSP 伺服器在您工作時提供診斷、程式碼導覽和符號資訊。
 
-**Configuration locations**:
-- `.lsp.json` file in the plugin root directory
-- Inline `lsp` key in `plugin.json`
+**配置位置**：
+- Plugin 根目錄中的 `.lsp.json` 檔案
+- `plugin.json` 中的內嵌 `lsp` 鍵
 
-#### Field reference
+#### 欄位參考
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `command` | Yes | LSP server binary (must be in PATH) |
-| `extensionToLanguage` | Yes | Maps file extensions to language IDs |
-| `args` | No | Command-line arguments for the server |
-| `transport` | No | Communication method: `stdio` (default) or `socket` |
-| `env` | No | Environment variables for the server process |
-| `initializationOptions` | No | Options sent during LSP initialization |
-| `settings` | No | Workspace configuration passed to the server |
-| `workspaceFolder` | No | Override the workspace folder path |
-| `startupTimeout` | No | Maximum time (ms) to wait for server startup |
-| `shutdownTimeout` | No | Maximum time (ms) for graceful shutdown |
-| `restartOnCrash` | No | Automatically restart if the server crashes |
-| `maxRestarts` | No | Maximum restart attempts before giving up |
+| 欄位 | 必填 | 說明 |
+|------|------|------|
+| `command` | 是 | LSP 伺服器二進位檔（必須在 PATH 中） |
+| `extensionToLanguage` | 是 | 將副檔名對應到語言 ID |
+| `args` | 否 | 伺服器的命令列引數 |
+| `transport` | 否 | 通訊方式：`stdio`（預設）或 `socket` |
+| `env` | 否 | 伺服器程序的環境變數 |
+| `initializationOptions` | 否 | LSP 初始化時傳送的選項 |
+| `settings` | 否 | 傳遞給伺服器的工作區配置 |
+| `workspaceFolder` | 否 | 覆寫工作區資料夾路徑 |
+| `startupTimeout` | 否 | 等待伺服器啟動的最長時間（毫秒） |
+| `shutdownTimeout` | 否 | 優雅關閉的最長時間（毫秒） |
+| `restartOnCrash` | 否 | 伺服器崩潰時自動重啟 |
+| `maxRestarts` | 否 | 放棄前的最大重啟次數 |
 
-#### Example configurations
+#### 配置範例
 
-**Go (gopls)**:
+**Go (gopls)**：
 
 ```json
 {
@@ -160,7 +164,7 @@ Plugins can include Language Server Protocol (LSP) support for real-time code in
 }
 ```
 
-**Python (pyright)**:
+**Python (pyright)**：
 
 ```json
 {
@@ -175,7 +179,7 @@ Plugins can include Language Server Protocol (LSP) support for real-time code in
 }
 ```
 
-**TypeScript**:
+**TypeScript**：
 
 ```json
 {
@@ -192,28 +196,28 @@ Plugins can include Language Server Protocol (LSP) support for real-time code in
 }
 ```
 
-#### Available LSP plugins
+#### 可用的 LSP plugins
 
-The official marketplace includes pre-configured LSP plugins:
+官方市集包含預先配置的 LSP plugins：
 
-| Plugin | Language | Server Binary | Install Command |
-|--------|----------|---------------|----------------|
+| Plugin | 語言 | 伺服器二進位檔 | 安裝命令 |
+|--------|------|----------------|----------|
 | `pyright-lsp` | Python | `pyright-langserver` | `pip install pyright` |
 | `typescript-lsp` | TypeScript/JavaScript | `typescript-language-server` | `npm install -g typescript-language-server typescript` |
-| `rust-lsp` | Rust | `rust-analyzer` | Install via `rustup component add rust-analyzer` |
+| `rust-lsp` | Rust | `rust-analyzer` | 透過 `rustup component add rust-analyzer` 安裝 |
 
-#### LSP capabilities
+#### LSP 功能
 
-Once configured, LSP servers provide:
+配置完成後，LSP 伺服器提供：
 
-- **Instant diagnostics** — errors and warnings appear immediately after edits
-- **Code navigation** — go to definition, find references, implementations
-- **Hover information** — type signatures and documentation on hover
-- **Symbol listing** — browse symbols in the current file or workspace
+- **即時診斷** — 編輯後立即顯示錯誤和警告
+- **程式碼導覽** — 前往定義、尋找參照、實作
+- **懸停資訊** — 懸停時顯示型別簽名和文件
+- **符號列表** — 瀏覽目前檔案或工作區中的符號
 
-## Plugin Options (v2.1.83+)
+## Plugin 選項（v2.1.83+）
 
-Plugins can declare user-configurable options in the manifest via `userConfig`. Values marked `sensitive: true` are stored in the system keychain rather than plain-text settings files:
+Plugins 可以在 manifest 中透過 `userConfig` 宣告使用者可配置的選項。標記為 `sensitive: true` 的值會儲存在系統金鑰鏈中，而非純文字設定檔：
 
 ```json
 {
@@ -232,9 +236,9 @@ Plugins can declare user-configurable options in the manifest via `userConfig`. 
 }
 ```
 
-## Persistent Plugin Data (`${CLAUDE_PLUGIN_DATA}`) (v2.1.78+)
+## 持久化 Plugin 資料（`${CLAUDE_PLUGIN_DATA}`）（v2.1.78+）
 
-Plugins have access to a persistent state directory via the `${CLAUDE_PLUGIN_DATA}` environment variable. This directory is unique per plugin and survives across sessions, making it suitable for caches, databases, and other persistent state:
+Plugins 可以透過 `${CLAUDE_PLUGIN_DATA}` 環境變數存取持久化狀態目錄。此目錄對每個 plugin 是唯一的，且跨工作階段持續存在，適用於快取、資料庫和其他持久化狀態：
 
 ```json
 {
@@ -248,11 +252,11 @@ Plugins have access to a persistent state directory via the `${CLAUDE_PLUGIN_DAT
 }
 ```
 
-The directory is created automatically when the plugin is installed. Files stored here persist until the plugin is uninstalled.
+此目錄在 plugin 安裝時自動建立。儲存在此處的檔案會持續保留，直到 plugin 被解除安裝。
 
-## Inline Plugin via Settings (`source: 'settings'`) (v2.1.80+)
+## 透過設定的內嵌 Plugin（`source: 'settings'`）（v2.1.80+）
 
-Plugins can be defined inline in settings files as marketplace entries using the `source: 'settings'` field. This allows embedding a plugin definition directly without requiring a separate repository or marketplace:
+Plugins 可以在設定檔中作為市集項目以內嵌方式定義，使用 `source: 'settings'` 欄位。這允許直接嵌入 plugin 定義，無需獨立的儲存庫或市集：
 
 ```json
 {
@@ -271,9 +275,9 @@ Plugins can be defined inline in settings files as marketplace entries using the
 }
 ```
 
-## Plugin Settings
+## Plugin 設定
 
-Plugins can ship a `settings.json` file to provide default configuration. This currently supports the `agent` key, which sets the main thread agent for the plugin:
+Plugins 可以附帶 `settings.json` 檔案以提供預設配置。目前支援 `agent` 鍵，用於設定 plugin 的主執行緒 agent：
 
 ```json
 {
@@ -281,22 +285,22 @@ Plugins can ship a `settings.json` file to provide default configuration. This c
 }
 ```
 
-When a plugin includes `settings.json`, its defaults are applied on installation. Users can override these settings in their own project or user configuration.
+當 plugin 包含 `settings.json` 時，其預設值會在安裝時套用。使用者可以在自己的專案或使用者配置中覆寫這些設定。
 
-## Standalone vs Plugin Approach
+## 獨立式與 Plugin 方式比較
 
-| Approach | Command Names | Configuration | Best For |
-|----------|---------------|---|---|
-| **Standalone** | `/hello` | Manual setup in CLAUDE.md | Personal, project-specific |
-| **Plugins** | `/plugin-name:hello` | Automated via plugin.json | Sharing, distribution, team use |
+| 方式 | 命令名稱 | 配置 | 最適合 |
+|------|----------|------|--------|
+| **獨立式** | `/hello` | 在 CLAUDE.md 中手動設定 | 個人、專案特定 |
+| **Plugins** | `/plugin-name:hello` | 透過 plugin.json 自動化 | 分享、發布、團隊使用 |
 
-Use **standalone slash commands** for quick personal workflows. Use **plugins** when you want to bundle multiple features, share with a team, or publish for distribution.
+對於快速的個人工作流程，使用**獨立式 slash commands**。當您想捆綁多個功能、與團隊分享或發布以供分發時，使用 **plugins**。
 
-## Practical Examples
+## 實用範例
 
-### Example 1: PR Review Plugin
+### 範例 1：PR Review Plugin
 
-**File:** `.claude-plugin/plugin.json`
+**檔案：** `.claude-plugin/plugin.json`
 
 ```json
 {
@@ -311,7 +315,7 @@ Use **standalone slash commands** for quick personal workflows. Use **plugins** 
 }
 ```
 
-**File:** `commands/review-pr.md`
+**檔案：** `commands/review-pr.md`
 
 ```markdown
 ---
@@ -330,7 +334,7 @@ This command initiates a complete pull request review including:
 5. Performance impact assessment
 ```
 
-**File:** `agents/security-reviewer.md`
+**檔案：** `agents/security-reviewer.md`
 
 ```yaml
 ---
@@ -348,7 +352,7 @@ Specializes in finding security vulnerabilities:
 - Secure configuration
 ```
 
-**Installation:**
+**安裝：**
 
 ```bash
 /plugin install pr-review
@@ -361,9 +365,9 @@ Specializes in finding security vulnerabilities:
 # ✅ Ready to use!
 ```
 
-### Example 2: DevOps Plugin
+### 範例 2：DevOps Plugin
 
-**Components:**
+**組件：**
 
 ```
 devops-automation/
@@ -390,9 +394,9 @@ devops-automation/
     └── health-check.sh
 ```
 
-### Example 3: Documentation Plugin
+### 範例 3：Documentation Plugin
 
-**Bundled Components:**
+**捆綁的組件：**
 
 ```
 documentation/
@@ -414,9 +418,9 @@ documentation/
     └── adr-template.md
 ```
 
-## Plugin Marketplace
+## Plugin 市集
 
-The official Anthropic-managed plugin directory is `anthropics/claude-plugins-official`. Enterprise admins can also create private plugin marketplaces for internal distribution.
+官方 Anthropic 管理的 plugin 目錄是 `anthropics/claude-plugins-official`。企業管理員也可以建立私有 plugin 市集以供內部分發。
 
 ```mermaid
 graph TB
@@ -447,25 +451,25 @@ graph TB
     style D fill:#fff3e0,stroke:#333,color:#333
 ```
 
-### Marketplace Configuration
+### 市集配置
 
-Enterprise and advanced users can control marketplace behavior through settings:
+企業和進階使用者可以透過設定控制市集行為：
 
-| Setting | Description |
-|---------|-------------|
-| `extraKnownMarketplaces` | Add additional marketplace sources beyond the defaults |
-| `strictKnownMarketplaces` | Control which marketplaces users are allowed to add |
-| `deniedPlugins` | Admin-managed blocklist to prevent specific plugins from being installed |
+| 設定 | 說明 |
+|------|------|
+| `extraKnownMarketplaces` | 在預設值之外新增額外的市集來源 |
+| `strictKnownMarketplaces` | 控制使用者可以新增的市集 |
+| `deniedPlugins` | 管理員管理的封鎖清單，防止特定 plugins 被安裝 |
 
-### Additional Marketplace Features
+### 額外市集功能
 
-- **Default git timeout**: Increased from 30s to 120s for large plugin repositories
-- **Custom npm registries**: Plugins can specify custom npm registry URLs for dependency resolution
-- **Version pinning**: Lock plugins to specific versions for reproducible environments
+- **預設 git 逾時時間**：從 30 秒增加到 120 秒，適用於大型 plugin 儲存庫
+- **自訂 npm 登錄檔**：Plugins 可以指定自訂 npm 登錄檔 URL 以進行依賴解析
+- **版本鎖定**：將 plugins 鎖定到特定版本以確保可重現的環境
 
-### Marketplace definition schema
+### 市集定義結構
 
-Plugin marketplaces are defined in `.claude-plugin/marketplace.json`:
+Plugin 市集定義在 `.claude-plugin/marketplace.json` 中：
 
 ```json
 {
@@ -492,65 +496,65 @@ Plugin marketplaces are defined in `.claude-plugin/marketplace.json`:
 }
 ```
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `name` | Yes | Marketplace name in kebab-case |
-| `owner` | Yes | Organization or user who maintains the marketplace |
-| `plugins` | Yes | Array of plugin entries |
-| `plugins[].name` | Yes | Plugin name (kebab-case) |
-| `plugins[].source` | Yes | Plugin source (path string or source object) |
-| `plugins[].description` | No | Brief plugin description |
-| `plugins[].version` | No | Semantic version string |
-| `plugins[].author` | No | Plugin author name |
+| 欄位 | 必填 | 說明 |
+|------|------|------|
+| `name` | 是 | 市集名稱，使用 kebab-case |
+| `owner` | 是 | 維護市集的組織或使用者 |
+| `plugins` | 是 | Plugin 項目陣列 |
+| `plugins[].name` | 是 | Plugin 名稱（kebab-case） |
+| `plugins[].source` | 是 | Plugin 來源（路徑字串或來源物件） |
+| `plugins[].description` | 否 | 簡短的 plugin 描述 |
+| `plugins[].version` | 否 | 語意化版本字串 |
+| `plugins[].author` | 否 | Plugin 作者名稱 |
 
-### Plugin source types
+### Plugin 來源類型
 
-Plugins can be sourced from multiple locations:
+Plugins 可以從多個位置取得：
 
-| Source | Syntax | Example |
-|--------|--------|---------|
-| **Relative path** | String path | `"./plugins/my-plugin"` |
+| 來源 | 語法 | 範例 |
+|------|------|------|
+| **相對路徑** | 字串路徑 | `"./plugins/my-plugin"` |
 | **GitHub** | `{ "source": "github", "repo": "owner/repo" }` | `{ "source": "github", "repo": "acme/lint-plugin", "ref": "v1.0" }` |
 | **Git URL** | `{ "source": "url", "url": "..." }` | `{ "source": "url", "url": "https://git.internal/plugin.git" }` |
-| **Git subdirectory** | `{ "source": "git-subdir", "url": "...", "path": "..." }` | `{ "source": "git-subdir", "url": "https://github.com/org/monorepo.git", "path": "packages/plugin" }` |
+| **Git 子目錄** | `{ "source": "git-subdir", "url": "...", "path": "..." }` | `{ "source": "git-subdir", "url": "https://github.com/org/monorepo.git", "path": "packages/plugin" }` |
 | **npm** | `{ "source": "npm", "package": "..." }` | `{ "source": "npm", "package": "@acme/claude-plugin", "version": "^2.0" }` |
 | **pip** | `{ "source": "pip", "package": "..." }` | `{ "source": "pip", "package": "claude-data-plugin", "version": ">=1.0" }` |
 
-GitHub and git sources support optional `ref` (branch/tag) and `sha` (commit hash) fields for version pinning.
+GitHub 和 git 來源支援可選的 `ref`（分支/標籤）和 `sha`（提交雜湊值）欄位以進行版本鎖定。
 
-### Distribution methods
+### 發布方式
 
-**GitHub (recommended)**:
+**GitHub（建議）**：
 ```bash
-# Users add your marketplace
+# 使用者新增您的市集
 /plugin marketplace add owner/repo-name
 ```
 
-**Other git services** (full URL required):
+**其他 git 服務**（需要完整 URL）：
 ```bash
 /plugin marketplace add https://gitlab.com/org/marketplace-repo.git
 ```
 
-**Private repositories**: Supported via git credential helpers or environment tokens. Users must have read access to the repository.
+**私有儲存庫**：透過 git 認證助手或環境權杖支援。使用者必須擁有儲存庫的讀取權限。
 
-**Official marketplace submission**: Submit plugins to the Anthropic-curated marketplace for broader distribution.
+**官方市集提交**：將 plugins 提交到 Anthropic 策展的市集以獲得更廣泛的分發。
 
-### Strict mode
+### 嚴格模式
 
-Control how marketplace definitions interact with local `plugin.json` files:
+控制市集定義如何與本機 `plugin.json` 檔案互動：
 
-| Setting | Behavior |
-|---------|----------|
-| `strict: true` (default) | Local `plugin.json` is authoritative; marketplace entry supplements it |
-| `strict: false` | Marketplace entry is the entire plugin definition |
+| 設定 | 行為 |
+|------|------|
+| `strict: true`（預設） | 本機 `plugin.json` 具有權威性；市集項目作為補充 |
+| `strict: false` | 市集項目即為完整的 plugin 定義 |
 
-**Organization restrictions** with `strictKnownMarketplaces`:
+**使用 `strictKnownMarketplaces` 的組織限制**：
 
-| Value | Effect |
-|-------|--------|
-| Not set | No restrictions — users can add any marketplace |
-| Empty array `[]` | Lockdown — no marketplaces allowed |
-| Array of patterns | Allowlist — only matching marketplaces can be added |
+| 值 | 效果 |
+|----|------|
+| 未設定 | 無限制 — 使用者可以新增任何市集 |
+| 空陣列 `[]` | 鎖定 — 不允許任何市集 |
+| 模式陣列 | 允許清單 — 僅符合的市集可以被新增 |
 
 ```json
 {
@@ -561,9 +565,9 @@ Control how marketplace definitions interact with local `plugin.json` files:
 }
 ```
 
-> **Warning**: In strict mode with `strictKnownMarketplaces`, users can only install plugins from allowlisted marketplaces. This is useful for enterprise environments requiring controlled plugin distribution.
+> **警告**：在嚴格模式下使用 `strictKnownMarketplaces`，使用者只能從允許清單中的市集安裝 plugins。這對需要控制 plugin 分發的企業環境非常有用。
 
-## Plugin Installation & Lifecycle
+## Plugin 安裝與生命週期
 
 ```mermaid
 graph LR
@@ -580,61 +584,61 @@ graph LR
     J -->|Back| G
 ```
 
-## Plugin Features Comparison
+## Plugin 功能比較
 
-| Feature | Slash Command | Skill | Subagent | Plugin |
-|---------|---------------|-------|----------|--------|
-| **Installation** | Manual copy | Manual copy | Manual config | One command |
-| **Setup Time** | 5 minutes | 10 minutes | 15 minutes | 2 minutes |
-| **Bundling** | Single file | Single file | Single file | Multiple |
-| **Versioning** | Manual | Manual | Manual | Automatic |
-| **Team Sharing** | Copy file | Copy file | Copy file | Install ID |
-| **Updates** | Manual | Manual | Manual | Auto-available |
-| **Dependencies** | None | None | None | May include |
-| **Marketplace** | No | No | No | Yes |
-| **Distribution** | Repository | Repository | Repository | Marketplace |
+| 功能 | Slash Command | Skill | Subagent | Plugin |
+|------|---------------|-------|----------|--------|
+| **安裝** | 手動複製 | 手動複製 | 手動配置 | 一個命令 |
+| **設定時間** | 5 分鐘 | 10 分鐘 | 15 分鐘 | 2 分鐘 |
+| **捆綁** | 單一檔案 | 單一檔案 | 單一檔案 | 多個 |
+| **版本控制** | 手動 | 手動 | 手動 | 自動 |
+| **團隊分享** | 複製檔案 | 複製檔案 | 複製檔案 | 安裝 ID |
+| **更新** | 手動 | 手動 | 手動 | 自動可用 |
+| **依賴** | 無 | 無 | 無 | 可能包含 |
+| **市集** | 否 | 否 | 否 | 是 |
+| **分發** | 儲存庫 | 儲存庫 | 儲存庫 | 市集 |
 
-## Plugin CLI Commands
+## Plugin CLI 命令
 
-All plugin operations are available as CLI commands:
+所有 plugin 操作都可作為 CLI 命令使用：
 
 ```bash
-claude plugin install <name>@<marketplace>   # Install from a marketplace
-claude plugin uninstall <name>               # Remove a plugin
-claude plugin list                           # List installed plugins
-claude plugin enable <name>                  # Enable a disabled plugin
-claude plugin disable <name>                 # Disable a plugin
-claude plugin validate                       # Validate plugin structure
+claude plugin install <name>@<marketplace>   # 從市集安裝
+claude plugin uninstall <name>               # 移除 plugin
+claude plugin list                           # 列出已安裝的 plugins
+claude plugin enable <name>                  # 啟用已停用的 plugin
+claude plugin disable <name>                 # 停用 plugin
+claude plugin validate                       # 驗證 plugin 結構
 ```
 
-## Installation Methods
+## 安裝方式
 
-### From Marketplace
+### 從市集安裝
 ```bash
 /plugin install plugin-name
-# or from CLI:
+# 或從 CLI：
 claude plugin install plugin-name@marketplace-name
 ```
 
-### Enable / Disable (with auto-detected scope)
+### 啟用 / 停用（自動偵測範圍）
 ```bash
 /plugin enable plugin-name
 /plugin disable plugin-name
 ```
 
-### Local Plugin (for development)
+### 本機 Plugin（用於開發）
 ```bash
-# CLI flag for local testing (repeatable for multiple plugins)
+# 用於本機測試的 CLI 旗標（可重複使用以載入多個 plugins）
 claude --plugin-dir ./path/to/plugin
 claude --plugin-dir ./plugin-a --plugin-dir ./plugin-b
 ```
 
-### From Git Repository
+### 從 Git 儲存庫安裝
 ```bash
 /plugin install github:username/repo
 ```
 
-## When to Create a Plugin
+## 何時建立 Plugin
 
 ```mermaid
 graph TD
@@ -650,83 +654,83 @@ graph TD
     G -->|No| D
 ```
 
-### Plugin Use Cases
+### Plugin 使用案例
 
-| Use Case | Recommendation | Why |
-|----------|-----------------|-----|
-| **Team Onboarding** | ✅ Use Plugin | Instant setup, all configurations |
-| **Framework Setup** | ✅ Use Plugin | Bundles framework-specific commands |
-| **Enterprise Standards** | ✅ Use Plugin | Central distribution, version control |
-| **Quick Task Automation** | ❌ Use Command | Overkill complexity |
-| **Single Domain Expertise** | ❌ Use Skill | Too heavy, use skill instead |
-| **Specialized Analysis** | ❌ Use Subagent | Create manually or use skill |
-| **Live Data Access** | ❌ Use MCP | Standalone, don't bundle |
+| 使用案例 | 建議 | 原因 |
+|----------|------|------|
+| **團隊上手** | ✅ 使用 Plugin | 即時設定，所有配置一次到位 |
+| **框架設定** | ✅ 使用 Plugin | 捆綁框架特定的命令 |
+| **企業標準** | ✅ 使用 Plugin | 集中分發、版本控制 |
+| **快速任務自動化** | ❌ 使用 Command | 過度複雜 |
+| **單一領域專業知識** | ❌ 使用 Skill | 太重，改用 skill |
+| **專業分析** | ❌ 使用 Subagent | 手動建立或使用 skill |
+| **即時資料存取** | ❌ 使用 MCP | 獨立使用，不需捆綁 |
 
-## Testing a Plugin
+## 測試 Plugin
 
-Before publishing, test your plugin locally using the `--plugin-dir` CLI flag (repeatable for multiple plugins):
+發布前，使用 `--plugin-dir` CLI 旗標在本機測試您的 plugin（可重複使用以載入多個 plugins）：
 
 ```bash
 claude --plugin-dir ./my-plugin
 claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 ```
 
-This launches Claude Code with your plugin loaded, allowing you to:
-- Verify all slash commands are available
-- Test subagents and agents function correctly
-- Confirm MCP servers connect properly
-- Validate hook execution
-- Check LSP server configurations
-- Check for any configuration errors
+這會啟動載入您的 plugin 的 Claude Code，讓您可以：
+- 驗證所有 slash commands 是否可用
+- 測試 subagents 和 agents 是否正常運作
+- 確認 MCP 伺服器是否正確連線
+- 驗證 hook 執行
+- 檢查 LSP 伺服器配置
+- 檢查是否有任何配置錯誤
 
-## Hot-Reload
+## 熱重載
 
-Plugins support hot-reload during development. When you modify plugin files, Claude Code can detect changes automatically. You can also force a reload with:
+Plugins 在開發期間支援熱重載。當您修改 plugin 檔案時，Claude Code 可以自動偵測變更。您也可以使用以下命令強制重新載入：
 
 ```bash
 /reload-plugins
 ```
 
-This re-reads all plugin manifests, commands, agents, skills, hooks, and MCP/LSP configurations without restarting the session.
+這會重新讀取所有 plugin manifest、commands、agents、skills、hooks 和 MCP/LSP 配置，無需重新啟動工作階段。
 
-## Managed Settings for Plugins
+## Plugins 的管理設定
 
-Administrators can control plugin behavior across an organization using managed settings:
+管理員可以使用管理設定跨組織控制 plugin 行為：
 
-| Setting | Description |
-|---------|-------------|
-| `enabledPlugins` | Allowlist of plugins that are enabled by default |
-| `deniedPlugins` | Blocklist of plugins that cannot be installed |
-| `extraKnownMarketplaces` | Add additional marketplace sources beyond the defaults |
-| `strictKnownMarketplaces` | Restrict which marketplaces users are allowed to add |
-| `allowedChannelPlugins` | Control which plugins are permitted per release channel |
+| 設定 | 說明 |
+|------|------|
+| `enabledPlugins` | 預設啟用的 plugins 允許清單 |
+| `deniedPlugins` | 無法安裝的 plugins 封鎖清單 |
+| `extraKnownMarketplaces` | 在預設值之外新增額外的市集來源 |
+| `strictKnownMarketplaces` | 限制使用者可以新增的市集 |
+| `allowedChannelPlugins` | 控制每個發布通道允許的 plugins |
 
-These settings can be applied at the organization level via managed configuration files and take precedence over user-level settings.
+這些設定可以透過管理配置檔在組織層級套用，並優先於使用者層級的設定。
 
-## Plugin Security
+## Plugin 安全性
 
-Plugin subagents run in a restricted sandbox. The following frontmatter keys are **not allowed** in plugin subagent definitions:
+Plugin subagents 在受限的沙箱中執行。以下 frontmatter 鍵在 plugin subagent 定義中**不允許**使用：
 
-- `hooks` -- Subagents cannot register event handlers
-- `mcpServers` -- Subagents cannot configure MCP servers
-- `permissionMode` -- Subagents cannot override the permission model
+- `hooks` -- Subagents 不能註冊事件處理器
+- `mcpServers` -- Subagents 不能配置 MCP 伺服器
+- `permissionMode` -- Subagents 不能覆寫權限模型
 
-This ensures that plugins cannot escalate privileges or modify the host environment beyond their declared scope.
+這確保 plugins 不能提升權限或在其宣告的範圍之外修改主機環境。
 
-## Publishing a Plugin
+## 發布 Plugin
 
-**Steps to publish:**
+**發布步驟：**
 
-1. Create plugin structure with all components
-2. Write `.claude-plugin/plugin.json` manifest
-3. Create `README.md` with documentation
-4. Test locally with `claude --plugin-dir ./my-plugin`
-5. Submit to plugin marketplace
-6. Get reviewed and approved
-7. Published on marketplace
-8. Users can install with one command
+1. 建立包含所有組件的 plugin 結構
+2. 撰寫 `.claude-plugin/plugin.json` manifest
+3. 建立包含文件的 `README.md`
+4. 使用 `claude --plugin-dir ./my-plugin` 在本機測試
+5. 提交到 plugin 市集
+6. 接受審查和核准
+7. 在市集上發布
+8. 使用者可以用一個命令安裝
 
-**Example submission:**
+**提交範例：**
 
 ```markdown
 # PR Review Plugin
@@ -765,17 +769,17 @@ Complete PR review workflow with security, testing, and documentation checks.
 - CodeQL (optional)
 ```
 
-## Plugin vs Manual Configuration
+## Plugin 與手動配置比較
 
-**Manual Setup (2+ hours):**
-- Install slash commands one by one
-- Create subagents individually
-- Configure MCPs separately
-- Set up hooks manually
-- Document everything
-- Share with team (hope they configure correctly)
+**手動設定（2+ 小時）：**
+- 逐一安裝 slash commands
+- 個別建立 subagents
+- 分別配置 MCPs
+- 手動設定 hooks
+- 撰寫所有文件
+- 與團隊分享（希望他們配置正確）
 
-**With Plugin (2 minutes):**
+**使用 Plugin（2 分鐘）：**
 ```bash
 /plugin install pr-review
 # ✅ Everything installed and configured
@@ -783,105 +787,105 @@ Complete PR review workflow with security, testing, and documentation checks.
 # ✅ Team can reproduce exact setup
 ```
 
-## Best Practices
+## 最佳實踐
 
-### Do's ✅
-- Use clear, descriptive plugin names
-- Include comprehensive README
-- Version your plugin properly (semver)
-- Test all components together
-- Document requirements clearly
-- Provide usage examples
-- Include error handling
-- Tag appropriately for discovery
-- Maintain backward compatibility
-- Keep plugins focused and cohesive
-- Include comprehensive tests
-- Document all dependencies
+### 應該做的 ✅
+- 使用清晰、描述性的 plugin 名稱
+- 包含完整的 README
+- 正確地版本化您的 plugin（semver）
+- 一起測試所有組件
+- 清楚記錄需求
+- 提供使用範例
+- 包含錯誤處理
+- 適當地標記以利發現
+- 維持向後相容性
+- 保持 plugins 專注且一致
+- 包含完整的測試
+- 記錄所有依賴
 
-### Don'ts ❌
-- Don't bundle unrelated features
-- Don't hardcode credentials
-- Don't skip testing
-- Don't forget documentation
-- Don't create redundant plugins
-- Don't ignore versioning
-- Don't overcomplicate component dependencies
-- Don't forget to handle errors gracefully
+### 不應該做的 ❌
+- 不要捆綁不相關的功能
+- 不要硬編碼認證資訊
+- 不要跳過測試
+- 不要忘記文件
+- 不要建立冗餘的 plugins
+- 不要忽略版本控制
+- 不要過度複雜化組件依賴
+- 不要忘記優雅地處理錯誤
 
-## Installation Instructions
+## 安裝說明
 
-### Installing from Marketplace
+### 從市集安裝
 
-1. **Browse available plugins:**
+1. **瀏覽可用的 plugins：**
    ```bash
    /plugin list
    ```
 
-2. **View plugin details:**
+2. **檢視 plugin 詳情：**
    ```bash
    /plugin info plugin-name
    ```
 
-3. **Install a plugin:**
+3. **安裝 plugin：**
    ```bash
    /plugin install plugin-name
    ```
 
-### Installing from Local Path
+### 從本機路徑安裝
 
 ```bash
 /plugin install ./path/to/plugin-directory
 ```
 
-### Installing from GitHub
+### 從 GitHub 安裝
 
 ```bash
 /plugin install github:username/repo
 ```
 
-### Listing Installed Plugins
+### 列出已安裝的 Plugins
 
 ```bash
 /plugin list --installed
 ```
 
-### Updating a Plugin
+### 更新 Plugin
 
 ```bash
 /plugin update plugin-name
 ```
 
-### Disabling/Enabling a Plugin
+### 停用 / 啟用 Plugin
 
 ```bash
-# Temporarily disable
+# 暫時停用
 /plugin disable plugin-name
 
-# Re-enable
+# 重新啟用
 /plugin enable plugin-name
 ```
 
-### Uninstalling a Plugin
+### 解除安裝 Plugin
 
 ```bash
 /plugin uninstall plugin-name
 ```
 
-## Related Concepts
+## 相關概念
 
-The following Claude Code features work together with plugins:
+以下 Claude Code 功能與 plugins 搭配使用：
 
-- **[Slash Commands](../01-slash-commands/)** - Individual commands bundled in plugins
-- **[Memory](../02-memory/)** - Persistent context for plugins
-- **[Skills](../03-skills/)** - Domain expertise that can be wrapped into plugins
-- **[Subagents](../04-subagents/)** - Specialized agents included as plugin components
-- **[MCP Servers](../05-mcp/)** - Model Context Protocol integrations bundled in plugins
-- **[Hooks](../06-hooks/)** - Event handlers that trigger plugin workflows
+- **[Slash Commands](../01-slash-commands/)** - 在 plugins 中捆綁的個別命令
+- **[Memory](../02-memory/)** - Plugins 的持久化上下文
+- **[Skills](../03-skills/)** - 可包裝成 plugins 的領域專業知識
+- **[Subagents](../04-subagents/)** - 作為 plugin 組件的專業 agents
+- **[MCP Servers](../05-mcp/)** - 在 plugins 中捆綁的 Model Context Protocol 整合
+- **[Hooks](../06-hooks/)** - 觸發 plugin 工作流程的事件處理器
 
-## Complete Example Workflow
+## 完整範例工作流程
 
-### PR Review Plugin Full Workflow
+### PR Review Plugin 完整工作流程
 
 ```
 1. User: /review-pr
@@ -900,44 +904,44 @@ The following Claude Code features work together with plugins:
    📝 12 recommendations provided
 ```
 
-## Troubleshooting
+## 疑難排解
 
-### Plugin Won't Install
-- Check Claude Code version compatibility: `/version`
-- Verify `plugin.json` syntax with a JSON validator
-- Check internet connection (for remote plugins)
-- Review permissions: `ls -la plugin/`
+### Plugin 無法安裝
+- 檢查 Claude Code 版本相容性：`/version`
+- 使用 JSON 驗證器驗證 `plugin.json` 語法
+- 檢查網路連線（對於遠端 plugins）
+- 檢視權限：`ls -la plugin/`
 
-### Components Not Loading
-- Verify paths in `plugin.json` match actual directory structure
-- Check file permissions: `chmod +x scripts/`
-- Review component file syntax
-- Check logs: `/plugin debug plugin-name`
+### 組件未載入
+- 驗證 `plugin.json` 中的路徑與實際目錄結構相符
+- 檢查檔案權限：`chmod +x scripts/`
+- 檢視組件檔案語法
+- 檢查日誌：`/plugin debug plugin-name`
 
-### MCP Connection Failed
-- Verify environment variables are set correctly
-- Check MCP server installation and health
-- Test MCP connection independently with `/mcp test`
-- Review MCP configuration in `mcp/` directory
+### MCP 連線失敗
+- 驗證環境變數設定正確
+- 檢查 MCP 伺服器安裝和健康狀態
+- 使用 `/mcp test` 獨立測試 MCP 連線
+- 檢視 `mcp/` 目錄中的 MCP 配置
 
-### Commands Not Available After Install
-- Ensure plugin was installed successfully: `/plugin list --installed`
-- Check if plugin is enabled: `/plugin status plugin-name`
-- Restart Claude Code: `exit` and reopen
-- Check for naming conflicts with existing commands
+### 安裝後命令不可用
+- 確保 plugin 已成功安裝：`/plugin list --installed`
+- 檢查 plugin 是否已啟用：`/plugin status plugin-name`
+- 重新啟動 Claude Code：`exit` 然後重新開啟
+- 檢查是否與現有命令有命名衝突
 
-### Hook Execution Issues
-- Verify hook files have correct permissions
-- Check hook syntax and event names
-- Review hook logs for error details
-- Test hooks manually if possible
+### Hook 執行問題
+- 驗證 hook 檔案是否有正確的權限
+- 檢查 hook 語法和事件名稱
+- 檢視 hook 日誌以取得錯誤詳情
+- 如果可能，手動測試 hooks
 
-## Additional Resources
+## 額外資源
 
-- [Official Plugins Documentation](https://code.claude.com/docs/en/plugins)
-- [Discover Plugins](https://code.claude.com/docs/en/discover-plugins)
-- [Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
-- [Plugins Reference](https://code.claude.com/docs/en/plugins-reference)
-- [MCP Server Reference](https://modelcontextprotocol.io/)
-- [Subagent Configuration Guide](../04-subagents/README.md)
-- [Hook System Reference](../06-hooks/README.md)
+- [官方 Plugins 文件](https://code.claude.com/docs/en/plugins)
+- [探索 Plugins](https://code.claude.com/docs/en/discover-plugins)
+- [Plugin 市集](https://code.claude.com/docs/en/plugin-marketplaces)
+- [Plugins 參考](https://code.claude.com/docs/en/plugins-reference)
+- [MCP Server 參考](https://modelcontextprotocol.io/)
+- [Subagent 配置指南](../04-subagents/README.md)
+- [Hook 系統參考](../06-hooks/README.md)

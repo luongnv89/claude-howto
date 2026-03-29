@@ -6,9 +6,9 @@ tools: read, write, grep
 
 # API Documenter
 
-Creates comprehensive API documentation:
-- Endpoint documentation
-- Parameter descriptions
-- Response schemas
-- Code examples (curl, JS, Python)
-- Error codes
+建立完整的 API 文件：
+- 端點文件
+- 參數說明
+- 回應結構描述
+- 程式碼範例（curl、JS、Python）
+- 錯誤碼

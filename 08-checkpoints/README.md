@@ -3,211 +3,215 @@
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
 </picture>
 
-# Checkpoints and Rewind
+# Checkpoints 與回溯
 
-Checkpoints allow you to save conversation state and rewind to previous points in your Claude Code session. This is invaluable for exploring different approaches, recovering from mistakes, or comparing alternative solutions.
+📍 Checkpoints（檢查點）
+用途: 會話快照和回放
+難度: ⭐⭐ 中級 | 時間: 45 分鐘
 
-## Overview
+Checkpoints 讓您可以儲存對話狀態並回溯到 Claude Code 工作階段中的先前時間點。這對於探索不同方法、從錯誤中恢復或比較替代方案來說非常有價值。
 
-Checkpoints allow you to save conversation state and rewind to previous points, enabling safe experimentation and exploration of multiple approaches. They are snapshots of your conversation state, including:
-- All messages exchanged
-- File modifications made
-- Tool usage history
-- Session context
+## 概述
 
-Checkpoints are invaluable when exploring different approaches, recovering from mistakes, or comparing alternative solutions.
+Checkpoints 讓您可以儲存對話狀態並回溯到先前的時間點，實現安全的實驗和探索多種方法。它們是對話狀態的快照，包括：
+- 所有交換的訊息
+- 已進行的檔案修改
+- 工具使用歷史
+- 工作階段上下文
 
-## Key Concepts
+Checkpoints 在探索不同方法、從錯誤中恢復或比較替代方案時非常有價值。
 
-| Concept | Description |
+## 核心概念
+
+| 概念 | 說明 |
 |---------|-------------|
-| **Checkpoint** | Snapshot of conversation state including messages, files, and context |
-| **Rewind** | Return to a previous checkpoint, discarding subsequent changes |
-| **Branch Point** | Checkpoint from which multiple approaches are explored |
+| **Checkpoint** | 對話狀態的快照，包括訊息、檔案和上下文 |
+| **回溯** | 返回到先前的 checkpoint，捨棄後續的變更 |
+| **分支點** | 從此 checkpoint 探索多種方法 |
 
-## Accessing Checkpoints
+## 存取 Checkpoints
 
-You can access and manage checkpoints in two primary ways:
+您可以透過兩種主要方式存取和管理 checkpoints：
 
-### Using Keyboard Shortcut
-Press `Esc` twice (`Esc` + `Esc`) to open the checkpoint interface and browse saved checkpoints.
+### 使用鍵盤快捷鍵
+按兩次 `Esc`（`Esc` + `Esc`）開啟 checkpoint 介面並瀏覽已儲存的 checkpoints。
 
-### Using Slash Command
-Use the `/rewind` command (alias: `/checkpoint`) for quick access:
+### 使用 Slash Command
+使用 `/rewind` 命令（別名：`/checkpoint`）快速存取：
 
 ```bash
-# Open rewind interface
+# 開啟回溯介面
 /rewind
 
-# Or use the alias
+# 或使用別名
 /checkpoint
 ```
 
-## Rewind Options
+## 回溯選項
 
-When you rewind, you are presented with a menu of five options:
+當您回溯時，會出現五個選項的選單：
 
-1. **Restore code and conversation** -- Revert both files and messages to that checkpoint
-2. **Restore conversation** -- Rewind messages only, keep your current code as-is
-3. **Restore code** -- Revert file changes only, keep the full conversation history
-4. **Summarize from here** -- Compress the conversation from this point forward into an AI-generated summary instead of discarding it. The original messages are preserved in the transcript. You can optionally provide instructions to focus the summary on specific topics.
-5. **Never mind** -- Cancel and return to the current state
+1. **還原程式碼與對話** -- 將檔案和訊息都回復到該 checkpoint
+2. **還原對話** -- 僅回溯訊息，保持目前的程式碼不變
+3. **還原程式碼** -- 僅回復檔案變更，保留完整的對話歷史
+4. **從此處摘要** -- 將從此點開始的對話壓縮為 AI 產生的摘要，而非捨棄它。原始訊息保留在紀錄中。您可以選擇性地提供指示，將摘要聚焦在特定主題上。
+5. **取消** -- 取消並返回目前狀態
 
-## Automatic Checkpoints
+## 自動 Checkpoints
 
-Claude Code automatically creates checkpoints for you:
+Claude Code 會自動為您建立 checkpoints：
 
-- **Every user prompt** - A new checkpoint is created with each user input
-- **Persistent** - Checkpoints persist across sessions
-- **Auto-cleaned** - Checkpoints are automatically cleaned up after 30 days
+- **每次使用者提示** - 每次使用者輸入時建立新的 checkpoint
+- **持久化** - Checkpoints 在工作階段間持續存在
+- **自動清理** - Checkpoints 在 30 天後自動清理
 
-This means you can always rewind to any previous point in your conversation, from a few minutes ago to days before.
+這表示您可以隨時回溯到對話中的任何先前時間點，從幾分鐘前到幾天前。
 
-## Use Cases
+## 使用案例
 
-| Scenario | Workflow |
+| 情境 | 工作流程 |
 |----------|----------|
-| **Exploring Approaches** | Save → Try A → Save → Rewind → Try B → Compare |
-| **Safe Refactoring** | Save → Refactor → Test → If fail: Rewind |
-| **A/B Testing** | Save → Design A → Save → Rewind → Design B → Compare |
-| **Mistake Recovery** | Notice issue → Rewind to last good state |
+| **探索方法** | 儲存 → 嘗試 A → 儲存 → 回溯 → 嘗試 B → 比較 |
+| **安全重構** | 儲存 → 重構 → 測試 → 若失敗：回溯 |
+| **A/B 測試** | 儲存 → 設計 A → 儲存 → 回溯 → 設計 B → 比較 |
+| **錯誤恢復** | 發現問題 → 回溯至最後的正常狀態 |
 
-## Using Checkpoints
+## 使用 Checkpoints
 
-### Viewing and Rewinding
+### 檢視與回溯
 
-Press `Esc` twice or use `/rewind` to open the checkpoint browser. You'll see a list of all available checkpoints with timestamps. Select any checkpoint to rewind to that state.
+按兩次 `Esc` 或使用 `/rewind` 開啟 checkpoint 瀏覽器。您會看到所有可用 checkpoints 的列表及其時間戳記。選擇任一 checkpoint 即可回溯到該狀態。
 
-### Checkpoint Details
+### Checkpoint 詳情
 
-Each checkpoint shows:
-- Timestamp of when it was created
-- Files that were modified
-- Number of messages in the conversation
-- Tools that were used
+每個 checkpoint 顯示：
+- 建立的時間戳記
+- 已修改的檔案
+- 對話中的訊息數量
+- 使用的工具
 
-## Practical Examples
+## 實用範例
 
-### Example 1: Exploring Different Approaches
-
-```
-User: Let's add a caching layer to the API
-
-Claude: I'll add Redis caching to your API endpoints...
-[Makes changes at checkpoint A]
-
-User: Actually, let's try in-memory caching instead
-
-Claude: I'll rewind to explore a different approach...
-[User presses Esc+Esc and rewinds to checkpoint A]
-[Implements in-memory caching at checkpoint B]
-
-User: Now I can compare both approaches
-```
-
-### Example 2: Recovering from Mistakes
+### 範例 1：探索不同方法
 
 ```
-User: Refactor the authentication module to use JWT
+使用者：讓我們在 API 中新增快取層
 
-Claude: I'll refactor the authentication module...
-[Makes extensive changes]
+Claude：我將在您的 API 端點新增 Redis 快取...
+[在 checkpoint A 進行變更]
 
-User: Wait, that broke the OAuth integration. Let's go back.
+使用者：其實，讓我們改試記憶體內快取
 
-Claude: I'll help you rewind to before the refactoring...
-[User presses Esc+Esc and selects the checkpoint before the refactor]
+Claude：我將回溯以探索不同的方法...
+[使用者按 Esc+Esc 並回溯到 checkpoint A]
+[在 checkpoint B 實作記憶體內快取]
 
-User: Let's try a more conservative approach this time
+使用者：現在我可以比較兩種方法了
 ```
 
-### Example 3: Safe Experimentation
+### 範例 2：從錯誤中恢復
 
 ```
-User: Let's try rewriting this in a functional style
-[Creates checkpoint before experiment]
+使用者：重構認證模組以使用 JWT
 
-Claude: [Makes experimental changes]
+Claude：我將重構認證模組...
+[進行大量變更]
 
-User: The tests are failing. Let's rewind.
-[User presses Esc+Esc and rewinds to the checkpoint]
+使用者：等等，這破壞了 OAuth 整合。讓我們回去。
 
-Claude: I've rewound the changes. Let's try a different approach.
+Claude：我將幫您回溯到重構之前...
+[使用者按 Esc+Esc 並選擇重構前的 checkpoint]
+
+使用者：這次讓我們嘗試更保守的方法
 ```
 
-### Example 4: Branching Approaches
+### 範例 3：安全實驗
 
 ```
-User: I want to compare two database designs
-[Takes note of checkpoint - call it "Start"]
+使用者：讓我們試著用函數式風格重寫這個
+[在實驗前建立 checkpoint]
 
-Claude: I'll create the first design...
-[Implements Schema A]
+Claude：[進行實驗性變更]
 
-User: Now let me go back and try the second approach
-[User presses Esc+Esc and rewinds to "Start"]
+使用者：測試失敗了。讓我們回溯。
+[使用者按 Esc+Esc 並回溯到 checkpoint]
 
-Claude: Now I'll implement Schema B...
-[Implements Schema B]
-
-User: Great! Now I have both schemas to choose from
+Claude：我已回溯變更。讓我們嘗試不同的方法。
 ```
 
-## Checkpoint Retention
-
-Claude Code automatically manages your checkpoints:
-
-- Checkpoints are created automatically with every user prompt
-- Old checkpoints are retained for up to 30 days
-- Checkpoints are cleaned up automatically to prevent unlimited storage growth
-
-## Workflow Patterns
-
-### Branching Strategy for Exploration
-
-When exploring multiple approaches:
+### 範例 4：分支方法
 
 ```
-1. Start with initial implementation → Checkpoint A
-2. Try Approach 1 → Checkpoint B
-3. Rewind to Checkpoint A
-4. Try Approach 2 → Checkpoint C
-5. Compare results from B and C
-6. Choose best approach and continue
+使用者：我想比較兩種資料庫設計
+[記下 checkpoint - 稱為「起始」]
+
+Claude：我將建立第一個設計...
+[實作結構 A]
+
+使用者：現在讓我回去試第二種方法
+[使用者按 Esc+Esc 並回溯到「起始」]
+
+Claude：現在我將實作結構 B...
+[實作結構 B]
+
+使用者：太好了！現在我有兩個結構可以選擇
 ```
 
-### Safe Refactoring Pattern
+## Checkpoint 保留
 
-When making significant changes:
+Claude Code 自動管理您的 checkpoints：
+
+- Checkpoints 在每次使用者提示時自動建立
+- 舊的 checkpoints 保留最多 30 天
+- Checkpoints 會自動清理以防止無限的儲存成長
+
+## 工作流程模式
+
+### 探索的分支策略
+
+當探索多種方法時：
 
 ```
-1. Current state → Checkpoint (auto)
-2. Start refactoring
-3. Run tests
-4. If tests pass → Continue working
-5. If tests fail → Rewind and try different approach
+1. 從初始實作開始 → Checkpoint A
+2. 嘗試方法 1 → Checkpoint B
+3. 回溯到 Checkpoint A
+4. 嘗試方法 2 → Checkpoint C
+5. 比較 B 和 C 的結果
+6. 選擇最佳方法並繼續
 ```
 
-## Best Practices
+### 安全重構模式
 
-Since checkpoints are created automatically, you can focus on your work without worrying about manually saving state. However, keep these practices in mind:
+進行重大變更時：
 
-### Using Checkpoints Effectively
+```
+1. 目前狀態 → Checkpoint（自動）
+2. 開始重構
+3. 執行測試
+4. 若測試通過 → 繼續工作
+5. 若測試失敗 → 回溯並嘗試不同方法
+```
 
-✅ **Do:**
-- Review available checkpoints before rewinding
-- Use rewind when you want to explore different directions
-- Keep checkpoints to compare different approaches
-- Understand what each rewind option does (restore code and conversation, restore conversation, restore code, or summarize)
+## 最佳實踐
 
-❌ **Don't:**
-- Rely on checkpoints alone for code preservation
-- Expect checkpoints to track external file system changes
-- Use checkpoints as a substitute for git commits
+由於 checkpoints 是自動建立的，您可以專注於工作而不必擔心手動儲存狀態。但請記住以下實踐：
 
-## Configuration
+### 有效使用 Checkpoints
 
-You can toggle automatic checkpoints in your settings:
+✅ **請這樣做：**
+- 回溯前檢視可用的 checkpoints
+- 當您想探索不同方向時使用回溯
+- 保留 checkpoints 以比較不同方法
+- 了解每個回溯選項的功能（還原程式碼與對話、還原對話、還原程式碼、或摘要）
+
+❌ **不要這樣做：**
+- 僅依賴 checkpoints 來保存程式碼
+- 期望 checkpoints 追蹤外部檔案系統變更
+- 用 checkpoints 代替 git commits
+
+## 組態設定
+
+您可以在設定中切換自動 checkpoints：
 
 ```json
 {
@@ -215,91 +219,91 @@ You can toggle automatic checkpoints in your settings:
 }
 ```
 
-- `autoCheckpoint`: Enable or disable automatic checkpoint creation on every user prompt (default: `true`)
+- `autoCheckpoint`：啟用或停用每次使用者提示時的自動 checkpoint 建立（預設：`true`）
 
-## Limitations
+## 限制
 
-Checkpoints have the following limitations:
+Checkpoints 有以下限制：
 
-- **Bash command changes NOT tracked** - Operations like `rm`, `mv`, `cp` on the filesystem are not captured in checkpoints
-- **External changes NOT tracked** - Changes made outside Claude Code (in your editor, terminal, etc.) are not captured
-- **Not a replacement for version control** - Use git for permanent, auditable changes to your codebase
+- **Bash 命令變更未追蹤** - 像 `rm`、`mv`、`cp` 等檔案系統操作不會被 checkpoints 捕捉
+- **外部變更未追蹤** - 在 Claude Code 外部進行的變更（在您的編輯器、終端機等）不會被捕捉
+- **不能取代版本控制** - 使用 git 進行永久的、可審計的程式碼變更
 
-## Troubleshooting
+## 疑難排解
 
-### Missing Checkpoints
+### 找不到 Checkpoints
 
-**Problem**: Expected checkpoint not found
+**問題**：預期的 checkpoint 未找到
 
-**Solution**:
-- Check if checkpoints were cleared
-- Verify that `autoCheckpoint` is enabled in your settings
-- Check disk space
+**解決方案**：
+- 檢查 checkpoints 是否被清除
+- 驗證設定中 `autoCheckpoint` 已啟用
+- 檢查磁碟空間
 
-### Rewind Failed
+### 回溯失敗
 
-**Problem**: Cannot rewind to checkpoint
+**問題**：無法回溯到 checkpoint
 
-**Solution**:
-- Ensure no uncommitted changes conflict
-- Check if checkpoint is corrupted
-- Try rewinding to a different checkpoint
+**解決方案**：
+- 確保沒有未提交的變更衝突
+- 檢查 checkpoint 是否損壞
+- 嘗試回溯到不同的 checkpoint
 
-## Integration with Git
+## 與 Git 的整合
 
-Checkpoints complement (but don't replace) git:
+Checkpoints 補充（但不取代）git：
 
-| Feature | Git | Checkpoints |
+| 功能 | Git | Checkpoints |
 |---------|-----|-------------|
-| Scope | File system | Conversation + files |
-| Persistence | Permanent | Session-based |
-| Granularity | Commits | Any point |
-| Speed | Slower | Instant |
-| Sharing | Yes | Limited |
+| 範圍 | 檔案系統 | 對話 + 檔案 |
+| 持久性 | 永久 | 基於工作階段 |
+| 精細度 | Commits | 任意時間點 |
+| 速度 | 較慢 | 即時 |
+| 分享 | 是 | 有限 |
 
-Use both together:
-1. Use checkpoints for rapid experimentation
-2. Use git commits for finalized changes
-3. Create checkpoint before git operations
-4. Commit successful checkpoint states to git
+搭配使用：
+1. 使用 checkpoints 進行快速實驗
+2. 使用 git commits 保存已定案的變更
+3. 在 git 操作前建立 checkpoint
+4. 將成功的 checkpoint 狀態提交至 git
 
-## Quick Start Guide
+## 快速入門指南
 
-### Basic Workflow
+### 基本工作流程
 
-1. **Work normally** - Claude Code creates checkpoints automatically
-2. **Want to go back?** - Press `Esc` twice or use `/rewind`
-3. **Choose checkpoint** - Select from the list to rewind
-4. **Select what to restore** - Choose from restore code and conversation, restore conversation, restore code, summarize from here, or cancel
-5. **Continue working** - You're back at that point
+1. **正常工作** - Claude Code 自動建立 checkpoints
+2. **想回去？** - 按兩次 `Esc` 或使用 `/rewind`
+3. **選擇 checkpoint** - 從列表中選擇以回溯
+4. **選擇還原內容** - 從還原程式碼與對話、還原對話、還原程式碼、從此處摘要、或取消中選擇
+5. **繼續工作** - 您已回到該時間點
 
-### Keyboard Shortcuts
+### 鍵盤快捷鍵
 
-- **`Esc` + `Esc`** - Open checkpoint browser
-- **`/rewind`** - Alternative way to access checkpoints
-- **`/checkpoint`** - Alias for `/rewind`
+- **`Esc` + `Esc`** - 開啟 checkpoint 瀏覽器
+- **`/rewind`** - 存取 checkpoints 的替代方式
+- **`/checkpoint`** - `/rewind` 的別名
 
-## Related Concepts
+## 相關概念
 
-- **[Advanced Features](../09-advanced-features/)** - Planning mode and other advanced capabilities
-- **[Memory Management](../02-memory/)** - Managing conversation history and context
-- **[Slash Commands](../01-slash-commands/)** - User-invoked shortcuts
-- **[Hooks](../06-hooks/)** - Event-driven automation
-- **[Plugins](../07-plugins/)** - Bundled extension packages
+- **[進階功能](../09-advanced-features/)** - 規劃模式及其他進階能力
+- **[記憶管理](../02-memory/)** - 管理對話歷史與上下文
+- **[Slash Commands](../01-slash-commands/)** - 使用者觸發的快捷命令
+- **[Hooks](../06-hooks/)** - 事件驅動的自動化
+- **[Plugins](../07-plugins/)** - 打包的擴充套件
 
-## Additional Resources
+## 額外資源
 
-- [Official Checkpointing Documentation](https://code.claude.com/docs/en/checkpointing)
-- [Advanced Features Guide](../09-advanced-features/) - Extended thinking and other capabilities
+- [官方 Checkpoints 文件](https://code.claude.com/docs/en/checkpointing)
+- [進階功能指南](../09-advanced-features/) - 延伸思考及其他能力
 
-## Summary
+## 總結
 
-Checkpoints are an automatic feature in Claude Code that lets you safely explore different approaches without fear of losing work. Every user prompt creates a new checkpoint automatically, so you can rewind to any previous point in your session.
+Checkpoints 是 Claude Code 的自動功能，讓您可以安全地探索不同方法而不怕丟失工作。每次使用者提示都會自動建立新的 checkpoint，因此您可以回溯到工作階段中的任何先前時間點。
 
-Key benefits:
-- Experiment fearlessly with multiple approaches
-- Quickly recover from mistakes
-- Compare different solutions side-by-side
-- Integrate safely with version control systems
+主要優勢：
+- 無畏地實驗多種方法
+- 快速從錯誤中恢復
+- 並排比較不同解決方案
+- 安全地與版本控制系統整合
 
-Remember: checkpoints are not a replacement for git. Use checkpoints for rapid experimentation and git for permanent code changes.
+請記住：checkpoints 不能取代 git。使用 checkpoints 進行快速實驗，使用 git 進行永久的程式碼變更。

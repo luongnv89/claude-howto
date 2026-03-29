@@ -1,843 +1,843 @@
-# Lesson Quiz — Question Bank
+# 課程測驗 — 題庫
 
-10 questions per lesson. Each question has: category, question text, options (3-4), correct answer, explanation, and review section.
-
----
-
-## Lesson 01: Slash Commands
-
-### Q1
-- **Category**: conceptual
-- **Question**: What are the four types of slash commands in Claude Code?
-- **Options**: A) Built-in, skills, plugin commands, MCP prompts | B) Built-in, custom, hook commands, API prompts | C) System, user, plugin, terminal commands | D) Core, extension, macro, script commands
-- **Correct**: A
-- **Explanation**: Claude Code has built-in commands (like /help, /compact), skills (SKILL.md files), plugin commands (namespaced plugin-name:command), and MCP prompts (/mcp__server__prompt).
-- **Review**: Types of Slash Commands section
-
-### Q2
-- **Category**: practical
-- **Question**: How do you pass all user-provided arguments to a skill?
-- **Options**: A) Use `${args}` | B) Use `$ARGUMENTS` | C) Use `$@` | D) Use `$INPUT`
-- **Correct**: B
-- **Explanation**: `$ARGUMENTS` captures all text after the command name. For positional args, use `$0`, `$1`, etc.
-- **Review**: Argument handling section
-
-### Q3
-- **Category**: conceptual
-- **Question**: When both a skill (.claude/skills/name/SKILL.md) and a legacy command (.claude/commands/name.md) exist with the same name, which takes priority?
-- **Options**: A) The legacy command | B) The skill | C) Whichever was created first | D) Claude asks the user to choose
-- **Correct**: B
-- **Explanation**: Skills take precedence over legacy commands with the same name. The skill system supersedes the older command system.
-- **Review**: Skill precedence section
-
-### Q4
-- **Category**: practical
-- **Question**: How do you inject live shell output into a skill's prompt?
-- **Options**: A) Use `$(command)` syntax | B) Use `!`command`` (backtick with !) syntax | C) Use `@shell:command` syntax | D) Use `{command}` syntax
-- **Correct**: B
-- **Explanation**: The `!`command`` syntax runs a shell command and injects its output into the skill prompt before Claude sees it.
-- **Review**: Dynamic context injection section
-
-### Q5
-- **Category**: conceptual
-- **Question**: What does `disable-model-invocation: true` do in a skill's frontmatter?
-- **Options**: A) Prevents the skill from running entirely | B) Allows only the user to invoke it (Claude cannot auto-invoke) | C) Hides it from the /help menu | D) Disables the skill's AI processing
-- **Correct**: B
-- **Explanation**: `disable-model-invocation: true` means only the user can trigger the command via `/command-name`. Claude will never auto-invoke it, useful for skills with side effects like deployments.
-- **Review**: Controlling invocation section
-
-### Q6
-- **Category**: practical
-- **Question**: You want to create a skill that only Claude can invoke automatically (hidden from the user's / menu). Which frontmatter field do you set?
-- **Options**: A) `disable-model-invocation: true` | B) `user-invocable: false` | C) `hidden: true` | D) `auto-only: true`
-- **Correct**: B
-- **Explanation**: `user-invocable: false` hides the skill from the user's slash menu but allows Claude to invoke it automatically based on context.
-- **Review**: Invocation control matrix
-
-### Q7
-- **Category**: practical
-- **Question**: What is the correct directory structure for a new custom skill called "deploy"?
-- **Options**: A) `.claude/commands/deploy.md` | B) `.claude/skills/deploy/SKILL.md` | C) `.claude/skills/deploy.md` | D) `.claude/deploy/SKILL.md`
-- **Correct**: B
-- **Explanation**: Skills live in a directory under `.claude/skills/` with a `SKILL.md` file inside. The directory name matches the command name.
-- **Review**: Skill types and locations section
-
-### Q8
-- **Category**: conceptual
-- **Question**: How do plugin commands avoid name conflicts with user commands?
-- **Options**: A) They use a `plugin-name:command-name` namespace | B) They have a special .plugin extension | C) They are prefixed with `p/` | D) They override user commands automatically
-- **Correct**: A
-- **Explanation**: Plugin commands use a namespace like `pr-review:check-security` to avoid conflicts with standalone user commands.
-- **Review**: Plugin commands section
-
-### Q9
-- **Category**: practical
-- **Question**: You want to restrict which tools a skill can use. Which frontmatter field do you add?
-- **Options**: A) `tools: [Read, Grep]` | B) `allowed-tools: [Read, Grep]` | C) `permissions: [Read, Grep]` | D) `restrict-tools: [Read, Grep]`
-- **Correct**: B
-- **Explanation**: The `allowed-tools` field in SKILL.md frontmatter scopes which tools the command can invoke.
-- **Review**: Frontmatter fields reference
-
-### Q10
-- **Category**: conceptual
-- **Question**: What is the `@file` syntax used for in a skill?
-- **Options**: A) Importing another skill | B) Referencing a file to include its content in the prompt | C) Creating a symlink | D) Setting file permissions
-- **Correct**: B
-- **Explanation**: The `@path/to/file` syntax in a skill includes the referenced file's content into the prompt, allowing skills to pull in templates or context files.
-- **Review**: File references section
+每課 10 道題目。每道題包含：類別、題目文字、選項（3-4 個）、正確答案、解說與複習章節。
 
 ---
 
-## Lesson 02: Memory
+## 第 01 課：Slash Commands
 
 ### Q1
-- **Category**: conceptual
-- **Question**: How many levels does the Claude Code memory hierarchy have, and what has the highest priority?
-- **Options**: A) 5 levels, User Memory is highest | B) 7 levels, Managed Policy is highest | C) 3 levels, Project Memory is highest | D) 7 levels, Auto Memory is highest
-- **Correct**: B
-- **Explanation**: The hierarchy has 7 levels: Managed Policy > Project Memory > Project Rules > User Memory > User Rules > Local Project Memory > Auto Memory. Managed Policy (set by admins) has the highest priority.
-- **Review**: Memory hierarchy section
+- **類別**：概念
+- **題目**：Claude Code 中有哪四種 slash commands？
+- **選項**：A) 內建、skills、plugin 指令、MCP prompts | B) 內建、自訂、hook 指令、API prompts | C) 系統、使用者、plugin、終端機指令 | D) 核心、擴充、巨集、腳本指令
+- **正確答案**：A
+- **解說**：Claude Code 有內建指令（如 /help、/compact）、skills（SKILL.md 檔案）、plugin 指令（命名空間的 plugin-name:command）及 MCP prompts（/mcp__server__prompt）。
+- **複習**：Slash Commands 類型章節
 
 ### Q2
-- **Category**: practical
-- **Question**: How do you quickly add a new rule to memory during a conversation?
-- **Options**: A) Type `/memory add "rule text"` | B) Prefix your message with `#` (e.g., `# always use TypeScript`) | C) Type `/rule "rule text"` | D) Use `@add-memory "rule text"`
-- **Correct**: B
-- **Explanation**: The `#` prefix pattern allows quick single-rule additions during conversation. Claude will ask which memory level to save it to.
-- **Review**: Quick memory updates section
+- **類別**：實作
+- **題目**：如何將使用者提供的所有參數傳遞給 skill？
+- **選項**：A) 使用 `${args}` | B) 使用 `$ARGUMENTS` | C) 使用 `$@` | D) 使用 `$INPUT`
+- **正確答案**：B
+- **解說**：`$ARGUMENTS` 擷取指令名稱後的所有文字。若要使用位置參數，則使用 `$0`、`$1` 等。
+- **複習**：參數處理章節
 
 ### Q3
-- **Category**: conceptual
-- **Question**: What is the maximum depth for `@path/to/file` imports in CLAUDE.md?
-- **Options**: A) 3 levels deep | B) 5 levels deep | C) 10 levels deep | D) Unlimited
-- **Correct**: B
-- **Explanation**: The `@import` syntax supports recursive imports up to a maximum depth of 5 to prevent infinite loops.
-- **Review**: Import syntax section
+- **類別**：概念
+- **題目**：當 skill（.claude/skills/name/SKILL.md）和舊式指令（.claude/commands/name.md）同名時，哪個優先？
+- **選項**：A) 舊式指令 | B) Skill | C) 先建立的那個 | D) Claude 詢問使用者選擇
+- **正確答案**：B
+- **解說**：Skills 在同名情況下優先於舊式指令。Skill 系統取代了較舊的指令系統。
+- **複習**：Skill 優先順序章節
 
 ### Q4
-- **Category**: practical
-- **Question**: How do you scope a rule file to only apply to files in `src/api/`?
-- **Options**: A) Put the rule in `src/api/CLAUDE.md` | B) Add `paths: src/api/**` YAML frontmatter to a `.claude/rules/*.md` file | C) Name the file `.claude/rules/api.md` | D) Use `@scope: src/api` in the rule file
-- **Correct**: B
-- **Explanation**: Files in `.claude/rules/` support a `paths:` frontmatter field with glob patterns to scope rules to specific directories.
-- **Review**: Path-specific rules section
+- **類別**：實作
+- **題目**：如何將即時 shell 輸出注入 skill 的 prompt？
+- **選項**：A) 使用 `$(command)` 語法 | B) 使用 `!`command`` （反引號加 !）語法 | C) 使用 `@shell:command` 語法 | D) 使用 `{command}` 語法
+- **正確答案**：B
+- **解說**：`!`command`` 語法會執行 shell 指令，並在 Claude 看到之前將輸出注入 skill prompt。
+- **複習**：動態上下文注入章節
 
 ### Q5
-- **Category**: conceptual
-- **Question**: How many lines of Auto Memory's MEMORY.md are loaded at session start?
-- **Options**: A) All lines | B) First 100 lines | C) First 200 lines | D) First 500 lines
-- **Correct**: C
-- **Explanation**: The first 200 lines of MEMORY.md are auto-loaded into context at session start. Topic files referenced from MEMORY.md are loaded on demand.
-- **Review**: Auto Memory section
+- **類別**：概念
+- **題目**：skill frontmatter 中的 `disable-model-invocation: true` 有什麼作用？
+- **選項**：A) 完全阻止 skill 執行 | B) 僅允許使用者調用（Claude 無法自動調用） | C) 從 /help 選單中隱藏 | D) 停用 skill 的 AI 處理
+- **正確答案**：B
+- **解說**：`disable-model-invocation: true` 表示只有使用者能透過 `/command-name` 觸發指令。Claude 永遠不會自動調用它，適用於有副作用的 skills，如部署。
+- **複習**：控制調用章節
 
 ### Q6
-- **Category**: practical
-- **Question**: You want personal project preferences that are NOT committed to git. Which file should you use?
-- **Options**: A) `~/.claude/CLAUDE.md` | B) `CLAUDE.local.md` | C) `.claude/rules/personal.md` | D) `.claude/memory/personal.md`
-- **Correct**: B
-- **Explanation**: `CLAUDE.local.md` in the project root is for personal project-specific preferences. It should be git-ignored.
-- **Review**: Memory locations comparison
+- **類別**：實作
+- **題目**：您想建立一個只有 Claude 能自動調用的 skill（對使用者的 / 選單隱藏）。應設定哪個 frontmatter 欄位？
+- **選項**：A) `disable-model-invocation: true` | B) `user-invocable: false` | C) `hidden: true` | D) `auto-only: true`
+- **正確答案**：B
+- **解說**：`user-invocable: false` 從使用者的 slash 選單中隱藏 skill，但允許 Claude 根據上下文自動調用。
+- **複習**：調用控制矩陣
 
 ### Q7
-- **Category**: conceptual
-- **Question**: What does the `/init` command do?
-- **Options**: A) Initializes a new Claude Code project from scratch | B) Generates a template CLAUDE.md based on your project structure | C) Resets all memory to defaults | D) Creates a new session
-- **Correct**: B
-- **Explanation**: `/init` analyzes your project and generates a template CLAUDE.md with suggested rules and standards. It's a one-time bootstrapping tool.
-- **Review**: /init command section
+- **類別**：實作
+- **題目**：名為「deploy」的新自訂 skill 的正確目錄結構是什麼？
+- **選項**：A) `.claude/commands/deploy.md` | B) `.claude/skills/deploy/SKILL.md` | C) `.claude/skills/deploy.md` | D) `.claude/deploy/SKILL.md`
+- **正確答案**：B
+- **解說**：Skills 位於 `.claude/skills/` 下的目錄中，內含 `SKILL.md` 檔案。目錄名稱對應指令名稱。
+- **複習**：Skill 類型與位置章節
 
 ### Q8
-- **Category**: practical
-- **Question**: How do you disable Auto Memory completely?
-- **Options**: A) Delete the ~/.claude/projects directory | B) Set `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` | C) Add `auto-memory: false` to CLAUDE.md | D) Use `/memory disable auto`
-- **Correct**: B
-- **Explanation**: Setting `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` disables auto memory. Value `0` forces it on. Unset = default on.
-- **Review**: Auto Memory configuration section
+- **類別**：概念
+- **題目**：Plugin 指令如何避免與使用者指令的名稱衝突？
+- **選項**：A) 使用 `plugin-name:command-name` 命名空間 | B) 有特殊的 .plugin 副檔名 | C) 以 `p/` 為前綴 | D) 自動覆蓋使用者指令
+- **正確答案**：A
+- **解說**：Plugin 指令使用命名空間如 `pr-review:check-security` 來避免與獨立使用者指令的衝突。
+- **複習**：Plugin 指令章節
 
 ### Q9
-- **Category**: conceptual
-- **Question**: Can a lower-priority memory tier override rules from a higher-priority tier?
-- **Options**: A) Yes, the most recent rule always wins | B) No, higher tiers always take precedence | C) Yes, if the lower tier uses the `!important` flag | D) It depends on the rule type
-- **Correct**: B
-- **Explanation**: Memory precedence flows downward from Managed Policy. Lower tiers (like Auto Memory) cannot override higher tiers (like Project Memory).
-- **Review**: Memory hierarchy section
+- **類別**：實作
+- **題目**：您想限制 skill 可使用的工具。應新增哪個 frontmatter 欄位？
+- **選項**：A) `tools: [Read, Grep]` | B) `allowed-tools: [Read, Grep]` | C) `permissions: [Read, Grep]` | D) `restrict-tools: [Read, Grep]`
+- **正確答案**：B
+- **解說**：SKILL.md frontmatter 中的 `allowed-tools` 欄位限定指令可調用的工具範圍。
+- **複習**：Frontmatter 欄位參考
 
 ### Q10
-- **Category**: practical
-- **Question**: You work across two repositories and want Claude to load CLAUDE.md from both. What flag do you use?
-- **Options**: A) `--multi-repo` | B) `--add-dir /path/to/other` | C) `--include /path/to/other` | D) `--merge-context /path/to/other`
-- **Correct**: B
-- **Explanation**: The `--add-dir` flag loads CLAUDE.md from additional directories, allowing multi-repo context.
-- **Review**: Additional directories section
+- **類別**：概念
+- **題目**：skill 中的 `@file` 語法用途是什麼？
+- **選項**：A) 匯入另一個 skill | B) 參考檔案以將其內容包含在 prompt 中 | C) 建立符號連結 | D) 設定檔案權限
+- **正確答案**：B
+- **解說**：skill 中的 `@path/to/file` 語法會將被參考檔案的內容包含到 prompt 中，讓 skills 可以引入模板或上下文檔案。
+- **複習**：檔案參考章節
 
 ---
 
-## Lesson 03: Skills
+## 第 02 課：Memory
 
 ### Q1
-- **Category**: conceptual
-- **Question**: What are the 3 levels of progressive disclosure in the skill system?
-- **Options**: A) Metadata, instructions, resources | B) Name, body, attachments | C) Header, content, scripts | D) Summary, details, data
-- **Correct**: A
-- **Explanation**: Level 1: Metadata (~100 tokens, always loaded), Level 2: SKILL.md body (<5k tokens, loaded on trigger), Level 3: Bundled resources (scripts/references/assets, loaded on demand).
-- **Review**: Progressive disclosure architecture section
+- **類別**：概念
+- **題目**：Claude Code 的記憶層級有幾層？最高優先級是什麼？
+- **選項**：A) 5 層，使用者記憶最高 | B) 7 層，託管政策最高 | C) 3 層，專案記憶最高 | D) 7 層，自動記憶最高
+- **正確答案**：B
+- **解說**：層級有 7 層：託管政策 > 專案記憶 > 專案規則 > 使用者記憶 > 使用者規則 > 本地專案記憶 > 自動記憶。託管政策（由管理員設定）具有最高優先級。
+- **複習**：記憶層級章節
 
 ### Q2
-- **Category**: practical
-- **Question**: What is the most important factor for a skill to be auto-invoked by Claude?
-- **Options**: A) The skill's file name | B) The `description` field in frontmatter with when-to-use keywords | C) The skill's directory location | D) The `auto-invoke: true` frontmatter field
-- **Correct**: B
-- **Explanation**: Claude decides whether to auto-invoke a skill based solely on its `description` field. It must include specific trigger phrases and scenarios.
-- **Review**: Auto-invocation section
+- **類別**：實作
+- **題目**：如何在對話中快速新增一條規則到記憶？
+- **選項**：A) 輸入 `/memory add "rule text"` | B) 在訊息前加 `#` 前綴（例如 `# always use TypeScript`） | C) 輸入 `/rule "rule text"` | D) 使用 `@add-memory "rule text"`
+- **正確答案**：B
+- **解說**：`#` 前綴模式允許在對話中快速新增單條規則。Claude 會詢問要儲存到哪個記憶層級。
+- **複習**：快速記憶更新章節
 
 ### Q3
-- **Category**: conceptual
-- **Question**: What is the maximum recommended length for a SKILL.md file?
-- **Options**: A) 100 lines | B) 250 lines | C) 500 lines | D) 1000 lines
-- **Correct**: C
-- **Explanation**: SKILL.md should be kept under 500 lines. Larger reference material belongs in `references/` subdirectory files.
-- **Review**: Content guidelines section
+- **類別**：概念
+- **題目**：CLAUDE.md 中 `@path/to/file` 匯入的最大深度是多少？
+- **選項**：A) 3 層 | B) 5 層 | C) 10 層 | D) 無限制
+- **正確答案**：B
+- **解說**：`@import` 語法支援最多 5 層的遞迴匯入，以防止無限迴圈。
+- **複習**：匯入語法章節
 
 ### Q4
-- **Category**: practical
-- **Question**: How do you make a skill run in an isolated subagent with its own context?
-- **Options**: A) Set `isolation: true` in frontmatter | B) Set `context: fork` with an `agent` field in frontmatter | C) Set `subagent: true` in frontmatter | D) Put the skill in `.claude/agents/`
-- **Correct**: B
-- **Explanation**: `context: fork` runs the skill in a separate context, and the `agent` field specifies which agent type (e.g., `Explore`, `Plan`, custom agent) to use.
-- **Review**: Running skills in subagents section
+- **類別**：實作
+- **題目**：如何將規則檔案的範圍限定為僅套用於 `src/api/` 中的檔案？
+- **選項**：A) 將規則放在 `src/api/CLAUDE.md` | B) 在 `.claude/rules/*.md` 檔案中新增 `paths: src/api/**` YAML frontmatter | C) 將檔案命名為 `.claude/rules/api.md` | D) 在規則檔案中使用 `@scope: src/api`
+- **正確答案**：B
+- **解說**：`.claude/rules/` 中的檔案支援 `paths:` frontmatter 欄位，使用 glob 模式來限定規則的適用目錄。
+- **複習**：路徑特定規則章節
 
 ### Q5
-- **Category**: conceptual
-- **Question**: What is the approximate context budget allocated to skill metadata (Level 1)?
-- **Options**: A) 0.5% of context window | B) 2% of context window | C) 5% of context window | D) 10% of context window
-- **Correct**: B
-- **Explanation**: Skill metadata occupies about 2% of the context window (fallback: 16,000 characters). This is configurable with `SLASH_COMMAND_TOOL_CHAR_BUDGET`.
-- **Review**: Context budget section
+- **類別**：概念
+- **題目**：Auto Memory 的 MEMORY.md 在工作階段開始時會載入多少行？
+- **選項**：A) 全部行 | B) 前 100 行 | C) 前 200 行 | D) 前 500 行
+- **正確答案**：C
+- **解說**：MEMORY.md 的前 200 行會在工作階段開始時自動載入上下文。從 MEMORY.md 參考的主題檔案則按需載入。
+- **複習**：Auto Memory 章節
 
 ### Q6
-- **Category**: practical
-- **Question**: A skill needs to reference a large API specification. Where should you put it?
-- **Options**: A) Inline in SKILL.md | B) In a `references/api-spec.md` file inside the skill directory | C) In the project's CLAUDE.md | D) In a separate `.claude/rules/` file
-- **Correct**: B
-- **Explanation**: Large reference material belongs in the `references/` subdirectory. Claude loads Level 3 resources on demand, keeping SKILL.md lean.
-- **Review**: Supporting files structure section
+- **類別**：實作
+- **題目**：您想要不提交到 git 的個人專案偏好設定。應使用哪個檔案？
+- **選項**：A) `~/.claude/CLAUDE.md` | B) `CLAUDE.local.md` | C) `.claude/rules/personal.md` | D) `.claude/memory/personal.md`
+- **正確答案**：B
+- **解說**：專案根目錄中的 `CLAUDE.local.md` 用於個人專案特定偏好。應將其加入 git ignore。
+- **複習**：記憶位置比較
 
 ### Q7
-- **Category**: conceptual
-- **Question**: What is the difference between Reference Content and Task Content in a skill?
-- **Options**: A) Reference is read-only, Task is read-write | B) Reference adds knowledge to context, Task provides step-by-step instructions | C) Reference is for documentation, Task is for code | D) There is no difference
-- **Correct**: B
-- **Explanation**: Reference Content adds domain knowledge to Claude's context (e.g., brand guidelines). Task Content provides actionable step-by-step instructions for a workflow.
-- **Review**: Skill content types section
+- **類別**：概念
+- **題目**：`/init` 指令做什麼？
+- **選項**：A) 從頭初始化新的 Claude Code 專案 | B) 根據專案結構產生模板 CLAUDE.md | C) 將所有記憶重設為預設值 | D) 建立新的工作階段
+- **正確答案**：B
+- **解說**：`/init` 分析您的專案並產生包含建議規則和標準的模板 CLAUDE.md。這是一次性的啟動工具。
+- **複習**：/init 指令章節
 
 ### Q8
-- **Category**: practical
-- **Question**: What characters are allowed in the `name` field of a skill's frontmatter?
-- **Options**: A) Any characters | B) Lowercase letters, numbers, and hyphens only (max 64 chars) | C) Letters and underscores | D) Alphanumeric only
-- **Correct**: B
-- **Explanation**: The name must be kebab-case (lowercase, hyphens), max 64 characters, and cannot contain "anthropic" or "claude".
-- **Review**: SKILL.md format section
+- **類別**：實作
+- **題目**：如何完全停用 Auto Memory？
+- **選項**：A) 刪除 ~/.claude/projects 目錄 | B) 設定 `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` | C) 在 CLAUDE.md 中新增 `auto-memory: false` | D) 使用 `/memory disable auto`
+- **正確答案**：B
+- **解說**：設定 `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` 可停用自動記憶。值 `0` 強制開啟。未設定 = 預設開啟。
+- **複習**：Auto Memory 設定章節
 
 ### Q9
-- **Category**: conceptual
-- **Question**: In what order does Claude search for skills?
-- **Options**: A) User > Project > Enterprise | B) Enterprise > Personal > Project (plugin uses namespace) | C) Project > User > Enterprise | D) Alphabetical order
-- **Correct**: B
-- **Explanation**: Priority order is: Enterprise > Personal > Project. Plugin skills use a namespace (plugin-name:skill) so they don't conflict.
-- **Review**: Skill types and locations section
+- **類別**：概念
+- **題目**：較低優先級的記憶層能否覆蓋較高優先級層的規則？
+- **選項**：A) 可以，最新的規則總是勝出 | B) 不行，較高層級總是優先 | C) 可以，如果較低層使用 `!important` 旗標 | D) 視規則類型而定
+- **正確答案**：B
+- **解說**：記憶優先級從託管政策向下流動。較低層級（如自動記憶）無法覆蓋較高層級（如專案記憶）。
+- **複習**：記憶層級章節
 
 ### Q10
-- **Category**: practical
-- **Question**: How do you prevent Claude from automatically invoking a skill while still allowing users to use it manually?
-- **Options**: A) Set `user-invocable: false` | B) Set `disable-model-invocation: true` | C) Remove the description field | D) Set `auto-invoke: false`
-- **Correct**: B
-- **Explanation**: `disable-model-invocation: true` prevents Claude from auto-invoking but keeps the skill available in the user's `/` menu for manual use.
-- **Review**: Controlling invocation section
+- **類別**：實作
+- **題目**：您跨兩個儲存庫工作，想讓 Claude 從兩者載入 CLAUDE.md。應使用什麼旗標？
+- **選項**：A) `--multi-repo` | B) `--add-dir /path/to/other` | C) `--include /path/to/other` | D) `--merge-context /path/to/other`
+- **正確答案**：B
+- **解說**：`--add-dir` 旗標從額外的目錄載入 CLAUDE.md，實現多儲存庫上下文。
+- **複習**：額外目錄章節
 
 ---
 
-## Lesson 04: Subagents
+## 第 03 課：Skills
 
 ### Q1
-- **Category**: conceptual
-- **Question**: What is the main advantage of subagents over inline conversation?
-- **Options**: A) They are faster | B) They operate in a separate, clean context window preventing context pollution | C) They can use more tools | D) They have better error handling
-- **Correct**: B
-- **Explanation**: Subagents get a fresh context window, receiving only what the main agent passes. This prevents the main conversation from being polluted with task-specific details.
-- **Review**: Overview section
+- **類別**：概念
+- **題目**：skill 系統中的漸進式揭露有哪 3 個層級？
+- **選項**：A) 中繼資料、說明、資源 | B) 名稱、主體、附件 | C) 標頭、內容、腳本 | D) 摘要、詳情、資料
+- **正確答案**：A
+- **解說**：層級 1：中繼資料（約 100 tokens，總是載入），層級 2：SKILL.md 主體（<5k tokens，觸發時載入），層級 3：打包資源（scripts/references/assets，按需載入）。
+- **複習**：漸進式揭露架構章節
 
 ### Q2
-- **Category**: practical
-- **Question**: What is the priority order for agent definitions?
-- **Options**: A) Project > User > CLI | B) CLI > User > Project | C) User > Project > CLI | D) They all have equal priority
-- **Correct**: B
-- **Explanation**: CLI-defined agents (`--agents` flag) override User-level (`~/.claude/agents/`), which override Project-level (`.claude/agents/`).
-- **Review**: File locations section
+- **類別**：實作
+- **題目**：skill 被 Claude 自動調用最重要的因素是什麼？
+- **選項**：A) skill 的檔案名稱 | B) frontmatter 中的 `description` 欄位含使用時機關鍵字 | C) skill 的目錄位置 | D) `auto-invoke: true` frontmatter 欄位
+- **正確答案**：B
+- **解說**：Claude 完全根據 `description` 欄位決定是否自動調用 skill。它必須包含具體的觸發短語和情境。
+- **複習**：自動調用章節
 
 ### Q3
-- **Category**: conceptual
-- **Question**: Which built-in subagent uses the Haiku model and is optimized for read-only codebase exploration?
-- **Options**: A) general-purpose | B) Plan | C) Explore | D) Bash
-- **Correct**: C
-- **Explanation**: The Explore subagent uses Haiku for fast, read-only codebase exploration. It supports three thoroughness levels: quick, medium, very thorough.
-- **Review**: Built-in subagents section
+- **類別**：概念
+- **題目**：SKILL.md 檔案的建議最大長度是多少？
+- **選項**：A) 100 行 | B) 250 行 | C) 500 行 | D) 1000 行
+- **正確答案**：C
+- **解說**：SKILL.md 應控制在 500 行以內。較大的參考資料應放在 `references/` 子目錄的檔案中。
+- **複習**：內容指引章節
 
 ### Q4
-- **Category**: practical
-- **Question**: How do you restrict which subagents a coordinator agent can spawn?
-- **Options**: A) Use `allowed-agents:` field | B) Use `Task(agent_name)` syntax in the `tools` field | C) Set `spawn-limit: 2` | D) Use `restrict-agents: [name1, name2]`
-- **Correct**: B
-- **Explanation**: Adding `Task(worker, researcher)` in the tools field creates an allowlist — the agent can only spawn subagents named "worker" or "researcher".
-- **Review**: Restrict spawnable subagents section
+- **類別**：實作
+- **題目**：如何讓 skill 在隔離的 subagent 中以獨立上下文運行？
+- **選項**：A) 在 frontmatter 中設定 `isolation: true` | B) 在 frontmatter 中設定 `context: fork` 搭配 `agent` 欄位 | C) 在 frontmatter 中設定 `subagent: true` | D) 將 skill 放在 `.claude/agents/`
+- **正確答案**：B
+- **解說**：`context: fork` 在獨立上下文中運行 skill，`agent` 欄位指定使用哪種代理類型（例如 `Explore`、`Plan`、自訂代理）。
+- **複習**：在 subagents 中運行 skills 章節
 
 ### Q5
-- **Category**: conceptual
-- **Question**: What does `isolation: worktree` do for a subagent?
-- **Options**: A) Runs the agent in a Docker container | B) Gives the agent its own git worktree so changes don't affect the main tree | C) Prevents the agent from reading any files | D) Runs the agent in a sandbox
-- **Correct**: B
-- **Explanation**: Worktree isolation creates a separate git worktree. If the agent makes no changes, it auto-cleans up. If changes are made, the worktree path and branch are returned.
-- **Review**: Worktree isolation section
+- **類別**：概念
+- **題目**：分配給 skill 中繼資料（層級 1）的大約上下文預算是多少？
+- **選項**：A) 上下文視窗的 0.5% | B) 上下文視窗的 2% | C) 上下文視窗的 5% | D) 上下文視窗的 10%
+- **正確答案**：B
+- **解說**：Skill 中繼資料約佔上下文視窗的 2%（備用值：16,000 字元）。可透過 `SLASH_COMMAND_TOOL_CHAR_BUDGET` 設定。
+- **複習**：上下文預算章節
 
 ### Q6
-- **Category**: practical
-- **Question**: How do you make a subagent run in the background?
-- **Options**: A) Set `background: true` in the agent config | B) Use `async: true` in the agent config | C) Press Ctrl+D after starting it | D) Use `--background` CLI flag
-- **Correct**: A
-- **Explanation**: `background: true` in the agent configuration makes the subagent always run as a background task. Users can also use Ctrl+B to send a foreground task to background.
-- **Review**: Background subagents section
+- **類別**：實作
+- **題目**：一個 skill 需要參考大型 API 規格。應放在哪裡？
+- **選項**：A) 內嵌在 SKILL.md 中 | B) 放在 skill 目錄內的 `references/api-spec.md` 檔案 | C) 放在專案的 CLAUDE.md 中 | D) 放在獨立的 `.claude/rules/` 檔案中
+- **正確答案**：B
+- **解說**：大型參考資料應放在 `references/` 子目錄。Claude 按需載入層級 3 資源，保持 SKILL.md 精簡。
+- **複習**：支援檔案結構章節
 
 ### Q7
-- **Category**: conceptual
-- **Question**: What does the `memory` field with scope `project` do for a subagent?
-- **Options**: A) Gives read access to the project CLAUDE.md | B) Creates a persistent memory directory scoped to the current project | C) Shares the main agent's conversation history | D) Loads the project's git history
-- **Correct**: B
-- **Explanation**: The `memory` field creates a persistent directory for the subagent. Scope `project` means the memory is tied to the current project. The first 200 lines of the agent's MEMORY.md auto-load.
-- **Review**: Persistent memory section
+- **類別**：概念
+- **題目**：skill 中的「參考內容」與「任務內容」有什麼區別？
+- **選項**：A) 參考是唯讀的，任務是可讀寫的 | B) 參考為上下文增加知識，任務提供逐步指示 | C) 參考用於文件，任務用於程式碼 | D) 沒有區別
+- **正確答案**：B
+- **解說**：參考內容為 Claude 的上下文增加領域知識（例如品牌指南）。任務內容為工作流程提供可操作的逐步指示。
+- **複習**：Skill 內容類型章節
 
 ### Q8
-- **Category**: practical
-- **Question**: How do you include a phrase in a subagent's description to encourage Claude to automatically delegate tasks to it?
-- **Options**: A) Add "priority: high" | B) Include "use PROACTIVELY" or "MUST BE USED" in the description | C) Set `auto-delegate: true` | D) Add "trigger: always"
-- **Correct**: B
-- **Explanation**: Including phrases like "use PROACTIVELY" or "MUST BE USED" in the description strongly encourages Claude to automatically delegate matching tasks.
-- **Review**: Automatic delegation section
+- **類別**：實作
+- **題目**：skill frontmatter 的 `name` 欄位允許哪些字元？
+- **選項**：A) 任何字元 | B) 僅小寫字母、數字和連字號（最多 64 個字元） | C) 字母和底線 | D) 僅英數字元
+- **正確答案**：B
+- **解說**：名稱必須是 kebab-case（小寫、連字號），最多 64 個字元，且不能包含「anthropic」或「claude」。
+- **複習**：SKILL.md 格式章節
 
 ### Q9
-- **Category**: conceptual
-- **Question**: What are the valid `permissionMode` values for a subagent?
-- **Options**: A) read, write, admin | B) default, acceptEdits, bypassPermissions, plan, dontAsk, auto | C) safe, normal, dangerous | D) restricted, standard, elevated
-- **Correct**: B
-- **Explanation**: Subagents support six permission modes: default (prompts for everything), acceptEdits (auto-accepts file edits), bypassPermissions (skips all), plan (read-only), dontAsk (auto-denies unless pre-approved), auto (background classifier decides).
-- **Review**: Configuration fields section
+- **類別**：概念
+- **題目**：Claude 搜尋 skills 的順序是什麼？
+- **選項**：A) 使用者 > 專案 > 企業 | B) 企業 > 個人 > 專案（plugin 使用命名空間） | C) 專案 > 使用者 > 企業 | D) 字母順序
+- **正確答案**：B
+- **解說**：優先順序為：企業 > 個人 > 專案。Plugin skills 使用命名空間（plugin-name:skill）因此不會衝突。
+- **複習**：Skill 類型與位置章節
 
 ### Q10
-- **Category**: practical
-- **Question**: How do you resume a subagent that returned an agentId from a previous run?
-- **Options**: A) Use `/resume agent-id` | B) Pass the `resume` parameter with the agentId when calling Task tool | C) Use `claude -r agent-id` | D) Subagents cannot be resumed
-- **Correct**: B
-- **Explanation**: Subagents can be resumed by passing the `resume` parameter with the previously returned agentId, continuing with full context preserved.
-- **Review**: Resumable agents section
+- **類別**：實作
+- **題目**：如何阻止 Claude 自動調用 skill，同時仍允許使用者手動使用？
+- **選項**：A) 設定 `user-invocable: false` | B) 設定 `disable-model-invocation: true` | C) 移除 description 欄位 | D) 設定 `auto-invoke: false`
+- **正確答案**：B
+- **解說**：`disable-model-invocation: true` 阻止 Claude 自動調用，但保持 skill 在使用者的 `/` 選單中可手動使用。
+- **複習**：控制調用章節
 
 ---
 
-## Lesson 05: MCP
+## 第 04 課：Subagents
 
 ### Q1
-- **Category**: conceptual
-- **Question**: What are the three MCP transport protocols, and which is recommended?
-- **Options**: A) HTTP (recommended), Stdio, SSE (deprecated) | B) WebSocket (recommended), REST, gRPC | C) TCP, UDP, HTTP | D) Stdio (recommended), HTTP, SSE
-- **Correct**: A
-- **Explanation**: HTTP is recommended for remote servers. Stdio is for local processes (most common currently). SSE is deprecated but still supported.
-- **Review**: Transport protocols section
+- **類別**：概念
+- **題目**：Subagents 相較於內嵌對話的主要優勢是什麼？
+- **選項**：A) 更快速 | B) 在獨立、乾淨的上下文視窗中運作，防止上下文汙染 | C) 能使用更多工具 | D) 更好的錯誤處理
+- **正確答案**：B
+- **解說**：Subagents 獲得全新的上下文視窗，只接收主代理傳遞的內容。這防止主對話被任務特定的細節汙染。
+- **複習**：概覽章節
 
 ### Q2
-- **Category**: practical
-- **Question**: How do you add a GitHub MCP server via CLI?
-- **Options**: A) `claude mcp install github` | B) `claude mcp add --transport http github https://api.github.com/mcp` | C) `claude plugin add github-mcp` | D) `claude connect github`
-- **Correct**: B
-- **Explanation**: Use `claude mcp add` with `--transport` flag, a name, and the server URL. For stdio: `claude mcp add github -- npx -y @modelcontextprotocol/server-github`.
-- **Review**: MCP configuration management section
+- **類別**：實作
+- **題目**：代理定義的優先順序是什麼？
+- **選項**：A) 專案 > 使用者 > CLI | B) CLI > 使用者 > 專案 | C) 使用者 > 專案 > CLI | D) 全部相同優先級
+- **正確答案**：B
+- **解說**：CLI 定義的代理（`--agents` 旗標）覆蓋使用者層級（`~/.claude/agents/`），使用者層級覆蓋專案層級（`.claude/agents/`）。
+- **複習**：檔案位置章節
 
 ### Q3
-- **Category**: conceptual
-- **Question**: What happens when MCP tool descriptions exceed 10% of the context window?
-- **Options**: A) They are truncated | B) Tool Search auto-enables to dynamically select relevant tools | C) Claude shows an error | D) Extra tools are disabled
-- **Correct**: B
-- **Explanation**: MCP Tool Search auto-enables when tools exceed 10% of context. It requires Sonnet 4 or Opus 4 minimum (Haiku not supported).
-- **Review**: MCP Tool Search section
+- **類別**：概念
+- **題目**：哪個內建 subagent 使用 Haiku 模型並針對唯讀程式碼庫探索進行最佳化？
+- **選項**：A) general-purpose | B) Plan | C) Explore | D) Bash
+- **正確答案**：C
+- **解說**：Explore subagent 使用 Haiku 進行快速、唯讀的程式碼庫探索。支援三種徹底程度：quick、medium、very thorough。
+- **複習**：內建 subagents 章節
 
 ### Q4
-- **Category**: practical
-- **Question**: How do you use environment variable fallbacks in MCP config?
-- **Options**: A) `${VAR || "default"}` | B) `${VAR:-default}` | C) `${VAR:default}` | D) `${VAR ? "default"}`
-- **Correct**: B
-- **Explanation**: `${VAR:-default}` provides a fallback value if the environment variable is not set. `${VAR}` without fallback will error if not set.
-- **Review**: Environment variable expansion section
+- **類別**：實作
+- **題目**：如何限制協調代理可以產生的 subagents？
+- **選項**：A) 使用 `allowed-agents:` 欄位 | B) 在 `tools` 欄位中使用 `Task(agent_name)` 語法 | C) 設定 `spawn-limit: 2` | D) 使用 `restrict-agents: [name1, name2]`
+- **正確答案**：B
+- **解說**：在 tools 欄位中加入 `Task(worker, researcher)` 建立白名單 — 代理只能產生名為「worker」或「researcher」的 subagents。
+- **複習**：限制可產生的 subagents 章節
 
 ### Q5
-- **Category**: conceptual
-- **Question**: What is the difference between MCP and Memory for data access?
-- **Options**: A) MCP is faster, Memory is slower | B) MCP is for live/changing external data, Memory is for persistent/static preferences | C) MCP is for code, Memory is for text | D) They are interchangeable
-- **Correct**: B
-- **Explanation**: MCP connects to live, changing external data sources (APIs, databases). Memory stores persistent, static project context and preferences.
-- **Review**: MCP vs Memory section
+- **類別**：概念
+- **題目**：subagent 的 `isolation: worktree` 做什麼？
+- **選項**：A) 在 Docker 容器中運行代理 | B) 給代理獨立的 git worktree，使變更不影響主工作目錄 | C) 阻止代理讀取任何檔案 | D) 在沙箱中運行代理
+- **正確答案**：B
+- **解說**：Worktree 隔離建立獨立的 git worktree。若代理未做任何變更，會自動清除。若有變更，會回傳 worktree 路徑和分支。
+- **複習**：Worktree 隔離章節
 
 ### Q6
-- **Category**: practical
-- **Question**: What happens when a team member first encounters a project-scoped `.mcp.json`?
-- **Options**: A) It loads automatically | B) They get an approval prompt to trust the project's MCP servers | C) It's ignored unless they opt in via settings | D) Claude asks the admin to approve
-- **Correct**: B
-- **Explanation**: Project-scoped `.mcp.json` triggers a security approval prompt on each team member's first use. This is intentional — it prevents untrusted MCP servers.
-- **Review**: MCP Scopes section
+- **類別**：實作
+- **題目**：如何讓 subagent 在背景執行？
+- **選項**：A) 在代理設定中設定 `background: true` | B) 在代理設定中使用 `async: true` | C) 啟動後按 Ctrl+D | D) 使用 `--background` CLI 旗標
+- **正確答案**：A
+- **解說**：代理設定中的 `background: true` 讓 subagent 總是以背景任務執行。使用者也可用 Ctrl+B 將前景任務送到背景。
+- **複習**：背景 subagents 章節
 
 ### Q7
-- **Category**: conceptual
-- **Question**: What does `claude mcp serve` do?
-- **Options**: A) Starts an MCP server dashboard | B) Makes Claude Code itself act as an MCP server for other applications | C) Serves MCP documentation | D) Tests MCP server connections
-- **Correct**: B
-- **Explanation**: `claude mcp serve` turns Claude Code into an MCP server, enabling multi-agent orchestration where one Claude instance can be controlled by another.
-- **Review**: Claude as MCP Server section
+- **類別**：概念
+- **題目**：subagent 中含 scope `project` 的 `memory` 欄位做什麼？
+- **選項**：A) 提供專案 CLAUDE.md 的讀取權限 | B) 建立限定於當前專案的持久性記憶目錄 | C) 共享主代理的對話歷史 | D) 載入專案的 git 歷史
+- **正確答案**：B
+- **解說**：`memory` 欄位為 subagent 建立持久性目錄。scope `project` 表示記憶與當前專案綁定。代理的 MEMORY.md 前 200 行會自動載入。
+- **複習**：持久性記憶章節
 
 ### Q8
-- **Category**: practical
-- **Question**: What is the default maximum output size for MCP tools?
-- **Options**: A) 5,000 tokens | B) 10,000 tokens | C) 25,000 tokens | D) 50,000 tokens
-- **Correct**: C
-- **Explanation**: Default max is 25,000 tokens (`MAX_MCP_OUTPUT_TOKENS`). A warning appears at 10k tokens. Disk persistence caps at 50k characters.
-- **Review**: MCP Output Limits section
+- **類別**：實作
+- **題目**：如何在 subagent 的描述中加入鼓勵 Claude 自動委派任務的短語？
+- **選項**：A) 加入 "priority: high" | B) 在描述中加入 "use PROACTIVELY" 或 "MUST BE USED" | C) 設定 `auto-delegate: true` | D) 加入 "trigger: always"
+- **正確答案**：B
+- **解說**：在描述中加入如 "use PROACTIVELY" 或 "MUST BE USED" 的短語，可強烈鼓勵 Claude 自動委派匹配的任務。
+- **複習**：自動委派章節
 
 ### Q9
-- **Category**: conceptual
-- **Question**: When both `allowedMcpServers` and `deniedMcpServers` match a server in managed config, which wins?
-- **Options**: A) Allowed wins | B) Denied wins | C) The last one configured wins | D) Both are applied independently
-- **Correct**: B
-- **Explanation**: In managed MCP configuration, deny rules always take precedence over allow rules.
-- **Review**: Managed MCP Configuration section
+- **類別**：概念
+- **題目**：subagent 的有效 `permissionMode` 值有哪些？
+- **選項**：A) read、write、admin | B) default、acceptEdits、bypassPermissions、plan、dontAsk、auto | C) safe、normal、dangerous | D) restricted、standard、elevated
+- **正確答案**：B
+- **解說**：Subagents 支援六種權限模式：default（所有事都提示）、acceptEdits（自動接受檔案編輯）、bypassPermissions（跳過全部）、plan（唯讀）、dontAsk（除非預先核准否則自動拒絕）、auto（背景分類器決定）。
+- **複習**：設定欄位章節
 
 ### Q10
-- **Category**: practical
-- **Question**: How do you reference an MCP resource in a conversation?
-- **Options**: A) Use `/mcp resource-name` | B) Use `@server-name:protocol://resource/path` mention syntax | C) Use `mcp.get("resource")` | D) Resources are auto-loaded
-- **Correct**: B
-- **Explanation**: MCP resources are accessed via `@server-name:protocol://resource/path` mention syntax in conversation.
-- **Review**: MCP Resources section
+- **類別**：實作
+- **題目**：如何恢復一個從先前執行回傳 agentId 的 subagent？
+- **選項**：A) 使用 `/resume agent-id` | B) 呼叫 Task 工具時傳入含 agentId 的 `resume` 參數 | C) 使用 `claude -r agent-id` | D) Subagents 無法恢復
+- **正確答案**：B
+- **解說**：Subagents 可透過傳入含先前回傳的 agentId 的 `resume` 參數來恢復，完整上下文會被保留。
+- **複習**：可恢復的代理章節
 
 ---
 
-## Lesson 06: Hooks
+## 第 05 課：MCP
 
 ### Q1
-- **Category**: conceptual
-- **Question**: What are the four types of hooks in Claude Code?
-- **Options**: A) Pre, Post, Error, and Filter hooks | B) Command, HTTP, Prompt, and Agent hooks | C) Before, After, Around, and Through hooks | D) Input, Output, Filter, and Transform hooks
-- **Correct**: B
-- **Explanation**: Command hooks run shell scripts, HTTP hooks call webhook endpoints, Prompt hooks use single-turn LLM evaluation, and Agent hooks use subagent-based verification.
-- **Review**: Hook types section
+- **類別**：概念
+- **題目**：MCP 有哪三種傳輸協定？建議使用哪個？
+- **選項**：A) HTTP（建議）、Stdio、SSE（已棄用） | B) WebSocket（建議）、REST、gRPC | C) TCP、UDP、HTTP | D) Stdio（建議）、HTTP、SSE
+- **正確答案**：A
+- **解說**：HTTP 建議用於遠端伺服器。Stdio 用於本地程序（目前最常見）。SSE 已棄用但仍支援。
+- **複習**：傳輸協定章節
 
 ### Q2
-- **Category**: practical
-- **Question**: A hook script exits with code 2. What happens?
-- **Options**: A) Non-blocking warning shown | B) Blocking error — stderr is shown as an error to Claude, tool use is prevented | C) Hook is retried | D) Session ends
-- **Correct**: B
-- **Explanation**: Exit code 0 = success/continue, exit code 2 = blocking error (stderr shown as error), any other non-zero = non-blocking (stderr in verbose only).
-- **Review**: Exit codes section
+- **類別**：實作
+- **題目**：如何透過 CLI 新增 GitHub MCP 伺服器？
+- **選項**：A) `claude mcp install github` | B) `claude mcp add --transport http github https://api.github.com/mcp` | C) `claude plugin add github-mcp` | D) `claude connect github`
+- **正確答案**：B
+- **解說**：使用 `claude mcp add` 搭配 `--transport` 旗標、名稱和伺服器 URL。若為 stdio：`claude mcp add github -- npx -y @modelcontextprotocol/server-github`。
+- **複習**：MCP 設定管理章節
 
 ### Q3
-- **Category**: conceptual
-- **Question**: What JSON fields does a PreToolUse hook receive on stdin?
-- **Options**: A) `tool_name` and `tool_output` | B) `session_id`, `tool_name`, `tool_input`, `hook_event_name`, `cwd`, and more | C) Only `tool_name` | D) The full conversation history
-- **Correct**: B
-- **Explanation**: Hooks receive a JSON object on stdin with: session_id, transcript_path, hook_event_name, tool_name, tool_input, tool_use_id, cwd, and permission_mode.
-- **Review**: JSON input structure section
+- **類別**：概念
+- **題目**：當 MCP 工具描述超過上下文視窗的 10% 時會發生什麼？
+- **選項**：A) 被截斷 | B) Tool Search 自動啟用以動態選擇相關工具 | C) Claude 顯示錯誤 | D) 額外工具被停用
+- **正確答案**：B
+- **解說**：當工具超過上下文的 10% 時，MCP Tool Search 會自動啟用。它需要 Sonnet 4 或 Opus 4 以上（不支援 Haiku）。
+- **複習**：MCP Tool Search 章節
 
 ### Q4
-- **Category**: practical
-- **Question**: How can a PreToolUse hook modify the tool's input parameters before execution?
-- **Options**: A) Return modified JSON on stderr | B) Return JSON with `updatedInput` field on stdout (exit code 0) | C) Write to a temp file | D) Hooks cannot modify inputs
-- **Correct**: B
-- **Explanation**: A PreToolUse hook can output JSON with `"updatedInput": {...}` on stdout (with exit 0) to modify the tool's parameters before Claude uses them.
-- **Review**: PreToolUse output section
+- **類別**：實作
+- **題目**：如何在 MCP 設定中使用環境變數備用值？
+- **選項**：A) `${VAR || "default"}` | B) `${VAR:-default}` | C) `${VAR:default}` | D) `${VAR ? "default"}`
+- **正確答案**：B
+- **解說**：`${VAR:-default}` 在環境變數未設定時提供備用值。不含備用值的 `${VAR}` 在未設定時會報錯。
+- **複習**：環境變數展開章節
 
 ### Q5
-- **Category**: conceptual
-- **Question**: Which hook event supports `CLAUDE_ENV_FILE` for persisting environment variables into the session?
-- **Options**: A) PreToolUse | B) UserPromptSubmit | C) SessionStart | D) All events
-- **Correct**: C
-- **Explanation**: Only SessionStart hooks can use `CLAUDE_ENV_FILE` to persist environment variables into the session.
-- **Review**: SessionStart section
+- **類別**：概念
+- **題目**：MCP 和 Memory 在資料存取方面有什麼區別？
+- **選項**：A) MCP 更快，Memory 較慢 | B) MCP 用於即時/變動的外部資料，Memory 用於持久/靜態的偏好設定 | C) MCP 用於程式碼，Memory 用於文字 | D) 可互換使用
+- **正確答案**：B
+- **解說**：MCP 連接即時、變動的外部資料來源（API、資料庫）。Memory 儲存持久、靜態的專案上下文和偏好設定。
+- **複習**：MCP vs Memory 章節
 
 ### Q6
-- **Category**: practical
-- **Question**: You want a hook that only runs once when a skill is first loaded, not on every tool call. What field do you add?
-- **Options**: A) `run-once: true` | B) `once: true` in the component hook definition | C) `single: true` | D) `max-runs: 1`
-- **Correct**: B
-- **Explanation**: Component-scoped hooks (defined in SKILL.md or agent frontmatter) support `once: true` to run only on first activation.
-- **Review**: Component-scoped hooks section
+- **類別**：實作
+- **題目**：團隊成員首次遇到專案範圍的 `.mcp.json` 時會發生什麼？
+- **選項**：A) 自動載入 | B) 他們會收到信任專案 MCP 伺服器的核准提示 | C) 除非透過設定選擇加入，否則被忽略 | D) Claude 請管理員核准
+- **正確答案**：B
+- **解說**：專案範圍的 `.mcp.json` 在每個團隊成員首次使用時觸發安全核准提示。這是刻意的設計 — 防止不受信任的 MCP 伺服器。
+- **複習**：MCP 範圍章節
 
 ### Q7
-- **Category**: conceptual
-- **Question**: A Stop hook is defined in a subagent's frontmatter. What does it automatically convert to?
-- **Options**: A) A PostToolUse hook | B) A SubagentStop hook | C) A SessionEnd hook | D) It stays as a Stop hook
-- **Correct**: B
-- **Explanation**: When a Stop hook is placed in a subagent's frontmatter, it auto-converts to SubagentStop so it runs when that specific subagent finishes.
-- **Review**: Component-scoped hooks section
+- **類別**：概念
+- **題目**：`claude mcp serve` 做什麼？
+- **選項**：A) 啟動 MCP 伺服器儀表板 | B) 讓 Claude Code 本身作為 MCP 伺服器供其他應用程式使用 | C) 提供 MCP 文件 | D) 測試 MCP 伺服器連線
+- **正確答案**：B
+- **解說**：`claude mcp serve` 將 Claude Code 變成 MCP 伺服器，啟用多代理協調，讓一個 Claude 實例可被另一個控制。
+- **複習**：Claude 作為 MCP 伺服器章節
 
 ### Q8
-- **Category**: practical
-- **Question**: How do you match a hook to all MCP tools from a specific server?
-- **Options**: A) `matcher: "mcp_github"` | B) `matcher: "mcp__github__.*"` (regex pattern) | C) `matcher: "mcp:github:*"` | D) `matcher: "github-mcp"`
-- **Correct**: B
-- **Explanation**: Use regex patterns for matchers. MCP tools follow the `mcp__server__tool` naming convention, so `mcp__github__.*` matches all GitHub MCP tools.
-- **Review**: Matcher patterns section
+- **類別**：實作
+- **題目**：MCP 工具的預設最大輸出大小是多少？
+- **選項**：A) 5,000 tokens | B) 10,000 tokens | C) 25,000 tokens | D) 50,000 tokens
+- **正確答案**：C
+- **解說**：預設最大值為 25,000 tokens（`MAX_MCP_OUTPUT_TOKENS`）。10k tokens 時會顯示警告。磁碟持久化上限為 50k 字元。
+- **複習**：MCP 輸出限制章節
 
 ### Q9
-- **Category**: conceptual
-- **Question**: How many hook events does Claude Code support in total?
-- **Options**: A) 10 | B) 16 | C) 25 | D) 30
-- **Correct**: C
-- **Explanation**: Claude Code supports 25 hook events: PreToolUse, PostToolUse, PostToolUseFailure, UserPromptSubmit, Stop, StopFailure, SubagentStop, SubagentStart, PermissionRequest, Notification, PreCompact, PostCompact, SessionStart, SessionEnd, WorktreeCreate, WorktreeRemove, ConfigChange, CwdChanged, FileChanged, TeammateIdle, TaskCompleted, TaskCreated, Elicitation, ElicitationResult, InstructionsLoaded.
-- **Review**: Hook events table
+- **類別**：概念
+- **題目**：在託管設定中，當 `allowedMcpServers` 和 `deniedMcpServers` 同時匹配一個伺服器時，哪個勝出？
+- **選項**：A) 允許勝出 | B) 拒絕勝出 | C) 最後設定的勝出 | D) 兩者獨立套用
+- **正確答案**：B
+- **解說**：在託管 MCP 設定中，拒絕規則總是優先於允許規則。
+- **複習**：託管 MCP 設定章節
 
 ### Q10
-- **Category**: practical
-- **Question**: You want to debug why a hook isn't firing. What's the best approach?
-- **Options**: A) Add print statements to the hook script | B) Use `--debug` flag and `Ctrl+O` for verbose mode | C) Check the system log | D) Hooks don't have debugging tools
-- **Correct**: B
-- **Explanation**: The `--debug` flag and `Ctrl+O` verbose mode show hook execution details including which hooks fire, their inputs, and outputs.
-- **Review**: Debugging section
+- **類別**：實作
+- **題目**：如何在對話中參考 MCP 資源？
+- **選項**：A) 使用 `/mcp resource-name` | B) 使用 `@server-name:protocol://resource/path` mention 語法 | C) 使用 `mcp.get("resource")` | D) 資源自動載入
+- **正確答案**：B
+- **解說**：MCP 資源透過對話中的 `@server-name:protocol://resource/path` mention 語法存取。
+- **複習**：MCP 資源章節
 
 ---
 
-## Lesson 07: Plugins
+## 第 06 課：Hooks
 
 ### Q1
-- **Category**: conceptual
-- **Question**: What is the core manifest file for a plugin and where does it live?
-- **Options**: A) `plugin.yaml` in the root directory | B) `.claude-plugin/plugin.json` | C) `package.json` with a "claude" key | D) `.claude/plugin.md`
-- **Correct**: B
-- **Explanation**: The plugin manifest lives at `.claude-plugin/plugin.json` with required fields: name, description, version, author.
-- **Review**: Plugin definition structure section
+- **類別**：概念
+- **題目**：Claude Code 中有哪四種 hooks？
+- **選項**：A) Pre、Post、Error 和 Filter hooks | B) Command、HTTP、Prompt 和 Agent hooks | C) Before、After、Around 和 Through hooks | D) Input、Output、Filter 和 Transform hooks
+- **正確答案**：B
+- **解說**：Command hooks 執行 shell 腳本，HTTP hooks 呼叫 webhook 端點，Prompt hooks 使用單輪 LLM 評估，Agent hooks 使用基於 subagent 的驗證。
+- **複習**：Hook 類型章節
 
 ### Q2
-- **Category**: practical
-- **Question**: How do you test a plugin locally before publishing?
-- **Options**: A) Use `/plugin test ./my-plugin` | B) Use `claude --plugin-dir ./my-plugin` | C) Use `claude plugin validate ./my-plugin` | D) Copy it to ~/.claude/plugins/
-- **Correct**: B
-- **Explanation**: The `--plugin-dir` flag loads a plugin from a local directory for testing. It's repeatable for loading multiple plugins.
-- **Review**: Testing section
+- **類別**：實作
+- **題目**：hook 腳本以 exit code 2 退出。會發生什麼？
+- **選項**：A) 顯示非阻擋性警告 | B) 阻擋性錯誤 — stderr 作為錯誤顯示給 Claude，工具使用被阻止 | C) Hook 被重試 | D) 工作階段結束
+- **正確答案**：B
+- **解說**：Exit code 0 = 成功/繼續，exit code 2 = 阻擋性錯誤（stderr 作為錯誤顯示），其他非零值 = 非阻擋性（stderr 僅在 verbose 中顯示）。
+- **複習**：Exit codes 章節
 
 ### Q3
-- **Category**: conceptual
-- **Question**: What environment variable is available inside plugin hooks and MCP configs to reference the plugin's installation directory?
-- **Options**: A) `$PLUGIN_HOME` | B) `${CLAUDE_PLUGIN_ROOT}` | C) `$PLUGIN_DIR` | D) `${CLAUDE_PLUGIN_PATH}`
-- **Correct**: B
-- **Explanation**: `${CLAUDE_PLUGIN_ROOT}` resolves to the plugin's installed directory, enabling portable path references in hooks and MCP configs.
-- **Review**: Plugin directory structure section
+- **類別**：概念
+- **題目**：PreToolUse hook 在 stdin 上接收哪些 JSON 欄位？
+- **選項**：A) `tool_name` 和 `tool_output` | B) `session_id`、`tool_name`、`tool_input`、`hook_event_name`、`cwd` 等 | C) 僅 `tool_name` | D) 完整的對話歷史
+- **正確答案**：B
+- **解說**：Hooks 在 stdin 上接收包含以下欄位的 JSON 物件：session_id、transcript_path、hook_event_name、tool_name、tool_input、tool_use_id、cwd 和 permission_mode。
+- **複習**：JSON 輸入結構章節
 
 ### Q4
-- **Category**: practical
-- **Question**: A plugin has a command called "check-security" in the "pr-review" plugin. How does a user invoke it?
-- **Options**: A) `/check-security` | B) `/pr-review:check-security` | C) `/plugin pr-review check-security` | D) `/pr-review/check-security`
-- **Correct**: B
-- **Explanation**: Plugin commands use a `plugin-name:command-name` namespace to avoid conflicts with user commands and other plugins.
-- **Review**: Plugin commands section
+- **類別**：實作
+- **題目**：PreToolUse hook 如何在執行前修改工具的輸入參數？
+- **選項**：A) 在 stderr 上回傳修改後的 JSON | B) 在 stdout 上回傳含 `updatedInput` 欄位的 JSON（exit code 0） | C) 寫入暫存檔 | D) Hooks 無法修改輸入
+- **正確答案**：B
+- **解說**：PreToolUse hook 可在 stdout 上輸出含 `"updatedInput": {...}` 的 JSON（搭配 exit 0），在 Claude 使用前修改工具的參數。
+- **複習**：PreToolUse 輸出章節
 
 ### Q5
-- **Category**: conceptual
-- **Question**: Which components can a plugin bundle?
-- **Options**: A) Only commands and settings | B) Commands, agents, skills, hooks, MCP servers, LSP config, settings, templates, scripts | C) Only commands, hooks, and MCP servers | D) Only skills and agents
-- **Correct**: B
-- **Explanation**: Plugins can bundle: commands/, agents/, skills/, hooks/hooks.json, .mcp.json, .lsp.json, settings.json, templates/, scripts/, docs/, tests/.
-- **Review**: Plugin directory structure section
+- **類別**：概念
+- **題目**：哪個 hook 事件支援 `CLAUDE_ENV_FILE` 將環境變數持久化到工作階段？
+- **選項**：A) PreToolUse | B) UserPromptSubmit | C) SessionStart | D) 所有事件
+- **正確答案**：C
+- **解說**：只有 SessionStart hooks 能使用 `CLAUDE_ENV_FILE` 將環境變數持久化到工作階段。
+- **複習**：SessionStart 章節
 
 ### Q6
-- **Category**: practical
-- **Question**: How do you install a plugin from GitHub?
-- **Options**: A) `claude plugin add github:username/repo` | B) `/plugin install github:username/repo` | C) `npm install @claude/username-repo` | D) `git clone` then `claude plugin register`
-- **Correct**: B
-- **Explanation**: Use `/plugin install github:username/repo` to install directly from a GitHub repository.
-- **Review**: Installation methods section
+- **類別**：實作
+- **題目**：您想要一個僅在 skill 首次載入時運行一次的 hook，而非每次工具呼叫都運行。應新增什麼欄位？
+- **選項**：A) `run-once: true` | B) 在元件 hook 定義中加入 `once: true` | C) `single: true` | D) `max-runs: 1`
+- **正確答案**：B
+- **解說**：元件範圍 hooks（定義在 SKILL.md 或 agent frontmatter 中）支援 `once: true`，僅在首次啟動時運行。
+- **複習**：元件範圍 hooks 章節
 
 ### Q7
-- **Category**: conceptual
-- **Question**: What does the `settings.json` `agent` key do in a plugin?
-- **Options**: A) Specifies authentication credentials | B) Sets the main thread agent for the plugin | C) Lists available subagents | D) Configures agent permissions
-- **Correct**: B
-- **Explanation**: The `agent` key in a plugin's settings.json specifies which agent definition to use as the main thread agent when the plugin is active.
-- **Review**: Plugin Settings section
+- **類別**：概念
+- **題目**：在 subagent 的 frontmatter 中定義的 Stop hook 會自動轉換成什麼？
+- **選項**：A) PostToolUse hook | B) SubagentStop hook | C) SessionEnd hook | D) 維持 Stop hook
+- **正確答案**：B
+- **解說**：當 Stop hook 放在 subagent 的 frontmatter 中時，會自動轉換為 SubagentStop，在該特定 subagent 完成時運行。
+- **複習**：元件範圍 hooks 章節
 
 ### Q8
-- **Category**: practical
-- **Question**: How do you manage plugin lifecycle (enable/disable/update)?
-- **Options**: A) Edit a config file manually | B) Use `/plugin enable`, `/plugin disable`, `/plugin update plugin-name` | C) Use `claude plugin-manager` | D) Reinstall the plugin
-- **Correct**: B
-- **Explanation**: Claude Code provides slash commands for full lifecycle management: enable, disable, update, uninstall.
-- **Review**: Installation methods section
+- **類別**：實作
+- **題目**：如何將 hook 匹配到特定伺服器的所有 MCP 工具？
+- **選項**：A) `matcher: "mcp_github"` | B) `matcher: "mcp__github__.*"`（regex 模式） | C) `matcher: "mcp:github:*"` | D) `matcher: "github-mcp"`
+- **正確答案**：B
+- **解說**：matchers 使用 regex 模式。MCP 工具遵循 `mcp__server__tool` 命名慣例，所以 `mcp__github__.*` 匹配所有 GitHub MCP 工具。
+- **複習**：Matcher 模式章節
 
 ### Q9
-- **Category**: conceptual
-- **Question**: What is the main advantage of a plugin over standalone skills/hooks/MCP?
-- **Options**: A) Plugins are faster | B) Single-command install, versioned, marketplace distribution, bundles everything together | C) Plugins have more permissions | D) Plugins work offline
-- **Correct**: B
-- **Explanation**: Plugins package multiple components into one installable unit with versioning, marketplace distribution, and automatic updates — vs. manual setup of standalone components.
-- **Review**: Standalone vs Plugin comparison section
+- **類別**：概念
+- **題目**：Claude Code 總共支援多少個 hook 事件？
+- **選項**：A) 10 | B) 16 | C) 25 | D) 30
+- **正確答案**：C
+- **解說**：Claude Code 支援 25 個 hook 事件：PreToolUse、PostToolUse、PostToolUseFailure、UserPromptSubmit、Stop、StopFailure、SubagentStop、SubagentStart、PermissionRequest、Notification、PreCompact、PostCompact、SessionStart、SessionEnd、WorktreeCreate、WorktreeRemove、ConfigChange、CwdChanged、FileChanged、TeammateIdle、TaskCompleted、TaskCreated、Elicitation、ElicitationResult、InstructionsLoaded。
+- **複習**：Hook 事件表
 
 ### Q10
-- **Category**: practical
-- **Question**: Where do plugin hooks configuration live within the plugin directory?
-- **Options**: A) `.claude-plugin/hooks.json` | B) `hooks/hooks.json` | C) `plugin.json` hooks section | D) `.claude/settings.json`
-- **Correct**: B
-- **Explanation**: Plugin hooks are configured in `hooks/hooks.json` within the plugin directory structure.
-- **Review**: Plugin hooks section
+- **類別**：實作
+- **題目**：您想除錯為何 hook 沒有觸發。最佳方法是什麼？
+- **選項**：A) 在 hook 腳本中加入 print 語句 | B) 使用 `--debug` 旗標和 `Ctrl+O` 開啟 verbose 模式 | C) 檢查系統日誌 | D) Hooks 沒有除錯工具
+- **正確答案**：B
+- **解說**：`--debug` 旗標和 `Ctrl+O` verbose 模式顯示 hook 執行細節，包括哪些 hooks 觸發、它們的輸入和輸出。
+- **複習**：除錯章節
 
 ---
 
-## Lesson 08: Checkpoints
+## 第 07 課：Plugins
 
 ### Q1
-- **Category**: conceptual
-- **Question**: What four things do checkpoints capture?
-- **Options**: A) Git commits, branches, tags, stashes | B) Messages, file modifications, tool usage history, session context | C) Code, tests, logs, configs | D) Inputs, outputs, errors, timing
-- **Correct**: B
-- **Explanation**: Checkpoints capture conversation messages, file modifications made by Claude's tools, tool usage history, and session context.
-- **Review**: Overview section
+- **類別**：概念
+- **題目**：plugin 的核心 manifest 檔案是什麼？位於何處？
+- **選項**：A) 根目錄中的 `plugin.yaml` | B) `.claude-plugin/plugin.json` | C) 含 "claude" 鍵的 `package.json` | D) `.claude/plugin.md`
+- **正確答案**：B
+- **解說**：Plugin manifest 位於 `.claude-plugin/plugin.json`，包含必填欄位：name、description、version、author。
+- **複習**：Plugin 定義結構章節
 
 ### Q2
-- **Category**: practical
-- **Question**: How do you access the checkpoint browser?
-- **Options**: A) Use `/checkpoints` command | B) Press `Esc + Esc` (double-escape) or use `/rewind` | C) Use `/history` command | D) Press `Ctrl+Z`
-- **Correct**: B
-- **Explanation**: Double-escape (Esc+Esc) or the `/rewind` command opens the checkpoint browser to select a restore point.
-- **Review**: Accessing checkpoints section
+- **類別**：實作
+- **題目**：如何在發布前本地測試 plugin？
+- **選項**：A) 使用 `/plugin test ./my-plugin` | B) 使用 `claude --plugin-dir ./my-plugin` | C) 使用 `claude plugin validate ./my-plugin` | D) 複製到 ~/.claude/plugins/
+- **正確答案**：B
+- **解說**：`--plugin-dir` 旗標從本地目錄載入 plugin 進行測試。可重複使用以載入多個 plugins。
+- **複習**：測試章節
 
 ### Q3
-- **Category**: conceptual
-- **Question**: How many rewind options are available, and what are they?
-- **Options**: A) 3: Undo, Redo, Reset | B) 5: Restore code+conversation, Restore conversation, Restore code, Summarize from here, Never mind | C) 2: Full restore, Partial restore | D) 4: Code, Messages, Both, Cancel
-- **Correct**: B
-- **Explanation**: The 5 options are: Restore code and conversation (full rollback), Restore conversation only, Restore code only, Summarize from here (compress), Never mind (cancel).
-- **Review**: Rewind options section
+- **類別**：概念
+- **題目**：在 plugin hooks 和 MCP 設定中，可使用什麼環境變數來參考 plugin 的安裝目錄？
+- **選項**：A) `$PLUGIN_HOME` | B) `${CLAUDE_PLUGIN_ROOT}` | C) `$PLUGIN_DIR` | D) `${CLAUDE_PLUGIN_PATH}`
+- **正確答案**：B
+- **解說**：`${CLAUDE_PLUGIN_ROOT}` 解析為 plugin 的安裝目錄，使 hooks 和 MCP 設定中的路徑參考具有可攜性。
+- **複習**：Plugin 目錄結構章節
 
 ### Q4
-- **Category**: practical
-- **Question**: You used `rm -rf temp/` via Bash in Claude Code, then want to rewind. Will the checkpoint restore those files?
-- **Options**: A) Yes, checkpoints capture everything | B) No, Bash filesystem operations (rm, mv, cp) are not tracked by checkpoints | C) Only if you used the Edit tool instead | D) Only if autoCheckpoint was enabled
-- **Correct**: B
-- **Explanation**: Checkpoints only track file changes made by Claude's tools (Write, Edit). Bash commands like rm, mv, cp operate outside checkpoint tracking.
-- **Review**: Limitations section
+- **類別**：實作
+- **題目**：「pr-review」plugin 中有一個名為「check-security」的指令。使用者如何調用？
+- **選項**：A) `/check-security` | B) `/pr-review:check-security` | C) `/plugin pr-review check-security` | D) `/pr-review/check-security`
+- **正確答案**：B
+- **解說**：Plugin 指令使用 `plugin-name:command-name` 命名空間來避免與使用者指令和其他 plugins 的衝突。
+- **複習**：Plugin 指令章節
 
 ### Q5
-- **Category**: conceptual
-- **Question**: How long are checkpoints retained?
-- **Options**: A) Until session ends | B) 7 days | C) 30 days | D) Indefinitely
-- **Correct**: C
-- **Explanation**: Checkpoints persist across sessions for up to 30 days, after which they are automatically cleaned up.
-- **Review**: Checkpoint persistence section
+- **類別**：概念
+- **題目**：Plugin 可以打包哪些元件？
+- **選項**：A) 僅指令和設定 | B) 指令、代理、skills、hooks、MCP 伺服器、LSP 設定、設定、模板、腳本 | C) 僅指令、hooks 和 MCP 伺服器 | D) 僅 skills 和代理
+- **正確答案**：B
+- **解說**：Plugins 可打包：commands/、agents/、skills/、hooks/hooks.json、.mcp.json、.lsp.json、settings.json、templates/、scripts/、docs/、tests/。
+- **複習**：Plugin 目錄結構章節
 
 ### Q6
-- **Category**: practical
-- **Question**: What does "Summarize from here" do when rewinding?
-- **Options**: A) Deletes the conversation from that point | B) Compresses the conversation into an AI-generated summary while preserving the original in the transcript | C) Creates a bullet-point list of changes | D) Exports the conversation to a file
-- **Correct**: B
-- **Explanation**: Summarize compresses the conversation into a shorter AI-generated summary. The original full text is preserved in the transcript file.
-- **Review**: Summarize option section
+- **類別**：實作
+- **題目**：如何從 GitHub 安裝 plugin？
+- **選項**：A) `claude plugin add github:username/repo` | B) `/plugin install github:username/repo` | C) `npm install @claude/username-repo` | D) `git clone` 然後 `claude plugin register`
+- **正確答案**：B
+- **解說**：使用 `/plugin install github:username/repo` 直接從 GitHub 儲存庫安裝。
+- **複習**：安裝方法章節
 
 ### Q7
-- **Category**: conceptual
-- **Question**: When are checkpoints created automatically?
-- **Options**: A) Every 5 minutes | B) On every user prompt | C) Only when you manually save | D) After every tool use
-- **Correct**: B
-- **Explanation**: Automatic checkpoints are created with every user prompt, capturing the state before Claude processes the request.
-- **Review**: Automatic checkpoints section
+- **類別**：概念
+- **題目**：plugin 的 `settings.json` 中 `agent` 鍵做什麼？
+- **選項**：A) 指定認證憑證 | B) 設定 plugin 的主執行緒代理 | C) 列出可用的 subagents | D) 設定代理權限
+- **正確答案**：B
+- **解說**：plugin 的 settings.json 中 `agent` 鍵指定 plugin 啟用時作為主執行緒代理的代理定義。
+- **複習**：Plugin 設定章節
 
 ### Q8
-- **Category**: practical
-- **Question**: How do you disable automatic checkpoint creation?
-- **Options**: A) Use `--no-checkpoints` flag | B) Set `autoCheckpoint: false` in settings | C) Delete the checkpoints directory | D) Checkpoints cannot be disabled
-- **Correct**: B
-- **Explanation**: Set `autoCheckpoint: false` in your configuration to disable automatic checkpoint creation (default is true).
-- **Review**: Configuration section
+- **類別**：實作
+- **題目**：如何管理 plugin 生命週期（啟用/停用/更新）？
+- **選項**：A) 手動編輯設定檔 | B) 使用 `/plugin enable`、`/plugin disable`、`/plugin update plugin-name` | C) 使用 `claude plugin-manager` | D) 重新安裝 plugin
+- **正確答案**：B
+- **解說**：Claude Code 提供完整生命週期管理的 slash commands：enable、disable、update、uninstall。
+- **複習**：安裝方法章節
 
 ### Q9
-- **Category**: conceptual
-- **Question**: Are checkpoints a replacement for git commits?
-- **Options**: A) Yes, they're more powerful | B) No, they are complementary — checkpoints are session-scoped and expire, git is permanent and shareable | C) Yes, for small projects | D) Only in solo development
-- **Correct**: B
-- **Explanation**: Checkpoints are temporary (30-day retention), session-scoped, and cannot be shared. Git commits are permanent, auditable, and shareable. Use both together.
-- **Review**: Integration with git section
+- **類別**：概念
+- **題目**：Plugin 相較於獨立 skills/hooks/MCP 的主要優勢是什麼？
+- **選項**：A) Plugins 更快 | B) 單一指令安裝、版本控制、marketplace 分發、將所有元件打包在一起 | C) Plugins 有更多權限 | D) Plugins 可離線使用
+- **正確答案**：B
+- **解說**：Plugins 將多個元件打包成一個可安裝的單元，具有版本控制、marketplace 分發和自動更新功能 — 相對於獨立元件的手動設定。
+- **複習**：獨立 vs Plugin 比較章節
 
 ### Q10
-- **Category**: practical
-- **Question**: You want to compare two different approaches. What's the recommended checkpoint workflow?
-- **Options**: A) Create two separate sessions | B) Checkpoint before approach A, try it, rewind to checkpoint, try approach B, compare results | C) Use git branches instead | D) There's no good way to compare approaches
-- **Correct**: B
-- **Explanation**: The branching strategy: checkpoint at clean state, try approach A, note results, rewind to the same checkpoint, try approach B. Compare both outcomes.
-- **Review**: Workflow patterns section
+- **類別**：實作
+- **題目**：Plugin hooks 設定在 plugin 目錄結構中的位置？
+- **選項**：A) `.claude-plugin/hooks.json` | B) `hooks/hooks.json` | C) `plugin.json` hooks 區段 | D) `.claude/settings.json`
+- **正確答案**：B
+- **解說**：Plugin hooks 在 plugin 目錄結構中的 `hooks/hooks.json` 設定。
+- **複習**：Plugin hooks 章節
 
 ---
 
-## Lesson 09: Advanced Features
+## 第 08 課：Checkpoints
 
 ### Q1
-- **Category**: conceptual
-- **Question**: What are the six permission modes in Claude Code?
-- **Options**: A) read, write, execute, admin, root, sudo | B) default, acceptEdits, plan, auto, dontAsk, bypassPermissions | C) safe, normal, elevated, admin, unrestricted, god | D) view, edit, run, deploy, full, bypass
-- **Correct**: B
-- **Explanation**: The six modes are: default (prompts for everything), acceptEdits (auto-accepts file edits), plan (read-only analysis), auto (background classifier decides), dontAsk (auto-denies unless pre-approved), bypassPermissions (skips all checks).
-- **Review**: Permission Modes section
+- **類別**：概念
+- **題目**：Checkpoints 擷取哪四種內容？
+- **選項**：A) Git commits、branches、tags、stashes | B) 訊息、檔案修改、工具使用歷史、工作階段上下文 | C) 程式碼、測試、日誌、設定 | D) 輸入、輸出、錯誤、時間
+- **正確答案**：B
+- **解說**：Checkpoints 擷取對話訊息、Claude 工具所做的檔案修改、工具使用歷史和工作階段上下文。
+- **複習**：概覽章節
 
 ### Q2
-- **Category**: practical
-- **Question**: How do you activate planning mode?
-- **Options**: A) Only via `/plan` command | B) Via `/plan`, `Shift+Tab`/`Alt+M`, `--permission-mode plan` flag, or default config | C) Via `--planning` flag only | D) Planning is always on
-- **Correct**: B
-- **Explanation**: Planning mode can be activated multiple ways: /plan command, Shift+Tab/Alt+M keyboard shortcut, --permission-mode plan CLI flag, or as a default in config.
-- **Review**: Planning Mode section
+- **類別**：實作
+- **題目**：如何存取 checkpoint 瀏覽器？
+- **選項**：A) 使用 `/checkpoints` 指令 | B) 按 `Esc + Esc`（連按兩次 Escape）或使用 `/rewind` | C) 使用 `/history` 指令 | D) 按 `Ctrl+Z`
+- **正確答案**：B
+- **解說**：連按兩次 Escape（Esc+Esc）或 `/rewind` 指令可開啟 checkpoint 瀏覽器來選擇還原點。
+- **複習**：存取 checkpoints 章節
 
 ### Q3
-- **Category**: conceptual
-- **Question**: What does the `opusplan` model alias do?
-- **Options**: A) Uses only Opus for everything | B) Uses Opus for planning phase and Sonnet for implementation | C) Uses a special planning-optimized model | D) Enables plan mode automatically
-- **Correct**: B
-- **Explanation**: `opusplan` is a model alias that uses Opus for the planning phase (higher quality analysis) and Sonnet for the execution phase (faster implementation).
-- **Review**: Planning Mode section
+- **類別**：概念
+- **題目**：有多少個回溯選項？分別是什麼？
+- **選項**：A) 3 個：復原、重做、重設 | B) 5 個：還原程式碼+對話、僅還原對話、僅還原程式碼、從此處摘要、取消 | C) 2 個：完整還原、部分還原 | D) 4 個：程式碼、訊息、兩者、取消
+- **正確答案**：B
+- **解說**：5 個選項為：還原程式碼和對話（完整回溯）、僅還原對話、僅還原程式碼、從此處摘要（壓縮）、取消。
+- **複習**：回溯選項章節
 
 ### Q4
-- **Category**: practical
-- **Question**: How do you toggle extended thinking during a session?
-- **Options**: A) Type `/think` | B) Press `Option+T` (macOS) or `Alt+T` | C) Use `--thinking` flag | D) It's always enabled and cannot be toggled
-- **Correct**: B
-- **Explanation**: Option+T (macOS) or Alt+T toggles extended thinking. It's enabled by default for all models. Opus 4.6 supports adaptive effort levels.
-- **Review**: Extended Thinking section
+- **類別**：實作
+- **題目**：您在 Claude Code 中透過 Bash 使用了 `rm -rf temp/`，然後想回溯。Checkpoint 會還原那些檔案嗎？
+- **選項**：A) 會，checkpoints 擷取所有內容 | B) 不會，Bash 檔案系統操作（rm、mv、cp）不被 checkpoints 追蹤 | C) 只有在使用 Edit 工具時才會 | D) 只有在 autoCheckpoint 啟用時才會
+- **正確答案**：B
+- **解說**：Checkpoints 只追蹤由 Claude 工具（Write、Edit）所做的檔案變更。rm、mv、cp 等 Bash 指令在 checkpoint 追蹤之外運作。
+- **複習**：限制章節
 
 ### Q5
-- **Category**: conceptual
-- **Question**: Are "think" or "ultrathink" special keywords that activate enhanced thinking?
-- **Options**: A) Yes, they activate deeper reasoning | B) No, they are treated as regular prompt text with no special behavior | C) Only "ultrathink" is special | D) They work only with Opus
-- **Correct**: B
-- **Explanation**: The documentation explicitly states these are regular prompt instructions, not special activation keywords. Extended thinking is controlled via Alt+T toggle and environment variables.
-- **Review**: Extended Thinking section
+- **類別**：概念
+- **題目**：Checkpoints 保留多久？
+- **選項**：A) 直到工作階段結束 | B) 7 天 | C) 30 天 | D) 永久
+- **正確答案**：C
+- **解說**：Checkpoints 跨工作階段保留最多 30 天，之後自動清除。
+- **複習**：Checkpoint 持久性章節
 
 ### Q6
-- **Category**: practical
-- **Question**: How do you run Claude in a CI/CD pipeline with structured JSON output and a turn limit?
-- **Options**: A) `claude --ci --json --limit 3` | B) `claude -p --output-format json --max-turns 3 "review code"` | C) `claude --pipeline --format json` | D) `claude run --json --turns 3`
-- **Correct**: B
-- **Explanation**: Print mode (`-p`) with `--output-format json` and `--max-turns` is the standard CI/CD integration pattern.
-- **Review**: Headless/Print Mode section
+- **類別**：實作
+- **題目**：回溯時「從此處摘要」做什麼？
+- **選項**：A) 從該點刪除對話 | B) 將對話壓縮為 AI 產生的摘要，同時在逐字稿中保留原始內容 | C) 建立變更的項目符號清單 | D) 將對話匯出為檔案
+- **正確答案**：B
+- **解說**：摘要將對話壓縮為較短的 AI 產生摘要。原始完整文字保留在逐字稿檔案中。
+- **複習**：摘要選項章節
 
 ### Q7
-- **Category**: conceptual
-- **Question**: What does the Task List feature (Ctrl+T) provide?
-- **Options**: A) A list of running background processes | B) A persistent to-do list that survives context compaction, shareable via `CLAUDE_CODE_TASK_LIST_ID` | C) A history of past sessions | D) A queue of pending tool calls
-- **Correct**: B
-- **Explanation**: The Task List (Ctrl+T) is persistent across context compactions and can be shared across sessions via named task directories using `CLAUDE_CODE_TASK_LIST_ID`.
-- **Review**: Task List section
+- **類別**：概念
+- **題目**：Checkpoints 何時自動建立？
+- **選項**：A) 每 5 分鐘 | B) 每次使用者提示時 | C) 僅在手動儲存時 | D) 每次工具使用後
+- **正確答案**：B
+- **解說**：自動 checkpoints 在每次使用者提示時建立，在 Claude 處理請求之前擷取狀態。
+- **複習**：自動 checkpoints 章節
 
 ### Q8
-- **Category**: practical
-- **Question**: How do you edit a plan externally (in your preferred editor) during planning mode?
-- **Options**: A) Copy-paste from the terminal | B) Press `Ctrl+G` to open the plan in an external editor | C) Use `/export-plan` command | D) Plans can't be edited externally
-- **Correct**: B
-- **Explanation**: Ctrl+G opens the current plan in your configured external editor for modification.
-- **Review**: Planning Mode section
+- **類別**：實作
+- **題目**：如何停用自動 checkpoint 建立？
+- **選項**：A) 使用 `--no-checkpoints` 旗標 | B) 在設定中設定 `autoCheckpoint: false` | C) 刪除 checkpoints 目錄 | D) Checkpoints 無法停用
+- **正確答案**：B
+- **解說**：在設定中設定 `autoCheckpoint: false` 可停用自動 checkpoint 建立（預設為 true）。
+- **複習**：設定章節
 
 ### Q9
-- **Category**: conceptual
-- **Question**: What is the difference between `dontAsk` and `bypassPermissions` modes?
-- **Options**: A) They are the same | B) `dontAsk` auto-denies unless pre-approved; `bypassPermissions` skips all checks entirely | C) `dontAsk` is for files; `bypassPermissions` is for commands | D) `bypassPermissions` is safer
-- **Correct**: B
-- **Explanation**: dontAsk auto-denies permission requests unless they match pre-approved patterns. bypassPermissions skips all safety checks entirely — it's dangerous for routine use.
-- **Review**: Permission Modes section
+- **類別**：概念
+- **題目**：Checkpoints 能取代 git commits 嗎？
+- **選項**：A) 能，它們更強大 | B) 不能，它們是互補的 — checkpoints 限定於工作階段且會過期，git 是永久且可共享的 | C) 能，適用於小型專案 | D) 僅適用於單人開發
+- **正確答案**：B
+- **解說**：Checkpoints 是暫時的（30 天保留期）、限定於工作階段且無法共享。Git commits 是永久的、可稽核且可共享的。兩者搭配使用。
+- **複習**：與 git 整合章節
 
 ### Q10
-- **Category**: practical
-- **Question**: How do you hand off a CLI session to the desktop app?
-- **Options**: A) Use `/export` command | B) Use `/desktop` command | C) Copy the session ID and paste in the app | D) Sessions can't transfer between CLI and desktop
-- **Correct**: B
-- **Explanation**: The `/desktop` command hands off the current CLI session to the native desktop application for visual diff review and multi-session management.
-- **Review**: Desktop App section
+- **類別**：實作
+- **題目**：您想比較兩種不同的方法。建議的 checkpoint 工作流程是什麼？
+- **選項**：A) 建立兩個獨立的工作階段 | B) 在方法 A 前建立 checkpoint，嘗試後回溯到 checkpoint，嘗試方法 B，比較結果 | C) 改用 git branches | D) 沒有好的方法來比較
+- **正確答案**：B
+- **解說**：分支策略：在乾淨狀態建立 checkpoint，嘗試方法 A，記錄結果，回溯到同一 checkpoint，嘗試方法 B。比較兩個結果。
+- **複習**：工作流程模式章節
 
 ---
 
-## Lesson 10: CLI Reference
+## 第 09 課：Advanced Features
 
 ### Q1
-- **Category**: conceptual
-- **Question**: What are the two primary modes of the Claude CLI?
-- **Options**: A) Online and offline mode | B) Interactive REPL (`claude`) and Print mode (`claude -p`) | C) GUI and terminal mode | D) Single and batch mode
-- **Correct**: B
-- **Explanation**: Interactive REPL is the default conversational mode. Print mode (-p) is non-interactive, scriptable, pipeable — it exits after one response.
-- **Review**: CLI architecture section
+- **類別**：概念
+- **題目**：Claude Code 中有哪六種權限模式？
+- **選項**：A) read、write、execute、admin、root、sudo | B) default、acceptEdits、plan、auto、dontAsk、bypassPermissions | C) safe、normal、elevated、admin、unrestricted、god | D) view、edit、run、deploy、full、bypass
+- **正確答案**：B
+- **解說**：六種模式為：default（所有事都提示）、acceptEdits（自動接受檔案編輯）、plan（唯讀分析）、auto（背景分類器決定）、dontAsk（除非預先核准否則自動拒絕）、bypassPermissions（跳過所有檢查）。
+- **複習**：權限模式章節
 
 ### Q2
-- **Category**: practical
-- **Question**: How do you pipe a file into Claude and get JSON output?
-- **Options**: A) `claude --file error.log --json` | B) `cat error.log | claude -p --output-format json "explain this"` | C) `claude < error.log --format json` | D) `claude -p --input error.log --json`
-- **Correct**: B
-- **Explanation**: Pipe content via stdin to print mode (-p) and use --output-format json for structured output.
-- **Review**: Interactive vs Print Mode section
+- **類別**：實作
+- **題目**：如何啟動規劃模式？
+- **選項**：A) 僅透過 `/plan` 指令 | B) 透過 `/plan`、`Shift+Tab`/`Alt+M`、`--permission-mode plan` 旗標，或預設設定 | C) 僅透過 `--planning` 旗標 | D) 規劃模式總是開啟
+- **正確答案**：B
+- **解說**：規劃模式可透過多種方式啟動：/plan 指令、Shift+Tab/Alt+M 鍵盤快捷鍵、--permission-mode plan CLI 旗標，或在設定中設為預設。
+- **複習**：規劃模式章節
 
 ### Q3
-- **Category**: conceptual
-- **Question**: What is the difference between `-c` and `-r` flags?
-- **Options**: A) Both do the same thing | B) `-c` continues the most recent session; `-r` resumes by name or ID | C) `-c` creates a new session; `-r` resumes | D) `-c` is for code; `-r` is for review
-- **Correct**: B
-- **Explanation**: `-c/--continue` resumes the most recent conversation. `-r/--resume "name"` resumes a specific session by name or session ID.
-- **Review**: Session management section
+- **類別**：概念
+- **題目**：`opusplan` 模型別名做什麼？
+- **選項**：A) 所有事都使用 Opus | B) 規劃階段使用 Opus，實作階段使用 Sonnet | C) 使用特別最佳化的規劃模型 | D) 自動啟用規劃模式
+- **正確答案**：B
+- **解說**：`opusplan` 是一個模型別名，規劃階段使用 Opus（更高品質的分析），執行階段使用 Sonnet（更快的實作）。
+- **複習**：規劃模式章節
 
 ### Q4
-- **Category**: practical
-- **Question**: How do you guarantee schema-valid JSON output from Claude?
-- **Options**: A) Just use `--output-format json` | B) Use `--output-format json --json-schema '{"type":"object",...}'` | C) Use `--strict-json` flag | D) JSON output is always schema-valid
-- **Correct**: B
-- **Explanation**: `--output-format json` alone produces best-effort JSON. Adding `--json-schema` with a JSON Schema definition guarantees the output matches the schema.
-- **Review**: Output and format section
+- **類別**：實作
+- **題目**：如何在工作階段中切換延伸思考？
+- **選項**：A) 輸入 `/think` | B) 按 `Option+T`（macOS）或 `Alt+T` | C) 使用 `--thinking` 旗標 | D) 總是啟用且無法切換
+- **正確答案**：B
+- **解說**：Option+T（macOS）或 Alt+T 可切換延伸思考。所有模型預設啟用。Opus 4.6 支援自適應努力等級。
+- **複習**：延伸思考章節
 
 ### Q5
-- **Category**: conceptual
-- **Question**: Which flag only works in print mode (-p) and has no effect in interactive mode?
-- **Options**: A) `--model` | B) `--system-prompt-file` | C) `--verbose` | D) `--max-turns`
-- **Correct**: B
-- **Explanation**: `--system-prompt-file` loads a system prompt from a file but only works in print mode. Use `--system-prompt` (inline string) for interactive sessions.
-- **Review**: System prompt flags comparison table
+- **類別**：概念
+- **題目**：「think」或「ultrathink」是否為啟動增強思考的特殊關鍵字？
+- **選項**：A) 是，它們啟動更深層的推理 | B) 否，它們被視為普通的提示文字，沒有特殊行為 | C) 只有「ultrathink」是特殊的 | D) 僅適用於 Opus
+- **正確答案**：B
+- **解說**：文件明確指出這些是普通的提示指令，不是特殊的啟動關鍵字。延伸思考透過 Alt+T 切換和環境變數控制。
+- **複習**：延伸思考章節
 
 ### Q6
-- **Category**: practical
-- **Question**: How do you restrict Claude to only use read-only tools for a security audit?
-- **Options**: A) `claude --read-only "audit code"` | B) `claude --permission-mode plan --tools "Read,Grep,Glob" "audit code"` | C) `claude --safe-mode "audit code"` | D) `claude --no-write "audit code"`
-- **Correct**: B
-- **Explanation**: Combine `--permission-mode plan` (read-only analysis) with `--tools` (allowlist of specific tools) to restrict Claude to only read operations.
-- **Review**: Tool and permission management section
+- **類別**：實作
+- **題目**：如何在 CI/CD 流程中以結構化 JSON 輸出和回合限制運行 Claude？
+- **選項**：A) `claude --ci --json --limit 3` | B) `claude -p --output-format json --max-turns 3 "review code"` | C) `claude --pipeline --format json` | D) `claude run --json --turns 3`
+- **正確答案**：B
+- **解說**：Print mode（`-p`）搭配 `--output-format json` 和 `--max-turns` 是標準的 CI/CD 整合模式。
+- **複習**：Headless/Print Mode 章節
 
 ### Q7
-- **Category**: conceptual
-- **Question**: What is the agent definition priority order?
-- **Options**: A) Project > User > CLI | B) CLI > User > Project | C) User > CLI > Project | D) All are equal priority
-- **Correct**: B
-- **Explanation**: CLI-defined agents (--agents flag) have highest priority, then User-level (~/.claude/agents/), then Project-level (.claude/agents/).
-- **Review**: Agents configuration section
+- **類別**：概念
+- **題目**：任務清單功能（Ctrl+T）提供什麼？
+- **選項**：A) 執行中背景程序的清單 | B) 在上下文壓縮後仍保留的持久性待辦清單，可透過 `CLAUDE_CODE_TASK_LIST_ID` 共享 | C) 過去工作階段的歷史 | D) 待處理工具呼叫的佇列
+- **正確答案**：B
+- **解說**：任務清單（Ctrl+T）在上下文壓縮時持續存在，可透過使用 `CLAUDE_CODE_TASK_LIST_ID` 的命名任務目錄跨工作階段共享。
+- **複習**：任務清單章節
 
 ### Q8
-- **Category**: practical
-- **Question**: How do you fork an existing session to try a different approach without losing the original?
-- **Options**: A) Use `/fork` command | B) Use `--resume session-name --fork-session "branch name"` | C) Use `--clone session-name` | D) Use `/branch session-name`
-- **Correct**: B
-- **Explanation**: `--resume` with `--fork-session` creates a new independent branch from the resumed session, preserving the original conversation.
-- **Review**: Session management section
+- **類別**：實作
+- **題目**：如何在規劃模式中從外部編輯器編輯計畫？
+- **選項**：A) 從終端機複製貼上 | B) 按 `Ctrl+G` 在外部編輯器中開啟計畫 | C) 使用 `/export-plan` 指令 | D) 計畫無法從外部編輯
+- **正確答案**：B
+- **解說**：Ctrl+G 在您設定的外部編輯器中開啟目前的計畫以進行修改。
+- **複習**：規劃模式章節
 
 ### Q9
-- **Category**: conceptual
-- **Question**: What exit code does `claude auth status` return when the user is logged in?
-- **Options**: A) 1 | B) 0 | C) 200 | D) It doesn't return an exit code
-- **Correct**: B
-- **Explanation**: `claude auth status` exits with code 0 when logged in, 1 when not. This makes it scriptable for CI/CD authentication checks.
-- **Review**: CLI commands table
+- **類別**：概念
+- **題目**：`dontAsk` 和 `bypassPermissions` 模式有什麼區別？
+- **選項**：A) 相同 | B) `dontAsk` 除非預先核准否則自動拒絕；`bypassPermissions` 完全跳過所有檢查 | C) `dontAsk` 用於檔案；`bypassPermissions` 用於指令 | D) `bypassPermissions` 更安全
+- **正確答案**：B
+- **解說**：dontAsk 除非匹配預先核准的模式否則自動拒絕權限請求。bypassPermissions 完全跳過所有安全檢查 — 不適合常規使用。
+- **複習**：權限模式章節
 
 ### Q10
-- **Category**: practical
-- **Question**: How do you process multiple files in a batch with Claude?
-- **Options**: A) `claude --batch *.md` | B) Use a for loop: `for file in *.md; do claude -p "summarize: $(cat $file)" > ${file%.md}.json; done` | C) `claude -p --files *.md "summarize all"` | D) Batch processing is not supported
-- **Correct**: B
-- **Explanation**: Use shell for-loops with print mode to process files one at a time. Each invocation is independent and can produce structured output.
-- **Review**: Batch processing section
+- **類別**：實作
+- **題目**：如何將 CLI 工作階段移交給桌面應用程式？
+- **選項**：A) 使用 `/export` 指令 | B) 使用 `/desktop` 指令 | C) 複製工作階段 ID 並貼到應用程式中 | D) 工作階段無法在 CLI 和桌面間轉移
+- **正確答案**：B
+- **解說**：`/desktop` 指令將目前的 CLI 工作階段移交給原生桌面應用程式，進行視覺化差異審查和多工作階段管理。
+- **複習**：桌面應用程式章節
+
+---
+
+## 第 10 課：CLI Reference
+
+### Q1
+- **類別**：概念
+- **題目**：Claude CLI 的兩種主要模式是什麼？
+- **選項**：A) 線上和離線模式 | B) 互動式 REPL（`claude`）和 Print mode（`claude -p`） | C) GUI 和終端機模式 | D) 單一和批次模式
+- **正確答案**：B
+- **解說**：互動式 REPL 是預設的對話模式。Print mode（-p）是非互動式、可腳本化、可管道的 — 回應後即退出。
+- **複習**：CLI 架構章節
+
+### Q2
+- **類別**：實作
+- **題目**：如何將檔案透過管道傳入 Claude 並取得 JSON 輸出？
+- **選項**：A) `claude --file error.log --json` | B) `cat error.log | claude -p --output-format json "explain this"` | C) `claude < error.log --format json` | D) `claude -p --input error.log --json`
+- **正確答案**：B
+- **解說**：透過 stdin 將內容管道傳入 print mode（-p），並使用 --output-format json 取得結構化輸出。
+- **複習**：互動式 vs Print Mode 章節
+
+### Q3
+- **類別**：概念
+- **題目**：`-c` 和 `-r` 旗標有什麼區別？
+- **選項**：A) 兩者相同 | B) `-c` 繼續最近的工作階段；`-r` 按名稱或 ID 恢復 | C) `-c` 建立新工作階段；`-r` 恢復 | D) `-c` 用於程式碼；`-r` 用於審查
+- **正確答案**：B
+- **解說**：`-c/--continue` 恢復最近的對話。`-r/--resume "name"` 按名稱或工作階段 ID 恢復特定工作階段。
+- **複習**：工作階段管理章節
+
+### Q4
+- **類別**：實作
+- **題目**：如何保證 Claude 輸出符合 schema 的 JSON？
+- **選項**：A) 只用 `--output-format json` | B) 使用 `--output-format json --json-schema '{"type":"object",...}'` | C) 使用 `--strict-json` 旗標 | D) JSON 輸出總是符合 schema
+- **正確答案**：B
+- **解說**：單獨使用 `--output-format json` 產生盡力而為的 JSON。加上 `--json-schema` 搭配 JSON Schema 定義可保證輸出匹配 schema。
+- **複習**：輸出與格式章節
+
+### Q5
+- **類別**：概念
+- **題目**：哪個旗標僅在 print mode（-p）中有效，在互動模式中無效？
+- **選項**：A) `--model` | B) `--system-prompt-file` | C) `--verbose` | D) `--max-turns`
+- **正確答案**：B
+- **解說**：`--system-prompt-file` 從檔案載入系統提示，但僅在 print mode 中有效。互動式工作階段使用 `--system-prompt`（內嵌字串）。
+- **複習**：系統提示旗標比較表
+
+### Q6
+- **類別**：實作
+- **題目**：如何限制 Claude 僅使用唯讀工具進行安全稽核？
+- **選項**：A) `claude --read-only "audit code"` | B) `claude --permission-mode plan --tools "Read,Grep,Glob" "audit code"` | C) `claude --safe-mode "audit code"` | D) `claude --no-write "audit code"`
+- **正確答案**：B
+- **解說**：結合 `--permission-mode plan`（唯讀分析）與 `--tools`（特定工具白名單）來限制 Claude 僅執行讀取操作。
+- **複習**：工具與權限管理章節
+
+### Q7
+- **類別**：概念
+- **題目**：代理定義的優先順序是什麼？
+- **選項**：A) 專案 > 使用者 > CLI | B) CLI > 使用者 > 專案 | C) 使用者 > CLI > 專案 | D) 全部相同優先級
+- **正確答案**：B
+- **解說**：CLI 定義的代理（--agents 旗標）具有最高優先級，其次是使用者層級（~/.claude/agents/），然後是專案層級（.claude/agents/）。
+- **複習**：代理設定章節
+
+### Q8
+- **類別**：實作
+- **題目**：如何分叉現有工作階段以嘗試不同方法而不遺失原始內容？
+- **選項**：A) 使用 `/fork` 指令 | B) 使用 `--resume session-name --fork-session "branch name"` | C) 使用 `--clone session-name` | D) 使用 `/branch session-name`
+- **正確答案**：B
+- **解說**：`--resume` 搭配 `--fork-session` 從恢復的工作階段建立新的獨立分支，保留原始對話。
+- **複習**：工作階段管理章節
+
+### Q9
+- **類別**：概念
+- **題目**：使用者已登入時，`claude auth status` 回傳什麼 exit code？
+- **選項**：A) 1 | B) 0 | C) 200 | D) 不回傳 exit code
+- **正確答案**：B
+- **解說**：`claude auth status` 已登入時回傳 exit code 0，未登入時回傳 1。這使其可用於 CI/CD 認證檢查的腳本。
+- **複習**：CLI 指令表
+
+### Q10
+- **類別**：實作
+- **題目**：如何使用 Claude 批次處理多個檔案？
+- **選項**：A) `claude --batch *.md` | B) 使用 for 迴圈：`for file in *.md; do claude -p "summarize: $(cat $file)" > ${file%.md}.json; done` | C) `claude -p --files *.md "summarize all"` | D) 不支援批次處理
+- **正確答案**：B
+- **解說**：使用 shell for 迴圈搭配 print mode 逐一處理檔案。每次調用獨立且可產生結構化輸出。
+- **複習**：批次處理章節

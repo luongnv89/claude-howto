@@ -1,61 +1,61 @@
-# API Module Standards
+# API 模組標準
 
-This file overrides root CLAUDE.md for everything in /src/api/
+此檔案覆寫 /src/api/ 中所有內容的根目錄 CLAUDE.md
 
-## API-Specific Standards
+## API 特定標準
 
-### Request Validation
-- Use Zod for schema validation
-- Always validate input
-- Return 400 with validation errors
-- Include field-level error details
+### 請求驗證
+- 使用 Zod 進行 schema 驗證
+- 始終驗證輸入
+- 驗證錯誤時回傳 400
+- 包含欄位層級的錯誤詳細資訊
 
-### Authentication
-- All endpoints require JWT token
-- Token in Authorization header
-- Token expires after 24 hours
-- Implement refresh token mechanism
+### 認證
+- 所有端點需要 JWT token
+- Token 放在 Authorization header 中
+- Token 在 24 小時後過期
+- 實作 refresh token 機制
 
-### Response Format
+### 回應格式
 
-All responses must follow this structure:
+所有回應必須遵循此結構：
 
 ```json
 {
   "success": true,
-  "data": { /* actual data */ },
+  "data": { /* 實際資料 */ },
   "timestamp": "2025-11-06T10:30:00Z",
   "version": "1.0"
 }
 ```
 
-Error responses:
+錯誤回應：
 ```json
 {
   "success": false,
   "error": {
     "code": "VALIDATION_ERROR",
     "message": "User message",
-    "details": { /* field errors */ }
+    "details": { /* 欄位錯誤 */ }
   },
   "timestamp": "2025-11-06T10:30:00Z"
 }
 ```
 
-### Pagination
-- Use cursor-based pagination (not offset)
-- Include `hasMore` boolean
-- Limit max page size to 100
-- Default page size: 20
+### 分頁
+- 使用基於游標的分頁（非偏移量）
+- 包含 `hasMore` 布林值
+- 最大頁面大小限制為 100
+- 預設頁面大小：20
 
-### Rate Limiting
-- 1000 requests per hour for authenticated users
-- 100 requests per hour for public endpoints
-- Return 429 when exceeded
-- Include retry-after header
+### 速率限制
+- 已認證使用者每小時 1000 個請求
+- 公開端點每小時 100 個請求
+- 超過時回傳 429
+- 包含 retry-after header
 
-### Caching
-- Use Redis for session caching
-- Cache duration: 5 minutes default
-- Invalidate on write operations
-- Tag cache keys with resource type
+### 快取
+- 使用 Redis 進行工作階段快取
+- 預設快取時長：5 分鐘
+- 寫入操作時使快取失效
+- 以資源類型標記快取金鑰

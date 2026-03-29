@@ -6,8 +6,8 @@ tools: read, bash, grep
 
 # Test Checker
 
-Analyzes test coverage and quality:
-- Coverage percentage
-- Missing test cases
-- Test quality assessment
-- Edge case identification
+分析測試覆蓋率與品質：
+- 覆蓋率百分比
+- 缺失的測試案例
+- 測試品質評估
+- 邊界情況識別

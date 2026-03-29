@@ -5,87 +5,87 @@
 
 # PR Review Plugin
 
-Complete PR review workflow with security, testing, and documentation checks.
+完整的 PR 審查工作流程，包含安全性、測試與文件檢查。
 
-## Features
+## 功能
 
-✅ Security analysis
-✅ Test coverage checking
-✅ Documentation verification
-✅ Code quality assessment
-✅ Performance impact analysis
+✅ 安全分析
+✅ 測試覆蓋率檢查
+✅ 文件驗證
+✅ 程式碼品質評估
+✅ 效能影響分析
 
-## Installation
+## 安裝
 
 ```bash
 /plugin install pr-review
 ```
 
-## What's Included
+## 包含內容
 
 ### Slash Commands
-- `/review-pr` - Comprehensive PR review
-- `/check-security` - Security-focused review
-- `/check-tests` - Test coverage analysis
+- `/review-pr` - 全面的 PR 審查
+- `/check-security` - 專注安全性的審查
+- `/check-tests` - 測試覆蓋率分析
 
 ### Subagents
-- `security-reviewer` - Security vulnerability detection
-- `test-checker` - Test coverage analysis
-- `performance-analyzer` - Performance impact evaluation
+- `security-reviewer` - 安全漏洞偵測
+- `test-checker` - 測試覆蓋率分析
+- `performance-analyzer` - 效能影響評估
 
 ### MCP Servers
-- GitHub integration for PR data
+- GitHub 整合，用於取得 PR 資料
 
 ### Hooks
-- `pre-review.js` - Pre-review validation
+- `pre-review.js` - 預審查驗證
 
-## Usage
+## 使用方式
 
-### Basic PR Review
+### 基本 PR 審查
 ```
 /review-pr
 ```
 
-### Security Check Only
+### 僅安全檢查
 ```
 /check-security
 ```
 
-### Test Coverage Check
+### 測試覆蓋率檢查
 ```
 /check-tests
 ```
 
-## Requirements
+## 需求
 
 - Claude Code 1.0+
-- GitHub access
-- Git repository
+- GitHub 存取權限
+- Git 儲存庫
 
-## Configuration
+## 組態設定
 
-Set up your GitHub token:
+設定 GitHub token：
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
 
-## Example Workflow
+## 範例工作流程
 
 ```
-User: /review-pr
+使用者：/review-pr
 
-Claude:
-1. Runs pre-review hook (validates git repo)
-2. Fetches PR data via GitHub MCP
-3. Delegates security review to security-reviewer subagent
-4. Delegates testing to test-checker subagent
-5. Delegates performance to performance-analyzer subagent
-6. Synthesizes all findings
-7. Provides comprehensive review report
+Claude：
+1. 執行預審查 hook（驗證 git 儲存庫）
+2. 透過 GitHub MCP 取得 PR 資料
+3. 委派安全審查給 security-reviewer subagent
+4. 委派測試給 test-checker subagent
+5. 委派效能給 performance-analyzer subagent
+6. 綜合所有發現
+7. 提供全面的審查報告
 
-Result:
-✅ Security: No critical issues found
-⚠️  Testing: Coverage is 65%, recommend 80%+
-✅ Performance: No significant impact
-📝 Recommendations: Add tests for edge cases
+結果：
+✅ 安全性：未發現重大問題
+⚠️  測試：覆蓋率 65%，建議 80%+
+✅ 效能：無顯著影響
+📝 建議：新增邊界情況測試
 ```

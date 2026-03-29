@@ -3,13 +3,13 @@ name: Deploy
 description: Deploy application to production or staging
 ---
 
-# Deploy Application
+# 部署應用程式
 
-Execute deployment workflow:
+執行部署工作流程：
 
-1. Run pre-deployment checks
-2. Build application
-3. Run tests
-4. Deploy to target environment
-5. Run health checks
-6. Notify team on Slack
+1. 執行預部署檢查
+2. 建置應用程式
+3. 執行測試
+4. 部署至目標環境
+5. 執行健康檢查
+6. 在 Slack 上通知團隊

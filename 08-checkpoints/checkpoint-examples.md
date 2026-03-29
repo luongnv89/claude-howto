@@ -1,339 +1,339 @@
-# Checkpoint Examples
+# Checkpoints 範例
 
-Real-world examples of using checkpoints effectively in Claude Code.
+在 Claude Code 中有效使用 checkpoints 的實際範例。
 
-Note: Checkpoints are created automatically with every user prompt. You do not need to manually save them. To rewind, press `Esc` twice (`Esc+Esc`) or use `/rewind` to open the checkpoint browser.
+備註：Checkpoints 會在每次使用者提示時自動建立，您無需手動儲存。若要回溯，請按兩次 `Esc`（`Esc+Esc`）或使用 `/rewind` 開啟 checkpoint 瀏覽器。
 
-## Example 1: Database Migration
+## 範例 1：資料庫遷移
 
-### Scenario
-You need to migrate from MySQL to PostgreSQL but want to explore both a direct migration and a gradual dual-write approach.
+### 情境
+您需要從 MySQL 遷移到 PostgreSQL，但想分別嘗試直接遷移和漸進式雙寫方法。
 
-### Workflow
-
-```
-User: Let's implement a direct migration from MySQL to PostgreSQL
-      [Checkpoint A created automatically]
-
-Claude: I'll implement the direct migration...
-[Changes database driver, updates queries, modifies schema]
-
-User: Run the tests
-      [Checkpoint B created automatically]
-
-Claude: Running tests...
-❌ 15 tests failing - connection pool issues
-
-User: This approach has issues. Let's try the dual-write pattern instead.
-[User presses Esc+Esc, selects Checkpoint A, chooses "Restore code and conversation"]
-
-User: Now implement a dual-write pattern where we write to both databases
-
-Claude: I'll implement dual-write migration...
-[Implements dual-write layer, gradual migration strategy]
-
-User: Run the tests
-
-Claude: Running tests...
-✅ All tests passing
-
-User: The dual-write approach is clearly safer. Let's commit this.
-```
-
-## Example 2: Performance Optimization
-
-### Scenario
-Multiple performance optimization strategies to try.
-
-### Workflow
+### 工作流程
 
 ```
-User: Let's optimize the API response time. Current: 450ms
-      [Checkpoint "Baseline" created automatically]
+使用者：讓我們實作從 MySQL 到 PostgreSQL 的直接遷移
+      [Checkpoint A 自動建立]
 
-Claude: I'll add database query caching...
-[Implements Redis caching]
+Claude：我將實作直接遷移...
+[變更資料庫驅動程式、更新查詢、修改結構]
 
-User: Run performance tests
+使用者：執行測試
+      [Checkpoint B 自動建立]
 
-Claude: Results: 280ms average response time (38% improvement)
+Claude：執行測試中...
+❌ 15 項測試失敗 - 連線池問題
 
-User: Let me try a different approach.
-[User presses Esc+Esc, selects "Baseline" checkpoint, chooses "Restore code and conversation"]
+使用者：這個方法有問題。讓我們改試雙寫模式。
+[使用者按 Esc+Esc，選擇 Checkpoint A，選擇「還原程式碼與對話」]
 
-User: Try database query optimization instead
+使用者：現在實作雙寫模式，同時寫入兩個資料庫
 
-Claude: I'll optimize database queries...
-[Adds indexes, optimizes N+1 queries]
+Claude：我將實作雙寫遷移...
+[實作雙寫層、漸進式遷移策略]
 
-User: Run performance tests
+使用者：執行測試
 
-Claude: Results: 180ms average response time (60% improvement)
+Claude：執行測試中...
+✅ 所有測試通過
 
-User: Let me also try a third approach.
-[User presses Esc+Esc, selects "Baseline" checkpoint, chooses "Restore code and conversation"]
-
-User: Try response compression and CDN
-
-Claude: I'll add compression and CDN...
-[Implements gzip, sets up CDN]
-
-User: Run performance tests
-
-Claude: Results: 320ms average response time (29% improvement)
-
-User: Query optimization was the best. Let me go back and combine it with caching.
-[User presses Esc+Esc, selects the checkpoint after query optimization, chooses "Restore code and conversation"]
-
-User: Now add Redis caching on top of these optimized queries
-
-Claude: [Adds Redis caching on top of optimized queries]
-
-User: Run performance tests
-
-Claude: Results: 95ms average response time (79% improvement) 🎉
-
-User: Perfect! This is the winner. Let's commit this.
+使用者：雙寫方法顯然更安全。讓我們提交這個。
 ```
 
-## Example 3: UI/UX Iteration
+## 範例 2：效能最佳化
 
-### Scenario
-Trying different layouts for a dashboard.
+### 情境
+有多種效能最佳化策略需要嘗試。
 
-### Workflow
-
-```
-User: Let's redesign the dashboard with a sidebar layout
-      [Checkpoint "Start" created automatically]
-
-Claude: [Implements sidebar layout]
-
-User: Show me a screenshot
-
-Claude: [Shows screenshot]
-
-User: The sidebar feels cramped. Let's try a top navigation instead.
-[User presses Esc+Esc, selects "Start" checkpoint, chooses "Restore code and conversation"]
-
-User: Try a top navigation layout
-
-Claude: [Implements top navigation]
-
-User: Show me a screenshot
-
-Claude: [Shows screenshot]
-
-User: Better, but let's try a card-based grid layout
-[User presses Esc+Esc, selects "Start" checkpoint, chooses "Restore code and conversation"]
-
-User: Try a card-based grid layout
-
-Claude: [Implements card grid]
-
-User: Show me a screenshot
-
-Claude: [Shows screenshot]
-
-User: This is great! But can we combine the top nav with the card grid?
-[User presses Esc+Esc, selects the checkpoint after the card grid, chooses "Restore code and conversation"]
-
-User: Add top navigation to the card grid layout
-
-Claude: [Adds top navigation to card grid]
-
-User: Perfect! This is the final design.
-```
-
-## Example 4: Debugging Session
-
-### Scenario
-Hunting down a tricky bug with multiple hypotheses.
-
-### Workflow
+### 工作流程
 
 ```
-User: There's a memory leak in the application
-      [Checkpoint "Before debugging" created automatically]
+使用者：讓我們最佳化 API 回應時間。目前：450ms
+      [Checkpoint「基準」自動建立]
 
-Claude: Let me investigate...
-[Analyzes code]
+Claude：我將新增資料庫查詢快取...
+[實作 Redis 快取]
 
-User: I think it's in the event listeners. Let's fix those.
+使用者：執行效能測試
 
-Claude: [Fixes event listener cleanup]
+Claude：結果：平均回應時間 280ms（改善 38%）
 
-User: Run memory profiler
+使用者：讓我試試不同的方法。
+[使用者按 Esc+Esc，選擇「基準」checkpoint，選擇「還原程式碼與對話」]
 
-Claude: Still leaking memory - event listeners weren't the issue
+使用者：改為嘗試資料庫查詢最佳化
 
-User: Let me go back and try a different hypothesis.
-[User presses Esc+Esc, selects "Before debugging" checkpoint, chooses "Restore code and conversation"]
+Claude：我將最佳化資料庫查詢...
+[新增索引、最佳化 N+1 查詢]
 
-User: Maybe it's the database connections?
+使用者：執行效能測試
 
-Claude: [Implements connection pooling fixes]
+Claude：結果：平均回應時間 180ms（改善 60%）
 
-User: Run memory profiler
+使用者：讓我再試第三種方法。
+[使用者按 Esc+Esc，選擇「基準」checkpoint，選擇「還原程式碼與對話」]
 
-Claude: Still leaking - not the connections either
+使用者：嘗試回應壓縮和 CDN
 
-User: Let me go back and try another angle.
-[User presses Esc+Esc, selects "Before debugging" checkpoint, chooses "Restore code and conversation"]
+Claude：我將新增壓縮和 CDN...
+[實作 gzip、設定 CDN]
 
-User: Let's check for circular references
+使用者：執行效能測試
 
-Claude: [Finds and fixes circular references in cache]
+Claude：結果：平均回應時間 320ms（改善 29%）
 
-User: Run memory profiler
+使用者：查詢最佳化是最好的。讓我回去將它與快取結合。
+[使用者按 Esc+Esc，選擇查詢最佳化後的 checkpoint，選擇「還原程式碼與對話」]
 
-Claude: ✅ Memory leak fixed! The circular references in the caching layer were the culprit.
+使用者：現在在這些最佳化查詢之上新增 Redis 快取
 
-User: Excellent! Let's commit this fix.
+Claude：[在最佳化查詢之上新增 Redis 快取]
+
+使用者：執行效能測試
+
+Claude：結果：平均回應時間 95ms（改善 79%） 🎉
+
+使用者：太棒了！這就是最佳方案。讓我們提交。
 ```
 
-## Example 5: API Design Evolution
+## 範例 3：UI/UX 迭代
 
-### Scenario
-Designing a REST API with multiple iterations.
+### 情境
+嘗試不同的儀表板佈局。
 
-### Workflow
-
-```
-User: Create a REST API for our blog platform
-      [Checkpoint "Before API design" created automatically]
-
-Claude: [Creates basic CRUD API]
-
-User: This is too simple. Let's add pagination and filtering
-
-Claude: [Adds pagination and filtering]
-
-User: We need better resource relationships
-
-Claude: [Implements HATEOAS links]
-
-User: Actually, let's try GraphQL instead of REST
-[User presses Esc+Esc, selects "Before API design" checkpoint, chooses "Restore code and conversation"]
-
-User: Implement a GraphQL API for our blog platform instead
-
-Claude: [Implements GraphQL API]
-
-User: I think REST is better for our use case.
-[User presses Esc+Esc, selects the checkpoint after HATEOAS, chooses "Restore code and conversation"]
-
-User: Let's finalize the REST approach.
-```
-
-## Example 6: Configuration Management
-
-### Scenario
-Testing different configuration approaches.
-
-### Workflow
+### 工作流程
 
 ```
-User: Move configuration to environment variables
-      [Checkpoint "Original config" created automatically]
+使用者：讓我們用側邊欄佈局重新設計儀表板
+      [Checkpoint「起始」自動建立]
 
-Claude: [Implements env var configuration]
+Claude：[實作側邊欄佈局]
 
-User: Test in development
+使用者：給我看截圖
 
-Claude: Works locally but deployment issues in production
+Claude：[顯示截圖]
 
-User: Let me try a different approach.
-[User presses Esc+Esc, selects "Original config" checkpoint, chooses "Restore code and conversation"]
+使用者：側邊欄感覺太擠了。讓我們改試頂部導覽。
+[使用者按 Esc+Esc，選擇「起始」checkpoint，選擇「還原程式碼與對話」]
 
-User: Try a config file approach with validation
+使用者：試試頂部導覽佈局
 
-Claude: [Implements YAML config with JSON schema validation]
+Claude：[實作頂部導覽]
 
-User: Test in development
+使用者：給我看截圖
 
-Claude: ✅ Works well, good validation errors
+Claude：[顯示截圖]
 
-User: Can we also support env vars for sensitive values?
+使用者：好一些了，但讓我們試試卡片式網格佈局
+[使用者按 Esc+Esc，選擇「起始」checkpoint，選擇「還原程式碼與對話」]
 
-Claude: [Adds env var override for secrets]
+使用者：試試卡片式網格佈局
 
-User: Test deployment
+Claude：[實作卡片網格]
 
-Claude: ✅ All environments working correctly
+使用者：給我看截圖
 
-User: Perfect! This is production-ready.
+Claude：[顯示截圖]
+
+使用者：很棒！但我們能把頂部導覽和卡片網格結合嗎？
+[使用者按 Esc+Esc，選擇卡片網格後的 checkpoint，選擇「還原程式碼與對話」]
+
+使用者：在卡片網格佈局上新增頂部導覽
+
+Claude：[在卡片網格上新增頂部導覽]
+
+使用者：完美！這就是最終設計。
 ```
 
-## Example 7: Test Strategy
+## 範例 4：除錯工作階段
 
-### Scenario
-Implementing comprehensive testing.
+### 情境
+追蹤一個棘手的 Bug，有多個假設需要驗證。
 
-### Workflow
-
-```
-User: Add unit tests for the auth module
-      [Checkpoint created automatically]
-
-Claude: [Adds Jest unit tests]
-
-User: Run tests
-
-Claude: 45 tests passing, 78% coverage
-
-User: Add integration tests too
-
-Claude: [Adds integration tests]
-
-User: Run tests
-
-Claude: 89 tests passing, 92% coverage, but tests are slow (3 minutes)
-
-User: The tests are too slow. Let's optimize.
-
-Claude: [Optimizes test setup, adds parallel execution]
-
-User: Run tests
-
-Claude: 89 tests passing, 92% coverage, 35 seconds ✅
-
-User: Great! Now add E2E tests for critical paths
-
-Claude: [Adds Playwright E2E tests]
-
-User: Run all tests
-
-Claude: 112 tests passing, 94% coverage, 2 minutes
-
-User: Perfect balance of coverage and speed!
-```
-
-## Example 8: Using Summarize from Checkpoint
-
-### Scenario
-After a long debugging session, you want to condense the conversation while preserving context.
-
-### Workflow
+### 工作流程
 
 ```
-User: [After 20+ messages of debugging and exploration]
+使用者：應用程式有記憶體洩漏
+      [Checkpoint「除錯前」自動建立]
 
-[User presses Esc+Esc, selects an early checkpoint, chooses "Summarize from here"]
-[Optionally provides instructions: "Focus on what we tried and what worked"]
+Claude：讓我調查一下...
+[分析程式碼]
 
-Claude: [Generates a summary of the conversation from that point forward]
-[Original messages are preserved in the transcript]
-[The summary replaces the visible conversation, reducing context window usage]
+使用者：我覺得問題出在事件監聽器。讓我們修復它們。
 
-User: Now let's continue with the approach that worked.
+Claude：[修復事件監聽器清理]
+
+使用者：執行記憶體分析器
+
+Claude：仍在洩漏記憶體 - 不是事件監聽器的問題
+
+使用者：讓我回去嘗試不同的假設。
+[使用者按 Esc+Esc，選擇「除錯前」checkpoint，選擇「還原程式碼與對話」]
+
+使用者：也許是資料庫連線的問題？
+
+Claude：[實作連線池修復]
+
+使用者：執行記憶體分析器
+
+Claude：仍在洩漏 - 也不是連線的問題
+
+使用者：讓我回去從另一個角度嘗試。
+[使用者按 Esc+Esc，選擇「除錯前」checkpoint，選擇「還原程式碼與對話」]
+
+使用者：讓我們檢查循環參照
+
+Claude：[找到並修復快取中的循環參照]
+
+使用者：執行記憶體分析器
+
+Claude：✅ 記憶體洩漏已修復！快取層中的循環參照就是罪魁禍首。
+
+使用者：太好了！讓我們提交這個修復。
 ```
 
-## Key Takeaways
+## 範例 5：API 設計演進
 
-1. **Checkpoints are automatic**: Every user prompt creates a checkpoint -- no manual saving needed
-2. **Use Esc+Esc or /rewind**: These are the two ways to access the checkpoint browser
-3. **Choose the right restore option**: Restore code, conversation, both, or summarize depending on your needs
-4. **Don't fear experimentation**: Checkpoints make it safe to try radical changes
-5. **Combine with git**: Use checkpoints for exploration, git for finalized work
-6. **Summarize long sessions**: Use "Summarize from here" to keep conversations manageable
+### 情境
+設計 REST API，經過多次迭代。
+
+### 工作流程
+
+```
+使用者：為我們的部落格平台建立 REST API
+      [Checkpoint「API 設計前」自動建立]
+
+Claude：[建立基本 CRUD API]
+
+使用者：這太簡單了。讓我們新增分頁和篩選
+
+Claude：[新增分頁和篩選]
+
+使用者：我們需要更好的資源關聯
+
+Claude：[實作 HATEOAS 連結]
+
+使用者：其實，讓我們改試 GraphQL 取代 REST
+[使用者按 Esc+Esc，選擇「API 設計前」checkpoint，選擇「還原程式碼與對話」]
+
+使用者：改為部落格平台實作 GraphQL API
+
+Claude：[實作 GraphQL API]
+
+使用者：我覺得 REST 更適合我們的使用案例。
+[使用者按 Esc+Esc，選擇 HATEOAS 後的 checkpoint，選擇「還原程式碼與對話」]
+
+使用者：讓我們確定 REST 方案。
+```
+
+## 範例 6：組態管理
+
+### 情境
+測試不同的組態方法。
+
+### 工作流程
+
+```
+使用者：將組態移至環境變數
+      [Checkpoint「原始組態」自動建立]
+
+Claude：[實作環境變數組態]
+
+使用者：在開發環境測試
+
+Claude：本機可運作但正式環境部署有問題
+
+使用者：讓我試不同的方法。
+[使用者按 Esc+Esc，選擇「原始組態」checkpoint，選擇「還原程式碼與對話」]
+
+使用者：嘗試帶驗證的組態檔方法
+
+Claude：[實作帶 JSON schema 驗證的 YAML 組態]
+
+使用者：在開發環境測試
+
+Claude：✅ 運作良好，驗證錯誤訊息清楚
+
+使用者：我們能同時支援環境變數用於敏感值嗎？
+
+Claude：[新增環境變數覆寫機密資訊]
+
+使用者：測試部署
+
+Claude：✅ 所有環境正常運作
+
+使用者：完美！這已達到生產就緒。
+```
+
+## 範例 7：測試策略
+
+### 情境
+實作全面的測試。
+
+### 工作流程
+
+```
+使用者：為 auth 模組新增單元測試
+      [Checkpoint 自動建立]
+
+Claude：[新增 Jest 單元測試]
+
+使用者：執行測試
+
+Claude：45 項測試通過，覆蓋率 78%
+
+使用者：也新增整合測試
+
+Claude：[新增整合測試]
+
+使用者：執行測試
+
+Claude：89 項測試通過，覆蓋率 92%，但測試較慢（3 分鐘）
+
+使用者：測試太慢了。讓我們最佳化。
+
+Claude：[最佳化測試設定、新增並行執行]
+
+使用者：執行測試
+
+Claude：89 項測試通過，覆蓋率 92%，35 秒 ✅
+
+使用者：很好！現在為關鍵路徑新增端對端測試
+
+Claude：[新增 Playwright 端對端測試]
+
+使用者：執行所有測試
+
+Claude：112 項測試通過，覆蓋率 94%，2 分鐘
+
+使用者：覆蓋率和速度的完美平衡！
+```
+
+## 範例 8：使用從 Checkpoint 摘要功能
+
+### 情境
+在漫長的除錯工作階段之後，您想壓縮對話但保留上下文。
+
+### 工作流程
+
+```
+使用者：[經過 20+ 條除錯和探索訊息後]
+
+[使用者按 Esc+Esc，選擇一個早期的 checkpoint，選擇「從此處摘要」]
+[可選提供指示：「專注於我們嘗試了什麼以及什麼有效」]
+
+Claude：[從該點開始產生對話摘要]
+[原始訊息保留在紀錄中]
+[摘要取代可見的對話，減少上下文視窗使用]
+
+使用者：現在讓我們繼續使用有效的方法。
+```
+
+## 重點總結
+
+1. **Checkpoints 是自動的**：每次使用者提示都會建立一個 checkpoint -- 無需手動儲存
+2. **使用 Esc+Esc 或 /rewind**：這是存取 checkpoint 瀏覽器的兩種方式
+3. **選擇正確的還原選項**：根據需求選擇還原程式碼、對話、兩者皆還原、或摘要
+4. **不要害怕實驗**：Checkpoints 讓您可以安全地嘗試大膽的變更
+5. **結合 git 使用**：使用 checkpoints 進行探索，使用 git 進行定案的工作
+6. **摘要長工作階段**：使用「從此處摘要」讓對話保持可管理

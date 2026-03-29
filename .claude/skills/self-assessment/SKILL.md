@@ -4,417 +4,417 @@ version: 2.2.0
 description: Comprehensive Claude Code self-assessment and learning path advisor. Runs a multi-category quiz covering 10 feature areas, produces a detailed skill profile with per-topic scores, identifies specific gaps, and generates a personalized learning path with prioritized next steps. Use when asked to "assess my level", "take the quiz", "find my level", "where should I start", "what should I learn next", "check my skills", "skill check", or "level up".
 ---
 
-# Self-Assessment & Learning Path Advisor
+# 自我評估與學習路徑顧問
 
-Comprehensive interactive assessment that evaluates Claude Code proficiency across 10 feature areas, identifies specific skill gaps, and generates a personalized learning path to level up.
+全面的互動式評估，評估 Claude Code 在 10 個功能領域的能力，找出具體技能缺口，並產生個人化的學習路徑來提升技能。
 
-## Instructions
+## 說明
 
-### Step 1: Welcome & Choose Assessment Mode
+### 步驟 1：歡迎 & 選擇評估模式
 
-Present the user with a choice of assessment depth:
+向使用者提供評估深度的選擇：
 
-Use AskUserQuestion with these options:
-- **Quick Assessment** — "8 questions, ~2 minutes. Determines your overall level (Beginner/Intermediate/Advanced) and gives a learning path."
-- **Deep Assessment** — "5 categories with detailed questions, ~5 minutes. Gives per-topic skill scores, identifies specific gaps, and builds a prioritized learning path."
+使用 AskUserQuestion 呈現以下選項：
+- **快速評估** — 「8 題，約 2 分鐘。判斷您的總體程度（初學者/中級/進階）並提供學習路徑。」
+- **深入評估** — 「5 個類別加上詳細問題，約 5 分鐘。提供各主題技能分數、找出具體缺口，並建立優先排序的學習路徑。」
 
-If user chooses **Quick Assessment**, go to Step 2A.
-If user chooses **Deep Assessment**, go to Step 2B.
-
----
-
-### Step 2A: Quick Assessment
-
-Present TWO multi-select questions (AskUserQuestion supports max 4 options each):
-
-**Question 1** (header: "Basics"):
-"Part 1/2: Which of these Claude Code skills do you already have?"
-Options:
-1. "Start Claude Code and chat" — I can run `claude` and interact with it
-2. "Created/edited CLAUDE.md" — I have set up project or user memory
-3. "Used 3+ slash commands" — e.g., /help, /compact, /model, /clear
-4. "Created custom command/skill" — Written a SKILL.md or custom command file
-
-**Question 2** (header: "Advanced"):
-"Part 2/2: Which of these advanced skills do you have?"
-Options:
-1. "Configured an MCP server" — e.g., GitHub, database, or other external data source
-2. "Set up hooks" — Configured hooks in ~/.claude/settings.json
-3. "Created/used subagents" — Used .claude/agents/ for task delegation
-4. "Used print mode (claude -p)" — Used `claude -p` for non-interactive or CI/CD use
-
-**Scoring:**
-- 0-2 total = Level 1: Beginner
-- 3-5 total = Level 2: Intermediate
-- 6-8 total = Level 3: Advanced
-
-Go to Step 3 with the level result, listing which specific items were NOT checked as gaps.
+若使用者選擇**快速評估**，前往步驟 2A。
+若使用者選擇**深入評估**，前往步驟 2B。
 
 ---
 
-### Step 2B: Deep Assessment
+### 步驟 2A：快速評估
 
-Present 5 rounds of questions, one AskUserQuestion call per round. Each round covers 2 related feature areas. Use multi-select for all rounds.
+呈現兩個多選題（AskUserQuestion 每題最多支援 4 個選項）：
 
-**IMPORTANT**: AskUserQuestion supports max 4 options per question. Each round has exactly 1 question with 4 options covering 2 topics (2 options per topic).
+**問題 1**（標題：「基礎」）：
+「第 1/2 部分：您已經具備以下哪些 Claude Code 技能？」
+選項：
+1. "啟動 Claude Code 並對話" — 我能執行 `claude` 並與之互動
+2. "建立/編輯過 CLAUDE.md" — 我已設定專案或使用者記憶
+3. "使用過 3 個以上 slash commands" — 例如 /help、/compact、/model、/clear
+4. "建立過自訂指令/skill" — 撰寫過 SKILL.md 或自訂指令檔案
 
----
+**問題 2**（標題：「進階」）：
+「第 2/2 部分：您已經具備以下哪些進階技能？」
+選項：
+1. "設定過 MCP 伺服器" — 例如 GitHub、資料庫或其他外部資料來源
+2. "設定過 hooks" — 在 ~/.claude/settings.json 中設定過 hooks
+3. "建立/使用過 subagents" — 使用 .claude/agents/ 進行任務委派
+4. "使用過 print mode (claude -p)" — 使用 `claude -p` 進行非互動式或 CI/CD 使用
 
-**Round 1 — Slash Commands & Memory** (header: "Commands")
+**計分方式：**
+- 0-2 項 = 等級 1：初學者
+- 3-5 項 = 等級 2：中級
+- 6-8 項 = 等級 3：進階
 
-"Which of these have you done? Select all that apply."
-Options:
-1. "Created a custom slash command or skill" — Written a SKILL.md file with frontmatter, or created .claude/commands/ files
-2. "Used dynamic context in commands" — Used `$ARGUMENTS`, `$0`/`$1`, backtick `!command` syntax, or `@file` references in skill/command files
-3. "Set up project + personal memory" — Created both a project CLAUDE.md and personal ~/.claude/CLAUDE.md (or CLAUDE.local.md)
-4. "Used memory hierarchy features" — Understand the 7-level priority order, used .claude/rules/ directory, path-specific rules, or @import syntax
-
-**Scoring for Round 1:**
-- Options 1-2 map to **Slash Commands** (0-2 points)
-- Options 3-4 map to **Memory** (0-2 points)
-
----
-
-**Round 2 — Skills & Hooks** (header: "Automation")
-
-"Which of these have you done? Select all that apply."
-Options:
-1. "Installed and used an auto-invoked skill" — A skill that triggers automatically based on its description, without manual /command invocation
-2. "Controlled skill invocation behavior" — Used `disable-model-invocation`, `user-invocable`, or `context: fork` with agent field in SKILL.md frontmatter
-3. "Set up a PreToolUse or PostToolUse hook" — Configured a hook that runs before/after tool execution (e.g., command validator, auto-formatter)
-4. "Used advanced hook features" — Configured prompt-type hooks, component-scoped hooks in SKILL.md, HTTP hooks, or hooks with custom JSON output (updatedInput, systemMessage)
-
-**Scoring for Round 2:**
-- Options 1-2 map to **Skills** (0-2 points)
-- Options 3-4 map to **Hooks** (0-2 points)
+前往步驟 3，帶入等級結果，列出未勾選的項目作為缺口。
 
 ---
 
-**Round 3 — MCP & Subagents** (header: "Integration")
+### 步驟 2B：深入評估
 
-"Which of these have you done? Select all that apply."
-Options:
-1. "Connected an MCP server and used its tools" — e.g., GitHub MCP for PRs/issues, database MCP for queries, or any external data source
-2. "Used advanced MCP features" — Project-scope .mcp.json, OAuth authentication, MCP resources with @mentions, Tool Search, or `claude mcp serve`
-3. "Created or configured custom subagents" — Defined agents in .claude/agents/ with custom tools, model, or permissions
-4. "Used advanced subagent features" — Worktree isolation, persistent agent memory, background tasks with Ctrl+B, agent allowlists with `Task(agent_name)`, or agent teams
+呈現 5 回合問題，每回合一次 AskUserQuestion 呼叫。每回合涵蓋 2 個相關功能領域。所有回合使用多選。
 
-**Scoring for Round 3:**
-- Options 1-2 map to **MCP** (0-2 points)
-- Options 3-4 map to **Subagents** (0-2 points)
+**重要**：AskUserQuestion 每題最多支援 4 個選項。每回合恰好 1 題 4 個選項，涵蓋 2 個主題（每主題 2 個選項）。
 
 ---
 
-**Round 4 — Checkpoints & Advanced Features** (header: "Power User")
+**第 1 回合 — Slash Commands & Memory**（標題：「指令」）
 
-"Which of these have you done? Select all that apply."
-Options:
-1. "Used checkpoints for safe experimentation" — Created checkpoints, used Esc+Esc or /rewind, restored code and/or conversation, or used Summarize option
-2. "Used planning mode or extended thinking" — Activated planning via /plan, Shift+Tab, or --permission-mode plan; toggled extended thinking with Alt+T/Option+T
-3. "Configured permission modes" — Used acceptEdits, plan, dontAsk, or bypassPermissions mode via CLI flags, keyboard shortcuts, or settings
-4. "Used remote/desktop/web features" — Used `claude remote-control`, `claude --remote`, `/teleport`, `/desktop`, or worktrees with `claude -w`
+「您做過以下哪些？請選擇所有適用的。」
+選項：
+1. "建立過自訂 slash command 或 skill" — 撰寫過含 frontmatter 的 SKILL.md 檔案，或建立過 .claude/commands/ 檔案
+2. "在指令中使用過動態上下文" — 使用過 `$ARGUMENTS`、`$0`/`$1`、反引號 `!command` 語法，或 `@file` 參考
+3. "設定過專案 + 個人記憶" — 建立過專案 CLAUDE.md 和個人 ~/.claude/CLAUDE.md（或 CLAUDE.local.md）
+4. "使用過記憶層級功能" — 了解 7 層優先順序，使用過 .claude/rules/ 目錄、路徑特定規則，或 @import 語法
 
-**Scoring for Round 4:**
-- Option 1 maps to **Checkpoints** (0-1 point)
-- Options 2-4 map to **Advanced Features** (0-3 points, cap at 2)
-
----
-
-**Round 5 — Plugins & CLI** (header: "Mastery")
-
-"Which of these have you done? Select all that apply."
-Options:
-1. "Installed or created a plugin" — Used a bundled plugin from marketplace, or created a .claude-plugin/ directory with plugin.json manifest
-2. "Used plugin advanced features" — Plugin hooks, plugin MCP servers, LSP configuration, plugin namespaced commands, or --plugin-dir flag for testing
-3. "Used print mode in scripts or CI/CD" — Used `claude -p` with --output-format json, --max-turns, piped input, or integrated into GitHub Actions / CI pipelines
-4. "Used advanced CLI features" — Session resumption (-c/-r), --agents flag, --json-schema for structured output, --fallback-model, --from-pr, or batch processing loops
-
-**Scoring for Round 5:**
-- Options 1-2 map to **Plugins** (0-2 points)
-- Options 3-4 map to **CLI** (0-2 points)
+**第 1 回合計分：**
+- 選項 1-2 對應 **Slash Commands**（0-2 分）
+- 選項 3-4 對應 **Memory**（0-2 分）
 
 ---
 
-### Step 3: Calculate & Present Results
+**第 2 回合 — Skills & Hooks**（標題：「自動化」）
 
-#### 3A: For Quick Assessment
+「您做過以下哪些？請選擇所有適用的。」
+選項：
+1. "安裝並使用過自動觸發的 skill" — 根據描述自動觸發的 skill，無需手動 /command 調用
+2. "控制過 skill 調用行為" — 在 SKILL.md frontmatter 中使用過 `disable-model-invocation`、`user-invocable` 或含 agent 欄位的 `context: fork`
+3. "設定過 PreToolUse 或 PostToolUse hook" — 設定過在工具執行前/後運行的 hook（例如指令驗證器、自動格式化工具）
+4. "使用過進階 hook 功能" — 設定過 prompt-type hooks、SKILL.md 中的元件範圍 hooks、HTTP hooks，或含自訂 JSON 輸出的 hooks（updatedInput、systemMessage）
 
-Count total selections and determine level. Then present:
+**第 2 回合計分：**
+- 選項 1-2 對應 **Skills**（0-2 分）
+- 選項 3-4 對應 **Hooks**（0-2 分）
+
+---
+
+**第 3 回合 — MCP & Subagents**（標題：「整合」）
+
+「您做過以下哪些？請選擇所有適用的。」
+選項：
+1. "連接過 MCP 伺服器並使用其工具" — 例如用於 PR/issue 的 GitHub MCP、用於查詢的資料庫 MCP，或任何外部資料來源
+2. "使用過進階 MCP 功能" — 專案範圍 .mcp.json、OAuth 認證、含 @mention 的 MCP 資源、Tool Search，或 `claude mcp serve`
+3. "建立或設定過自訂 subagents" — 在 .claude/agents/ 中定義含自訂工具、模型或權限的代理
+4. "使用過進階 subagent 功能" — worktree 隔離、持久性代理記憶、Ctrl+B 背景任務、`Task(agent_name)` 代理白名單，或代理團隊
+
+**第 3 回合計分：**
+- 選項 1-2 對應 **MCP**（0-2 分）
+- 選項 3-4 對應 **Subagents**（0-2 分）
+
+---
+
+**第 4 回合 — Checkpoints & Advanced Features**（標題：「進階使用者」）
+
+「您做過以下哪些？請選擇所有適用的。」
+選項：
+1. "使用過 checkpoints 進行安全實驗" — 建立過 checkpoints，使用過 Esc+Esc 或 /rewind，還原過程式碼和/或對話，或使用過 Summarize 選項
+2. "使用過規劃模式或延伸思考" — 透過 /plan、Shift+Tab 或 --permission-mode plan 啟動過規劃功能；透過 Alt+T/Option+T 切換過延伸思考
+3. "設定過權限模式" — 透過 CLI 旗標、鍵盤快捷鍵或設定使用過 acceptEdits、plan、dontAsk 或 bypassPermissions 模式
+4. "使用過遠端/桌面/網頁功能" — 使用過 `claude remote-control`、`claude --remote`、`/teleport`、`/desktop`，或含 `claude -w` 的 worktrees
+
+**第 4 回合計分：**
+- 選項 1 對應 **Checkpoints**（0-1 分）
+- 選項 2-4 對應 **Advanced Features**（0-3 分，上限 2 分）
+
+---
+
+**第 5 回合 — Plugins & CLI**（標題：「精通」）
+
+「您做過以下哪些？請選擇所有適用的。」
+選項：
+1. "安裝或建立過 plugin" — 使用過 marketplace 的預設 plugin，或建立過含 plugin.json manifest 的 .claude-plugin/ 目錄
+2. "使用過 plugin 進階功能" — Plugin hooks、plugin MCP 伺服器、LSP 設定、plugin 命名空間指令，或用於測試的 --plugin-dir 旗標
+3. "在腳本或 CI/CD 中使用過 print mode" — 使用過 `claude -p` 搭配 --output-format json、--max-turns、管道輸入，或整合至 GitHub Actions / CI 流程
+4. "使用過進階 CLI 功能" — 工作階段恢復（-c/-r）、--agents 旗標、--json-schema 結構化輸出、--fallback-model、--from-pr，或批次處理迴圈
+
+**第 5 回合計分：**
+- 選項 1-2 對應 **Plugins**（0-2 分）
+- 選項 3-4 對應 **CLI**（0-2 分）
+
+---
+
+### 步驟 3：計算並呈現結果
+
+#### 3A：快速評估
+
+計算總選擇數並判斷等級。然後呈現：
 
 ```markdown
-## Claude Code Skill Assessment Results
+## Claude Code 技能評估結果
 
-### Your Level: [Level 1: Beginner / Level 2: Intermediate / Level 3: Advanced]
+### 您的等級：[等級 1：初學者 / 等級 2：中級 / 等級 3：進階]
 
-You checked **N/8** items.
+您勾選了 **N/8** 項。
 
-[One-line motivational summary based on level]
+[根據等級的一句鼓勵語]
 
-### Your Skill Profile
+### 您的技能檔案
 
-| Area | Status |
+| 領域 | 狀態 |
 |------|--------|
-| Basic CLI & Conversations | [Checked/Gap] |
-| CLAUDE.md & Memory | [Checked/Gap] |
-| Slash Commands (built-in) | [Checked/Gap] |
-| Custom Commands & Skills | [Checked/Gap] |
-| MCP Servers | [Checked/Gap] |
-| Hooks | [Checked/Gap] |
-| Subagents | [Checked/Gap] |
-| Print Mode & CI/CD | [Checked/Gap] |
+| 基本 CLI 與對話 | [已具備/缺口] |
+| CLAUDE.md & Memory | [已具備/缺口] |
+| Slash Commands（內建） | [已具備/缺口] |
+| 自訂指令 & Skills | [已具備/缺口] |
+| MCP 伺服器 | [已具備/缺口] |
+| Hooks | [已具備/缺口] |
+| Subagents | [已具備/缺口] |
+| Print Mode & CI/CD | [已具備/缺口] |
 
-### Identified Gaps
+### 已識別的缺口
 
-[For each unchecked item, provide a 1-line description of what to learn and a link to the tutorial]
+[針對每個未勾選的項目，提供一行說明應學習的內容以及教學連結]
 
-### Your Personalized Learning Path
+### 您的個人化學習路徑
 
-[Output the level-specific learning path — see Step 4]
+[輸出等級專屬的學習路徑 — 見步驟 4]
 ```
 
-#### 3B: For Deep Assessment
+#### 3B：深入評估
 
-Calculate per-topic scores from the 5 rounds. Each topic gets 0-2 points. Then present:
+從 5 個回合計算各主題分數。每個主題獲得 0-2 分。然後呈現：
 
 ```markdown
-## Claude Code Skill Assessment Results
+## Claude Code 技能評估結果
 
-### Overall Level: [Level 1 / Level 2 / Level 3]
+### 總體等級：[等級 1 / 等級 2 / 等級 3]
 
-**Total Score: N/20 points**
+**總分：N/20 分**
 
-[One-line motivational summary]
+[一句鼓勵語]
 
-### Your Skill Profile
+### 您的技能檔案
 
-| Feature Area | Score | Mastery | Status |
+| 功能領域 | 分數 | 精熟度 | 狀態 |
 |-------------|-------|---------|--------|
-| Slash Commands | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Memory | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Skills | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Hooks | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| MCP | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Subagents | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Checkpoints | N/1 | [None/Proficient] | [Learn/Mastered] |
-| Advanced Features | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Plugins | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| CLI | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
+| Slash Commands | N/2 | [未學/基礎/熟練] | [學習/複習/已精通] |
+| Memory | N/2 | [未學/基礎/熟練] | [學習/複習/已精通] |
+| Skills | N/2 | [未學/基礎/熟練] | [學習/複習/已精通] |
+| Hooks | N/2 | [未學/基礎/熟練] | [學習/複習/已精通] |
+| MCP | N/2 | [未學/基礎/熟練] | [學習/複習/已精通] |
+| Subagents | N/2 | [未學/基礎/熟練] | [學習/複習/已精通] |
+| Checkpoints | N/1 | [未學/熟練] | [學習/已精通] |
+| Advanced Features | N/2 | [未學/基礎/熟練] | [學習/複習/已精通] |
+| Plugins | N/2 | [未學/基礎/熟練] | [學習/複習/已精通] |
+| CLI | N/2 | [未學/基礎/熟練] | [學習/複習/已精通] |
 
-**Mastery key:** 0 = None, 1 = Basic, 2 = Proficient
+**精熟度說明：** 0 = 未學，1 = 基礎，2 = 熟練
 
-### Strength Areas
-[List topics with score 2/2 — these are mastered]
+### 優勢領域
+[列出分數 2/2 的主題 — 這些已精通]
 
-### Priority Gaps (Learn Next)
-[List topics with score 0 — these need attention first, ordered by dependency]
+### 優先缺口（接下來學習）
+[列出分數 0 的主題 — 需要優先關注，依依賴關係排序]
 
-### Review Areas
-[List topics with score 1/2 — basics known but advanced features not yet used]
+### 複習領域
+[列出分數 1/2 的主題 — 已知基礎但進階功能尚未使用]
 
-### Your Personalized Learning Path
+### 您的個人化學習路徑
 
-[Output gap-specific learning path — see Step 4]
+[輸出缺口專屬的學習路徑 — 見步驟 4]
 ```
 
-**Overall level calculation for Deep Assessment:**
-- 0-6 total points = Level 1: Beginner
-- 7-13 total points = Level 2: Intermediate
-- 14-20 total points = Level 3: Advanced
+**深入評估的總體等級計算：**
+- 0-6 總分 = 等級 1：初學者
+- 7-13 總分 = 等級 2：中級
+- 14-20 總分 = 等級 3：進階
 
 ---
 
-### Step 4: Generate Personalized Learning Path
+### 步驟 4：產生個人化學習路徑
 
-Based on the assessment results, generate a learning path that is specific to the user's gaps. Do NOT just repeat the generic level path — adapt it.
+根據評估結果，產生針對使用者缺口的學習路徑。不要只是重複通用等級路徑 — 要加以調整。
 
-#### Rules for Path Generation
+#### 路徑產生規則
 
-1. **Skip mastered topics**: If a topic scored 2/2, do not include it in the path.
-2. **Prioritize by dependency order**: Slash Commands before Skills, Memory before Subagents, etc. The dependency order is:
-   - Slash Commands (no deps) -> Skills (depends on Slash Commands)
-   - Memory (no deps) -> Subagents (depends on Memory)
-   - CLI Basics (no deps) -> CLI Mastery (depends on all)
-   - Checkpoints (no deps)
-   - Hooks (depends on Slash Commands)
-   - MCP (no deps) -> Plugins (depends on MCP, Skills, Hooks)
-   - Advanced Features (depends on all previous)
-3. **For score 1/2 topics**: Recommend the "deep dive" — link to the specific advanced section they're missing.
-4. **Estimate time**: Sum only the topics they need to learn/review.
-5. **Group into phases**: Organize remaining topics into logical phases of 2-3 topics each.
+1. **跳過已精通的主題**：若某主題得分 2/2，不將其納入路徑。
+2. **依依賴順序排列優先級**：Slash Commands 在 Skills 之前，Memory 在 Subagents 之前，等等。依賴順序為：
+   - Slash Commands（無依賴）-> Skills（依賴 Slash Commands）
+   - Memory（無依賴）-> Subagents（依賴 Memory）
+   - CLI 基礎（無依賴）-> CLI 精通（依賴全部）
+   - Checkpoints（無依賴）
+   - Hooks（依賴 Slash Commands）
+   - MCP（無依賴）-> Plugins（依賴 MCP、Skills、Hooks）
+   - Advanced Features（依賴所有前述）
+3. **分數 1/2 的主題**：建議「深入探討」— 連結到他們缺少的特定進階章節。
+4. **估算時間**：僅加總他們需要學習/複習的主題。
+5. **分組成階段**：將剩餘主題組織成每階段 2-3 個主題的邏輯階段。
 
-#### Path Output Format
+#### 路徑輸出格式
 
 ```markdown
-### Your Personalized Learning Path
+### 您的個人化學習路徑
 
-**Estimated time**: ~N hours (adjusted for your current skills)
+**預估時間**：約 N 小時（已根據您目前的技能調整）
 
-#### Phase 1: [Phase Name] (~N hours)
-[Only if they have gaps in these areas]
+#### 階段 1：[階段名稱]（約 N 小時）
+[僅在這些領域有缺口時]
 
-**[Topic Name]** — [Learn from scratch / Deep dive into advanced features]
-- Tutorial: [link to tutorial directory]
-- Focus on: [specific sections/concepts they need]
-- Key exercise: [one concrete exercise to do]
-- You'll know it's done when: [specific success criterion]
+**[主題名稱]** — [從頭學習 / 深入探討進階功能]
+- 教學：[教學目錄連結]
+- 重點：[他們需要的特定章節/概念]
+- 關鍵練習：[一個具體的練習]
+- 完成標準：[具體的成功標準]
 
-**[Topic Name]** — ...
+**[主題名稱]** — ...
 
 ---
 
-#### Phase 2: [Phase Name] (~N hours)
+#### 階段 2：[階段名稱]（約 N 小時）
 ...
 
 ---
 
-### Recommended Practice Projects
+### 建議的實作專案
 
-Based on your gaps, try these real-world exercises to solidify your learning:
+根據您的缺口，嘗試以下實際練習來鞏固學習：
 
-1. **[Project name]**: [1-line description combining 2-3 gap topics]
-2. **[Project name]**: [1-line description]
-3. **[Project name]**: [1-line description]
+1. **[專案名稱]**：[結合 2-3 個缺口主題的一行描述]
+2. **[專案名稱]**：[一行描述]
+3. **[專案名稱]**：[一行描述]
 ```
 
-#### Topic-Specific Recommendations
+#### 各主題具體建議
 
-Use these specific recommendations when a topic is a gap:
+當某主題為缺口時，使用以下具體建議：
 
-**Slash Commands (score 0)**:
-- Tutorial: [01-slash-commands/](../../../01-slash-commands/)
-- Focus on: Built-in commands reference, creating your first SKILL.md, `$ARGUMENTS` syntax
-- Key exercise: Create a `/optimize` command and test it
-- Done when: You can create a custom skill with arguments and dynamic context
+**Slash Commands（分數 0）**：
+- 教學：[01-slash-commands/](../../../01-slash-commands/)
+- 重點：內建指令參考、建立您的第一個 SKILL.md、`$ARGUMENTS` 語法
+- 關鍵練習：建立一個 `/optimize` 指令並測試
+- 完成標準：您能建立含參數和動態上下文的自訂 skill
 
-**Slash Commands (score 1 — review)**:
-- Focus on: Dynamic context with `!`backtick`` syntax, `@file` references, `disable-model-invocation` vs `user-invocable` control
-- Done when: You can create a skill that injects live command output and controls its own invocation behavior
+**Slash Commands（分數 1 — 複習）**：
+- 重點：使用 `!`backtick`` 語法的動態上下文、`@file` 參考、`disable-model-invocation` vs `user-invocable` 控制
+- 完成標準：您能建立注入即時指令輸出並控制自身調用行為的 skill
 
-**Memory (score 0)**:
-- Tutorial: [02-memory/](../../../02-memory/)
-- Focus on: CLAUDE.md creation, `/init` and `/memory` commands, `#` prefix for quick updates
-- Key exercise: Create a project CLAUDE.md with your coding standards
-- Done when: Claude remembers your preferences across sessions
+**Memory（分數 0）**：
+- 教學：[02-memory/](../../../02-memory/)
+- 重點：CLAUDE.md 建立、`/init` 和 `/memory` 指令、`#` 前綴快速更新
+- 關鍵練習：建立含您程式碼規範的專案 CLAUDE.md
+- 完成標準：Claude 能在不同工作階段記住您的偏好
 
-**Memory (score 1 — review)**:
-- Focus on: 7-level hierarchy and priority order, .claude/rules/ directory with path-specific rules, `@import` syntax (max depth 5), Auto Memory MEMORY.md (200-line limit)
-- Done when: You have modular rules for different directories and understand the full hierarchy
+**Memory（分數 1 — 複習）**：
+- 重點：7 層層級和優先順序、含路徑特定規則的 .claude/rules/ 目錄、`@import` 語法（最大深度 5）、Auto Memory MEMORY.md（200 行限制）
+- 完成標準：您有針對不同目錄的模組化規則，並了解完整層級
 
-**Skills (score 0)**:
-- Tutorial: [03-skills/](../../../03-skills/)
-- Focus on: SKILL.md format, auto-invocation via description field, progressive disclosure (3 loading levels)
-- Key exercise: Install the code-review skill and verify it auto-triggers
-- Done when: A skill automatically activates based on conversation context
+**Skills（分數 0）**：
+- 教學：[03-skills/](../../../03-skills/)
+- 重點：SKILL.md 格式、透過 description 欄位自動調用、漸進式揭露（3 個載入層級）
+- 關鍵練習：安裝 code-review skill 並驗證自動觸發
+- 完成標準：skill 能根據對話脈絡自動啟動
 
-**Skills (score 1 — review)**:
-- Focus on: `context: fork` with `agent` field for subagent execution, `disable-model-invocation` vs `user-invocable`, 2% context budget, bundled resources (scripts/, references/, assets/)
-- Done when: You can create a skill that runs in a subagent with forked context
+**Skills（分數 1 — 複習）**：
+- 重點：含 `agent` 欄位的 `context: fork` 用於 subagent 執行、`disable-model-invocation` vs `user-invocable`、2% 上下文預算、打包資源（scripts/、references/、assets/）
+- 完成標準：您能建立在 forked 上下文中以 subagent 運行的 skill
 
-**Hooks (score 0)**:
-- Tutorial: [06-hooks/](../../../06-hooks/)
-- Focus on: Configuration structure (matcher + hooks array), PreToolUse/PostToolUse events, exit codes (0=success, 2=block), JSON input/output format
-- Key exercise: Create a PreToolUse hook that validates Bash commands
-- Done when: A hook blocks dangerous commands before execution
+**Hooks（分數 0）**：
+- 教學：[06-hooks/](../../../06-hooks/)
+- 重點：設定結構（matcher + hooks 陣列）、PreToolUse/PostToolUse 事件、exit codes（0=成功，2=阻擋）、JSON 輸入/輸出格式
+- 關鍵練習：建立驗證 Bash 指令的 PreToolUse hook
+- 完成標準：hook 能在執行前阻擋危險指令
 
-**Hooks (score 1 — review)**:
-- Focus on: All 25 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult), 4 hook types (command, http, prompt, agent), component-scoped hooks in SKILL.md frontmatter, HTTP hooks with allowedEnvVars, `CLAUDE_ENV_FILE` for SessionStart/CwdChanged/FileChanged
-- Done when: You can create a prompt-based Stop hook and a component-scoped hook in a skill
+**Hooks（分數 1 — 複習）**：
+- 重點：全部 25 個 hook 事件（包括 PostToolUseFailure、StopFailure、TaskCreated、CwdChanged、FileChanged、PostCompact、Elicitation、ElicitationResult）、4 種 hook 類型（command、http、prompt、agent）、SKILL.md frontmatter 中的元件範圍 hooks、含 allowedEnvVars 的 HTTP hooks、用於 SessionStart/CwdChanged/FileChanged 的 `CLAUDE_ENV_FILE`
+- 完成標準：您能建立基於 prompt 的 Stop hook 和 skill 中的元件範圍 hook
 
-**MCP (score 0)**:
-- Tutorial: [05-mcp/](../../../05-mcp/)
-- Focus on: `claude mcp add` command, transport types (HTTP recommended), GitHub MCP setup, environment variable expansion
-- Key exercise: Add GitHub MCP server and query PRs
-- Done when: You can query live data from an external service via MCP
+**MCP（分數 0）**：
+- 教學：[05-mcp/](../../../05-mcp/)
+- 重點：`claude mcp add` 指令、傳輸類型（建議使用 HTTP）、GitHub MCP 設定、環境變數展開
+- 關鍵練習：新增 GitHub MCP 伺服器並查詢 PR
+- 完成標準：您能透過 MCP 從外部服務查詢即時資料
 
-**MCP (score 1 — review)**:
-- Focus on: Project-scope .mcp.json (requires team approval), OAuth 2.0 auth, MCP resources with `@server:resource` mentions, Tool Search (ENABLE_TOOL_SEARCH), `claude mcp serve`, output limits (10k/25k/50k)
-- Done when: You have a project .mcp.json and understand Tool Search auto mode
+**MCP（分數 1 — 複習）**：
+- 重點：專案範圍 .mcp.json（需團隊核准）、OAuth 2.0 認證、含 `@server:resource` mention 的 MCP 資源、Tool Search（ENABLE_TOOL_SEARCH）、`claude mcp serve`、輸出限制（10k/25k/50k）
+- 完成標準：您有專案 .mcp.json 並了解 Tool Search auto 模式
 
-**Subagents (score 0)**:
-- Tutorial: [04-subagents/](../../../04-subagents/)
-- Focus on: Agent file format (.claude/agents/*.md), built-in agents (general-purpose, Plan, Explore), tools/model/permissionMode config
-- Key exercise: Create a code-reviewer subagent and test delegation
-- Done when: Claude delegates code review to your custom agent
+**Subagents（分數 0）**：
+- 教學：[04-subagents/](../../../04-subagents/)
+- 重點：代理檔案格式（.claude/agents/*.md）、內建代理（general-purpose、Plan、Explore）、tools/model/permissionMode 設定
+- 關鍵練習：建立 code-reviewer subagent 並測試委派
+- 完成標準：Claude 將程式碼審查委派給您的自訂代理
 
-**Subagents (score 1 — review)**:
-- Focus on: Worktree isolation (`isolation: worktree`), persistent agent memory (`memory` field with scopes), background agents (Ctrl+B/Ctrl+F), agent allowlists with `Task(agent_name)`, agent teams (`--teammate-mode`)
-- Done when: You have a subagent with persistent memory running in worktree isolation
+**Subagents（分數 1 — 複習）**：
+- 重點：worktree 隔離（`isolation: worktree`）、持久性代理記憶（含 scopes 的 `memory` 欄位）、背景代理（Ctrl+B/Ctrl+F）、`Task(agent_name)` 代理白名單、代理團隊（`--teammate-mode`）
+- 完成標準：您有一個在 worktree 隔離中運行且含持久性記憶的 subagent
 
-**Checkpoints (score 0)**:
-- Tutorial: [08-checkpoints/](../../../08-checkpoints/)
-- Focus on: Esc+Esc and /rewind access, 5 rewind options (restore code+conversation, restore conversation, restore code, summarize, cancel), limitations (bash filesystem ops not tracked)
-- Key exercise: Make experimental changes, then rewind to restore
-- Done when: You can confidently experiment knowing you can rewind
+**Checkpoints（分數 0）**：
+- 教學：[08-checkpoints/](../../../08-checkpoints/)
+- 重點：Esc+Esc 和 /rewind 存取、5 個回溯選項（還原程式碼+對話、僅還原對話、僅還原程式碼、摘要、取消）、限制（bash 檔案系統操作不被追蹤）
+- 關鍵練習：進行實驗性變更，然後回溯還原
+- 完成標準：您能安心地進行實驗，知道可以回溯
 
-**Advanced Features (score 0)**:
-- Tutorial: [09-advanced-features/](../../../09-advanced-features/)
-- Focus on: Planning mode (/plan or Shift+Tab), permission modes (5 types), extended thinking (Alt+T toggle)
-- Key exercise: Use planning mode to design a feature, then implement it
-- Done when: You can switch between planning and implementation modes fluently
+**Advanced Features（分數 0）**：
+- 教學：[09-advanced-features/](../../../09-advanced-features/)
+- 重點：規劃模式（/plan 或 Shift+Tab）、權限模式（5 種類型）、延伸思考（Alt+T 切換）
+- 關鍵練習：使用規劃模式設計一個功能，然後實作
+- 完成標準：您能在規劃和實作模式間流暢切換
 
-**Advanced Features (score 1 — review)**:
-- Focus on: Remote control (`claude remote-control`), web sessions (`claude --remote`), desktop handoff (`/desktop`), worktrees (`claude -w`), task lists (Ctrl+T), managed settings for enterprise
-- Done when: You can hand off sessions between CLI, web, and desktop
+**Advanced Features（分數 1 — 複習）**：
+- 重點：遠端控制（`claude remote-control`）、網頁工作階段（`claude --remote`）、桌面移交（`/desktop`）、worktrees（`claude -w`）、任務清單（Ctrl+T）、企業託管設定
+- 完成標準：您能在 CLI、網頁和桌面間移交工作階段
 
-**Plugins (score 0)**:
-- Tutorial: [07-plugins/](../../../07-plugins/)
-- Focus on: Plugin structure (.claude-plugin/plugin.json), what plugins bundle (commands, agents, MCP, hooks, settings), installation from marketplace
-- Key exercise: Install a plugin and explore its components
-- Done when: You understand when to use a plugin vs standalone components
+**Plugins（分數 0）**：
+- 教學：[07-plugins/](../../../07-plugins/)
+- 重點：Plugin 結構（.claude-plugin/plugin.json）、plugin 打包內容（指令、代理、MCP、hooks、設定）、從 marketplace 安裝
+- 關鍵練習：安裝一個 plugin 並探索其元件
+- 完成標準：您了解何時使用 plugin vs 獨立元件
 
-**Plugins (score 1 — review)**:
-- Focus on: Creating plugin.json manifest, plugin hooks (hooks/hooks.json), LSP configuration (.lsp.json), `${CLAUDE_PLUGIN_ROOT}` variable, --plugin-dir for testing, marketplace publishing
-- Done when: You can create and test a plugin for your team
+**Plugins（分數 1 — 複習）**：
+- 重點：建立 plugin.json manifest、plugin hooks（hooks/hooks.json）、LSP 設定（.lsp.json）、`${CLAUDE_PLUGIN_ROOT}` 變數、用於測試的 --plugin-dir、marketplace 發布
+- 完成標準：您能為團隊建立和測試 plugin
 
-**CLI (score 0)**:
-- Tutorial: [10-cli/](../../../10-cli/)
-- Focus on: Interactive vs print mode, `claude -p` with piping, `--output-format json`, session management (-c/-r)
-- Key exercise: Pipe a file to `claude -p` and get JSON output
-- Done when: You can use Claude non-interactively in a script
+**CLI（分數 0）**：
+- 教學：[10-cli/](../../../10-cli/)
+- 重點：互動式 vs print mode、`claude -p` 搭配管道、`--output-format json`、工作階段管理（-c/-r）
+- 關鍵練習：將檔案透過管道傳送至 `claude -p` 並取得 JSON 輸出
+- 完成標準：您能在腳本中非互動式使用 Claude
 
-**CLI (score 1 — review)**:
-- Focus on: --agents flag with JSON config, --json-schema for structured output, --fallback-model, --from-pr, --strict-mcp-config, batch processing with for loops, `claude mcp serve`
-- Done when: You have a CI/CD script that uses Claude with structured JSON output
+**CLI（分數 1 — 複習）**：
+- 重點：--agents 旗標搭配 JSON 設定、--json-schema 結構化輸出、--fallback-model、--from-pr、--strict-mcp-config、for 迴圈批次處理、`claude mcp serve`
+- 完成標準：您有使用含結構化 JSON 輸出的 Claude 的 CI/CD 腳本
 
 ---
 
-### Step 5: Offer Follow-up Actions
+### 步驟 5：提供後續行動
 
-After presenting results, ask the user what they'd like to do next:
+呈現結果後，詢問使用者接下來想做什麼：
 
-Use AskUserQuestion with these options:
-- **Start learning** — "Help me begin the first topic in my learning path right now"
-- **Deep dive on a gap** — "Explain one of my gap areas in detail so I can learn it here"
-- **Practice project** — "Set up a practice project that covers my gap areas"
-- **Retake assessment** — "I want to retake the quiz (maybe the other mode)"
+使用 AskUserQuestion 呈現以下選項：
+- **開始學習** — 「協助我立即開始學習路徑中的第一個主題」
+- **深入探討缺口** — 「詳細解說我的一個缺口領域，讓我在這裡學習」
+- **實作專案** — 「設定一個涵蓋我缺口領域的實作專案」
+- **重新評估** — 「我想重新測驗（可能用另一種模式）」
 
-If **Start learning**: Read the README.md of the first gap tutorial and walk the user through the first exercise.
-If **Deep dive on a gap**: Ask which gap topic, then read the relevant tutorial README.md and explain the key concepts with examples.
-If **Practice project**: Design a small project that combines 2-3 of their gap topics with concrete steps.
-If **Retake assessment**: Go back to Step 1.
+若選擇**開始學習**：閱讀第一個缺口教學的 README.md，引導使用者完成第一個練習。
+若選擇**深入探討缺口**：詢問哪個缺口主題，然後閱讀相關教學 README.md，搭配範例解說關鍵概念。
+若選擇**實作專案**：設計一個結合 2-3 個缺口主題的小型專案，附具體步驟。
+若選擇**重新評估**：回到步驟 1。
 
-## Error Handling
+## 錯誤處理
 
-### User selects no items in a round
-Treat as 0 points for that round's topics. Continue to next round.
+### 使用者在某回合未選擇任何項目
+視為該回合主題 0 分。繼續下一回合。
 
-### User selects no items in any round
-Assign Level 1: Beginner. Encourage starting from the beginning. Output the full Level 1 path.
+### 使用者在所有回合都未選擇任何項目
+指定等級 1：初學者。鼓勵從頭開始。輸出完整的等級 1 路徑。
 
-### User wants to retake
-Re-run from Step 1 with a fresh assessment.
+### 使用者想重新測驗
+從步驟 1 重新開始，進行全新評估。
 
-### User disagrees with their level
-Acknowledge their preference. Ask which level they identify with. Present the path for their chosen level with a prerequisites check for topics they may have missed.
+### 使用者不同意自己的等級
+承認他們的偏好。詢問他們認為自己屬於哪個等級。呈現其選擇等級的路徑，附上可能遺漏主題的先備條件檢查。
 
-### User asks about a specific topic
-If the user says something like "tell me about hooks" or "I want to learn MCP" during the assessment, note it. After presenting results, highlight that topic in their learning path regardless of score.
+### 使用者詢問特定主題
+若使用者在評估過程中說了類似「告訴我關於 hooks 的事」或「我想學 MCP」，記下來。呈現結果後，無論分數如何，在其學習路徑中突顯該主題。
 
-## Validation
+## 驗證
 
-### Triggering test suite
+### 觸發測試套件
 
-**Should trigger:**
+**應觸發：**
 - "assess my level"
 - "take the quiz"
 - "find my level"
@@ -429,7 +429,7 @@ If the user says something like "tell me about hooks" or "I want to learn MCP" d
 - "how good am I at Claude Code"
 - "evaluate my Claude Code knowledge"
 
-**Should NOT trigger:**
+**不應觸發：**
 - "review my code"
 - "create a skill"
 - "help me with MCP"

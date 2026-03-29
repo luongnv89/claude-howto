@@ -1,44 +1,44 @@
 ---
-name: Documentation Issue
-about: Report unclear documentation, typos, or missing information
+name: 文件問題
+about: 回報不清楚的文件、錯字或缺少的資訊
 title: "[DOCS] "
 labels: documentation
 assignees: ''
 
 ---
 
-## Type of Issue
-- [ ] Typo or grammar error
-- [ ] Unclear explanation
-- [ ] Missing information
-- [ ] Broken link or reference
-- [ ] Outdated content
-- [ ] Better example needed
+## 問題類型
+- [ ] 錯字或文法錯誤
+- [ ] 說明不清楚
+- [ ] 缺少資訊
+- [ ] 連結或參考失效
+- [ ] 內容過時
+- [ ] 需要更好的範例
 
-## Location
-Which section has the issue?
-- **File**: (e.g., README.md, 03-skills/README.md)
-- **Section**: (e.g., "Installation Quick Reference")
-- **Line/Area**: (if specific)
+## 位置
+哪個章節有問題？
+- **檔案**：（例如 README.md、03-skills/README.md）
+- **章節**：（例如「安裝快速參考」）
+- **行/區域**：（若為特定位置）
 
-## Current Content
-What does it currently say?
+## 目前內容
+目前寫了什麼？
 ```
-[Paste the current text here]
-```
-
-## Issue Description
-What's wrong with it?
-
-## Suggested Improvement
-How could this be improved or clarified?
-```
-[Provide improved text or suggestion here]
+[在此貼上目前的文字]
 ```
 
-## Why This Matters
-How does this issue impact users?
+## 問題描述
+哪裡有問題？
 
-## Related Documentation
-Links to related sections:
-- Related Guide: <!-- Add link here -->
+## 改善建議
+如何改進或澄清？
+```
+[在此提供改善後的文字或建議]
+```
+
+## 為什麼這很重要
+此問題如何影響使用者？
+
+## 相關文件
+相關章節的連結：
+- 相關指南：<!-- 在此新增連結 -->

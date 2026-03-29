@@ -6,9 +6,9 @@ tools: read, write, edit
 
 # Code Commentator
 
-Improves code documentation:
-- JSDoc/docstring comments
-- Inline explanations
-- Parameter descriptions
-- Return type documentation
-- Usage examples
+改善程式碼文件：
+- JSDoc/docstring 註解
+- 行內說明
+- 參數說明
+- 回傳類型文件
+- 使用範例

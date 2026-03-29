@@ -1,19 +1,19 @@
 ---
-description: Analyze code for performance issues and suggest optimizations
+description: 分析程式碼的效能問題並建議最佳化方案
 ---
 
-# Code Optimization
+# 程式碼最佳化
 
-Review the provided code for the following issues in order of priority:
+依優先順序審查所提供程式碼的以下問題：
 
-1. **Performance bottlenecks** - identify O(n²) operations, inefficient loops
-2. **Memory leaks** - find unreleased resources, circular references
-3. **Algorithm improvements** - suggest better algorithms or data structures
-4. **Caching opportunities** - identify repeated computations
-5. **Concurrency issues** - find race conditions or threading problems
+1. **效能瓶頸** - 識別 O(n²) 操作、低效迴圈
+2. **記憶體洩漏** - 找出未釋放的資源、循環引用
+3. **演算法改進** - 建議更佳的演算法或資料結構
+4. **快取機會** - 識別重複計算
+5. **並行問題** - 找出競爭條件或執行緒問題
 
-Format your response with:
-- Issue severity (Critical/High/Medium/Low)
-- Location in code
-- Explanation
-- Recommended fix with code example
+回覆格式：
+- 問題嚴重度（Critical/High/Medium/Low）
+- 程式碼中的位置
+- 說明
+- 建議修正方式及程式碼範例

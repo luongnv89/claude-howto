@@ -1,32 +1,32 @@
 # [METHOD] /api/v1/[endpoint]
 
-## Description
-Brief explanation of what this endpoint does.
+## 說明
+簡要說明此端點的功能。
 
-## Authentication
-Required authentication method (e.g., Bearer token).
+## 認證
+所需的認證方法（例如 Bearer token）。
 
-## Parameters
+## 參數
 
-### Path Parameters
-| Name | Type | Required | Description |
+### 路徑參數
+| 名稱 | 類型 | 必填 | 說明 |
 |------|------|----------|-------------|
-| id | string | Yes | Resource ID |
+| id | string | 是 | 資源 ID |
 
-### Query Parameters
-| Name | Type | Required | Description |
+### 查詢參數
+| 名稱 | 類型 | 必填 | 說明 |
 |------|------|----------|-------------|
-| page | integer | No | Page number (default: 1) |
-| limit | integer | No | Items per page (default: 20) |
+| page | integer | 否 | 頁碼（預設：1） |
+| limit | integer | 否 | 每頁項目數（預設：20） |
 
-### Request Body
+### 請求主體
 ```json
 {
   "field": "value"
 }
 ```
 
-## Responses
+## 回應
 
 ### 200 OK
 ```json
@@ -61,7 +61,7 @@ Required authentication method (e.g., Bearer token).
 }
 ```
 
-## Examples
+## 範例
 
 ### cURL
 ```bash
@@ -92,10 +92,10 @@ response = requests.get(
 data = response.json()
 ```
 
-## Rate Limits
-- 1000 requests per hour for authenticated users
-- 100 requests per hour for public endpoints
+## 速率限制
+- 已認證使用者每小時 1000 個請求
+- 公開端點每小時 100 個請求
 
-## Related Endpoints
+## 相關端點
 - [GET /api/v1/related](#)
 - [POST /api/v1/related](#)

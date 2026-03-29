@@ -1,533 +1,533 @@
-# Planning Mode Examples
+# 規劃模式範例
 
-Real-world examples demonstrating effective use of planning mode in Claude Code.
+展示在 Claude Code 中有效使用規劃模式的實際範例。
 
-## Example 1: Building a REST API
+## 範例 1：建置 REST API
 
-### Without Planning Mode
-
-```
-User: Build a REST API for a blog
-
-Claude: I'll create the API...
-[Starts coding immediately, may miss requirements]
-```
-
-### With Planning Mode
+### 不使用規劃模式
 
 ```
-User: /plan Build a REST API for a blog
+使用者：建置部落格的 REST API
 
-Claude: Let me create a comprehensive plan for the blog API.
-
-## Blog REST API Implementation Plan
-
-### Phase 1: Project Setup (15 min)
-1. Initialize Node.js project with Express
-2. Set up TypeScript configuration
-3. Install dependencies (express, pg, jwt, joi)
-4. Configure environment variables
-5. Set up project structure
-
-### Phase 2: Database Layer (30 min)
-6. Design database schema
-   - users table (id, email, password_hash, created_at)
-   - posts table (id, user_id, title, content, published, created_at, updated_at)
-   - comments table (id, post_id, user_id, content, created_at)
-7. Create migration files
-8. Set up database connection pool
-9. Implement database models
-
-### Phase 3: Authentication (45 min)
-10. Implement user registration endpoint
-11. Implement login endpoint with JWT
-12. Create authentication middleware
-13. Add password hashing with bcrypt
-14. Implement token refresh logic
-
-### Phase 4: Posts API (40 min)
-15. GET /api/posts - List all published posts (with pagination)
-16. GET /api/posts/:id - Get single post
-17. POST /api/posts - Create new post (auth required)
-18. PUT /api/posts/:id - Update post (auth required, ownership check)
-19. DELETE /api/posts/:id - Delete post (auth required, ownership check)
-20. GET /api/users/:id/posts - Get user's posts
-
-### Phase 5: Comments API (30 min)
-21. GET /api/posts/:id/comments - Get post comments
-22. POST /api/posts/:id/comments - Add comment (auth required)
-23. DELETE /api/comments/:id - Delete comment (auth required, ownership check)
-
-### Phase 6: Validation & Error Handling (30 min)
-24. Add request validation with Joi
-25. Implement global error handler
-26. Add input sanitization
-27. Implement rate limiting
-
-### Phase 7: Testing (60 min)
-28. Write unit tests for models
-29. Write integration tests for auth endpoints
-30. Write integration tests for posts endpoints
-31. Write integration tests for comments endpoints
-32. Achieve 80%+ code coverage
-
-### Phase 8: Documentation & Deployment (30 min)
-33. Generate API documentation with Swagger
-34. Create README with setup instructions
-35. Add Docker configuration
-36. Set up CI/CD pipeline
-
-**Estimated Time**: 4.5 hours
-**Files to Create**: ~25
-**Key Technologies**: Express, PostgreSQL, JWT, TypeScript
-
-**API Endpoints Summary**:
-- Authentication: 2 endpoints
-- Posts: 6 endpoints
-- Comments: 3 endpoints
-- Total: 11 endpoints
-
-Ready to proceed? (yes/no/modify)
-
-User: yes
-
-Claude: Starting Phase 1: Project Setup...
-[Implements each phase systematically]
+Claude：我將建立 API...
+[立即開始撰寫程式碼，可能遺漏需求]
 ```
 
-## Example 2: Database Migration
-
-### With Planning Mode
+### 使用規劃模式
 
 ```
-User: /plan Migrate from MongoDB to PostgreSQL
+使用者：/plan 建置部落格的 REST API
 
-Claude: This is a complex migration. Let me create a detailed plan.
+Claude：讓我為部落格 API 建立一個完整的計畫。
 
-## MongoDB to PostgreSQL Migration Plan
+## 部落格 REST API 實作計畫
 
-### Phase 1: Analysis & Preparation (Day 1)
-1. Analyze current MongoDB schema
-2. Identify data relationships and constraints
-3. Document current data volume and growth rate
-4. Design equivalent PostgreSQL schema
-5. Plan data type mappings
-6. Identify potential migration challenges
+### 第一階段：專案設定（15 分鐘）
+1. 使用 Express 初始化 Node.js 專案
+2. 設定 TypeScript 組態
+3. 安裝依賴項（express、pg、jwt、joi）
+4. 設定環境變數
+5. 建立專案結構
 
-### Phase 2: PostgreSQL Setup (Day 1)
-7. Set up PostgreSQL database
-8. Create schema with tables, indexes, constraints
-9. Set up connection pooling
-10. Configure backup strategy
+### 第二階段：資料庫層（30 分鐘）
+6. 設計資料庫結構
+   - users 資料表（id、email、password_hash、created_at）
+   - posts 資料表（id、user_id、title、content、published、created_at、updated_at）
+   - comments 資料表（id、post_id、user_id、content、created_at）
+7. 建立遷移檔案
+8. 設定資料庫連線池
+9. 實作資料庫模型
 
-### Phase 3: Dual-Write Implementation (Day 2-3)
-11. Create database abstraction layer
-12. Implement dual-write to both databases
-13. Add data consistency checks
-14. Deploy dual-write to staging
-15. Monitor for issues
+### 第三階段：認證（45 分鐘）
+10. 實作使用者註冊端點
+11. 實作使用 JWT 的登入端點
+12. 建立認證中介軟體
+13. 新增使用 bcrypt 的密碼雜湊
+14. 實作 Token 更新邏輯
 
-### Phase 4: Data Migration (Day 4)
-16. Create data export scripts for MongoDB
-17. Create data import scripts for PostgreSQL
-18. Implement data transformation logic
-19. Run initial migration on copy of production data
-20. Validate migrated data integrity
+### 第四階段：文章 API（40 分鐘）
+15. GET /api/posts - 列出所有已發布文章（含分頁）
+16. GET /api/posts/:id - 取得單篇文章
+17. POST /api/posts - 建立新文章（需認證）
+18. PUT /api/posts/:id - 更新文章（需認證、所有權檢查）
+19. DELETE /api/posts/:id - 刪除文章（需認證、所有權檢查）
+20. GET /api/users/:id/posts - 取得使用者的文章
 
-### Phase 5: Gradual Cutover (Day 5-7)
-21. Enable dual-write in production
-22. Migrate historical data in batches
-23. Continuously validate data consistency
-24. Monitor both databases
-25. Fix any data synchronization issues
+### 第五階段：留言 API（30 分鐘）
+21. GET /api/posts/:id/comments - 取得文章留言
+22. POST /api/posts/:id/comments - 新增留言（需認證）
+23. DELETE /api/comments/:id - 刪除留言（需認證、所有權檢查）
 
-### Phase 6: PostgreSQL Primary (Day 8)
-26. Switch read operations to PostgreSQL
-27. Monitor query performance
-28. Optimize slow queries
-29. Continue dual-write for safety
+### 第六階段：驗證與錯誤處理（30 分鐘）
+24. 使用 Joi 新增請求驗證
+25. 實作全域錯誤處理器
+26. 新增輸入清理
+27. 實作速率限制
 
-### Phase 7: MongoDB Retirement (Day 9-10)
-30. Stop writing to MongoDB
-31. Keep MongoDB as backup for 2 weeks
-32. Remove MongoDB dependencies from code
-33. Archive MongoDB data
-34. Decommission MongoDB instance
+### 第七階段：測試（60 分鐘）
+28. 撰寫模型的單元測試
+29. 撰寫認證端點的整合測試
+30. 撰寫文章端點的整合測試
+31. 撰寫留言端點的整合測試
+32. 達到 80%+ 的程式碼覆蓋率
 
-**Estimated Time**: 10 days
-**Risk Level**: High
-**Rollback Strategy**: Keep MongoDB running with dual-write
-**Success Criteria**:
-- Zero data loss
-- <5% performance regression
-- All tests passing
+### 第八階段：文件與部署（30 分鐘）
+33. 使用 Swagger 產生 API 文件
+34. 建立含設定說明的 README
+35. 新增 Docker 組態
+36. 設定 CI/CD 流程
 
-**Key Risks**:
-1. Data inconsistency during migration
-2. Query performance degradation
-3. Application downtime
-4. Data loss
+**預估時間**：4.5 小時
+**要建立的檔案**：約 25 個
+**關鍵技術**：Express、PostgreSQL、JWT、TypeScript
 
-**Mitigation**:
-- Dual-write pattern for safety
-- Gradual cutover
-- Continuous monitoring
-- Quick rollback capability
+**API 端點摘要**：
+- 認證：2 個端點
+- 文章：6 個端點
+- 留言：3 個端點
+- 合計：11 個端點
 
-Proceed with this plan? (yes/no/modify)
+準備好繼續了嗎？（是/否/修改）
 
-User: Modify - let's add a rollback plan for each phase
+使用者：是
 
-Claude: Updated plan with rollback procedures for each phase...
+Claude：開始第一階段：專案設定...
+[按計畫系統性地實作每個階段]
 ```
 
-## Example 3: Frontend Refactoring
+## 範例 2：資料庫遷移
+
+### 使用規劃模式
 
 ```
-User: /plan Refactor our React app from class components to hooks
+使用者：/plan 從 MongoDB 遷移到 PostgreSQL
 
-Claude: I'll create a systematic refactoring plan.
+Claude：這是一個複雜的遷移。讓我建立一個詳細的計畫。
 
-## React Class to Hooks Migration Plan
+## MongoDB 到 PostgreSQL 遷移計畫
 
-### Phase 1: Preparation & Analysis (2 hours)
-1. Audit all class components (find all .jsx/.tsx files)
-2. Categorize by complexity:
-   - Simple (state only): ~15 components
-   - Medium (lifecycle methods): ~23 components
-   - Complex (multiple lifecycle, refs): ~8 components
-3. Identify third-party libraries that need updates
-4. Create component dependency graph
-5. Plan migration order (leaf nodes first)
+### 第一階段：分析與準備（第 1 天）
+1. 分析目前的 MongoDB 結構
+2. 識別資料關聯與約束
+3. 記錄目前的資料量與成長率
+4. 設計等效的 PostgreSQL 結構
+5. 規劃資料類型對應
+6. 識別潛在的遷移挑戰
 
-### Phase 2: Setup & Tooling (1 hour)
-6. Update React to v18+
-7. Set up ESLint rules for hooks
-8. Create conversion templates
-9. Set up automated tests
-10. Create checkpoint before starting
+### 第二階段：PostgreSQL 設定（第 1 天）
+7. 設定 PostgreSQL 資料庫
+8. 建立含資料表、索引、約束的結構
+9. 設定連線池
+10. 設定備份策略
 
-### Phase 3: Migrate Simple Components (4 hours)
-11. Convert simple stateful components (15 components)
-12. Replace this.state with useState
-13. Replace this.setState with state setters
-14. Test each component after conversion
-15. Update tests
+### 第三階段：雙寫實作（第 2-3 天）
+11. 建立資料庫抽象層
+12. 實作同時寫入兩個資料庫
+13. 新增資料一致性檢查
+14. 將雙寫部署至測試環境
+15. 監控問題
 
-### Phase 4: Migrate Medium Components (8 hours)
-16. Convert components with lifecycle methods (23 components)
-17. Replace componentDidMount with useEffect
-18. Replace componentDidUpdate with useEffect
-19. Replace componentWillUnmount with useEffect cleanup
-20. Test thoroughly
+### 第四階段：資料遷移（第 4 天）
+16. 建立 MongoDB 資料匯出腳本
+17. 建立 PostgreSQL 資料匯入腳本
+18. 實作資料轉換邏輯
+19. 在正式資料的副本上執行初始遷移
+20. 驗證已遷移資料的完整性
 
-### Phase 5: Migrate Complex Components (12 hours)
-21. Convert complex components (8 components)
-22. Replace refs with useRef
-23. Extract custom hooks for shared logic
-24. Handle edge cases (multiple useEffect)
-25. Extensive testing
+### 第五階段：漸進式切換（第 5-7 天）
+21. 在正式環境啟用雙寫
+22. 批次遷移歷史資料
+23. 持續驗證資料一致性
+24. 監控兩個資料庫
+25. 修復任何資料同步問題
 
-### Phase 6: Shared Logic Extraction (6 hours)
-26. Identify duplicated logic across components
-27. Create custom hooks:
+### 第六階段：PostgreSQL 為主（第 8 天）
+26. 將讀取操作切換至 PostgreSQL
+27. 監控查詢效能
+28. 最佳化慢查詢
+29. 繼續雙寫以確保安全
+
+### 第七階段：MongoDB 退役（第 9-10 天）
+30. 停止寫入 MongoDB
+31. 保留 MongoDB 作為備份 2 週
+32. 從程式碼中移除 MongoDB 依賴
+33. 歸檔 MongoDB 資料
+34. 停用 MongoDB 實例
+
+**預估時間**：10 天
+**風險等級**：高
+**回滾策略**：維持 MongoDB 運行並雙寫
+**成功標準**：
+- 零資料遺失
+- 效能退化 <5%
+- 所有測試通過
+
+**主要風險**：
+1. 遷移期間資料不一致
+2. 查詢效能退化
+3. 應用程式停機
+4. 資料遺失
+
+**緩解措施**：
+- 雙寫模式確保安全
+- 漸進式切換
+- 持續監控
+- 快速回滾能力
+
+繼續此計畫嗎？（是/否/修改）
+
+使用者：修改 - 讓我們為每個階段新增回滾計畫
+
+Claude：已更新計畫，為每個階段新增回滾程序...
+```
+
+## 範例 3：前端重構
+
+```
+使用者：/plan 將我們的 React 應用從 class 元件重構為 hooks
+
+Claude：我將建立一個系統性的重構計畫。
+
+## React Class 到 Hooks 遷移計畫
+
+### 第一階段：準備與分析（2 小時）
+1. 審計所有 class 元件（找出所有 .jsx/.tsx 檔案）
+2. 依複雜度分類：
+   - 簡單（僅 state）：約 15 個元件
+   - 中等（生命週期方法）：約 23 個元件
+   - 複雜（多個生命週期、refs）：約 8 個元件
+3. 識別需要更新的第三方程式庫
+4. 建立元件相依性圖
+5. 規劃遷移順序（葉節點優先）
+
+### 第二階段：設定與工具（1 小時）
+6. 更新 React 至 v18+
+7. 設定 hooks 的 ESLint 規則
+8. 建立轉換範本
+9. 設定自動化測試
+10. 開始前建立 checkpoint
+
+### 第三階段：遷移簡單元件（4 小時）
+11. 轉換簡單的有狀態元件（15 個元件）
+12. 以 useState 取代 this.state
+13. 以 state setter 取代 this.setState
+14. 每個元件轉換後測試
+15. 更新測試
+
+### 第四階段：遷移中等元件（8 小時）
+16. 轉換含生命週期方法的元件（23 個元件）
+17. 以 useEffect 取代 componentDidMount
+18. 以 useEffect 取代 componentDidUpdate
+19. 以 useEffect cleanup 取代 componentWillUnmount
+20. 徹底測試
+
+### 第五階段：遷移複雜元件（12 小時）
+21. 轉換複雜元件（8 個元件）
+22. 以 useRef 取代 refs
+23. 為共用邏輯提取自訂 hooks
+24. 處理邊界情況（多個 useEffect）
+25. 廣泛測試
+
+### 第六階段：共用邏輯提取（6 小時）
+26. 識別元件間重複的邏輯
+27. 建立自訂 hooks：
     - useAuth
     - useFetch
     - useLocalStorage
     - useDebounce
-28. Refactor components to use custom hooks
-29. Test custom hooks independently
+28. 重構元件使用自訂 hooks
+29. 獨立測試自訂 hooks
 
-### Phase 7: Performance Optimization (4 hours)
-30. Add React.memo where needed
-31. Optimize with useCallback
-32. Optimize with useMemo
-33. Profile and fix performance regressions
+### 第七階段：效能最佳化（4 小時）
+30. 在需要的地方新增 React.memo
+31. 使用 useCallback 最佳化
+32. 使用 useMemo 最佳化
+33. 分析並修復效能退化
 
-### Phase 8: Cleanup & Documentation (2 hours)
-34. Remove unused class component utilities
-35. Update documentation
-36. Update coding guidelines
-37. Create migration guide for team
+### 第八階段：清理與文件（2 小時）
+34. 移除未使用的 class 元件工具
+35. 更新文件
+36. 更新程式碼規範
+37. 為團隊建立遷移指南
 
-**Estimated Time**: 5 days (39 hours)
-**Files to Modify**: 46 components
-**Risk Level**: Medium
+**預估時間**：5 天（39 小時）
+**要修改的檔案**：46 個元件
+**風險等級**：中
 
-**Migration Order**:
-1. Leaf components (no dependencies)
-2. Mid-level components
-3. Top-level container components
-4. App.jsx (last)
+**遷移順序**：
+1. 葉元件（無依賴項）
+2. 中層元件
+3. 頂層容器元件
+4. App.jsx（最後）
 
-**Testing Strategy**:
-- Unit tests for each component
-- Integration tests for user flows
-- Visual regression tests
-- Performance benchmarks
+**測試策略**：
+- 每個元件的單元測試
+- 使用者流程的整合測試
+- 視覺回歸測試
+- 效能基準測試
 
-**Success Metrics**:
-- All tests passing
-- No visual regressions
-- Performance maintained or improved
-- Bundle size not significantly increased
+**成功指標**：
+- 所有測試通過
+- 無視覺回歸
+- 效能維持或改善
+- 打包大小未顯著增加
 
-Proceed? (yes/no/modify)
+繼續嗎？（是/否/修改）
 ```
 
-## Example 4: Security Implementation
+## 範例 4：安全實作
 
 ```
-User: /plan Implement comprehensive security for our web app
+使用者：/plan 為我們的 Web 應用實作全面的安全措施
 
-Claude: Let me create a thorough security implementation plan.
+Claude：讓我建立一個完整的安全實作計畫。
 
-## Web Application Security Implementation Plan
+## Web 應用安全實作計畫
 
-### Phase 1: Security Audit (Day 1)
-1. Run automated security scanners (npm audit, Snyk)
-2. Review dependencies for vulnerabilities
-3. Check OWASP Top 10 compliance
-4. Audit authentication flows
-5. Review data handling practices
-6. Document current security gaps
+### 第一階段：安全審計（第 1 天）
+1. 執行自動化安全掃描器（npm audit、Snyk）
+2. 檢視依賴項的漏洞
+3. 檢查 OWASP Top 10 合規性
+4. 審計認證流程
+5. 檢視資料處理實踐
+6. 記錄目前的安全缺口
 
-### Phase 2: Authentication Hardening (Day 2-3)
-7. Implement strong password requirements
-8. Add password strength meter
-9. Implement rate limiting on login
-10. Add account lockout after failed attempts
-11. Implement 2FA (TOTP)
-12. Add session management improvements
-13. Implement secure password reset flow
+### 第二階段：認證強化（第 2-3 天）
+7. 實作強密碼要求
+8. 新增密碼強度指示器
+9. 實作登入速率限制
+10. 新增失敗嘗試後的帳戶鎖定
+11. 實作雙因素認證（TOTP）
+12. 新增工作階段管理改善
+13. 實作安全的密碼重設流程
 
-### Phase 3: Authorization & Access Control (Day 3-4)
-14. Implement RBAC (Role-Based Access Control)
-15. Add permission checks on all endpoints
-16. Implement principle of least privilege
-17. Add audit logging for sensitive operations
-18. Implement resource-level permissions
+### 第三階段：授權與存取控制（第 3-4 天）
+14. 實作 RBAC（基於角色的存取控制）
+15. 在所有端點新增權限檢查
+16. 實作最小權限原則
+17. 新增敏感操作的稽核日誌
+18. 實作資源級別的權限
 
-### Phase 4: Data Protection (Day 4-5)
-19. Implement encryption at rest (sensitive fields)
-20. Ensure TLS/SSL for all communications
-21. Implement secure session storage
-22. Add PII data masking in logs
-23. Implement data retention policies
-24. Add secure file upload handling
+### 第四階段：資料保護（第 4-5 天）
+19. 實作靜態資料加密（敏感欄位）
+20. 確保所有通訊使用 TLS/SSL
+21. 實作安全的工作階段儲存
+22. 在日誌中新增個人識別資訊遮蔽
+23. 實作資料保留策略
+24. 新增安全的檔案上傳處理
 
-### Phase 5: Input Validation & Sanitization (Day 5-6)
-25. Implement input validation on all endpoints
-26. Add XSS protection (Content Security Policy)
-27. Implement SQL injection prevention (parameterized queries)
-28. Add CSRF protection
-29. Implement request size limits
-30. Add file upload type validation
+### 第五階段：輸入驗證與清理（第 5-6 天）
+25. 在所有端點實作輸入驗證
+26. 新增 XSS 保護（Content Security Policy）
+27. 實作 SQL 注入防護（參數化查詢）
+28. 新增 CSRF 保護
+29. 實作請求大小限制
+30. 新增檔案上傳類型驗證
 
-### Phase 6: Security Headers & Configuration (Day 6)
-31. Add security headers:
+### 第六階段：安全標頭與組態（第 6 天）
+31. 新增安全標頭：
     - Strict-Transport-Security
     - X-Content-Type-Options
     - X-Frame-Options
     - X-XSS-Protection
     - Content-Security-Policy
-32. Configure CORS properly
-33. Disable unnecessary HTTP methods
-34. Remove server version headers
+32. 正確設定 CORS
+33. 停用不必要的 HTTP 方法
+34. 移除伺服器版本標頭
 
-### Phase 7: Monitoring & Logging (Day 7)
-35. Implement security event logging
-36. Add anomaly detection
-37. Set up intrusion detection
-38. Implement real-time alerting
-39. Create security dashboard
+### 第七階段：監控與日誌（第 7 天）
+35. 實作安全事件日誌
+36. 新增異常偵測
+37. 設定入侵偵測
+38. 實作即時警報
+39. 建立安全儀表板
 
-### Phase 8: Testing & Documentation (Day 8-9)
-40. Perform penetration testing
-41. Run security scanners
-42. Test all security features
-43. Create security documentation
-44. Train team on security practices
-45. Create incident response plan
+### 第八階段：測試與文件（第 8-9 天）
+40. 執行滲透測試
+41. 執行安全掃描器
+42. 測試所有安全功能
+43. 建立安全文件
+44. 訓練團隊安全實踐
+45. 建立事件回應計畫
 
-### Phase 9: Compliance & Policies (Day 10)
-46. GDPR compliance check
-47. Create privacy policy
-48. Implement data subject rights
-49. Add cookie consent
-50. Create security policies documentation
+### 第九階段：合規與政策（第 10 天）
+46. GDPR 合規檢查
+47. 建立隱私政策
+48. 實作資料主體權利
+49. 新增 Cookie 同意
+50. 建立安全政策文件
 
-**Estimated Time**: 10 days
-**Risk Level**: Critical
-**Priority**: High
+**預估時間**：10 天
+**風險等級**：關鍵
+**優先順序**：高
 
-**Security Improvements Summary**:
-- Authentication: 7 enhancements
-- Authorization: 5 enhancements
-- Data Protection: 6 enhancements
-- Input Validation: 6 enhancements
-- Infrastructure: 9 enhancements
-- Monitoring: 5 enhancements
+**安全改善摘要**：
+- 認證：7 項增強
+- 授權：5 項增強
+- 資料保護：6 項增強
+- 輸入驗證：6 項增強
+- 基礎設施：9 項增強
+- 監控：5 項增強
 
-**Compliance**: OWASP Top 10, GDPR
+**合規**：OWASP Top 10、GDPR
 
-**Success Criteria**:
-- Zero critical vulnerabilities
-- All OWASP Top 10 mitigated
-- Security score >90/100
-- All pen test issues resolved
+**成功標準**：
+- 零重大漏洞
+- 所有 OWASP Top 10 已緩解
+- 安全分數 >90/100
+- 所有滲透測試問題已解決
 
-Proceed? (yes/no/modify)
+繼續嗎？（是/否/修改）
 ```
 
-## Example 5: Performance Optimization
+## 範例 5：效能最佳化
 
 ```
-User: /plan Optimize our slow e-commerce website
+使用者：/plan 最佳化我們緩慢的電商網站
 
-Claude: Let me create a comprehensive performance optimization plan.
+Claude：讓我建立一個全面的效能最佳化計畫。
 
-## E-commerce Performance Optimization Plan
+## 電商效能最佳化計畫
 
-### Phase 1: Performance Audit (4 hours)
-1. Run Lighthouse audit
-2. Analyze Chrome DevTools performance profile
-3. Measure Core Web Vitals:
-   - LCP (Largest Contentful Paint)
-   - FID (First Input Delay)
-   - CLS (Cumulative Layout Shift)
-4. Identify performance bottlenecks
-5. Create baseline performance metrics
+### 第一階段：效能審計（4 小時）
+1. 執行 Lighthouse 審計
+2. 分析 Chrome DevTools 效能概況
+3. 測量 Core Web Vitals：
+   - LCP（最大內容繪製）
+   - FID（首次輸入延遲）
+   - CLS（累計版面配置位移）
+4. 識別效能瓶頸
+5. 建立基準效能指標
 
-**Current Metrics**:
-- LCP: 4.2s (target: <2.5s)
-- FID: 280ms (target: <100ms)
-- CLS: 0.25 (target: <0.1)
-- Page Load: 8.3s (target: <3s)
+**目前指標**：
+- LCP：4.2s（目標：<2.5s）
+- FID：280ms（目標：<100ms）
+- CLS：0.25（目標：<0.1）
+- 頁面載入：8.3s（目標：<3s）
 
-### Phase 2: Image Optimization (6 hours)
-6. Convert images to WebP format
-7. Implement responsive images
-8. Add lazy loading for images
-9. Optimize image sizes (compression)
-10. Implement CDN for images
-11. Add image placeholders
+### 第二階段：圖片最佳化（6 小時）
+6. 將圖片轉換為 WebP 格式
+7. 實作響應式圖片
+8. 新增圖片延遲載入
+9. 最佳化圖片大小（壓縮）
+10. 實作圖片 CDN
+11. 新增圖片佔位符
 
-**Expected Impact**: -40% load time
+**預期影響**：載入時間 -40%
 
-### Phase 3: Code Splitting & Lazy Loading (8 hours)
-12. Implement route-based code splitting
-13. Lazy load non-critical components
-14. Split vendor bundles
-15. Optimize chunk sizes
-16. Implement dynamic imports
-17. Add preloading for critical resources
+### 第三階段：程式碼分割與延遲載入（8 小時）
+12. 實作基於路由的程式碼分割
+13. 延遲載入非關鍵元件
+14. 分割廠商套件
+15. 最佳化區塊大小
+16. 實作動態匯入
+17. 新增關鍵資源的預載入
 
-**Expected Impact**: -30% initial bundle size
+**預期影響**：初始打包大小 -30%
 
-### Phase 4: Caching Strategy (6 hours)
-18. Implement browser caching (Cache-Control)
-19. Add service worker for offline support
-20. Implement API response caching
-21. Add Redis cache for database queries
-22. Implement stale-while-revalidate
-23. Configure CDN caching
+### 第四階段：快取策略（6 小時）
+18. 實作瀏覽器快取（Cache-Control）
+19. 新增 Service Worker 以支援離線
+20. 實作 API 回應快取
+21. 新增 Redis 快取用於資料庫查詢
+22. 實作 stale-while-revalidate
+23. 設定 CDN 快取
 
-**Expected Impact**: -50% API response time
+**預期影響**：API 回應時間 -50%
 
-### Phase 5: Database Optimization (8 hours)
-24. Add database indexes
-25. Optimize slow queries (>100ms)
-26. Implement query result caching
-27. Add connection pooling
-28. Denormalize where appropriate
-29. Implement database read replicas
+### 第五階段：資料庫最佳化（8 小時）
+24. 新增資料庫索引
+25. 最佳化慢查詢（>100ms）
+26. 實作查詢結果快取
+27. 新增連線池
+28. 適當地進行反正規化
+29. 實作資料庫讀取複本
 
-**Expected Impact**: -60% database query time
+**預期影響**：資料庫查詢時間 -60%
 
-### Phase 6: Frontend Optimization (10 hours)
-30. Minimize and compress JavaScript
-31. Minimize and compress CSS
-32. Remove unused CSS (PurgeCSS)
-33. Implement critical CSS
-34. Defer non-critical JavaScript
-35. Reduce DOM size
-36. Optimize React rendering (memo, useMemo)
-37. Implement virtual scrolling for long lists
+### 第六階段：前端最佳化（10 小時）
+30. 最小化並壓縮 JavaScript
+31. 最小化並壓縮 CSS
+32. 移除未使用的 CSS（PurgeCSS）
+33. 實作關鍵 CSS
+34. 延遲非關鍵 JavaScript
+35. 減少 DOM 大小
+36. 最佳化 React 渲染（memo、useMemo）
+37. 為長列表實作虛擬捲動
 
-**Expected Impact**: -35% JavaScript execution time
+**預期影響**：JavaScript 執行時間 -35%
 
-### Phase 7: Network Optimization (4 hours)
-38. Enable HTTP/2
-39. Implement resource hints (preconnect, prefetch)
-40. Reduce number of HTTP requests
-41. Enable Brotli compression
-42. Optimize third-party scripts
+### 第七階段：網路最佳化（4 小時）
+38. 啟用 HTTP/2
+39. 實作資源提示（preconnect、prefetch）
+40. 減少 HTTP 請求數量
+41. 啟用 Brotli 壓縮
+42. 最佳化第三方腳本
 
-**Expected Impact**: -25% network time
+**預期影響**：網路時間 -25%
 
-### Phase 8: Monitoring & Testing (4 hours)
-43. Set up performance monitoring (Datadog/New Relic)
-44. Add Real User Monitoring (RUM)
-45. Create performance budgets
-46. Set up automated Lighthouse CI
-47. Test on real devices
+### 第八階段：監控與測試（4 小時）
+43. 設定效能監控（Datadog/New Relic）
+44. 新增真實使用者監控（RUM）
+45. 建立效能預算
+46. 設定自動化 Lighthouse CI
+47. 在真實裝置上測試
 
-**Estimated Time**: 50 hours (2 weeks)
+**預估時間**：50 小時（2 週）
 
-**Target Metrics** (90th percentile):
-- LCP: <2.0s (from 4.2s) ✅
-- FID: <50ms (from 280ms) ✅
-- CLS: <0.05 (from 0.25) ✅
-- Page Load: <2.5s (from 8.3s) ✅
+**目標指標**（第 90 百分位）：
+- LCP：<2.0s（從 4.2s） ✅
+- FID：<50ms（從 280ms） ✅
+- CLS：<0.05（從 0.25） ✅
+- 頁面載入：<2.5s（從 8.3s） ✅
 
-**Expected Revenue Impact**:
-- 100ms faster = 1% conversion increase
-- Target: 5.8s improvement = ~58% conversion increase
-- Estimated additional revenue: Significant
+**預期營收影響**：
+- 快 100ms = 轉換率提高 1%
+- 目標：改善 5.8s = 轉換率提高約 58%
+- 預估額外營收：顯著
 
-**Priority Order**:
-1. Image optimization (quick wins)
-2. Code splitting (high impact)
-3. Caching (high impact)
-4. Database optimization (critical)
-5. Frontend optimization (polish)
+**優先順序**：
+1. 圖片最佳化（快速見效）
+2. 程式碼分割（高影響）
+3. 快取（高影響）
+4. 資料庫最佳化（關鍵）
+5. 前端最佳化（精緻化）
 
-Proceed with this plan? (yes/no/modify)
+繼續此計畫嗎？（是/否/修改）
 ```
 
-## Key Takeaways
+## 重點總結
 
-### Benefits of Planning Mode
+### 規劃模式的好處
 
-1. **Clarity**: Clear roadmap before starting
-2. **Estimation**: Time and effort estimates
-3. **Risk Assessment**: Identify potential issues early
-4. **Prioritization**: Logical order of tasks
-5. **Approval**: Review and approve before execution
-6. **Modification**: Adjust plan based on feedback
+1. **清晰**：開始前有清楚的路線圖
+2. **預估**：時間和工作量估算
+3. **風險評估**：提早識別潛在問題
+4. **優先排序**：合理的任務順序
+5. **審批**：在執行前審查與批准
+6. **修改**：根據回饋調整計畫
 
-### When to Use Planning Mode
+### 何時使用規劃模式
 
-✅ **Always use for**:
-- Multi-day projects
-- Team collaborations
-- Critical system changes
-- Learning new concepts
-- Complex refactoring
+✅ **務必用於**：
+- 多天的專案
+- 團隊協作
+- 關鍵系統變更
+- 學習新概念
+- 複雜的重構
 
-❌ **Don't use for**:
-- Bug fixes
-- Small tweaks
-- Simple queries
-- Quick experiments
+❌ **不要用於**：
+- Bug 修復
+- 小幅調整
+- 簡單查詢
+- 快速實驗
 
-### Best Practices
+### 最佳實踐
 
-1. **Review plans carefully** before approving
-2. **Modify plans** when you spot issues
-3. **Break down** complex tasks
-4. **Estimate realistic** timeframes
-5. **Include rollback** strategies
-6. **Add success** criteria
-7. **Plan for testing** at each phase
+1. **仔細審查計畫**然後再批准
+2. 發現問題時**修改計畫**
+3. **分解**複雜任務
+4. **估算現實的**時間框架
+5. **包含回滾**策略
+6. **新增成功**標準
+7. **為每個階段規劃測試**
