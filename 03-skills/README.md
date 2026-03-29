@@ -433,7 +433,7 @@ This creates `codebase-map.html` and opens it in your default browser.
 - **File sizes**: Displayed next to each file
 - **Colors**: Different colors for different file types
 - **Directory totals**: Shows aggregate size of each folder
-```
+
 
 The bundled Python script does the heavy lifting while Claude handles orchestration.
 
