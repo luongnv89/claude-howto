@@ -76,7 +76,7 @@ Take the [self-assessment quiz](LEARNING-ROADMAP.md#-find-your-level) or run `/s
 
 ### 2. Follow the guided path
 
-Work through 10 modules in order — each builds on the last. Copy templates directly into your project as you learn.
+Work through 10 modules in order — each builds on the last. Copy templates directly into your project and use them as you learn.
 
 ### 3. Combine features into workflows
 
