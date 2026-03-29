@@ -1,3 +1,7 @@
+📍 Checkpoints（檢查點）
+用途: 會話快照和回放
+難度: ⭐⭐ 中級 | 時間: 45 分鐘
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
