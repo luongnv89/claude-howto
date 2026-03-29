@@ -1,3 +1,9 @@
+# 🔧 Scripts（指令碼）
+
+> 自動化工具和建置指令碼
+
+---
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
