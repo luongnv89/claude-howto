@@ -1,3 +1,9 @@
+# 📚 Resources（資源）
+
+> 設計系統、快速啟動和參考資料
+
+---
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="logos/claude-howto-logo.svg">
