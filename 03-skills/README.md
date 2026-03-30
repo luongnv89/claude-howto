@@ -406,7 +406,7 @@ A skill that generates interactive HTML visualizations:
 
 **File:** `~/.claude/skills/codebase-visualizer/SKILL.md`
 
-```yaml
+````yaml
 ---
 name: codebase-visualizer
 description: Generate an interactive collapsible tree visualization of your codebase. Use when exploring a new repo, understanding project structure, or identifying large files.
@@ -433,7 +433,7 @@ This creates `codebase-map.html` and opens it in your default browser.
 - **File sizes**: Displayed next to each file
 - **Colors**: Different colors for different file types
 - **Directory totals**: Shows aggregate size of each folder
-```
+````
 
 The bundled Python script does the heavy lifting while Claude handles orchestration.
 
