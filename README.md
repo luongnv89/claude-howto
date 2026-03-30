@@ -20,7 +20,7 @@ Go from typing `claude` to orchestrating agents, hooks, skills, and MCP servers 
 ## Table of Contents
 
 - [The Problem](#the-problem)
-- [How Claude How To Fixes This](#how-claude-how-to-fixes-this)
+- [How This Guide Solves the Problem](#how-this-guide-solve-this-problem)
 - [How It Works](#how-it-works)
 - [Not Sure Where to Start?](#-not-sure-where-to-start)
 - [Get Started in 15 Minutes](#-get-started-in-15-minutes)
