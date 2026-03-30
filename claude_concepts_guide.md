@@ -69,7 +69,7 @@ graph LR
 | File references | `@path/to/file.js` | ✅ Yes |
 | Bash integration | `$(git log --oneline)` | ✅ Yes |
 | Arguments | `/pr --verbose` | ✅ Yes |
-| MCP commands | `/mcp__github__list_prs` | ✅ Yes |
+| MCP tools (natural language) | `list my open PRs` | ✅ Yes |
 
 ### Practical Examples
 
@@ -1135,7 +1135,7 @@ ORDER BY order_count DESC;
 ## Workflow
 
 ### Step 1: Fetch GitHub Data
-/mcp__github__list_prs completed:true last:7days
+Ask Claude: "list pull requests merged in the last 7 days"
 
 Output:
 - Total PRs: 42

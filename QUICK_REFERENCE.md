@@ -356,8 +356,8 @@ cp 04-subagents/code-reviewer.md .claude/agents/
 export GITHUB_TOKEN="your_token"
 cp 05-mcp/github-mcp.json .mcp.json
 
-# Try MCP commands
-/mcp__github__list_prs
+# Try MCP integration — ask Claude naturally:
+# "list my open pull requests"
 ```
 
 ### Week 2
