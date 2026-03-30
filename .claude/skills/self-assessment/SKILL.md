@@ -4,434 +4,433 @@ version: 2.2.0
 description: Comprehensive Claude Code self-assessment and learning path advisor. Runs a multi-category quiz covering 10 feature areas, produces a detailed skill profile with per-topic scores, identifies specific gaps, and generates a personalized learning path with prioritized next steps. Use when asked to "assess my level", "take the quiz", "find my level", "where should I start", "what should I learn next", "check my skills", "skill check", or "level up".
 ---
 
-# Self-Assessment & Learning Path Advisor
+# セルフアセスメント & 学習パスアドバイザー
 
-Comprehensive interactive assessment that evaluates Claude Code proficiency across 10 feature areas, identifies specific skill gaps, and generates a personalized learning path to level up.
+Claude Codeの習熟度を10の機能エリアで評価し、スキルのギャップを特定して、個人向けの学習パスを生成するインタラクティブなアセスメントです。
 
-## Instructions
+## 手順
 
-### Step 1: Welcome & Choose Assessment Mode
+### ステップ1: モード選択
 
-Present the user with a choice of assessment depth:
+AskUserQuestionを使って、以下の選択肢を提示してください：
+- **クイック評価** — 「8問・約2分。全体レベル（初級/中級/上級）を判定し、学習パスを提示します。」
+- **詳細評価** — 「5カテゴリの詳細問題・約5分。トピック別スコア、具体的なギャップ特定、優先順位付きの学習パスを生成します。」
 
-Use AskUserQuestion with these options:
-- **Quick Assessment** — "8 questions, ~2 minutes. Determines your overall level (Beginner/Intermediate/Advanced) and gives a learning path."
-- **Deep Assessment** — "5 categories with detailed questions, ~5 minutes. Gives per-topic skill scores, identifies specific gaps, and builds a prioritized learning path."
-
-If user chooses **Quick Assessment**, go to Step 2A.
-If user chooses **Deep Assessment**, go to Step 2B.
+**クイック評価**を選んだ場合 → ステップ2Aへ。
+**詳細評価**を選んだ場合 → ステップ2Bへ。
 
 ---
 
-### Step 2A: Quick Assessment
+### ステップ2A: クイック評価
 
-Present TWO multi-select questions (AskUserQuestion supports max 4 options each):
+AskUserQuestionで2問（各最大4択）を提示してください：
 
-**Question 1** (header: "Basics"):
-"Part 1/2: Which of these Claude Code skills do you already have?"
-Options:
-1. "Start Claude Code and chat" — I can run `claude` and interact with it
-2. "Created/edited CLAUDE.md" — I have set up project or user memory
-3. "Used 3+ slash commands" — e.g., /help, /compact, /model, /clear
-4. "Created custom command/skill" — Written a SKILL.md or custom command file
+**問題1**（header: "基本スキル"）:
+「1/2: 次のClaude Codeスキルで、すでに習得しているものを選んでください。」
+選択肢:
+1. 「Claude Codeを起動して会話できる」 — `claude`を実行してやり取りできる
+2. 「CLAUDE.mdを作成・編集したことがある」 — プロジェクトまたはユーザーメモリを設定した
+3. 「スラッシュコマンドを3つ以上使ったことがある」 — 例: /help, /compact, /model, /clear
+4. 「カスタムコマンド/スキルを作成したことがある」 — SKILL.mdまたはカスタムコマンドファイルを書いた
 
-**Question 2** (header: "Advanced"):
-"Part 2/2: Which of these advanced skills do you have?"
-Options:
-1. "Configured an MCP server" — e.g., GitHub, database, or other external data source
-2. "Set up hooks" — Configured hooks in ~/.claude/settings.json
-3. "Created/used subagents" — Used .claude/agents/ for task delegation
-4. "Used print mode (claude -p)" — Used `claude -p` for non-interactive or CI/CD use
+**問題2**（header: "応用スキル"）:
+「2/2: 次の応用スキルで、習得しているものを選んでください。」
+選択肢:
+1. 「MCPサーバーを設定したことがある」 — 例: GitHub、データベース、その他の外部データソース
+2. 「フックを設定したことがある」 — ~/.claude/settings.jsonでフックを設定した
+3. 「サブエージェントを作成・使用したことがある」 — .claude/agents/でタスクを委任した
+4. 「プリントモード（claude -p）を使ったことがある」 — 非インタラクティブまたはCI/CD用に使用した
 
-**Scoring:**
-- 0-2 total = Level 1: Beginner
-- 3-5 total = Level 2: Intermediate
-- 6-8 total = Level 3: Advanced
+**スコアリング:**
+- 合計0〜2 = レベル1: 初級
+- 合計3〜5 = レベル2: 中級
+- 合計6〜8 = レベル3: 上級
 
-Go to Step 3 with the level result, listing which specific items were NOT checked as gaps.
-
----
-
-### Step 2B: Deep Assessment
-
-Present 5 rounds of questions, one AskUserQuestion call per round. Each round covers 2 related feature areas. Use multi-select for all rounds.
-
-**IMPORTANT**: AskUserQuestion supports max 4 options per question. Each round has exactly 1 question with 4 options covering 2 topics (2 options per topic).
+チェックされなかった項目をギャップとしてリストアップし、レベル結果と共にステップ3へ進んでください。
 
 ---
 
-**Round 1 — Slash Commands & Memory** (header: "Commands")
+### ステップ2B: 詳細評価
 
-"Which of these have you done? Select all that apply."
-Options:
-1. "Created a custom slash command or skill" — Written a SKILL.md file with frontmatter, or created .claude/commands/ files
-2. "Used dynamic context in commands" — Used `$ARGUMENTS`, `$0`/`$1`, backtick `!command` syntax, or `@file` references in skill/command files
-3. "Set up project + personal memory" — Created both a project CLAUDE.md and personal ~/.claude/CLAUDE.md (or CLAUDE.local.md)
-4. "Used memory hierarchy features" — Understand the 7-level priority order, used .claude/rules/ directory, path-specific rules, or @import syntax
+5ラウンドの質問を、1ラウンドにつき1回のAskUserQuestion呼び出しで提示してください。各ラウンドは2つの関連機能エリアをカバーします。すべてのラウンドで複数選択を使用してください。
 
-**Scoring for Round 1:**
-- Options 1-2 map to **Slash Commands** (0-2 points)
-- Options 3-4 map to **Memory** (0-2 points)
+**重要**: AskUserQuestionは1問につき最大4択です。各ラウンドはちょうど1問・4択（各トピック2択）です。
 
 ---
 
-**Round 2 — Skills & Hooks** (header: "Automation")
+**ラウンド1 — スラッシュコマンド & メモリ**（header: "コマンド"）
 
-"Which of these have you done? Select all that apply."
-Options:
-1. "Installed and used an auto-invoked skill" — A skill that triggers automatically based on its description, without manual /command invocation
-2. "Controlled skill invocation behavior" — Used `disable-model-invocation`, `user-invocable`, or `context: fork` with agent field in SKILL.md frontmatter
-3. "Set up a PreToolUse or PostToolUse hook" — Configured a hook that runs before/after tool execution (e.g., command validator, auto-formatter)
-4. "Used advanced hook features" — Configured prompt-type hooks, component-scoped hooks in SKILL.md, HTTP hooks, or hooks with custom JSON output (updatedInput, systemMessage)
+「次のうち、実施したことがあるものを選んでください（複数選択可）。」
+選択肢:
+1. 「カスタムスラッシュコマンドまたはスキルを作成した」 — フロントマター付きのSKILL.mdを書いた、または.claude/commands/ファイルを作成した
+2. 「コマンドで動的コンテキストを使用した」 — `$ARGUMENTS`、`$0`/`$1`、バッククォート`!command`構文、または`@file`参照をスキル/コマンドファイルで使った
+3. 「プロジェクトと個人メモリを両方設定した」 — プロジェクトCLAUDE.mdと個人用~/.claude/CLAUDE.md（またはCLAUDE.local.md）の両方を作成した
+4. 「メモリ階層機能を使用した」 — 7段階の優先順位を理解し、.claude/rules/ディレクトリ、パス固有のルール、または@import構文を使った
 
-**Scoring for Round 2:**
-- Options 1-2 map to **Skills** (0-2 points)
-- Options 3-4 map to **Hooks** (0-2 points)
-
----
-
-**Round 3 — MCP & Subagents** (header: "Integration")
-
-"Which of these have you done? Select all that apply."
-Options:
-1. "Connected an MCP server and used its tools" — e.g., GitHub MCP for PRs/issues, database MCP for queries, or any external data source
-2. "Used advanced MCP features" — Project-scope .mcp.json, OAuth authentication, MCP resources with @mentions, Tool Search, or `claude mcp serve`
-3. "Created or configured custom subagents" — Defined agents in .claude/agents/ with custom tools, model, or permissions
-4. "Used advanced subagent features" — Worktree isolation, persistent agent memory, background tasks with Ctrl+B, agent allowlists with `Task(agent_name)`, or agent teams
-
-**Scoring for Round 3:**
-- Options 1-2 map to **MCP** (0-2 points)
-- Options 3-4 map to **Subagents** (0-2 points)
+**ラウンド1のスコアリング:**
+- 選択肢1〜2 → **スラッシュコマンド**（0〜2点）
+- 選択肢3〜4 → **メモリ**（0〜2点）
 
 ---
 
-**Round 4 — Checkpoints & Advanced Features** (header: "Power User")
+**ラウンド2 — スキル & フック**（header: "自動化"）
 
-"Which of these have you done? Select all that apply."
-Options:
-1. "Used checkpoints for safe experimentation" — Created checkpoints, used Esc+Esc or /rewind, restored code and/or conversation, or used Summarize option
-2. "Used planning mode or extended thinking" — Activated planning via /plan, Shift+Tab, or --permission-mode plan; toggled extended thinking with Alt+T/Option+T
-3. "Configured permission modes" — Used acceptEdits, plan, dontAsk, or bypassPermissions mode via CLI flags, keyboard shortcuts, or settings
-4. "Used remote/desktop/web features" — Used `claude remote-control`, `claude --remote`, `/teleport`, `/desktop`, or worktrees with `claude -w`
+「次のうち、実施したことがあるものを選んでください（複数選択可）。」
+選択肢:
+1. 「自動起動スキルをインストールして使用した」 — 手動で/commandを呼び出さずに、descriptionに基づいて自動的に起動するスキル
+2. 「スキルの起動動作を制御した」 — SKILL.mdフロントマターで`disable-model-invocation`、`user-invocable`、またはagentフィールド付き`context: fork`を使用した
+3. 「PreToolUseまたはPostToolUseフックを設定した」 — ツール実行前後に動作するフックを設定した（例: コマンドバリデーター、自動フォーマッター）
+4. 「高度なフック機能を使用した」 — promptタイプのフック、SKILL.mdのコンポーネントスコープフック、HTTPフック、またはカスタムJSON出力（updatedInput, systemMessage）付きフックを設定した
 
-**Scoring for Round 4:**
-- Option 1 maps to **Checkpoints** (0-1 point)
-- Options 2-4 map to **Advanced Features** (0-3 points, cap at 2)
-
----
-
-**Round 5 — Plugins & CLI** (header: "Mastery")
-
-"Which of these have you done? Select all that apply."
-Options:
-1. "Installed or created a plugin" — Used a bundled plugin from marketplace, or created a .claude-plugin/ directory with plugin.json manifest
-2. "Used plugin advanced features" — Plugin hooks, plugin MCP servers, LSP configuration, plugin namespaced commands, or --plugin-dir flag for testing
-3. "Used print mode in scripts or CI/CD" — Used `claude -p` with --output-format json, --max-turns, piped input, or integrated into GitHub Actions / CI pipelines
-4. "Used advanced CLI features" — Session resumption (-c/-r), --agents flag, --json-schema for structured output, --fallback-model, --from-pr, or batch processing loops
-
-**Scoring for Round 5:**
-- Options 1-2 map to **Plugins** (0-2 points)
-- Options 3-4 map to **CLI** (0-2 points)
+**ラウンド2のスコアリング:**
+- 選択肢1〜2 → **スキル**（0〜2点）
+- 選択肢3〜4 → **フック**（0〜2点）
 
 ---
 
-### Step 3: Calculate & Present Results
+**ラウンド3 — MCP & サブエージェント**（header: "連携"）
 
-#### 3A: For Quick Assessment
+「次のうち、実施したことがあるものを選んでください（複数選択可）。」
+選択肢:
+1. 「MCPサーバーを接続してツールを使用した」 — 例: PR/Issue用のGitHub MCP、クエリ用のデータベースMCP、その他の外部データソース
+2. 「高度なMCP機能を使用した」 — プロジェクトスコープの.mcp.json、OAuth認証、@メンション付きMCPリソース、Tool Search、または`claude mcp serve`
+3. 「カスタムサブエージェントを作成・設定した」 — カスタムツール、モデル、または権限を持つエージェントを.claude/agents/に定義した
+4. 「高度なサブエージェント機能を使用した」 — ワークツリー分離、永続エージェントメモリ、Ctrl+Bによるバックグラウンドタスク、`Task(agent_name)`によるエージェント許可リスト、またはエージェントチーム
 
-Count total selections and determine level. Then present:
+**ラウンド3のスコアリング:**
+- 選択肢1〜2 → **MCP**（0〜2点）
+- 選択肢3〜4 → **サブエージェント**（0〜2点）
+
+---
+
+**ラウンド4 — チェックポイント & 高度な機能**（header: "パワーユーザー"）
+
+「次のうち、実施したことがあるものを選んでください（複数選択可）。」
+選択肢:
+1. 「安全な実験のためにチェックポイントを使用した」 — チェックポイントを作成し、Esc+Escまたは/rewindを使用してコードや会話を復元した、またはSummarizeオプションを使った
+2. 「プランニングモードまたは拡張思考を使用した」 — /plan、Shift+Tab、または--permission-mode planでプランニングを起動した；Alt+T/Option+Tで拡張思考を切り替えた
+3. 「権限モードを設定した」 — CLIフラグ、キーボードショートカット、または設定でacceptEdits、plan、dontAsk、またはbypassPermissionsモードを使用した
+4. 「リモート/デスクトップ/Web機能を使用した」 — `claude remote-control`、`claude --remote`、`/teleport`、`/desktop`、または`claude -w`でワークツリーを使用した
+
+**ラウンド4のスコアリング:**
+- 選択肢1 → **チェックポイント**（0〜1点）
+- 選択肢2〜4 → **高度な機能**（0〜3点、上限2点）
+
+---
+
+**ラウンド5 — プラグイン & CLI**（header: "マスタリー"）
+
+「次のうち、実施したことがあるものを選んでください（複数選択可）。」
+選択肢:
+1. 「プラグインをインストールまたは作成した」 — マーケットプレイスのバンドルプラグインを使用した、またはplugin.jsonマニフェスト付きの.claude-plugin/ディレクトリを作成した
+2. 「プラグインの高度な機能を使用した」 — プラグインフック、プラグインMCPサーバー、LSP設定、プラグイン名前空間コマンド、またはテスト用--plugin-dirフラグ
+3. 「スクリプトやCI/CDでプリントモードを使用した」 — --output-format json、--max-turns付きの`claude -p`、パイプ入力、またはGitHub Actions/CIパイプラインへの統合
+4. 「高度なCLI機能を使用した」 — セッション再開(-c/-r)、--agentsフラグ、構造化出力用--json-schema、--fallback-model、--from-pr、またはバッチ処理ループ
+
+**ラウンド5のスコアリング:**
+- 選択肢1〜2 → **プラグイン**（0〜2点）
+- 選択肢3〜4 → **CLI**（0〜2点）
+
+---
+
+### ステップ3: 結果の計算と表示
+
+#### 3A: クイック評価の場合
+
+合計選択数を数えてレベルを決定し、以下の形式で表示してください：
 
 ```markdown
-## Claude Code Skill Assessment Results
+## Claude Code スキルアセスメント結果
 
-### Your Level: [Level 1: Beginner / Level 2: Intermediate / Level 3: Advanced]
+### あなたのレベル: [レベル1: 初級 / レベル2: 中級 / レベル3: 上級]
 
-You checked **N/8** items.
+**N/8項目**を習得済み。
 
-[One-line motivational summary based on level]
+[レベルに応じた一言のモチベーションコメント]
 
-### Your Skill Profile
+### スキルプロフィール
 
-| Area | Status |
-|------|--------|
-| Basic CLI & Conversations | [Checked/Gap] |
-| CLAUDE.md & Memory | [Checked/Gap] |
-| Slash Commands (built-in) | [Checked/Gap] |
-| Custom Commands & Skills | [Checked/Gap] |
-| MCP Servers | [Checked/Gap] |
-| Hooks | [Checked/Gap] |
-| Subagents | [Checked/Gap] |
-| Print Mode & CI/CD | [Checked/Gap] |
+| エリア | 状態 |
+|--------|------|
+| 基本CLI & 会話 | [習得済み/要学習] |
+| CLAUDE.md & メモリ | [習得済み/要学習] |
+| スラッシュコマンド（組み込み） | [習得済み/要学習] |
+| カスタムコマンド & スキル | [習得済み/要学習] |
+| MCPサーバー | [習得済み/要学習] |
+| フック | [習得済み/要学習] |
+| サブエージェント | [習得済み/要学習] |
+| プリントモード & CI/CD | [習得済み/要学習] |
 
-### Identified Gaps
+### 特定されたギャップ
 
-[For each unchecked item, provide a 1-line description of what to learn and a link to the tutorial]
+[未チェックの各項目について、学習内容の1行説明とチュートリアルリンクを記載]
 
-### Your Personalized Learning Path
+### あなたの個別学習パス
 
-[Output the level-specific learning path — see Step 4]
+[ステップ4を参照してレベル別学習パスを出力]
 ```
 
-#### 3B: For Deep Assessment
+#### 3B: 詳細評価の場合
 
-Calculate per-topic scores from the 5 rounds. Each topic gets 0-2 points. Then present:
+5ラウンドからトピック別スコアを計算し、以下の形式で表示してください：
 
 ```markdown
-## Claude Code Skill Assessment Results
+## Claude Code スキルアセスメント結果
 
-### Overall Level: [Level 1 / Level 2 / Level 3]
+### 総合レベル: [レベル1 / レベル2 / レベル3]
 
-**Total Score: N/20 points**
+**合計スコア: N/20点**
 
-[One-line motivational summary]
+[一言のモチベーションコメント]
 
-### Your Skill Profile
+### スキルプロフィール
 
-| Feature Area | Score | Mastery | Status |
-|-------------|-------|---------|--------|
-| Slash Commands | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Memory | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Skills | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Hooks | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| MCP | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Subagents | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Checkpoints | N/1 | [None/Proficient] | [Learn/Mastered] |
-| Advanced Features | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| Plugins | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
-| CLI | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
+| 機能エリア | スコア | 習熟度 | 状態 |
+|-----------|--------|--------|------|
+| スラッシュコマンド | N/2 | [なし/基礎/習熟] | [要学習/要復習/習得済み] |
+| メモリ | N/2 | [なし/基礎/習熟] | [要学習/要復習/習得済み] |
+| スキル | N/2 | [なし/基礎/習熟] | [要学習/要復習/習得済み] |
+| フック | N/2 | [なし/基礎/習熟] | [要学習/要復習/習得済み] |
+| MCP | N/2 | [なし/基礎/習熟] | [要学習/要復習/習得済み] |
+| サブエージェント | N/2 | [なし/基礎/習熟] | [要学習/要復習/習得済み] |
+| チェックポイント | N/1 | [なし/習熟] | [要学習/習得済み] |
+| 高度な機能 | N/2 | [なし/基礎/習熟] | [要学習/要復習/習得済み] |
+| プラグイン | N/2 | [なし/基礎/習熟] | [要学習/要復習/習得済み] |
+| CLI | N/2 | [なし/基礎/習熟] | [要学習/要復習/習得済み] |
 
-**Mastery key:** 0 = None, 1 = Basic, 2 = Proficient
+**習熟度の目安:** 0 = なし, 1 = 基礎, 2 = 習熟
 
-### Strength Areas
-[List topics with score 2/2 — these are mastered]
+### 得意エリア
+[2/2のトピックをリスト — 習得済み]
 
-### Priority Gaps (Learn Next)
-[List topics with score 0 — these need attention first, ordered by dependency]
+### 優先ギャップ（次に学ぶべき）
+[0点のトピックを依存関係順にリスト — 最優先で取り組む]
 
-### Review Areas
-[List topics with score 1/2 — basics known but advanced features not yet used]
+### 復習エリア
+[1/2のトピックをリスト — 基礎は分かっているが高度な機能は未使用]
 
-### Your Personalized Learning Path
+### あなたの個別学習パス
 
-[Output gap-specific learning path — see Step 4]
+[ステップ4を参照してギャップ別学習パスを出力]
 ```
 
-**Overall level calculation for Deep Assessment:**
-- 0-6 total points = Level 1: Beginner
-- 7-13 total points = Level 2: Intermediate
-- 14-20 total points = Level 3: Advanced
+**詳細評価の総合レベル計算:**
+- 0〜6点 = レベル1: 初級
+- 7〜13点 = レベル2: 中級
+- 14〜20点 = レベル3: 上級
 
 ---
 
-### Step 4: Generate Personalized Learning Path
+### ステップ4: 個別学習パスの生成
 
-Based on the assessment results, generate a learning path that is specific to the user's gaps. Do NOT just repeat the generic level path — adapt it.
+アセスメント結果に基づき、ユーザーのギャップに特化した学習パスを生成してください。汎用的なレベル別パスをそのまま出力するのではなく、必ずカスタマイズしてください。
 
-#### Rules for Path Generation
+#### パス生成のルール
 
-1. **Skip mastered topics**: If a topic scored 2/2, do not include it in the path.
-2. **Prioritize by dependency order**: Slash Commands before Skills, Memory before Subagents, etc. The dependency order is:
-   - Slash Commands (no deps) -> Skills (depends on Slash Commands)
-   - Memory (no deps) -> Subagents (depends on Memory)
-   - CLI Basics (no deps) -> CLI Mastery (depends on all)
-   - Checkpoints (no deps)
-   - Hooks (depends on Slash Commands)
-   - MCP (no deps) -> Plugins (depends on MCP, Skills, Hooks)
-   - Advanced Features (depends on all previous)
-3. **For score 1/2 topics**: Recommend the "deep dive" — link to the specific advanced section they're missing.
-4. **Estimate time**: Sum only the topics they need to learn/review.
-5. **Group into phases**: Organize remaining topics into logical phases of 2-3 topics each.
+1. **習得済みトピックはスキップ**: スコア2/2のトピックはパスに含めない。
+2. **依存関係順に優先**: スラッシュコマンド→スキル、メモリ→サブエージェントなど。依存関係の順序:
+   - スラッシュコマンド（依存なし）→ スキル（スラッシュコマンド依存）
+   - メモリ（依存なし）→ サブエージェント（メモリ依存）
+   - CLI基礎（依存なし）→ CLIマスタリー（全依存）
+   - チェックポイント（依存なし）
+   - フック（スラッシュコマンド依存）
+   - MCP（依存なし）→ プラグイン（MCP、スキル、フック依存）
+   - 高度な機能（全依存）
+3. **スコア1/2のトピック**: 「深掘り」を推奨 — 不足している特定の高度セクションへのリンクを提示。
+4. **時間見積もり**: 学習/復習が必要なトピックのみ合計する。
+5. **フェーズ分け**: 残りのトピックを2〜3トピックずつの論理的なフェーズに整理する。
 
-#### Path Output Format
+#### パス出力形式
 
 ```markdown
-### Your Personalized Learning Path
+### あなたの個別学習パス
 
-**Estimated time**: ~N hours (adjusted for your current skills)
+**推定時間**: 約N時間（現在のスキルに合わせて調整済み）
 
-#### Phase 1: [Phase Name] (~N hours)
-[Only if they have gaps in these areas]
+#### フェーズ1: [フェーズ名]（約N時間）
+[このエリアにギャップがある場合のみ]
 
-**[Topic Name]** — [Learn from scratch / Deep dive into advanced features]
-- Tutorial: [link to tutorial directory]
-- Focus on: [specific sections/concepts they need]
-- Key exercise: [one concrete exercise to do]
-- You'll know it's done when: [specific success criterion]
+**[トピック名]** — [最初から学ぶ / 高度な機能を深掘り]
+- チュートリアル: [チュートリアルディレクトリへのリンク]
+- 重点: [必要なセクション/コンセプト]
+- 練習課題: [具体的な1つの課題]
+- 完了の目安: [具体的な達成基準]
 
-**[Topic Name]** — ...
+**[トピック名]** — ...
 
 ---
 
-#### Phase 2: [Phase Name] (~N hours)
+#### フェーズ2: [フェーズ名]（約N時間）
 ...
 
 ---
 
-### Recommended Practice Projects
+### 推奨練習プロジェクト
 
-Based on your gaps, try these real-world exercises to solidify your learning:
+ギャップに基づき、学習を定着させるための実践的な課題を提案します:
 
-1. **[Project name]**: [1-line description combining 2-3 gap topics]
-2. **[Project name]**: [1-line description]
-3. **[Project name]**: [1-line description]
+1. **[プロジェクト名]**: [2〜3のギャップトピックを組み合わせた1行説明]
+2. **[プロジェクト名]**: [1行説明]
+3. **[プロジェクト名]**: [1行説明]
 ```
 
-#### Topic-Specific Recommendations
+#### トピック別推奨内容
 
-Use these specific recommendations when a topic is a gap:
+ギャップがあるトピックに対して、以下の推奨内容を使用してください：
 
-**Slash Commands (score 0)**:
-- Tutorial: [01-slash-commands/](../../../01-slash-commands/)
-- Focus on: Built-in commands reference, creating your first SKILL.md, `$ARGUMENTS` syntax
-- Key exercise: Create a `/optimize` command and test it
-- Done when: You can create a custom skill with arguments and dynamic context
+**スラッシュコマンド（スコア0）**:
+- チュートリアル: [01-slash-commands/](../../../01-slash-commands/)
+- 重点: 組み込みコマンドリファレンス、最初のSKILL.md作成、`$ARGUMENTS`構文
+- 練習課題: `/optimize`コマンドを作成してテストする
+- 完了の目安: 引数と動的コンテキストを持つカスタムスキルを作成できる
 
-**Slash Commands (score 1 — review)**:
-- Focus on: Dynamic context with `!`backtick`` syntax, `@file` references, `disable-model-invocation` vs `user-invocable` control
-- Done when: You can create a skill that injects live command output and controls its own invocation behavior
+**スラッシュコマンド（スコア1 — 復習）**:
+- 重点: バッククォート`!`構文による動的コンテキスト、`@file`参照、`disable-model-invocation`と`user-invocable`の制御
+- 完了の目安: ライブコマンド出力を注入し、自身の起動動作を制御するスキルを作成できる
 
-**Memory (score 0)**:
-- Tutorial: [02-memory/](../../../02-memory/)
-- Focus on: CLAUDE.md creation, `/init` and `/memory` commands, `#` prefix for quick updates
-- Key exercise: Create a project CLAUDE.md with your coding standards
-- Done when: Claude remembers your preferences across sessions
+**メモリ（スコア0）**:
+- チュートリアル: [02-memory/](../../../02-memory/)
+- 重点: CLAUDE.mdの作成、`/init`と`/memory`コマンド、クイック更新用`#`プレフィックス
+- 練習課題: コーディング規約を含むプロジェクトCLAUDE.mdを作成する
+- 完了の目安: Claudeがセッションをまたいで好みを記憶するようになる
 
-**Memory (score 1 — review)**:
-- Focus on: 7-level hierarchy and priority order, .claude/rules/ directory with path-specific rules, `@import` syntax (max depth 5), Auto Memory MEMORY.md (200-line limit)
-- Done when: You have modular rules for different directories and understand the full hierarchy
+**メモリ（スコア1 — 復習）**:
+- 重点: 7段階の階層と優先順位、パス固有ルール付き.claude/rules/ディレクトリ、`@import`構文（最大深度5）、Auto Memory MEMORY.md（200行制限）
+- 完了の目安: ディレクトリ別のモジュラールールを持ち、完全な階層を理解している
 
-**Skills (score 0)**:
-- Tutorial: [03-skills/](../../../03-skills/)
-- Focus on: SKILL.md format, auto-invocation via description field, progressive disclosure (3 loading levels)
-- Key exercise: Install the code-review skill and verify it auto-triggers
-- Done when: A skill automatically activates based on conversation context
+**スキル（スコア0）**:
+- チュートリアル: [03-skills/](../../../03-skills/)
+- 重点: SKILL.mdフォーマット、descriptionフィールドによる自動起動、段階的開示（3段階ロード）
+- 練習課題: code-reviewスキルをインストールして自動起動を確認する
+- 完了の目安: 会話コンテキストに基づいてスキルが自動的に起動する
 
-**Skills (score 1 — review)**:
-- Focus on: `context: fork` with `agent` field for subagent execution, `disable-model-invocation` vs `user-invocable`, 2% context budget, bundled resources (scripts/, references/, assets/)
-- Done when: You can create a skill that runs in a subagent with forked context
+**スキル（スコア1 — 復習）**:
+- 重点: サブエージェント実行用のagentフィールド付き`context: fork`、`disable-model-invocation`と`user-invocable`、コンテキスト予算2%、バンドルリソース（scripts/, references/, assets/）
+- 完了の目安: フォークされたコンテキストでサブエージェントとして実行するスキルを作成できる
 
-**Hooks (score 0)**:
-- Tutorial: [06-hooks/](../../../06-hooks/)
-- Focus on: Configuration structure (matcher + hooks array), PreToolUse/PostToolUse events, exit codes (0=success, 2=block), JSON input/output format
-- Key exercise: Create a PreToolUse hook that validates Bash commands
-- Done when: A hook blocks dangerous commands before execution
+**フック（スコア0）**:
+- チュートリアル: [06-hooks/](../../../06-hooks/)
+- 重点: 設定構造（matcher + hooksアレイ）、PreToolUse/PostToolUseイベント、終了コード（0=成功, 2=ブロック）、JSON入出力フォーマット
+- 練習課題: Bashコマンドを検証するPreToolUseフックを作成する
+- 完了の目安: フックが実行前に危険なコマンドをブロックできる
 
-**Hooks (score 1 — review)**:
-- Focus on: All 25 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult), 4 hook types (command, http, prompt, agent), component-scoped hooks in SKILL.md frontmatter, HTTP hooks with allowedEnvVars, `CLAUDE_ENV_FILE` for SessionStart/CwdChanged/FileChanged
-- Done when: You can create a prompt-based Stop hook and a component-scoped hook in a skill
+**フック（スコア1 — 復習）**:
+- 重点: 全25フックイベント（PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResultを含む）、4フックタイプ（command, http, prompt, agent）、SKILL.mdのコンポーネントスコープフック、allowedEnvVars付きHTTPフック、SessionStart/CwdChanged/FileChanged用`CLAUDE_ENV_FILE`
+- 完了の目安: promptベースのStopフックとスキル内のコンポーネントスコープフックを作成できる
 
-**MCP (score 0)**:
-- Tutorial: [05-mcp/](../../../05-mcp/)
-- Focus on: `claude mcp add` command, transport types (HTTP recommended), GitHub MCP setup, environment variable expansion
-- Key exercise: Add GitHub MCP server and query PRs
-- Done when: You can query live data from an external service via MCP
+**MCP（スコア0）**:
+- チュートリアル: [05-mcp/](../../../05-mcp/)
+- 重点: `claude mcp add`コマンド、トランスポートタイプ（HTTPを推奨）、GitHub MCPセットアップ、環境変数展開
+- 練習課題: GitHub MCPサーバーを追加してPRをクエリする
+- 完了の目安: MCP経由で外部サービスのライブデータをクエリできる
 
-**MCP (score 1 — review)**:
-- Focus on: Project-scope .mcp.json (requires team approval), OAuth 2.0 auth, MCP resources with `@server:resource` mentions, Tool Search (ENABLE_TOOL_SEARCH), `claude mcp serve`, output limits (10k/25k/50k)
-- Done when: You have a project .mcp.json and understand Tool Search auto mode
+**MCP（スコア1 — 復習）**:
+- 重点: プロジェクトスコープの.mcp.json（チーム承認が必要）、OAuth 2.0認証、`@server:resource`メンション付きMCPリソース、Tool Search（ENABLE_TOOL_SEARCH）、`claude mcp serve`、出力制限（10k/25k/50k）
+- 完了の目安: プロジェクト.mcp.jsonを持ち、Tool Searchのautoモードを理解している
 
-**Subagents (score 0)**:
-- Tutorial: [04-subagents/](../../../04-subagents/)
-- Focus on: Agent file format (.claude/agents/*.md), built-in agents (general-purpose, Plan, Explore), tools/model/permissionMode config
-- Key exercise: Create a code-reviewer subagent and test delegation
-- Done when: Claude delegates code review to your custom agent
+**サブエージェント（スコア0）**:
+- チュートリアル: [04-subagents/](../../../04-subagents/)
+- 重点: エージェントファイルフォーマット（.claude/agents/*.md）、組み込みエージェント（general-purpose, Plan, Explore）、tools/model/permissionMode設定
+- 練習課題: code-reviewerサブエージェントを作成して委任をテストする
+- 完了の目安: Claudeがカスタムエージェントにコードレビューを委任できる
 
-**Subagents (score 1 — review)**:
-- Focus on: Worktree isolation (`isolation: worktree`), persistent agent memory (`memory` field with scopes), background agents (Ctrl+B/Ctrl+F), agent allowlists with `Task(agent_name)`, agent teams (`--teammate-mode`)
-- Done when: You have a subagent with persistent memory running in worktree isolation
+**サブエージェント（スコア1 — 復習）**:
+- 重点: ワークツリー分離（`isolation: worktree`）、永続エージェントメモリ（スコープ付き`memory`フィールド）、バックグラウンドエージェント（Ctrl+B/Ctrl+F）、`Task(agent_name)`によるエージェント許可リスト、エージェントチーム（`--teammate-mode`）
+- 完了の目安: ワークツリー分離で実行する永続メモリ付きサブエージェントを持っている
 
-**Checkpoints (score 0)**:
-- Tutorial: [08-checkpoints/](../../../08-checkpoints/)
-- Focus on: Esc+Esc and /rewind access, 5 rewind options (restore code+conversation, restore conversation, restore code, summarize, cancel), limitations (bash filesystem ops not tracked)
-- Key exercise: Make experimental changes, then rewind to restore
-- Done when: You can confidently experiment knowing you can rewind
+**チェックポイント（スコア0）**:
+- チュートリアル: [08-checkpoints/](../../../08-checkpoints/)
+- 重点: Esc+Escと/rewindのアクセス方法、5つのrewindオプション（コード+会話の復元、会話の復元、コードの復元、要約、キャンセル）、制限事項（bashのファイルシステム操作は追跡されない）
+- 練習課題: 実験的な変更を加えてからrewindで復元する
+- 完了の目安: rewindできることを知った上で自信を持って実験できる
 
-**Advanced Features (score 0)**:
-- Tutorial: [09-advanced-features/](../../../09-advanced-features/)
-- Focus on: Planning mode (/plan or Shift+Tab), permission modes (5 types), extended thinking (Alt+T toggle)
-- Key exercise: Use planning mode to design a feature, then implement it
-- Done when: You can switch between planning and implementation modes fluently
+**高度な機能（スコア0）**:
+- チュートリアル: [09-advanced-features/](../../../09-advanced-features/)
+- 重点: プランニングモード（/planまたはShift+Tab）、権限モード（5種類）、拡張思考（Alt+Tトグル）
+- 練習課題: プランニングモードで機能を設計し、実装する
+- 完了の目安: プランニングモードと実装モードをスムーズに切り替えられる
 
-**Advanced Features (score 1 — review)**:
-- Focus on: Remote control (`claude remote-control`), web sessions (`claude --remote`), desktop handoff (`/desktop`), worktrees (`claude -w`), task lists (Ctrl+T), managed settings for enterprise
-- Done when: You can hand off sessions between CLI, web, and desktop
+**高度な機能（スコア1 — 復習）**:
+- 重点: リモートコントロール（`claude remote-control`）、Webセッション（`claude --remote`）、デスクトップハンドオフ（`/desktop`）、ワークツリー（`claude -w`）、タスクリスト（Ctrl+T）、エンタープライズ向けマネージド設定
+- 完了の目安: CLI、Web、デスクトップ間でセッションを引き継ぎできる
 
-**Plugins (score 0)**:
-- Tutorial: [07-plugins/](../../../07-plugins/)
-- Focus on: Plugin structure (.claude-plugin/plugin.json), what plugins bundle (commands, agents, MCP, hooks, settings), installation from marketplace
-- Key exercise: Install a plugin and explore its components
-- Done when: You understand when to use a plugin vs standalone components
+**プラグイン（スコア0）**:
+- チュートリアル: [07-plugins/](../../../07-plugins/)
+- 重点: プラグイン構造（.claude-plugin/plugin.json）、プラグインがバンドルするもの（コマンド、エージェント、MCP、フック、設定）、マーケットプレイスからのインストール
+- 練習課題: プラグインをインストールしてそのコンポーネントを確認する
+- 完了の目安: プラグインとスタンドアロンコンポーネントの使い分けを理解できる
 
-**Plugins (score 1 — review)**:
-- Focus on: Creating plugin.json manifest, plugin hooks (hooks/hooks.json), LSP configuration (.lsp.json), `${CLAUDE_PLUGIN_ROOT}` variable, --plugin-dir for testing, marketplace publishing
-- Done when: You can create and test a plugin for your team
+**プラグイン（スコア1 — 復習）**:
+- 重点: plugin.jsonマニフェストの作成、プラグインフック（hooks/hooks.json）、LSP設定（.lsp.json）、`${CLAUDE_PLUGIN_ROOT}`変数、テスト用--plugin-dir、マーケットプレイス公開
+- 完了の目安: チーム向けのプラグインを作成してテストできる
 
-**CLI (score 0)**:
-- Tutorial: [10-cli/](../../../10-cli/)
-- Focus on: Interactive vs print mode, `claude -p` with piping, `--output-format json`, session management (-c/-r)
-- Key exercise: Pipe a file to `claude -p` and get JSON output
-- Done when: You can use Claude non-interactively in a script
+**CLI（スコア0）**:
+- チュートリアル: [10-cli/](../../../10-cli/)
+- 重点: インタラクティブモードとプリントモード、パイプ付き`claude -p`、`--output-format json`、セッション管理（-c/-r）
+- 練習課題: ファイルを`claude -p`にパイプしてJSON出力を得る
+- 完了の目安: スクリプト内で非インタラクティブにClaudeを使用できる
 
-**CLI (score 1 — review)**:
-- Focus on: --agents flag with JSON config, --json-schema for structured output, --fallback-model, --from-pr, --strict-mcp-config, batch processing with for loops, `claude mcp serve`
-- Done when: You have a CI/CD script that uses Claude with structured JSON output
+**CLI（スコア1 — 復習）**:
+- 重点: JSON設定付き--agentsフラグ、構造化出力用--json-schema、--fallback-model、--from-pr、--strict-mcp-config、forループによるバッチ処理、`claude mcp serve`
+- 完了の目安: 構造化JSON出力を使用するCI/CDスクリプトを作成できる
 
 ---
 
-### Step 5: Offer Follow-up Actions
+### ステップ5: フォローアップアクションの提案
 
-After presenting results, ask the user what they'd like to do next:
+結果を表示した後、AskUserQuestionで次のアクションを選んでもらってください：
+- **学習を始める** — 「学習パスの最初のトピックを今すぐ始めます」
+- **ギャップを深掘り** — 「ギャップエリアの1つを詳しく説明してここで学びます」
+- **練習プロジェクト** — 「ギャップエリアをカバーする練習プロジェクトを設定します」
+- **再受験** — 「もう一度クイズを受けたい（別のモードで）」
 
-Use AskUserQuestion with these options:
-- **Start learning** — "Help me begin the first topic in my learning path right now"
-- **Deep dive on a gap** — "Explain one of my gap areas in detail so I can learn it here"
-- **Practice project** — "Set up a practice project that covers my gap areas"
-- **Retake assessment** — "I want to retake the quiz (maybe the other mode)"
+**「学習を始める」**を選んだ場合: 最初のギャップチュートリアルのREADME.mdを読み、最初の演習をガイドする。
+**「ギャップを深掘り」**を選んだ場合: どのギャップトピックか質問し、関連チュートリアルのREADME.mdを読んで主要コンセプトと例を説明する。
+**「練習プロジェクト」**を選んだ場合: 2〜3のギャップトピックを組み合わせた小さなプロジェクトを具体的なステップで設計する。
+**「再受験」**を選んだ場合: ステップ1に戻る。
 
-If **Start learning**: Read the README.md of the first gap tutorial and walk the user through the first exercise.
-If **Deep dive on a gap**: Ask which gap topic, then read the relevant tutorial README.md and explain the key concepts with examples.
-If **Practice project**: Design a small project that combines 2-3 of their gap topics with concrete steps.
-If **Retake assessment**: Go back to Step 1.
+## エラー処理
 
-## Error Handling
+### ラウンドで何も選択しなかった場合
+そのラウンドのトピックを0点として扱い、次のラウンドに進む。
 
-### User selects no items in a round
-Treat as 0 points for that round's topics. Continue to next round.
+### すべてのラウンドで何も選択しなかった場合
+レベル1: 初級を割り当て、最初から始めることを勧める。レベル1の完全なパスを出力する。
 
-### User selects no items in any round
-Assign Level 1: Beginner. Encourage starting from the beginning. Output the full Level 1 path.
+### 再受験したい場合
+ステップ1から新しいアセスメントを開始する。
 
-### User wants to retake
-Re-run from Step 1 with a fresh assessment.
+### ユーザーがレベルに不満の場合
+ユーザーの意見を尊重し、どのレベルと感じているか質問する。選んだレベルのパスを、見落としたかもしれないトピックの前提チェック付きで提示する。
 
-### User disagrees with their level
-Acknowledge their preference. Ask which level they identify with. Present the path for their chosen level with a prerequisites check for topics they may have missed.
+### 特定のトピックについて質問された場合
+アセスメント中に「フックについて教えて」「MCPを学びたい」などと言われた場合はメモしておく。結果表示後、スコアに関わらずそのトピックを学習パスで強調する。
 
-### User asks about a specific topic
-If the user says something like "tell me about hooks" or "I want to learn MCP" during the assessment, note it. After presenting results, highlight that topic in their learning path regardless of score.
+## バリデーション
 
-## Validation
+### トリガー条件
 
-### Triggering test suite
-
-**Should trigger:**
+**トリガーすべき入力:**
+- 「レベルを評価して」
+- 「クイズを受けたい」
+- 「自分のレベルを知りたい」
+- 「どこから始めればいい」
+- 「次に何を学ぶべき」
+- 「スキルチェック」
+- 「レベルアップしたい」
+- 「Claude Codeがどれくらいできるか確認したい」
 - "assess my level"
 - "take the quiz"
 - "find my level"
 - "where should I start"
 - "what level am I"
-- "learning path quiz"
 - "self-assessment"
-- "what should I learn next"
 - "check my skills"
-- "skill check"
 - "level up"
-- "how good am I at Claude Code"
-- "evaluate my Claude Code knowledge"
 
-**Should NOT trigger:**
-- "review my code"
-- "create a skill"
-- "help me with MCP"
-- "explain slash commands"
-- "what is a checkpoint"
+**トリガーすべきでない入力:**
+- 「コードをレビューして」
+- 「スキルを作成して」
+- 「MCPを手伝って」
+- 「スラッシュコマンドを説明して」
+- 「チェックポイントとは」
