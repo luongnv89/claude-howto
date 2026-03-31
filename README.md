@@ -20,7 +20,7 @@ Go from typing `claude` to orchestrating agents, hooks, skills, and MCP servers 
 ## Table of Contents
 
 - [The Problem](#the-problem)
-- [How Claude How To Fixes This](#how-claude-how-to-fixes-this)
+- [How This Guide Helps](#how-this-guide-helps)
 - [How It Works](#how-it-works)
 - [Not Sure Where to Start?](#-not-sure-where-to-start)
 - [Get Started in 15 Minutes](#-get-started-in-15-minutes)
@@ -43,7 +43,7 @@ You're leaving 90% of Claude Code's power on the table — and you don't know wh
 
 ---
 
-## How Claude How To Fixes This
+## How This Guide Helps
 
 This isn't another feature reference. It's a **structured, visual, example-driven guide** that teaches you to use every Claude Code feature with real-world templates you can copy into your project today.
 
@@ -258,6 +258,8 @@ MIT licensed. Free forever. Clone it, fork it, make it yours.
 | **CLI Reference** | Terminal commands | Session/Script | Automation & scripting |
 
 </details>
+
+<a id="installation-quick-reference"></a>
 
 <details>
 <summary>Installation Quick Reference</summary>
