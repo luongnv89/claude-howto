@@ -207,15 +207,9 @@ Since checkpoints are created automatically, you can focus on your work without 
 
 ## Configuration
 
-You can toggle automatic checkpoints in your settings:
+Checkpoints are created automatically before every user prompt. This behavior is built-in and cannot be disabled via settings.
 
-```json
-{
-  "autoCheckpoint": true
-}
-```
-
-- `autoCheckpoint`: Enable or disable automatic checkpoint creation on every user prompt (default: `true`)
+The `cleanupPeriodDays` setting controls how long sessions and their checkpoints are retained (default: 30 days).
 
 ## Limitations
 
@@ -233,7 +227,7 @@ Checkpoints have the following limitations:
 
 **Solution**:
 - Check if checkpoints were cleared
-- Verify that `autoCheckpoint` is enabled in your settings
+- Verify that the session has not exceeded `cleanupPeriodDays` retention
 - Check disk space
 
 ### Rewind Failed

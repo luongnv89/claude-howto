@@ -621,7 +621,7 @@
 ### Q4
 - **Category**: practical
 - **Question**: You used `rm -rf temp/` via Bash in Claude Code, then want to rewind. Will the checkpoint restore those files?
-- **Options**: A) Yes, checkpoints capture everything | B) No, Bash filesystem operations (rm, mv, cp) are not tracked by checkpoints | C) Only if you used the Edit tool instead | D) Only if autoCheckpoint was enabled
+- **Options**: A) Yes, checkpoints capture everything | B) No, Bash filesystem operations (rm, mv, cp) are not tracked by checkpoints | C) Only if you used the Edit tool instead | D) Only if the session is still within the retention period
 - **Correct**: B
 - **Explanation**: Checkpoints only track file changes made by Claude's tools (Write, Edit). Bash commands like rm, mv, cp operate outside checkpoint tracking.
 - **Review**: Limitations section
@@ -652,10 +652,10 @@
 
 ### Q8
 - **Category**: practical
-- **Question**: How do you disable automatic checkpoint creation?
-- **Options**: A) Use `--no-checkpoints` flag | B) Set `autoCheckpoint: false` in settings | C) Delete the checkpoints directory | D) Checkpoints cannot be disabled
-- **Correct**: B
-- **Explanation**: Set `autoCheckpoint: false` in your configuration to disable automatic checkpoint creation (default is true).
+- **Question**: Can you disable automatic checkpoint creation?
+- **Options**: A) Use `--no-checkpoints` flag | B) Set `autoCheckpoint: false` in settings | C) Delete the checkpoints directory | D) Checkpoints cannot be disabled - they are always created on every user prompt
+- **Correct**: D
+- **Explanation**: Automatic checkpoints are a built-in feature that cannot be disabled. They are created before every user prompt to ensure you can always rewind.
 - **Review**: Configuration section
 
 ### Q9
