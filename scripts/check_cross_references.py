@@ -28,10 +28,9 @@ def iter_md_files():
 
 def heading_to_anchor(heading: str) -> str:
     # Match GitHub's anchor generation: strip non-ASCII (emoji), strip punctuation,
-    # lowercase, replace spaces with hyphens. Do NOT strip leading space — an emoji
-    # prefix leaves a leading space that becomes a leading '-' in the anchor.
+    # lowercase, replace spaces with hyphens, strip leading/trailing hyphens.
     heading_ascii = heading.encode("ascii", "ignore").decode()
-    return re.sub(r"[^\w\s-]", "", heading_ascii.lower()).replace(" ", "-").rstrip("-")
+    return re.sub(r"[^\w\s-]", "", heading_ascii.lower()).replace(" ", "-").strip("-")
 
 
 def strip_code_blocks(content: str) -> str:
@@ -94,8 +93,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    import os
-
-    strict = os.environ.get("CROSS_REF_STRICT") == "1"
-    result = main()
-    sys.exit(result if strict else 0)
+    sys.exit(main())

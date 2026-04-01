@@ -99,8 +99,6 @@ jobs:
 
       - name: Validate cross-references
         run: python scripts/check_cross_references.py
-        env:
-          CROSS_REF_STRICT: "1"
 
   summary:
     name: Summary
