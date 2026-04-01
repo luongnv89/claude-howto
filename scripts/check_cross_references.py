@@ -30,7 +30,7 @@ def heading_to_anchor(heading: str) -> str:
     # Match GitHub's anchor generation: strip non-ASCII (emoji), strip punctuation,
     # lowercase, replace spaces with hyphens, strip leading/trailing hyphens.
     heading_ascii = heading.encode("ascii", "ignore").decode()
-    return re.sub(r"[^\w\s-]", "", heading_ascii.lower()).replace(" ", "-").strip("-")
+    return re.sub(r"[^\w\s-]", "", heading_ascii.lower()).replace(" ", "-").rstrip("-")
 
 
 def strip_code_blocks(content: str) -> str:

@@ -51,7 +51,7 @@ def main() -> int:
                 ) as tmp:
                     tmp.write(block)
                     tmp_path = tmp.name
-                out_path = tmp_path.replace(".mmd", ".svg")
+                out_path = str(Path(tmp_path).with_suffix(".svg"))
                 try:
                     result = subprocess.run(  # nosec B603 B607
                         ["mmdc", "-i", tmp_path, "-o", out_path, *extra_args],
