@@ -32,7 +32,7 @@ Comprehensive guide to Claude Code's advanced capabilities including planning mo
 21. [Managed Settings (Enterprise)](#managed-settings-enterprise)
 22. [Configuration and Settings](#configuration-and-settings)
 23. [Best Practices](#best-practices)
-24. [Related Concepts](#related-concepts)
+24. [Additional Resources](#additional-resources)
 
 ---
 

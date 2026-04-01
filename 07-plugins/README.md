@@ -306,7 +306,7 @@ Use **standalone slash commands** for quick personal workflows. Use **plugins** 
   "author": {
     "name": "Anthropic"
   },
-  "repository": "https://github.com/anthropic/pr-review",
+  "repository": "https://github.com/your-org/pr-review",
   "license": "MIT"
 }
 ```

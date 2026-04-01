@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Validate Mermaid diagram syntax in Markdown files using mmdc."""
 
+import json
+import os
 import re
 import shutil
 import subprocess  # nosec B404
@@ -21,6 +23,18 @@ def main() -> int:
     errors = []
     checked = 0
 
+    # On GitHub Actions Linux runners, Chrome/Puppeteer requires --no-sandbox.
+    # Write a temporary puppeteer config when MERMAID_PUPPETEER_NO_SANDBOX is set.
+    puppeteer_config_path = None
+    extra_args: list[str] = []
+    if os.environ.get("MERMAID_PUPPETEER_NO_SANDBOX") == "true":
+        with tempfile.NamedTemporaryFile(
+            suffix=".json", mode="w", delete=False
+        ) as pcfg:
+            json.dump({"args": ["--no-sandbox", "--disable-setuid-sandbox"]}, pcfg)
+            puppeteer_config_path = pcfg.name
+        extra_args = ["-p", puppeteer_config_path]
+
     md_files = [
         f
         for f in Path().rglob("*.md")
@@ -39,7 +53,7 @@ def main() -> int:
             out_path = tmp_path.replace(".mmd", ".svg")
             try:
                 result = subprocess.run(  # nosec B603 B607
-                    ["mmdc", "-i", tmp_path, "-o", out_path],
+                    ["mmdc", "-i", tmp_path, "-o", out_path, *extra_args],
                     capture_output=True,
                     text=True,
                     check=False,
@@ -53,6 +67,9 @@ def main() -> int:
             finally:
                 Path(tmp_path).unlink(missing_ok=True)
                 Path(out_path).unlink(missing_ok=True)
+
+    if puppeteer_config_path:
+        Path(puppeteer_config_path).unlink(missing_ok=True)
 
     print(f"✅ Checked {checked} Mermaid diagram(s)")
     if errors:

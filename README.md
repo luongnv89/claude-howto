@@ -19,7 +19,7 @@
 
 Go from typing `claude` to orchestrating agents, hooks, skills, and MCP servers — with visual tutorials, copy-paste templates, and a guided learning path.
 
-**[Get Started in 15 Minutes](#-get-started-in-15-minutes)** | **[Find Your Level](#-not-sure-where-to-start)** | **[Browse the Feature Catalog](CATALOG.md)**
+**[Get Started in 15 Minutes](#get-started-in-15-minutes)** | **[Find Your Level](#not-sure-where-to-start)** | **[Browse the Feature Catalog](CATALOG.md)**
 
 ---
 
@@ -28,8 +28,8 @@ Go from typing `claude` to orchestrating agents, hooks, skills, and MCP servers 
 - [The Problem](#the-problem)
 - [How Claude How To Fixes This](#how-claude-how-to-fixes-this)
 - [How It Works](#how-it-works)
-- [Not Sure Where to Start?](#-not-sure-where-to-start)
-- [Get Started in 15 Minutes](#-get-started-in-15-minutes)
+- [Not Sure Where to Start?](#not-sure-where-to-start)
+- [Get Started in 15 Minutes](#get-started-in-15-minutes)
 - [What Can You Build With This?](#what-can-you-build-with-this)
 - [FAQ](#faq)
 - [Contributing](#contributing)
@@ -92,7 +92,7 @@ The real power is in combining features. Learn to wire slash commands + memory +
 
 Run `/lesson-quiz [topic]` after each module. The quiz pinpoints what you missed so you can fill gaps fast.
 
-**[Get Started in 15 Minutes](#-get-started-in-15-minutes)**
+**[Get Started in 15 Minutes](#get-started-in-15-minutes)**
 
 ---
 
@@ -173,7 +173,7 @@ cp -r 03-skills/code-review ~/.claude/skills/
 # Follow the learning path for guided setup
 ```
 
-**[View the Full Installation Reference](#installation-quick-reference)**
+**[View the Full Installation Reference](#get-started-in-15-minutes)**
 
 ---
 
@@ -222,7 +222,7 @@ You already have Claude Code installed. The only thing between you and 10x produ
 
 MIT licensed. Free forever. Clone it, fork it, make it yours.
 
-**[Start the Learning Path ->](LEARNING-ROADMAP.md)** | **[Browse the Feature Catalog](CATALOG.md)** | **[Get Started in 15 Minutes](#-get-started-in-15-minutes)**
+**[Start the Learning Path ->](LEARNING-ROADMAP.md)** | **[Browse the Feature Catalog](CATALOG.md)** | **[Get Started in 15 Minutes](#get-started-in-15-minutes)**
 
 ---
 

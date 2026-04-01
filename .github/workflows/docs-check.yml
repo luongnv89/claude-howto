@@ -82,6 +82,8 @@ jobs:
 
       - name: Validate Mermaid diagrams
         run: python scripts/check_mermaid.py
+        env:
+          MERMAID_PUPPETEER_NO_SANDBOX: "true"
 
   cross-references:
     name: Cross-reference Check

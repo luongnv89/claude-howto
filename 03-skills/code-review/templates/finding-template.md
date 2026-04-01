@@ -80,7 +80,6 @@ usersWithPosts.forEach(({ user, posts }) => {
 
 - [N+1 Query Problem](https://en.wikipedia.org/wiki/N%2B1_problem)
 - [Database Join Documentation](https://docs.example.com/joins)
-- [Performance Optimization Guide](./docs/performance.md)
 
 ### Reviewer Notes
 

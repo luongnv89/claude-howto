@@ -8,7 +8,16 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-IGNORE_DIRS = {".venv", "node_modules", ".git", "blog-posts", "openspec", "prompts"}
+IGNORE_DIRS = {
+    ".venv",
+    "node_modules",
+    ".git",
+    "blog-posts",
+    "openspec",
+    "prompts",
+    ".agents",
+    ".claude",
+}
 TIMEOUT = 10
 # Domains/patterns to skip: badges, placeholders, and bot-blocking hosts
 SKIP_DOMAINS = {
@@ -21,8 +30,20 @@ SKIP_DOMAINS = {
     "127.0.0.1",
     "my-webhook.example.com",
     "git.internal",
+    # Wikipedia blocks HEAD requests — GET also unreliable in CI without network
+    "en.wikipedia.org",
+    "wikipedia.org",
+    # GitHub API requires auth — unauthenticated requests return 404 for protected endpoints
+    "api.github.com",
 }
 SKIP_DOMAIN_SUFFIXES = (".example.com", ".example.org", ".internal")
+# Placeholder/template URLs that are intentionally non-resolvable
+SKIP_URL_PATTERNS = {
+    "github.com/org/",
+    "github.com/user/",
+    "github.com/your-org/",
+    "docs.example.com",
+}
 
 URL_RE = re.compile(r"https?://[a-zA-Z0-9][a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+")
 
@@ -34,7 +55,9 @@ def is_skipped(url: str) -> bool:
         return True  # malformed URL
     if any(skip == domain or domain.endswith("." + skip) for skip in SKIP_DOMAINS):
         return True
-    return any(domain.endswith(suffix) for suffix in SKIP_DOMAIN_SUFFIXES)
+    if any(domain.endswith(suffix) for suffix in SKIP_DOMAIN_SUFFIXES):
+        return True
+    return any(pattern in url for pattern in SKIP_URL_PATTERNS)
 
 
 def check_url(url: str) -> tuple[str, bool, str]:
@@ -66,8 +89,11 @@ def main(strict: bool = False) -> int:
 
     for file_path in md_files:
         content = file_path.read_text()
-        for url in URL_RE.findall(content):
-            urls.setdefault(url, []).append(str(file_path))
+        for raw_url in URL_RE.findall(content):
+            # Strip trailing Markdown/punctuation characters the regex may over-capture
+            # from link syntax like [text](https://url/) or **https://url)**
+            clean_url = raw_url.rstrip(")>*_`':.,;")
+            urls.setdefault(clean_url, []).append(str(file_path))
 
     if not urls:
         print("✅ No external URLs found")

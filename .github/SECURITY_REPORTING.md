@@ -30,7 +30,7 @@ This is the preferred method for reporting security vulnerabilities.
 
 If you discover a vulnerability in a dependency:
 
-1. Go to: https://github.com/luongnv89/claude-howto/security/dependabot/alerts
+1. Go to: https://github.com/luongnv89/claude-howto/security/advisories
 2. Review the alert
 3. Create a pull request with the fix
 4. Tag with `security` label

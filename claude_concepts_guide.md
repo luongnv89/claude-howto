@@ -16,7 +16,7 @@ A comprehensive reference guide covering Slash Commands, Subagents, Memory, MCP 
 3. [Memory](#memory)
 4. [MCP Protocol](#mcp-protocol)
 5. [Agent Skills](#agent-skills)
-6. [Plugins](#plugins)
+6. [Plugins](#claude-code-plugins)
 7. [Hooks](#hooks)
 8. [Checkpoints and Rewind](#checkpoints-and-rewind)
 9. [Advanced Features](#advanced-features)
@@ -1754,7 +1754,6 @@ usersWithPosts.forEach(({ user, posts }) => {
 
 - [N+1 Query Problem](https://en.wikipedia.org/wiki/N%2B1_problem)
 - [Database Join Documentation](https://docs.example.com/joins)
-- [Performance Optimization Guide](./docs/performance.md)
 
 ### Reviewer Notes
 
