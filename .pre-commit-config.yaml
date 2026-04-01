@@ -10,13 +10,11 @@ repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.8.2
     hooks:
-      # Ruff linter
       - id: ruff
         name: ruff-lint
         args: [--fix, --exit-non-zero-on-fix]
         types_or: [python, pyi]
         files: ^scripts/
-      # Ruff formatter (replaces black)
       - id: ruff-format
         name: ruff-format
         types_or: [python, pyi]
@@ -28,7 +26,7 @@ repos:
     hooks:
       - id: bandit
         name: bandit-security
-        args: [-c, pyproject.toml]
+        args: [-c, scripts/pyproject.toml]
         additional_dependencies: ["bandit[toml]"]
         types: [python]
         files: ^scripts/
@@ -52,3 +50,44 @@ repos:
         args: [--maxkb=1000]
       - id: check-merge-conflict
         name: check-merge-conflict
+
+  # Local doc quality hooks (mirrors CI checks — CI is a 2nd pass of these)
+  - repo: local
+    hooks:
+      - id: markdown-lint
+        name: markdown-lint
+        language: node
+        entry: markdownlint
+        args: ['--ignore', 'node_modules', '--ignore', '.venv', '--config', '.markdownlint.json']
+        types: [markdown]
+        additional_dependencies: ['markdownlint-cli']
+
+      - id: cross-references
+        name: cross-references
+        language: system
+        entry: python scripts/check_cross_references.py
+        pass_filenames: false
+        types: [markdown]
+
+      - id: mermaid
+        name: mermaid-syntax
+        language: system
+        entry: python scripts/check_mermaid.py
+        pass_filenames: false
+        types: [markdown]
+        verbose: true
+
+      - id: link-check
+        name: link-check
+        language: system
+        entry: python scripts/check_links.py
+        pass_filenames: false
+        types: [markdown]
+        verbose: true
+
+      - id: build-epub
+        name: build-epub
+        language: system
+        entry: uv run scripts/build_epub.py
+        pass_filenames: false
+        files: ^(.*\.md|scripts/build_epub\.py)$

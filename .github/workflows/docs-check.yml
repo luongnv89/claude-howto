@@ -6,16 +6,18 @@ on:
     paths:
       - '**.md'
       - '.github/workflows/docs-check.yml'
-      - '.cspell.json'
       - '.github/markdown-link-check-config.json'
+      - '.markdownlint.json'
+      - 'scripts/check_*.py'
   pull_request:
     branches: [main]
     paths:
       - '**.md'
       - 'CONTRIBUTING.md'
       - 'LICENSE'
-      - '.cspell.json'
       - '.github/markdown-link-check-config.json'
+      - '.markdownlint.json'
+      - 'scripts/check_*.py'
 
 # Cancel in-progress runs for the same branch
 concurrency:
@@ -39,8 +41,7 @@ jobs:
         run: npm install -g markdownlint-cli
 
       - name: Run Markdown Linter
-        run: markdownlint '**/*.md' --ignore node_modules --ignore .venv
-        continue-on-error: true
+        run: markdownlint '**/*.md' --ignore node_modules --ignore .venv --config .markdownlint.json
 
   link-check:
     name: Check Links
@@ -49,33 +50,41 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Check markdown links
-        uses: gaurav-nelson/github-action-markdown-link-check@v1
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          use-quiet-mode: 'yes'
-          use-verbose-mode: 'no'
-          config-file: '.github/markdown-link-check-config.json'
+          python-version: '3.11'
 
-  spelling:
-    name: Spell Check
+      - name: Run link check
+        run: python scripts/check_links.py
+        env:
+          LINK_CHECK_STRICT: "1"
+
+  mermaid:
+    name: Mermaid Syntax
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run cSpell
-        uses: streetsidesoftware/cspell-action@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          files: |
-            **/*.md
-            **/*.json
-            **/*.yml
-            **/*.yaml
-          incremental: 'no'
-          config: '.cspell.json'
+          node-version: '18'
 
-  frontmatter:
-    name: YAML Frontmatter Validation
+      - name: Install mermaid CLI
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Validate Mermaid diagrams
+        run: python scripts/check_mermaid.py
+
+  cross-references:
+    name: Cross-reference Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -86,245 +95,14 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install PyYAML
-        run: pip install pyyaml
-
-      - name: Validate YAML Frontmatter
-        run: |
-          python3 << 'EOF'
-          import os
-          import yaml
-          import re
-          from pathlib import Path
-
-          errors = []
-
-          # Check all markdown files in Claude sections
-          md_files = list(Path('.').glob('**/README.md')) + list(Path('.').glob('01-*/**/*.md'))
-
-          for file_path in md_files:
-              if '.venv' in str(file_path) or 'node_modules' in str(file_path):
-                  continue
-
-              with open(file_path, 'r') as f:
-                  content = f.read()
-
-              # Check for YAML frontmatter in skill/agent templates
-              if 'SKILL.md' in str(file_path) or any(x in str(file_path) for x in ['agent', 'template']):
-                  if content.startswith('---'):
-                      try:
-                          # Extract frontmatter
-                          parts = content.split('---', 2)
-                          if len(parts) >= 3:
-                              yaml.safe_load(parts[1])
-                      except yaml.YAMLError as e:
-                          errors.append(f"{file_path}: Invalid YAML frontmatter - {e}")
-                  else:
-                      if 'skill' in str(file_path).lower():
-                          print(f"⚠ {file_path}: Consider adding YAML frontmatter")
-
-          if errors:
-              for error in errors:
-                  print(f"❌ {error}")
-              exit(1)
-          else:
-              print("✅ All YAML frontmatter is valid")
-          EOF
-
-  structure:
-    name: Documentation Structure
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Validate Documentation Structure
-        run: |
-          python3 << 'EOF'
-          import os
-          from pathlib import Path
-          import re
-
-          errors = []
-          warnings = []
-
-          # Check that all numbered directories have README.md
-          for i in range(1, 11):
-              dir_path = Path(f"{i:02d}-*")
-              matches = list(dir_path.parent.glob(str(dir_path)))
-              if matches:
-                  for match in matches:
-                      if (match / "README.md").exists():
-                          print(f"✅ {match}/README.md found")
-                      else:
-                          errors.append(f"{match}: Missing README.md")
-
-          # Check README.md has required sections
-          readme_path = Path("README.md")
-          if readme_path.exists():
-              with open(readme_path) as f:
-                  content = f.read()
-
-              required_sections = [
-                  "## Table of Contents",
-                  "## Contributing",
-                  "## License",
-              ]
-
-              for section in required_sections:
-                  if section not in content:
-                      errors.append(f"README.md: Missing '{section}' section")
-                  else:
-                      print(f"✅ README.md has '{section}' section")
-
-          # Check for broken relative links
-          md_files = list(Path(".").rglob("*.md"))
-          for file_path in md_files:
-              if ".venv" in str(file_path) or "node_modules" in str(file_path):
-                  continue
-
-              with open(file_path) as f:
-                  content = f.read()
-
-              # Find markdown links to local files
-              local_links = re.findall(r'\[([^\]]+)\]\(([^)]+\.md)\)', content)
-              for link_text, link_path in local_links:
-                  # Skip anchor-only links
-                  if link_path.startswith("#"):
-                      continue
-
-                  resolved_path = (file_path.parent / link_path).resolve()
-                  if not resolved_path.exists():
-                      warnings.append(f"{file_path}: Broken link to '{link_path}'")
-
-          if errors:
-              print("\n❌ Validation Errors:")
-              for error in errors:
-                  print(f"  - {error}")
-              exit(1)
-
-          if warnings:
-              print("\n⚠ Warnings:")
-              for warning in warnings:
-                  print(f"  - {warning}")
-
-          print("\n✅ Documentation structure is valid")
-          EOF
-
-  metadata:
-    name: File Metadata Checks
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Check for common issues
-        run: |
-          set +e  # Don't exit on first error
-
-          echo "📋 Checking for documentation issues..."
-
-          # Check for files over 100KB
-          echo "Checking file sizes..."
-          large_files=$(find . -name "*.md" -size +100k | grep -v ".venv" | grep -v "node_modules")
-          if [ ! -z "$large_files" ]; then
-            echo "⚠ Large markdown files found (>100KB):"
-            echo "$large_files"
-          fi
-
-          # Check for TODO markers (might indicate incomplete content)
-          echo "Checking for TODO markers in main docs..."
-          todos=$(grep -r "TODO\|FIXME" --include="*.md" . --exclude-dir=.venv --exclude-dir=node_modules --exclude-dir=.git | grep -v ".github" | head -10)
-          if [ ! -z "$todos" ]; then
-            echo "⚠ Found TODO/FIXME markers:"
-            echo "$todos"
-          fi
-
-          # Check for consistent heading structure
-          echo "Checking heading consistency in key files..."
-          for file in README.md CONTRIBUTING.md; do
-            if [ -f "$file" ]; then
-              heading_count=$(grep -c "^##" "$file")
-              echo "✅ $file has $heading_count main sections"
-            fi
-          done
-
-          # Check that LICENSE file exists
-          if [ -f "LICENSE" ]; then
-            echo "✅ LICENSE file exists"
-          else
-            echo "❌ LICENSE file not found"
-            exit 1
-          fi
-
-  consistency:
-    name: Content Consistency
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Check Content Consistency
-        run: |
-          python3 << 'EOF'
-          import re
-          from pathlib import Path
-
-          errors = []
-
-          # Check that all numbered sections are referenced in README
-          readme_path = Path("README.md")
-          with open(readme_path) as f:
-              readme_content = f.read()
-
-          # Look for numbered directories
-          for i in range(1, 11):
-              dir_pattern = f"{i:02d}-"
-              dirs = list(Path(".").glob(f"{dir_pattern}*"))
-
-              if dirs:
-                  for dir_path in dirs:
-                      if dir_path.is_dir():
-                          # Check if referenced in README
-                          dir_name = dir_path.name
-                          if dir_name not in readme_content:
-                              errors.append(f"README.md: Directory '{dir_name}' not mentioned")
-                          else:
-                              print(f"✅ '{dir_name}' is referenced in README")
-
-          # Check for consistent code fence formatting
-          md_files = [f for f in Path(".").rglob("*.md") if ".venv" not in str(f)]
-          for file_path in md_files:
-              with open(file_path) as f:
-                  content = f.read()
-
-              # Count code fence types
-              backtick_fences = len(re.findall(r'```', content))
-              if backtick_fences % 2 != 0:
-                  errors.append(f"{file_path}: Unmatched code fences (backticks)")
-
-          if errors:
-              print("\n❌ Consistency Errors:")
-              for error in errors:
-                  print(f"  - {error}")
-              exit(1)
-
-          print("\n✅ Content is consistent")
-          EOF
+      - name: Validate cross-references
+        run: python scripts/check_cross_references.py
+        env:
+          CROSS_REF_STRICT: "1"
 
   summary:
     name: Summary
-    needs: [markdown-lint, link-check, spelling, frontmatter, structure, metadata, consistency]
+    needs: [markdown-lint, link-check, mermaid, cross-references]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -332,11 +110,8 @@ jobs:
         run: |
           if [ "${{ needs.markdown-lint.result }}" = "failure" ] || \
              [ "${{ needs.link-check.result }}" = "failure" ] || \
-             [ "${{ needs.spelling.result }}" = "failure" ] || \
-             [ "${{ needs.frontmatter.result }}" = "failure" ] || \
-             [ "${{ needs.structure.result }}" = "failure" ] || \
-             [ "${{ needs.metadata.result }}" = "failure" ] || \
-             [ "${{ needs.consistency.result }}" = "failure" ]; then
+             [ "${{ needs.mermaid.result }}" = "failure" ] || \
+             [ "${{ needs.cross-references.result }}" = "failure" ]; then
             echo "❌ Some documentation checks failed"
             exit 1
           else
