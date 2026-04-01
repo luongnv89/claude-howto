@@ -92,7 +92,7 @@ def main(strict: bool = False) -> int:
         for raw_url in URL_RE.findall(content):
             # Strip trailing Markdown/punctuation characters the regex may over-capture
             # from link syntax like [text](https://url/) or **https://url)**
-            clean_url = raw_url.rstrip(")>*_`':.,;")
+            clean_url = raw_url.rstrip(")>*_`':.,;").split("#")[0]
             urls.setdefault(clean_url, []).append(str(file_path))
 
     if not urls:

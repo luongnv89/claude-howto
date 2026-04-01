@@ -37,7 +37,7 @@ def heading_to_anchor(heading: str) -> str:
 def strip_code_blocks(content: str) -> str:
     """Remove fenced code blocks and inline code spans to avoid scanning example links."""
     # Strip fenced code blocks (``` ... ```)
-    content = re.sub(r"^```.*?^```", "", content, flags=re.MULTILINE | re.DOTALL)
+    content = re.sub(r"```[^\n]*\n.*?```", "", content, flags=re.DOTALL)
     # Strip inline code spans (` ... `)
     content = re.sub(r"`[^`\n]+`", "", content)
     return content
