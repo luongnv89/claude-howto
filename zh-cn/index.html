@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude How To 交互学习台</title>
+  <style>
+    :root {
+      --bg: #f4eee3;
+      --paper: rgba(255, 249, 239, 0.9);
+      --paper-strong: rgba(255, 255, 255, 0.82);
+      --ink: #1b1e20;
+      --muted: #625c54;
+      --line: rgba(27, 30, 32, 0.12);
+      --gold: #c77a2b;
+      --forest: #315847;
+      --sea: #245b73;
+      --brick: #a24d34;
+      --shadow: 0 24px 60px rgba(69, 49, 22, 0.16);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(199, 122, 43, 0.2), transparent 32%),
+        radial-gradient(circle at 88% 18%, rgba(36, 91, 115, 0.16), transparent 28%),
+        linear-gradient(180deg, #ecdfca 0%, #f7f3ed 42%, #eee6db 100%);
+      font-family: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+      line-height: 1.65;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .texture {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(27, 30, 32, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(27, 30, 32, 0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.85), transparent 96%);
+    }
+
+    .page {
+      width: min(1220px, calc(100vw - 28px));
+      margin: 24px auto 56px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero,
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero {
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 280px;
+      height: 280px;
+      right: -60px;
+      top: -48px;
+      background: radial-gradient(circle, rgba(199, 122, 43, 0.2), rgba(199, 122, 43, 0));
+    }
+
+    .hero::after {
+      width: 180px;
+      height: 180px;
+      left: -40px;
+      bottom: -55px;
+      background: radial-gradient(circle, rgba(36, 91, 115, 0.12), rgba(36, 91, 115, 0));
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(36, 91, 115, 0.12);
+      color: var(--sea);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Songti SC", serif;
+      line-height: 1.08;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin-top: 18px;
+      max-width: 860px;
+      font-size: clamp(38px, 6vw, 74px);
+    }
+
+    h2 {
+      font-size: 30px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 24px;
+    }
+
+    .lead {
+      max-width: 780px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .pill-btn,
+    .chip-btn {
+      border: 0;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .pill-btn {
+      padding: 12px 18px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, #1b1e20, #394145);
+      box-shadow: 0 10px 20px rgba(27, 30, 32, 0.18);
+    }
+
+    .pill-btn.alt {
+      color: var(--sea);
+      background: rgba(36, 91, 115, 0.1);
+      box-shadow: none;
+    }
+
+    .pill-btn:hover,
+    .chip-btn:hover,
+    .module-card:hover,
+    .quiz-option:hover {
+      transform: translateY(-1px);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(27, 30, 32, 0.08);
+    }
+
+    .stat strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 26px;
+    }
+
+    .panel {
+      padding: 28px;
+      margin-top: 18px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .controls-grid,
+    .overview-grid,
+    .roadmap-grid,
+    .quiz-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .controls-grid,
+    .overview-grid,
+    .roadmap-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .chip-btn {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(36, 91, 115, 0.08);
+      color: var(--sea);
+    }
+
+    .chip-btn.active {
+      color: white;
+      background: linear-gradient(135deg, #245b73, #447f8a);
+      box-shadow: 0 12px 22px rgba(36, 91, 115, 0.18);
+    }
+
+    .search-box {
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px solid rgba(27, 30, 32, 0.1);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.82);
+      outline: none;
+    }
+
+    .search-box:focus {
+      border-color: rgba(36, 91, 115, 0.32);
+      box-shadow: 0 0 0 4px rgba(36, 91, 115, 0.08);
+    }
+
+    .progress-wrap {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(27, 30, 32, 0.08);
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .progress-bar {
+      height: 12px;
+      margin-top: 14px;
+      border-radius: 999px;
+      background: rgba(27, 30, 32, 0.08);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #c77a2b, #245b73);
+      transition: width 0.28s ease;
+    }
+
+    .overview-card,
+    .subpanel,
+    .quiz-panel {
+      padding: 20px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(27, 30, 32, 0.08);
+    }
+
+    .flow {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .flow-step {
+      padding: 14px 16px;
+      border-radius: 16px;
+      border-left: 5px solid var(--gold);
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 18px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .card {
+      min-height: 205px;
+      padding: 18px;
+      border-radius: 22px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -18px;
+      bottom: -22px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .card.beginner { background: linear-gradient(135deg, #315847, #507765); }
+    .card.intermediate { background: linear-gradient(135deg, #245b73, #4a8992); }
+    .card.advanced { background: linear-gradient(135deg, #a24d34, #cd7448); }
+    .card.mastery { background: linear-gradient(135deg, #6a4c1f, #c77a2b); }
+
+    ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+    }
+
+    .modules-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .module-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .module-card {
+      width: 100%;
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      border: 1px solid rgba(27, 30, 32, 0.08);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.68);
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      gap: 14px;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .module-card.active {
+      border-color: rgba(36, 91, 115, 0.28);
+      background: rgba(245, 250, 251, 0.95);
+      box-shadow: 0 14px 26px rgba(36, 91, 115, 0.12);
+    }
+
+    .index-badge {
+      padding: 10px 12px;
+      border-radius: 16px;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      background: #1b1e20;
+      color: #f6f2eb;
+      align-self: start;
+    }
+
+    .module-title-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+      flex-wrap: wrap;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: rgba(36, 91, 115, 0.1);
+      color: var(--sea);
+    }
+
+    .tag.level-beginner {
+      background: rgba(49, 88, 71, 0.12);
+      color: var(--forest);
+    }
+
+    .tag.level-intermediate {
+      background: rgba(36, 91, 115, 0.1);
+      color: var(--sea);
+    }
+
+    .tag.level-advanced {
+      background: rgba(162, 77, 52, 0.12);
+      color: var(--brick);
+    }
+
+    .module-card.hidden {
+      display: none;
+    }
+
+    .detail-panel {
+      position: sticky;
+      top: 18px;
+      padding: 22px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(27, 30, 32, 0.08);
+    }
+
+    .detail-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      flex-wrap: wrap;
+    }
+
+    .detail-description {
+      margin-top: 10px;
+      color: var(--muted);
+    }
+
+    .detail-section {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px dashed rgba(27, 30, 32, 0.12);
+    }
+
+    .detail-section h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 10px;
+      align-items: start;
+      padding: 11px 12px;
+      border-radius: 14px;
+      background: rgba(36, 91, 115, 0.05);
+    }
+
+    .check-item input {
+      margin-top: 4px;
+    }
+
+    .code-block {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #141718;
+      color: #f3efe8;
+      font-family: "SFMono-Regular", "JetBrains Mono", "Menlo", monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
+      overflow: auto;
+    }
+
+    .roadmap {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .roadmap-day {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(27, 30, 32, 0.08);
+    }
+
+    .day {
+      font-weight: 700;
+      color: var(--brick);
+    }
+
+    .quiz-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      margin-top: 18px;
+    }
+
+    .quiz-question {
+      margin-bottom: 18px;
+    }
+
+    .quiz-question h3 {
+      margin-bottom: 12px;
+      font-size: 21px;
+    }
+
+    .quiz-option {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      padding: 12px 14px;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 16px;
+      border: 1px solid rgba(27, 30, 32, 0.08);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .quiz-option.selected {
+      border-color: rgba(36, 91, 115, 0.34);
+      background: rgba(235, 246, 249, 0.9);
+    }
+
+    .quiz-result-box {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(36, 91, 115, 0.07);
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(27, 30, 32, 0.1);
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .hide {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .stats,
+      .controls-grid,
+      .overview-grid,
+      .cards,
+      .modules-layout,
+      .roadmap-grid,
+      .quiz-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100vw - 18px, 1220px);
+      }
+
+      .hero,
+      .panel {
+        padding: 22px;
+      }
+
+      .module-card,
+      .roadmap-day {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="texture"></div>
+  <main class="page">
+    <section class="hero">
+      <span class="eyebrow">GitHub 学习整理 / luongnv89/claude-howto</span>
+      <h1>Claude How To 交互学习台</h1>
+      <p class="lead">
+        这次不是静态摘要，而是一张可以直接点着学的中文学习地图。
+        你可以筛选难度、切换模块、保存进度、打开快速练习，还能做一个简短自测，判断自己该从哪里开始。
+      </p>
+      <div class="hero-actions">
+        <button class="pill-btn" type="button" id="jump-first-module">从第 1 模块开始</button>
+        <button class="pill-btn alt" type="button" id="jump-quiz">先做自测</button>
+        <button class="pill-btn alt" type="button" id="reset-progress">重置学习进度</button>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <strong>10</strong>
+          个核心模块
+        </div>
+        <div class="stat">
+          <strong>11-13h</strong>
+          完整学习时长
+        </div>
+        <div class="stat">
+          <strong>3</strong>
+          个学习等级
+        </div>
+        <div class="stat">
+          <strong id="completed-count">0/10</strong>
+          已完成模块
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>怎么使用这页</h2>
+      <div class="controls-grid">
+        <div class="overview-card">
+          <p class="muted">
+            仓库主线其实很简单：先让 Claude 记住你、再让 Claude 自动做事、最后让 Claude 能像一个系统一样协作。
+          </p>
+          <div class="flow">
+            <div class="flow-step">
+              <strong>第一层：提高单次对话效率</strong>
+              Slash Commands、Memory、CLI、Checkpoints。先把 Claude 用顺手。
+            </div>
+            <div class="flow-step">
+              <strong>第二层：做自动化和集成</strong>
+              Skills、Hooks、MCP、Subagents。把“会用”升级成“会跑流程”。
+            </div>
+            <div class="flow-step">
+              <strong>第三层：做团队级能力封装</strong>
+              Advanced Features、Plugins。把个人经验打包成更稳定的工作方式。
+            </div>
+          </div>
+        </div>
+
+        <div class="overview-card">
+          <h3>筛选和进度</h3>
+          <p class="muted">你可以按等级筛模块，也可以搜索关键词。每个模块都能单独标记完成，刷新页面后会保留进度。</p>
+          <div class="toolbar" id="level-filters">
+            <button class="chip-btn active" type="button" data-filter="all">全部</button>
+            <button class="chip-btn" type="button" data-filter="beginner">入门</button>
+            <button class="chip-btn" type="button" data-filter="intermediate">进阶</button>
+            <button class="chip-btn" type="button" data-filter="advanced">高阶</button>
+          </div>
+          <input class="search-box" id="module-search" type="search" placeholder="搜索模块名、关键词，例如 memory / hooks / 自动化">
+          <div class="progress-wrap">
+            <div class="progress-meta">
+              <strong>当前学习进度</strong>
+              <span id="progress-label" class="muted">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>按等级理解整套路线</h2>
+      <div class="cards">
+        <div class="card beginner">
+          <h3>Level 1 入门</h3>
+          <p>目标：先把 Claude 用顺手。</p>
+          <ul>
+            <li>Slash Commands：做快捷操作</li>
+            <li>Memory：让 Claude 记住项目规范</li>
+            <li>Checkpoints：安全回退和试错</li>
+            <li>CLI：掌握 `claude` 和 `claude -p`</li>
+          </ul>
+        </div>
+        <div class="card intermediate">
+          <h3>Level 2 进阶</h3>
+          <p>目标：让 Claude 开始自动工作。</p>
+          <ul>
+            <li>Skills：把经验固化成能力</li>
+            <li>Hooks：在关键事件自动触发检查</li>
+            <li>MCP：接入 GitHub、数据库、文件系统</li>
+            <li>Subagents：把复杂任务拆给专门代理</li>
+          </ul>
+        </div>
+        <div class="card advanced">
+          <h3>Level 3 高阶</h3>
+          <p>目标：从“会用”进化到“会设计系统”。</p>
+          <ul>
+            <li>Planning / Auto / Tasks / Permissions</li>
+            <li>多会话、后台任务、远程控制</li>
+            <li>适合复杂改造、团队协作、长流程任务</li>
+          </ul>
+        </div>
+        <div class="card mastery">
+          <h3>最终能力</h3>
+          <p>把零散功能打包成工作流与插件。</p>
+          <ul>
+            <li>Plugins：一次安装一整套能力</li>
+            <li>团队规范分发</li>
+            <li>代码审查、文档生成、CI/CD 自动化</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="modules-section">
+      <h2>点选模块学习</h2>
+      <p class="muted">左侧选择模块，右侧会显示这个模块的作用、什么时候学、马上能做的练习，以及完成勾选。</p>
+      <div class="modules-layout">
+        <div class="module-list" id="module-list">
+          <button class="module-card active" type="button" data-module="slash-commands" data-level="beginner" data-search="slash commands 命令 快捷 指令">
+            <div class="index-badge">01</div>
+            <div>
+              <div class="module-title-row">
+                <strong>Slash Commands</strong>
+                <span class="tag level-beginner">入门</span>
+              </div>
+              <p class="muted">高频动作的最快入口，能立刻提升效率。</p>
+              <div class="tag-row">
+                <span class="tag">30 分钟</span>
+                <span class="tag">命令入口</span>
+              </div>
+            </div>
+          </button>
+
+          <button class="module-card" type="button" data-module="memory" data-level="beginner" data-search="memory claude.md 记忆 规范 上下文">
+            <div class="index-badge">02</div>
+            <div>
+              <div class="module-title-row">
+                <strong>Memory</strong>
+                <span class="tag level-beginner">入门</span>
+              </div>
+              <p class="muted">用 `CLAUDE.md` 把项目背景和协作规则固定下来。</p>
+              <div class="tag-row">
+                <span class="tag">45 分钟</span>
+                <span class="tag">核心基础</span>
+              </div>
+            </div>
+          </button>
+
+          <button class="module-card" type="button" data-module="checkpoints" data-level="beginner" data-search="checkpoints rewind 回退 试错">
+            <div class="index-badge">03</div>
+            <div>
+              <div class="module-title-row">
+                <strong>Checkpoints</strong>
+                <span class="tag level-beginner">入门</span>
+              </div>
+              <p class="muted">安全试验、比较方案和恢复错误的关键能力。</p>
+              <div class="tag-row">
+                <span class="tag">45 分钟</span>
+                <span class="tag">安全试错</span>
+              </div>
+            </div>
+          </button>
+
+          <button class="module-card" type="button" data-module="cli" data-level="beginner" data-search="cli print mode 终端 脚本 自动化">
+            <div class="index-badge">04</div>
+            <div>
+              <div class="module-title-row">
+                <strong>CLI Basics</strong>
+                <span class="tag level-beginner">入门+</span>
+              </div>
+              <p class="muted">理解交互模式与 `claude -p` 的脚本化价值。</p>
+              <div class="tag-row">
+                <span class="tag">30 分钟</span>
+                <span class="tag">自动化入口</span>
+              </div>
+            </div>
+          </button>
+
+          <button class="module-card" type="button" data-module="skills" data-level="intermediate" data-search="skills 技能 复用 自动触发">
+            <div class="index-badge">05</div>
+            <div>
+              <div class="module-title-row">
+                <strong>Skills</strong>
+                <span class="tag level-intermediate">进阶</span>
+              </div>
+              <p class="muted">把经验和工作流沉淀成可复用能力。</p>
+              <div class="tag-row">
+                <span class="tag">1 小时</span>
+                <span class="tag">经验沉淀</span>
+              </div>
+            </div>
+          </button>
+
+          <button class="module-card" type="button" data-module="hooks" data-level="intermediate" data-search="hooks 钩子 自动检查 格式化 流程">
+            <div class="index-badge">06</div>
+            <div>
+              <div class="module-title-row">
+                <strong>Hooks</strong>
+                <span class="tag level-intermediate">进阶</span>
+              </div>
+              <p class="muted">在事件节点上自动运行检查、通知和守卫。</p>
+              <div class="tag-row">
+                <span class="tag">1 小时</span>
+                <span class="tag">事件驱动</span>
+              </div>
+            </div>
+          </button>
+
+          <button class="module-card" type="button" data-module="mcp" data-level="intermediate" data-search="mcp github database 文件系统 外部集成">
+            <div class="index-badge">07</div>
+            <div>
+              <div class="module-title-row">
+                <strong>MCP</strong>
+                <span class="tag level-intermediate">进阶+</span>
+              </div>
+              <p class="muted">让 Claude 接上实时工具和数据源。</p>
+              <div class="tag-row">
+                <span class="tag">1 小时</span>
+                <span class="tag">外部集成</span>
+              </div>
+            </div>
+          </button>
+
+          <button class="module-card" type="button" data-module="subagents" data-level="intermediate" data-search="subagents agents 子代理 并行 分工">
+            <div class="index-badge">08</div>
+            <div>
+              <div class="module-title-row">
+                <strong>Subagents</strong>
+                <span class="tag level-intermediate">进阶+</span>
+              </div>
+              <p class="muted">把复杂任务拆给专门代理，减少上下文污染。</p>
+              <div class="tag-row">
+                <span class="tag">1.5 小时</span>
+                <span class="tag">任务拆分</span>
+              </div>
+            </div>
+          </button>
+
+          <button class="module-card" type="button" data-module="advanced" data-level="advanced" data-search="advanced planning auto permissions tasks">
+            <div class="index-badge">09</div>
+            <div>
+              <div class="module-title-row">
+                <strong>Advanced Features</strong>
+                <span class="tag level-advanced">高阶</span>
+              </div>
+              <p class="muted">计划模式、权限、后台任务和高级控制。</p>
+              <div class="tag-row">
+                <span class="tag">2-3 小时</span>
+                <span class="tag">高级控制</span>
+              </div>
+            </div>
+          </button>
+
+          <button class="module-card" type="button" data-module="plugins" data-level="advanced" data-search="plugins 插件 分发 团队 工作流">
+            <div class="index-badge">10</div>
+            <div>
+              <div class="module-title-row">
+                <strong>Plugins</strong>
+                <span class="tag level-advanced">高阶</span>
+              </div>
+              <p class="muted">把命令、代理、MCP、hooks 打包成完整解决方案。</p>
+              <div class="tag-row">
+                <span class="tag">2 小时</span>
+                <span class="tag">能力产品化</span>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <aside class="detail-panel">
+          <div class="detail-header">
+            <div>
+              <div class="tag-row" id="detail-tags"></div>
+              <h3 id="detail-title" style="margin-top: 8px;">Slash Commands</h3>
+            </div>
+            <label class="tag" style="cursor:pointer;">
+              <input id="detail-complete" type="checkbox" style="margin-right:8px;">
+              标记完成
+            </label>
+          </div>
+          <p class="detail-description" id="detail-description"></p>
+
+          <div class="detail-section">
+            <h3>为什么现在学</h3>
+            <p class="muted" id="detail-why"></p>
+          </div>
+
+          <div class="detail-section">
+            <h3>马上可做的练习</h3>
+            <div class="code-block" id="detail-practice"></div>
+          </div>
+
+          <div class="detail-section">
+            <h3>学完应该会什么</h3>
+            <div class="checklist" id="detail-outcomes"></div>
+          </div>
+
+          <div class="detail-section">
+            <h3>建议下一步</h3>
+            <p class="muted" id="detail-next"></p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>7 天学习节奏</h2>
+      <div class="roadmap-grid">
+        <div class="subpanel">
+          <p class="muted">如果你想快速建立全局感，可以按 7 天节奏推进。它比一次读完更有效，因为每天都有非常明确的练习目标。</p>
+          <div class="roadmap">
+            <div class="roadmap-day">
+              <div class="day">Day 1</div>
+              <div>Slash Commands + Memory。让 Claude 从今天开始“按你的项目规范说话”。</div>
+            </div>
+            <div class="roadmap-day">
+              <div class="day">Day 2</div>
+              <div>Checkpoints + CLI。学会安全试错，以及如何用 `claude -p` 进入脚本化使用。</div>
+            </div>
+            <div class="roadmap-day">
+              <div class="day">Day 3</div>
+              <div>Skills。把代码审查、文档整理、重构建议变成可复用能力。</div>
+            </div>
+            <div class="roadmap-day">
+              <div class="day">Day 4</div>
+              <div>Hooks。给写文件、执行命令等关键行为加质量守卫。</div>
+            </div>
+            <div class="roadmap-day">
+              <div class="day">Day 5</div>
+              <div>MCP。让 Claude 能用 GitHub、数据库、文件系统等外部工具。</div>
+            </div>
+            <div class="roadmap-day">
+              <div class="day">Day 6</div>
+              <div>Subagents。把复杂任务拆成调试、审查、测试、文档等多个角色。</div>
+            </div>
+            <div class="roadmap-day">
+              <div class="day">Day 7</div>
+              <div>Advanced Features + Plugins。最后把能力拼成完整工作流。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subpanel">
+          <h3>15 分钟快速起步</h3>
+          <p class="muted">如果你不想先学完整结构，先做这三件事，收益最大。</p>
+          <div class="code-block"># 1. 安装第一个命令入口
+mkdir -p .claude/commands
+cp 01-slash-commands/optimize.md .claude/commands/
+
+# 2. 建立项目记忆
+cp 02-memory/project-CLAUDE.md ./CLAUDE.md
+
+# 3. 在 Claude Code 里试用
+/optimize</div>
+          <ul>
+            <li>你会马上理解命令入口如何提升效率。</li>
+            <li>你会看到 `CLAUDE.md` 为什么是长期协作底座。</li>
+            <li>这三步也是后面技能、hooks、子代理稳定工作的前提。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="quiz-section">
+      <h2>入门自测</h2>
+      <p class="muted">做完这个小测验，页面会告诉你建议从哪一层开始学。它不是考试，而是帮助你找到最省时间的入口。</p>
+      <div class="quiz-grid">
+        <div class="quiz-panel">
+          <div class="quiz-question" data-points="1">
+            <h3>1. 你是否已经在项目里用过 `CLAUDE.md`？</h3>
+            <button class="quiz-option" type="button" data-value="0">还没有，这是第一次接触</button>
+            <button class="quiz-option" type="button" data-value="1">用过一点，但不稳定</button>
+            <button class="quiz-option" type="button" data-value="2">已经在项目里长期使用</button>
+          </div>
+          <div class="quiz-question" data-points="1">
+            <h3>2. 你是否已经配置过 hooks、skills 或 subagents？</h3>
+            <button class="quiz-option" type="button" data-value="0">没有</button>
+            <button class="quiz-option" type="button" data-value="1">只配过其中一个</button>
+            <button class="quiz-option" type="button" data-value="2">已经组合使用过</button>
+          </div>
+          <div class="quiz-question" data-points="1">
+            <h3>3. 你是否会用 `claude -p` 或其他 CLI 方式把 Claude 放进脚本里？</h3>
+            <button class="quiz-option" type="button" data-value="0">不会</button>
+            <button class="quiz-option" type="button" data-value="1">知道一点，但没真正上手</button>
+            <button class="quiz-option" type="button" data-value="2">经常用</button>
+          </div>
+          <button class="pill-btn" type="button" id="submit-quiz">生成建议</button>
+        </div>
+
+        <div class="quiz-panel">
+          <h3>你的结果</h3>
+          <div class="quiz-result-box">
+            <p id="quiz-result-text" class="muted">完成左侧 3 题后，这里会显示你的推荐学习起点。</p>
+            <div class="tag-row" id="quiz-result-tags"></div>
+          </div>
+          <div class="detail-section">
+            <h3>推荐解释</h3>
+            <p id="quiz-result-detail" class="muted">默认建议：如果你不确定，就从第 1 模块开始。这个仓库本身也强调“宁可从更基础的位置起步”。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        这份界面内容来自仓库 `README.md`、`LEARNING-ROADMAP.md` 和 10 个模块首页的重组整理。现在它已经具备本地交互能力，不再只是静态展示。
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const modules = {
+      "slash-commands": {
+        title: "Slash Commands",
+        description: "这是最快产生正反馈的模块。你会先学到内建命令和技能式命令入口，理解为什么它们能把重复提示词变成固定动作。",
+        why: "仓库把它放在最前面，因为它是最低门槛、最高回报的入口。只要你开始把高频任务变成命令，Claude Code 的使用体验就会明显上一个台阶。",
+        practice: "# 在项目里创建命令目录\nmkdir -p .claude/commands\ncp 01-slash-commands/optimize.md .claude/commands/\n\n# 然后在 Claude Code 里输入\n/optimize",
+        outcomes: [
+          "知道内建命令、技能命令、MCP prompts 命令的区别",
+          "能为高频操作建立一个固定入口",
+          "理解为什么这个仓库说“命令只是入口，真正价值在组合工作流”"
+        ],
+        next: "学完后直接进入 Memory。命令负责启动动作，Memory 负责让 Claude 长期保持正确上下文。",
+        tags: ["30 分钟", "入门", "命令入口"]
+      },
+      "memory": {
+        title: "Memory",
+        description: "这一部分围绕 `CLAUDE.md` 展开。它告诉你如何让 Claude 跨会话记住项目背景、编码偏好、团队规则和目录级约束。",
+        why: "Memory 是整个仓库的底座。没有稳定上下文，后面的 skills、hooks、subagents 都会更脆弱，效果不一致。",
+        practice: "# 创建项目级记忆\ncp 02-memory/project-CLAUDE.md ./CLAUDE.md\n\n# 或者在会话中直接加规则\n# Always use TypeScript strict mode in this project",
+        outcomes: [
+          "理解 personal / project / directory 记忆层次",
+          "知道什么时候用 `/init`、`/memory` 和 `#` 快速写入记忆",
+          "能把项目规范固化到 Claude 的日常行为中"
+        ],
+        next: "接着学 Checkpoints 或 CLI 都可以，但按仓库顺序建议先学 Checkpoints，先保证你能安全试错。",
+        tags: ["45 分钟", "入门", "CLAUDE.md"]
+      },
+      "checkpoints": {
+        title: "Checkpoints",
+        description: "这一部分解释如何在 Claude Code 里安全保存、比较和回退会话状态与代码状态。",
+        why: "当你开始让 Claude 参与真实开发时，最怕的是“改多了不好退”。Checkpoints 解决的就是这个心理门槛。",
+        practice: "# 在 Claude Code 里\n# 1. 做一轮实验性修改\n# 2. 按 Esc Esc 或输入 /rewind\n# 3. 选择恢复代码与对话，回到之前状态",
+        outcomes: [
+          "理解恢复代码、恢复对话、总结从此处开始的差异",
+          "知道什么时候该大胆试验，因为你随时能退回去",
+          "把 checkpoints 当作探索复杂方案时的保护网"
+        ],
+        next: "然后进入 CLI Basics，理解 Claude 不只是交互式工具，还能被脚本和命令行调用。",
+        tags: ["45 分钟", "入门", "安全试错"]
+      },
+      "cli": {
+        title: "CLI Basics",
+        description: "这一部分介绍 `claude` 的交互模式、`claude -p` 的打印模式，以及通过管道把 Claude 用进终端流里。",
+        why: "只把 Claude 当成聊天窗口，会错过很大一部分能力。CLI 是把 Claude 接入脚本、自动化和 CI 的入口。",
+        practice: "claude \"explain this project\"\nclaude -p \"explain this function\"\ncat error.log | claude -p \"explain this error\"",
+        outcomes: [
+          "理解 interactive mode 和 print mode 的差异",
+          "会用 `claude -p` 做单次自动分析",
+          "知道如何通过管道和 shell 命令组合 Claude"
+        ],
+        next: "如果你已经能顺手使用 CLI，就进入 Skills，开始把经验变成可复用能力。",
+        tags: ["30 分钟", "入门+", "自动化入口"]
+      },
+      "skills": {
+        title: "Skills",
+        description: "Skills 是这个仓库很关键的一层：它把某类任务的说明、流程、模板和资源打包成能被 Claude 自动识别和调用的能力。",
+        why: "真正的长期效率，不是每次重新写提示，而是把好方法固化。Skills 正是在做这件事。",
+        practice: "# 安装一个技能\ncp -r 03-skills/code-review ~/.claude/skills/\n\n# 然后在 Claude Code 中触发对应能力",
+        outcomes: [
+          "理解 progressive disclosure：元数据先加载，正文按需加载",
+          "知道个人技能、项目技能、插件技能的区别",
+          "能开始设计自己的代码审查、文档整理或重构技能"
+        ],
+        next: "接下来进入 Hooks。Skills 决定 Claude 知道怎么做，Hooks 决定系统何时自动触发这些动作。",
+        tags: ["1 小时", "进阶", "经验沉淀"]
+      },
+      "hooks": {
+        title: "Hooks",
+        description: "Hooks 是事件驱动自动化层。它能在工具执行前后、任务结束时、特定行为发生时自动运行脚本、提示、HTTP webhook 或 agent 检查。",
+        why: "当你开始依赖 Claude 处理真实工作时，质量守卫和自动流程就变得很重要。Hooks 能让系统更稳。",
+        practice: "{\n  \"hooks\": {\n    \"PreToolUse\": [{\n      \"matcher\": \"Write\",\n      \"hooks\": [{\n        \"type\": \"command\",\n        \"command\": \"./.claude/hooks/format.sh\"\n      }]\n    }]\n  }\n}",
+        outcomes: [
+          "理解 command、prompt、http、agent 四种 hook",
+          "知道如何在关键工具前后加自动检查",
+          "开始构建你自己的质量门禁和提醒流程"
+        ],
+        next: "然后进入 MCP，让 Claude 不只会本地操作，还能访问真实外部系统。",
+        tags: ["1 小时", "进阶", "事件驱动"]
+      },
+      "mcp": {
+        title: "MCP",
+        description: "MCP 是 Claude 访问外部工具和实时数据的协议层。它让 Claude 能用 GitHub、数据库、文件系统等能力，而不只是依赖对话上下文。",
+        why: "这是 Claude 从“只会说”变成“能接系统”的关键一步。仓库把它放在中后段，是因为它和前面的 skills、hooks 组合效果最好。",
+        practice: "claude mcp add --transport http notion https://mcp.notion.com/mcp\nclaude mcp add --transport stdio myserver -- npx @myorg/mcp-server",
+        outcomes: [
+          "理解 HTTP、stdio、ws 等常见传输方式",
+          "知道 Memory 和 MCP 的差异：一个是持久上下文，一个是实时外部访问",
+          "能开始把 GitHub 或数据库接进 Claude 工作流"
+        ],
+        next: "接下来学 Subagents，把复杂任务分工出去，这时 MCP 能给代理们提供更强的外部能力。",
+        tags: ["1 小时", "进阶+", "外部集成"]
+      },
+      "subagents": {
+        title: "Subagents",
+        description: "Subagents 是分工机制。你可以定义不同角色，让它们在独立上下文里工作，再把结果汇总回来。",
+        why: "当任务变复杂时，最容易出问题的是上下文污染和单代理过载。Subagents 就是解决这两个问题的设计。",
+        practice: "---\nname: code-reviewer\ndescription: Review code for reliability and maintainability\ntools: Read, Grep, Bash\nmodel: sonnet\n---\nFocus on risks, regressions, and missing tests.",
+        outcomes: [
+          "理解为什么专门代理能减少主上下文污染",
+          "知道如何为不同角色限制工具和权限",
+          "开始把调试、测试、文档等任务拆成多个角色并行处理"
+        ],
+        next: "如果你已经能把任务拆给多个代理，就进入 Advanced Features，学习更高阶的控制方式。",
+        tags: ["1.5 小时", "进阶+", "任务拆分"]
+      },
+      "advanced": {
+        title: "Advanced Features",
+        description: "这一部分覆盖 Planning Mode、Auto Mode、Permission Modes、Background Tasks、Remote Control 等高级能力。",
+        why: "这些不是最先学的功能，但它们决定你能不能把 Claude 用在复杂、长流程和高风险场景里。",
+        practice: "/plan Implement user authentication system\n\n# 或在命令行中\nclaude --permission-mode plan",
+        outcomes: [
+          "知道什么时候该先计划后执行",
+          "理解权限模式、后台任务和高级会话管理的作用",
+          "能把 Claude 用进更复杂的工程流程"
+        ],
+        next: "最后进入 Plugins，把你已经会的东西打包成稳定、可分享的成品。",
+        tags: ["2-3 小时", "高阶", "高级控制"]
+      },
+      "plugins": {
+        title: "Plugins",
+        description: "Plugins 是最高层的封装方式。它把 commands、skills、agents、hooks、MCP 等内容一次性打包成一个完整插件。",
+        why: "当你不只是自己用，而是想长期复用、团队共享、规范化安装时，Plugins 就是最合适的终点。",
+        practice: "{\n  \"name\": \"my-first-plugin\",\n  \"description\": \"A greeting plugin\",\n  \"version\": \"1.0.0\",\n  \"author\": { \"name\": \"Your Name\" }\n}",
+        outcomes: [
+          "理解插件如何打包多种 Claude Code 能力",
+          "知道插件适合个人长期工作流还是团队分发",
+          "能把前面学到的命令、技能、代理和 hooks 组合成一套成品"
+        ],
+        next: "这时你就不只是“学习仓库内容”了，而是在构建自己的 Claude 工作系统。",
+        tags: ["2 小时", "高阶", "能力产品化"]
+      }
+    };
+
+    const moduleCards = [...document.querySelectorAll(".module-card")];
+    const detailTitle = document.getElementById("detail-title");
+    const detailDescription = document.getElementById("detail-description");
+    const detailWhy = document.getElementById("detail-why");
+    const detailPractice = document.getElementById("detail-practice");
+    const detailOutcomes = document.getElementById("detail-outcomes");
+    const detailNext = document.getElementById("detail-next");
+    const detailTags = document.getElementById("detail-tags");
+    const detailComplete = document.getElementById("detail-complete");
+    const progressFill = document.getElementById("progress-fill");
+    const progressLabel = document.getElementById("progress-label");
+    const completedCount = document.getElementById("completed-count");
+    const searchInput = document.getElementById("module-search");
+    const filterButtons = [...document.querySelectorAll("[data-filter]")];
+    const jumpFirstModule = document.getElementById("jump-first-module");
+    const jumpQuiz = document.getElementById("jump-quiz");
+    const resetProgress = document.getElementById("reset-progress");
+    const quizSection = document.getElementById("quiz-section");
+    const modulesSection = document.getElementById("modules-section");
+    const submitQuiz = document.getElementById("submit-quiz");
+    const quizQuestions = [...document.querySelectorAll(".quiz-question")];
+    const quizResultText = document.getElementById("quiz-result-text");
+    const quizResultDetail = document.getElementById("quiz-result-detail");
+    const quizResultTags = document.getElementById("quiz-result-tags");
+
+    const storageKey = "claude-howto-study-progress";
+    let currentModule = "slash-commands";
+    let activeFilter = "all";
+
+    function getProgress() {
+      try {
+        return JSON.parse(localStorage.getItem(storageKey)) || {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveProgress(progress) {
+      localStorage.setItem(storageKey, JSON.stringify(progress));
+    }
+
+    function renderModule(moduleId) {
+      currentModule = moduleId;
+      const data = modules[moduleId];
+      const progress = getProgress();
+      detailTitle.textContent = data.title;
+      detailDescription.textContent = data.description;
+      detailWhy.textContent = data.why;
+      detailPractice.textContent = data.practice;
+      detailNext.textContent = data.next;
+      detailComplete.checked = Boolean(progress[moduleId]);
+      detailComplete.dataset.module = moduleId;
+      detailTags.innerHTML = "";
+      data.tags.forEach((tag) => {
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.textContent = tag;
+        detailTags.appendChild(span);
+      });
+
+      detailOutcomes.innerHTML = "";
+      data.outcomes.forEach((item) => {
+        const row = document.createElement("label");
+        row.className = "check-item";
+        row.innerHTML = "<input type='checkbox' disabled><span>" + item + "</span>";
+        detailOutcomes.appendChild(row);
+      });
+
+      moduleCards.forEach((card) => {
+        card.classList.toggle("active", card.dataset.module === moduleId);
+      });
+    }
+
+    function updateProgressUi() {
+      const progress = getProgress();
+      const total = Object.keys(modules).length;
+      const done = Object.keys(progress).filter((key) => progress[key]).length;
+      const percent = Math.round((done / total) * 100);
+      progressFill.style.width = percent + "%";
+      progressLabel.textContent = percent + "%";
+      completedCount.textContent = done + "/" + total;
+    }
+
+    function applyFilters() {
+      const term = searchInput.value.trim().toLowerCase();
+      moduleCards.forEach((card) => {
+        const levelMatch = activeFilter === "all" || card.dataset.level === activeFilter;
+        const textMatch = !term || card.dataset.search.toLowerCase().includes(term) || card.textContent.toLowerCase().includes(term);
+        card.classList.toggle("hidden", !(levelMatch && textMatch));
+      });
+    }
+
+    moduleCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        renderModule(card.dataset.module);
+      });
+    });
+
+    detailComplete.addEventListener("change", (event) => {
+      const progress = getProgress();
+      progress[event.target.dataset.module] = event.target.checked;
+      saveProgress(progress);
+      updateProgressUi();
+    });
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        filterButtons.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener("input", applyFilters);
+
+    jumpFirstModule.addEventListener("click", () => {
+      modulesSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      renderModule("slash-commands");
+    });
+
+    jumpQuiz.addEventListener("click", () => {
+      quizSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    resetProgress.addEventListener("click", () => {
+      localStorage.removeItem(storageKey);
+      detailComplete.checked = false;
+      updateProgressUi();
+    });
+
+    quizQuestions.forEach((question) => {
+      const options = [...question.querySelectorAll(".quiz-option")];
+      options.forEach((option) => {
+        option.addEventListener("click", () => {
+          options.forEach((item) => item.classList.remove("selected"));
+          option.classList.add("selected");
+          question.dataset.selected = option.dataset.value;
+        });
+      });
+    });
+
+    submitQuiz.addEventListener("click", () => {
+      const unanswered = quizQuestions.some((question) => question.dataset.selected === undefined);
+      if (unanswered) {
+        quizResultText.textContent = "还有题目没选完。先把 3 题做完，我再给你更准确的建议。";
+        quizResultDetail.textContent = "这个小测验的目的不是评分，而是帮你避免一开始就跳到太难的部分。";
+        quizResultTags.innerHTML = "";
+        return;
+      }
+
+      const score = quizQuestions.reduce((sum, question) => sum + Number(question.dataset.selected || 0), 0);
+      quizResultTags.innerHTML = "";
+
+      function addTag(text) {
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.textContent = text;
+        quizResultTags.appendChild(span);
+      }
+
+      if (score <= 2) {
+        quizResultText.textContent = "建议从 Level 1 开始：先学 Slash Commands、Memory、Checkpoints、CLI。";
+        quizResultDetail.textContent = "你现在最该建立的是基础操作感和稳定上下文。别急着上 hooks 或 MCP，先把 Claude 用顺手，后面会快很多。";
+        addTag("推荐起点：Level 1");
+        addTag("先点：01 Slash Commands");
+        renderModule("slash-commands");
+        modulesSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (score <= 4) {
+        quizResultText.textContent = "建议从 Level 2 开始：重点看 Skills、Hooks、MCP、Subagents。";
+        quizResultDetail.textContent = "你已经有一定基础，现在该进入工作流阶段。核心目标不是再学单个功能，而是学会把功能串成自动化。";
+        addTag("推荐起点：Level 2");
+        addTag("先点：05 Skills");
+        renderModule("skills");
+        modulesSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        quizResultText.textContent = "建议直接看 Level 3 和 Plugins，但仍值得快速回顾前面的组合方式。";
+        quizResultDetail.textContent = "你已经比较接近高级使用者了。现在重点是计划模式、权限、团队分发，以及如何把前面能力打包成稳定体系。";
+        addTag("推荐起点：Level 3");
+        addTag("先点：09 Advanced Features");
+        renderModule("advanced");
+        modulesSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+
+    renderModule(currentModule);
+    updateProgressUi();
+    applyFilters();
+  </script>
+</body>
+</html>

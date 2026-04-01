@@ -19,6 +19,8 @@
 
 Go from typing `claude` to orchestrating agents, hooks, skills, and MCP servers — with visual tutorials, copy-paste templates, and a guided learning path.
 
+**Chinese Entry:** [README.zh-CN.md](README.zh-CN.md) | [Interactive Chinese Study Page](zh-cn/index.html)
+
 **[Get Started in 15 Minutes](#-get-started-in-15-minutes)** | **[Find Your Level](#-not-sure-where-to-start)** | **[Browse the Feature Catalog](CATALOG.md)**
 
 ---
