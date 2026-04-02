@@ -937,6 +937,87 @@ npx mcporter list
 
 MCPorter complements the code-execution approach described above by providing the runtime infrastructure for calling MCP tools as typed APIs — making it straightforward to keep intermediate data out of the model context.
 
+## Agent Payments with agentpay-mcp
+
+When Claude calls paid APIs or services, it may receive an HTTP `402 Payment Required` response. [agentpay-mcp](https://github.com/up2itnow0822/agentpay-mcp) is an MCP server that handles this automatically — the agent pays via the [x402 protocol](https://www.x402.org/), retries the request, and continues working.
+
+This is useful when agents need to consume metered APIs (weather data, satellite imagery, premium search, etc.) without stopping to ask a human to go pay manually.
+
+### How It Works
+
+```mermaid
+sequenceDiagram
+    participant Claude as Claude Code
+    participant AP as agentpay-mcp
+    participant API as Paid API
+    participant Chain as Base L2
+
+    Claude->>API: GET /premium-data
+    API-->>Claude: 402 Payment Required
+    Claude->>AP: pay(merchant, amount)
+    AP->>AP: Check spend caps & approval policy
+    AP->>Chain: USDC transfer
+    Chain-->>AP: tx confirmed
+    AP-->>Claude: payment receipt
+    Claude->>API: GET /premium-data (with receipt)
+    API-->>Claude: 200 OK + data
+```
+
+### Setup
+
+```bash
+claude mcp add --transport stdio agentpay -- npx agentpay-mcp
+```
+
+Or add to your `.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "agentpay": {
+      "command": "npx",
+      "args": ["agentpay-mcp"],
+      "env": {
+        "AGENTPAY_WALLET_PRIVATE_KEY": "${AGENTPAY_WALLET_PRIVATE_KEY}",
+        "AGENTPAY_DAILY_LIMIT_USD": "50",
+        "AGENTPAY_REQUIRE_APPROVAL_ABOVE_USD": "5"
+      }
+    }
+  }
+}
+```
+
+See the [payment-mcp.json](payment-mcp.json) config file in this folder for a ready-to-use template.
+
+### Governance Controls
+
+| Control | What It Does |
+|---------|-------------|
+| **Daily spend cap** | Hard ceiling on total daily spend — enforced on-chain, not bypassable by the agent |
+| **Per-transaction approval** | Transactions above a threshold queue for human confirmation |
+| **Simulation mode** | Preview cost and recipient before committing real funds |
+| **Audit trail** | Every payment logged with merchant, amount, timestamp, and tool context |
+
+### Example: Agent Pays for Premium Weather Data
+
+```bash
+# Claude hits a paid weather API during a research task:
+> "Get the 30-day forecast for Austin, TX from PremiumWeather."
+
+# Behind the scenes:
+# 1. Claude calls the weather API → receives 402 Payment Required
+# 2. agentpay-mcp checks: $2.50 is under the $5 auto-approve threshold
+# 3. Payment executes on Base L2 (USDC) → ~2 seconds
+# 4. Claude retries with payment receipt → gets forecast data
+# 5. Total spend logged to audit trail
+```
+
+agentpay-mcp is integrated into [NVIDIA's NeMo Agent Toolkit Examples](https://github.com/NVIDIA/NeMo-Agent-Toolkit-Examples/pull/17) (PR #17, merged) as payment infrastructure for their agent toolkit.
+
+> **Note:** agentpay-mcp is non-custodial — private keys never leave your machine. Spend caps are enforced by smart contract, not application code.
+
+For more details, see the [agentpay-mcp repository](https://github.com/up2itnow0822/agentpay-mcp).
+
 ## Best Practices
 
 ### Security Considerations

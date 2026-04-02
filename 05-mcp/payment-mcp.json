@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "agentpay": {
+      "command": "npx",
+      "args": ["agentpay-mcp"],
+      "env": {
+        "AGENTPAY_WALLET_PRIVATE_KEY": "${AGENTPAY_WALLET_PRIVATE_KEY}",
+        "AGENTPAY_DAILY_LIMIT_USD": "50",
+        "AGENTPAY_REQUIRE_APPROVAL_ABOVE_USD": "5"
+      }
+    }
+  }
+}
