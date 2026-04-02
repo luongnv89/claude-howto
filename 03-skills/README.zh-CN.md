@@ -574,7 +574,7 @@ my-skill/
 支持文件建议：
 
 - `SKILL.md` 保持在 **500 行以内**。详尽参考资料、大示例、规格文档迁移到独立文件。
-- 在 `SKILL.md` 中使用**相对路径**引用其他文件（如 `[API reference](references/api-spec.md)`）。
+- 在 `SKILL.md` 中使用**相对路径**引用其他文件（如 `references/api-spec.md`）。
 - 支持文件属于 Level 3 按需加载，不会在未读取时消耗上下文。
 
 ## Managing Skills
