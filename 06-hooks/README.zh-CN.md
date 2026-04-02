@@ -1136,15 +1136,15 @@ chmod +x ~/.claude/hooks/*.sh
 
 ## Related Concepts
 
-- **[Checkpoints and Rewind](../08-checkpoints/)** - 保存/恢复会话状态
-- **[Slash Commands](../01-slash-commands/)** - 自定义快捷命令
-- **[Skills](../03-skills/)** - 可复用自动能力
-- **[Subagents](../04-subagents/)** - 委派式任务执行
-- **[Plugins](../07-plugins/)** - 打包扩展能力
-- **[Advanced Features](../09-advanced-features/)** - 更多高级能力
+- **[Checkpoints and Rewind](../08-checkpoints/README.zh-CN.md)** - 保存/恢复会话状态
+- **[Slash Commands](../01-slash-commands/README.zh-CN.md)** - 自定义快捷命令
+- **[Skills](../03-skills/README.zh-CN.md)** - 可复用自动能力
+- **[Subagents](../04-subagents/README.zh-CN.md)** - 委派式任务执行
+- **[Plugins](../07-plugins/README.zh-CN.md)** - 打包扩展能力
+- **[Advanced Features](../09-advanced-features/README.zh-CN.md)** - 更多高级能力
 
 ## Additional Resources
 
 - **[Official Hooks Documentation](https://code.claude.com/docs/en/hooks)** - 官方完整参考
 - **[CLI Reference](https://code.claude.com/docs/en/cli-reference)** - CLI 文档
-- **[Memory Guide](../02-memory/)** - 持久上下文配置
+- **[Memory Guide](../02-memory/README.zh-CN.md)** - 持久上下文配置

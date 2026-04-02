@@ -15,13 +15,13 @@
 
 | 功能 | 内置 | 示例 | 总计 | 参考 |
 |---------|----------|----------|-------|-----------|
-| **Slash Commands** | 55+ | 8 | 63+ | [01-slash-commands/](01-slash-commands/) |
-| **Subagents** | 6 | 10 | 16 | [04-subagents/](04-subagents/) |
-| **Skills** | 5 bundled | 4 | 9 | [03-skills/](03-skills/) |
-| **Plugins** | - | 3 | 3 | [07-plugins/](07-plugins/) |
-| **MCP Servers** | 1 | 8 | 9 | [05-mcp/](05-mcp/) |
-| **Hooks** | 25 events | 7 | 7 | [06-hooks/](06-hooks/) |
-| **Memory** | 7 types | 3 | 3 | [02-memory/](02-memory/) |
+| **Slash Commands** | 55+ | 8 | 63+ | [01-slash-commands/](01-slash-commands/README.zh-CN.md) |
+| **Subagents** | 6 | 10 | 16 | [04-subagents/](04-subagents/README.zh-CN.md) |
+| **Skills** | 5 bundled | 4 | 9 | [03-skills/](03-skills/README.zh-CN.md) |
+| **Plugins** | - | 3 | 3 | [07-plugins/](07-plugins/README.zh-CN.md) |
+| **MCP Servers** | 1 | 8 | 9 | [05-mcp/](05-mcp/README.zh-CN.md) |
+| **Hooks** | 25 events | 7 | 7 | [06-hooks/](06-hooks/README.zh-CN.md) |
+| **Memory** | 7 types | 3 | 3 | [02-memory/](02-memory/README.zh-CN.md) |
 | **Total** | **99** | **43** | **117** | |
 
 ---
@@ -102,7 +102,7 @@ Commands 是由用户手动触发、执行特定动作的快捷命令。
 
 > **Scope**: `User` = 个人工作流（`~/.claude/commands/`），`Project` = 团队共享（`.claude/commands/`）
 
-**参考**： [01-slash-commands/](01-slash-commands/) | [Official Docs](https://code.claude.com/docs/en/interactive-mode)
+**参考**： [01-slash-commands/](01-slash-commands/README.zh-CN.md) | [Official Docs](https://code.claude.com/docs/en/interactive-mode)
 
 **一键安装全部自定义命令**：
 ```bash
@@ -174,7 +174,7 @@ Subagents 是用于特定任务、具备隔离上下文的专用 AI 助手。
 
 > **Scope**: `User` = 个人（`~/.claude/agents/`），`Project` = 团队共享（`.claude/agents/`）
 
-**参考**： [04-subagents/](04-subagents/) | [Official Docs](https://code.claude.com/docs/en/sub-agents)
+**参考**： [04-subagents/](04-subagents/README.zh-CN.md) | [Official Docs](https://code.claude.com/docs/en/sub-agents)
 
 **一键安装全部自定义 agents**：
 ```bash
@@ -219,7 +219,7 @@ Skills 是带说明、脚本、模板的可自动触发能力模块。
 | `effort` | string | 推理强度（`low`, `medium`, `high`） |
 | `shell` | string | 脚本使用 shell（`bash`, `zsh`, `sh`） |
 
-**参考**： [03-skills/](03-skills/) | [Official Docs](https://code.claude.com/docs/en/skills)
+**参考**： [03-skills/](03-skills/README.zh-CN.md) | [Official Docs](https://code.claude.com/docs/en/skills)
 
 **一键安装全部 skills**：
 ```bash
@@ -265,7 +265,7 @@ Plugins 是 commands、agents、MCP servers、hooks 的打包集合。
 └── scripts/          # 工具脚本
 ```
 
-**参考**： [07-plugins/](07-plugins/) | [Official Docs](https://code.claude.com/docs/en/plugins)
+**参考**： [07-plugins/](07-plugins/README.zh-CN.md) | [Official Docs](https://code.claude.com/docs/en/plugins)
 
 **插件管理命令**：
 ```bash
@@ -313,7 +313,7 @@ Model Context Protocol servers 用于访问外部工具和 API。
 }
 ```
 
-**参考**： [05-mcp/](05-mcp/) | [MCP Protocol Docs](https://modelcontextprotocol.io)
+**参考**： [05-mcp/](05-mcp/README.zh-CN.md) | [MCP Protocol Docs](https://modelcontextprotocol.io)
 
 **快速安装 GitHub MCP**：
 ```bash
@@ -391,7 +391,7 @@ Hooks 是事件驱动自动化，在 Claude Code 事件发生时执行 shell 命
 }
 ```
 
-**参考**： [06-hooks/](06-hooks/) | [Official Docs](https://code.claude.com/docs/en/hooks)
+**参考**： [06-hooks/](06-hooks/README.zh-CN.md) | [Official Docs](https://code.claude.com/docs/en/hooks)
 
 **一键安装全部 hooks**：
 ```bash
@@ -418,7 +418,7 @@ Memory 文件用于跨会话自动加载持久上下文。
 
 > **Scope**: `Organization` = 管理员下发，`Project` = 团队共享，`User` = 个人层，`Local` = 不提交，`Session` = 系统自动管理
 
-**参考**： [02-memory/](02-memory/) | [Official Docs](https://code.claude.com/docs/en/memory)
+**参考**： [02-memory/](02-memory/README.zh-CN.md) | [Official Docs](https://code.claude.com/docs/en/memory)
 
 **快速安装**：
 ```bash

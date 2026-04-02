@@ -139,15 +139,15 @@ _**核心技巧**_
 
 | Feature | Description | Learn More |
 |---------|-------------|------------|
-| **Auto Memory** | Claude 自动学习并跨会话记住偏好 | [Memory Guide](02-memory/) |
-| **Remote Control** | 通过外部工具/脚本远程控制 Claude Code 会话 | [Advanced Features](09-advanced-features/) |
-| **Web Sessions** | 通过浏览器访问 Claude Code 进行远程开发 | [CLI Reference](10-cli/) |
+| **Auto Memory** | Claude 自动学习并跨会话记住偏好 | [Memory Guide](02-memory/README.zh-CN.md) |
+| **Remote Control** | 通过外部工具/脚本远程控制 Claude Code 会话 | [Advanced Features](09-advanced-features/README.zh-CN.md) |
+| **Web Sessions** | 通过浏览器访问 Claude Code 进行远程开发 | [CLI Reference](10-cli/README.zh-CN.md) |
 | **Desktop App** | 原生桌面应用，提供增强 UI | [Claude Code Docs](https://code.claude.com/docs/en/desktop) |
-| **Extended Thinking** | 用 `Alt+T`/`Option+T` 或 `MAX_THINKING_TOKENS` 启用深度推理 | [Advanced Features](09-advanced-features/) |
-| **Permission Modes** | 细粒度权限模式：default、acceptEdits、plan、auto、dontAsk、bypassPermissions | [Advanced Features](09-advanced-features/) |
-| **7-Tier Memory** | Managed Policy、Project、Project Rules、User、User Rules、Local、Auto Memory | [Memory Guide](02-memory/) |
-| **Hook Events** | 25 类事件：PreToolUse、PostToolUse、PostToolUseFailure、Stop、StopFailure、SubagentStart、SubagentStop、Notification、Elicitation 等 | [Hooks Guide](06-hooks/) |
-| **Agent Teams** | 多 agents 协作处理复杂任务 | [Subagents Guide](04-subagents/) |
-| **Scheduled Tasks** | 基于 `/loop` 与 cron 的周期任务 | [Advanced Features](09-advanced-features/) |
-| **Chrome Integration** | 无头 Chromium 浏览器自动化 | [Advanced Features](09-advanced-features/) |
-| **Keyboard Customization** | 键位自定义（含组合键） | [Advanced Features](09-advanced-features/) |
+| **Extended Thinking** | 用 `Alt+T`/`Option+T` 或 `MAX_THINKING_TOKENS` 启用深度推理 | [Advanced Features](09-advanced-features/README.zh-CN.md) |
+| **Permission Modes** | 细粒度权限模式：default、acceptEdits、plan、auto、dontAsk、bypassPermissions | [Advanced Features](09-advanced-features/README.zh-CN.md) |
+| **7-Tier Memory** | Managed Policy、Project、Project Rules、User、User Rules、Local、Auto Memory | [Memory Guide](02-memory/README.zh-CN.md) |
+| **Hook Events** | 25 类事件：PreToolUse、PostToolUse、PostToolUseFailure、Stop、StopFailure、SubagentStart、SubagentStop、Notification、Elicitation 等 | [Hooks Guide](06-hooks/README.zh-CN.md) |
+| **Agent Teams** | 多 agents 协作处理复杂任务 | [Subagents Guide](04-subagents/README.zh-CN.md) |
+| **Scheduled Tasks** | 基于 `/loop` 与 cron 的周期任务 | [Advanced Features](09-advanced-features/README.zh-CN.md) |
+| **Chrome Integration** | 无头 Chromium 浏览器自动化 | [Advanced Features](09-advanced-features/README.zh-CN.md) |
+| **Keyboard Customization** | 键位自定义（含组合键） | [Advanced Features](09-advanced-features/README.zh-CN.md) |

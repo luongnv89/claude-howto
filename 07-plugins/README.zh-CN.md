@@ -800,12 +800,12 @@ Complete PR review workflow with security, testing, and documentation checks.
 
 ## Related Concepts
 
-- **[Slash Commands](../01-slash-commands/)**
-- **[Memory](../02-memory/)**
-- **[Skills](../03-skills/)**
-- **[Subagents](../04-subagents/)**
-- **[MCP Servers](../05-mcp/)**
-- **[Hooks](../06-hooks/)**
+- **[Slash Commands](../01-slash-commands/README.zh-CN.md)**
+- **[Memory](../02-memory/README.zh-CN.md)**
+- **[Skills](../03-skills/README.zh-CN.md)**
+- **[Subagents](../04-subagents/README.zh-CN.md)**
+- **[MCP Servers](../05-mcp/README.zh-CN.md)**
+- **[Hooks](../06-hooks/README.zh-CN.md)**
 
 ## Complete Example Workflow
 

@@ -685,7 +685,7 @@ team lead 拆解任务并分配给 teammates，共享任务列表负责：
 
 ### Hook events for teams
 
-Agent Teams 额外引入两个 [hook events](../06-hooks/)：
+Agent Teams 额外引入两个 [hook events](../06-hooks/README.zh-CN.md)：
 
 | Event | Fires When | Use Case |
 |-------|-----------|----------|
@@ -1030,12 +1030,12 @@ project/
 
 ### Related Features
 
-- **[Slash Commands](../01-slash-commands/)** - 用户触发的快捷命令
-- **[Memory](../02-memory/)** - 跨会话持久上下文
-- **[Skills](../03-skills/)** - 可复用自动能力
-- **[MCP Protocol](../05-mcp/)** - 实时外部数据访问
-- **[Hooks](../06-hooks/)** - 事件驱动命令自动化
-- **[Plugins](../07-plugins/)** - 打包扩展能力
+- **[Slash Commands](../01-slash-commands/README.zh-CN.md)** - 用户触发的快捷命令
+- **[Memory](../02-memory/README.zh-CN.md)** - 跨会话持久上下文
+- **[Skills](../03-skills/README.zh-CN.md)** - 可复用自动能力
+- **[MCP Protocol](../05-mcp/README.zh-CN.md)** - 实时外部数据访问
+- **[Hooks](../06-hooks/README.zh-CN.md)** - 事件驱动命令自动化
+- **[Plugins](../07-plugins/README.zh-CN.md)** - 打包扩展能力
 
 ### Comparison with Other Features
 
@@ -1068,10 +1068,10 @@ graph TD
 
 - [Official Subagents Documentation](https://code.claude.com/docs/en/sub-agents)
 - [CLI Reference](https://code.claude.com/docs/en/cli-reference) - `--agents` 及其他 CLI 选项
-- [Plugins Guide](../07-plugins/) - 打包 agents 与其他特性
-- [Skills Guide](../03-skills/) - 自动调用能力
-- [Memory Guide](../02-memory/) - 持久上下文
-- [Hooks Guide](../06-hooks/) - 事件驱动自动化
+- [Plugins Guide](../07-plugins/README.zh-CN.md) - 打包 agents 与其他特性
+- [Skills Guide](../03-skills/README.zh-CN.md) - 自动调用能力
+- [Memory Guide](../02-memory/README.zh-CN.md) - 持久上下文
+- [Hooks Guide](../06-hooks/README.zh-CN.md) - 事件驱动自动化
 
 ---
 

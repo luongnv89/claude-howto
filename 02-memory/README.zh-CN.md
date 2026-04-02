@@ -1145,9 +1145,9 @@ Claude 会提示你选择写入哪个 memory 文件。
 ## Related Concepts Links
 
 ### Integration Points
-- [MCP Protocol](../05-mcp/) - 与 memory 配合使用的实时数据访问
-- [Slash Commands](../01-slash-commands/) - 会话内快捷命令
-- [Skills](../03-skills/) - 结合 memory 上下文的自动化工作流
+- [MCP Protocol](../05-mcp/README.zh-CN.md) - 与 memory 配合使用的实时数据访问
+- [Slash Commands](../01-slash-commands/README.zh-CN.md) - 会话内快捷命令
+- [Skills](../03-skills/README.zh-CN.md) - 结合 memory 上下文的自动化工作流
 
 ### Related Claude Features
 - [Claude Web Memory](https://claude.ai) - 自动综合记忆

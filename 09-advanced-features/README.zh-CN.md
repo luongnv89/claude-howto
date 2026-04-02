@@ -1854,14 +1854,14 @@ User: /config
 - [Official Interactive Mode Documentation](https://code.claude.com/docs/en/interactive-mode)
 - [Official Headless Mode Documentation](https://code.claude.com/docs/en/headless)
 - [CLI Reference](https://code.claude.com/docs/en/cli-reference)
-- [Checkpoints Guide](../08-checkpoints/) - Session management and rewinding
-- [Slash Commands](../01-slash-commands/) - Command reference
-- [Memory Guide](../02-memory/) - Persistent context
-- [Skills Guide](../03-skills/) - Autonomous capabilities
-- [Subagents Guide](../04-subagents/) - Delegated task execution
-- [MCP Guide](../05-mcp/) - External data access
-- [Hooks Guide](../06-hooks/) - Event-driven automation
-- [Plugins Guide](../07-plugins/) - Bundled extensions
+- [Checkpoints Guide](../08-checkpoints/README.zh-CN.md) - Session management and rewinding
+- [Slash Commands](../01-slash-commands/README.zh-CN.md) - Command reference
+- [Memory Guide](../02-memory/README.zh-CN.md) - Persistent context
+- [Skills Guide](../03-skills/README.zh-CN.md) - Autonomous capabilities
+- [Subagents Guide](../04-subagents/README.zh-CN.md) - Delegated task execution
+- [MCP Guide](../05-mcp/README.zh-CN.md) - External data access
+- [Hooks Guide](../06-hooks/README.zh-CN.md) - Event-driven automation
+- [Plugins Guide](../07-plugins/README.zh-CN.md) - Bundled extensions
 - [Official Scheduled Tasks Documentation](https://code.claude.com/docs/en/scheduled-tasks)
 - [Official Chrome Integration Documentation](https://code.claude.com/docs/en/chrome)
 - [Official Remote Control Documentation](https://code.claude.com/docs/en/remote-control)

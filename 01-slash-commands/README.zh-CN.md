@@ -14,7 +14,7 @@ Slash commands 是在交互式会话中控制 Claude 行为的快捷命令，主
 - **Plugin commands**：来自已安装插件的命令（`/frontend-design:frontend-design`）
 - **MCP prompts**：来自 MCP servers 的命令（`/mcp__github__list_prs`）
 
-> **Note**：自定义 slash commands 已并入 skills。`.claude/commands/` 下的文件仍可用，但现在推荐使用 skills（`.claude/skills/`）。两种方式都会创建 `/command-name` 快捷命令。完整说明见 [Skills Guide](../03-skills/)。
+> **Note**：自定义 slash commands 已并入 skills。`.claude/commands/` 下的文件仍可用，但现在推荐使用 skills（`.claude/skills/`）。两种方式都会创建 `/command-name` 快捷命令。完整说明见 [Skills Guide](../03-skills/README.zh-CN.md)。
 
 ## Built-in Commands 参考
 
@@ -535,11 +535,11 @@ Deploy the application to production:
 
 ## Related Guides
 
-- **[Skills](../03-skills/)** - skills 完整参考（可自动触发能力）
-- **[Memory](../02-memory/)** - 通过 `CLAUDE.md` 持久化上下文
-- **[Subagents](../04-subagents/)** - 委派式 AI agents
-- **[Plugins](../07-plugins/)** - 打包命令集合
-- **[Hooks](../06-hooks/)** - 事件驱动自动化
+- **[Skills](../03-skills/README.zh-CN.md)** - skills 完整参考（可自动触发能力）
+- **[Memory](../02-memory/README.zh-CN.md)** - 通过 `CLAUDE.md` 持久化上下文
+- **[Subagents](../04-subagents/README.zh-CN.md)** - 委派式 AI agents
+- **[Plugins](../07-plugins/README.zh-CN.md)** - 打包命令集合
+- **[Hooks](../06-hooks/README.zh-CN.md)** - 事件驱动自动化
 
 ## Additional Resources
 
@@ -549,4 +549,4 @@ Deploy the application to production:
 
 ---
 
-*Part of the [Claude How To](../) guide series*
+*Part of the [Claude How To](../README.zh-CN.md) guide series*

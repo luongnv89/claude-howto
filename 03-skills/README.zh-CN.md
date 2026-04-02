@@ -804,8 +804,8 @@ chmod +x ~/.claude/skills/my-skill/scripts/*.py
 - [Official Skills Documentation](https://code.claude.com/docs/en/skills)
 - [Agent Skills Architecture Blog](https://claude.com/blog/equipping-agents-for-the-real-world-with-agent-skills)
 - [Skills Repository](https://github.com/luongnv89/skills) - 可直接使用的技能集合
-- [Slash Commands Guide](../01-slash-commands/) - 用户触发快捷命令
-- [Subagents Guide](../04-subagents/) - 委派式 AI agents
-- [Memory Guide](../02-memory/) - 持久上下文
-- [MCP (Model Context Protocol)](../05-mcp/) - 实时外部数据
-- [Hooks Guide](../06-hooks/) - 事件驱动自动化
+- [Slash Commands Guide](../01-slash-commands/README.zh-CN.md) - 用户触发快捷命令
+- [Subagents Guide](../04-subagents/README.zh-CN.md) - 委派式 AI agents
+- [Memory Guide](../02-memory/README.zh-CN.md) - 持久上下文
+- [MCP (Model Context Protocol)](../05-mcp/README.zh-CN.md) - 实时外部数据
+- [Hooks Guide](../06-hooks/README.zh-CN.md) - 事件驱动自动化

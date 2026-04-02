@@ -287,16 +287,16 @@ Checkpoint 帮你“回去”，但你如何知道**什么时候该回退**？�
 
 ## Related Concepts
 
-- **[Advanced Features](../09-advanced-features/)** - planning mode 与高级能力
-- **[Memory Management](../02-memory/)** - 对话历史与上下文管理
-- **[Slash Commands](../01-slash-commands/)** - 用户触发快捷命令
-- **[Hooks](../06-hooks/)** - 事件驱动自动化
-- **[Plugins](../07-plugins/)** - 打包扩展能力
+- **[Advanced Features](../09-advanced-features/README.zh-CN.md)** - planning mode 与高级能力
+- **[Memory Management](../02-memory/README.zh-CN.md)** - 对话历史与上下文管理
+- **[Slash Commands](../01-slash-commands/README.zh-CN.md)** - 用户触发快捷命令
+- **[Hooks](../06-hooks/README.zh-CN.md)** - 事件驱动自动化
+- **[Plugins](../07-plugins/README.zh-CN.md)** - 打包扩展能力
 
 ## Additional Resources
 
 - [Official Checkpointing Documentation](https://code.claude.com/docs/en/checkpointing)
-- [Advanced Features Guide](../09-advanced-features/) - extended thinking 等能力
+- [Advanced Features Guide](../09-advanced-features/README.zh-CN.md) - extended thinking 等能力
 
 ## Summary
 

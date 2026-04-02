@@ -97,17 +97,17 @@ graph TD
 
 | Step | Feature | Complexity | Time | Level | Dependencies | Why Learn This | Key Benefits |
 |------|---------|-----------|------|-------|--------------|----------------|--------------|
-| **1** | [Slash Commands](01-slash-commands/) | ⭐ Beginner | 30 min | Level 1 | None | 快速获得生产力收益（55+ built-in + 5 bundled skills） | 即时自动化、团队标准化 |
-| **2** | [Memory](02-memory/) | ⭐⭐ Beginner+ | 45 min | Level 1 | None | 所有能力的上下文基础 | 持久上下文、偏好记忆 |
-| **3** | [Checkpoints](08-checkpoints/) | ⭐⭐ Intermediate | 45 min | Level 1 | Session management | 安全探索 | 实验、回退、恢复 |
-| **4** | [CLI Basics](10-cli/) | ⭐⭐ Beginner+ | 30 min | Level 1 | None | 命令行核心能力 | Interactive & print mode |
-| **5** | [Skills](03-skills/) | ⭐⭐ Intermediate | 1 hour | Level 2 | Slash Commands | 自动化专业能力 | 可复用、稳定一致 |
-| **6** | [Hooks](06-hooks/) | ⭐⭐ Intermediate | 1 hour | Level 2 | Tools, Commands | 事件驱动自动化（25 events, 4 types） | 校验、质量门禁 |
-| **7** | [MCP](05-mcp/) | ⭐⭐⭐ Intermediate+ | 1 hour | Level 2 | Configuration | 外部实时数据接入 | API 集成、实时联动 |
-| **8** | [Subagents](04-subagents/) | ⭐⭐⭐ Intermediate+ | 1.5 hours | Level 2 | Memory, Commands | 处理复杂任务（含 6 个 built-in） | 委派、专长分工 |
-| **9** | [Advanced Features](09-advanced-features/) | ⭐⭐⭐⭐⭐ Advanced | 2-3 hours | Level 3 | All previous | 高阶能力 | Planning、Auto Mode、Channels、Voice Dictation、permissions |
-| **10** | [Plugins](07-plugins/) | ⭐⭐⭐⭐ Advanced | 2 hours | Level 3 | All previous | 方案打包与分发 | 团队上手、能力复用 |
-| **11** | [CLI Mastery](10-cli/) | ⭐⭐⭐ Advanced | 1 hour | Level 3 | Recommended: All | 命令行高阶实践 | 脚本化、CI/CD、自动化 |
+| **1** | [Slash Commands](01-slash-commands/README.zh-CN.md) | ⭐ Beginner | 30 min | Level 1 | None | 快速获得生产力收益（55+ built-in + 5 bundled skills） | 即时自动化、团队标准化 |
+| **2** | [Memory](02-memory/README.zh-CN.md) | ⭐⭐ Beginner+ | 45 min | Level 1 | None | 所有能力的上下文基础 | 持久上下文、偏好记忆 |
+| **3** | [Checkpoints](08-checkpoints/README.zh-CN.md) | ⭐⭐ Intermediate | 45 min | Level 1 | Session management | 安全探索 | 实验、回退、恢复 |
+| **4** | [CLI Basics](10-cli/README.zh-CN.md) | ⭐⭐ Beginner+ | 30 min | Level 1 | None | 命令行核心能力 | Interactive & print mode |
+| **5** | [Skills](03-skills/README.zh-CN.md) | ⭐⭐ Intermediate | 1 hour | Level 2 | Slash Commands | 自动化专业能力 | 可复用、稳定一致 |
+| **6** | [Hooks](06-hooks/README.zh-CN.md) | ⭐⭐ Intermediate | 1 hour | Level 2 | Tools, Commands | 事件驱动自动化（25 events, 4 types） | 校验、质量门禁 |
+| **7** | [MCP](05-mcp/README.zh-CN.md) | ⭐⭐⭐ Intermediate+ | 1 hour | Level 2 | Configuration | 外部实时数据接入 | API 集成、实时联动 |
+| **8** | [Subagents](04-subagents/README.zh-CN.md) | ⭐⭐⭐ Intermediate+ | 1.5 hours | Level 2 | Memory, Commands | 处理复杂任务（含 6 个 built-in） | 委派、专长分工 |
+| **9** | [Advanced Features](09-advanced-features/README.zh-CN.md) | ⭐⭐⭐⭐⭐ Advanced | 2-3 hours | Level 3 | All previous | 高阶能力 | Planning、Auto Mode、Channels、Voice Dictation、permissions |
+| **10** | [Plugins](07-plugins/README.zh-CN.md) | ⭐⭐⭐⭐ Advanced | 2 hours | Level 3 | All previous | 方案打包与分发 | 团队上手、能力复用 |
+| **11** | [CLI Mastery](10-cli/README.zh-CN.md) | ⭐⭐⭐ Advanced | 1 hour | Level 3 | Recommended: All | 命令行高阶实践 | 脚本化、CI/CD、自动化 |
 
 **Total Learning Time**: ~11-13 hours（也可按级别跳学）
 
@@ -216,10 +216,10 @@ cat error.log | claude -p "explain this error"
 
 开始前请确认你已掌握 Level 1：
 
-- [ ] 能创建并使用 slash commands（[01-slash-commands/](01-slash-commands/)）
-- [ ] 已通过 CLAUDE.md 配置项目 memory（[02-memory/](02-memory/)）
-- [ ] 会创建和恢复 checkpoint（[08-checkpoints/](08-checkpoints/)）
-- [ ] 会使用 `claude` 与 `claude -p`（[10-cli/](10-cli/)）
+- [ ] 能创建并使用 slash commands（[01-slash-commands/](01-slash-commands/README.zh-CN.md)）
+- [ ] 已通过 CLAUDE.md 配置项目 memory（[02-memory/](02-memory/README.zh-CN.md)）
+- [ ] 会创建和恢复 checkpoint（[08-checkpoints/](08-checkpoints/README.zh-CN.md)）
+- [ ] 会使用 `claude` 与 `claude -p`（[10-cli/](10-cli/README.zh-CN.md)）
 
 > 若有空缺，建议先回看对应模块。
 
@@ -346,10 +346,10 @@ cp 04-subagents/*.md .claude/agents/
 
 开始前请确认你已掌握 Level 2：
 
-- [ ] 会创建/使用 skills（[03-skills/](03-skills/)）
-- [ ] 会配置 hooks 自动化（[06-hooks/](06-hooks/)）
-- [ ] 会配置 MCP servers（[05-mcp/](05-mcp/)）
-- [ ] 会使用 subagents 委派任务（[04-subagents/](04-subagents/)）
+- [ ] 会创建/使用 skills（[03-skills/](03-skills/README.zh-CN.md)）
+- [ ] 会配置 hooks 自动化（[06-hooks/](06-hooks/README.zh-CN.md)）
+- [ ] 会配置 MCP servers（[05-mcp/](05-mcp/README.zh-CN.md)）
+- [ ] 会使用 subagents 委派任务（[04-subagents/](04-subagents/README.zh-CN.md)）
 
 > 若有空缺，请先补齐再进入高级模块。
 
@@ -626,40 +626,40 @@ done
 可用以下清单跟踪进度；也可随时运行 `/self-assessment` 或 `/lesson-quiz [lesson]`。
 
 ### 🟢 Level 1: Beginner
-- [ ] 完成 [01-slash-commands](01-slash-commands/)
-- [ ] 完成 [02-memory](02-memory/)
+- [ ] 完成 [01-slash-commands](01-slash-commands/README.zh-CN.md)
+- [ ] 完成 [02-memory](02-memory/README.zh-CN.md)
 - [ ] 创建第一个 custom slash command
 - [ ] 配置项目 memory
 - [ ] **Milestone 1A 达成**
-- [ ] 完成 [08-checkpoints](08-checkpoints/)
-- [ ] 完成 [10-cli](10-cli/) 基础部分
+- [ ] 完成 [08-checkpoints](08-checkpoints/README.zh-CN.md)
+- [ ] 完成 [10-cli](10-cli/README.zh-CN.md) 基础部分
 - [ ] 创建并回退 checkpoint
 - [ ] 使用 interactive 与 print mode
 - [ ] **Milestone 1B 达成**
 
 ### 🔵 Level 2: Intermediate
-- [ ] 完成 [03-skills](03-skills/)
-- [ ] 完成 [06-hooks](06-hooks/)
+- [ ] 完成 [03-skills](03-skills/README.zh-CN.md)
+- [ ] 完成 [06-hooks](06-hooks/README.zh-CN.md)
 - [ ] 安装第一个 skill
 - [ ] 配置 PreToolUse hook
 - [ ] **Milestone 2A 达成**
-- [ ] 完成 [05-mcp](05-mcp/)
-- [ ] 完成 [04-subagents](04-subagents/)
+- [ ] 完成 [05-mcp](05-mcp/README.zh-CN.md)
+- [ ] 完成 [04-subagents](04-subagents/README.zh-CN.md)
 - [ ] 接入 GitHub MCP
 - [ ] 创建 custom subagent
 - [ ] 在同一流程中组合集成能力
 - [ ] **Milestone 2B 达成**
 
 ### 🔴 Level 3: Advanced
-- [ ] 完成 [09-advanced-features](09-advanced-features/)
+- [ ] 完成 [09-advanced-features](09-advanced-features/README.zh-CN.md)
 - [ ] 成功使用 planning mode
 - [ ] 配置 permission modes（含 auto）
 - [ ] 使用 auto mode + safety classifier
 - [ ] 使用 extended thinking toggle
 - [ ] 体验 Channels 与 Voice Dictation
 - [ ] **Milestone 3A 达成**
-- [ ] 完成 [07-plugins](07-plugins/)
-- [ ] 完成 [10-cli](10-cli/) 高阶部分
+- [ ] 完成 [07-plugins](07-plugins/README.zh-CN.md)
+- [ ] 完成 [10-cli](10-cli/README.zh-CN.md) 高阶部分
 - [ ] 在 CI/CD 使用 `claude -p`
 - [ ] 用 JSON 输出做自动化处理
 - [ ] 把 Claude 接入 CI/CD

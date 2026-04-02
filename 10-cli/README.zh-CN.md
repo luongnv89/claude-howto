@@ -36,7 +36,7 @@ graph TD
 | `claude -c -p "query"` | 在 print mode 中继续会话 | `claude -c -p "check for type errors"` |
 | `claude -r "<session>" "query"` | 通过 ID 或名称恢复会话 | `claude -r "auth-refactor" "finish this PR"` |
 | `claude update` | 更新到最新版本 | `claude update` |
-| `claude mcp` | 配置 MCP servers | 见 [MCP documentation](../05-mcp/) |
+| `claude mcp` | 配置 MCP servers | 见 [MCP documentation](../05-mcp/README.zh-CN.md) |
 | `claude mcp serve` | 以 MCP server 方式运行 Claude Code | `claude mcp serve` |
 | `claude agents` | 列出已配置 subagents | `claude agents` |
 | `claude auto-mode defaults` | 以 JSON 打印 auto mode 默认规则 | `claude auto-mode defaults` |
@@ -822,12 +822,12 @@ claude -p --output-format json "query"
 
 - **[Official CLI Reference](https://code.claude.com/docs/en/cli-reference)** - 完整命令参考
 - **[Headless Mode Documentation](https://code.claude.com/docs/en/headless)** - 自动化执行
-- **[Slash Commands](../01-slash-commands/)** - Claude 内部快捷命令
-- **[Memory Guide](../02-memory/)** - 基于 CLAUDE.md 的持久上下文
-- **[MCP Protocol](../05-mcp/)** - 外部工具集成
-- **[Advanced Features](../09-advanced-features/)** - plan mode、extended thinking
-- **[Subagents Guide](../04-subagents/)** - 委派式任务执行
+- **[Slash Commands](../01-slash-commands/README.zh-CN.md)** - Claude 内部快捷命令
+- **[Memory Guide](../02-memory/README.zh-CN.md)** - 基于 CLAUDE.md 的持久上下文
+- **[MCP Protocol](../05-mcp/README.zh-CN.md)** - 外部工具集成
+- **[Advanced Features](../09-advanced-features/README.zh-CN.md)** - plan mode、extended thinking
+- **[Subagents Guide](../04-subagents/README.zh-CN.md)** - 委派式任务执行
 
 ---
 
-*Part of the [Claude How To](../) guide series*
+*Part of the [Claude How To](../README.zh-CN.md) guide series*
