@@ -15,6 +15,14 @@
 [![Version](https://img.shields.io/badge/version-2.2.0-brightgreen)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-2.1+-purple)](https://code.claude.com)
 
+<p align="right">
+  <strong>Languages:</strong>
+  <a href="README.md">English</a> |
+  <a href="README.zh-CN.md">简体中文</a>
+</p>
+
+> Chinese quick links: [Quick Reference](QUICK_REFERENCE.zh-CN.md) · [Catalog](CATALOG.zh-CN.md) · [Learning Roadmap](LEARNING-ROADMAP.zh-CN.md)
+
 # Master Claude Code in a Weekend
 
 Go from typing `claude` to orchestrating agents, hooks, skills, and MCP servers — with visual tutorials, copy-paste templates, and a guided learning path.

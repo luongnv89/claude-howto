@@ -27,10 +27,13 @@ def iter_md_files():
 
 
 def heading_to_anchor(heading: str) -> str:
-    # Match GitHub's anchor generation: strip non-ASCII (emoji), strip punctuation,
-    # lowercase, replace spaces with hyphens, strip leading/trailing hyphens.
-    heading_ascii = heading.encode("ascii", "ignore").decode()
-    return re.sub(r"[^\w\s-]", "", heading_ascii.lower()).replace(" ", "-").rstrip("-")
+    # Match GitHub-style anchor generation:
+    # - lowercase
+    # - keep unicode letters/numbers (e.g. Chinese headings)
+    # - strip punctuation
+    # - replace spaces with hyphens
+    # - trim trailing hyphens
+    return re.sub(r"[^\w\s-]", "", heading.lower()).replace(" ", "-").rstrip("-")
 
 
 def strip_code_blocks(content: str) -> str:
