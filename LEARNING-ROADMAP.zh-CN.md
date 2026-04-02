@@ -28,9 +28,9 @@
 
 | Checks | Level | Start At | Time to Complete |
 |--------|-------|----------|------------------|
-| 0-2 | **Level 1: Beginner** — Getting Started | [Milestone 1A](#milestone-1a-第一批命令--memory) | ~3 hours |
-| 3-5 | **Level 2: Intermediate** — Building Workflows | [Milestone 2A](#milestone-2a-自动化skills--hooks) | ~5 hours |
-| 6-8 | **Level 3: Advanced** — Power User & Team Lead | [Milestone 3A](#milestone-3a-高级特性) | ~5 hours |
+| 0-2 | **Level 1: Beginner** — Getting Started | [Milestone 1A](#milestone-1a第一批命令--memory) | ~3 hours |
+| 3-5 | **Level 2: Intermediate** — Building Workflows | [Milestone 2A](#milestone-2a自动化skills--hooks) | ~5 hours |
+| 6-8 | **Level 3: Advanced** — Power User & Team Lead | [Milestone 3A](#milestone-3a高级特性) | ~5 hours |
 
 > **Tip**：如果不确定，先从低一级开始。快速复习熟悉内容，比跳过基础导致后续卡住更稳。
 
@@ -199,7 +199,7 @@ cat error.log | claude -p "explain this error"
 #### 下一步
 - [08-checkpoints/README.md](08-checkpoints/README.md)
 - [10-cli/README.md](10-cli/README.md)
-- **准备进入 Level 2**：前往 [Milestone 2A](#milestone-2a-自动化skills--hooks)
+- **准备进入 Level 2**：前往 [Milestone 2A](#milestone-2a自动化skills--hooks)
 
 > **学习检测**：运行 `/lesson-quiz checkpoints` 或 `/lesson-quiz cli`。
 
@@ -329,7 +329,7 @@ cp 04-subagents/*.md .claude/agents/
 - 为业务域设计 custom subagents
 - [05-mcp/README.md](05-mcp/README.md)
 - [04-subagents/README.md](04-subagents/README.md)
-- **准备进入 Level 3**：前往 [Milestone 3A](#milestone-3a-高级特性)
+- **准备进入 Level 3**：前往 [Milestone 3A](#milestone-3a高级特性)
 
 > **学习检测**：运行 `/lesson-quiz mcp` 或 `/lesson-quiz subagents`。
 
