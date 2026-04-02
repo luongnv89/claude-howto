@@ -346,11 +346,11 @@ git diff
 - **校验输入** —— 展示输入校验与清洗
 - **加入安全说明** —— 写明安全考量
 
-若涉及安全漏洞，请查看 [SECURITY.md](SECURITY.md) 中的漏洞报告流程。
+若涉及安全漏洞，请查看 [SECURITY.md](SECURITY.zh-CN.md) 中的漏洞报告流程。
 
 ## 行为准则
 
-我们致力于建设友好、包容的社区。请阅读 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)。
+我们致力于建设友好、包容的社区。请阅读 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.zh-CN.md)。
 
 简要原则：
 - 保持尊重与包容
@@ -367,8 +367,8 @@ git diff
 
 ## Questions?
 
-- 查看 [README](README.md)
-- 查看 [LEARNING-ROADMAP.md](LEARNING-ROADMAP.md)
+- 查看 [README](README.zh-CN.md)
+- 查看 [LEARNING-ROADMAP.md](LEARNING-ROADMAP.zh-CN.md)
 - 参考已有示例
 - 开 issue 进行讨论
 

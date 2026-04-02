@@ -86,4 +86,4 @@ cp resources/favicons/* /path/to/your/website/public/
 
 ---
 
-完整说明见 [README.md](README.md)。
+完整说明见 [README.md](README.zh-CN.md)。

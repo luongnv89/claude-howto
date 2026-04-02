@@ -27,7 +27,7 @@
 
 从只会输入 `claude`，到能编排 agents、hooks、skills 和 MCP servers —— 通过可视化教程、可直接复制的模板，以及循序渐进的学习路径。
 
-**[15 分钟快速上手](#15-分钟快速上手)** | **[不确定从哪里开始？](#不确定从哪里开始)** | **[浏览功能目录](CATALOG.md)**
+**[15 分钟快速上手](#15-分钟快速上手)** | **[不确定从哪里开始？](#不确定从哪里开始)** | **[浏览功能目录](CATALOG.zh-CN.md)**
 
 ---
 
@@ -78,7 +78,7 @@
 - **引导式学习路径**：11-13 小时从新手到高阶用户
 - **内置自测**：直接在 Claude Code 运行 `/self-assessment` 或 `/lesson-quiz hooks` 来定位知识缺口
 
-**[开始学习路径  ->](LEARNING-ROADMAP.md)**
+**[开始学习路径  ->](LEARNING-ROADMAP.zh-CN.md)**
 
 ---
 
@@ -86,7 +86,7 @@
 
 ### 1）先定位你的水平
 
-完成 [自测问卷](LEARNING-ROADMAP.md#-find-your-level)，或在 Claude Code 中运行 `/self-assessment`。你会得到基于当前能力的个性化路线图。
+完成 [自测问卷](LEARNING-ROADMAP.zh-CN.md#-先定位你的水平)，或在 Claude Code 中运行 `/self-assessment`。你会得到基于当前能力的个性化路线图。
 
 ### 2）按引导路径学习
 
@@ -140,7 +140,7 @@
 | 9 | [Advanced Features](09-advanced-features/) | Advanced | 2-3 hours |
 | 10 | [Plugins](07-plugins/) | Advanced | 2 hours |
 
-**[完整学习路线图 ->](LEARNING-ROADMAP.md)**
+**[完整学习路线图 ->](LEARNING-ROADMAP.zh-CN.md)**
 
 ---
 
@@ -217,7 +217,7 @@ cp -r 03-skills/code-review ~/.claude/skills/
 可以。模板适配 Claude Sonnet 4.6、Claude Opus 4.6、Claude Haiku 4.5。
 
 **可以贡献内容吗？**  
-非常欢迎。请看 [CONTRIBUTING.md](CONTRIBUTING.md) 获取贡献规范。我们欢迎新示例、bug 修复、文档改进和社区模板。
+非常欢迎。请看 [CONTRIBUTING.md](CONTRIBUTING.zh-CN.md) 获取贡献规范。我们欢迎新示例、bug 修复、文档改进和社区模板。
 
 **可以离线阅读吗？**  
 可以。运行 `uv run scripts/build_epub.py` 生成带图表渲染的 EPUB 电子书。
@@ -230,7 +230,7 @@ cp -r 03-skills/code-review ~/.claude/skills/
 
 MIT 许可，永久免费。克隆它、fork 它、把它变成你的工作系统。
 
-**[开始学习路径 ->](LEARNING-ROADMAP.md)** | **[浏览功能目录](CATALOG.md)** | **[15 分钟快速上手](#15-分钟快速上手)**
+**[开始学习路径 ->](LEARNING-ROADMAP.zh-CN.md)** | **[浏览功能目录](CATALOG.zh-CN.md)** | **[15 分钟快速上手](#15-分钟快速上手)**
 
 ---
 
@@ -239,7 +239,7 @@ MIT 许可，永久免费。克隆它、fork 它、把它变成你的工作系�
 
 | 功能 | 说明 | 目录 |
 |------|------|------|
-| **Feature Catalog** | 含安装命令的完整参考 | [CATALOG.md](CATALOG.md) |
+| **Feature Catalog** | 含安装命令的完整参考 | [CATALOG.md](CATALOG.zh-CN.md) |
 | **Slash Commands** | 用户手动触发的快捷命令 | [01-slash-commands/](01-slash-commands/) |
 | **Memory** | 跨会话持久上下文 | [02-memory/](02-memory/) |
 | **Skills** | 可复用能力模块 | [03-skills/](03-skills/) |
@@ -812,7 +812,7 @@ uv run scripts/build_epub.py
 
 会生成 `claude-howto-guide.epub`，包含全部内容以及已渲染的 Mermaid 图。
 
-更多选项见 [scripts/README.md](scripts/README.md)。
+更多选项见 [scripts/README.md](scripts/README.zh-CN.md)。
 
 </details>
 
@@ -821,7 +821,7 @@ uv run scripts/build_epub.py
 
 发现问题，或希望贡献示例？非常欢迎！
 
-**请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)，其中包括：**
+**请先阅读 [CONTRIBUTING.md](CONTRIBUTING.zh-CN.md)，其中包括：**
 - 贡献类型（示例、文档、功能、修复、反馈）
 - 开发环境搭建方式
 - 目录结构与内容添加方式
@@ -829,8 +829,8 @@ uv run scripts/build_epub.py
 - Commit / PR 流程
 
 **社区规范：**
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - 社区行为准则
-- [SECURITY.md](SECURITY.md) - 安全策略与漏洞上报
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.zh-CN.md) - 社区行为准则
+- [SECURITY.md](SECURITY.zh-CN.md) - 安全策略与漏洞上报
 
 ### 安全问题上报
 
@@ -865,7 +865,7 @@ uv run scripts/build_epub.py
 
 ## 参与贡献
 
-欢迎贡献！请查看 [Contributing Guide](CONTRIBUTING.md)。
+欢迎贡献！请查看 [Contributing Guide](CONTRIBUTING.zh-CN.md)。
 
 ## Contributors
 

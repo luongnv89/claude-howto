@@ -865,5 +865,5 @@ Complete PR review workflow with security, testing, and documentation checks.
 - [Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
 - [Plugins Reference](https://code.claude.com/docs/en/plugins-reference)
 - [MCP Server Reference](https://modelcontextprotocol.io/)
-- [Subagent Configuration Guide](../04-subagents/README.md)
-- [Hook System Reference](../06-hooks/README.md)
+- [Subagent Configuration Guide](../04-subagents/README.zh-CN.md)
+- [Hook System Reference](../06-hooks/README.zh-CN.md)

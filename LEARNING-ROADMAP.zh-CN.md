@@ -153,8 +153,8 @@ cp 02-memory/project-CLAUDE.md ./CLAUDE.md
 - [ ] 你理解 slash commands 与 memory 的边界
 
 #### 下一步
-- [01-slash-commands/README.md](01-slash-commands/README.md)
-- [02-memory/README.md](02-memory/README.md)
+- [01-slash-commands/README.md](01-slash-commands/README.zh-CN.md)
+- [02-memory/README.md](02-memory/README.zh-CN.md)
 
 > **学习检测**：运行 `/lesson-quiz slash-commands` 或 `/lesson-quiz memory`。
 
@@ -197,8 +197,8 @@ cat error.log | claude -p "explain this error"
 - [ ] 理解 checkpoint 在安全实验中的价值
 
 #### 下一步
-- [08-checkpoints/README.md](08-checkpoints/README.md)
-- [10-cli/README.md](10-cli/README.md)
+- [08-checkpoints/README.md](08-checkpoints/README.zh-CN.md)
+- [10-cli/README.md](10-cli/README.zh-CN.md)
 - **准备进入 Level 2**：前往 [Milestone 2A](#milestone-2a自动化skills--hooks)
 
 > **学习检测**：运行 `/lesson-quiz checkpoints` 或 `/lesson-quiz cli`。
@@ -277,8 +277,8 @@ chmod +x ~/.claude/hooks/pre-tool-check.sh
 #### 下一步
 - 自己写一个 custom skill
 - 为团队工作流补充更多 hooks
-- [03-skills/README.md](03-skills/README.md)
-- [06-hooks/README.md](06-hooks/README.md)
+- [03-skills/README.md](03-skills/README.zh-CN.md)
+- [06-hooks/README.md](06-hooks/README.zh-CN.md)
 
 > **学习检测**：运行 `/lesson-quiz skills` 或 `/lesson-quiz hooks`。
 
@@ -327,8 +327,8 @@ cp 04-subagents/*.md .claude/agents/
 #### 下一步
 - 接更多 MCP servers（DB、Slack 等）
 - 为业务域设计 custom subagents
-- [05-mcp/README.md](05-mcp/README.md)
-- [04-subagents/README.md](04-subagents/README.md)
+- [05-mcp/README.md](05-mcp/README.zh-CN.md)
+- [04-subagents/README.md](04-subagents/README.zh-CN.md)
 - **准备进入 Level 3**：前往 [Milestone 3A](#milestone-3a高级特性)
 
 > **学习检测**：运行 `/lesson-quiz mcp` 或 `/lesson-quiz subagents`。
@@ -426,7 +426,7 @@ export CLAUDE_AGENT_TEAMS=1
 - [ ] 使用 `/loop` 或 cron 工具执行周期任务
 
 #### 下一步
-- [09-advanced-features/README.md](09-advanced-features/README.md)
+- [09-advanced-features/README.md](09-advanced-features/README.zh-CN.md)
 
 > **学习检测**：运行 `/lesson-quiz advanced`。
 
@@ -495,8 +495,8 @@ done
 - **Data Processing**：数据处理与转换
 
 #### 下一步
-- [07-plugins/README.md](07-plugins/README.md)
-- [10-cli/README.md](10-cli/README.md)
+- [07-plugins/README.md](07-plugins/README.zh-CN.md)
+- [10-cli/README.md](10-cli/README.zh-CN.md)
 - 建立团队级 CLI 快捷命令与 plugins
 - 建立稳定批处理脚本
 
@@ -530,7 +530,7 @@ done
 
 1. 复制命令：`cp 01-slash-commands/optimize.md .claude/commands/`
 2. 在 Claude Code 输入：`/optimize`
-3. 阅读：[01-slash-commands/README.md](01-slash-commands/README.md)
+3. 阅读：[01-slash-commands/README.md](01-slash-commands/README.zh-CN.md)
 
 **结果**：你会有一个可用命令并理解基本机制。
 
@@ -674,13 +674,13 @@ done
 **Solution**：按里程碑推进，每个里程碑先完成练习再前进。
 
 ### Challenge 2: “不知道该用哪个功能”
-**Solution**：查看主 README 的 [Use Case Matrix](README.md#use-case-matrix)。
+**Solution**：查看主 README 的 [Use Case Matrix](README.zh-CN.md#你可以用它构建什么)。
 
 ### Challenge 3: “配置不起作用”
 **Solution**：先核对故障排查章节与文件位置。
 
 ### Challenge 4: “概念边界重叠”
-**Solution**：看 [Feature Comparison](README.md#feature-comparison) 对比表。
+**Solution**：看 [Feature Comparison](README.zh-CN.md#claude-how-to-如何解决这些问题) 对比表。
 
 ### Challenge 5: “学完容易忘”
 **Solution**：自己写一页 cheat sheet，并用 checkpoints 反复演练。
@@ -740,4 +740,4 @@ done
 
 ---
 
-[← 返回主 README](README.md)
+[← 返回主 README](README.zh-CN.md)

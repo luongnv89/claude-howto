@@ -506,8 +506,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 - [Official Claude Code Documentation](https://code.claude.com/docs/en/overview)
 - [MCP Protocol Specification](https://modelcontextprotocol.io)
-- [Learning Roadmap](LEARNING-ROADMAP.md)
-- [Main README](README.md)
+- [Learning Roadmap](LEARNING-ROADMAP.zh-CN.md)
+- [Main README](README.zh-CN.md)
 
 ---
 
