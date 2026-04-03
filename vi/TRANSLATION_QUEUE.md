@@ -106,15 +106,15 @@ Skills có cấu trúc nested directories với subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `04-subagents/README.md` | ⏳ Pending | | | Subagents overview |
-| `04-subagents/code-reviewer.md` | ⏳ Pending | | | Code review specialist |
-| `04-subagents/debugger.md` | ⏳ Pending | | | Debugging specialist |
-| `04-subagents/documentation-writer.md` | ⏳ Pending | | | Documentation specialist |
-| `04-subagents/implementation-agent.md` | ⏳ Pending | | | Implementation specialist |
-| `04-subagents/secure-reviewer.md` | ⏳ Pending | | | Security-focused reviewer |
-| `04-subagents/test-engineer.md` | ⏳ Pending | | | Testing specialist |
+| `04-subagents/README.md` | ✅ Done | Claude | 2026-04-03 | Subagents overview |
+| `04-subagents/code-reviewer.md` | ✅ Done | Claude | 2026-04-03 | Code review specialist |
+| `04-subagents/debugger.md` | ✅ Done | Claude | 2026-04-03 | Debugging specialist |
+| `04-subagents/documentation-writer.md` | ✅ Done | Claude | 2026-04-03 | Documentation specialist |
+| `04-subagents/implementation-agent.md` | ✅ Done | Claude | 2026-04-03 | Implementation specialist |
+| `04-subagents/secure-reviewer.md` | ✅ Done | Claude | 2026-04-03 | Security-focused reviewer |
+| `04-subagents/test-engineer.md` | ✅ Done | Claude | 2026-04-03 | Testing specialist |
 
-**Progress:** 0/7 files (0%)
+**Progress:** 7/7 files (100%) ✅
 
 ---
 
@@ -247,7 +247,7 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 | Module 01: Slash Commands | 9 | 9 | 100% ✅ |
 | Module 02: Memory | 4 | 4 | 100% ✅ |
 | Module 03: Skills | 6 | 6 | 100% ✅ |
-| Module 04: Subagents | 7 | 0 | 0% |
+| Module 04: Subagents | 7 | 7 | 100% ✅ |
 | Module 05: MCP | 5 | 0 | 0% |
 | Module 06: Hooks | 8 | 0 | 0% |
 | Module 07: Plugins | 10+ | 0 | 0% |
@@ -255,14 +255,14 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 | Module 09: Advanced Features | 3 | 0 | 0% |
 | Module 10: CLI | 1 | 0 | 0% |
 | Supporting Docs | 6 | 0 | 0% |
-| **TOTAL** | **~66+** | **24** | **36%** |
+| **TOTAL** | **~66+** | **31** | **47%** |
 
 ### Theo Ưu tiên / By Priority
 
 | Priority | Category | Files | Completed | Progress |
 |----------|----------|-------|-----------|----------|
 | 1 | Core Documents | 5 | 5 | 100% ✅ |
-| 2 | Module 01-05 | 31 | 19 | 61% |
+| 2 | Module 01-05 | 31 | 31 | 100% ✅ |
 | 3 | Module 06-10 | 24 | 0 | 0% |
 | 4 | Supporting Docs | 6 | 0 | 0% |
 
@@ -291,9 +291,9 @@ Khi bạn hoàn thành dịch một file:
 
 ---
 
-**Last Updated:** 2026-04-02
+**Last Updated:** 2026-04-03
 **Total Files:** ~66+ files (estimated)
-**Translation Progress:** 36% (24/66 files)
-**Current Focus:** Module 04-05 (Subagents, MCP)
-**Recent Completion:** Module 03: Skills (100%) ✅
-**ETA:** 4-6 weeks for complete translation
+**Translation Progress:** 47% (31/66 files)
+**Current Focus:** Module 05-06 (MCP, Hooks)
+**Recent Completion:** Module 04: Subagents (100%) ✅
+**ETA:** 3-4 weeks for complete translation
