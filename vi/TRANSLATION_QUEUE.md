@@ -122,13 +122,13 @@ Skills có cấu trúc nested directories với subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `05-mcp/README.md` | ⏳ Pending | | | MCP overview |
-| `05-mcp/filesystem-mcp.json` | ⏳ Pending | | | Filesystem MCP config |
-| `05-mcp/github-mcp.json` | ⏳ Pending | | | GitHub MCP config |
-| `05-mcp/database-mcp.json` | ⏳ Pending | | | Database MCP config |
-| `05-mcp/multi-mcp.json` | ⏳ Pending | | | Multiple MCP servers |
+| `05-mcp/README.md` | ✅ Done | Claude | 2026-04-03 | MCP overview |
+| `05-mcp/filesystem-mcp.json` | ✅ Done | Claude | 2026-04-03 | Filesystem MCP config |
+| `05-mcp/github-mcp.json` | ✅ Done | Claude | 2026-04-03 | GitHub MCP config |
+| `05-mcp/database-mcp.json` | ✅ Done | Claude | 2026-04-03 | Database MCP config |
+| `05-mcp/multi-mcp.json` | ✅ Done | Claude | 2026-04-03 | Multiple MCP servers |
 
-**Progress:** 0/5 files (0%)
+**Progress:** 5/5 files (100%) ✅
 
 ---
 
@@ -248,21 +248,21 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 | Module 02: Memory | 4 | 4 | 100% ✅ |
 | Module 03: Skills | 6 | 6 | 100% ✅ |
 | Module 04: Subagents | 7 | 7 | 100% ✅ |
-| Module 05: MCP | 5 | 0 | 0% |
+| Module 05: MCP | 5 | 5 | 100% ✅ |
 | Module 06: Hooks | 8 | 0 | 0% |
 | Module 07: Plugins | 10+ | 0 | 0% |
 | Module 08: Checkpoints | 2 | 0 | 0% |
 | Module 09: Advanced Features | 3 | 0 | 0% |
 | Module 10: CLI | 1 | 0 | 0% |
 | Supporting Docs | 6 | 0 | 0% |
-| **TOTAL** | **~66+** | **31** | **47%** |
+| **TOTAL** | **~66+** | **36** | **55%** |
 
 ### Theo Ưu tiên / By Priority
 
 | Priority | Category | Files | Completed | Progress |
 |----------|----------|-------|-----------|----------|
 | 1 | Core Documents | 5 | 5 | 100% ✅ |
-| 2 | Module 01-05 | 31 | 31 | 100% ✅ |
+| 2 | Module 01-05 | 36 | 36 | 100% ✅ |
 | 3 | Module 06-10 | 24 | 0 | 0% |
 | 4 | Supporting Docs | 6 | 0 | 0% |
 
@@ -293,7 +293,7 @@ Khi bạn hoàn thành dịch một file:
 
 **Last Updated:** 2026-04-03
 **Total Files:** ~66+ files (estimated)
-**Translation Progress:** 47% (31/66 files)
-**Current Focus:** Module 05-06 (MCP, Hooks)
-**Recent Completion:** Module 04: Subagents (100%) ✅
-**ETA:** 3-4 weeks for complete translation
+**Translation Progress:** 55% (36/66 files)
+**Current Focus:** Module 06-07 (Hooks, Plugins)
+**Recent Completion:** Module 05: MCP (100%) ✅
+**ETA:** 2-3 weeks for complete translation
