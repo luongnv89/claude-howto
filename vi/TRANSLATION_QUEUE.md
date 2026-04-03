@@ -192,10 +192,10 @@ Plugins có cấu trúc nested với các subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `08-checkpoints/README.md` | ⏳ Pending | | | Checkpoints overview |
-| `08-checkpoints/checkpoint-examples.md` | ⏳ Pending | | | Checkpoint usage examples |
+| `08-checkpoints/README.md` | ✅ Done | Claude | 2026-04-03 | Checkpoints overview |
+| `08-checkpoints/checkpoint-examples.md` | ✅ Done | Claude | 2026-04-03 | Checkpoint usage examples |
 
-**Progress:** 0/2 files (0%)
+**Progress:** 2/2 files (100%) ✅
 
 ---
 
@@ -203,11 +203,11 @@ Plugins có cấu trúc nested với các subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `09-advanced-features/README.md` | ⏳ Pending | | | Advanced features overview |
-| `09-advanced-features/config-examples.json` | ⏳ Pending | | | Configuration examples |
-| `09-advanced-features/planning-mode-examples.md` | ⏳ Pending | | | Planning mode examples |
+| `09-advanced-features/README.md` | ✅ Done | Claude | 2026-04-03 | Advanced features overview |
+| `09-advanced-features/config-examples.json` | ✅ Done | Claude | 2026-04-03 | Configuration examples |
+| `09-advanced-features/planning-mode-examples.md` | ✅ Done | Claude | 2026-04-03 | Planning mode examples |
 
-**Progress:** 0/3 files (0%)
+**Progress:** 3/3 files (100%) ✅
 
 ---
 
@@ -215,9 +215,9 @@ Plugins có cấu trúc nested với các subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `10-cli/README.md` | ⏳ Pending | | | CLI reference |
+| `10-cli/README.md` | ✅ Done | Claude | 2026-04-03 | CLI reference |
 
-**Progress:** 0/1 files (0%)
+**Progress:** 1/1 files (100%) ✅
 
 ---
 
@@ -252,20 +252,20 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 | Module 05: MCP | 5 | 5 | 100% ✅ |
 | Module 06: Hooks | 9 | 9 | 100% ✅ |
 | Module 07: Plugins | 10+ | 10+ | 100% ✅ |
-| Module 08: Checkpoints | 2 | 0 | 0% |
-| Module 09: Advanced Features | 3 | 0 | 0% |
-| Module 10: CLI | 1 | 0 | 0% |
+| Module 08: Checkpoints | 2 | 2 | 100% ✅ |
+| Module 09: Advanced Features | 3 | 3 | 100% ✅ |
+| Module 10: CLI | 1 | 1 | 100% ✅ |
 | Supporting Docs | 6 | 0 | 0% |
-| **TOTAL** | **~67+** | **55+** | **82%** |
+| **TOTAL** | **~67+** | **61+** | **91%** |
 
 ### Theo Ưu tiên / By Priority
 
 | Priority | Category | Files | Completed | Progress |
 |----------|----------|-------|-----------|----------|
 | 1 | Core Documents | 5 | 5 | 100% ✅ |
-| 2 | Module 01-07 | 55+ | 55+ | 100% ✅ |
-| 3 | Module 08-10 | 6 | 0 | 0% |
-| 4 | Supporting Docs | 6 | 0 | 0% |
+| 2 | Module 01-10 | 61+ | 61+ | 100% ✅ |
+| 3 | Supporting Docs | 6 | 0 | 0% |
+| **ALL MODULES** | **Modules** | **61+** | **100% ✅** |
 
 ---
 
@@ -294,7 +294,7 @@ Khi bạn hoàn thành dịch một file:
 
 **Last Updated:** 2026-04-03
 **Total Files:** ~67+ files (estimated)
-**Translation Progress:** 82% (55+/67 files)
-**Current Focus:** Module 08-10 (Checkpoints, Advanced Features, CLI)
-**Recent Completion:** Module 07: Plugins (100%) ✅
-**ETA:** 3-5 days for complete translation
+**Translation Progress:** 91% (61+/67 files)
+**Current Focus:** Supporting Documents (CONTRIBUTING, STYLE_GUIDE, SECURITY, etc.)
+**Recent Completion:** All Modules 01-10 (100%) ✅
+**ETA:** 1-2 days for complete translation
