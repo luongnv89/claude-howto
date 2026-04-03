@@ -49,12 +49,12 @@ Các file quan trọng nhất, người dùng sẽ đọc đầu tiên. Dịch c
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `02-memory/README.md` | ⏳ Pending | | | Memory overview |
-| `02-memory/project-CLAUDE.md` | ⏳ Pending | | | Project-wide standards |
-| `02-memory/personal-CLAUDE.md` | ⏳ Pending | | | Personal preferences |
-| `02-memory/directory-api-CLAUDE.md` | ⏳ Pending | | | Directory-specific rules |
+| `02-memory/README.md` | ✅ Done | Claude | 2026-04-02 | Memory overview |
+| `02-memory/project-CLAUDE.md` | ✅ Done | Claude | 2026-04-02 | Project-wide standards |
+| `02-memory/personal-CLAUDE.md` | ✅ Done | Claude | 2026-04-02 | Personal preferences |
+| `02-memory/directory-api-CLAUDE.md` | ✅ Done | Claude | 2026-04-02 | Directory-specific rules |
 
-**Progress:** 0/4 files (0%)
+**Progress:** 4/4 files (100%) ✅
 
 ---
 
@@ -245,7 +245,7 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 |--------|-------|-----------|----------|
 | Core Documents | 5 | 5 | 100% ✅ |
 | Module 01: Slash Commands | 9 | 9 | 100% ✅ |
-| Module 02: Memory | 4 | 0 | 0% |
+| Module 02: Memory | 4 | 4 | 100% ✅ |
 | Module 03: Skills | 6 | 0 | 0% |
 | Module 04: Subagents | 7 | 0 | 0% |
 | Module 05: MCP | 5 | 0 | 0% |
@@ -255,14 +255,14 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 | Module 09: Advanced Features | 3 | 0 | 0% |
 | Module 10: CLI | 1 | 0 | 0% |
 | Supporting Docs | 6 | 0 | 0% |
-| **TOTAL** | **~66+** | **14** | **21%** |
+| **TOTAL** | **~66+** | **18** | **27%** |
 
 ### Theo Ưu tiên / By Priority
 
 | Priority | Category | Files | Completed | Progress |
 |----------|----------|-------|-----------|----------|
 | 1 | Core Documents | 5 | 5 | 100% ✅ |
-| 2 | Module 01-05 | 31 | 9 | 29% |
+| 2 | Module 01-05 | 31 | 13 | 42% |
 | 3 | Module 06-10 | 24 | 0 | 0% |
 | 4 | Supporting Docs | 6 | 0 | 0% |
 
@@ -293,7 +293,7 @@ Khi bạn hoàn thành dịch một file:
 
 **Last Updated:** 2026-04-02
 **Total Files:** ~66+ files (estimated)
-**Translation Progress:** 21% (14/66 files)
-**Current Focus:** Module 02-05 (Memory, Skills, Subagents, MCP)
-**Recent Completion:** Module 01: Slash Commands (100%) ✅
-**ETA:** 6-8 weeks for complete translation
+**Translation Progress:** 27% (18/66 files)
+**Current Focus:** Module 03-05 (Skills, Subagents, MCP)
+**Recent Completion:** Module 02: Memory (100%) ✅
+**ETA:** 5-7 weeks for complete translation
