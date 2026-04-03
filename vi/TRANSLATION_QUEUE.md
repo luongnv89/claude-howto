@@ -66,39 +66,39 @@ Skills có cấu trúc nested directories với subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `03-skills/README.md` | ⏳ Pending | | | Skills overview |
+| `03-skills/README.md` | ✅ Done | Claude | 2026-04-02 | Skills overview |
 
 ### 03-skills/blog-draft/
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `03-skills/blog-draft/SKILL.md` | ⏳ Pending | | | Blog writing skill |
+| `03-skills/blog-draft/SKILL.md` | ✅ Done | Claude | 2026-04-02 | Blog writing skill |
 
 ### 03-skills/brand-voice/
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `03-skills/brand-voice/SKILL.md` | ⏳ Pending | | | Brand voice checker |
+| `03-skills/brand-voice/SKILL.md` | ✅ Done | Claude | 2026-04-02 | Brand voice checker |
 
 ### 03-skills/claude-md/
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `03-skills/claude-md/SKILL.md` | ⏳ Pending | | | CLAUDE.md management |
+| `03-skills/claude-md/SKILL.md` | ✅ Done | Claude | 2026-04-02 | CLAUDE.md management |
 
 ### 03-skills/code-review/
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `03-skills/code-review/SKILL.md` | ⏳ Pending | | | Code review skill |
+| `03-skills/code-review/SKILL.md` | ✅ Done | Claude | 2026-04-02 | Code review skill |
 
 ### 03-skills/refactor/
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `03-skills/refactor/SKILL.md` | ⏳ Pending | | | Code refactoring |
+| `03-skills/refactor/SKILL.md` | ✅ Done | Claude | 2026-04-02 | Code refactoring |
 
-**Module 03 Progress:** 0/6 files (0%)
+**Module 03 Progress:** 6/6 files (100%) ✅
 
 ---
 
@@ -246,7 +246,7 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 | Core Documents | 5 | 5 | 100% ✅ |
 | Module 01: Slash Commands | 9 | 9 | 100% ✅ |
 | Module 02: Memory | 4 | 4 | 100% ✅ |
-| Module 03: Skills | 6 | 0 | 0% |
+| Module 03: Skills | 6 | 6 | 100% ✅ |
 | Module 04: Subagents | 7 | 0 | 0% |
 | Module 05: MCP | 5 | 0 | 0% |
 | Module 06: Hooks | 8 | 0 | 0% |
@@ -255,14 +255,14 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 | Module 09: Advanced Features | 3 | 0 | 0% |
 | Module 10: CLI | 1 | 0 | 0% |
 | Supporting Docs | 6 | 0 | 0% |
-| **TOTAL** | **~66+** | **18** | **27%** |
+| **TOTAL** | **~66+** | **24** | **36%** |
 
 ### Theo Ưu tiên / By Priority
 
 | Priority | Category | Files | Completed | Progress |
 |----------|----------|-------|-----------|----------|
 | 1 | Core Documents | 5 | 5 | 100% ✅ |
-| 2 | Module 01-05 | 31 | 13 | 42% |
+| 2 | Module 01-05 | 31 | 19 | 61% |
 | 3 | Module 06-10 | 24 | 0 | 0% |
 | 4 | Supporting Docs | 6 | 0 | 0% |
 
@@ -293,7 +293,7 @@ Khi bạn hoàn thành dịch một file:
 
 **Last Updated:** 2026-04-02
 **Total Files:** ~66+ files (estimated)
-**Translation Progress:** 27% (18/66 files)
-**Current Focus:** Module 03-05 (Skills, Subagents, MCP)
-**Recent Completion:** Module 02: Memory (100%) ✅
-**ETA:** 5-7 weeks for complete translation
+**Translation Progress:** 36% (24/66 files)
+**Current Focus:** Module 04-05 (Subagents, MCP)
+**Recent Completion:** Module 03: Skills (100%) ✅
+**ETA:** 4-6 weeks for complete translation
