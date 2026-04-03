@@ -116,6 +116,12 @@ class EPUBConfig:
     language: str = "en"
     author: str = "Claude Code Community"
 
+    # Language-specific metadata
+    vi_title: str = "Hướng Dẫn Claude Code"
+    vi_subtitle: str = "Làm chủ Claude Code trong một cuối tuần"
+    en_title: str = "Claude Code How-To Guide"
+    en_subtitle: str = "Master Claude Code in a Weekend"
+
     # Cover Settings
     cover_width: int = 600
     cover_height: int = 900
@@ -1029,23 +1035,41 @@ def main() -> int:
         default=10,
         help="Maximum concurrent API requests (default: 10)",
     )
+    parser.add_argument(
+        "--lang",
+        type=str,
+        default="en",
+        choices=["en", "vi"],
+        help="Language code: 'en' for English, 'vi' for Vietnamese (default: en)",
+    )
 
     args = parser.parse_args()
 
-    # Determine root path
-    root = args.root
-    if root is None:
-        # Default to parent of scripts directory (repo root)
-        root = Path(__file__).parent.parent
+    # Determine root path and language-specific settings
+    repo_root = args.root if args.root else Path(__file__).parent.parent
+    repo_root = repo_root.resolve()
+
+    # Set language-specific paths and metadata
+    if args.lang == "vi":
+        root = repo_root / "vi"
+        output = args.output or (repo_root / "claude-howto-guide-vi.epub")
+        title = EPUBConfig.vi_title
+        language = "vi"
+    else:
+        root = repo_root
+        output = args.output or (repo_root / "claude-howto-guide.epub")
+        title = EPUBConfig.en_title
+        language = "en"
 
     root = root.resolve()
-    output = args.output or (root / "claude-howto-guide.epub")
     output = output.resolve()
 
     logger = setup_logging(args.verbose)
     config = EPUBConfig(
         root_path=root,
         output_path=output,
+        language=language,
+        title=title,
         request_timeout=args.timeout,
         max_concurrent_requests=args.max_concurrent,
     )
