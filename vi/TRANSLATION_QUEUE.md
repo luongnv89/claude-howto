@@ -32,16 +32,16 @@ Các file quan trọng nhất, người dùng sẽ đọc đầu tiên. Dịch c
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
 | `01-slash-commands/README.md` | ✅ Done | Claude | 2026-04-02 | Overview của slash commands |
-| `01-slash-commands/commit.md` | ⏳ Pending | | | Git commit slash command |
-| `01-slash-commands/doc-refactor.md` | ⏳ Pending | | | Documentation refactoring |
-| `01-slash-commands/generate-api-docs.md` | ⏳ Pending | | | API documentation generator |
-| `01-slash-commands/optimize.md` | ⏳ Pending | | | Code optimization |
-| `01-slash-commands/pr.md` | ⏳ Pending | | | Pull request preparation |
-| `01-slash-commands/push-all.md` | ⏳ Pending | | | Push all branches |
-| `01-slash-commands/setup-ci-cd.md` | ⏳ Pending | | | CI/CD setup |
-| `01-slash-commands/unit-test-expand.md` | ⏳ Pending | | | Unit test expansion |
+| `01-slash-commands/commit.md` | ✅ Done | Claude | 2026-04-02 | Git commit slash command |
+| `01-slash-commands/doc-refactor.md` | ✅ Done | Claude | 2026-04-02 | Documentation refactoring |
+| `01-slash-commands/generate-api-docs.md` | ✅ Done | Claude | 2026-04-02 | API documentation generator |
+| `01-slash-commands/optimize.md` | ✅ Done | Claude | 2026-04-02 | Code optimization |
+| `01-slash-commands/pr.md` | ✅ Done | Claude | 2026-04-02 | Pull request preparation |
+| `01-slash-commands/push-all.md` | ✅ Done | Claude | 2026-04-02 | Push all branches |
+| `01-slash-commands/setup-ci-cd.md` | ✅ Done | Claude | 2026-04-02 | CI/CD setup |
+| `01-slash-commands/unit-test-expand.md` | ✅ Done | Claude | 2026-04-02 | Unit test expansion |
 
-**Progress:** 1/9 files (11%)
+**Progress:** 9/9 files (100%) ✅
 
 ---
 
@@ -244,7 +244,7 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 | Module | Files | Completed | Progress |
 |--------|-------|-----------|----------|
 | Core Documents | 5 | 5 | 100% ✅ |
-| Module 01: Slash Commands | 9 | 1 | 11% |
+| Module 01: Slash Commands | 9 | 9 | 100% ✅ |
 | Module 02: Memory | 4 | 0 | 0% |
 | Module 03: Skills | 6 | 0 | 0% |
 | Module 04: Subagents | 7 | 0 | 0% |
@@ -255,14 +255,14 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 | Module 09: Advanced Features | 3 | 0 | 0% |
 | Module 10: CLI | 1 | 0 | 0% |
 | Supporting Docs | 6 | 0 | 0% |
-| **TOTAL** | **~66+** | **6** | **9%** |
+| **TOTAL** | **~66+** | **14** | **21%** |
 
 ### Theo Ưu tiên / By Priority
 
 | Priority | Category | Files | Completed | Progress |
 |----------|----------|-------|-----------|----------|
 | 1 | Core Documents | 5 | 5 | 100% ✅ |
-| 2 | Module 01-05 | 31 | 1 | 3% |
+| 2 | Module 01-05 | 31 | 9 | 29% |
 | 3 | Module 06-10 | 24 | 0 | 0% |
 | 4 | Supporting Docs | 6 | 0 | 0% |
 
@@ -293,7 +293,7 @@ Khi bạn hoàn thành dịch một file:
 
 **Last Updated:** 2026-04-02
 **Total Files:** ~66+ files (estimated)
-**Translation Progress:** 9% (6/66 files) - Core Documents Complete ✅
-**Current Focus:** Module 01-05 (Slash Commands, Memory, Skills, Subagents, MCP)
-**Recent Completion:** Module 01 README (Slash Commands overview)
-**ETA:** 7-9 weeks for complete translation
+**Translation Progress:** 21% (14/66 files)
+**Current Focus:** Module 02-05 (Memory, Skills, Subagents, MCP)
+**Recent Completion:** Module 01: Slash Commands (100%) ✅
+**ETA:** 6-8 weeks for complete translation
