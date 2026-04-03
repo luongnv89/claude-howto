@@ -136,16 +136,17 @@ Skills có cấu trúc nested directories với subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `06-hooks/README.md` | ⏳ Pending | | | Hooks overview |
-| `06-hooks/format-code.sh` | ⏳ Pending | | | Auto-format hook |
-| `06-hooks/log-bash.sh` | ⏳ Pending | | | Bash logging hook |
-| `06-hooks/notify-team.sh` | ⏳ Pending | | | Team notifications |
-| `06-hooks/pre-commit.sh` | ⏳ Pending | | | Pre-commit validation |
-| `06-hooks/secure-reviewer.sh` | ⏳ Pending | | | Security review hook |
-| `06-hooks/security-scan.sh` | ⏳ Pending | | | Security scanning hook |
-| `06-hooks/validate-prompt.sh` | ⏳ Pending | | | Prompt validation |
+| `06-hooks/README.md` | ✅ Done | Claude | 2026-04-03 | Hooks overview |
+| `06-hooks/format-code.sh` | ✅ Done | Claude | 2026-04-03 | Auto-format hook |
+| `06-hooks/log-bash.sh` | ✅ Done | Claude | 2026-04-03 | Bash logging hook |
+| `06-hooks/notify-team.sh` | ✅ Done | Claude | 2026-04-03 | Team notifications |
+| `06-hooks/pre-commit.sh` | ✅ Done | Claude | 2026-04-03 | Pre-commit validation |
+| `06-hooks/security-scan.sh` | ✅ Done | Claude | 2026-04-03 | Security scanning hook |
+| `06-hooks/validate-prompt.sh` | ✅ Done | Claude | 2026-04-03 | Prompt validation |
+| `06-hooks/context-tracker.py` | ✅ Done | Claude | 2026-04-03 | Context tracker |
+| `06-hooks/context-tracker-tiktoken.py` | ✅ Done | Claude | 2026-04-03 | Context tracker with tiktoken |
 
-**Progress:** 0/8 files (0%)
+**Progress:** 9/9 files (100%) ✅
 
 ---
 
@@ -249,21 +250,21 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 | Module 03: Skills | 6 | 6 | 100% ✅ |
 | Module 04: Subagents | 7 | 7 | 100% ✅ |
 | Module 05: MCP | 5 | 5 | 100% ✅ |
-| Module 06: Hooks | 8 | 0 | 0% |
+| Module 06: Hooks | 9 | 9 | 100% ✅ |
 | Module 07: Plugins | 10+ | 0 | 0% |
 | Module 08: Checkpoints | 2 | 0 | 0% |
 | Module 09: Advanced Features | 3 | 0 | 0% |
 | Module 10: CLI | 1 | 0 | 0% |
 | Supporting Docs | 6 | 0 | 0% |
-| **TOTAL** | **~66+** | **36** | **55%** |
+| **TOTAL** | **~67+** | **45** | **67%** |
 
 ### Theo Ưu tiên / By Priority
 
 | Priority | Category | Files | Completed | Progress |
 |----------|----------|-------|-----------|----------|
 | 1 | Core Documents | 5 | 5 | 100% ✅ |
-| 2 | Module 01-05 | 36 | 36 | 100% ✅ |
-| 3 | Module 06-10 | 24 | 0 | 0% |
+| 2 | Module 01-06 | 45 | 45 | 100% ✅ |
+| 3 | Module 07-10 | 16+ | 0 | 0% |
 | 4 | Supporting Docs | 6 | 0 | 0% |
 
 ---
@@ -292,8 +293,8 @@ Khi bạn hoàn thành dịch một file:
 ---
 
 **Last Updated:** 2026-04-03
-**Total Files:** ~66+ files (estimated)
-**Translation Progress:** 55% (36/66 files)
-**Current Focus:** Module 06-07 (Hooks, Plugins)
-**Recent Completion:** Module 05: MCP (100%) ✅
-**ETA:** 2-3 weeks for complete translation
+**Total Files:** ~67+ files (estimated)
+**Translation Progress:** 67% (45/67 files)
+**Current Focus:** Module 07-08 (Plugins, Checkpoints)
+**Recent Completion:** Module 06: Hooks (100%) ✅
+**ETA:** 1-2 weeks for complete translation
