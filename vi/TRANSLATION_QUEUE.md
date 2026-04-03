@@ -17,13 +17,13 @@ Các file quan trọng nhất, người dùng sẽ đọc đầu tiên. Dịch c
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `README.md` | ⏳ Pending | | | File quan trọng nhất |
-| `INDEX.md` | ⏳ Pending | | | Catalog tất cả examples |
-| `CATALOG.md` | ⏳ Pending | | | Feature catalog với stats |
-| `LEARNING-ROADMAP.md` | ⏳ Pending | | | Learning path và self-assessment |
-| `QUICK_REFERENCE.md` | ⏳ Pending | | | Quick reference guide |
+| `README.md` | ✅ Done | Claude | 2026-04-02 | File quan trọng nhất |
+| `INDEX.md` | ✅ Done | Claude | 2026-04-02 | Catalog tất cả examples |
+| `CATALOG.md` | ✅ Done | Claude | 2026-04-02 | Feature catalog với stats |
+| `LEARNING-ROADMAP.md` | ✅ Done | Claude | 2026-04-02 | Learning path và self-assessment |
+| `QUICK_REFERENCE.md` | ✅ Done | Claude | 2026-04-02 | Quick reference guide |
 
-**Progress:** 0/5 files (0%)
+**Progress:** 5/5 files (100%) ✅
 
 ---
 
@@ -31,7 +31,7 @@ Các file quan trọng nhất, người dùng sẽ đọc đầu tiên. Dịch c
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `01-slash-commands/README.md` | ⏳ Pending | | | Overview của slash commands |
+| `01-slash-commands/README.md` | ✅ Done | Claude | 2026-04-02 | Overview của slash commands |
 | `01-slash-commands/commit.md` | ⏳ Pending | | | Git commit slash command |
 | `01-slash-commands/doc-refactor.md` | ⏳ Pending | | | Documentation refactoring |
 | `01-slash-commands/generate-api-docs.md` | ⏳ Pending | | | API documentation generator |
@@ -41,7 +41,7 @@ Các file quan trọng nhất, người dùng sẽ đọc đầu tiên. Dịch c
 | `01-slash-commands/setup-ci-cd.md` | ⏳ Pending | | | CI/CD setup |
 | `01-slash-commands/unit-test-expand.md` | ⏳ Pending | | | Unit test expansion |
 
-**Progress:** 0/9 files (0%)
+**Progress:** 1/9 files (11%)
 
 ---
 
@@ -243,8 +243,8 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 
 | Module | Files | Completed | Progress |
 |--------|-------|-----------|----------|
-| Core Documents | 5 | 0 | 0% |
-| Module 01: Slash Commands | 9 | 0 | 0% |
+| Core Documents | 5 | 5 | 100% ✅ |
+| Module 01: Slash Commands | 9 | 1 | 11% |
 | Module 02: Memory | 4 | 0 | 0% |
 | Module 03: Skills | 6 | 0 | 0% |
 | Module 04: Subagents | 7 | 0 | 0% |
@@ -255,14 +255,14 @@ Tài liệu hỗ trợ, ít khẩn cấp hơn nhưng vẫn quan trọng.
 | Module 09: Advanced Features | 3 | 0 | 0% |
 | Module 10: CLI | 1 | 0 | 0% |
 | Supporting Docs | 6 | 0 | 0% |
-| **TOTAL** | **~66+** | **0** | **0%** |
+| **TOTAL** | **~66+** | **6** | **9%** |
 
 ### Theo Ưu tiên / By Priority
 
 | Priority | Category | Files | Completed | Progress |
 |----------|----------|-------|-----------|----------|
-| 1 | Core Documents | 5 | 0 | 0% |
-| 2 | Module 01-05 | 31 | 0 | 0% |
+| 1 | Core Documents | 5 | 5 | 100% ✅ |
+| 2 | Module 01-05 | 31 | 1 | 3% |
 | 3 | Module 06-10 | 24 | 0 | 0% |
 | 4 | Supporting Docs | 6 | 0 | 0% |
 
@@ -293,5 +293,7 @@ Khi bạn hoàn thành dịch một file:
 
 **Last Updated:** 2026-04-02
 **Total Files:** ~66+ files (estimated)
-**Translation Progress:** 0% (0/66 files)
-**ETA:** 8-10 weeks for complete translation
+**Translation Progress:** 9% (6/66 files) - Core Documents Complete ✅
+**Current Focus:** Module 01-05 (Slash Commands, Memory, Skills, Subagents, MCP)
+**Recent Completion:** Module 01 README (Slash Commands overview)
+**ETA:** 7-9 weeks for complete translation
