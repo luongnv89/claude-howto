@@ -22,7 +22,7 @@ Tác nhân con là các trợ lý AI chuyên biệt mà Claude Code có thể �
 11. [Tác Nhân Con Nền](#tác-nhân-con-nền)
 12. [Cô Lập Worktree](#cô-lập-worktree)
 13. [Hạn Chế Tác Nhân Con Có Thể Tạo](#hạn-chế-tác-nhân-con-có-thể-tạo)
-14. [Lệnh CLI `claude agents`](#claude-agents-cli-command)
+14. [Lệnh CLI `claude agents`](#lệnh-cli-claude-agents)
 15. [Đội Tác Nhân (Thử Nghiệm)](#đội-tác-nhân-thử-nghiệm)
 16. [Bảo Mật Tác Nhân Con Plugin](#bảo-mật-tác-nhân-con-plugin)
 17. [Kiến Trúc](#kiến-trúc)

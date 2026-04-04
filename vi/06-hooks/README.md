@@ -121,7 +121,7 @@ Prompts được đánh giá bởi LLM nơi nội dung hook là một prompt mà
 }
 ```
 
-LLM đánh giá prompt và trả về một quyết định có cấu trúc (xem [Prompt-Based Hooks](#prompt-based-hooks) để biết chi tiết).
+LLM đánh giá prompt và trả về một quyết định có cấu trúc (xem [Prompt-Based Hooks](#hooks-dựa-trên-prompt--prompt-based-hooks) để biết chi tiết).
 
 ### Agent Hooks / Hooks Agent
 

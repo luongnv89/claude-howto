@@ -115,7 +115,7 @@ Những skills này được gửi kèm với Claude Code và được gọi nh�
 - Lệnh `/color` được thêm để tùy chỉnh thanh prompt
 - Bộ chọn `/model` hiện hiển thị nhãn dễ đọc cho con người (ví dụ: "Sonnet 4.6") thay vì ID mô hình thô
 - `/resume` hỗ trợ bí danh `/continue`
-- MCP prompts có sẵn dưới dạng các lệnh `/mcp__<server>__<prompt>` (xem [MCP Prompts dưới dạng Lệnh](#mcp-prompts- dưới dạng-lệnh))
+- MCP prompts có sẵn dưới dạng các lệnh `/mcp__<server>__<prompt>` (xem [MCP Prompts dưới dạng Lệnh](#mcp-prompts-dưới-dạng-lệnh))
 
 ## Lệnh Tùy Chỉnh (Hiện Là Skills)
 

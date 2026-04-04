@@ -108,7 +108,7 @@ graph LR
 <!-- ❌ INCORRECT -->
 ```mermaid
 graph LR
-    A[Người dùng] --> B[Claude]  # KHÔNG dịch text trong Mermaid
+    A[Người dùng] --> B[Claude]  %% KHÔNG dịch text trong Mermaid
 ```
 ````
 

@@ -138,7 +138,7 @@ Các triệu chứng của các vấn đề sâu hơn trong code. Chúng không 
 
 ### Các Code Smells Phổ Biến Để Kiểm Tra
 
-Xem [references/code-smells.md](references/code-smells.md) để có danh sách đầy đủ.
+Xem [references/code-smells.md](../../../03-skills/refactor/references/code-smells.md) để có danh sách đầy đủ.
 
 #### Tham Khảo Nhanh
 
@@ -189,7 +189,7 @@ Trình bày cho người dùng:
 
 Đối với mỗi smell, chọn một refactoring phù hợp từ catalog.
 
-Xem [references/refactoring-catalog.md](references/refactoring-catalog.md) để có danh sách đầy đủ.
+Xem [references/refactoring-catalog.md](../../../03-skills/refactor/references/refactoring-catalog.md) để có danh sách đầy đủ.
 
 #### Smell-to-Refactoring Mapping
 
@@ -208,7 +208,7 @@ Xem [references/refactoring-catalog.md](references/refactoring-catalog.md) để
 
 ### Cấu Trúc Kế Hoạch
 
-Sử dụng mẫu tại [templates/refactoring-plan.md](templates/refactoring-plan.md).
+Sử dụng mẫu tại [templates/refactoring-plan.md](../../../03-skills/refactor/templates/refactoring-plan.md).
 
 Đối với mỗi refactoring:
 1. **Mục Tiêu**: Code nào sẽ thay đổi
@@ -412,9 +412,9 @@ function processOrder(order) {
 
 ## Tài Liệu Tham Khảo
 
-- [Catalog Code Smells](references/code-smells.md) - Danh sách đầy đủ code smells
-- [Catalog Refactoring](references/refactoring-catalog.md) - Các kỹ thuật refactoring
-- [Mẫu Kế Hoạch Refactoring](templates/refactoring-plan.md) - Mẫu lập kế hoạch
+- [Catalog Code Smells](../../../03-skills/refactor/references/code-smells.md) - Danh sách đầy đủ code smells
+- [Catalog Refactoring](../../../03-skills/refactor/references/refactoring-catalog.md) - Các kỹ thuật refactoring
+- [Mẫu Kế Hoạch Refactoring](../../../03-skills/refactor/templates/refactoring-plan.md) - Mẫu lập kế hoạch
 
 ## Scripts
 

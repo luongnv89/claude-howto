@@ -6,21 +6,18 @@
 
 ## Mục Lục / Table of Contents
 
-- [Đặt Tên File và Thư Mục](#đặt-tên-file-và-thư-mục)
-- [Cấu Trúc Tài Liệu](#cấu-trúc-tài-liệu)
-- [Tiêu Đề](#tiêu-đề)
-- [Định Dạng Văn Bản](#định-dạng-văn-bản)
-- [Danh Sách](#danh-sách)
-- [Bảng](#bảng)
-- [Khối Code](#khối-code)
-- [Liên Kết và Tham Chiếu Chéo](#liên-kết-và-tham-chiếu-chéo)
-- [Sơ Đồ](#sơ-đồ)
-- [Sử Dụng Emoji](#sử-dụng-emoji)
-- [YAML Frontmatter](#yaml-frontmatter)
-- [Hình Ảnh và Phương Tiện](#hình-ảnh-và-phương-tiện)
-- [Giọng Văn](#giọng-văn)
-- [Thông Điệp Commit](#thông-điệp-commit)
-- [Checklist Cho Tác Giả](#checklist-cho-tác-giả)
+- [Đặt Tên File và Thư Mục](#đặt-tên-file-và-thư-mục--file-and-folder-naming)
+- [Cấu Trúc Tài Liệu](#cấu-trúc-tài-liệu--document-structure)
+- [Tiêu Đề](#tiêu-đề--headings)
+- [Định Dạng Văn Bản](#định-dạng-văn-bản--text-formatting)
+- [Bảng](#bảng--tables)
+- [Khối Code](#khối-code--code-blocks)
+- [Liên Kết](#liên-kết--links)
+- [Sơ Đồ](#sơ-đồ--diagrams)
+- [Sử Dụng Emoji](#sử-dụng-emoji--emoji-usage)
+- [Giọng Văn](#giọng-văn--tone-and-voice)
+- [Thông Điệp Commit](#thông-điệp-commit--commit-messages)
+- [Checklist Cho Tác Giả](#checklist-cho-tác-giả--checklist-for-authors)
 
 ---
 

@@ -109,7 +109,7 @@ claude -p "list todos" | grep "URGENT"
 | `--model` | Đặt mô hình (sonnet, opus, haiku, hoặc tên đầy đủ) | `claude --model opus` |
 | `--fallback-model` | Fallback mô hình tự động khi quá tải | `claude -p --fallback-model sonnet "query"` |
 | `--agent` | Chỉ định agent cho session | `claude --agent my-custom-agent` |
-| `--agents` | Định nghĩa subagents tùy chỉnh qua JSON | Xem [Cấu Hình Agents](#agents-configuration) |
+| `--agents` | Định nghĩa subagents tùy chỉnh qua JSON | Xem [Tác Nhân Con](../04-subagents/) |
 | `--effort` | Đặt mức độ effort (low, medium, high, max) | `claude --effort high` |
 
 ### Ví Dụ Chọn Mô Hình / Model Selection Examples

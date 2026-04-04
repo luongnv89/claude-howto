@@ -7,7 +7,7 @@
 
 > Hướng dẫn tham khảo nhanh cho tất cả tính năng Claude Code: commands, agents, skills, plugins, và hooks.
 
-**Điều Hướng**: [Commands](#lệnh-slash) | [Permission Modes](#permission-modes) | [Tác Nhân Con](#tác-nhân-con) | [Skills](#skills) | [Plugins](#plugins) | [MCP Servers](#mcp-servers) | [Hooks](#hooks) | [Bộ Nhớ](#files-bộ-nhớ) | [Tính Năng Mới](#tính-năng-mới-tháng-3-2026)
+**Điều Hướng**: [Commands](#lệnh-slash) | [Permission Modes](#permission-modes) | [Tác Nhân Con](#tác-nhân-con) | [Skills](#skills) | [Plugins](#plugins) | [MCP Servers](#mcp-servers) | [Hooks](#hooks) | [Bộ Nhớ](#files-bộ-nhớ) | [Tính Năng Mới](#tính-năng-mới-tháng-3-năm-2026)
 
 ---
 
