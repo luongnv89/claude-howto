@@ -155,6 +155,9 @@ class BuildState:
     mermaid_cache: dict[str, tuple[bytes, str]] = field(default_factory=dict)
     mermaid_counter: int = 0
     mermaid_added_to_book: set[str] = field(default_factory=set)
+    svg_cache: dict[str, tuple[bytes, str]] = field(default_factory=dict)
+    svg_counter: int = 0
+    svg_added_to_book: set[str] = field(default_factory=set)
     path_to_chapter: dict[str, str] = field(default_factory=dict)
 
     def reset(self) -> None:
@@ -162,6 +165,9 @@ class BuildState:
         self.mermaid_cache.clear()
         self.mermaid_counter = 0
         self.mermaid_added_to_book.clear()
+        self.svg_cache.clear()
+        self.svg_counter = 0
+        self.svg_added_to_book.clear()
         self.path_to_chapter.clear()
 
 
@@ -673,25 +679,50 @@ def create_chapter_html(
 </html>"""
 
 
-def handle_svg_image(src: str, alt: str, logger: logging.Logger) -> str:
-    """Handle SVG images with a styled placeholder."""
-    placeholder = f"""
-    <div class="svg-placeholder" style="
-        border: 1px dashed #ccc;
-        padding: 1em;
-        text-align: center;
-        background: #f9f9f9;
-        border-radius: 4px;
-        margin: 1em 0;
-    ">
-        <p><em>[SVG Image: {html.escape(alt)}]</em></p>
-        <p style="font-size: 0.8em; color: #666;">
-            Original: {html.escape(src)}
-        </p>
-    </div>
-    """
-    logger.debug(f"Replaced SVG image: {src}")
-    return placeholder
+def handle_svg_image(
+    src: str,
+    alt: str,
+    book: epub.EpubBook,
+    state: BuildState,
+    chapter_dir: Path,
+    root_path: Path,
+    logger: logging.Logger,
+) -> str:
+    """Embed an SVG image in the EPUB as a proper image resource."""
+    # Resolve the SVG file path
+    svg_path = (chapter_dir / src).resolve()
+    if not svg_path.is_file():
+        # Try relative to repo root
+        svg_path = (root_path / src).resolve()
+    if not svg_path.is_file():
+        logger.warning(f"SVG file not found: {src}")
+        return f'<p><em>[SVG not found: {html.escape(src)}]</em></p>'
+
+    svg_key = str(svg_path)
+
+    # Check cache for the assigned image name
+    if svg_key in state.svg_cache:
+        _, img_name = state.svg_cache[svg_key]
+    else:
+        svg_data = svg_path.read_bytes()
+        state.svg_counter += 1
+        img_name = f"svg_{state.svg_counter}.svg"
+        state.svg_cache[svg_key] = (svg_data, img_name)
+
+    # Add image to book once
+    if img_name not in state.svg_added_to_book:
+        svg_data, _ = state.svg_cache[svg_key]
+        img_item = epub.EpubItem(
+            uid=img_name.replace(".", "_"),
+            file_name=f"images/{img_name}",
+            media_type="image/svg+xml",
+            content=svg_data,
+        )
+        book.add_item(img_item)
+        state.svg_added_to_book.add(img_name)
+
+    logger.debug(f"Embedded SVG image: {src} -> {img_name}")
+    return f'<img src="images/{img_name}" alt="{html.escape(alt)}"/>'
 
 
 # =============================================================================
@@ -788,7 +819,7 @@ def md_to_html(
 
     Handles:
     - Mermaid diagrams (rendered as PNG images)
-    - SVG images (replaced with styled placeholders)
+    - SVG images (embedded as EPUB image resources)
     - Internal links (converted to EPUB chapter references)
     - Standard markdown features
     """
@@ -806,14 +837,30 @@ def md_to_html(
         ],
     )
 
-    # Clean up any SVG references (they won't work in EPUB)
+    # Embed SVG images as EPUB resources (using <img> tags, not <object>)
     soup = BeautifulSoup(html_content, "html.parser")
+    chapter_dir = current_file.parent
+
+    # Handle <picture> elements: extract <img> child, remove <picture>/<source> wrapper
+    for picture in soup.find_all("picture"):
+        img = picture.find("img")
+        if img:
+            picture.replace_with(img)
+        else:
+            picture.decompose()
+
     for img in soup.find_all("img"):
         src = img.get("src", "")
-        if src.endswith(".svg"):
-            alt = img.get("alt", "Image")
-            placeholder = handle_svg_image(src, alt, logger)
-            img.replace_with(BeautifulSoup(placeholder, "html.parser"))
+        if not src.endswith(".svg"):
+            continue
+        # Skip external URLs (badges, shields, etc.)
+        if src.startswith(("http://", "https://")):
+            continue
+        alt = img.get("alt", "Image")
+        converted = handle_svg_image(
+            src, alt, book, state, chapter_dir, root_path, logger
+        )
+        img.replace_with(BeautifulSoup(converted, "html.parser"))
 
     html_content = str(soup)
 
@@ -845,7 +892,6 @@ def create_stylesheet() -> epub.EpubItem:
     a { color: #e67e22; }
     img { max-width: 100%; height: auto; display: block; margin: 1em auto; }
     .diagram { text-align: center; margin: 1.5em 0; }
-    .svg-placeholder { border: 1px dashed #ccc; padding: 1em; text-align: center; background: #f9f9f9; border-radius: 4px; margin: 1em 0; }
     """
     return epub.EpubItem(
         uid="style_nav",
