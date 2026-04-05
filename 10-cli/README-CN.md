@@ -109,7 +109,7 @@ claude -p "列出待办事项" | grep "URGENT"
 | `--model` | 设置模型（sonnet、opus、haiku，或完整模型名） | `claude --model opus` |
 | `--fallback-model` | 当前模型负载过高时自动切换的后备模型 | `claude -p --fallback-model sonnet "query"` |
 | `--agent` | 为当前会话指定 agent | `claude --agent my-custom-agent` |
-| `--agents` | 通过 JSON 定义自定义 subagents | 见 [Agents Configuration](#agents-configuration) |
+| `--agents` | 通过 JSON 定义自定义 subagents | 见 [Agents Configuration](#subagents-配置) |
 | `--effort` | 设置推理级别（low、medium、high、max） | `claude --effort high` |
 
 ### 模型选择示例

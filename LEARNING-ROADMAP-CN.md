@@ -29,9 +29,9 @@
 
 | 勾选数 | 水平 | 从这里开始 | 完成时间 |
 |--------|-------|----------|------------------|
-| 0-2 | **Level 1：Beginner** - 从这里开始 | [里程碑 1A](#milestone-1a-first-commands-memory) | 约 3 小时 |
-| 3-5 | **Level 2：Intermediate** - 构建工作流 | [里程碑 2A](#milestone-2a-automation-skills-hooks) | 约 5 小时 |
-| 6-8 | **Level 3：Advanced** - 高阶用户与团队负责人 | [里程碑 3A](#milestone-3a-advanced-features) | 约 5 小时 |
+| 0-2 | **Level 1：Beginner** - 从这里开始 | [里程碑 1A](#里程碑-1a第一个命令与-memory) | 约 3 小时 |
+| 3-5 | **Level 2：Intermediate** - 构建工作流 | [里程碑 2A](#里程碑-2a自动化skills--hooks) | 约 5 小时 |
+| 6-8 | **Level 3：Advanced** - 高阶用户与团队负责人 | [里程碑 3A](#里程碑-3a高级功能) | 约 5 小时 |
 
 > **提示**：如果不确定，宁可从低一级开始。先回顾熟悉内容，总比漏掉基础概念更划算。
 
@@ -202,7 +202,7 @@ cat error.log | claude -p "explain this error"
 #### 下一步
 - 阅读：[08-checkpoints/README-CN.md](08-checkpoints/README-CN.md)
 - 阅读：[10-cli/README-CN.md](10-cli/README-CN.md)
-- **准备进入 Level 2！** 继续看 [里程碑 2A](#milestone-2a-automation-skills-hooks)
+- **准备进入 Level 2！** 继续看 [里程碑 2A](#里程碑-2a自动化skills--hooks)
 
 > **检查理解**：运行 `/lesson-quiz checkpoints` 或 `/lesson-quiz cli`，确认你准备好进入 Level 2。
 
@@ -333,7 +333,7 @@ cp 04-subagents/*-CN.md .claude/agents/
 - 为你的领域创建自定义 subagents
 - 阅读：[05-mcp/README-CN.md](05-mcp/README-CN.md)
 - 阅读：[04-subagents/README-CN.md](04-subagents/README-CN.md)
-- **准备进入 Level 3！** 继续看 [里程碑 3A](#milestone-3a-advanced-features)
+- **准备进入 Level 3！** 继续看 [里程碑 3A](#里程碑-3a高级功能)
 
 > **检查理解**：运行 `/lesson-quiz mcp` 或 `/lesson-quiz subagents`，确认你准备好进入 Level 3。
 
@@ -666,7 +666,7 @@ done
 **解决**：自己做一份速查表；同时用 checkpoints 安全试验。
 
 ### 难题 6：“我经验很足，但不知道从哪里开始”
-**解决**：先做上面的 [自我评估测验](#find-your-level)，直接跳到你的水平，并用前置条件检查找出空缺。
+**解决**：先做上面的 [自我评估测验](#-找到你的水平)，直接跳到你的水平，并用前置条件检查找出空缺。
 
 ---
 

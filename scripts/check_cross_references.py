@@ -3,6 +3,7 @@
 
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 IGNORE_DIRS = {
@@ -63,7 +64,7 @@ def main() -> int:
     errors = []
 
     for file_path in iter_md_files():
-        content = file_path.read_text()
+        content = file_path.read_text(encoding="utf-8")
         # Strip code blocks before scanning for links/anchors to avoid false positives
         # from documentation examples inside code fences.
         scannable = strip_code_blocks(content)
