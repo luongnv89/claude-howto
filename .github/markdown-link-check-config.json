@@ -76,7 +76,7 @@
   "replacementPatterns": [
     {
       "pattern": "^/",
-      "replacement": "https://github.com/luongnv89/claude-howto/blob/main/"
+      "replacement": "https://github.com/TurokDSC/claude-mastery/blob/main/"
     }
   ],
   "timeout": 10000,

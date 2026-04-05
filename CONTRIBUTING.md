@@ -54,7 +54,7 @@ Help improve the guide:
 
 ### 1. Fork and Clone
 ```bash
-git clone https://github.com/luongnv89/claude-howto.git
+git clone https://github.com/TurokDSC/claude-mastery.git
 cd claude-howto
 ```
 

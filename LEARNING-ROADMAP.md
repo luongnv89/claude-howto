@@ -722,7 +722,7 @@ Once you've completed all milestones:
 - [MCP Protocol Specification](https://modelcontextprotocol.io)
 
 ### Blog Posts
-- [Discovering Claude Code Slash Commands](https://medium.com/@luongnv89/discovering-claude-code-slash-commands-cdc17f0dfb29)
+- [Discovering Claude Code Slash Commands](https://medium.com/@TurokDSC/discovering-claude-code-slash-commands-cdc17f0dfb29)
 
 ### Community
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)

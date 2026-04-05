@@ -4,7 +4,7 @@ This file explains how to report security vulnerabilities to the Claude How To p
 
 ## Quick Links
 
-- **Private Reporting**: https://github.com/luongnv89/claude-howto/security/advisories
+- **Private Reporting**: https://github.com/TurokDSC/claude-mastery/security/advisories
 - **Security Policy**: [SECURITY.md](../SECURITY.md)
 - **Report Template**: See below
 
@@ -15,7 +15,7 @@ This file explains how to report security vulnerabilities to the Claude How To p
 This is the preferred method for reporting security vulnerabilities.
 
 **Steps:**
-1. Go to: https://github.com/luongnv89/claude-howto/security/advisories
+1. Go to: https://github.com/TurokDSC/claude-mastery/security/advisories
 2. Click "Report a vulnerability"
 3. Fill in the details (use template below)
 4. Submit
@@ -30,7 +30,11 @@ This is the preferred method for reporting security vulnerabilities.
 
 If you discover a vulnerability in a dependency:
 
+<<<<<<< HEAD
 1. Go to: https://github.com/luongnv89/claude-howto/security/advisories
+=======
+1. Go to: https://github.com/TurokDSC/claude-mastery/security/dependabot/alerts
+>>>>>>> 34ac3c4 (rebrand: claude-mastery by TurokDSC)
 2. Review the alert
 3. Create a pull request with the fix
 4. Tag with `security` label

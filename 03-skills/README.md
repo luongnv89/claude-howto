@@ -788,15 +788,15 @@ Package skills in a plugin's `skills/` directory for broader distribution.
 
 Once you start building skills seriously, two things become essential: a library of proven skills and a tool to manage them.
 
-**[luongnv89/skills](https://github.com/luongnv89/skills)** — A collection of skills I use daily across almost all my projects. Highlights include `logo-designer` (generates project logos on the fly) and `ollama-optimizer` (tunes local LLM performance for your hardware). Great starting point if you want ready-to-use skills.
+**[TurokDSC/claude-mastery](https://github.com/TurokDSC/claude-mastery)** — A collection of skills I use daily across almost all my projects. Highlights include `logo-designer` (generates project logos on the fly) and `ollama-optimizer` (tunes local LLM performance for your hardware). Great starting point if you want ready-to-use skills.
 
-**[luongnv89/asm](https://github.com/luongnv89/asm)** — Agent Skill Manager. Handles skill development, duplicate detection, and testing. The `asm link` command lets you test a skill in any project without copying files around — essential once you have more than a handful of skills.
+**[TurokDSC/asm](https://github.com/TurokDSC/asm)** — Agent Skill Manager. Handles skill development, duplicate detection, and testing. The `asm link` command lets you test a skill in any project without copying files around — essential once you have more than a handful of skills.
 
 ## Additional Resources
 
 - [Official Skills Documentation](https://code.claude.com/docs/en/skills)
 - [Agent Skills Architecture Blog](https://claude.com/blog/equipping-agents-for-the-real-world-with-agent-skills)
-- [Skills Repository](https://github.com/luongnv89/skills) - Collection of ready-to-use skills
+- [Skills Repository](https://github.com/TurokDSC/claude-mastery) - Collection of ready-to-use skills
 - [Slash Commands Guide](../01-slash-commands/) - User-initiated shortcuts
 - [Subagents Guide](../04-subagents/) - Delegated AI agents
 - [Memory Guide](../02-memory/) - Persistent context

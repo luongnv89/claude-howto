@@ -4,7 +4,7 @@ contact_links:
     url: https://code.claude.com/docs/en/overview
     about: Official Claude Code documentation
   - name: Discussions
-    url: https://github.com/luongnv89/claude-howto/discussions
+    url: https://github.com/TurokDSC/claude-mastery/discussions
     about: Ask questions and share ideas with the community
   - name: Anthropic Cookbook
     url: https://github.com/anthropics/anthropic-cookbook

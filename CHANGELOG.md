@@ -4,7 +4,7 @@
 
 ### Documentation
 
-- Sync all tutorials and references with Claude Code v2.1.84 (f78c094) @luongnv89
+- Sync all tutorials and references with Claude Code v2.1.84 (f78c094) @TurokDSC
   - Update slash commands to 55+ built-in + 5 bundled skills, mark 3 deprecated
   - Expand hook events from 18 to 25, add `agent` hook type (now 4 types)
   - Add Auto Mode, Channels, Voice Dictation to advanced features
@@ -12,14 +12,14 @@
   - Add WebSocket MCP transport, elicitation, 2KB tool cap
   - Add plugin LSP support, `userConfig`, `${CLAUDE_PLUGIN_DATA}`
   - Update all reference docs (CATALOG, QUICK_REFERENCE, LEARNING-ROADMAP, INDEX)
-- Rewrite README as landing-page-structured guide (32a0776) @luongnv89
+- Rewrite README as landing-page-structured guide (32a0776) @TurokDSC
 
 ### Bug Fixes
 
-- Add missing cSpell words and README sections for CI compliance (93f9d51) @luongnv89
-- Add `Sandboxing` to cSpell dictionary (b80ce6f) @luongnv89
+- Add missing cSpell words and README sections for CI compliance (93f9d51) @TurokDSC
+- Add `Sandboxing` to cSpell dictionary (b80ce6f) @TurokDSC
 
-**Full Changelog**: https://github.com/luongnv89/claude-howto/compare/v2.1.1...v2.2.0
+**Full Changelog**: https://github.com/TurokDSC/claude-mastery/compare/v2.1.1...v2.2.0
 
 ---
 
@@ -27,10 +27,10 @@
 
 ### Bug Fixes
 
-- Remove dead marketplace link failing CI link checks (3fdf0d6) @luongnv89
-- Add `sandboxed` and `pycache` to cSpell dictionary (dc64618) @luongnv89
+- Remove dead marketplace link failing CI link checks (3fdf0d6) @TurokDSC
+- Add `sandboxed` and `pycache` to cSpell dictionary (dc64618) @TurokDSC
 
-**Full Changelog**: https://github.com/luongnv89/claude-howto/compare/v2.1.0...v2.1.1
+**Full Changelog**: https://github.com/TurokDSC/claude-mastery/compare/v2.1.0...v2.1.1
 
 ---
 
@@ -38,33 +38,33 @@
 
 ### Features
 
-- Add adaptive learning path with self-assessment and lesson quiz skills (1ef46cd) @luongnv89
+- Add adaptive learning path with self-assessment and lesson quiz skills (1ef46cd) @TurokDSC
   - `/self-assessment` — interactive proficiency quiz across 10 feature areas with personalized learning path
   - `/lesson-quiz [lesson]` — per-lesson knowledge check with 8-10 targeted questions
 
 ### Bug Fixes
 
-- Update broken URLs, deprecations, and outdated references (8fe4520) @luongnv89
-- Fix broken links in resources and self-assessment skill (7a05863) @luongnv89
+- Update broken URLs, deprecations, and outdated references (8fe4520) @TurokDSC
+- Fix broken links in resources and self-assessment skill (7a05863) @TurokDSC
 - Use tilde fences for nested code blocks in concepts guide (5f82719) @VikalpP
-- Add missing words to cSpell dictionary (8df7572) @luongnv89
+- Add missing words to cSpell dictionary (8df7572) @TurokDSC
 
 ### Documentation
 
-- Phase 5 QA — fix consistency, URLs, and terminology across docs (00bbe4c) @luongnv89
-- Complete Phases 3-4 — new feature coverage and reference doc updates (132de29) @luongnv89
-- Add MCPorter runtime to MCP context bloat section (ef52705) @luongnv89
-- Add missing commands, features, and settings across 6 guides (4bc8f15) @luongnv89
-- Add style guide based on existing repo conventions (84141d0) @luongnv89
-- Add self-assessment row to guide comparison table (8fe0c96) @luongnv89
-- Add VikalpP to contributors list for PR #7 (d5b4350) @luongnv89
-- Add self-assessment and lesson-quiz skill references to README and roadmap (d5a6106) @luongnv89
+- Phase 5 QA — fix consistency, URLs, and terminology across docs (00bbe4c) @TurokDSC
+- Complete Phases 3-4 — new feature coverage and reference doc updates (132de29) @TurokDSC
+- Add MCPorter runtime to MCP context bloat section (ef52705) @TurokDSC
+- Add missing commands, features, and settings across 6 guides (4bc8f15) @TurokDSC
+- Add style guide based on existing repo conventions (84141d0) @TurokDSC
+- Add self-assessment row to guide comparison table (8fe0c96) @TurokDSC
+- Add VikalpP to contributors list for PR #7 (d5b4350) @TurokDSC
+- Add self-assessment and lesson-quiz skill references to README and roadmap (d5a6106) @TurokDSC
 
 ### New Contributors
 
 - @VikalpP made their first contribution in #7
 
-**Full Changelog**: https://github.com/luongnv89/claude-howto/compare/v2.0.0...v2.1.0
+**Full Changelog**: https://github.com/TurokDSC/claude-mastery/compare/v2.0.0...v2.1.0
 
 ---
 
@@ -106,4 +106,4 @@
 - Remove fictional configuration fields across multiple files
 - Update all "Last Updated" dates to February 2026
 
-**Full Changelog**: https://github.com/luongnv89/claude-howto/compare/20779db...v2.0.0
+**Full Changelog**: https://github.com/TurokDSC/claude-mastery/compare/20779db...v2.0.0

@@ -101,7 +101,7 @@ These are outside the scope of this project:
 
 **For sensitive security issues, please use GitHub's private vulnerability reporting:**
 
-1. Visit: https://github.com/luongnv89/claude-howto/security/advisories
+1. Visit: https://github.com/TurokDSC/claude-mastery/security/advisories
 2. Click "Report a vulnerability"
 3. Fill in the vulnerability details
 4. Include:
@@ -304,7 +304,7 @@ pip-audit
 
 ## Security Advisories Archive
 
-Past security advisories are available in the [GitHub Security Advisories](https://github.com/luongnv89/claude-howto/security/advisories) tab.
+Past security advisories are available in the [GitHub Security Advisories](https://github.com/TurokDSC/claude-mastery/security/advisories) tab.
 
 ## Contact
 

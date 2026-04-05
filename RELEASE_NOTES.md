@@ -5,4 +5,4 @@
 - Remove dead marketplace link failing CI link checks (3fdf0d6)
 - Add `sandboxed` and `pycache` to cSpell dictionary (dc64618)
 
-**Full Changelog**: https://github.com/luongnv89/claude-howto/compare/v2.1.0...v2.1.1
+**Full Changelog**: https://github.com/TurokDSC/claude-mastery/compare/v2.1.0...v2.1.1
