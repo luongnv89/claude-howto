@@ -28,30 +28,31 @@ ISSUES=""
 
 # Check for hardcoded passwords
 # Handles both JSON format ("password": "value") and code format (password = 'value')
+# Use \\n as separator — it is a valid JSON newline escape and passes through printf safely
 if grep -qiE '"password"[[:space:]]*:[[:space:]]*"[^"]+"' "$FILE_PATH" 2>/dev/null; then
-  ISSUES="${ISSUES}- WARNING: Potential hardcoded password detected\n"
+  ISSUES="${ISSUES}- WARNING: Potential hardcoded password detected\\n"
 elif grep -qiE '(password|passwd|pwd)\s*=\s*'"'"'[^'"'"']+'"'"'' "$FILE_PATH" 2>/dev/null; then
-  ISSUES="${ISSUES}- WARNING: Potential hardcoded password detected\n"
+  ISSUES="${ISSUES}- WARNING: Potential hardcoded password detected\\n"
 fi
 
 # Check for hardcoded API keys
 if grep -qiE '"(api[_-]?key|apikey|access[_-]?token)"[[:space:]]*:[[:space:]]*"[^"]+"' "$FILE_PATH" 2>/dev/null; then
-  ISSUES="${ISSUES}- WARNING: Potential hardcoded API key detected\n"
+  ISSUES="${ISSUES}- WARNING: Potential hardcoded API key detected\\n"
 fi
 
 # Check for hardcoded secrets and tokens
 if grep -qiE '(secret|token)\s*=\s*['"'"'"][^'"'"'"]+['"'"'"]' "$FILE_PATH" 2>/dev/null; then
-  ISSUES="${ISSUES}- WARNING: Potential hardcoded secret or token detected\n"
+  ISSUES="${ISSUES}- WARNING: Potential hardcoded secret or token detected\\n"
 fi
 
 # Check for private keys
 if grep -q "BEGIN.*PRIVATE KEY" "$FILE_PATH" 2>/dev/null; then
-  ISSUES="${ISSUES}- WARNING: Private key detected\n"
+  ISSUES="${ISSUES}- WARNING: Private key detected\\n"
 fi
 
 # Check for AWS keys
 if grep -qE "AKIA[0-9A-Z]{16}" "$FILE_PATH" 2>/dev/null; then
-  ISSUES="${ISSUES}- WARNING: AWS access key detected\n"
+  ISSUES="${ISSUES}- WARNING: AWS access key detected\\n"
 fi
 
 # Scan with semgrep if available
@@ -67,10 +68,11 @@ fi
 # If issues found, output as additionalContext (non-blocking warning)
 # Use hookSpecificOutput format required by Claude Code PostToolUse protocol
 if [ -n "$ISSUES" ]; then
-  # Safely escape the file path for JSON (backslash and double-quote)
+  # Escape file path for JSON (backslash and double-quote)
+  # ISSUES already uses \\n as separator (valid JSON escape) — only escape double-quotes
   SAFE_PATH=$(printf '%s' "$FILE_PATH" | sed 's/\\/\\\\/g; s/"/\\"/g')
-  SAFE_ISSUES=$(printf '%s' "$ISSUES" | sed 's/\\/\\\\/g; s/"/\\"/g')
-  printf '{"hookSpecificOutput": {"hookEventName": "PostToolUse", "additionalContext": "Security scan found issues in %s:\n%sPlease review and use environment variables instead."}}' "$SAFE_PATH" "$SAFE_ISSUES"
+  SAFE_ISSUES=$(printf '%s' "$ISSUES" | sed 's/"/\\"/g')
+  printf '{"hookSpecificOutput": {"hookEventName": "PostToolUse", "additionalContext": "Security scan found issues in %s:\\n%sPlease review and use environment variables instead."}}' "$SAFE_PATH" "$SAFE_ISSUES"
 fi
 
 exit 0
