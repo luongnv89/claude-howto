@@ -2,8 +2,9 @@
 # Auto-format code before writing
 # Hook: PreToolUse:Write
 #
-# Reads the target file path from stdin JSON and runs the appropriate formatter.
-# Outputs updatedInput to pass the formatted content back.
+# Reads the target file path from stdin JSON and runs the appropriate formatter
+# in-place on the existing file (if it already exists on disk). For new files,
+# formatting runs after Claude writes the file via a subsequent PostToolUse hook.
 #
 # Compatible with: macOS, Linux, Windows (Git Bash)
 

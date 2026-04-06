@@ -10,6 +10,9 @@
 INPUT=$(cat)
 
 # Extract the bash command from tool_input
+# Note: sed [^"]* stops at escaped quotes in JSON; for commands with double-quoted
+# strings, only the portion up to the first \" will be captured — this is a known
+# limitation of sed-based JSON parsing and is acceptable for logging purposes.
 COMMAND=$(echo "$INPUT" | sed -n 's/.*"command"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
 
 if [ -z "$COMMAND" ]; then

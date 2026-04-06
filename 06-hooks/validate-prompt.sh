@@ -10,8 +10,11 @@
 INPUT=$(cat)
 
 # Extract the prompt text from JSON input
-# Claude Code sends: {"session_id": "...", "prompt": "user's message here"}
-PROMPT=$(echo "$INPUT" | sed -n 's/.*"prompt"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+# Claude Code sends UserPromptSubmit with field "user_prompt" (falls back to "prompt")
+PROMPT=$(echo "$INPUT" | sed -n 's/.*"user_prompt"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+if [ -z "$PROMPT" ]; then
+  PROMPT=$(echo "$INPUT" | sed -n 's/.*"prompt"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+fi
 
 if [ -z "$PROMPT" ]; then
   exit 0

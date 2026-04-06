@@ -39,6 +39,11 @@ if grep -qiE '"(api[_-]?key|apikey|access[_-]?token)"[[:space:]]*:[[:space:]]*"[
   ISSUES="${ISSUES}- WARNING: Potential hardcoded API key detected\n"
 fi
 
+# Check for hardcoded secrets and tokens
+if grep -qiE '(secret|token)\s*=\s*['"'"'"][^'"'"'"]+['"'"'"]' "$FILE_PATH" 2>/dev/null; then
+  ISSUES="${ISSUES}- WARNING: Potential hardcoded secret or token detected\n"
+fi
+
 # Check for private keys
 if grep -q "BEGIN.*PRIVATE KEY" "$FILE_PATH" 2>/dev/null; then
   ISSUES="${ISSUES}- WARNING: Private key detected\n"
@@ -60,8 +65,12 @@ if command -v trufflehog &> /dev/null; then
 fi
 
 # If issues found, output as additionalContext (non-blocking warning)
+# Use hookSpecificOutput format required by Claude Code PostToolUse protocol
 if [ -n "$ISSUES" ]; then
-  printf '{"additionalContext": "Security scan found issues in %s:\n%sPlease review and use environment variables instead."}' "$FILE_PATH" "$ISSUES"
+  # Safely escape the file path for JSON (backslash and double-quote)
+  SAFE_PATH=$(printf '%s' "$FILE_PATH" | sed 's/\\/\\\\/g; s/"/\\"/g')
+  SAFE_ISSUES=$(printf '%s' "$ISSUES" | sed 's/\\/\\\\/g; s/"/\\"/g')
+  printf '{"hookSpecificOutput": {"hookEventName": "PostToolUse", "additionalContext": "Security scan found issues in %s:\n%sPlease review and use environment variables instead."}}' "$SAFE_PATH" "$SAFE_ISSUES"
 fi
 
 exit 0
