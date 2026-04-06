@@ -454,10 +454,27 @@ class TestMermaidRenderer:
             patch("pathlib.Path.read_bytes", return_value=fake_png),
         ):
             mock_run.return_value = MagicMock(returncode=0, stderr="")
-            renderer.render_all([(1, same_code), (2, same_code)])
+            results = renderer.render_all([(1, same_code), (2, same_code)])
 
         # mmdc should only be called once for duplicate diagrams
         assert mock_run.call_count == 1
+        # Both entries map to the same cached result
+        assert len(results) == 1
+
+    def test_render_all_timeout(
+        self, tmp_path: Path, state: BuildState, logger: logging.Logger
+    ) -> None:
+        """Test that a hung mmdc process raises MermaidRenderError."""
+        import subprocess as _subprocess
+
+        renderer = self._make_renderer(tmp_path, state, logger)
+
+        with (
+            patch("shutil.which", return_value="/usr/bin/mmdc"),
+            patch("subprocess.run", side_effect=_subprocess.TimeoutExpired("mmdc", 60)),
+            pytest.raises(MermaidRenderError, match="timed out"),
+        ):
+            renderer.render_all([(1, "graph TD\n  A --> B")])
 
 
 # =============================================================================

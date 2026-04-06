@@ -285,12 +285,26 @@ class MermaidRenderer:
             output_file = Path(tmpdir) / "diagram.png"
             input_file.write_text(mermaid_code, encoding="utf-8")
 
-            result = subprocess.run(  # nosec B603
-                [mmdc, "-i", str(input_file), "-o", str(output_file), "-b", "white"],
-                capture_output=True,
-                text=True,
-                check=False,
-            )
+            try:
+                result = subprocess.run(  # nosec B603
+                    [
+                        mmdc,
+                        "-i",
+                        str(input_file),
+                        "-o",
+                        str(output_file),
+                        "-b",
+                        "white",
+                    ],
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                    timeout=60,
+                )
+            except subprocess.TimeoutExpired as exc:
+                raise MermaidRenderError(
+                    f"mmdc timed out rendering diagram {index} (60s limit)"
+                ) from exc
 
             if result.returncode != 0:
                 raise MermaidRenderError(
@@ -324,7 +338,7 @@ class MermaidRenderer:
             results[cache_key] = data
 
         self.logger.info(
-            f"Successfully rendered {len(results)}/{len(diagrams)} diagrams"
+            f"Successfully rendered {len(results)} unique diagrams ({len(diagrams)} total blocks)"
         )
         return results
 
