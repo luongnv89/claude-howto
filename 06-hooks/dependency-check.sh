@@ -9,8 +9,11 @@ if [ -z "$FILE" ]; then
   exit 0
 fi
 
+# Use basename for matching — $1 may be an absolute path
+BASENAME=$(basename "$FILE")
+
 # Only run when a dependency manifest is written
-case "$FILE" in
+case "$BASENAME" in
   package.json|package-lock.json|yarn.lock|pnpm-lock.yaml| \
   requirements.txt|Pipfile|Pipfile.lock|pyproject.toml| \
   go.mod|go.sum| \
@@ -28,7 +31,7 @@ esac
 ISSUES_FOUND=0
 
 # ── npm / yarn / pnpm ────────────────────────────────────────────────────────
-if [[ "$FILE" == package*.json || "$FILE" == yarn.lock || "$FILE" == pnpm-lock.yaml ]]; then
+if [[ "$BASENAME" == package*.json || "$BASENAME" == yarn.lock || "$BASENAME" == pnpm-lock.yaml ]]; then
   if command -v npm &>/dev/null; then
     echo "🔍 Running npm audit..."
     if ! npm audit --audit-level=high --json 2>/dev/null | \
@@ -47,7 +50,7 @@ if high:
     fi
   fi
 
-  if command -v yarn &>/dev/null && [[ "$FILE" == yarn.lock ]]; then
+  if command -v yarn &>/dev/null && [[ "$BASENAME" == yarn.lock ]]; then
     echo "🔍 Running yarn audit..."
     if ! yarn audit --level high --json 2>/dev/null | \
         grep -q '"type":"auditAdvisory"' 2>/dev/null; then
@@ -60,7 +63,7 @@ if high:
 fi
 
 # ── Python ───────────────────────────────────────────────────────────────────
-if [[ "$FILE" == requirements.txt || "$FILE" == Pipfile* || "$FILE" == pyproject.toml ]]; then
+if [[ "$BASENAME" == requirements.txt || "$BASENAME" == Pipfile* || "$BASENAME" == pyproject.toml ]]; then
   if command -v pip-audit &>/dev/null; then
     echo "🔍 Running pip-audit..."
     if pip-audit --format=json 2>/dev/null | \
@@ -95,7 +98,7 @@ if vulns:
 fi
 
 # ── Go ───────────────────────────────────────────────────────────────────────
-if [[ "$FILE" == go.mod || "$FILE" == go.sum ]]; then
+if [[ "$BASENAME" == go.mod || "$BASENAME" == go.sum ]]; then
   if command -v govulncheck &>/dev/null; then
     echo "🔍 Running govulncheck..."
     OUTPUT=$(govulncheck ./... 2>&1)
@@ -112,7 +115,7 @@ if [[ "$FILE" == go.mod || "$FILE" == go.sum ]]; then
 fi
 
 # ── Rust ─────────────────────────────────────────────────────────────────────
-if [[ "$FILE" == Cargo.toml || "$FILE" == Cargo.lock ]]; then
+if [[ "$BASENAME" == Cargo.toml || "$BASENAME" == Cargo.lock ]]; then
   if command -v cargo-audit &>/dev/null; then
     echo "🔍 Running cargo audit..."
     if ! cargo audit 2>/dev/null; then
@@ -124,7 +127,7 @@ if [[ "$FILE" == Cargo.toml || "$FILE" == Cargo.lock ]]; then
 fi
 
 # ── Ruby ─────────────────────────────────────────────────────────────────────
-if [[ "$FILE" == Gemfile || "$FILE" == Gemfile.lock ]]; then
+if [[ "$BASENAME" == Gemfile || "$BASENAME" == Gemfile.lock ]]; then
   if command -v bundler-audit &>/dev/null; then
     echo "🔍 Running bundler-audit..."
     bundler-audit check --update 2>/dev/null || ISSUES_FOUND=1
