@@ -123,6 +123,7 @@ class EPUBConfig:
 
     # Local rendering settings
     mmdc_path: str = "mmdc"
+    puppeteer_config: str | None = None
 
     # Font paths (platform-specific)
     title_font_paths: list[str] = field(
@@ -286,16 +287,19 @@ class MermaidRenderer:
             input_file.write_text(mermaid_code, encoding="utf-8")
 
             try:
+                cmd = [
+                    mmdc,
+                    "-i",
+                    str(input_file),
+                    "-o",
+                    str(output_file),
+                    "-b",
+                    "white",
+                ]
+                if self.config.puppeteer_config:
+                    cmd += ["-p", self.config.puppeteer_config]
                 result = subprocess.run(  # nosec B603
-                    [
-                        mmdc,
-                        "-i",
-                        str(input_file),
-                        "-o",
-                        str(output_file),
-                        "-b",
-                        "white",
-                    ],
+                    cmd,
                     capture_output=True,
                     text=True,
                     check=False,
@@ -1056,6 +1060,12 @@ def main() -> int:
         choices=["en", "vi"],
         help="Language code: 'en' for English, 'vi' for Vietnamese (default: en)",
     )
+    parser.add_argument(
+        "--puppeteer-config",
+        type=str,
+        default=None,
+        help="Path to Puppeteer config JSON file passed to mmdc via -p (e.g. for --no-sandbox in CI)",
+    )
 
     args = parser.parse_args()
 
@@ -1085,6 +1095,7 @@ def main() -> int:
         language=language,
         title=title,
         mmdc_path=args.mmdc_path,
+        puppeteer_config=args.puppeteer_config,
     )
 
     try:

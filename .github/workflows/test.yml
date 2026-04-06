@@ -167,7 +167,9 @@ jobs:
         run: npm install -g @mermaid-js/mermaid-cli
 
       - name: Build EPUB
-        run: uv run scripts/build_epub.py
+        run: |
+          echo '{"args":["--no-sandbox","--disable-setuid-sandbox"]}' > /tmp/puppeteer-ci.json
+          uv run scripts/build_epub.py --puppeteer-config /tmp/puppeteer-ci.json
 
       - name: Verify EPUB Created
         run: |
