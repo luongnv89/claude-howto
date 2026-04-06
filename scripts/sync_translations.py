@@ -17,7 +17,7 @@ from pathlib import Path
 
 def check_translation_status(
     root_path: Path | None = None, verbose: bool = False
-) -> list[dict]:
+) -> tuple[list[dict], list[dict]]:
     """
     Compare modification times between English and Vietnamese files.
 

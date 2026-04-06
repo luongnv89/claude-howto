@@ -163,6 +163,9 @@ jobs:
           uv venv
           uv pip install -r scripts/requirements-dev.txt
 
+      - name: Install mmdc (Mermaid CLI)
+        run: npm install -g @mermaid-js/mermaid-cli
+
       - name: Build EPUB
         run: uv run scripts/build_epub.py
 
