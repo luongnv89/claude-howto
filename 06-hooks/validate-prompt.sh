@@ -1,11 +1,21 @@
 #!/bin/bash
 # Validate user prompts
 # Hook: UserPromptSubmit
+#
+# Reads the user prompt from stdin JSON and blocks dangerous operations.
+#
+# Compatible with: macOS, Linux, Windows (Git Bash)
 
-# Read prompt from stdin
-PROMPT=$(cat)
+# Read JSON input from stdin (Claude Code hook protocol)
+INPUT=$(cat)
 
-echo "🔍 Validating prompt..."
+# Extract the prompt text from JSON input
+# Claude Code sends: {"session_id": "...", "prompt": "user's message here"}
+PROMPT=$(echo "$INPUT" | sed -n 's/.*"prompt"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+
+if [ -z "$PROMPT" ]; then
+  exit 0
+fi
 
 # Check for dangerous operations
 DANGEROUS_PATTERNS=(
@@ -18,26 +28,24 @@ DANGEROUS_PATTERNS=(
 
 for pattern in "${DANGEROUS_PATTERNS[@]}"; do
   if echo "$PROMPT" | grep -qi "$pattern"; then
-    echo "❌ Blocked: Dangerous operation detected: $pattern"
-    exit 1
+    printf '{"decision": "block", "reason": "Dangerous operation detected: %s"}' "$pattern"
+    exit 0
   fi
 done
 
 # Check for production deployments
 if echo "$PROMPT" | grep -qiE "(deploy|push).*production"; then
   if [ ! -f ".deployment-approved" ]; then
-    echo "❌ Blocked: Production deployment requires approval"
-    echo "Create .deployment-approved file to proceed"
-    exit 1
+    echo '{"decision": "block", "reason": "Production deployment requires approval. Create .deployment-approved file to proceed."}'
+    exit 0
   fi
 fi
 
 # Check for required context in certain operations
 if echo "$PROMPT" | grep -qi "refactor"; then
-  if [ ! -f "tests/" ] && [ ! -f "test/" ]; then
-    echo "⚠️  Warning: Refactoring without tests may be risky"
+  if [ ! -d "tests" ] && [ ! -d "test" ]; then
+    printf '{"additionalContext": "Warning: Refactoring without tests may be risky. Consider writing tests first."}'
   fi
 fi
 
-echo "✅ Prompt validation passed"
 exit 0

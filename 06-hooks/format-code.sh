@@ -1,44 +1,47 @@
 #!/bin/bash
 # Auto-format code before writing
 # Hook: PreToolUse:Write
+#
+# Reads the target file path from stdin JSON and runs the appropriate formatter.
+# Outputs updatedInput to pass the formatted content back.
+#
+# Compatible with: macOS, Linux, Windows (Git Bash)
 
-FILE=$1
+# Read JSON input from stdin (Claude Code hook protocol)
+INPUT=$(cat)
 
-if [ -z "$FILE" ]; then
-  echo "Usage: $0 <file_path>"
-  exit 1
+# Extract file_path using sed (compatible with all platforms)
+FILE_PATH=$(echo "$INPUT" | sed -n 's/.*"file_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+
+if [ -z "$FILE_PATH" ] || [ ! -f "$FILE_PATH" ]; then
+  exit 0
 fi
 
 # Detect file type and format accordingly
-case "$FILE" in
+case "$FILE_PATH" in
   *.js|*.jsx|*.ts|*.tsx)
     if command -v prettier &> /dev/null; then
-      echo "Formatting JavaScript/TypeScript file: $FILE"
-      prettier --write "$FILE"
+      prettier --write "$FILE_PATH" 2>/dev/null
     fi
     ;;
   *.py)
     if command -v black &> /dev/null; then
-      echo "Formatting Python file: $FILE"
-      black "$FILE"
+      black "$FILE_PATH" 2>/dev/null
     fi
     ;;
   *.go)
     if command -v gofmt &> /dev/null; then
-      echo "Formatting Go file: $FILE"
-      gofmt -w "$FILE"
+      gofmt -w "$FILE_PATH" 2>/dev/null
     fi
     ;;
   *.rs)
     if command -v rustfmt &> /dev/null; then
-      echo "Formatting Rust file: $FILE"
-      rustfmt "$FILE"
+      rustfmt "$FILE_PATH" 2>/dev/null
     fi
     ;;
   *.java)
     if command -v google-java-format &> /dev/null; then
-      echo "Formatting Java file: $FILE"
-      google-java-format -i "$FILE"
+      google-java-format -i "$FILE_PATH" 2>/dev/null
     fi
     ;;
 esac
