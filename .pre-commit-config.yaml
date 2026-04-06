@@ -51,6 +51,16 @@ repos:
       - id: check-merge-conflict
         name: check-merge-conflict
 
+  # mypy - Type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.13.0
+    hooks:
+      - id: mypy
+        name: mypy-type-check
+        args: [--config-file, scripts/pyproject.toml]
+        files: ^scripts/
+        exclude: ^scripts/tests/
+
   # Local doc quality hooks (mirrors CI checks — CI is a 2nd pass of these)
   - repo: local
     hooks:

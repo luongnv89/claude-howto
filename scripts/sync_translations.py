@@ -15,7 +15,9 @@ from datetime import datetime
 from pathlib import Path
 
 
-def check_translation_status(root_path: Path = None, verbose: bool = False) -> list[dict]:
+def check_translation_status(
+    root_path: Path | None = None, verbose: bool = False
+) -> list[dict]:
     """
     Compare modification times between English and Vietnamese files.
 
@@ -31,7 +33,8 @@ def check_translation_status(root_path: Path = None, verbose: bool = False) -> l
 
     # Get all English markdown files (excluding vi/ directory)
     en_files = [
-        f for f in root_path.rglob("*.md")
+        f
+        for f in root_path.rglob("*.md")
         if "vi/" not in str(f) and ".claude" not in str(f)
     ]
 
@@ -61,17 +64,21 @@ def check_translation_status(root_path: Path = None, verbose: bool = False) -> l
         if vi_file in vi_mtime:
             vi_time = vi_mtime[vi_file]
             if en_time > vi_time:
-                outdated.append({
-                    "file": rel_path,
-                    "en_mtime": datetime.fromtimestamp(en_time),
-                    "vi_mtime": datetime.fromtimestamp(vi_time),
-                    "days_diff": (en_time - vi_time) / 86400,  # Convert to days
-                })
+                outdated.append(
+                    {
+                        "file": rel_path,
+                        "en_mtime": datetime.fromtimestamp(en_time),
+                        "vi_mtime": datetime.fromtimestamp(vi_time),
+                        "days_diff": (en_time - vi_time) / 86400,  # Convert to days
+                    }
+                )
         else:
-            not_translated.append({
-                "file": rel_path,
-                "status": "NOT_TRANSLATED",
-            })
+            not_translated.append(
+                {
+                    "file": rel_path,
+                    "status": "NOT_TRANSLATED",
+                }
+            )
 
     # Sort outdated by days difference (most outdated first)
     outdated.sort(key=lambda x: x["days_diff"], reverse=True)
@@ -145,9 +152,7 @@ def format_summary(outdated: list[dict], not_translated: list[dict]) -> str:
 
 
 def update_translation_queue(
-    root_path: Path,
-    outdated: list[dict],
-    not_translated: list[dict]
+    root_path: Path, outdated: list[dict], not_translated: list[dict]
 ) -> None:
     """
     Update vi/TRANSLATION_QUEUE.md with current status.
@@ -163,20 +168,19 @@ def main():
         description="Check Vietnamese translation status against English version"
     )
     parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Print detailed information"
+        "--verbose", "-v", action="store_true", help="Print detailed information"
     )
     parser.add_argument(
-        "--root", "-r",
+        "--root",
+        "-r",
         type=Path,
         default=None,
-        help="Root directory of repository (default: auto-detect)"
+        help="Root directory of repository (default: auto-detect)",
     )
     parser.add_argument(
         "--update-queue",
         action="store_true",
-        help="Update TRANSLATION_QUEUE.md with current status (experimental)"
+        help="Update TRANSLATION_QUEUE.md with current status (experimental)",
     )
 
     args = parser.parse_args()
@@ -205,7 +209,9 @@ def main():
         print()
         return
 
-    print(f"📊 Found {total_outdated} outdated + {total_not_translated} not translated files")
+    print(
+        f"📊 Found {total_outdated} outdated + {total_not_translated} not translated files"
+    )
     print()
 
     if args.verbose and outdated:
@@ -241,10 +247,9 @@ def main():
     print(report)
 
     # Optionally update TRANSLATION_QUEUE.md
-    if args.update_queue:
-        if args.verbose:
-            print("⚠️  --update-queue is experimental and not yet implemented")
-            print("   Please manually update TRANSLATION_QUEUE.md")
+    if args.update_queue and args.verbose:
+        print("⚠️  --update-queue is experimental and not yet implemented")
+        print("   Please manually update TRANSLATION_QUEUE.md")
 
 
 if __name__ == "__main__":

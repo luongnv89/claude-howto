@@ -99,7 +99,7 @@ def main(strict: bool = False) -> int:
         print("✅ No external URLs found")
         return 0
 
-    errors = []
+    errors: list[str] = []
     with ThreadPoolExecutor(max_workers=10) as pool:
         futures = {pool.submit(check_url, url): url for url in urls}
         for future in as_completed(futures):

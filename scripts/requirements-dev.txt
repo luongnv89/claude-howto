@@ -10,3 +10,4 @@ pytest-cov>=4.0.0
 pre-commit>=3.6.0
 ruff>=0.8.0
 bandit[toml]>=1.7.7
+mypy>=1.8.0

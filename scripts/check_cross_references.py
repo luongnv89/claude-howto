@@ -3,7 +3,6 @@
 
 import re
 import sys
-import unicodedata
 from pathlib import Path
 
 IGNORE_DIRS = {
@@ -61,7 +60,7 @@ def strip_code_blocks(content: str) -> str:
 
 
 def main() -> int:
-    errors = []
+    errors: list[str] = []
 
     for file_path in iter_md_files():
         content = file_path.read_text(encoding="utf-8")

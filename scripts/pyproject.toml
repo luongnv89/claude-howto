@@ -99,6 +99,23 @@ docstring-code-format = true
 # =============================================================================
 # Bandit Configuration
 # =============================================================================
+# =============================================================================
+# Mypy Configuration
+# =============================================================================
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+no_implicit_optional = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["build_epub", "scripts.build_epub"]
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = ["sync_translations", "scripts.sync_translations"]
+ignore_errors = true
+
 [tool.bandit]
 targets = ["scripts"]
 exclude_dirs = ["scripts/tests", ".venv", "__pycache__"]
