@@ -641,7 +641,7 @@ Claude will load CLAUDE.md from the specified additional directory alongside the
 
 **File:** `./src/api/CLAUDE.md`
 
-```markdown
+````markdown
 # API Module Standards
 
 This file overrides root CLAUDE.md for everything in /src/api/
@@ -703,7 +703,7 @@ Error responses:
 - Cache duration: 5 minutes default
 - Invalidate on write operations
 - Tag cache keys with resource type
-```
+````
 
 ### Example 3: Personal Memory
 
