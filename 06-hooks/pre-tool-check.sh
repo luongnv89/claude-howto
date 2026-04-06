@@ -29,15 +29,13 @@
 # Input: JSON via stdin with the shape:
 #   { "tool_name": "Bash", "tool_input": { "command": "..." } }
 #
-# Output: Exit 0 to allow, exit 1 to block, or print JSON to modify behavior.
-
-set -euo pipefail
+# Output: Exit 0 to allow, exit 2 to block, or print JSON to modify behavior.
 
 # Read the full JSON input from stdin
 INPUT=$(cat)
 
-# Extract the command using basic string processing (no jq required)
-COMMAND=$(echo "$INPUT" | grep -o '"command"\s*:\s*"[^"]*"' | head -1 | sed 's/"command"\s*:\s*"\(.*\)"/\1/')
+# Extract the command using portable sed (compatible with macOS and Linux)
+COMMAND=$(echo "$INPUT" | sed -n 's/.*"command"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
 
 # Fall back to the raw input if extraction fails
 if [ -z "$COMMAND" ]; then
@@ -62,7 +60,7 @@ for pattern in "${BLOCKED_PATTERNS[@]}"; do
   if echo "$COMMAND" | grep -qE "$pattern"; then
     echo "❌ Blocked: Potentially destructive command detected: $pattern"
     echo "   Command: $COMMAND"
-    exit 1
+    exit 2
   fi
 done
 
