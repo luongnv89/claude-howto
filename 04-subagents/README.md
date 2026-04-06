@@ -3,6 +3,8 @@
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
 </picture>
 
+> 🌐 [中文版本](README.zh.md) | [English Version](README.md)
+
 # Subagents - Complete Reference Guide
 
 Subagents are specialized AI assistants that Claude Code can delegate tasks to. Each subagent has a specific purpose, uses its own context window separate from the main conversation, and can be configured with specific tools and a custom system prompt.

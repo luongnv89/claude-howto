@@ -3,6 +3,8 @@
   <img alt="Claude How To" src="resources/logos/claude-howto-logo.svg">
 </picture>
 
+> 🌐 [中文版本](README.zh.md) | [English Version](README.md)
+
 <p align="center">
   <a href="https://github.com/trending">
     <img src="https://img.shields.io/badge/GitHub-🔥%20%231%20Trending-purple?style=for-the-badge&logo=github"/>

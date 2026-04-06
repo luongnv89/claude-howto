@@ -3,6 +3,8 @@
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
 </picture>
 
+> 🌐 [中文版本](README.zh.md) | [English Version](README.md)
+
 # Hooks
 
 Hooks are automated scripts that execute in response to specific events during Claude Code sessions. They enable automation, validation, permission management, and custom workflows.

@@ -3,6 +3,8 @@
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
 </picture>
 
+> 🌐 [中文版本](README.zh.md) | [English Version](README.md)
+
 # MCP (Model Context Protocol)
 
 This folder contains comprehensive documentation and examples for MCP server configurations and usage with Claude Code.
