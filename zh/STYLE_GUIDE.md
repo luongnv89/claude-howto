@@ -1,7 +1,7 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="resources/logos/claude-howto-logo-dark.svg">
-  <img alt="Claude How To" src="resources/logos/claude-howto-logo.svg">
-</picture>
+
+  <source media="(prefers-color-scheme: dark)" >
+  ![Claude How To](/logos/claude-howto-logo.svg)
+
 
 # 风格指南
 
@@ -71,7 +71,7 @@
 
 根目录 `README.md` 的顺序如下：
 
-1. Logo（使用带深色/浅色变体的 `<picture>` 元素）
+1. Logo（使用带深色/浅色变体的 `` 元素）
 2. H1 标题
 3. 引导性引用块（一句话价值主张）
 4. “为什么需要这份指南？”部分，以及对比表
@@ -505,13 +505,13 @@ agent: Explore                     # Agent type for context: fork
 
 ### Logo 模式
 
-所有以 Logo 开头的文档都使用 `<picture>` 元素，以支持深色/浅色模式：
+所有以 Logo 开头的文档都使用 `` 元素，以支持深色/浅色模式：
 
 ```html
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="resources/logos/claude-howto-logo-dark.svg">
-  <img alt="Claude How To" src="resources/logos/claude-howto-logo.svg">
-</picture>
+
+  <source media="(prefers-color-scheme: dark)" >
+  ![Claude How To](/logos/claude-howto-logo.svg)
+
 ```
 
 ### 截图

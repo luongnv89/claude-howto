@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Favicon 32x32: Compass with tick marks -->
+  <circle cx="16" cy="16" r="14" fill="none" stroke="#000000" stroke-width="1.5"/>
+
+  <!-- Cardinal ticks -->
+  <line x1="16" y1="2" x2="16" y2="5" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="16" y1="27" x2="16" y2="30" stroke="#6B7280" stroke-width="1" stroke-linecap="round"/>
+  <line x1="2" y1="16" x2="5" y2="16" stroke="#6B7280" stroke-width="1" stroke-linecap="round"/>
+  <line x1="27" y1="16" x2="30" y2="16" stroke="#6B7280" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- North needle (green) -->
+  <polygon points="16,5 14.5,15 16,13.5 17.5,15" fill="#22C55E"/>
+
+  <!-- South needle (dark) -->
+  <polygon points="16,27 14.5,17 16,18.5 17.5,17" fill="#000000"/>
+
+  <!-- > bracket -->
+  <polyline points="13.5,12 17.5,16 13.5,20" fill="none" stroke="#000000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Center dot -->
+  <circle cx="16" cy="16" r="1.2" fill="#22C55E"/>
+</svg>

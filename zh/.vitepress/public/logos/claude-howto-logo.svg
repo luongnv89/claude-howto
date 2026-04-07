@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="520" height="120" viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Claude How-To Logo — Light background version -->
+
+  <!-- White background -->
+  <rect width="520" height="120" fill="#FFFFFF"/>
+
+  <!-- === MARK === -->
+  <g transform="translate(0, 0)">
+    <!-- Outer compass ring -->
+    <circle cx="60" cy="60" r="52" fill="none" stroke="#000000" stroke-width="3"/>
+
+    <!-- Cardinal tick marks -->
+    <line x1="60" y1="8" x2="60" y2="18" stroke="#000000" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="60" y1="102" x2="60" y2="112" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+    <line x1="8" y1="60" x2="18" y2="60" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+    <line x1="102" y1="60" x2="112" y2="60" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Intercardinal tick marks -->
+    <line x1="23.2" y1="23.2" x2="30.3" y2="30.3" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="89.7" y1="30.3" x2="96.8" y2="23.2" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="23.2" y1="96.8" x2="30.3" y2="89.7" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="89.7" y1="89.7" x2="96.8" y2="96.8" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Compass needle — north (green = direction/guidance) -->
+    <polygon points="60,20 54,58 60,52 66,58" fill="#22C55E"/>
+
+    <!-- Compass needle — south (dark) -->
+    <polygon points="60,100 54,62 60,68 66,62" fill="#000000"/>
+
+    <!-- Center > bracket (code/terminal prompt) -->
+    <g transform="translate(60, 60)">
+      <polyline points="-8,-10 4,0 -8,10" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- Center dot -->
+    <circle cx="60" cy="60" r="2.5" fill="#22C55E"/>
+  </g>
+
+  <!-- === WORDMARK === -->
+  <g transform="translate(140, 0)">
+    <!-- "Claude" -->
+    <text x="0" y="62" font-family="'Inter', 'SF Pro Display', '-apple-system', 'Segoe UI', sans-serif" font-size="42" font-weight="700" fill="#000000" letter-spacing="-0.5">
+      Claude
+    </text>
+
+    <!-- "How-To" -->
+    <text x="0" y="98" font-family="'Inter', 'SF Pro Display', '-apple-system', 'Segoe UI', sans-serif" font-size="32" font-weight="500" fill="#6B7280" letter-spacing="0">
+      How-To
+    </text>
+
+    <!-- Green accent line -->
+    <line x1="0" y1="105" x2="126" y2="105" stroke="#22C55E" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Subtitle -->
+    <text x="195" y="55" font-family="'Inter', 'SF Pro Display', '-apple-system', 'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#6B7280" letter-spacing="1.5">
+      VISUAL GUIDE
+    </text>
+    <text x="195" y="68" font-family="'Inter', 'SF Pro Display', '-apple-system', 'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#6B7280" letter-spacing="1.5">
+      TO CLAUDE CODE
+    </text>
+  </g>
+</svg>

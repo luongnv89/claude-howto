@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Favicon 128x128: High detail compass -->
+  <circle cx="64" cy="64" r="56" fill="none" stroke="#000000" stroke-width="2.5"/>
+
+  <!-- Cardinal ticks -->
+  <line x1="64" y1="8" x2="64" y2="18" stroke="#000000" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="64" y1="110" x2="64" y2="120" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+  <line x1="8" y1="64" x2="18" y2="64" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+  <line x1="110" y1="64" x2="120" y2="64" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Intercardinal ticks -->
+  <line x1="24.4" y1="24.4" x2="31.5" y2="31.5" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="96.5" y1="31.5" x2="103.6" y2="24.4" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="24.4" y1="103.6" x2="31.5" y2="96.5" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="96.5" y1="96.5" x2="103.6" y2="103.6" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- North needle (green) -->
+  <polygon points="64,21 58,62 64,56 70,62" fill="#22C55E"/>
+
+  <!-- South needle (dark) -->
+  <polygon points="64,107 58,66 64,72 70,66" fill="#000000"/>
+
+  <!-- > bracket -->
+  <polyline points="55,50 71,64 55,78" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Center dot -->
+  <circle cx="64" cy="64" r="2.5" fill="#22C55E"/>
+</svg>

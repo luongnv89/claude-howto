@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  claude-howto:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: claude-howto:latest
+    container_name: claude-howto-docs
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    labels:
+      - "description=Claude How To 中文教程网站"
+      - "version=2.3.0"
+
+# Optional: Development server
+# Uncomment to use for development
+#  dev:
+#    image: node:20-alpine
+#    working_dir: /app
+#    volumes:
+#      - .:/app
+#      - /app/node_modules
+#    ports:
+#      - "5173:5173"
+#    command: sh -c "npm install && npm run docs:dev -- --host 0.0.0.0"
+#    environment:
+#      - NODE_ENV=development

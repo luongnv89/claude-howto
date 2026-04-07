@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# Build output
+.vitepress/dist/
+.vitepress/cache/
+
+# Development files
+*.log
+.env
+.env.*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation plans
+docs/plans/
+
+# Test files
+tests/
+*.test.*
+
+# OS files
+.DS_Store
+Thumbs.db

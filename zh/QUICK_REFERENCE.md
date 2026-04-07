@@ -1,7 +1,7 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="resources/logos/claude-howto-logo-dark.svg">
-  <img alt="Claude How To" src="resources/logos/claude-howto-logo.svg">
-</picture>
+
+  <source media="(prefers-color-scheme: dark)" >
+  ![Claude How To](/logos/claude-howto-logo.svg)
+
 
 # Claude Code 示例 - 速查卡
 

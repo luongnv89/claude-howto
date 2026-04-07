@@ -1,7 +1,4 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="logos/claude-howto-logo-dark.svg">
-  <img alt="Claude How To" src="logos/claude-howto-logo.svg">
-</picture>
+![Claude How To](/logos/claude-howto-logo.svg)
 
 # Claude How To - 品牌资源
 

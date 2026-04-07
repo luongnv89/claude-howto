@@ -1,0 +1,331 @@
+/**
+ * Claude How To - Custom Theme Styles
+ * Based on DESIGN-SYSTEM.md
+ */
+
+/* ============================================
+   Brand Colors
+   ============================================ */
+
+:root {
+  /* Primary colors from design system */
+  --vp-c-brand-1: #22C55E;  /* Bright green accent */
+  --vp-c-brand-2: #16A34A;  /* Darker green for hover */
+  --vp-c-brand-3: #15803D;  /* Even darker green */
+  --vp-c-brand-soft: rgba(34, 197, 94, 0.14);
+
+  /* Text colors */
+  --vp-c-text-1: #000000;   /* Primary text - Black */
+  --vp-c-text-2: #6B7280;   /* Secondary text - Gray */
+
+  /* Background colors */
+  --vp-c-bg: #FFFFFF;       /* Light background */
+  --vp-c-bg-soft: #F9FAFB;
+  --vp-c-bg-mute: #F3F4F6;
+
+  /* Border colors */
+  --vp-c-border: #E5E7EB;
+  --vp-c-divider: #E5E7EB;
+}
+
+/* Dark mode */
+.dark {
+  --vp-c-bg: #0A0A0A;       /* Dark background from design system */
+  --vp-c-bg-soft: #141414;
+  --vp-c-bg-mute: #1A1A1A;
+
+  --vp-c-text-1: #FFFFFF;   /* White text for dark mode */
+  --vp-c-text-2: #9CA3AF;   /* Lighter gray for secondary text */
+
+  --vp-c-border: #262626;
+  --vp-c-divider: #262626;
+
+  /* Brand colors stay green even in dark mode */
+  --vp-c-brand-soft: rgba(34, 197, 94, 0.16);
+}
+
+/* ============================================
+   Typography - Chinese Font Stack
+   ============================================ */
+
+:root {
+  /* Chinese font stack with fallbacks */
+  --vp-font-family-base:
+    "Noto Sans SC",
+    "Source Han Sans SC",
+    "Microsoft YaHei",
+    "PingFang SC",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+
+  /* Monospace font for code */
+  --vp-font-family-mono:
+    "JetBrains Mono",
+    "Fira Code",
+    "SF Mono",
+    Monaco,
+    "Andale Mono",
+    "Ubuntu Mono",
+    Consolas,
+    monospace;
+}
+
+/* Improved line height for Chinese readability */
+.vp-doc {
+  line-height: 1.75;
+}
+
+/* ============================================
+   Component Overrides
+   ============================================ */
+
+/* Navigation bar */
+.VPNav {
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+/* Sidebar */
+.VPSidebar {
+  border-right: 1px solid var(--vp-c-divider);
+}
+
+/* Hero section */
+.VPHero .name {
+  background: linear-gradient(120deg, var(--vp-c-brand-1) 0%, #16A34A 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Feature cards */
+.VPFeature {
+  border: 1px solid var(--vp-c-divider);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.VPFeature:hover {
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.1);
+}
+
+/* ============================================
+   Mermaid Diagram Styles
+   ============================================ */
+
+.mermaid {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+/* ============================================
+   Progress Tracker Component
+   ============================================ */
+
+.progress-tracker {
+  background: var(--vp-c-bg-soft);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  border: 1px solid var(--vp-c-divider);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.progress-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--vp-c-text-1);
+}
+
+.progress-percentage {
+  font-weight: 700;
+  color: var(--vp-c-brand-1);
+  font-size: 1.1rem;
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--vp-c-bg-mute);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vp-c-brand-1), #16A34A);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.module-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.module-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.module-item:hover {
+  background: var(--vp-c-bg-mute);
+}
+
+.module-item.completed {
+  color: var(--vp-c-brand-1);
+}
+
+.module-item.completed .status-icon {
+  color: var(--vp-c-brand-1);
+}
+
+.module-item.active {
+  background: var(--vp-c-brand-soft);
+  font-weight: 500;
+}
+
+.status-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: var(--vp-c-text-2);
+}
+
+.module-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.module-link:hover {
+  color: var(--vp-c-brand-1);
+}
+
+/* ============================================
+   Mark Complete Button
+   ============================================ */
+
+.mark-complete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--vp-c-brand-1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  margin: 2rem 0;
+}
+
+.mark-complete-btn:hover {
+  background: var(--vp-c-brand-2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.mark-complete-btn.completed {
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-brand-1);
+  border: 2px solid var(--vp-c-brand-1);
+}
+
+/* ============================================
+   Custom Container Styles
+   ============================================ */
+
+.custom-block {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+}
+
+.custom-block.tip {
+  background: rgba(34, 197, 94, 0.1);
+  border-left: 4px solid var(--vp-c-brand-1);
+}
+
+.custom-block.warning {
+  background: rgba(251, 191, 36, 0.1);
+  border-left: 4px solid #FBBF24;
+}
+
+.custom-block.danger {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid #EF4444;
+}
+
+/* ============================================
+   Badge Styles
+   ============================================ */
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge.beginner {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16A34A;
+}
+
+.badge.intermediate {
+  background: rgba(59, 130, 246, 0.15);
+  color: #2563EB;
+}
+
+.badge.advanced {
+  background: rgba(239, 68, 68, 0.15);
+  color: #DC2626;
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+
+@media (max-width: 768px) {
+  .progress-tracker {
+    padding: 0.75rem 1rem;
+  }
+
+  .module-item {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+  .progress-tracker,
+  .mark-complete-btn {
+    display: none;
+  }
+}

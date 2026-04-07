@@ -1,0 +1,19 @@
+{
+  "name": "claude-howto-zh",
+  "version": "2.3.0",
+  "description": "Claude Code 中文教程网站",
+  "type": "module",
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luongnv89/claude-howto.git"
+  },
+  "license": "MIT"
+}
