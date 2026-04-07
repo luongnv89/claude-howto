@@ -60,8 +60,8 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/passes` | Share free week of Claude Code |
 | `/permissions` | View/update permissions (alias: `/allowed-tools`) |
 | `/plan [description]` | Enter plan mode |
-| `/powerup` | Discover features through interactive lessons with animated demos |
 | `/plugin` | Manage plugins |
+| `/powerup` | Discover features through interactive lessons with animated demos |
 | `/privacy-settings` | Privacy settings (Pro/Max only) |
 | `/release-notes` | View changelog |
 | `/reload-plugins` | Reload active plugins |

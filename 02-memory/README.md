@@ -49,10 +49,10 @@ The `/init` command is the fastest way to set up project memory in Claude Code. 
 - Sets up the foundation for context persistence across sessions
 - Provides a template structure for documenting your project standards
 
-**Enhanced interactive mode:** Set `CLAUDE_CODE_NEW_INIT=true` to enable a multi-phase interactive flow that walks you through project setup step by step:
+**Enhanced interactive mode:** Set `CLAUDE_CODE_NEW_INIT=1` to enable a multi-phase interactive flow that walks you through project setup step by step:
 
 ```bash
-CLAUDE_CODE_NEW_INIT=true claude
+CLAUDE_CODE_NEW_INIT=1 claude
 /init
 ```
 
