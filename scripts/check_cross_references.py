@@ -27,10 +27,27 @@ def iter_md_files():
 
 
 def heading_to_anchor(heading: str) -> str:
-    # Match GitHub's anchor generation: strip non-ASCII (emoji), strip punctuation,
-    # lowercase, replace spaces with hyphens, strip leading/trailing hyphens.
-    heading_ascii = heading.encode("ascii", "ignore").decode()
-    return re.sub(r"[^\w\s-]", "", heading_ascii.lower()).replace(" ", "-").rstrip("-")
+    # Match GitHub's anchor generation: strip emoji and special punctuation,
+    # keep Unicode letters (including Vietnamese diacritics), lowercase,
+    # replace spaces with hyphens, strip leading/trailing hyphens.
+    # 1. Remove emoji (characters outside BMP or in known emoji ranges)
+    heading = re.sub(
+        r"[\U0001F000-\U0001FFFF"  # Supplementary Multilingual Plane symbols
+        r"\U00002702-\U000027B0"  # Dingbats
+        r"\U0000FE00-\U0000FE0F"  # Variation selectors
+        r"\U0000200D"  # Zero-width joiner
+        r"\U000000A9\U000000AE"  # (C) (R)
+        r"\U00002000-\U0000206F"  # General punctuation (some emoji-adjacent)
+        r"]",
+        "",
+        heading,
+    )
+    # 2. Remove punctuation but keep Unicode word chars, spaces, and hyphens
+    anchor = re.sub(r"[^\w\s-]", "", heading.lower(), flags=re.UNICODE)
+    # 3. Replace spaces with hyphens
+    anchor = anchor.replace(" ", "-")
+    # 4. Strip trailing hyphens (keep leading hyphens for emoji-prefixed headings)
+    return anchor.rstrip("-")
 
 
 def strip_code_blocks(content: str) -> str:
@@ -43,10 +60,10 @@ def strip_code_blocks(content: str) -> str:
 
 
 def main() -> int:
-    errors = []
+    errors: list[str] = []
 
     for file_path in iter_md_files():
-        content = file_path.read_text()
+        content = file_path.read_text(encoding="utf-8")
         # Strip code blocks before scanning for links/anchors to avoid false positives
         # from documentation examples inside code fences.
         scannable = strip_code_blocks(content)

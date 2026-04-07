@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -14,6 +14,8 @@ from build_epub import (
     BuildState,
     ChapterCollector,
     EPUBConfig,
+    MermaidRenderer,
+    MermaidRenderError,
     ValidationError,
     create_chapter_html,
     extract_all_mermaid_blocks,
@@ -92,9 +94,7 @@ class TestEPUBConfig:
         assert config.title == "Claude Code How-To Guide"
         assert config.language == "en"
         assert config.author == "Claude Code Community"
-        assert config.request_timeout == 30.0
-        assert config.max_concurrent_requests == 10
-        assert config.max_retries == 3
+        assert config.mmdc_path == "mmdc"
 
     def test_custom_values(self, tmp_path: Path) -> None:
         """Test that custom values override defaults."""
@@ -102,12 +102,10 @@ class TestEPUBConfig:
             root_path=tmp_path,
             output_path=tmp_path / "out.epub",
             title="Custom Title",
-            request_timeout=60.0,
-            max_concurrent_requests=5,
+            mmdc_path="/usr/local/bin/mmdc",
         )
         assert config.title == "Custom Title"
-        assert config.request_timeout == 60.0
-        assert config.max_concurrent_requests == 5
+        assert config.mmdc_path == "/usr/local/bin/mmdc"
 
 
 # =============================================================================
@@ -376,6 +374,110 @@ class TestLogging:
 
 
 # =============================================================================
+# MermaidRenderer Tests
+# =============================================================================
+
+
+class TestMermaidRenderer:
+    """Tests for local MermaidRenderer."""
+
+    def _make_renderer(
+        self, tmp_path: Path, state: BuildState, logger: logging.Logger
+    ) -> MermaidRenderer:
+        config = EPUBConfig(
+            root_path=tmp_path,
+            output_path=tmp_path / "out.epub",
+            mmdc_path="mmdc",
+        )
+        return MermaidRenderer(config, state, logger)
+
+    def test_render_all_success(
+        self, tmp_path: Path, state: BuildState, logger: logging.Logger
+    ) -> None:
+        """Test that render_all uses mmdc and caches results."""
+        fake_png = b"\x89PNG\r\n\x1a\n" + b"\x00" * 100
+        renderer = self._make_renderer(tmp_path, state, logger)
+
+        with (
+            patch("shutil.which", return_value="/usr/bin/mmdc"),
+            patch("subprocess.run") as mock_run,
+            patch("pathlib.Path.exists", return_value=True),
+            patch("pathlib.Path.read_bytes", return_value=fake_png),
+        ):
+            mock_run.return_value = MagicMock(returncode=0, stderr="")
+            results = renderer.render_all([(1, "graph TD\n  A --> B")])
+
+        assert len(results) == 1
+        png_bytes, img_name = next(iter(results.values()))
+        assert png_bytes == fake_png
+        assert img_name.startswith("mermaid_")
+        assert img_name.endswith(".png")
+
+    def test_render_all_mmdc_not_found(
+        self, tmp_path: Path, state: BuildState, logger: logging.Logger
+    ) -> None:
+        """Test that missing mmdc raises MermaidRenderError."""
+        renderer = self._make_renderer(tmp_path, state, logger)
+
+        with (
+            patch("shutil.which", return_value=None),
+            pytest.raises(MermaidRenderError, match="mmdc not found"),
+        ):
+            renderer.render_all([(1, "graph TD\n  A --> B")])
+
+    def test_render_all_mmdc_failure(
+        self, tmp_path: Path, state: BuildState, logger: logging.Logger
+    ) -> None:
+        """Test that mmdc non-zero exit raises MermaidRenderError."""
+        renderer = self._make_renderer(tmp_path, state, logger)
+
+        with (
+            patch("shutil.which", return_value="/usr/bin/mmdc"),
+            patch("subprocess.run") as mock_run,
+        ):
+            mock_run.return_value = MagicMock(returncode=1, stderr="parse error")
+            with pytest.raises(MermaidRenderError, match="mmdc failed"):
+                renderer.render_all([(1, "graph TD\n  A --> B")])
+
+    def test_render_all_deduplication(
+        self, tmp_path: Path, state: BuildState, logger: logging.Logger
+    ) -> None:
+        """Test that identical diagrams are only rendered once."""
+        fake_png = b"\x89PNG\r\n\x1a\n" + b"\x00" * 100
+        renderer = self._make_renderer(tmp_path, state, logger)
+        same_code = "graph TD\n  A --> B"
+
+        with (
+            patch("shutil.which", return_value="/usr/bin/mmdc"),
+            patch("subprocess.run") as mock_run,
+            patch("pathlib.Path.exists", return_value=True),
+            patch("pathlib.Path.read_bytes", return_value=fake_png),
+        ):
+            mock_run.return_value = MagicMock(returncode=0, stderr="")
+            results = renderer.render_all([(1, same_code), (2, same_code)])
+
+        # mmdc should only be called once for duplicate diagrams
+        assert mock_run.call_count == 1
+        # Both entries map to the same cached result
+        assert len(results) == 1
+
+    def test_render_all_timeout(
+        self, tmp_path: Path, state: BuildState, logger: logging.Logger
+    ) -> None:
+        """Test that a hung mmdc process raises MermaidRenderError."""
+        import subprocess as _subprocess
+
+        renderer = self._make_renderer(tmp_path, state, logger)
+
+        with (
+            patch("shutil.which", return_value="/usr/bin/mmdc"),
+            patch("subprocess.run", side_effect=_subprocess.TimeoutExpired("mmdc", 60)),
+            pytest.raises(MermaidRenderError, match="timed out"),
+        ):
+            renderer.render_all([(1, "graph TD\n  A --> B")])
+
+
+# =============================================================================
 # Integration Tests
 # =============================================================================
 
@@ -383,8 +485,7 @@ class TestLogging:
 class TestIntegration:
     """Integration tests for the full build process."""
 
-    @pytest.mark.asyncio
-    async def test_build_without_mermaid(
+    def test_build_without_mermaid(
         self, tmp_project: Path, logger: logging.Logger
     ) -> None:
         """Test building an EPUB without Mermaid diagrams."""
@@ -399,7 +500,7 @@ class TestIntegration:
         with patch("build_epub.get_chapter_order") as mock_order:
             mock_order.return_value = [("README.md", "Introduction")]
 
-            result = await build_epub_async(config, logger)
+            result = build_epub_async(config, logger)
 
             assert result.exists()
             assert result.suffix == ".epub"

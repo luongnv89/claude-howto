@@ -207,15 +207,17 @@ Since checkpoints are created automatically, you can focus on your work without 
 
 ## Configuration
 
-You can toggle automatic checkpoints in your settings:
+Checkpoints are a built-in default behavior in Claude Code and do not require any configuration to enable. Every user prompt automatically creates a checkpoint.
+
+The only checkpoint-related setting is `cleanupPeriodDays`, which controls how long sessions and checkpoints are retained:
 
 ```json
 {
-  "autoCheckpoint": true
+  "cleanupPeriodDays": 30
 }
 ```
 
-- `autoCheckpoint`: Enable or disable automatic checkpoint creation on every user prompt (default: `true`)
+- `cleanupPeriodDays`: Number of days to retain session history and checkpoints (default: `30`)
 
 ## Limitations
 
@@ -233,8 +235,8 @@ Checkpoints have the following limitations:
 
 **Solution**:
 - Check if checkpoints were cleared
-- Verify that `autoCheckpoint` is enabled in your settings
 - Check disk space
+- Ensure `cleanupPeriodDays` is set high enough (default: 30 days)
 
 ### Rewind Failed
 

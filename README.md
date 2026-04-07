@@ -15,6 +15,8 @@
 [![Version](https://img.shields.io/badge/version-2.2.0-brightgreen)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-2.1+-purple)](https://code.claude.com)
 
+🌐 **Language / Ngôn ngữ / 语言:** [English](README.md) | [Tiếng Việt](vi/README.md) | [中文](zh/README.md)
+
 # Master Claude Code in a Weekend
 
 Go from typing `claude` to orchestrating agents, hooks, skills, and MCP servers — with visual tutorials, copy-paste templates, and a guided learning path.

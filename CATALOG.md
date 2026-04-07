@@ -16,13 +16,13 @@
 | Feature | Built-in | Examples | Total | Reference |
 |---------|----------|----------|-------|-----------|
 | **Slash Commands** | 55+ | 8 | 63+ | [01-slash-commands/](01-slash-commands/) |
-| **Subagents** | 6 | 10 | 16 | [04-subagents/](04-subagents/) |
+| **Subagents** | 6 | 11 | 17 | [04-subagents/](04-subagents/) |
 | **Skills** | 5 bundled | 4 | 9 | [03-skills/](03-skills/) |
 | **Plugins** | - | 3 | 3 | [07-plugins/](07-plugins/) |
 | **MCP Servers** | 1 | 8 | 9 | [05-mcp/](05-mcp/) |
-| **Hooks** | 25 events | 7 | 7 | [06-hooks/](06-hooks/) |
+| **Hooks** | 25 events | 8 | 8 | [06-hooks/](06-hooks/) |
 | **Memory** | 7 types | 3 | 3 | [02-memory/](02-memory/) |
-| **Total** | **99** | **43** | **117** | |
+| **Total** | **99** | **45** | **119** | |
 
 ---
 
@@ -171,6 +171,7 @@ Specialized AI assistants with isolated contexts for specific tasks.
 | `implementation-agent` | Full feature implementation | Feature development | Project | `cp 04-subagents/implementation-agent.md .claude/agents/` |
 | `debugger` | Root cause analysis | Bug investigation | User | `cp 04-subagents/debugger.md .claude/agents/` |
 | `data-scientist` | SQL queries, data analysis | Data tasks | User | `cp 04-subagents/data-scientist.md .claude/agents/` |
+| `performance-optimizer` | Profiling & performance tuning | Bottleneck investigation | Project | `cp 04-subagents/performance-optimizer.md .claude/agents/` |
 
 > **Scope**: `User` = personal (`~/.claude/agents/`), `Project` = team-shared (`.claude/agents/`)
 
@@ -367,6 +368,7 @@ Event-driven automation that executes shell commands on Claude Code events.
 | `context-tracker.py` | Token usage tracking | Stop | User | `cp 06-hooks/context-tracker.py ~/.claude/hooks/` |
 | `pre-commit.sh` | Pre-commit validation | PreToolUse:Bash | Project | `cp 06-hooks/pre-commit.sh .claude/hooks/` |
 | `log-bash.sh` | Command logging | PostToolUse:Bash | User | `cp 06-hooks/log-bash.sh ~/.claude/hooks/` |
+| `dependency-check.sh` | Vulnerability scan on manifest changes | PostToolUse:Write | Project | `cp 06-hooks/dependency-check.sh .claude/hooks/` |
 
 > **Scope**: `Project` = team (`.claude/settings.json`), `User` = personal (`~/.claude/settings.json`)
 

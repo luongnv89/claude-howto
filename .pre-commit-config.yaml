@@ -51,6 +51,16 @@ repos:
       - id: check-merge-conflict
         name: check-merge-conflict
 
+  # mypy - Type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.13.0
+    hooks:
+      - id: mypy
+        name: mypy-type-check
+        args: [--config-file, scripts/pyproject.toml]
+        files: ^scripts/
+        exclude: ^scripts/tests/
+
   # Local doc quality hooks (mirrors CI checks — CI is a 2nd pass of these)
   - repo: local
     hooks:
@@ -91,3 +101,44 @@ repos:
         entry: uv run scripts/build_epub.py
         pass_filenames: false
         files: ^(.*\.md|scripts/build_epub\.py)$
+
+  # Vietnamese documentation checks
+  - repo: local
+    hooks:
+      - id: vietnamese-markdown-lint
+        name: vietnamese-markdown-lint
+        language: node
+        entry: markdownlint
+        args: ['--ignore', 'node_modules', '--ignore', '.venv', '--config', '.markdownlint.json']
+        files: ^vi/.*\.md$
+        additional_dependencies: ['markdownlint-cli']
+
+      - id: vietnamese-cross-references
+        name: vietnamese-cross-references
+        language: system
+        entry: python scripts/check_cross_references.py --lang vi
+        pass_filenames: false
+        files: ^vi/.*\.md$
+
+      - id: vietnamese-mermaid
+        name: vietnamese-mermaid-syntax
+        language: system
+        entry: python scripts/check_mermaid.py
+        pass_filenames: false
+        files: ^vi/.*\.md$
+        verbose: true
+
+      - id: vietnamese-link-check
+        name: vietnamese-link-check
+        language: system
+        entry: python scripts/check_links.py
+        pass_filenames: false
+        files: ^vi/.*\.md$
+        verbose: true
+
+      - id: vietnamese-build-epub
+        name: vietnamese-build-epub
+        language: system
+        entry: uv run scripts/build_epub.py --lang vi
+        pass_filenames: false
+        files: ^(vi/.*\.md|scripts/build_epub\.py)$
