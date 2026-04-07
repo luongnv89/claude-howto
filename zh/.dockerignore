@@ -1,7 +1,7 @@
 # Dependencies
 node_modules/
 
-# Build output
+# Build output (rebuilt in Docker)
 .vitepress/dist/
 .vitepress/cache/
 
