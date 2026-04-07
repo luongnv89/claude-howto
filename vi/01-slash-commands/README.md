@@ -46,7 +46,7 @@ Lệnh tích hợp sẵn là các lối tắt cho các hành động phổ biế
 | `/help` | Hiển thị trợ giúp |
 | `/hooks` | Xem cấu hình hooks |
 | `/ide` | Quản lý tích hợp IDE |
-| `/init` | Khởi tạo `CLAUDE.md`. Đặt `CLAUDE_CODE_NEW_INIT=true` cho quy trình tương tác |
+| `/init` | Khởi tạo `CLAUDE.md`. Đặt `CLAUDE_CODE_NEW_INIT=1` cho quy trình tương tác |
 | `/insights` | Tạo báo cáo phân tích phiên |
 | `/install-github-app` | Thiết lập ứng dụng GitHub Actions |
 | `/install-slack-app` | Cài đặt ứng dụng Slack |

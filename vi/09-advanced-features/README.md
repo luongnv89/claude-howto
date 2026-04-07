@@ -1759,12 +1759,12 @@ export ENABLE_TOOL_SEARCH=true
 export CLAUDE_CODE_TASK_LIST_ID=my-project-tasks
 
 # Agent teams (experimental)
-export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=true
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
 # Subagent and plugin configuration
 export CLAUDE_CODE_SUBAGENT_MODEL=sonnet
 export CLAUDE_CODE_PLUGIN_SEED_DIR=./my-plugins
-export CLAUDE_CODE_NEW_INIT=true
+export CLAUDE_CODE_NEW_INIT=1
 
 # Subprocess and streaming
 export CLAUDE_CODE_SUBPROCESS_ENV_SCRUB="SECRET_KEY,DB_PASSWORD"

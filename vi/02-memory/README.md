@@ -49,10 +49,10 @@ Lệnh `/init` là cách nhanh nhất để thiết lập bộ nhớ dự án tr
 - Thiết lập nền tảng cho tính liên tục của bối cảnh qua các phiên
 - Cung cấp cấu trúc mẫu để ghiêu chuẩn dự án của bạn
 
-**Chế độ tương tác nâng cao:** Đặt `CLAUDE_CODE_NEW_INIT=true` để bật quy trình tương tác đa giai đoạn hướng dẫn bạn qua việc thiết lập dự án từng bước:
+**Chế độ tương tác nâng cao:** Đặt `CLAUDE_CODE_NEW_INIT=1` để bật quy trình tương tác đa giai đoạn hướng dẫn bạn qua việc thiết lập dự án từng bước:
 
 ```bash
-CLAUDE_CODE_NEW_INIT=true claude
+CLAUDE_CODE_NEW_INIT=1 claude
 /init
 ```
 
