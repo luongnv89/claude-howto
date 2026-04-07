@@ -1,4 +1,4 @@
-# Dependencies
+# Dependencies (npm install will reinstall in Docker)
 node_modules/
 
 # Build output (rebuilt in Docker)
@@ -16,22 +16,15 @@ node_modules/
 *.swp
 *.swo
 
-# Git
+# Git (but not .gitignore)
 .git/
-.gitignore
-
-# Docker
-Dockerfile
-docker-compose.yml
-.dockerignore
 
 # Documentation plans
 docs/plans/
 
-# Test files
-tests/
-*.test.*
-
 # OS files
 .DS_Store
 Thumbs.db
+
+# Debug scripts
+*.sh
