@@ -31,8 +31,9 @@ Comprehensive guide to Claude Code's advanced capabilities including planning mo
 20. [Sandboxing](#sandboxing)
 21. [Managed Settings (Enterprise)](#managed-settings-enterprise)
 22. [Configuration and Settings](#configuration-and-settings)
-23. [Best Practices](#best-practices)
-24. [Additional Resources](#additional-resources)
+23. [Agent Teams](#agent-teams)
+24. [Best Practices](#best-practices)
+25. [Additional Resources](#additional-resources)
 
 ---
 
@@ -196,6 +197,10 @@ claude --model opusplan "design and implement the new API"
 
 **Edit plan externally**: Press `Ctrl+G` to open the current plan in your external editor for detailed modifications.
 
+### Ultraplan
+
+Use `/ultraplan <prompt>` for an end-to-end planning workflow: Claude drafts a detailed plan, opens it in the browser for review, then executes the plan either remotely or sends it back to your terminal for local execution.
+
 ---
 
 ## Extended Thinking
@@ -347,8 +352,9 @@ Auto Mode is a Research Preview permission mode (March 2026) that uses a backgro
 
 ### Requirements
 
-- **Plan**: Team plan (Enterprise and API rolling out)
+- **Plan**: Team, Enterprise, or API (not available on Pro or Max plans)
 - **Model**: Claude Sonnet 4.6 or Opus 4.6
+- **Provider**: Anthropic API only (not supported on Bedrock, Vertex, or Foundry)
 - **Classifier**: Runs on Claude Sonnet 4.6 (adds extra token cost)
 
 ### Enabling Auto Mode
@@ -1170,13 +1176,16 @@ Customize the push-to-talk keybinding in your keybindings file (`/keybindings`).
 
 ## Channels
 
-Channels (Research Preview) allow MCP servers to push messages into running Claude Code sessions, enabling real-time integrations with external services.
+Channels is a Research Preview feature that pushes events from external services into a running Claude Code session via MCP servers. Sources include Telegram, Discord, iMessage, and arbitrary webhooks, allowing Claude to react to real-time notifications without polling.
 
 ### Subscribing to Channels
 
 ```bash
 # Subscribe to channel plugins at startup
 claude --channels discord,telegram
+
+# Subscribe to multiple sources
+claude --channels discord,telegram,imessage,webhooks
 ```
 
 ### Supported Integrations
@@ -1185,10 +1194,12 @@ claude --channels discord,telegram
 |-------------|-------------|
 | **Discord** | Receive and respond to Discord messages in your session |
 | **Telegram** | Receive and respond to Telegram messages in your session |
+| **iMessage** | Receive iMessage notifications in your session |
+| **Webhooks** | Receive events from arbitrary webhook sources |
 
 ### Configuration
 
-**Managed setting** for enterprise deployments:
+Configure channels with the `--channels` flag at startup. For enterprise deployments, use the managed setting to control which channel plugins are permitted:
 
 ```json
 {
@@ -1201,9 +1212,10 @@ The `allowedChannelPlugins` managed setting controls which channel plugins are p
 ### How It Works
 
 1. MCP servers act as channel plugins that connect to external services
-2. Incoming messages are pushed into the active Claude Code session
+2. Incoming messages and events are pushed into the active Claude Code session
 3. Claude can read and respond to messages within the session context
 4. Channel plugins must be approved via the `allowedChannelPlugins` managed setting
+5. No polling required — events are pushed in real time
 
 ---
 
@@ -1814,6 +1826,62 @@ Create `.claude/config.json` in your project:
 
 ---
 
+## Agent Teams
+
+Agent Teams is an experimental feature that enables multiple Claude Code instances to collaborate on a task. It is disabled by default.
+
+### Enabling Agent Teams
+
+Enable via environment variable or settings:
+
+```bash
+# Environment variable
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=true
+```
+
+Or add to your settings JSON:
+
+```json
+{
+  "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": true
+}
+```
+
+### How Agent Teams Work
+
+- A **team lead** coordinates the overall task and delegates subtasks to teammates
+- **Teammates** work independently, each with their own context window
+- A **shared task list** enables self-coordination between team members
+- Use subagent definitions (`.claude/agents/` or `--agents` flag) to define teammate roles and specializations
+
+### Display Modes
+
+Agent Teams support two display modes, configured with the `--teammate-mode` flag:
+
+| Mode | Description |
+|------|-------------|
+| `in-process` (default) | Teammates run within the same terminal process |
+| `tmux` | Each teammate gets a dedicated split pane (requires tmux or iTerm2) |
+| `auto` | Automatically selects the best display mode |
+
+```bash
+# Use tmux split panes for teammate display
+claude --teammate-mode tmux
+
+# Explicitly use in-process mode
+claude --teammate-mode in-process
+```
+
+### Use Cases
+
+- Large refactoring tasks where different teammates handle different modules
+- Parallel code review and implementation
+- Coordinated multi-file changes across a codebase
+
+> **Note**: Agent Teams is experimental and may change in future releases. See [code.claude.com/docs/en/agent-teams](https://code.claude.com/docs/en/agent-teams) for the full reference.
+
+---
+
 ## Best Practices
 
 ### Planning Mode
@@ -1869,3 +1937,9 @@ For more information about Claude Code and related features:
 - [Official Remote Control Documentation](https://code.claude.com/docs/en/remote-control)
 - [Official Keybindings Documentation](https://code.claude.com/docs/en/keybindings)
 - [Official Desktop App Documentation](https://code.claude.com/docs/en/desktop)
+- [Official Agent Teams Documentation](https://code.claude.com/docs/en/agent-teams)
+
+---
+**Last Updated**: April 2026
+**Claude Code Version**: 2.1+
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

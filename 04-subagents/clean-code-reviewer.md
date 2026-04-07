@@ -64,3 +64,6 @@ Fix: [how to fix]
 - Skip: generated code, configs, test fixtures
 
 **Core Philosophy**: Code is read 10x more than written. Optimize for readability, not cleverness.
+
+---
+**Last Updated**: April 2026

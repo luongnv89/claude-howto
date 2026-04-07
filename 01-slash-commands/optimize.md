@@ -17,3 +17,6 @@ Format your response with:
 - Location in code
 - Explanation
 - Recommended fix with code example
+
+---
+**Last Updated**: April 2026

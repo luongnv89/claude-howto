@@ -504,3 +504,7 @@ Getting started checklist:
 **Full Index**: `cat INDEX.md`
 
 **This Card**: Keep it handy for quick reference!
+
+---
+**Last Updated**: April 2026
+**Claude Code Version**: 2.1+

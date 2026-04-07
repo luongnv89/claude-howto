@@ -50,8 +50,10 @@ When you rewind, you are presented with a menu of five options:
 1. **Restore code and conversation** -- Revert both files and messages to that checkpoint
 2. **Restore conversation** -- Rewind messages only, keep your current code as-is
 3. **Restore code** -- Revert file changes only, keep the full conversation history
-4. **Summarize from here** -- Compress the conversation from this point forward into an AI-generated summary instead of discarding it. The original messages are preserved in the transcript. You can optionally provide instructions to focus the summary on specific topics.
+4. **Summarize from here** -- Compress the conversation from this point forward into an AI-generated summary, freeing context window space. Messages before the selected point stay intact. No files on disk are changed. The original messages are preserved in the session transcript. You can optionally provide instructions to focus the summary on specific topics.
 5. **Never mind** -- Cancel and return to the current state
+
+> **Note**: After restoring the conversation or summarizing, the original prompt from the selected message is restored into the input field so you can re-send or edit it.
 
 ## Automatic Checkpoints
 
@@ -311,3 +313,8 @@ Key benefits:
 - Integrate safely with version control systems
 
 Remember: checkpoints are not a replacement for git. Use checkpoints for rapid experimentation and git for permanent code changes.
+
+---
+**Last Updated**: April 2026
+**Claude Code Version**: 2.1+
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

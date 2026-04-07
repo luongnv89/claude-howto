@@ -150,3 +150,6 @@ If user wants control, suggest:
 3. **PR workflow**: Create branch → push → PR (use `/pr` command)
 
 **⚠️ Remember**: Always review changes before pushing. When in doubt, use individual git commands for more control.
+
+---
+**Last Updated**: April 2026

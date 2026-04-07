@@ -515,4 +515,5 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: March 2026
+**Last Updated**: April 2026
+**Claude Code Version**: 2.1+

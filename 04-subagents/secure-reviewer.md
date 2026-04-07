@@ -73,3 +73,6 @@ For each vulnerability:
 - **Description**: What the vulnerability is
 - **Risk**: Potential impact if exploited
 - **Remediation**: How to fix it
+
+---
+**Last Updated**: April 2026

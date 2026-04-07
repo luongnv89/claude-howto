@@ -105,8 +105,9 @@ my-plugin/
 ├── hooks/                # Event handlers in hooks.json
 │   └── hooks.json
 ├── .mcp.json             # MCP server configurations
-├── .lsp.json             # LSP server configurations
-├── settings.json         # Default settings
+├── .lsp.json             # LSP server configurations for code intelligence
+├── bin/                  # Executables added to Bash tool's PATH while plugin is enabled
+├── settings.json         # Default settings applied when plugin is enabled (currently only `agent` key supported)
 ├── templates/
 │   └── issue-template.md
 ├── scripts/
@@ -533,7 +534,7 @@ GitHub and git sources support optional `ref` (branch/tag) and `sha` (commit has
 
 **Private repositories**: Supported via git credential helpers or environment tokens. Users must have read access to the repository.
 
-**Official marketplace submission**: Submit plugins to the Anthropic-curated marketplace for broader distribution.
+**Official marketplace submission**: Submit plugins to the Anthropic-curated marketplace for broader distribution via [claude.ai/settings/plugins/submit](https://claude.ai/settings/plugins/submit) or [platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit).
 
 ### Strict mode
 
@@ -941,3 +942,8 @@ The following Claude Code features work together with plugins:
 - [MCP Server Reference](https://modelcontextprotocol.io/)
 - [Subagent Configuration Guide](../04-subagents/README.md)
 - [Hook System Reference](../06-hooks/README.md)
+
+---
+**Last Updated**: April 2026
+**Claude Code Version**: 2.1+
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

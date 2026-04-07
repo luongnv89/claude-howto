@@ -569,20 +569,22 @@ This command:
 
 ## Agent Teams (Experimental)
 
-Agent Teams coordinate multiple Claude Code instances working together on complex tasks. Unlike subagents (which are delegated subtasks returning results), teammates work independently with their own context and communicate directly through a shared mailbox system.
+Agent Teams coordinate multiple Claude Code instances working together on complex tasks. Unlike subagents (which are delegated subtasks returning results), teammates work independently with their own context windows and can message each other directly through a shared mailbox system.
 
-> **Note**: Agent Teams is experimental and requires Claude Code v2.1.32+. Enable it before use.
+> **Official Documentation**: [code.claude.com/docs/en/agent-teams](https://code.claude.com/docs/en/agent-teams)
+
+> **Note**: Agent Teams is experimental and disabled by default. Requires Claude Code v2.1.32+. Enable it before use.
 
 ### Subagents vs Agent Teams
 
 | Aspect | Subagents | Agent Teams |
 |--------|-----------|-------------|
-| **Delegation model** | Parent delegates subtask, waits for result | Team lead assigns work, teammates execute independently |
-| **Context** | Fresh context per subtask, results distilled back | Each teammate maintains its own persistent context |
+| **Delegation model** | Parent delegates subtask, waits for result | Team lead coordinates work, teammates execute independently |
+| **Context** | Fresh context per subtask, results distilled back | Each teammate maintains its own persistent context window |
 | **Coordination** | Sequential or parallel, managed by parent | Shared task list with automatic dependency management |
-| **Communication** | Return values only | Inter-agent messaging via mailbox |
+| **Communication** | Results returned to parent only (no inter-agent messaging) | Teammates can message each other directly via mailbox |
 | **Session resumption** | Supported | Not supported with in-process teammates |
-| **Best for** | Focused, well-defined subtasks | Large multi-file projects requiring parallel work |
+| **Best for** | Focused, well-defined subtasks | Complex work requiring inter-agent communication and parallel execution |
 
 ### Enabling Agent Teams
 
@@ -620,7 +622,7 @@ Control how teammate activity is displayed:
 | Mode | Flag | Description |
 |------|------|-------------|
 | **Auto** | `--teammate-mode auto` | Automatically chooses the best display mode for your terminal |
-| **In-process** | `--teammate-mode in-process` | Shows teammate output inline in the current terminal (default) |
+| **In-process** (default) | `--teammate-mode in-process` | Shows teammate output inline in the current terminal |
 | **Split-panes** | `--teammate-mode tmux` | Opens each teammate in a separate tmux or iTerm2 pane |
 
 ```bash
@@ -1135,7 +1137,6 @@ graph TD
 - [Hooks Guide](../06-hooks/) - For event-driven automation
 
 ---
-
-*Last updated: March 2026*
-
-*This guide covers complete subagent configuration, delegation patterns, and best practices for Claude Code.*
+**Last Updated**: April 2026
+**Claude Code Version**: 2.1+
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

@@ -248,7 +248,7 @@ Claude Code uses a multi-tier hierarchical memory system. Memory files are autom
 7. **Local Project Memory** - Personal project-specific preferences
    - `./CLAUDE.local.md`
 
-> **Note**: `CLAUDE.local.md` is not mentioned in the [official documentation](https://code.claude.com/docs/en/memory) as of March 2026. It may still work as a legacy feature. For new projects, consider using `~/.claude/CLAUDE.md` (user-level) or `.claude/rules/` (project-level, path-scoped) instead.
+> **Note**: `CLAUDE.local.md` is fully supported and documented in the [official documentation](https://code.claude.com/docs/en/memory). It provides personal project-specific preferences that are not committed to version control. Add `CLAUDE.local.md` to your `.gitignore`.
 
 8. **Auto Memory** - Claude's automatic notes and learnings
    - `~/.claude/projects/<project>/memory/`
@@ -423,14 +423,14 @@ Auto memory is a persistent directory where Claude automatically records learnin
 - **Location**: `~/.claude/projects/<project>/memory/`
 - **Entrypoint**: `MEMORY.md` serves as the main file in the auto memory directory
 - **Topic files**: Optional additional files for specific subjects (e.g., `debugging.md`, `api-conventions.md`)
-- **Loading behavior**: The first 200 lines of `MEMORY.md` are loaded into the system prompt at session start. Topic files are loaded on demand, not at startup.
+- **Loading behavior**: The first 200 lines of `MEMORY.md` (or first 25KB, whichever comes first) are loaded into context at session start. Topic files are loaded on demand, not at startup.
 - **Read/write**: Claude reads and writes memory files during sessions as it discovers patterns and project-specific knowledge
 
 ### Auto Memory Architecture
 
 ```mermaid
 graph TD
-    A["Claude Session Starts"] --> B["Load MEMORY.md<br/>(first 200 lines)"]
+    A["Claude Session Starts"] --> B["Load MEMORY.md<br/>(first 200 lines / 25KB)"]
     B --> C["Session Active"]
     C --> D["Claude discovers<br/>patterns & insights"]
     D --> E{"Write to<br/>auto memory"}
@@ -455,7 +455,7 @@ graph TD
 
 ```
 ~/.claude/projects/<project>/memory/
-├── MEMORY.md              # Entrypoint (first 200 lines loaded at startup)
+├── MEMORY.md              # Entrypoint (first 200 lines / 25KB loaded at startup)
 ├── debugging.md           # Topic file (loaded on demand)
 ├── api-conventions.md     # Topic file (loaded on demand)
 └── testing-patterns.md    # Topic file (loaded on demand)
@@ -503,6 +503,8 @@ memory: local     # Load local memory only
 ```
 
 This allows subagents to operate with focused context rather than inheriting the full memory hierarchy.
+
+> **Note**: Subagents can also maintain their own auto memory. See the [official subagent memory documentation](https://code.claude.com/docs/en/sub-agents#enable-persistent-memory) for details.
 
 ### Controlling Auto Memory
 
@@ -844,7 +846,7 @@ Added to ./CLAUDE.md:
 
 | Feature | Claude Web/Desktop | Claude Code (CLAUDE.md) |
 |---------|-------------------|------------------------|
-| Auto-synthesis | ✅ Every 24h | ❌ Manual |
+| Auto-synthesis | ✅ Every 24h | ✅ Auto memory |
 | Cross-project | ✅ Shared | ❌ Project-specific |
 | Team access | ✅ Shared projects | ✅ Git-tracked |
 | Searchable | ✅ Built-in | ✅ Through `/memory` |
@@ -1159,3 +1161,8 @@ For the most up-to-date information, refer to the official Claude Code documenta
 ### Related Claude Features
 - [Claude Web Memory](https://claude.ai) - Automatic synthesis
 - [Official Memory Docs](https://code.claude.com/docs/en/memory) - Anthropic documentation
+
+---
+**Last Updated**: April 2026
+**Claude Code Version**: 2.1+
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

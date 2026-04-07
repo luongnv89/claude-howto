@@ -628,3 +628,6 @@ Before submitting content, verify:
 - [ ] Paragraphs are short and focused
 - [ ] Related guides section links to relevant lessons
 - [ ] Commit message follows conventional commits format
+
+---
+**Last Updated**: April 2026

@@ -215,3 +215,6 @@ If you have questions about this Code of Conduct, please reach out to the projec
 ---
 
 **Thank you for helping us create a welcoming, inclusive, and respectful community!** 🌟
+
+---
+**Last Updated**: April 2026

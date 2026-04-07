@@ -69,6 +69,14 @@ Hooks are configured in settings files with a specific structure:
 | Wildcard | Matches all tools | `"*"` or `""` |
 | MCP tools | Server and tool pattern | `"mcp__memory__.*"` |
 
+**InstructionsLoaded matcher values:**
+
+| Matcher Value | Description |
+|---------------|-------------|
+| `session_start` | Instructions loaded at session startup |
+| `nested_traversal` | Instructions loaded during nested directory traversal |
+| `path_glob_match` | Instructions loaded via path glob pattern matching |
+
 ## Hook Types
 
 Claude Code supports four hook types:
@@ -143,7 +151,7 @@ Subagent-based verification hooks that spawn a dedicated agent to evaluate condi
 
 ## Hook Events
 
-Claude Code supports **25 hook events**:
+Claude Code supports **26 hook events**:
 
 | Event | When Triggered | Matcher Input | Can Block | Common Use |
 |-------|---------------|---------------|-----------|------------|
@@ -152,6 +160,7 @@ Claude Code supports **25 hook events**:
 | **UserPromptSubmit** | User submits prompt | (none) | Yes | Validate prompts |
 | **PreToolUse** | Before tool execution | Tool name | Yes (allow/deny/ask) | Validate, modify inputs |
 | **PermissionRequest** | Permission dialog shown | Tool name | Yes | Auto-approve/deny |
+| **PermissionDenied** | User denies a permission prompt | Tool name | No | Logging, analytics, policy enforcement |
 | **PostToolUse** | After tool succeeds | Tool name | No | Add context, feedback |
 | **PostToolUseFailure** | Tool execution fails | Tool name | No | Error handling, logging |
 | **Notification** | Notification sent | Notification type | No | Custom notifications |
@@ -1154,3 +1163,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 - **[Official Hooks Documentation](https://code.claude.com/docs/en/hooks)** - Complete hooks reference
 - **[CLI Reference](https://code.claude.com/docs/en/cli-reference)** - Command-line interface documentation
 - **[Memory Guide](../02-memory/)** - Persistent context configuration
+
+---
+**Last Updated**: April 2026
+**Claude Code Version**: 2.1+
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

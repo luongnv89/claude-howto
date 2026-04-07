@@ -17,3 +17,6 @@ Output format:
 - Markdown file in `/docs/api.md`
 - Include curl examples for all endpoints
 - Add TypeScript types
+
+---
+**Last Updated**: April 2026

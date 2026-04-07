@@ -22,3 +22,6 @@ Refactor project documentation structure adapted to project type:
 7. **Use Mermaid** for all diagrams (architecture, flows, schemas)
 
 Keep docs concise, scannable, and contextual to project type.
+
+---
+**Last Updated**: April 2026

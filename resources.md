@@ -246,3 +246,6 @@ These steps capture the core recommendations for smooth workflows with Claude Co
 | **Scheduled Tasks** | Set up recurring tasks with `/loop` and cron tools | [Advanced Features](09-advanced-features/) |
 | **Chrome Integration** | Browser automation with headless Chromium | [Advanced Features](09-advanced-features/) |
 | **Keyboard Customization** | Customize keybindings including chord sequences | [Advanced Features](09-advanced-features/) |
+
+---
+**Last Updated**: April 2026

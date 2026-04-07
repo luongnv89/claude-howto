@@ -217,6 +217,10 @@ When MCP tool descriptions exceed 10% of the context window, Claude Code automat
 
 Claude Code supports MCP `list_changed` notifications. When an MCP server dynamically adds, removes, or modifies its available tools, Claude Code receives the update and adjusts its tool list automatically -- no reconnection or restart required.
 
+## MCP Apps
+
+MCP Apps is the first official MCP extension, enabling MCP tool calls to return interactive UI components that render directly in the chat interface. Instead of plain text responses, MCP servers can deliver rich dashboards, forms, data visualizations, and multi-step workflows -- all displayed inline without leaving the conversation.
+
 ## MCP Elicitation
 
 MCP servers can request structured input from the user via interactive dialogs (v2.1.49+). This allows an MCP server to ask for additional information mid-workflow -- for example, prompting for a confirmation, selecting from a list of options, or filling in required fields -- adding interactivity to MCP server interactions.
@@ -1110,3 +1114,8 @@ export GITHUB_TOKEN="your_token"
 - [Code Execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp) — Anthropic's engineering blog on solving context bloat
 - [Claude Code CLI Reference](https://code.claude.com/docs/en/cli-reference)
 - [Claude API Documentation](https://docs.anthropic.com)
+
+---
+**Last Updated**: April 2026
+**Claude Code Version**: 2.1+
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

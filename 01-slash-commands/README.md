@@ -18,7 +18,7 @@ Slash commands are shortcuts that control Claude's behavior during an interactiv
 
 ## Built-in Commands Reference
 
-Built-in commands are shortcuts for common actions. There are **55+ built-in commands** and **5 bundled skills** available. Type `/` in Claude Code to see the full list, or type `/` followed by any letters to filter.
+Built-in commands are shortcuts for common actions. There are **60+ built-in commands** and **5 bundled skills** available. Type `/` in Claude Code to see the full list, or type `/` followed by any letters to filter.
 
 | Command | Purpose |
 |---------|---------|
@@ -46,7 +46,7 @@ Built-in commands are shortcuts for common actions. There are **55+ built-in com
 | `/help` | Show help |
 | `/hooks` | View hook configurations |
 | `/ide` | Manage IDE integrations |
-| `/init` | Initialize `CLAUDE.md`. Set `CLAUDE_CODE_NEW_INIT=true` for interactive flow |
+| `/init` | Initialize `CLAUDE.md`. Set `CLAUDE_CODE_NEW_INIT=1` for interactive flow |
 | `/insights` | Generate session analysis report |
 | `/install-github-app` | Set up GitHub Actions app |
 | `/install-slack-app` | Install Slack app |
@@ -60,8 +60,8 @@ Built-in commands are shortcuts for common actions. There are **55+ built-in com
 | `/passes` | Share free week of Claude Code |
 | `/permissions` | View/update permissions (alias: `/allowed-tools`) |
 | `/plan [description]` | Enter plan mode |
+| `/powerup` | Discover features through interactive lessons with animated demos |
 | `/plugin` | Manage plugins |
-| `/pr-comments [PR]` | Fetch GitHub PR comments |
 | `/privacy-settings` | Privacy settings (Pro/Max only) |
 | `/release-notes` | View changelog |
 | `/reload-plugins` | Reload active plugins |
@@ -72,16 +72,19 @@ Built-in commands are shortcuts for common actions. There are **55+ built-in com
 | `/review` | **Deprecated** — install the `code-review` plugin instead |
 | `/rewind` | Rewind conversation and/or code (alias: `/checkpoint`) |
 | `/sandbox` | Toggle sandbox mode |
-| `/schedule [description]` | Create/manage scheduled tasks |
+| `/schedule [description]` | Create/manage Cloud scheduled tasks |
 | `/security-review` | Analyze branch for security vulnerabilities |
 | `/skills` | List available skills |
 | `/stats` | Visualize daily usage, sessions, streaks |
+| `/stickers` | Order Claude Code stickers |
 | `/status` | Show version, model, account |
 | `/statusline` | Configure status line |
 | `/tasks` | List/manage background tasks |
 | `/terminal-setup` | Configure terminal keybindings |
 | `/theme` | Change color theme |
-| `/vim` | Toggle Vim/Normal modes |
+| `/ultraplan <prompt>` | Draft plan in ultraplan session, review in browser |
+| `/upgrade` | Open upgrade page for higher plan tier |
+| `/usage` | Show plan usage limits and rate limit status |
 | `/voice` | Toggle push-to-talk voice dictation |
 
 ### Bundled Skills
@@ -103,6 +106,8 @@ These skills ship with Claude Code and are invoked like slash commands:
 | `/review` | Deprecated — replaced by `code-review` plugin |
 | `/output-style` | Deprecated since v2.1.73 |
 | `/fork` | Renamed to `/branch` (alias still works, v2.1.77) |
+| `/pr-comments` | Removed in v2.1.91 — ask Claude directly to view PR comments |
+| `/vim` | Removed in v2.1.92 — use /config → Editor mode |
 
 ### Recent Changes
 
@@ -113,6 +118,11 @@ These skills ship with Claude Code and are invoked like slash commands:
 - `/voice` command added for push-to-talk voice dictation
 - `/schedule` command added for creating/managing scheduled tasks
 - `/color` command added for prompt bar customization
+- /pr-comments removed in v2.1.91 — ask Claude directly to view PR comments
+- /vim removed in v2.1.92 — use /config → Editor mode instead
+- /ultraplan added for browser-based plan review and execution
+- /powerup added for interactive feature lessons
+- /sandbox added for toggling sandbox mode
 - `/model` picker now shows human-readable labels (e.g., "Sonnet 4.6") instead of raw model IDs
 - `/resume` supports `/continue` alias
 - MCP prompts are available as `/mcp__<server>__<prompt>` commands (see [MCP Prompts as Commands](#mcp-prompts-as-commands))
@@ -548,5 +558,8 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 - [CLI Reference](https://code.claude.com/docs/en/cli-reference) - Command-line options
 
 ---
+**Last Updated**: April 2026
+**Claude Code Version**: 2.1+
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
 
 *Part of the [Claude How To](../) guide series*

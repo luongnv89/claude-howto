@@ -314,6 +314,7 @@ The original session remains unchanged, and the fork becomes a new independent s
 | `--effort` | Set thinking effort level | `claude --effort high` |
 | `--bare` | Minimal mode (skip hooks, skills, plugins, MCP, auto memory, CLAUDE.md) | `claude --bare` |
 | `--channels` | Subscribe to MCP channel plugins | `claude --channels discord` |
+| `--tmux` | Create tmux session for worktree | `claude --tmux` |
 | `--fork-session` | Create new session ID when resuming | `claude --resume abc --fork-session` |
 | `--max-budget-usd` | Maximum spend (print mode) | `claude -p --max-budget-usd 5.00 "query"` |
 | `--json-schema` | Validated JSON output | `claude -p --json-schema '{"type":"object"}' "q"` |
@@ -829,3 +830,8 @@ claude -p --output-format json "query"
 ---
 
 *Part of the [Claude How To](../) guide series*
+
+---
+**Last Updated**: April 2026
+**Claude Code Version**: 2.1+
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

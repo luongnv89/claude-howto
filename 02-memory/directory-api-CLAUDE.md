@@ -59,3 +59,6 @@ Error responses:
 - Cache duration: 5 minutes default
 - Invalidate on write operations
 - Tag cache keys with resource type
+
+---
+**Last Updated**: April 2026

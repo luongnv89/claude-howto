@@ -124,3 +124,6 @@ For each optimization delivered:
 - [ ] Tests still pass
 - [ ] Improvement measured and documented
 - [ ] Monitoring / alerting recommended
+
+---
+**Last Updated**: April 2026
