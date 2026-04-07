@@ -31,7 +31,7 @@ ISSUES=""
 # Use \\n as separator — it is a valid JSON newline escape and passes through printf safely
 if grep -qiE '"password"[[:space:]]*:[[:space:]]*"[^"]+"' "$FILE_PATH" 2>/dev/null; then
   ISSUES="${ISSUES}- WARNING: Potential hardcoded password detected\\n"
-elif grep -qiE '(password|passwd|pwd)\s*=\s*'"'"'[^'"'"']+'"'"'' "$FILE_PATH" 2>/dev/null; then
+elif grep -qiE '(password|passwd|pwd)[[:space:]]*=[[:space:]]*'"'"'[^'"'"']+'"'"'' "$FILE_PATH" 2>/dev/null; then
   ISSUES="${ISSUES}- WARNING: Potential hardcoded password detected\\n"
 fi
 
@@ -41,7 +41,7 @@ if grep -qiE '"(api[_-]?key|apikey|access[_-]?token)"[[:space:]]*:[[:space:]]*"[
 fi
 
 # Check for hardcoded secrets and tokens
-if grep -qiE '(secret|token)\s*=\s*['"'"'"][^'"'"'"]+['"'"'"]' "$FILE_PATH" 2>/dev/null; then
+if grep -qiE '(secret|token)[[:space:]]*=[[:space:]]*['"'"'"][^'"'"'"]+['"'"'"]' "$FILE_PATH" 2>/dev/null; then
   ISSUES="${ISSUES}- WARNING: Potential hardcoded secret or token detected\\n"
 fi
 
@@ -55,14 +55,14 @@ if grep -qE "AKIA[0-9A-Z]{16}" "$FILE_PATH" 2>/dev/null; then
   ISSUES="${ISSUES}- WARNING: AWS access key detected\\n"
 fi
 
-# Scan with semgrep if available
+# Scan with semgrep if available (stdout suppressed to avoid mixing with JSON output)
 if command -v semgrep &> /dev/null; then
-  semgrep --config=auto "$FILE_PATH" --quiet 2>/dev/null
+  semgrep --config=auto "$FILE_PATH" --quiet >/dev/null 2>/dev/null
 fi
 
-# Scan with trufflehog if available
+# Scan with trufflehog if available (stdout suppressed to avoid mixing with JSON output)
 if command -v trufflehog &> /dev/null; then
-  trufflehog filesystem "$FILE_PATH" --only-verified --quiet 2>/dev/null
+  trufflehog filesystem "$FILE_PATH" --only-verified --quiet >/dev/null 2>/dev/null
 fi
 
 # If issues found, output as additionalContext (non-blocking warning)
