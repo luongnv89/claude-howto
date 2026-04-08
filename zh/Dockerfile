@@ -24,8 +24,8 @@ FROM nginx:alpine
 # Copy built files to nginx
 COPY --from=builder /app/.vitepress/dist /usr/share/nginx/html
 
-# Convert README.html to index.html in all directories (VitePress convention)
-RUN find /usr/share/nginx/html -name "README.html" -exec sh -c 'cp "$1" "${1%/*}/index.html"' _ {} \;
+# Copy public assets (logos, etc.) manually since VitePress doesn't copy them
+COPY --from=builder /app/.vitepress/public /usr/share/nginx/html
 
 # Copy custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf

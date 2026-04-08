@@ -5,6 +5,20 @@ export default defineConfig({
   description: '用一个周末掌握 Claude Code',
   lang: 'zh-CN',
 
+  // Rewrites: Map INDEX.md to homepage, README.md to module index pages
+  rewrites(id) {
+    // Root INDEX.md becomes homepage index.md
+    if (id === 'INDEX.md') {
+      return 'index.md'
+    }
+    // README.md in subdirectories becomes directory index
+    if (id.includes('/') && id.endsWith('README.md')) {
+      return id.replace(/README\.md$/, 'index.md')
+    }
+    // Root README.md stays as-is (available at /README.html)
+    return id
+  },
+
   // Clean URLs without .html extension
   cleanUrls: true,
 
@@ -57,10 +71,10 @@ export default defineConfig({
       },
       {
         text: '01. Slash Commands',
-        link: '/01-slash-commands/',
+        link: '/01-slash-commands/index',
         collapsed: false,
         items: [
-          { text: '概述', link: '/01-slash-commands/' },
+          { text: '概述', link: '/01-slash-commands/index' },
           { text: 'optimize', link: '/01-slash-commands/optimize' },
           { text: 'pr', link: '/01-slash-commands/pr' },
           { text: 'commit', link: '/01-slash-commands/commit' },
@@ -73,10 +87,10 @@ export default defineConfig({
       },
       {
         text: '02. Memory',
-        link: '/02-memory/',
+        link: '/02-memory/index',
         collapsed: true,
         items: [
-          { text: '概述', link: '/02-memory/' },
+          { text: '概述', link: '/02-memory/index' },
           { text: '项目 Memory', link: '/02-memory/project-CLAUDE' },
           { text: '目录 Memory', link: '/02-memory/directory-api-CLAUDE' },
           { text: '个人 Memory', link: '/02-memory/personal-CLAUDE' },
@@ -84,10 +98,10 @@ export default defineConfig({
       },
       {
         text: '03. Skills',
-        link: '/03-skills/',
+        link: '/03-skills/index',
         collapsed: true,
         items: [
-          { text: '概述', link: '/03-skills/' },
+          { text: '概述', link: '/03-skills/index' },
           { text: '代码审查', link: '/03-skills/code-review/SKILL' },
           { text: '品牌语气', link: '/03-skills/brand-voice/SKILL' },
           { text: '文档生成', link: '/03-skills/doc-generator/SKILL' },
@@ -98,10 +112,10 @@ export default defineConfig({
       },
       {
         text: '04. Subagents',
-        link: '/04-subagents/',
+        link: '/04-subagents/index',
         collapsed: true,
         items: [
-          { text: '概述', link: '/04-subagents/' },
+          { text: '概述', link: '/04-subagents/index' },
           { text: '代码审查员', link: '/04-subagents/code-reviewer' },
           { text: '测试工程师', link: '/04-subagents/test-engineer' },
           { text: '文档作者', link: '/04-subagents/documentation-writer' },
@@ -114,26 +128,26 @@ export default defineConfig({
       },
       {
         text: '05. MCP Protocol',
-        link: '/05-mcp/',
+        link: '/05-mcp/index',
         collapsed: true,
         items: [
-          { text: '概述', link: '/05-mcp/' },
+          { text: '概述', link: '/05-mcp/index' },
         ]
       },
       {
         text: '06. Hooks',
-        link: '/06-hooks/',
+        link: '/06-hooks/index',
         collapsed: true,
         items: [
-          { text: '概述', link: '/06-hooks/' },
+          { text: '概述', link: '/06-hooks/index' },
         ]
       },
       {
         text: '07. Plugins',
-        link: '/07-plugins/',
+        link: '/07-plugins/index',
         collapsed: true,
         items: [
-          { text: '概述', link: '/07-plugins/' },
+          { text: '概述', link: '/07-plugins/index' },
           { text: 'PR 审查', link: '/07-plugins/pr-review/' },
           { text: 'DevOps 自动化', link: '/07-plugins/devops-automation/' },
           { text: '文档生成', link: '/07-plugins/documentation/' },
@@ -141,28 +155,28 @@ export default defineConfig({
       },
       {
         text: '08. Checkpoints',
-        link: '/08-checkpoints/',
+        link: '/08-checkpoints/index',
         collapsed: true,
         items: [
-          { text: '概述', link: '/08-checkpoints/' },
+          { text: '概述', link: '/08-checkpoints/index' },
           { text: '示例', link: '/08-checkpoints/checkpoint-examples' },
         ]
       },
       {
         text: '09. 高级功能',
-        link: '/09-advanced-features/',
+        link: '/09-advanced-features/index',
         collapsed: true,
         items: [
-          { text: '概述', link: '/09-advanced-features/' },
+          { text: '概述', link: '/09-advanced-features/index' },
           { text: '规划模式示例', link: '/09-advanced-features/planning-mode-examples' },
         ]
       },
       {
         text: '10. CLI 参考',
-        link: '/10-cli/',
+        link: '/10-cli/index',
         collapsed: true,
         items: [
-          { text: '概述', link: '/10-cli/' },
+          { text: '概述', link: '/10-cli/index' },
         ]
       },
     ],

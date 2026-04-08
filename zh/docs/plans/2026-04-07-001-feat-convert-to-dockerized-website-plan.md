@@ -1,7 +1,7 @@
 ---
 title: feat: Convert Documentation Repository to Dockerized Website
 type: feat
-status: active
+status: completed
 date: 2026-04-07
 ---
 
