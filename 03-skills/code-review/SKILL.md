@@ -35,6 +35,15 @@ This skill provides comprehensive code review capabilities focusing on:
    - Dependency management
    - Type safety
 
+## Reference Files
+
+This skill includes supporting files that you should read when performing reviews:
+
+- **`templates/review-checklist.md`** — Structured checklist covering security, performance, quality, and testing. Read this file and use it as a guide to ensure no category is missed during review.
+- **`templates/finding-template.md`** — Standard template for documenting individual findings with severity, location, code examples, and impact analysis. Read this file and use its format when reporting issues.
+- **`scripts/analyze-metrics.py`** — Python script that calculates code metrics (function count, class count, average line length, complexity score). Run this on the file under review to gather quantitative data.
+- **`scripts/compare-complexity.py`** — Python script that compares cyclomatic and cognitive complexity between two versions of a file. Run this with the before and after versions when reviewing refactoring changes.
+
 ## Review Template
 
 For each piece of code reviewed, provide:
