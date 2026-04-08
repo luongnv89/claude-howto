@@ -297,3 +297,9 @@ Checkpoints cho phép bạn quay lại — nhưng làm thế nào bạn biết *
 
 - [Tài Liệu Checkpointing Chính Thức](https://code.claude.com/docs/en/checkpointing)
 - [Hướng Dẫn Tính Năng Nâng Cao](../09-advanced-features/) - Extended thinking và các khả năng khác
+
+---
+
+**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
+**Phiên Bản Claude Code**: 2.1+
+**Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

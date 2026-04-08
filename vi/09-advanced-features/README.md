@@ -1869,3 +1869,10 @@ For more information about Claude Code and related features:
 - [Official Remote Control Documentation](https://code.claude.com/docs/en/remote-control)
 - [Official Keybindings Documentation](https://code.claude.com/docs/en/keybindings)
 - [Official Desktop App Documentation](https://code.claude.com/docs/en/desktop)
+- [Official Agent Teams Documentation](https://code.claude.com/docs/en/agent-teams)
+
+---
+
+**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
+**Phiên Bản Claude Code**: 2.1+
+**Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

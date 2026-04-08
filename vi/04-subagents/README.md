@@ -571,7 +571,9 @@ Lệnh này:
 
 Agent Teams điều phối nhiều phiên Claude Code hoạt động cùng nhau trên các tác vụ phức tạp. Không giống tác nhân con (được ủy quyền subtask và trả về kết quả), đồng nghiệp hoạt động độc lập với bối cảnh của riêng và giao tiếp trực tiếp qua hệ thống mailbox chia sẻ.
 
-> **Lưu ý**: Agent Teams là thử nghiệm và yêu cầu Claude Code v2.1.32+. Bật trước khi sử dụng.
+> **Tài Liệu Chính Thức**: [code.claude.com/docs/en/agent-teams](https://code.claude.com/docs/en/agent-teams)
+
+> **Lưu ý**: Agent Teams là thử nghiệm và bị tắt theo mặc định. Yêu cầu Claude Code v2.1.32+. Bật trước khi sử dụng.
 
 ### Subagents vs Agent Teams
 
@@ -597,7 +599,7 @@ Hoặc trong `settings.json`:
 ```json
 {
   "env": {
-    "CLAUDE_EXPERIMENTAL_AGENT_TEAMS": "1"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   }
 }
 ```
@@ -1136,6 +1138,6 @@ graph TD
 
 ---
 
-*Cập nhật lần cuối: Tháng 3 năm 2026*
-
-*Hướng dẫn này bao gồm cấu hình tác nhân con hoàn chỉnh, các mẫu ủy quyền, và thực hành tốt nhất cho Claude Code.*
+**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
+**Phiên Bản Claude Code**: 2.1+
+**Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

@@ -1110,3 +1110,9 @@ export GITHUB_TOKEN="your_token"
 - [Code Execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp) — Blog kỹ thuật Anthropic về giải quyết context bloat
 - [CLI Reference Claude Code](https://code.claude.com/docs/en/cli-reference)
 - [Tài Liệu API Claude](https://docs.anthropic.com)
+
+---
+
+**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
+**Phiên Bản Claude Code**: 2.1+
+**Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

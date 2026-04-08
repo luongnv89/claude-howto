@@ -802,3 +802,9 @@ Khi bạn bắt đầu xây dựng skills một cách nghiêm túc, hai điều 
 - [Hướng Dẫn Bộ Nhớ](../02-memory/) - Bối cảnh liên tục
 - [MCP (Model Context Protocol)](../05-mcp/) - Dữ liệu bên ngoài thời gian thực
 - [Hướng Dẫn Hooks](../06-hooks/) - Tự động hóa dựa trên sự kiện
+
+---
+
+**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
+**Phiên Bản Claude Code**: 2.1+
+**Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

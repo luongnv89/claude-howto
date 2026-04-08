@@ -80,3 +80,11 @@ Chúng tôi sẽ:
 - Cung cấp timeline cho việc sửa
 - Thông báo khi bản vá đã được phát hành
 - Công khai thừa nhận báo cáo của bạn (nếu bạn muốn)
+
+---
+
+Thank you for helping keep Claude How To secure!
+
+---
+
+**Cập Nhật Lần Cuối**: Tháng 4 năm 2026

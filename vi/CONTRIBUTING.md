@@ -97,3 +97,14 @@ pre-commit run --all-files
 ```
 
 Các hooks chạy trên mỗi commit là:
+- Kiểm tra markdown-lint
+- Kiểm tra cross-references
+- Kiểm tra mermaid-syntax
+- Kiểm tra link-check
+
+---
+
+Thank you for contributing! 🙏
+
+---
+**Cập Nhật Lần Cuối**: Tháng 4 năm 2026

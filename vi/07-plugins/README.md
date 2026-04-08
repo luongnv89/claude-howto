@@ -941,3 +941,9 @@ Các tính năng Claude Code sau hoạt động cùng với plugins:
 - [MCP Server Reference](https://modelcontextprotocol.io/)
 - [Hướng Dẫn Cấu Hình Subagent](../04-subagents/README.md)
 - [Hệ Thống Hook Reference](../06-hooks/README.md)
+
+---
+
+**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
+**Phiên Bản Claude Code**: 2.1+
+**Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

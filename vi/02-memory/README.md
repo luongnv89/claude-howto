@@ -1151,3 +1151,9 @@ Claude sẽ nhắc bạn chọn file bộ nhớ nào để cập nhật.
 ### Các Tính Năng Claude Liên Quan
 - [Bộ Nhớ Claude Web](https://claude.ai) - Tổng hợp tự động
 - [Tài Liệu Bộ Nhớ Chính Thức](https://code.claude.com/docs/en/memory) - Tài liệu Anthropic
+
+---
+
+**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
+**Phiên Bản Claude Code**: 2.1+
+**Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
