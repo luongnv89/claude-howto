@@ -505,5 +505,8 @@ Getting started checklist:
 **This Card**: Keep it handy for quick reference!
 
 ---
-**Last Updated**: April 9, 2026
-**Claude Code Version**: 2.1.97
+**Last Updated**: April 11, 2026
+**Claude Code Version**: 2.1.101
+**Sources**:
+- https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/cli-reference

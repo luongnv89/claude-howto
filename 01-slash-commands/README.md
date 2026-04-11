@@ -80,6 +80,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/status` | Show version, model, account |
 | `/statusline` | Configure status line |
 | `/tasks` | List/manage background tasks |
+| `/team-onboarding` | Generate a teammate ramp-up guide from the project's Claude Code setup (new in v2.1.101) |
 | `/terminal-setup` | Configure terminal keybindings |
 | `/theme` | Change color theme |
 | `/ultraplan <prompt>` | Draft plan in ultraplan session, review in browser |
@@ -126,6 +127,31 @@ These skills ship with Claude Code and are invoked like slash commands:
 - `/model` picker now shows human-readable labels (e.g., "Sonnet 4.6") instead of raw model IDs
 - `/resume` supports `/continue` alias
 - MCP prompts are available as `/mcp__<server>__<prompt>` commands (see [MCP Prompts as Commands](#mcp-prompts-as-commands))
+- `/team-onboarding` added for auto-generating teammate ramp-up guides (v2.1.101)
+
+### `/team-onboarding` — Teammate Ramp-Up Guide
+
+> **New in v2.1.101**
+
+Use `/team-onboarding` to generate a teammate ramp-up guide from your project's local Claude Code usage. The command inspects your `CLAUDE.md`, installed skills, subagents, hooks, and recent workflows, then produces an onboarding document that helps new developers become productive quickly.
+
+It's a built-in command — nothing to install.
+
+**Usage:**
+
+```bash
+claude /team-onboarding
+```
+
+The generated guide summarizes:
+
+- Project purpose and key conventions from [`CLAUDE.md`](../02-memory/README.md)
+- Available [skills](../03-skills/README.md) and when they are auto-invoked
+- Configured [subagents](../04-subagents/README.md) and their responsibilities
+- [Hooks](../06-hooks/README.md) that run on common events
+- Common workflows newcomers should know about
+
+**Availability:** Shipped in Claude Code v2.1.101 (April 10, 2026).
 
 ## Custom Commands (Now Skills)
 
@@ -558,8 +584,11 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 - [CLI Reference](https://code.claude.com/docs/en/cli-reference) - Command-line options
 
 ---
-**Last Updated**: April 9, 2026
-**Claude Code Version**: 2.1.97
+**Last Updated**: April 11, 2026
+**Claude Code Version**: 2.1.101
+**Sources**:
+- https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/commands
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
 
 *Part of the [Claude How To](../) guide series*

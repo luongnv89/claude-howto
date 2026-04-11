@@ -85,6 +85,8 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/fast` | Toggle fast output mode | Speed up responses |
 | `/terminal-setup` | Configure terminal integration | Setup terminal features |
 | `/upgrade` | Check for updates | Version management |
+| `/team-onboarding` | Generate a teammate ramp-up guide from this project's Claude Code usage | Onboarding new teammates (v2.1.101) |
+| `/ultraplan` | Hand a planning task to a Claude Code web session in plan mode | Heavy planning offload (Research Preview, v2.1.91+) |
 
 ### Custom Commands (Examples)
 
@@ -513,5 +515,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: April 9, 2026
-**Claude Code Version**: 2.1.97
+**Last Updated**: April 11, 2026
+**Claude Code Version**: 2.1.101
+**Sources**:
+- https://code.claude.com/docs/en/overview
+- https://code.claude.com/docs/en/commands

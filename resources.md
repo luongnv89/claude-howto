@@ -246,6 +246,10 @@ These steps capture the core recommendations for smooth workflows with Claude Co
 | **Scheduled Tasks** | Set up recurring tasks with `/loop` and cron tools | [Advanced Features](09-advanced-features/) |
 | **Chrome Integration** | Browser automation with headless Chromium | [Advanced Features](09-advanced-features/) |
 | **Keyboard Customization** | Customize keybindings including chord sequences | [Advanced Features](09-advanced-features/) |
+| **Monitor Tool** | Watch a background command's stdout stream and react to events instead of polling (v2.1.98+) | [Advanced Features](09-advanced-features/) |
 
 ---
-**Last Updated**: April 9, 2026
+**Last Updated**: April 11, 2026
+**Claude Code Version**: 2.1.101
+**Sources**:
+- https://code.claude.com/docs/en/overview

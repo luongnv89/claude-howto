@@ -806,6 +806,8 @@ Once you start building skills seriously, two things become essential: a library
 - [Hooks Guide](../06-hooks/) - Event-driven automation
 
 ---
-**Last Updated**: April 9, 2026
-**Claude Code Version**: 2.1.97
+**Last Updated**: April 11, 2026
+**Claude Code Version**: 2.1.101
+**Sources**:
+- https://code.claude.com/docs/en/skills
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
