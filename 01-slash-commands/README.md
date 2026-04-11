@@ -151,7 +151,7 @@ The generated guide summarizes:
 - [Hooks](../06-hooks/README.md) that run on common events
 - Common workflows newcomers should know about
 
-**Availability:** Shipped in Claude Code v2.1.101 (April 10, 2026).
+**Availability:** Shipped in Claude Code v2.1.101 (April 11, 2026).
 
 ## Custom Commands (Now Skills)
 

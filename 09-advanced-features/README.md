@@ -664,7 +664,12 @@ tail -f /var/log/app.log | grep --line-buffered "ERROR"
 **Poll-and-emit filters** check a source periodically and only emit when something changes. Use this for APIs, databases, or anything without a native stream.
 
 ```bash
-while true; do gh api repos/owner/repo/issues/123/comments?since=$last; sleep 30; done
+last=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+while true; do
+  gh api "repos/owner/repo/issues/123/comments?since=$last" || true
+  last=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  sleep 30
+done
 ```
 
 ### Concrete Example

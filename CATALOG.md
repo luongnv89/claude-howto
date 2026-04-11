@@ -7,7 +7,7 @@
 
 > Quick reference guide to all Claude Code features: commands, agents, skills, plugins, and hooks.
 
-**Navigation**: [Commands](#slash-commands) | [Permission Modes](#permission-modes) | [Subagents](#subagents) | [Skills](#skills) | [Plugins](#plugins) | [MCP Servers](#mcp-servers) | [Hooks](#hooks) | [Memory](#memory-files) | [New Features](#new-features-march-2026)
+**Navigation**: [Commands](#slash-commands) | [Permission Modes](#permission-modes) | [Subagents](#subagents) | [Skills](#skills) | [Plugins](#plugins) | [MCP Servers](#mcp-servers) | [Hooks](#hooks) | [Memory](#memory-files) | [New Features](#new-features-april-2026)
 
 ---
 
@@ -431,10 +431,13 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 
 ---
 
-## New Features (March 2026)
+## New Features (April 2026)
 
 | Feature | Description | How to Use |
 |---------|-------------|------------|
+| **Monitor Tool** | Watch a background command's stdout stream and react to events instead of polling (v2.1.98+) | Use the Monitor tool via [Advanced Features](09-advanced-features/) |
+| **/team-onboarding** | Auto-generate a teammate ramp-up guide from the project's Claude Code setup (v2.1.101) | Run `/team-onboarding` in your project |
+| **Ultraplan auto-create** | Cloud environment created automatically on first `/ultraplan` invocation — no manual setup required (v2.1.101) | Use `/ultraplan <prompt>` |
 | **Remote Control** | Control Claude Code sessions remotely via API | Use the remote control API to send prompts and receive responses programmatically |
 | **Web Sessions** | Run Claude Code in a browser-based environment | Access via `claude web` or through the Anthropic Console |
 | **Desktop App** | Native desktop application for Claude Code | Use `/desktop` or download from Anthropic website |
