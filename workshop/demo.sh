@@ -124,11 +124,11 @@ conn.close()
 print("  Simulated prompts logged for Alice (high quality) and Bob (low quality)")
 PYEOF
 
-# Alice: pass S1, S2, S3
-# Set current session for alice
+# Alice: pass S1, S2, S3 — must call start-session before complete-session each time
 echo "alice" > ~/.claude-bootcamp/student-id
 for s in 1 2 3; do
   echo "$s" > ~/.claude-bootcamp/current-session
+  ./bootcamp start-session $s 2>&1 | tail -2
   ./bootcamp complete-session $s --project-dir /tmp/qa-demo-alice 2>&1 | tail -5
 done
 
