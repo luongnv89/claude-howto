@@ -2,6 +2,21 @@
 """AI Bootcamp CLI entry point."""
 
 import sys
+
+# Python version guard — must come BEFORE any import of workshop.* modules
+# because they use 3.10+ syntax (e.g. `Path | None` union types).
+if sys.version_info < (3, 10):
+    sys.stderr.write(
+        f"\nERROR: AI Bootcamp requires Python 3.10 or newer.\n"
+        f"You are running Python {sys.version.split()[0]}.\n\n"
+        f"On macOS, install via Homebrew:\n"
+        f"  brew install python@3.12\n"
+        f"  alias python3=/opt/homebrew/bin/python3\n\n"
+        f"Or use uv:\n"
+        f"  pip install uv && uv python install 3.12\n"
+    )
+    sys.exit(2)
+
 from pathlib import Path
 
 # Add workshop directory to Python path
