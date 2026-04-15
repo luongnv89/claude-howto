@@ -66,9 +66,9 @@ description: Review code from a QA perspective checking for missing validations
 # QA Review
 EOF
 
-# --- Bob: only S1 done (struggling, lots of attempts) ---
-echo "Setting up Bob (S1 only, struggling)..."
-mkdir -p /tmp/qa-demo-bob/{server,client/src,.claude/skills/new-tc}
+# --- Bob: struggling student (missing .claude/skills/ — fails S1 critical) ---
+echo "Setting up Bob (struggling, will fail S1 until auto-unlock)..."
+mkdir -p /tmp/qa-demo-bob/{server,client/src}
 cat > /tmp/qa-demo-bob/package.json <<'EOF'
 {"name":"qa-command-center","dependencies":{"express":"^4.18","react":"^18"}}
 EOF
@@ -78,13 +78,7 @@ EOF
 cat > /tmp/qa-demo-bob/client/src/App.jsx <<'EOF'
 export default function App() { return <h1>Hello</h1>; }
 EOF
-cat > /tmp/qa-demo-bob/.claude/skills/new-tc/SKILL.md <<'EOF'
----
-name: new-test-case
-description: Create test case
----
-# New Test Case
-EOF
+# Deliberately no .claude/skills/ — Bob hasn't built any custom skills yet
 
 # --- Carol: just setup, haven't started ---
 echo "Setting up Carol (just registered)..."
@@ -144,10 +138,12 @@ echo "bob" > ~/.claude-bootcamp/student-id
 ./bootcamp start-session 1 2>&1 | tail -3
 echo ""
 echo "--- Bob fails S1 five times to trigger auto-unlock ---"
+# Note: complete-session exits 1 on failed gate; that's the expected behavior here,
+# so we pipe through `|| true` to keep the loop going under `set -e`.
 for i in 1 2 3 4 5; do
   echo ""
   echo "Bob attempt $i:"
-  ./bootcamp complete-session 1 --project-dir /tmp/qa-demo-bob 2>&1 | tail -15
+  (./bootcamp complete-session 1 --project-dir /tmp/qa-demo-bob 2>&1 || true) | tail -15
 done
 
 # Carol: just setup
