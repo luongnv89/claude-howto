@@ -101,17 +101,28 @@ def score_student(conn: sqlite3.Connection, student_id: str,
         "sessions_scored": len(completed),
     }
 
-    # Save to database
-    for session in completed:
+    # Save per-session scores back to database with PER-SESSION totals
+    # (NOT the aggregate `total` — that's a continuous-score across all sessions)
+    for idx, session in enumerate(completed):
         sn = session["session_number"]
-        idx = [s["session_number"] for s in completed].index(sn)
+        per_session_prompt = prompt_scores[idx] if idx < len(prompt_scores) else 0
+        per_session_eff = efficiency_scores[idx] if idx < len(efficiency_scores) else 0
+        per_session_deliv = deliverable_scores[idx] if idx < len(deliverable_scores) else 0
+        # Per-session weighted total (uses continuous-portion weights only,
+        # renormalized so a per-session score is on a 0-100 scale)
+        per_session_total = (
+            per_session_prompt * 0.25
+            + per_session_eff * 0.15
+            + per_session_deliv * 0.20
+            + standards_score * 0.15
+        ) / CONTINUOUS_WEIGHT
         db.save_score(
             conn, student_id, sn,
-            prompt_quality=prompt_scores[idx] if idx < len(prompt_scores) else 0,
-            efficiency=efficiency_scores[idx] if idx < len(efficiency_scores) else 0,
-            deliverable_quality=deliverable_scores[idx] if idx < len(deliverable_scores) else 0,
+            prompt_quality=per_session_prompt,
+            efficiency=per_session_eff,
+            deliverable_quality=per_session_deliv,
             standards_compliance=standards_score,
-            total=total,
+            total=per_session_total,
         )
 
     return result
