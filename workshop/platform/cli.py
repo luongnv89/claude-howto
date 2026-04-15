@@ -104,6 +104,9 @@ def main(argv: list[str] | None = None) -> int:
         help="Reason for override (logged for audit)",
     )
 
+    # Doctor: preflight environment checks
+    subparsers.add_parser("doctor", help="Run preflight checks on the environment")
+
     args = parser.parse_args(argv)
 
     if not args.command:
@@ -135,6 +138,9 @@ def main(argv: list[str] | None = None) -> int:
             return cmd_grade(conn, args)
         elif args.command == "unlock-session":
             return cmd_unlock_session(conn, args)
+        elif args.command == "doctor":
+            from .doctor import doctor_main
+            return doctor_main()
         else:
             parser.print_help()
             return 1
