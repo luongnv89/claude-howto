@@ -1,0 +1,4 @@
+pytest>=7.4
+pytest-cov>=4.1
+ruff>=0.5
+mypy>=1.10

@@ -1,0 +1,20 @@
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["workshop/tests", "scripts/tests"]
+pythonpath = ["."]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = [".venv", "node_modules"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]  # line too long handled by formatter
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+warn_unused_ignores = true
+exclude = ["scripts/", ".venv/"]
