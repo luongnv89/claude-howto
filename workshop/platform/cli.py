@@ -456,16 +456,22 @@ def cmd_status(conn, args) -> int:
                       f"{s['standards_compliance']:<12.1f} "
                       f"{s['total']:<8.1f}")
 
-    # Prompt logs
+    # Prompt logs (JSONL files on disk — single source of truth)
     if args.prompts:
-        logs = db.get_prompt_logs(conn, student_id)
-        if logs:
-            print(f"\n  Prompt History ({len(logs)} entries):")
-            for log_entry in logs[-20:]:  # Show last 20
-                print(f"    [{log_entry['timestamp']}] "
-                      f"S{log_entry['session_number']} "
-                      f"({log_entry['event_type']}): "
-                      f"{log_entry['content'][:80]}")
+        from workshop.platform.config import LOGS_DIR
+        from workshop.platform.jsonl_log import read_all_events
+
+        all_events = []
+        for n in range(1, TOTAL_SESSIONS + 1):
+            for ev in read_all_events(LOGS_DIR / student_id, n):
+                all_events.append(ev)
+        if all_events:
+            print(f"\n  Prompt History ({len(all_events)} entries):")
+            for ev in all_events[-20:]:
+                content = ev.get("content", "")[:80]
+                print(f"    [{ev.get('timestamp','?')}] "
+                      f"S{ev.get('session','?')} "
+                      f"({ev.get('type','?')}): {content}")
 
     return 0
 

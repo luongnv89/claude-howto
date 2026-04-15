@@ -93,9 +93,9 @@ echo "============================================================"
 ./bootcamp setup --student-id alice --project-dir /tmp/qa-demo-alice
 ./bootcamp start-session 1 2>&1 | tail -5
 # Simulate some prompts for alice
-PYTHONPATH="$REPO_ROOT" python3 <<'PYEOF'
-from workshop.platform import database as db
-conn = db.get_connection()
+PYTHONPATH="$REPO_ROOT" /opt/homebrew/bin/python3 <<'PYEOF'
+from workshop.platform.config import LOGS_DIR
+from workshop.platform.jsonl_log import append_prompt
 
 # Alice prompts — high quality
 alice_prompts = [
@@ -105,23 +105,17 @@ alice_prompts = [
     "Create a React page for test case listing with severity filter badges and sortable columns",
     "Add a custom slash command for creating new test cases with a template including boundary value analysis",
 ]
-for i, p in enumerate(alice_prompts):
-    db.log_prompt(conn, "alice", 1, "prompt", p)
+alice_log = LOGS_DIR / "alice"
+for p in alice_prompts:
+    append_prompt(alice_log, session=1, content=p)
 
 # Bob prompts — low quality (vague)
-bob_prompts = [
-    "make it work",
-    "fix it",
-    "help",
-    "do the thing",
-    "make a test",
-    "idk what to do",
-]
+bob_prompts = ["make it work", "fix it", "help", "do the thing", "make a test", "idk what to do"]
+bob_log = LOGS_DIR / "bob"
 for p in bob_prompts:
-    db.log_prompt(conn, "bob", 1, "prompt", p)
+    append_prompt(bob_log, session=1, content=p)
 
-conn.close()
-print("  Simulated prompts logged for Alice (high quality) and Bob (low quality)")
+print("  Simulated prompts logged as JSONL for Alice (high quality) and Bob (low quality)")
 PYEOF
 
 # Alice: pass S1, S2, S3 — must call start-session before complete-session each time

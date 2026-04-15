@@ -1,11 +1,18 @@
-"""SQLite database for bootcamp state: students, progress, scores, logs."""
+"""SQLite database for bootcamp state: students, progress, scores.
+
+Note: prompt logs are NOT stored here. They live as JSONL files on disk
+(see workshop.platform.jsonl_log) — same format the hooks write directly.
+The legacy `log_prompt` / `get_prompt_logs` / `get_prompt_count` functions
+are kept as thin compat wrappers around jsonl_log.
+"""
 
 import json
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-from .config import DB_PATH
+from .config import DB_PATH, LOGS_DIR
+from . import jsonl_log
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS cohorts (
@@ -49,14 +56,6 @@ CREATE TABLE IF NOT EXISTS scores (
     PRIMARY KEY (student_id, session_number)
 );
 
-CREATE TABLE IF NOT EXISTS prompt_logs (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    student_id TEXT,
-    session_number INTEGER,
-    timestamp TEXT,
-    event_type TEXT,
-    content TEXT
-);
 """
 
 
@@ -268,41 +267,42 @@ def get_all_scores(conn: sqlite3.Connection) -> list[sqlite3.Row]:
     ).fetchall()
 
 
-# --- Prompt logs ---
+# --- Prompt logs (compat layer over jsonl_log; SQLite no longer stores them) ---
 
 
 def log_prompt(conn: sqlite3.Connection, student_id: str,
                session_number: int, event_type: str, content: str) -> None:
-    conn.execute(
-        """INSERT INTO prompt_logs (student_id, session_number, timestamp,
-                                    event_type, content)
-           VALUES (?, ?, ?, ?, ?)""",
-        (student_id, session_number, _now(), event_type, content),
-    )
-    conn.commit()
+    """Append to the JSONL file. `conn` is unused (kept for backward compat)."""
+    log_dir = LOGS_DIR / student_id
+    if event_type == "prompt":
+        jsonl_log.append_prompt(log_dir, session_number, content)
+    else:
+        jsonl_log.append_response(log_dir, session_number, content)
 
 
 def get_prompt_logs(conn: sqlite3.Connection, student_id: str,
-                    session_number: int | None = None) -> list[sqlite3.Row]:
-    if session_number:
-        return conn.execute(
-            """SELECT * FROM prompt_logs
-               WHERE student_id = ? AND session_number = ?
-               ORDER BY timestamp""",
-            (student_id, session_number),
-        ).fetchall()
-    return conn.execute(
-        "SELECT * FROM prompt_logs WHERE student_id = ? ORDER BY timestamp",
-        (student_id,),
-    ).fetchall()
+                    session_number: int | None = None) -> list[dict]:
+    """Read JSONL events. Returns list of dicts with keys matching the old
+    sqlite3.Row shape: student_id, session_number, timestamp, event_type, content."""
+    log_dir = LOGS_DIR / student_id
+    if session_number is not None:
+        sessions = [session_number]
+    else:
+        sessions = list(range(1, 11))
+    rows = []
+    for sn in sessions:
+        for ev in jsonl_log.read_all_events(log_dir, sn):
+            rows.append({
+                "student_id": ev.get("student", student_id),
+                "session_number": ev.get("session", sn),
+                "timestamp": ev.get("timestamp", ""),
+                "event_type": ev.get("type", ""),
+                "content": ev.get("content", ""),
+            })
+    return rows
 
 
 def get_prompt_count(conn: sqlite3.Connection, student_id: str,
                      session_number: int) -> int:
-    row = conn.execute(
-        """SELECT COUNT(*) as cnt FROM prompt_logs
-           WHERE student_id = ? AND session_number = ?
-           AND event_type = 'prompt'""",
-        (student_id, session_number),
-    ).fetchone()
-    return row["cnt"] if row else 0
+    """Count prompt events (not responses) for a session via JSONL."""
+    return jsonl_log.count_prompts(LOGS_DIR / student_id, session_number)

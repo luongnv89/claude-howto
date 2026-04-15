@@ -9,6 +9,20 @@ import pytest
 from workshop.platform.database import get_connection
 
 
+@pytest.fixture(autouse=True)
+def _isolate_logs_dir(monkeypatch, tmp_path):
+    """Redirect LOGS_DIR (used by jsonl_log compat layer) to a tmp dir per test
+    so on-disk JSONL writes don't leak between tests or pollute ~/.claude-bootcamp."""
+    isolated = tmp_path / "logs"
+    isolated.mkdir()
+    import workshop.platform.config as cfg
+    monkeypatch.setattr(cfg, "LOGS_DIR", isolated)
+    # database.py captures LOGS_DIR at import time; patch its binding too
+    import workshop.platform.database as db_mod
+    monkeypatch.setattr(db_mod, "LOGS_DIR", isolated)
+    yield
+
+
 @pytest.fixture
 def db_conn():
     """Create an in-memory database connection for testing."""
