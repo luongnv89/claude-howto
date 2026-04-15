@@ -11,15 +11,18 @@ from workshop.platform.database import get_connection
 
 @pytest.fixture(autouse=True)
 def _isolate_logs_dir(monkeypatch, tmp_path):
-    """Redirect LOGS_DIR (used by jsonl_log compat layer) to a tmp dir per test
-    so on-disk JSONL writes don't leak between tests or pollute ~/.claude-bootcamp."""
+    """Redirect LOGS_DIR (used by jsonl_log compat layer + scorer) to a tmp dir
+    per test so on-disk JSONL writes don't leak between tests or pollute
+    ~/.claude-bootcamp."""
     isolated = tmp_path / "logs"
     isolated.mkdir()
+    # Patch every module that does `from ..config import LOGS_DIR` at import time
     import workshop.platform.config as cfg
-    monkeypatch.setattr(cfg, "LOGS_DIR", isolated)
-    # database.py captures LOGS_DIR at import time; patch its binding too
     import workshop.platform.database as db_mod
+    import workshop.scoring.scorer as scorer_mod
+    monkeypatch.setattr(cfg, "LOGS_DIR", isolated)
     monkeypatch.setattr(db_mod, "LOGS_DIR", isolated)
+    monkeypatch.setattr(scorer_mod, "LOGS_DIR", isolated)
     yield
 
 
