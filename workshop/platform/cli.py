@@ -245,14 +245,40 @@ def cmd_complete_session(conn, args) -> int:
     gate_passed = critical_passed
     db.complete_session(conn, student_id, session, gate_passed, gate_details)
 
-    # Save deliverable quality score regardless
+    # Compute deliverable_quality from gate points
     quality_score = (total_points / max_points * 100) if max_points > 0 else 0
+
+    # Compute per-session components inline (heuristic, fast — no AI calls here)
+    from workshop.scoring.efficiency_analyzer import analyze_efficiency
+    from workshop.scoring.prompt_analyzer import analyze_prompts
+    from workshop.scoring.standards_analyzer import analyze_standards
+    from workshop.platform.config import LOGS_DIR
+
+    log_dir = LOGS_DIR / student_id
+    prompt_result = analyze_prompts(log_dir, session, use_ai=False)
+    eff_result = analyze_efficiency(log_dir, session, gate_passed=critical_passed)
+    if args.project_dir.exists():
+        std_result = analyze_standards(args.project_dir)
+        standards_score = std_result["score"]
+    else:
+        standards_score = 0
+
+    # Per-session weighted total (continuous-portion weights, renormalized
+    # so a per-session score is on a 0-100 scale).
+    per_session_total = (
+        prompt_result["score"] * 0.25
+        + eff_result["score"] * 0.15
+        + quality_score * 0.20
+        + standards_score * 0.15
+    ) / 0.75
+
     db.save_score(
         conn, student_id, session,
-        prompt_quality=0, efficiency=0,
+        prompt_quality=prompt_result["score"],
+        efficiency=eff_result["score"],
         deliverable_quality=quality_score,
-        standards_compliance=0,
-        total=quality_score,
+        standards_compliance=standards_score,
+        total=per_session_total,
     )
 
     if gate_passed:
