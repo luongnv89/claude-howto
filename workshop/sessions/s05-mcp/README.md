@@ -56,7 +56,7 @@ Project-scoped MCP configuration lives in `.mcp.json` at your project root:
   "mcpServers": {
     "github": {
       "command": "npx",
-      "args": ["-y", "@anthropic-ai/mcp-server-github"],
+      "args": ["-y", "@modelcontextprotocol/server-github"],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "<your-token>"
       }
@@ -77,7 +77,7 @@ Key points about `.mcp.json`:
 You can also add servers using the `claude mcp add` command:
 
 ```bash
-claude mcp add github --command "npx" --args "-y" "@anthropic-ai/mcp-server-github" --env "GITHUB_PERSONAL_ACCESS_TOKEN=<token>"
+claude mcp add github --command "npx" --args "-y" "@modelcontextprotocol/server-github" --env "GITHUB_PERSONAL_ACCESS_TOKEN=<token>"
 ```
 
 ### Available MCP Servers
@@ -86,8 +86,8 @@ For this session, you will use two servers:
 
 | Server | Package | Purpose |
 |--------|---------|---------|
-| GitHub | `@anthropic-ai/mcp-server-github` | Issues, PRs, repos, code search |
-| Atlassian | `@anthropic-ai/mcp-server-atlassian` | Jira projects, epics, stories, sprints |
+| GitHub | `@modelcontextprotocol/server-github` | Issues, PRs, repos, code search |
+| Atlassian | `@aashari/mcp-server-atlassian-jira` | Jira projects, epics, stories, sprints |
 
 ## What You Will Build
 

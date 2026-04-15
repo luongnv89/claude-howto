@@ -50,7 +50,7 @@ claude mcp remove <name>
 
 ## GitHub MCP Server
 
-**Package**: `@anthropic-ai/mcp-server-github`
+**Package**: `@modelcontextprotocol/server-github`
 
 **Configuration**:
 
@@ -59,7 +59,7 @@ claude mcp remove <name>
   "mcpServers": {
     "github": {
       "command": "npx",
-      "args": ["-y", "@anthropic-ai/mcp-server-github"],
+      "args": ["-y", "@modelcontextprotocol/server-github"],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "<token>"
       }
@@ -72,7 +72,7 @@ claude mcp remove <name>
 
 ## Atlassian/Jira MCP Server
 
-**Package**: `@anthropic-ai/mcp-server-atlassian`
+**Package**: `@aashari/mcp-server-atlassian-jira`
 
 **Configuration**:
 
@@ -81,7 +81,7 @@ claude mcp remove <name>
   "mcpServers": {
     "atlassian": {
       "command": "npx",
-      "args": ["-y", "@anthropic-ai/mcp-server-atlassian"],
+      "args": ["-y", "@aashari/mcp-server-atlassian-jira"],
       "env": {
         "ATLASSIAN_SITE_URL": "https://your-site.atlassian.net",
         "ATLASSIAN_USER_EMAIL": "your@email.com",

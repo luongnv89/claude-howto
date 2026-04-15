@@ -37,7 +37,8 @@ Before Half-Day 3, ensure:
 
 1. A Jira Cloud instance is available (free tier: `<org>.atlassian.net`)
 2. Each student has an Atlassian API token
-3. The Atlassian MCP server package is available: `@anthropic-ai/mcp-server-atlassian`
+3. The Atlassian MCP server package is available: `@aashari/mcp-server-atlassian-jira`
+   (community-maintained; verify currency at https://npm.im/@aashari/mcp-server-atlassian-jira before each cohort. Anthropic does not publish a first-party Atlassian MCP at the time of writing — use the Claude Code built-in plugin via `claude /plugin install atlassian` if available, otherwise the community package above.)
 
 ### Pre-Session Dry Run
 

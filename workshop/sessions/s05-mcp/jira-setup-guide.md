@@ -47,7 +47,7 @@ Claude will create or update the `.mcp.json` file in your project root. The conf
   "mcpServers": {
     "atlassian": {
       "command": "npx",
-      "args": ["-y", "@anthropic-ai/mcp-server-atlassian"],
+      "args": ["-y", "@aashari/mcp-server-atlassian-jira"],
       "env": {
         "ATLASSIAN_SITE_URL": "https://yourname-qa.atlassian.net",
         "ATLASSIAN_USER_EMAIL": "you@example.com",
@@ -109,7 +109,7 @@ The API token inherits the permissions of your Atlassian account. For the free t
 | "Site not found" | Check the site URL format: `https://site.atlassian.net` (no trailing slash) |
 | MCP server not loading | Restart Claude Code after editing `.mcp.json` |
 | Cannot create project | Free tier may limit project types; use "Scrum" or "Kanban" software project |
-| npx install fails | Run `npx -y @anthropic-ai/mcp-server-atlassian --help` to test package availability |
+| npx install fails | Run `npx -y @aashari/mcp-server-atlassian-jira --help` to test package availability |
 
 ## Quick Checklist
 
