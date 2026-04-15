@@ -5,6 +5,7 @@ on:
     branches: [main, develop]
     paths:
       - 'scripts/**'
+      - 'workshop/**'
       - '.github/workflows/test.yml'
       - 'pyproject.toml'
       - 'requirements*.txt'
@@ -12,6 +13,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/**'
+      - 'workshop/**'
       - '.github/workflows/test.yml'
       - 'pyproject.toml'
       - 'requirements*.txt'
@@ -67,6 +69,37 @@ jobs:
             coverage.xml
             htmlcov/
           retention-days: 7
+
+  workshop-tests:
+    name: Workshop Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Create venv and install dev dependencies
+        run: |
+          uv venv
+          uv pip install -r workshop/requirements-dev.txt
+
+      - name: Run workshop pytest
+        run: uv run pytest workshop/tests/ -v --tb=short
+
+      - name: Run workshop demo (smoke)
+        run: |
+          chmod +x workshop/demo.sh workshop/bootcamp
+          cd workshop && ./demo.sh
 
   lint:
     name: Code Quality (Lint & Format)
@@ -145,7 +178,7 @@ jobs:
   build-epub:
     name: Build EPUB Artifact
     runs-on: ubuntu-latest
-    needs: [pytest, lint, security, type-check]
+    needs: [pytest, workshop-tests, lint, security, type-check]
     if: ${{ !failure() && !cancelled() }}
 
     steps:
@@ -191,7 +224,7 @@ jobs:
 
   summary:
     name: Test Summary
-    needs: [pytest, lint, security, type-check, build-epub]
+    needs: [pytest, workshop-tests, lint, security, type-check, build-epub]
     runs-on: ubuntu-latest
     if: always()
 
@@ -205,6 +238,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Results" >> $GITHUB_STEP_SUMMARY
           echo "- **Unit Tests**: ${{ needs.pytest.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Workshop Tests**: ${{ needs.workshop-tests.result }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Code Quality**: ${{ needs.lint.result }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Security Scan**: ${{ needs.security.result }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Type Checking**: ${{ needs.type-check.result }}" >> $GITHUB_STEP_SUMMARY
@@ -218,6 +252,7 @@ jobs:
       - name: Check if all tests passed
         if: |
           needs.pytest.result != 'success' ||
+          needs.workshop-tests.result != 'success' ||
           needs.build-epub.result != 'success'
         run: |
           echo "❌ Critical tests failed"
