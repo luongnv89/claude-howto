@@ -441,10 +441,10 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | Feature | Description | How to Use |
 |---------|-------------|------------|
 | **/focus** | Toggle focus view for distraction-free output display (v2.1.110) | Run `/focus` to reduce visual noise during long tasks |
-| **/proactive** | Alias for `/loop` — same recurring-task behavior (v2.1.110) | Use `/proactive` interchangeably with `/loop` |
-| **/recap** | Show a session recap when returning to an existing session (v2.1.110) | Run `/recap` after being away to get context on what was done |
+| **/proactive** | Alias for `/loop` — same recurring-task behavior (v2.1.105) | Use `/proactive` interchangeably with `/loop` |
+| **/recap** | Show a session recap when returning to an existing session (v2.1.108) | Run `/recap` after being away to get context on what was done |
 | **/tui** | Toggle fullscreen TUI (text user interface) mode for flicker-free rendering (v2.1.110) | Use `/tui` in fullscreen terminals or tmux |
-| **/undo** | Alias for `/rewind` — reverts to the previous checkpoint (v2.1.110) | Use `/undo` interchangeably with `/rewind` |
+| **/undo** | Alias for `/rewind` — reverts to the previous checkpoint (v2.1.108) | Use `/undo` interchangeably with `/rewind` |
 | **Monitor Tool** | Watch a background command's stdout stream and react to events instead of polling (v2.1.98+) | Use the Monitor tool via [Advanced Features](09-advanced-features/) |
 | **/team-onboarding** | Auto-generate a teammate ramp-up guide from the project's Claude Code setup (v2.1.101) | Run `/team-onboarding` in your project |
 | **Ultraplan auto-create** | Cloud environment created automatically on first `/ultraplan` invocation — no manual setup required (v2.1.101) | Use `/ultraplan <prompt>` |
