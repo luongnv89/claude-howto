@@ -21,21 +21,22 @@ Comprehensive guide to Claude Code's advanced capabilities including planning mo
 10. [Headless Mode](#headless-mode)
 11. [Session Management](#session-management)
 12. [Interactive Features](#interactive-features)
-13. [Voice Dictation](#voice-dictation)
-14. [Channels](#channels)
-15. [Chrome Integration](#chrome-integration)
-16. [Remote Control](#remote-control)
-17. [Web Sessions](#web-sessions)
-18. [Desktop App](#desktop-app)
-19. [Task List](#task-list)
-20. [Prompt Suggestions](#prompt-suggestions)
-21. [Git Worktrees](#git-worktrees)
-22. [Sandboxing](#sandboxing)
-23. [Managed Settings (Enterprise)](#managed-settings-enterprise)
-24. [Configuration and Settings](#configuration-and-settings)
-25. [Agent Teams](#agent-teams)
-26. [Best Practices](#best-practices)
-27. [Additional Resources](#additional-resources)
+13. [TUI Mode (Fullscreen)](#tui-mode-fullscreen)
+14. [Voice Dictation](#voice-dictation)
+15. [Channels](#channels)
+16. [Chrome Integration](#chrome-integration)
+17. [Remote Control](#remote-control)
+18. [Web Sessions](#web-sessions)
+19. [Desktop App](#desktop-app)
+20. [Task List](#task-list)
+21. [Prompt Suggestions](#prompt-suggestions)
+22. [Git Worktrees](#git-worktrees)
+23. [Sandboxing](#sandboxing)
+24. [Managed Settings (Enterprise)](#managed-settings-enterprise)
+25. [Configuration and Settings](#configuration-and-settings)
+26. [Agent Teams](#agent-teams)
+27. [Best Practices](#best-practices)
+28. [Additional Resources](#additional-resources)
 
 ---
 
@@ -1030,6 +1031,23 @@ claude -r "auth-refactor"
 claude --resume auth-refactor --fork-session "alternative approach"
 ```
 
+### Session Recap (v2.1.108)
+
+When you return to a session after being away, Claude can show a brief recap of what was accomplished. This is enabled by default for users with telemetry disabled (Bedrock, Vertex, Foundry users).
+
+**Control recap behavior:**
+
+```bash
+/recap                                 # manually trigger a recap
+/config                                # toggle auto-recap on/off
+```
+
+Or via environment variable:
+```bash
+CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0 claude   # disable recap
+CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1 claude   # force enable recap
+```
+
 ---
 
 ## Interactive Features
@@ -1238,6 +1256,41 @@ Use this for quick command execution without switching contexts.
 
 ---
 
+## TUI Mode (Fullscreen)
+
+> **New in v2.1.110**
+
+TUI (Text User Interface) mode renders Claude Code in fullscreen with flicker-free output — ideal for terminal multiplexers like tmux or iTerm2 split panes.
+
+### Enabling TUI Mode
+
+Toggle TUI mode with the `/tui` command or launch with the `--tui` flag:
+
+```bash
+/tui          # toggle from within a session
+claude --tui  # start directly in TUI mode
+```
+
+### Configuration
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `autoScrollEnabled` | Auto-scroll to latest message | `true` |
+
+Disable auto-scroll via `/config` or `settings.json`:
+
+```json
+{
+  "autoScrollEnabled": false
+}
+```
+
+### Focus View
+
+The `/focus` command toggles focus view — a distraction-free display showing only the most relevant output. `Ctrl+O` now toggles between normal and verbose transcript only (focus view is `/focus`).
+
+---
+
 ## Voice Dictation
 
 Voice Dictation provides push-to-talk voice input for Claude Code, allowing you to speak your prompts instead of typing them.
@@ -1425,6 +1478,16 @@ Three ways to connect from another device:
 - Control Claude Code from a mobile device or tablet while away from your desk
 - Use the richer claude.ai UI while maintaining local tool execution
 - Quick code reviews on the go with your full local development environment
+
+### Push Notifications (v2.1.110)
+
+When Remote Control is active and "Push when Claude decides" is enabled in `/config`, Claude can send mobile push notifications to your phone — for example, when a long task completes or needs your input.
+
+To enable:
+1. Activate Remote Control: `/remote-control` or `claude --rc`
+2. Open `/config` and enable **Push when Claude decides**
+
+Push notifications require a Claude subscription and the Claude mobile app.
 
 ---
 
@@ -1856,6 +1919,9 @@ export CLAUDE_CODE_SIMPLE=true              # Set by --bare flag
 export MAX_MCP_OUTPUT_TOKENS=50000
 export ENABLE_TOOL_SEARCH=true
 
+# Prompt caching
+export ENABLE_PROMPT_CACHING_1H=1      # Use 1-hour prompt cache TTL (default is 5 min)
+
 # Task management
 export CLAUDE_CODE_TASK_LIST_ID=my-project-tasks
 
@@ -1874,6 +1940,8 @@ export CLAUDE_STREAM_IDLE_TIMEOUT_MS=30000
 export ANTHROPIC_CUSTOM_MODEL_OPTION=my-custom-model
 export SLASH_COMMAND_TOOL_CHAR_BUDGET=50000
 ```
+
+> **v2.1.108**: `ENABLE_PROMPT_CACHING_1H=1` — use a 1-hour prompt cache TTL instead of the default 5-minute TTL. Reduces cache misses in long, stable sessions.
 
 ### Configuration Management Commands
 
@@ -2029,12 +2097,14 @@ For more information about Claude Code and related features:
 - [Official Agent Teams Documentation](https://code.claude.com/docs/en/agent-teams)
 
 ---
-**Last Updated**: April 11, 2026
-**Claude Code Version**: 2.1.101
+**Last Updated**: April 16, 2026
+**Claude Code Version**: 2.1.110
 **Sources**:
 - https://code.claude.com/docs/en/ultraplan
 - https://code.claude.com/docs/en/tools-reference
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/remote-control
 - https://code.claude.com/docs/en/agent-teams
+- https://code.claude.com/docs/en/changelog
+- https://code.claude.com/docs/en/settings
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

@@ -315,8 +315,8 @@ Key benefits:
 Remember: checkpoints are not a replacement for git. Use checkpoints for rapid experimentation and git for permanent code changes.
 
 ---
-**Last Updated**: April 11, 2026
-**Claude Code Version**: 2.1.101
+**Last Updated**: April 16, 2026
+**Claude Code Version**: 2.1.110
 **Sources**:
 - https://code.claude.com/docs/en/checkpointing
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

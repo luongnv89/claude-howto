@@ -70,6 +70,7 @@ graph TD
 | `--maintenance` | Run maintenance hooks and exit | `claude --maintenance` |
 | `--disable-slash-commands` | Disable all skills and slash commands | `claude --disable-slash-commands` |
 | `--no-session-persistence` | Disable session saving (print mode) | `claude -p --no-session-persistence "query"` |
+| `--exclude-dynamic-system-prompt-sections` | Exclude dynamic sections from the system prompt for better prompt cache hit rates | `claude -p --exclude-dynamic-system-prompt-sections "query"` |
 
 ### Interactive vs Print Mode
 
@@ -728,6 +729,7 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `max` effort l
 | `SLASH_COMMAND_TOOL_CHAR_BUDGET` | Character budget for slash command tools |
 | `ENABLE_TOOL_SEARCH` | Enable tool search capability |
 | `MAX_MCP_OUTPUT_TOKENS` | Maximum tokens for MCP tool output |
+| `CLAUDE_CODE_PERFORCE_MODE` | Set to `1` to enable Perforce mode — treats files as read-only by default (for Perforce/P4 version control workflows) (added v2.1.98) |
 
 ---
 
@@ -832,8 +834,8 @@ claude -p --output-format json "query"
 *Part of the [Claude How To](../) guide series*
 
 ---
-**Last Updated**: April 11, 2026
-**Claude Code Version**: 2.1.101
+**Last Updated**: April 16, 2026
+**Claude Code Version**: 2.1.110
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/commands

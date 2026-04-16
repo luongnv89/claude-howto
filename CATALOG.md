@@ -15,7 +15,7 @@
 
 | Feature | Built-in | Examples | Total | Reference |
 |---------|----------|----------|-------|-----------|
-| **Slash Commands** | 55+ | 8 | 63+ | [01-slash-commands/](01-slash-commands/) |
+| **Slash Commands** | 60+ | 8 | 68+ | [01-slash-commands/](01-slash-commands/) |
 | **Subagents** | 6 | 11 | 17 | [04-subagents/](04-subagents/) |
 | **Skills** | 5 bundled | 4 | 9 | [03-skills/](03-skills/) |
 | **Plugins** | - | 3 | 3 | [07-plugins/](07-plugins/) |
@@ -53,6 +53,8 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/passes` | View usage passes | Subscription info |
 | `/plugin` | Manage plugins | Install/remove extensions |
 | `/plan` | Enter planning mode | Complex implementations |
+| `/proactive` | Alias for `/loop` | Same as `/loop` |
+| `/recap` | Show session recap when returning to a session | After being away, get context on what was done |
 | `/rewind` | Rewind to checkpoint | Undo changes, explore alternatives |
 | `/checkpoint` | Manage checkpoints | Save/restore states |
 | `/cost` | Show token usage costs | Monitor spending |
@@ -72,18 +74,21 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/rename` | Rename current session | Organize sessions |
 | `/resume` | Resume previous session | Continue work |
 | `/todo` | View/manage todo list | Track tasks |
+| `/tui` | Toggle fullscreen TUI (text user interface) mode | Flicker-free rendering in fullscreen/tmux |
 | `/tasks` | View background tasks | Monitor async operations |
 | `/copy` | Copy last response to clipboard | Share output quickly |
 | `/teleport` | Transfer session to another machine | Continue work remotely |
 | `/desktop` | Open Claude Desktop app | Switch to desktop interface |
 | `/theme` | Change color theme | Customize appearance |
 | `/usage` | Show API usage statistics | Monitor quota and costs |
+| `/focus` | Toggle focus view (distraction-free output display) | Reduce visual noise during long tasks |
 | `/fork` | Fork current conversation | Explore alternatives |
 | `/stats` | Show session statistics | Review session metrics |
 | `/statusline` | Configure status line | Customize status display |
 | `/stickers` | View session stickers | Fun rewards |
 | `/fast` | Toggle fast output mode | Speed up responses |
 | `/terminal-setup` | Configure terminal integration | Setup terminal features |
+| `/undo` | Alias for `/rewind` | Same as `/rewind` |
 | `/upgrade` | Check for updates | Version management |
 | `/team-onboarding` | Generate a teammate ramp-up guide from this project's Claude Code usage | Onboarding new teammates (v2.1.101) |
 | `/ultraplan` | Hand a planning task to a Claude Code web session in plan mode | Heavy planning offload (Research Preview, v2.1.91+) |
@@ -435,6 +440,11 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 
 | Feature | Description | How to Use |
 |---------|-------------|------------|
+| **/focus** | Toggle focus view for distraction-free output display (v2.1.110) | Run `/focus` to reduce visual noise during long tasks |
+| **/proactive** | Alias for `/loop` — same recurring-task behavior (v2.1.110) | Use `/proactive` interchangeably with `/loop` |
+| **/recap** | Show a session recap when returning to an existing session (v2.1.110) | Run `/recap` after being away to get context on what was done |
+| **/tui** | Toggle fullscreen TUI (text user interface) mode for flicker-free rendering (v2.1.110) | Use `/tui` in fullscreen terminals or tmux |
+| **/undo** | Alias for `/rewind` — reverts to the previous checkpoint (v2.1.110) | Use `/undo` interchangeably with `/rewind` |
 | **Monitor Tool** | Watch a background command's stdout stream and react to events instead of polling (v2.1.98+) | Use the Monitor tool via [Advanced Features](09-advanced-features/) |
 | **/team-onboarding** | Auto-generate a teammate ramp-up guide from the project's Claude Code setup (v2.1.101) | Run `/team-onboarding` in your project |
 | **Ultraplan auto-create** | Cloud environment created automatically on first `/ultraplan` invocation — no manual setup required (v2.1.101) | Use `/ultraplan <prompt>` |
@@ -518,8 +528,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: April 11, 2026
-**Claude Code Version**: 2.1.101
+**Last Updated**: April 16, 2026
+**Claude Code Version**: 2.1.110
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands

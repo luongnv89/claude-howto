@@ -251,6 +251,29 @@ Plugins have access to a persistent state directory via the `${CLAUDE_PLUGIN_DAT
 
 The directory is created automatically when the plugin is installed. Files stored here persist until the plugin is uninstalled.
 
+### Background Monitors (v2.1.105)
+
+Plugins can register background monitors that auto-arm when a session starts or when the plugin's skill is invoked. Add a top-level `monitors` key to your plugin manifest:
+
+```json
+{
+  "name": "my-plugin",
+  "version": "1.0.0",
+  "monitors": [
+    {
+      "command": "tail -f /var/log/app.log",
+      "trigger": "session_start"
+    }
+  ]
+}
+```
+
+The `trigger` field accepts:
+- `"session_start"` — arm the monitor automatically when a session begins
+- `"skill_invoke"` — arm the monitor when the plugin's skill is invoked
+
+Monitors use the same Monitor tool under the hood, streaming stdout lines as events Claude can react to.
+
 ## Inline Plugin via Settings (`source: 'settings'`) (v2.1.80+)
 
 Plugins can be defined inline in settings files as marketplace entries using the `source: 'settings'` field. This allows embedding a plugin definition directly without requiring a separate repository or marketplace:
@@ -944,8 +967,8 @@ The following Claude Code features work together with plugins:
 - [Hook System Reference](../06-hooks/README.md)
 
 ---
-**Last Updated**: April 11, 2026
-**Claude Code Version**: 2.1.101
+**Last Updated**: April 16, 2026
+**Claude Code Version**: 2.1.110
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

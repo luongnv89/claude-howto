@@ -1137,8 +1137,8 @@ graph TD
 - [Hooks Guide](../06-hooks/) - For event-driven automation
 
 ---
-**Last Updated**: April 11, 2026
-**Claude Code Version**: 2.1.101
+**Last Updated**: April 16, 2026
+**Claude Code Version**: 2.1.110
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/agent-teams

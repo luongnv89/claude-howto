@@ -869,8 +869,8 @@ MIT License - see [LICENSE](LICENSE). Free to use, modify, and distribute. The o
 
 ---
 
-**Last Updated**: April 11, 2026
-**Claude Code Version**: 2.1.101
+**Last Updated**: April 16, 2026
+**Claude Code Version**: 2.1.110
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands
