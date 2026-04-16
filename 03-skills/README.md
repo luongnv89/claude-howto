@@ -66,19 +66,20 @@ This means you can install many Skills without context penalty—Claude only kno
 ```mermaid
 sequenceDiagram
     participant User
-    participant Claude as Claude
-    participant System as System
-    participant Skill as Skill
+    participant Claude
+    participant System
+    participant SkillInst as Skill Instructions
+    participant SkillRes as Skill Resources
 
     User->>Claude: "Review this code for security issues"
     Claude->>System: Check available skills (metadata)
     System-->>Claude: Skill descriptions loaded at startup
     Claude->>Claude: Match request to skill description
-    Claude->>Skill: bash: read code-review/SKILL.md
-    Skill-->>Claude: Instructions loaded into context
+    Claude->>SkillInst: Read code-review/SKILL.md
+    SkillInst-->>Claude: Level 2: Instructions loaded
     Claude->>Claude: Determine: Need templates?
-    Claude->>Skill: bash: read templates/checklist.md
-    Skill-->>Claude: Template loaded
+    Claude->>SkillRes: Read templates/checklist.md
+    SkillRes-->>Claude: Level 3: Template loaded
     Claude->>Claude: Execute skill instructions
     Claude->>User: Comprehensive code review
 ```
