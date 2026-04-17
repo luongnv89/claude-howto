@@ -559,6 +559,18 @@ GitHub and git sources support optional `ref` (branch/tag) and `sha` (commit has
 
 **Official marketplace submission**: Submit plugins to the Anthropic-curated marketplace for broader distribution via [claude.ai/settings/plugins/submit](https://claude.ai/settings/plugins/submit) or [platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit).
 
+### Managing Marketplaces
+
+```bash
+# Marketplace CLI commands
+claude plugin marketplace add <source>       # Add marketplace (GitHub, URL, local)
+claude plugin marketplace update [name]      # Refresh catalog index
+claude plugin marketplace remove <name>      # Remove marketplace
+claude plugin marketplace list               # List configured marketplaces
+```
+
+> **Important**: `marketplace update` only refreshes the plugin catalog (what's available to install). It does NOT update installed plugins. Use `plugin update <name>` to update specific installed plugins.
+
 ### Strict mode
 
 Control how marketplace definitions interact with local `plugin.json` files:
@@ -625,6 +637,7 @@ All plugin operations are available as CLI commands:
 ```bash
 claude plugin install <name>@<marketplace>   # Install from a marketplace
 claude plugin uninstall <name>               # Remove a plugin
+claude plugin update <name>                  # Update installed plugin to latest version
 claude plugin list                           # List installed plugins
 claude plugin enable <name>                  # Enable a disabled plugin
 claude plugin disable <name>                 # Disable a plugin
@@ -656,6 +669,36 @@ claude --plugin-dir ./plugin-a --plugin-dir ./plugin-b
 ### From Git Repository
 ```bash
 /plugin install github:username/repo
+```
+
+## Auto-Update
+
+Claude Code can automatically update marketplaces and their installed plugins at startup.
+
+| Marketplace Type | Auto-Update Default | How to Toggle |
+|------------------|---------------------|---------------|
+| Official (`claude-plugins-official`) | ✅ Enabled | `/plugin` → Marketplaces → Select |
+| Third-party / Local | ❌ Disabled | Same UI path |
+
+When auto-update runs, Claude Code:
+1. Refreshes marketplace catalog
+2. Updates installed plugins to latest versions
+3. Shows notification prompting `/reload-plugins`
+
+### Environment Variables
+
+| Variable | Effect |
+|----------|--------|
+| `DISABLE_AUTOUPDATER=1` | Disable all auto-updates (Claude Code + plugins) |
+| `DISABLE_AUTOUPDATER=1` + `FORCE_AUTOUPDATE_PLUGINS=1` | Keep plugin updates, disable Claude Code updates |
+
+```bash
+# Disable all auto-updates
+export DISABLE_AUTOUPDATER=1
+
+# Keep plugin auto-updates only
+export DISABLE_AUTOUPDATER=1
+export FORCE_AUTOUPDATE_PLUGINS=1
 ```
 
 ## When to Create a Plugin
