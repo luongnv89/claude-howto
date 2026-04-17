@@ -257,7 +257,7 @@ claude --effort high "complex architectural review"
 ### Example: Architectural Decision
 
 ```
-User: /think Should we use microservices or a monolith for our e-commerce platform?
+User: ultrathink Should we use microservices or a monolith for our e-commerce platform?
 
 Claude: Let me think through this architectural decision carefully...
 
