@@ -51,6 +51,9 @@ yarn-error.log*
 !.claude/skills/lesson-quiz/
 blog-posts/
 
+# Local progress tracker — HTML ships in repo, but exported JSON data files stay local
+local-progress/*.json
+
 # EPUB files in root directory
 /*.epub
 

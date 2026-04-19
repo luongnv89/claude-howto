@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code — Learning Progress</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3350;
+      --accent: #6c8cff;
+      --accent2: #4ade80;
+      --text: #e2e8f0;
+      --muted: #8892b0;
+      --done: #4ade80;
+      --radius: 10px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    header {
+      max-width: 860px;
+      margin: 0 auto 2.5rem;
+    }
+
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 0.4rem;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    button, .import-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+
+    button:hover, .import-label:hover {
+      background: var(--border);
+      border-color: var(--accent);
+    }
+
+    #reset-btn { color: #f87171; border-color: #3a1e1e; }
+    #reset-btn:hover { background: #3a1e1e; border-color: #f87171; }
+
+    input[type="file"] { display: none; }
+
+    .progress-bar-wrap {
+      max-width: 860px;
+      margin: 0 auto 1.75rem;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-meta span.pct { color: var(--accent2); font-weight: 700; font-size: 1rem; }
+
+    .bar-track {
+      height: 8px;
+      background: var(--surface2);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .module {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .module.complete { border-color: #1a3a2a; }
+
+    .module-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .module-header:hover { background: var(--surface2); }
+
+    .module-num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 2px 7px;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+
+    .module.complete .module-num {
+      background: #0f2d1f;
+      border-color: #1a3a2a;
+      color: var(--done);
+    }
+
+    .module-title {
+      font-weight: 600;
+      font-size: 0.97rem;
+      flex: 1;
+    }
+
+    .module-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .module-chevron {
+      color: var(--muted);
+      font-size: 0.8rem;
+      transition: transform 0.2s;
+    }
+
+    .module.open .module-chevron { transform: rotate(90deg); }
+
+    .module-body {
+      display: none;
+      padding: 0 1.25rem 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .module.open .module-body { display: block; }
+
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+
+    .item:hover { background: var(--surface2); border-color: var(--border); }
+    .item.checked { background: #0f2d1f; border-color: #1a3a2a; }
+
+    .item input[type="checkbox"] {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.12s, border-color 0.12s;
+    }
+
+    .item input[type="checkbox"]:checked {
+      background: var(--done);
+      border-color: var(--done);
+    }
+
+    .item input[type="checkbox"]:checked::after {
+      content: "✓";
+      position: absolute;
+      color: #0f1117;
+      font-size: 10px;
+      font-weight: 900;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .item-label {
+      font-size: 0.83rem;
+      line-height: 1.3;
+      color: var(--text);
+    }
+
+    .item.checked .item-label { color: var(--done); }
+
+    .notes-wrap {
+      margin-top: 1rem;
+    }
+
+    .notes-wrap label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.83rem;
+      font-family: inherit;
+      padding: 0.6rem 0.75rem;
+      resize: vertical;
+      min-height: 70px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    textarea:focus { border-color: var(--accent); }
+
+    .mod-progress-bar {
+      margin-top: 0.75rem;
+      height: 4px;
+      background: var(--surface2);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .mod-progress-fill {
+      height: 100%;
+      background: var(--done);
+      border-radius: 99px;
+      transition: width 0.3s ease;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--surface2);
+      border: 1px solid var(--accent);
+      color: var(--text);
+      padding: 0.65rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    .last-saved {
+      font-size: 0.75rem;
+      color: var(--muted);
+      align-self: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Claude Code — Learning Progress</h1>
+  <p>10 modules · Progress stored in browser localStorage · Export to back up</p>
+  <div class="toolbar">
+    <button id="export-btn">Export JSON</button>
+    <label class="import-label" for="import-file">Import JSON</label>
+    <input type="file" id="import-file" accept=".json">
+    <button id="reset-btn">Reset All</button>
+    <span class="last-saved" id="last-saved"></span>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-meta">
+    <span>Overall progress</span>
+    <span class="pct" id="overall-pct">0%</span>
+  </div>
+  <div class="bar-track"><div class="bar-fill" id="overall-bar" style="width:0%"></div></div>
+</div>
+
+<main id="modules-container"></main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = 'claude-howto-progress';
+
+const MODULES = [
+  {
+    id: '01-slash-commands',
+    num: '01',
+    title: 'Slash Commands',
+    subtitle: '~30 min · Quick productivity shortcuts',
+    items: [
+      'Read module README',
+      '/optimize — code performance analysis',
+      '/pr — pull request preparation',
+      '/commit — commit message helper',
+      '/generate-api-docs — API documentation',
+      '/setup-ci-cd — CI/CD pipeline setup',
+      '/push-all — push all changes workflow',
+      '/unit-test-expand — unit test coverage',
+      '/doc-refactor — documentation refactoring',
+      'Create your own slash command',
+    ],
+  },
+  {
+    id: '02-memory',
+    num: '02',
+    title: 'Memory & CLAUDE.md',
+    subtitle: '~45 min · Persistent context across sessions',
+    items: [
+      'Read module README',
+      'Understand project-level CLAUDE.md',
+      'Understand directory-level CLAUDE.md',
+      'Understand personal CLAUDE.md',
+      'Create a project CLAUDE.md for your own project',
+      'Create a directory-specific CLAUDE.md',
+      'Test memory persistence across sessions',
+    ],
+  },
+  {
+    id: '03-skills',
+    num: '03',
+    title: 'Skills',
+    subtitle: '~1 hour · Reusable auto-invoked capabilities',
+    items: [
+      'Read module README',
+      'code-review skill',
+      'brand-voice skill',
+      'doc-generator skill',
+      'refactor skill',
+      'claude-md skill',
+      'blog-draft skill',
+      'Create a custom skill for your workflow',
+    ],
+  },
+  {
+    id: '04-subagents',
+    num: '04',
+    title: 'Subagents',
+    subtitle: '~1.5 hours · Specialized AI assistants',
+    items: [
+      'Read module README',
+      'code-reviewer agent',
+      'test-engineer agent',
+      'documentation-writer agent',
+      'secure-reviewer agent',
+      'implementation-agent',
+      'debugger agent',
+      'data-scientist agent',
+      'clean-code-reviewer agent',
+      'Run your first subagent task',
+    ],
+  },
+  {
+    id: '05-mcp',
+    num: '05',
+    title: 'MCP Integrations',
+    subtitle: '~1 hour · Model Context Protocol',
+    items: [
+      'Read module README',
+      'github-mcp config',
+      'database-mcp config',
+      'filesystem-mcp config',
+      'multi-mcp combined config',
+      'Install and test one MCP server',
+    ],
+  },
+  {
+    id: '06-hooks',
+    num: '06',
+    title: 'Hooks',
+    subtitle: '~1 hour · Event-driven automation',
+    items: [
+      'Read module README',
+      'format-code.sh — auto-format on write',
+      'pre-commit.sh — run tests before commit',
+      'security-scan.sh — vulnerability scanning',
+      'log-bash.sh — command logging',
+      'validate-prompt.sh — input validation',
+      'notify-team.sh — team notifications',
+      'context-tracker.py — context monitoring',
+      'Install a hook in settings.json',
+      'Observe hook firing in a session',
+    ],
+  },
+  {
+    id: '07-plugins',
+    num: '07',
+    title: 'Plugins',
+    subtitle: '~2 hours · Bundled feature collections',
+    items: [
+      'Read module README',
+      'pr-review plugin — complete PR workflow',
+      'devops-automation plugin — Kubernetes deploy',
+      'documentation plugin — API docs generation',
+      'Understand plugin.json structure',
+      'Create a minimal plugin',
+    ],
+  },
+  {
+    id: '08-checkpoints',
+    num: '08',
+    title: 'Checkpoints',
+    subtitle: '~45 min · Session snapshots & recovery',
+    items: [
+      'Read module README',
+      'Read checkpoint-examples.md',
+      'Create a checkpoint mid-task',
+      'Restore from a checkpoint',
+      'Use checkpoints for risky operations',
+    ],
+  },
+  {
+    id: '09-advanced-features',
+    num: '09',
+    title: 'Advanced Features',
+    subtitle: '~2–3 hours · Power user capabilities',
+    items: [
+      'Read module README',
+      'Study config-examples.json (10+ configs)',
+      'planning-mode-examples — REST API planning',
+      'planning-mode-examples — migration planning',
+      'planning-mode-examples — refactoring',
+      'Use Plan mode on a real task',
+      'Try extended thinking mode',
+    ],
+  },
+  {
+    id: '10-cli',
+    num: '10',
+    title: 'CLI Mastery',
+    subtitle: '~30 min + advanced · Command-line interface',
+    items: [
+      'Read module README',
+      'Learn key CLI flags (--print, --output-format)',
+      'Non-interactive / scripted usage',
+      'Pipe input/output patterns',
+      'Chain Claude Code in shell scripts',
+      'Integrate with CI/CD pipeline',
+    ],
+  },
+];
+
+// ── State ──────────────────────────────────────────────────────────────────
+
+function loadState() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  } catch { return {}; }
+}
+
+function saveState(state) {
+  state._savedAt = new Date().toISOString();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateLastSaved(state._savedAt);
+}
+
+function updateLastSaved(iso) {
+  if (!iso) return;
+  const el = document.getElementById('last-saved');
+  const d = new Date(iso);
+  el.textContent = `Last saved ${d.toLocaleDateString()} ${d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}`;
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+
+function render() {
+  const state = loadState();
+  const container = document.getElementById('modules-container');
+  container.innerHTML = '';
+
+  MODULES.forEach(mod => {
+    const modState = state[mod.id] || { checked: {}, notes: '' };
+    const total = mod.items.length;
+    const done = mod.items.filter((_, i) => modState.checked[i]).length;
+    const pct = total ? Math.round(done / total * 100) : 0;
+    const isComplete = pct === 100;
+    const isOpen = state[`_open_${mod.id}`];
+
+    const div = document.createElement('div');
+    div.className = `module${isComplete ? ' complete' : ''}${isOpen ? ' open' : ''}`;
+    div.dataset.id = mod.id;
+
+    div.innerHTML = `
+      <div class="module-header">
+        <span class="module-num">${mod.num}</span>
+        <div style="flex:1">
+          <div class="module-title">${mod.title}</div>
+          <div class="module-sub">${mod.subtitle} · ${done}/${total} done</div>
+        </div>
+        <span class="module-chevron">▶</span>
+      </div>
+      <div class="module-body">
+        <div class="mod-progress-bar">
+          <div class="mod-progress-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="items-grid">
+          ${mod.items.map((item, i) => `
+            <label class="item${modState.checked[i] ? ' checked' : ''}" data-idx="${i}">
+              <input type="checkbox" ${modState.checked[i] ? 'checked' : ''} data-mod="${mod.id}" data-idx="${i}">
+              <span class="item-label">${item}</span>
+            </label>
+          `).join('')}
+        </div>
+        <div class="notes-wrap">
+          <label>Notes</label>
+          <textarea data-mod="${mod.id}" placeholder="Your notes for this module…">${modState.notes || ''}</textarea>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+
+  updateOverall(state);
+  updateLastSaved(state._savedAt);
+  bindEvents();
+}
+
+function updateOverall(state) {
+  let total = 0, done = 0;
+  MODULES.forEach(mod => {
+    const modState = state[mod.id] || { checked: {} };
+    total += mod.items.length;
+    done += mod.items.filter((_, i) => modState.checked[i]).length;
+  });
+  const pct = total ? Math.round(done / total * 100) : 0;
+  document.getElementById('overall-pct').textContent = `${pct}%`;
+  document.getElementById('overall-bar').style.width = `${pct}%`;
+}
+
+// ── Events ─────────────────────────────────────────────────────────────────
+
+function bindEvents() {
+  document.querySelectorAll('.module-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const mod = header.closest('.module');
+      const id = mod.dataset.id;
+      const state = loadState();
+      state[`_open_${id}`] = !mod.classList.contains('open');
+      saveState(state);
+      mod.classList.toggle('open');
+      mod.querySelector('.module-chevron').style.transform =
+        mod.classList.contains('open') ? 'rotate(90deg)' : '';
+    });
+  });
+
+  document.querySelectorAll('input[type="checkbox"][data-mod]').forEach(cb => {
+    cb.addEventListener('change', e => {
+      e.stopPropagation();
+      const { mod, idx } = cb.dataset;
+      const state = loadState();
+      if (!state[mod]) state[mod] = { checked: {}, notes: '' };
+      state[mod].checked[idx] = cb.checked;
+      saveState(state);
+      const label = cb.closest('.item');
+      label.classList.toggle('checked', cb.checked);
+
+      // update sub-counts without full re-render
+      const modEl = cb.closest('.module');
+      const modDef = MODULES.find(m => m.id === mod);
+      const modState = state[mod];
+      const done = modDef.items.filter((_, i) => modState.checked[i]).length;
+      const total = modDef.items.length;
+      const pct = Math.round(done / total * 100);
+      modEl.querySelector('.module-sub').textContent =
+        `${modDef.subtitle} · ${done}/${total} done`;
+      modEl.querySelector('.mod-progress-fill').style.width = `${pct}%`;
+      const isComplete = pct === 100;
+      modEl.classList.toggle('complete', isComplete);
+      const numEl = modEl.querySelector('.module-num');
+      numEl.style.color = isComplete ? 'var(--done)' : '';
+
+      updateOverall(state);
+    });
+  });
+
+  document.querySelectorAll('textarea[data-mod]').forEach(ta => {
+    ta.addEventListener('input', () => {
+      const mod = ta.dataset.mod;
+      const state = loadState();
+      if (!state[mod]) state[mod] = { checked: {}, notes: '' };
+      state[mod].notes = ta.value;
+      saveState(state);
+    });
+  });
+}
+
+// ── Toolbar ────────────────────────────────────────────────────────────────
+
+document.getElementById('export-btn').addEventListener('click', () => {
+  const state = loadState();
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `claude-howto-progress-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  showToast('Progress exported — save the file as ~/.claude-howto-progress.json');
+});
+
+document.getElementById('import-file').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      render();
+      showToast('Progress imported successfully');
+    } catch {
+      showToast('Error: invalid JSON file');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  if (!confirm('Reset ALL progress? This cannot be undone.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  render();
+  showToast('Progress reset');
+});
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+
+render();
+</script>
+</body>
+</html>
