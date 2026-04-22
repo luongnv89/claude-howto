@@ -61,6 +61,7 @@ def strip_code_blocks(content: str) -> str:
 
 def main() -> int:
     errors: list[str] = []
+    repo_root = Path().resolve()
 
     for file_path in iter_md_files():
         content = file_path.read_text(encoding="utf-8")
@@ -68,12 +69,13 @@ def main() -> int:
         # from documentation examples inside code fences.
         scannable = strip_code_blocks(content)
 
-        # Relative .md links must resolve
-        errors.extend(
-            f"{file_path}: broken cross-reference → '{link_path}'"
-            for link_path in re.findall(r"\[[^\]]+\]\(([^)#]+\.md)[^)]*\)", scannable)
-            if not (file_path.parent / link_path).resolve().exists()
-        )
+        # Relative .md links must resolve and must stay within the repo root
+        for link_path in re.findall(r"\[[^\]]+\]\(([^)#]+\.md)[^)]*\)", scannable):
+            resolved = (file_path.parent / link_path).resolve()
+            if not resolved.is_relative_to(repo_root):
+                continue
+            if not resolved.exists():
+                errors.append(f"{file_path}: broken cross-reference → '{link_path}'")
 
         # In-page anchors must match a real heading
         anchors = re.findall(r"\[[^\]]+\]\(#([^)]+)\)", scannable)
