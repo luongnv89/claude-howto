@@ -1,7 +1,7 @@
 ---
 name: security-reviewer
 description: 面向安全的代码审查
-tools: read, grep, diff
+tools: read, grep, bash
 ---
 
 # 安全审查员

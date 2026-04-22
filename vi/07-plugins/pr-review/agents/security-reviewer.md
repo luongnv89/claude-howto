@@ -1,7 +1,7 @@
 ---
 name: security-reviewer
 description: Security-focused code review
-tools: read, grep, diff
+tools: read, grep, bash
 ---
 
 # Security Reviewer
