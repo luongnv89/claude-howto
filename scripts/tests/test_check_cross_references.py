@@ -49,3 +49,13 @@ def test_valid_in_repo_link_passes(
 
     assert check_cross_references.main() == 0
     assert "All cross-references valid" in capsys.readouterr().out
+
+
+def test_numbered_lesson_dir_missing_readme_is_reported(
+    repo: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    (repo / "README.md").write_text("# Doc")
+    (repo / "01-intro").mkdir()
+
+    assert check_cross_references.main() == 1
+    assert "01-intro: missing README.md" in capsys.readouterr().out
