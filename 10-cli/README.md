@@ -24,6 +24,18 @@ graph TD
     G -->|text/json/stream-json| H["Terminal/Pipe"]
 ```
 
+## Runtime & Packaging
+
+Since **v2.1.113**, the Claude Code CLI launches a **native per-platform binary** (macOS, Linux, Windows) via optional npm dependencies. The binary is matched to your OS and architecture at install time — the older bundled-JavaScript runtime is no longer the default on macOS or Linux.
+
+The **user-facing install is unchanged**: `npm install -g @anthropic-ai/claude-code` still works and remains the recommended path. Behind the scenes npm fetches the correct native binary for your platform.
+
+**Download host** (v2.1.116+): native-binary artifacts are served from `https://downloads.claude.ai/claude-code-releases`.
+
+> **Corporate / proxy users**: If your network requires an explicit allowlist, add `downloads.claude.ai` (and `https://downloads.claude.ai/claude-code-releases`) to your proxy egress rules. Environments that previously allowlisted only `storage.googleapis.com` or the npm registry will need to be updated or `claude update` and the initial install will fail.
+
+The older JavaScript bundle is still produced for Windows and for environments that pin to it; those installs continue to ship Glob and Grep as first-class tools (see the Glob/Grep footnote under [Tools](#tool--permission-management)).
+
 ## CLI Commands
 
 | Command | Description | Example |
@@ -36,12 +48,15 @@ graph TD
 | `claude -c -p "query"` | Continue in print mode | `claude -c -p "check for type errors"` |
 | `claude -r "<session>" "query"` | Resume session by ID or name | `claude -r "auth-refactor" "finish this PR"` |
 | `claude update` | Update to latest version | `claude update` |
+| `/doctor` (slash command) | Diagnose installation, config, and plugin health. Since v2.1.116 it can be opened **while Claude is responding**, shows status icons inline, and accepts the `f` keypress to auto-fix detected issues | run `/doctor` inside the REPL |
 | `claude mcp` | Configure MCP servers | See [MCP documentation](../05-mcp/) |
 | `claude mcp serve` | Run Claude Code as an MCP server | `claude mcp serve` |
 | `claude agents` | List all configured subagents | `claude agents` |
 | `claude auto-mode defaults` | Print auto mode default rules as JSON | `claude auto-mode defaults` |
 | `claude remote-control` | Start Remote Control server | `claude remote-control` |
 | `claude plugin` | Manage plugins (install, enable, disable) | `claude plugin install my-plugin` |
+| `claude plugin tag <version>` | Create a release git tag for a plugin with version validation (v2.1.118+) | `claude plugin tag v0.3.0` |
+| `claude install [version]` | Install a specific native-binary version. Accepts `stable`, `latest`, or an explicit version string | `claude install 2.1.119` |
 | `claude auth login` | Log in (supports `--email`, `--sso`) | `claude auth login --email user@example.com` |
 | `claude auth logout` | Log out of current account | `claude auth logout` |
 | `claude auth status` | Check auth status (exit 0 if logged in, 1 if not) | `claude auth status` |
@@ -56,7 +71,7 @@ graph TD
 | `-v, --version` | Output version number | `claude -v` |
 | `-w, --worktree` | Start in isolated git worktree | `claude -w` |
 | `-n, --name` | Session display name | `claude -n "auth-refactor"` |
-| `--from-pr <number>` | Resume sessions linked to GitHub PR | `claude --from-pr 42` |
+| `--from-pr <url-or-number>` | Resume sessions linked to a pull/merge request. Accepts GitHub (cloud + Enterprise), GitLab MR, and Bitbucket PR URLs since v2.1.119; previously GitHub.com only | `claude --from-pr 42` or `claude --from-pr https://gitlab.example.com/org/repo/-/merge_requests/17` |
 | `--remote "task"` | Create web session on claude.ai | `claude --remote "implement API"` |
 | `--remote-control, --rc` | Interactive session with Remote Control | `claude --rc` |
 | `--teleport` | Resume web session locally | `claude --teleport` |
@@ -175,6 +190,10 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | `--permission-prompt-tool` | MCP tool for permission handling | `claude -p --permission-prompt-tool mcp_auth "query"` |
 | `--enable-auto-mode` | Unlock auto permission mode | `claude --enable-auto-mode` |
 
+> **Glob / Grep footnote (v2.1.113+)**: On native macOS/Linux builds, `Glob` and `Grep` are provided as the embedded `bfs` and `ugrep` binaries invoked through the Bash tool rather than as separate first-class tools. Windows and npm-bundled (JS) installs still expose them as standalone tools. For subagent `allowedTools` / `disallowedTools` lists the backend substitution is transparent — you can keep referring to `Glob` / `Grep` in your configuration on every platform.
+
+> **PowerShell auto-approve (v2.1.119)**: PowerShell tool commands can be auto-approved in permission mode exactly the same way Bash commands are. Use the same matcher syntax you already use for `Bash(...)` rules to scope PowerShell permissions — for example, `PowerShell(Get-ChildItem:*)`.
+
 ### Permission Examples
 
 ```bash
@@ -225,6 +244,8 @@ claude -p --json-schema '{"type":"object","properties":{"bugs":{"type":"array"}}
 |------|-------------|---------|
 | `--add-dir` | Add additional working directories | `claude --add-dir ../apps ../lib` |
 | `--setting-sources` | Comma-separated setting sources | `claude --setting-sources user,project` |
+
+> **`/config` persistence (v2.1.119)**: Changes made interactively via the `/config` command are now written to `~/.claude/settings.json` and participate in the normal precedence chain (project → local → policy → user). Before v2.1.119, some `/config` changes were session-only. See [Memory & Settings](../02-memory/README.md) for the full precedence order.
 | `--settings` | Load settings from file or JSON | `claude --settings ./settings.json` |
 | `--plugin-dir` | Load plugins from directory (repeatable) | `claude --plugin-dir ./my-plugin` |
 
@@ -664,8 +685,8 @@ Claude Code supports multiple models with different capabilities:
 
 | Model | ID | Context Window | Notes |
 |-------|-----|----------------|-------|
-| Opus 4.7 | `claude-opus-4-7` | 1M tokens | Most capable, adaptive effort levels |
-| Sonnet 4.6 | `claude-sonnet-4-6` | 1M tokens | Balanced speed and capability |
+| Opus 4.7 | `claude-opus-4-7` | 1M tokens (1M context fix landed in v2.1.117) | Most capable, adaptive effort levels; `xhigh` is the default effort on Claude Code since Opus 4.7 launch (2026-04-16) |
+| Sonnet 4.6 | `claude-sonnet-4-6` | 1M tokens | Balanced speed and capability; default effort for Pro/Max subscribers raised from `medium` to `high` in v2.1.117 |
 | Haiku 4.5 | `claude-haiku-4-5` | 1M tokens | Fastest, best for quick tasks |
 
 ### Model Selection
@@ -685,7 +706,7 @@ claude --model opusplan "design and implement the API"
 
 ### Effort Levels (Opus 4.7)
 
-Opus 4.7 supports adaptive reasoning with effort levels, ordered from lightest to heaviest: `low` (○), `medium` (◐), `high` (●), `xhigh` (new in v2.1.111), and `max` (Opus 4.7 only). The default on Opus 4.7 is `xhigh`.
+Opus 4.7 supports adaptive reasoning with effort levels, ordered from lightest to heaviest: `low` (○), `medium` (◐), `high` (●), `xhigh` (default on Claude Code since Opus 4.7 launch, 2026-04-16), and `max` (Opus 4.7 only). On Opus 4.6 / Sonnet 4.6, the default effort for Pro/Max subscribers was raised from `medium` to `high` in v2.1.117.
 
 ```bash
 # Set effort level via CLI flag
@@ -736,6 +757,12 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `max` effort l
 | `ENABLE_TOOL_SEARCH` | Enable tool search capability |
 | `MAX_MCP_OUTPUT_TOKENS` | Maximum tokens for MCP tool output |
 | `CLAUDE_CODE_PERFORCE_MODE` | Set to `1` to enable Perforce mode — treats files as read-only by default (for Perforce/P4 version control workflows) (added v2.1.98) |
+| `DISABLE_UPDATES` | Blocks all update paths including manual `claude update`. Stricter than `DISABLE_AUTOUPDATER`, which only blocks the background autoupdater (v2.1.118+) |
+| `CLAUDE_CODE_HIDE_CWD` | When set to `1`, hides the current working directory in the startup logo (privacy / screen-share use) (v2.1.119+) |
+| `CLAUDE_CODE_FORK_SUBAGENT` | Set to `1` to enable forked subagents on external builds (Bedrock, Vertex, Foundry). No effect on Anthropic API where forked subagents are GA (v2.1.117+) |
+| `OTEL_LOG_TOOL_DETAILS` | Set to `1` to unredact custom and MCP command names in OpenTelemetry events (v2.1.117+). Redaction remains the default. |
+
+> **`ENABLE_TOOL_SEARCH` on Vertex AI (v2.1.119+)**: Tool search is **disabled by default on Google Cloud Vertex AI** deployments. Users who want the tool-search capability on Vertex must explicitly opt in with `export ENABLE_TOOL_SEARCH=true`. On direct Anthropic API it remains enabled by default.
 
 ---
 
@@ -841,10 +868,16 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code
+- https://code.claude.com/docs/en/cli-reference
+- https://code.claude.com/docs/en/settings
+- https://code.claude.com/docs/en/changelog
 - https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.113
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.116
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.117
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.118
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.119
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

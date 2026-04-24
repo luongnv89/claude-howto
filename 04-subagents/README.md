@@ -133,6 +133,44 @@ to solving problems.
 | `isolation` | No | Set to `worktree` to give the subagent its own git worktree |
 | `initialPrompt` | No | Auto-submitted first turn when the subagent runs as the main agent |
 
+### Main-Thread Agent Frontmatter Honoring (v2.1.117+/v2.1.119+)
+
+When an agent is invoked as the main-thread agent (via `claude --agent <name>` or `--print` mode), these frontmatter fields are honored:
+
+| Field | Version | Notes |
+|-------|---------|-------|
+| `mcpServers` | v2.1.117+ | Loaded when agent is invoked as main-thread agent via `claude --agent <name>` |
+| `permissionMode` | v2.1.119+ | Honored for built-in agents via `--agent <name>` |
+| `tools` / `disallowedTools` | v2.1.119+ | Honored in `--print` mode (non-interactive/scripted usage) |
+
+**Example — agent with `mcpServers` and `permissionMode`:**
+
+```yaml
+---
+name: secure-researcher
+description: Research agent with scoped MCP access and restricted permissions
+permissionMode: acceptEdits
+mcpServers:
+  notion:
+    type: http
+    url: https://mcp.notion.com/mcp
+  github:
+    type: http
+    url: https://api.github.com/mcp
+tools: Read, Grep, Glob
+---
+
+You are a research agent. You may query Notion and GitHub through the
+configured MCP servers, and read local files, but you cannot write or
+execute commands outside of accepted edits.
+```
+
+Run with:
+
+```bash
+claude --agent secure-researcher
+```
+
 ### Tool Configuration Options
 
 **Option 1: Inherit All Tools (omit the field)**
@@ -151,6 +189,8 @@ description: Agent with specific tools only
 tools: Read, Grep, Glob, Bash
 ---
 ```
+
+> **Note on Glob/Grep (v2.1.113+):** On native macOS/Linux builds, Glob and Grep are provided as `bfs`/`ugrep` through the Bash tool rather than as separate tools. Windows and npm-JS builds still expose them as standalone tools. Authors can still reference Glob/Grep in `allowedTools`; the backend substitution is transparent.
 
 **Option 3: Conditional Tool Access**
 ```yaml
@@ -526,6 +566,45 @@ graph TB
 - The subagent operates in its own git worktree on a separate branch
 - If the subagent makes no changes, the worktree is automatically cleaned up
 - If changes exist, the worktree path and branch name are returned to the main agent for review or merging
+
+---
+
+## Forked Subagents
+
+Forked subagents (`context: fork`) inherit the parent agent's full conversation context at the moment of forking, rather than starting with a clean slate. This is useful for exploring alternative paths without losing the work done so far.
+
+> **Availability**: GA in v2.1.117. On external builds (non-first-party distributions), set `CLAUDE_CODE_FORK_SUBAGENT=1` to enable forking.
+
+### Configuration
+
+```yaml
+---
+name: alternative-explorer
+description: Explore an alternative implementation path while preserving parent context
+context: fork
+tools: Read, Edit, Bash, Grep, Glob
+---
+
+You are a forked subagent. You inherit the parent's full conversation and
+may explore an alternative approach. Return your findings and the parent
+will decide whether to adopt them.
+```
+
+### Enabling on External Builds
+
+```bash
+export CLAUDE_CODE_FORK_SUBAGENT=1
+claude
+```
+
+### When to Use Fork vs Clean Context
+
+| Scenario | `context: fork` | Clean context (default) |
+|----------|-----------------|-------------------------|
+| Explore alternative implementations | Yes | No (would lose context) |
+| Long research with existing context | Yes | No |
+| Independent specialized task | No | Yes |
+| Avoiding context pollution | No | Yes |
 
 ---
 
@@ -1137,12 +1216,12 @@ graph TD
 - [Hooks Guide](../06-hooks/) - For event-driven automation
 
 ---
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code
-- https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
-- https://docs.anthropic.com/en/docs/claude-code/sub-agents
+- https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/agent-teams
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.117
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.119
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

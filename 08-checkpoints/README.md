@@ -221,6 +221,15 @@ The only checkpoint-related setting is `cleanupPeriodDays`, which controls how l
 
 - `cleanupPeriodDays`: Number of days to retain session history and checkpoints (default: `30`)
 
+> **v2.1.117 update**: `cleanupPeriodDays` now governs retention for four on-disk caches, not just checkpoints:
+>
+> - Session checkpoints
+> - `~/.claude/tasks/` — persistent task lists
+> - `~/.claude/shell-snapshots/` — captured shell-environment snapshots
+> - `~/.claude/backups/` — rolling setting / CLAUDE.md backups
+>
+> A single setting now prunes all four directories uniformly after the same number of days.
+
 ## Limitations
 
 Checkpoints have the following limitations:
@@ -316,10 +325,10 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 
 ---
 
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code/checkpointing
-- https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
+- https://code.claude.com/docs/en/checkpointing
+- https://code.claude.com/docs/en/settings
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

@@ -739,6 +739,19 @@ Skill descriptions are loaded at **1% of the context window** (fallback: **8,000
 - **Tool misuse**: Malicious Skills can invoke tools in harmful ways
 - **Treat like installing software**: Only use Skills from trusted sources
 
+### Disabling shell substitution in skills
+
+Skills support the `` !`command` `` syntax to inject the output of shell commands into the prompt before Claude sees it. In security-sensitive environments (shared enterprise deployments, locked-down CI runners) you can disable this substitution entirely via the `disableSkillShellExecution` setting (added in **v2.1.91**):
+
+```jsonc
+// ~/.claude/settings.json or managed policy
+{
+  "disableSkillShellExecution": true
+}
+```
+
+When `disableSkillShellExecution` is `true`, any `` !`command` `` markers in a skill are left as literal text instead of being executed — removing the skill-level shell-injection attack surface without disabling skills themselves. Consider combining this with an `allowedTools` allowlist for defense in depth.
+
 ## Skills vs Other Features
 
 | Feature | Invocation | Best For |
@@ -806,11 +819,10 @@ Once you start building skills seriously, two things become essential: a library
 - [Hooks Guide](../06-hooks/) - Event-driven automation
 
 ---
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code
-- https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
-- https://docs.anthropic.com/en/docs/claude-code/skills
+- https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/settings
+- https://code.claude.com/docs/en/changelog
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

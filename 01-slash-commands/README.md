@@ -25,7 +25,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/add-dir <path>` | Add working directory |
 | `/agents` | Manage agent configurations |
 | `/branch [name]` | Branch conversation into a new session (alias: `/fork`). Note: `/fork` renamed to `/branch` in v2.1.77 |
-| `/btw <question>` | Side question without adding to history |
+| `/btw <question>` | Ask an ephemeral side question while Claude is working on the main task; doesn't pollute the main conversation context |
 | `/chrome` | Configure Chrome browser integration |
 | `/clear` | Clear conversation (aliases: `/reset`, `/new`) |
 | `/color [color\|default]` | Set prompt bar color |
@@ -33,10 +33,10 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/config` | Open Settings (alias: `/settings`) |
 | `/context` | Visualize context usage as colored grid |
 | `/copy [N]` | Copy assistant response to clipboard; `w` writes to file |
-| `/cost` | Show token usage statistics |
+| `/cost` | Typing-shortcut alias for `/usage` — opens the cost tab (v2.1.118+) |
 | `/desktop` | Continue in Desktop app (alias: `/app`) |
 | `/diff` | Interactive diff viewer for uncommitted changes |
-| `/doctor` | Diagnose installation health |
+| `/doctor` | Diagnose installation health — openable while Claude is responding; shows status icons; press `f` to auto-fix issues (enhanced in v2.1.116) |
 | `/effort [low\|medium\|high\|xhigh\|max\|auto]` | Set effort level via interactive arrow-key slider. Levels: `low` → `medium` → `high` → `xhigh` (new in v2.1.111) → `max`. Default is `xhigh` on Opus 4.7; `max` requires Opus 4.7 |
 | `/exit` | Exit the REPL (alias: `/quit`) |
 | `/export [filename]` | Export the current conversation to a file or clipboard |
@@ -79,20 +79,20 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/schedule [description]` | Create/manage Cloud scheduled tasks |
 | `/security-review` | Analyze branch for security vulnerabilities |
 | `/skills` | List available skills |
-| `/stats` | Visualize daily usage, sessions, streaks |
+| `/stats` | Typing-shortcut alias for `/usage` — opens the stats tab (daily usage, sessions, streaks) (v2.1.118+) |
 | `/stickers` | Order Claude Code stickers |
 | `/status` | Show version, model, account |
 | `/statusline` | Configure status line |
 | `/tasks` | List/manage background tasks |
 | `/team-onboarding` | Generate a teammate ramp-up guide from the project's Claude Code setup (new in v2.1.101) |
 | `/terminal-setup` | Configure terminal keybindings |
-| `/theme` | Change color theme |
+| `/theme` | Open theme picker / manage custom themes (v2.1.118). Define custom themes via JSON in `~/.claude/themes/<name>.json` |
 | `/tui` | Toggle fullscreen TUI (text user interface) mode with flicker-free rendering (added v2.1.110) |
 | `/ultraplan <prompt>` | Draft plan in ultraplan session, review in browser |
 | `/ultrareview` | Comprehensive cloud-based code review with multi-agent analysis (added v2.1.111) |
 | `/undo` | Alias for `/rewind` (added v2.1.108) |
 | `/upgrade` | Open upgrade page for higher plan tier |
-| `/usage` | Show plan usage limits and rate limit status |
+| `/usage` | Canonical usage dashboard (v2.1.118) — combines plan usage limits, rate limits, cost, and daily session stats. `/cost` and `/stats` are typing-shortcut aliases that open specific tabs |
 | `/voice` | Toggle push-to-talk voice dictation |
 
 ### Bundled Skills
@@ -601,12 +601,14 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code/slash-commands
-- https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
+- https://code.claude.com/docs/en/slash-commands
+- https://code.claude.com/docs/en/interactive-mode
+- https://code.claude.com/docs/en/changelog
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.118
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.116
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
 
 *Part of the [Claude How To](../) guide series*

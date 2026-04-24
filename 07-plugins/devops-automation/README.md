@@ -105,3 +105,12 @@ Result:
 🚀 Pods: 3/3 ready
 ⏱️  Time: 2m 34s
 ```
+
+---
+
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
+**Sources**:
+- https://code.claude.com/docs/en/plugins
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.119
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

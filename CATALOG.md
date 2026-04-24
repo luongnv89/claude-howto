@@ -20,7 +20,7 @@
 | **Skills** | 5 bundled | 4 | 9 | [03-skills/](03-skills/) |
 | **Plugins** | - | 3 | 3 | [07-plugins/](07-plugins/) |
 | **MCP Servers** | 1 | 8 | 9 | [05-mcp/](05-mcp/) |
-| **Hooks** | 25 events | 8 | 8 | [06-hooks/](06-hooks/) |
+| **Hooks** | 28 events | 8 | 8 | [06-hooks/](06-hooks/) |
 | **Memory** | 7 types | 3 | 3 | [02-memory/](02-memory/) |
 | **Total** | **99** | **45** | **119** | |
 
@@ -35,7 +35,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | Command | Description | When to Use |
 |---------|-------------|-------------|
 | `/help` | Show help information | Get started, learn commands |
-| `/btw` | Side question without adding to context | Quick tangent questions |
+| `/btw` | Ephemeral side question — doesn't pollute main context | Quick tangent questions |
 | `/chrome` | Configure Chrome integration | Browser automation |
 | `/clear` | Clear conversation history | Start fresh, reduce context |
 | `/diff` | Interactive diff viewer | Review changes |
@@ -53,11 +53,11 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/passes` | View usage passes | Subscription info |
 | `/plugin` | Manage plugins | Install/remove extensions |
 | `/plan` | Enter planning mode | Complex implementations |
-| `/proactive` | Alias for `/loop` | Same as `/loop` |
+| `/proactive` | Alias for `/loop` (v2.1.105) | Same as `/loop` |
 | `/recap` | Show session recap when returning to a session | After being away, get context on what was done |
 | `/rewind` | Rewind to checkpoint | Undo changes, explore alternatives |
 | `/checkpoint` | Manage checkpoints | Save/restore states |
-| `/cost` | Show token usage costs | Monitor spending |
+| `/cost` | Shortcut alias that opens the cost tab of `/usage` (v2.1.118+) | Monitor spending |
 | `/context` | Show context window usage | Manage conversation length |
 | `/export` | Export conversation | Save for reference |
 | `/extra-usage` | Configure extra usage limits | Rate limit management |
@@ -79,16 +79,16 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/copy` | Copy last response to clipboard | Share output quickly |
 | `/teleport` | Transfer session to another machine | Continue work remotely |
 | `/desktop` | Open Claude Desktop app | Switch to desktop interface |
-| `/theme` | Change color theme | Customize appearance |
-| `/usage` | Show API usage statistics | Monitor quota and costs |
+| `/theme` | Change color theme; v2.1.118 added custom named themes via `~/.claude/themes/<name>.json` (plugins can ship a `themes/` dir) | Customize appearance |
+| `/usage` | Canonical command for usage/cost/stats — merged `/cost` and `/stats` into a single tabbed view (v2.1.118) | Monitor quota and costs |
 | `/focus` | Toggle focus view (distraction-free output display) | Reduce visual noise during long tasks |
 | `/fork` | Fork current conversation | Explore alternatives |
-| `/stats` | Show session statistics | Review session metrics |
+| `/stats` | Shortcut alias that opens the stats tab of `/usage` (v2.1.118+) | Review session metrics |
 | `/statusline` | Configure status line | Customize status display |
 | `/stickers` | View session stickers | Fun rewards |
 | `/fast` | Toggle fast output mode | Speed up responses |
 | `/terminal-setup` | Configure terminal integration | Setup terminal features |
-| `/undo` | Alias for `/rewind` | Same as `/rewind` |
+| `/undo` | Alias for `/rewind` (v2.1.108) | Same as `/rewind` |
 | `/upgrade` | Check for updates | Version management |
 | `/team-onboarding` | Generate a teammate ramp-up guide from this project's Claude Code usage | Onboarding new teammates (v2.1.101) |
 | `/ultraplan` | Hand a planning task to a Claude Code web session in plan mode | Heavy planning offload (Research Preview, v2.1.91+) |
@@ -530,10 +530,11 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code
-- https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
+- https://code.claude.com/docs/en/overview
+- https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/hooks
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

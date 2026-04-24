@@ -310,6 +310,53 @@ Settings can also be configured via:
 
 These platform-native mechanisms are read alongside JSON settings files and follow the same precedence rules.
 
+> **Note (v2.1.119)**: `/config` changes now persist to `~/.claude/settings.json`. Values written via `/config` participate in the normal project/local/policy precedence chain described above — they are no longer session-only. Use `/config` for interactive edits and edit `settings.json` files directly for scripted or managed configuration.
+
+### Retention and Cleanup Settings
+
+| Setting | Type | Default | Description |
+|---------|------|---------|-------------|
+| `cleanupPeriodDays` | integer (days) | 30 | Retention window for on-disk artifacts. **As of v2.1.117**, it applies to all four of: checkpoints (`~/.claude/checkpoints/`), tasks (`~/.claude/tasks/`), shell-snapshots (`~/.claude/shell-snapshots/`), and backups (`~/.claude/backups/`). Files older than the window are pruned at startup. |
+
+```jsonc
+// ~/.claude/settings.json
+{
+  "cleanupPeriodDays": 14
+}
+```
+
+### Attribution, Voice, and PR URL Settings
+
+| Setting | Type | Description |
+|---------|------|-------------|
+| `attribution.commit` | boolean | Adds the `Co-Authored-By: Claude` trailer to commits Claude creates. Replaces the deprecated `includeCoAuthoredBy` flag. |
+| `attribution.pr` | boolean | Adds Claude attribution to pull request descriptions. Replaces the deprecated `includeCoAuthoredBy` flag for PRs. |
+| `voice.enabled` | boolean | Enables push-to-talk voice dictation (`/voice`). Replaces the deprecated `voiceEnabled` flag. |
+| `prUrlTemplate` | string | **New in v2.1.119.** Custom URL template for the footer PR badge; useful for GitLab, Bitbucket, or internal code-review platforms. Supports `{{owner}}`, `{{repo}}`, and `{{number}}` placeholders. |
+
+```jsonc
+// ~/.claude/settings.json
+{
+  "attribution": {
+    "commit": false,
+    "pr": true
+  },
+  "voice": {
+    "enabled": true
+  },
+  "prUrlTemplate": "https://gitlab.internal/{{owner}}/{{repo}}/-/merge_requests/{{number}}"
+}
+```
+
+#### Deprecated setting names
+
+The following legacy setting keys still work but are deprecated. Prefer the replacements above.
+
+| Deprecated key | Replacement | Notes |
+|----------------|-------------|-------|
+| `includeCoAuthoredBy` | `attribution.commit` / `attribution.pr` | The old single flag is split into separate commit and PR switches. Users on older installs can keep the legacy key; new projects should use the nested form. |
+| `voiceEnabled` | `voice.enabled` | Grouped under the `voice` namespace alongside future voice-related options. |
+
 ## Modular Rules System
 
 Create organized, path-specific rules using the `.claude/rules/` directory structure. Rules can be defined at both the project level and user level:
@@ -1151,11 +1198,11 @@ For the most up-to-date information, refer to the official Claude Code documenta
 - [Official Memory Docs](https://code.claude.com/docs/en/memory) - Anthropic documentation
 
 ---
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code
-- https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
-- https://docs.anthropic.com/en/docs/claude-code/memory
+- https://code.claude.com/docs/en/memory
+- https://code.claude.com/docs/en/settings
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.117
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.119
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

@@ -35,6 +35,9 @@ SKIP_DOMAINS = {
     "wikipedia.org",
     # GitHub API requires auth — unauthenticated requests return 404 for protected endpoints
     "api.github.com",
+    # Claude Code native-binary download host — directory listing returns 404, artifacts are
+    # fetched programmatically by the installer via the full filename path
+    "downloads.claude.ai",
 }
 SKIP_DOMAIN_SUFFIXES = (".example.com", ".example.org", ".internal")
 # Placeholder/template URLs that are intentionally non-resolvable

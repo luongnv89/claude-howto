@@ -12,7 +12,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/luongnv89/claude-howto?style=flat&color=gold)](https://github.com/luongnv89/claude-howto/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/luongnv89/claude-howto?style=flat)](https://github.com/luongnv89/claude-howto/network/members)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.1.112-brightgreen)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.1.119-brightgreen)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-2.1+-purple)](https://code.claude.com)
 
 🌐 **Language / Ngôn ngữ / 语言 / Мова:** [English](README.md) | [Tiếng Việt](vi/README.md) | [中文](zh/README.md) | [Українська](uk/README.md)
@@ -102,7 +102,7 @@ Run `/lesson-quiz [topic]` after each module. The quiz pinpoints what you missed
 
 - **21,800+ GitHub stars** from developers who use Claude Code daily
 - **2,585+ forks** — teams adapting this guide for their own workflows
-- **Actively maintained** — synced with every Claude Code release (latest: v2.1.112, April 2026)
+- **Actively maintained** — synced with every Claude Code release (latest: v2.1.119, April 2026)
 - **Community-driven** — contributions from developers who share their real-world configurations
 
 [![Star History Chart](https://api.star-history.com/svg?repos=luongnv89/claude-howto&type=Date)](https://star-history.com/#luongnv89/claude-howto&Date)
@@ -139,6 +139,8 @@ Take the self-assessment or pick your level:
 ---
 
 ## Get Started in 15 Minutes
+
+> **Installation note**: Starting in v2.1.113, Claude Code ships as a native per-platform binary (macOS/Linux/Windows). `npm install -g @anthropic-ai/claude-code` still works — the native binary is downloaded as an optional dep on first use. As of v2.1.116, downloads come from `https://downloads.claude.ai/claude-code-releases` — corporate proxies must allowlist this host.
 
 ```bash
 # 1. Clone the guide
@@ -199,7 +201,7 @@ cp -r 03-skills/code-review ~/.claude/skills/
 Yes. MIT licensed, free forever. Use it in personal projects, at work, in your team — no restrictions beyond including the license notice.
 
 **Is this maintained?**
-Actively. The guide is synced with every Claude Code release. Current version: v2.1.112 (April 2026), compatible with Claude Code 2.1+.
+Actively. The guide is synced with every Claude Code release. Current version: v2.1.119 (April 2026), compatible with Claude Code 2.1+.
 
 **How is this different from the official docs?**
 The official docs are a feature reference. This guide is a tutorial with diagrams, production-ready templates, and a progressive learning path. They complement each other — start here to learn, reference the docs when you need specifics.
@@ -480,7 +482,7 @@ Configure hooks in `~/.claude/settings.json`:
 
 **Usage**: Hooks execute automatically on events
 
-**Hook Types** (4 types, 25 events):
+**Hook Types** (5 types, 28 events):
 - **Tool Hooks**: `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PermissionRequest`
 - **Session Hooks**: `SessionStart`, `SessionEnd`, `Stop`, `StopFailure`, `SubagentStart`, `SubagentStop`
 - **Task Hooks**: `UserPromptSubmit`, `TaskCompleted`, `TaskCreated`, `TeammateIdle`
@@ -869,10 +871,11 @@ MIT License - see [LICENSE](LICENSE). Free to use, modify, and distribute. The o
 
 ---
 
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code
-- https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
+- https://code.claude.com/docs/en/overview
+- https://code.claude.com/docs/en/changelog
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.119
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.113
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

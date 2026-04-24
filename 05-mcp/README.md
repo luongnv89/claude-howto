@@ -164,6 +164,8 @@ MCP servers configured in your Claude.ai account are automatically available in 
 
 Claude.ai MCP connectors are also available in `--print` mode (v2.1.83+), enabling non-interactive and scripted usage.
 
+> **Startup note (v2.1.117+):** Concurrent connect is the default when both local and claude.ai MCP servers are configured (previously serial), reducing startup latency when multiple servers are in use.
+
 To disable Claude.ai MCP servers in Claude Code, set the `ENABLE_CLAUDEAI_MCP_SERVERS` environment variable to `false`:
 
 ```bash
@@ -1109,10 +1111,10 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code/mcp
-- https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
+- https://code.claude.com/docs/en/mcp
+- https://code.claude.com/docs/en/changelog
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

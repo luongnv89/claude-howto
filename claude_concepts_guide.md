@@ -2808,7 +2808,7 @@ Hooks are event-driven shell commands that execute automatically in response to 
 
 ### Hook Events
 
-Claude Code supports **25 hook events** across four hook types (command, http, prompt, agent):
+Claude Code supports **28 hook events** across five hook types (command, http, mcp_tool, prompt, agent):
 
 | Hook Event | Trigger | Use Cases |
 |------------|---------|-----------|
@@ -3117,24 +3117,39 @@ Complete configuration example:
 
 ---
 
+## Models and Reasoning Effort
+
+Claude Code supports three models with adaptive reasoning effort:
+
+| Model | Context Window | Effort Levels | Default Effort (Claude Code) |
+|-------|----------------|---------------|------------------------------|
+| Claude Opus 4.7 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `xhigh` (since Opus 4.7 launch, 2026-04-16) |
+| Claude Sonnet 4.6 | 1M tokens | `low`, `medium`, `high`, `max` | `high` for Pro/Max subscribers (raised from `medium` in v2.1.117) |
+| Claude Haiku 4.5 | 200K tokens | `low`, `medium`, `high` | `medium` |
+
+> **Note**: v2.1.117 fixed a bug where Opus 4.7 sessions computed `/context` against 200K instead of the native 1M window — upgrade to v2.1.117 or later to actually get the 1M context on Opus 4.7.
+
+> **Note**: `/cost` and `/stats` merged into `/usage` in v2.1.118. `/usage` is now the canonical command with tabs for cost/stats/etc.; `/cost` and `/stats` remain as shortcut aliases that open the corresponding tab.
+
 ## Resources
 
 - [Claude Code Documentation](https://code.claude.com/docs/en/overview)
-- [Anthropic Documentation](https://docs.anthropic.com)
+- [Claude Code Changelog](https://code.claude.com/docs/en/changelog)
 - [MCP GitHub Servers](https://github.com/modelcontextprotocol/servers)
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
 
-*Last updated: April 16, 2026*
+*Last updated: April 24, 2026*
 *For Claude Haiku 4.5, Sonnet 4.6, and Opus 4.7*
 *Now includes: Hooks, Checkpoints, Planning Mode, Extended Thinking, Background Tasks, Permission Modes (6 modes), Headless Mode, Session Management, Auto Memory, Agent Teams, Scheduled Tasks, Chrome Integration, Channels, Voice Dictation, and Bundled Skills*
 
 ---
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code
+- https://code.claude.com/docs/en/overview
+- https://code.claude.com/docs/en/hooks
 - https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

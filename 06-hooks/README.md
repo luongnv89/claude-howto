@@ -9,12 +9,12 @@ Hooks are automated scripts that execute in response to specific events during C
 
 ## Overview
 
-Hooks are automated actions (shell commands, HTTP webhooks, LLM prompts, or subagent evaluations) that execute automatically when specific events occur in Claude Code. They receive JSON input and communicate results via exit codes and JSON output.
+Hooks are automated actions (shell commands, HTTP webhooks, LLM prompts, MCP tool calls, or subagent evaluations) that execute automatically when specific events occur in Claude Code. They receive JSON input and communicate results via exit codes and JSON output.
 
 **Key features:**
 - Event-driven automation
 - JSON-based input/output
-- Support for command, prompt, HTTP, and agent hook types
+- Support for `command`, `http`, `mcp_tool`, `prompt`, and `agent` hook types
 - Pattern matching for tool-specific hooks
 
 ## Configuration
@@ -55,7 +55,7 @@ Hooks are configured in settings files with a specific structure:
 |-------|-------------|---------|
 | `matcher` | Pattern to match tool names (case-sensitive) | `"Write"`, `"Edit\|Write"`, `"*"` |
 | `hooks` | Array of hook definitions | `[{ "type": "command", ... }]` |
-| `type` | Hook type: `"command"` (bash), `"prompt"` (LLM), `"http"` (webhook), or `"agent"` (subagent) | `"command"` |
+| `type` | Hook type: `"command"` (bash), `"prompt"` (LLM), `"http"` (webhook), `"mcp_tool"` (MCP tool invocation, v2.1.118+), or `"agent"` (subagent) | `"command"` |
 | `command` | Shell command to execute | `"$CLAUDE_PROJECT_DIR/.claude/hooks/format.sh"` |
 | `timeout` | Optional timeout in seconds (default 60) | `30` |
 | `once` | If `true`, run the hook only once per session | `true` |
@@ -79,7 +79,7 @@ Hooks are configured in settings files with a specific structure:
 
 ## Hook Types
 
-Claude Code supports four hook types:
+Claude Code supports five hook types:
 
 ### Command Hooks
 
@@ -131,6 +131,30 @@ LLM-evaluated prompts where the hook content is a prompt that Claude evaluates. 
 
 The LLM evaluates the prompt and returns a structured decision (see [Prompt-Based Hooks](#prompt-based-hooks) for details).
 
+### MCP Tool Hooks
+
+> Added in v2.1.118.
+
+The `mcp_tool` type invokes a configured MCP tool directly; configuration references the MCP server and tool name rather than a shell command or URL. This is useful when the validation or reaction logic already lives in an MCP server you have configured.
+
+```json
+{
+  "matcher": "Edit",
+  "hooks": [{
+    "type": "mcp_tool",
+    "server": "my-mcp-server",
+    "tool": "validate_edit"
+  }]
+}
+```
+
+**Key properties:**
+- `"type": "mcp_tool"` -- identifies this as an MCP tool hook
+- `"server"` -- name of the configured MCP server
+- `"tool"` -- the tool name on that server to invoke
+
+The hook input (tool name, tool input, session context) is passed as the MCP tool's arguments. See [MCP server setup](../05-mcp/README.md) for configuring MCP servers.
+
 ### Agent Hooks
 
 Subagent-based verification hooks that spawn a dedicated agent to evaluate conditions or perform complex checks. Unlike prompt hooks (single-turn LLM evaluation), agent hooks can use tools and perform multi-step reasoning.
@@ -151,18 +175,20 @@ Subagent-based verification hooks that spawn a dedicated agent to evaluate condi
 
 ## Hook Events
 
-Claude Code supports **26 hook events**:
+Claude Code supports **28 hook events**:
 
 | Event | When Triggered | Matcher Input | Can Block | Common Use |
 |-------|---------------|---------------|-----------|------------|
 | **SessionStart** | Session begins/resumes/clear/compact | startup/resume/clear/compact | No | Environment setup |
 | **InstructionsLoaded** | After CLAUDE.md or rules file loaded | (none) | No | Modify/filter instructions |
 | **UserPromptSubmit** | User submits prompt | (none) | Yes | Validate prompts |
+| **UserPromptExpansion** | User prompt is expanded (e.g., `@` mentions, slash commands resolved) | (none) | Yes | Transform or inspect expanded prompt |
 | **PreToolUse** | Before tool execution | Tool name | Yes (allow/deny/ask) | Validate, modify inputs |
 | **PermissionRequest** | Permission dialog shown | Tool name | Yes | Auto-approve/deny |
 | **PermissionDenied** | User denies a permission prompt | Tool name | No | Logging, analytics, policy enforcement |
 | **PostToolUse** | After tool succeeds | Tool name | No | Add context, feedback |
 | **PostToolUseFailure** | Tool execution fails | Tool name | No | Error handling, logging |
+| **PostToolBatch** | After a batch of tool uses completes | (none) | No | Aggregate reporting, batched validation |
 | **Notification** | Notification sent | Notification type | No | Custom notifications |
 | **SubagentStart** | Subagent spawned | Agent type name | No | Subagent setup |
 | **SubagentStop** | Subagent finishes | Agent type name | Yes | Subagent validation |
@@ -181,6 +207,8 @@ Claude Code supports **26 hook events**:
 | **Elicitation** | MCP server requests user input | (none) | Yes | Input validation |
 | **ElicitationResult** | User responds to elicitation | (none) | Yes | Response processing |
 | **SessionEnd** | Session terminates | (none) | No | Cleanup, final logging |
+
+> **PostToolUse duration (v2.1.119):** `PostToolUse` and `PostToolUseFailure` hook inputs now include `duration_ms` — see the [PostToolUse](#posttooluse) section for details.
 
 ### PreToolUse
 
@@ -238,6 +266,12 @@ Runs immediately after tool completion. Use for verification, logging, or provid
 **Output control:**
 - `"block"` decision prompts Claude with feedback
 - `additionalContext`: Context added for Claude
+
+**Additional input fields (v2.1.119):**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `duration_ms` | number | Tool execution time in milliseconds. Excludes time spent in permission prompts and PreToolUse hook execution. Available on both `PostToolUse` and `PostToolUseFailure` hooks. |
 
 ### UserPromptSubmit
 
@@ -998,6 +1032,7 @@ MCP tools follow the pattern `mcp__<server>__<tool>`:
 - **Workspace trust required:** The `statusLine` and `fileSuggestion` hook output commands now require workspace trust acceptance before they take effect.
 - **HTTP hooks and environment variables:** HTTP hooks require an explicit `allowedEnvVars` list to use environment variable interpolation in URLs. This prevents accidental leakage of sensitive environment variables to remote endpoints.
 - **Managed settings hierarchy:** The `disableAllHooks` setting now respects the managed settings hierarchy, meaning organization-level settings can enforce hook disablement that individual users cannot override.
+- **PowerShell auto-approve (v2.1.119):** PowerShell tool commands can be auto-approved in permission mode, matching Bash. This brings parity for Windows users running Claude Code with PowerShell-backed shell tools.
 
 ### Best Practices
 
@@ -1166,10 +1201,11 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code/hooks
-- https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
+- https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/changelog
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.118
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.119
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

@@ -277,7 +277,8 @@ Extended thinking is a deliberate, step-by-step reasoning process where Claude:
 
 **Automatic activation**:
 - Enabled by default for all models (Opus 4.7, Sonnet 4.6, Haiku 4.5)
-- Opus 4.7: Adaptive reasoning with effort levels: `low` (○), `medium` (◐), `high` (●), `xhigh` (new, default on Opus 4.7), `max` (Opus 4.7 only)
+- Opus 4.7: Adaptive reasoning with effort levels: `low` (○), `medium` (◐), `high` (●), `xhigh` (default on Claude Code since Opus 4.7 launch, 2026-04-16), `max` (Opus 4.7 only). Opus 4.7 has a 1M-token native context window (1M context fix landed in v2.1.117 — before that, `/context` miscounted Opus 4.7 against a 200K window and triggered premature autocompact).
+- Pro/Max subscribers on Opus 4.6 / Sonnet 4.6: default effort was raised from `medium` to `high` in v2.1.117.
 - Other models: Fixed budget up to 31,999 tokens
 
 **Configuration methods**:
@@ -477,6 +478,34 @@ claude auto-mode defaults
 ```
 
 **Configure trusted infrastructure** via the `autoMode.environment` managed setting for enterprise deployments. This allows administrators to define trusted CI/CD environments, deployment targets, and infrastructure patterns.
+
+#### Extending defaults with `"$defaults"` (v2.1.118)
+
+Since v2.1.118, `autoMode.allow`, `autoMode.soft_deny`, and `autoMode.environment` accept a `"$defaults"` token that **appends** your rules to the built-in list instead of replacing it. Before v2.1.118, any user-defined array silently clobbered the built-ins.
+
+**Before (replaces built-ins — pre-v2.1.118 behavior):**
+
+```json
+{
+  "autoMode": {
+    "allow": ["Bash(gh pr list:*)"]
+  }
+}
+```
+
+**After (extends built-ins — v2.1.118+):**
+
+```json
+{
+  "autoMode": {
+    "allow": ["$defaults", "Bash(gh pr list:*)"],
+    "soft_deny": ["$defaults", "Bash(kubectl delete:*)"],
+    "environment": ["$defaults", "trusted-ci.internal"]
+  }
+}
+```
+
+Use `"$defaults"` to keep the shipped baseline rules while layering organization- or project-specific additions on top.
 
 ### Fallback Behavior
 
@@ -1231,8 +1260,8 @@ User: Deploy to prodcution<Backspace><Backspace>uction
 Enable Vi/Vim keybindings for text editing:
 
 **Activation**:
-- Use `/vim` command or `/config` to enable
-- Mode switching with `Esc` for NORMAL, `i/a/o` for INSERT
+- Enable via `/config` (toggle "Editor / Vim mode") or in `~/.claude/settings.json` under `editorMode: "vim"`. The standalone `/vim` slash command was removed (see [issue #43370](https://github.com/anthropics/claude-code/issues/43370)); vim mode is now configuration-driven.
+- Mode switching with `Esc` for NORMAL, `i/a/o` for INSERT, `v` for VISUAL, `V` for VISUAL-LINE (v2.1.118+)
 
 **Navigation keys**:
 - `h` / `l` - Move left/right
@@ -1245,6 +1274,19 @@ Enable Vi/Vim keybindings for text editing:
 - `iw` / `aw` - Inner/around word
 - `i"` / `a"` - Inner/around quoted string
 - `i(` / `a(` - Inner/around parentheses
+
+**Visual modes (v2.1.118+)**:
+
+| Key | Mode | Behavior |
+|-----|------|----------|
+| `v` | Visual | Character-wise selection with visual feedback; extend with motion keys |
+| `V` | Visual-line | Line-wise selection; always selects whole lines |
+| `y` | Yank | Copy the current visual selection |
+| `d` / `x` | Delete | Delete the current visual selection |
+| `c` | Change | Delete selection and enter INSERT mode |
+| `Esc` | Exit | Return to NORMAL mode |
+
+Visual selections are highlighted in the input field so you can see exactly what will be yanked, deleted, or changed before you commit the operator.
 
 ### Bash Mode
 
@@ -1736,7 +1778,24 @@ claude --no-sandbox    # Disable sandboxing
 | `sandbox.filesystem.allowWrite` | Paths allowed for write access |
 | `sandbox.filesystem.allowRead` | Paths allowed for read access |
 | `sandbox.filesystem.denyRead` | Paths denied for read access |
+| `sandbox.network.allowedDomains` | Domains Bash-launched processes are allowed to reach (supports `*.` wildcard) |
+| `sandbox.network.deniedDomains` | Domains to block even when `allowedDomains` wildcard would otherwise permit them (v2.1.113+) |
 | `sandbox.enableWeakerNetworkIsolation` | Enable weaker network isolation on macOS |
+
+Example of `deniedDomains` overriding a broad wildcard (v2.1.113+):
+
+```json
+{
+  "sandbox": {
+    "network": {
+      "allowedDomains": ["*.example.com"],
+      "deniedDomains": ["evil.example.com"]
+    }
+  }
+}
+```
+
+The wildcard lets everything on `example.com` through, but `deniedDomains` still blocks the specifically-named host.
 
 ### Example Configuration
 
@@ -1802,6 +1861,7 @@ Since v2.1.83, administrators can deploy multiple managed settings files into a 
 | `availableModels` | Restrict which models users can select |
 | `allowedChannelPlugins` | Control which channel plugins are permitted |
 | `autoMode.environment` | Configure trusted infrastructure for auto mode |
+| `wslInheritsWindowsSettings` | Windows/WSL only (v2.1.118+): when `true`, Claude Code running inside WSL inherits managed settings from the Windows host, so enterprise policies deployed via Registry/MDM apply uniformly across the Windows and WSL shells |
 | Custom policies | Organization-specific permission and tool policies |
 
 ### Example: macOS Plist
@@ -2102,10 +2162,13 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: April 16, 2026
-**Claude Code Version**: 2.1.112
+**Last Updated**: April 24, 2026
+**Claude Code Version**: 2.1.119
 **Sources**:
-- https://docs.anthropic.com/en/docs/claude-code
+- https://code.claude.com/docs/en/permission-modes
+- https://code.claude.com/docs/en/interactive-mode
+- https://code.claude.com/docs/en/settings
 - https://www.anthropic.com/news/claude-opus-4-7
-- https://support.claude.com/en/articles/12138966-release-notes
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.117
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
