@@ -558,10 +558,13 @@ function render() {
         </div>
         <div class="notes-wrap">
           <label>Notes</label>
-          <textarea data-mod="${mod.id}" placeholder="Your notes for this module…">${modState.notes || ''}</textarea>
+          <textarea data-mod="${mod.id}" placeholder="Your notes for this module…"></textarea>
         </div>
       </div>
     `;
+
+    // Set textarea value via .value (not innerHTML) to prevent XSS from imported JSON
+    div.querySelector('textarea[data-mod]').value = modState.notes || '';
 
     container.appendChild(div);
   });

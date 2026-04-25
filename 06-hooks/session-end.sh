@@ -41,33 +41,43 @@ if [ -z "$INPUT" ] || [ "$INPUT" = "skip" ]; then
   exit 0
 fi
 
-# Map short numbers to module names
-MODULES_JSON=$(echo "$INPUT" | tr ',' '\n' | tr -d ' ' | while read -r m; do
+# Map short numbers to module names (for loop avoids pipeline+while, which bash 3.2 can't parse)
+IFS=',' read -ra PARTS <<< "$INPUT"
+MODULES_JSON=""
+for m in "${PARTS[@]}"; do
+  m="${m// /}"  # strip spaces
   case "$m" in
-    01) echo '"01-slash-commands"' ;;
-    02) echo '"02-memory"' ;;
-    03) echo '"03-skills"' ;;
-    04) echo '"04-subagents"' ;;
-    05) echo '"05-mcp"' ;;
-    06) echo '"06-hooks"' ;;
-    07) echo '"07-plugins"' ;;
-    08) echo '"08-checkpoints"' ;;
-    09) echo '"09-advanced-features"' ;;
-    10) echo '"10-cli"' ;;
-    *)  echo "\"$m\"" ;;
+    01) label='"01-slash-commands"' ;;
+    02) label='"02-memory"' ;;
+    03) label='"03-skills"' ;;
+    04) label='"04-subagents"' ;;
+    05) label='"05-mcp"' ;;
+    06) label='"06-hooks"' ;;
+    07) label='"07-plugins"' ;;
+    08) label='"08-checkpoints"' ;;
+    09) label='"09-advanced-features"' ;;
+    10) label='"10-cli"' ;;
+    *)  label="\"$m\"" ;;
   esac
-done | paste -sd ',' -)
+  MODULES_JSON="${MODULES_JSON:+$MODULES_JSON,}$label"
+done
 
 printf " Notes? (optional, press Enter to skip): "
 read -r NOTES </dev/tty
 
-SESSION="{\"date\":\"$DATE\",\"time\":\"$TIME\",\"modules\":[${MODULES_JSON}],\"notes\":\"${NOTES}\"}"
-
-# Append session using Python (available on macOS/Linux by default)
-python3 - "$PROGRESS_FILE" "$SESSION" <<'PYEOF'
+# Pass NOTES as a separate argument so Python handles JSON escaping —
+# avoids broken JSON when notes contain quotes or backslashes.
+python3 - "$PROGRESS_FILE" "$DATE" "$TIME" "$MODULES_JSON" "$NOTES" <<'PYEOF'
 import sys, json
 
-path, new_session = sys.argv[1], json.loads(sys.argv[2])
+path, date, time_str, modules_raw, notes = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]
+
+new_session = {
+    "date": date,
+    "time": time_str,
+    "modules": json.loads(f"[{modules_raw}]") if modules_raw else [],
+    "notes": notes,
+}
 
 with open(path, 'r') as f:
     data = json.load(f)
