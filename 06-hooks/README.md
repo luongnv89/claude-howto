@@ -1030,19 +1030,38 @@ done | paste -sd ',' -)
 printf " Notes? (optional, press Enter to skip): "
 read -r NOTES </dev/tty
 
-SESSION="{\"date\":\"$DATE\",\"time\":\"$TIME\",\"modules\":[${MODULES_JSON}],\"notes\":\"${NOTES}\"}"
-
-python3 - "$PROGRESS_FILE" "$SESSION" <<'PYEOF'
+# Pass NOTES as a separate argument so Python handles JSON escaping —
+# avoids broken JSON when notes contain quotes or backslashes.
+python3 - "$PROGRESS_FILE" "$DATE" "$TIME" "$MODULES_JSON" "$NOTES" <<'PYEOF'
 import sys, json
-path, new_session = sys.argv[1], json.loads(sys.argv[2])
+
+path, date, time_str, modules_raw, notes = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]
+
+new_session = {
+    "date": date,
+    "time": time_str,
+    "modules": json.loads(f"[{modules_raw}]") if modules_raw else [],
+    "notes": notes,
+}
+
 with open(path, 'r') as f:
     data = json.load(f)
+
 data.setdefault('sessions', []).append(new_session)
+
 with open(path, 'w') as f:
     json.dump(data, f, indent=2)
 PYEOF
 
 echo " Saved to $PROGRESS_FILE"
+```
+
+**Install** — copy the script into the project's hook directory so the path in `settings.json` resolves:
+
+```bash
+mkdir -p .claude/hooks
+cp 06-hooks/session-end.sh .claude/hooks/
+chmod +x .claude/hooks/session-end.sh
 ```
 
 **Configuration** (in `.claude/settings.json`):
