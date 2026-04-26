@@ -435,10 +435,10 @@ claude -p --agents "$(cat agents.json)" --model sonnet "analyze performance"
 
 When multiple agent definitions exist, they are loaded in this priority order:
 1. **CLI-defined** (`--agents` flag) - Session-specific
-2. **User-level** (`~/.claude/agents/`) - All projects
-3. **Project-level** (`.claude/agents/`) - Current project
+2. **Project-level** (`.claude/agents/`) - Current project
+3. **User-level** (`~/.claude/agents/`) - All projects
 
-CLI-defined agents override both user and project agents for the session.
+CLI-defined agents override both project and user agents for the session. Project-level agents override user-level agents when their names collide. See [Lesson 04 — Subagents](../04-subagents/README.md#file-locations) for the full priority table including plugin-level agents.
 
 ---
 

@@ -813,9 +813,9 @@
 ### Q7
 - **Category**: conceptual
 - **Question**: What is the agent definition priority order?
-- **Options**: A) Project > User > CLI | B) CLI > User > Project | C) User > CLI > Project | D) All are equal priority
+- **Options**: A) Project > User > CLI | B) CLI > Project > User | C) User > CLI > Project | D) All are equal priority
 - **Correct**: B
-- **Explanation**: CLI-defined agents (--agents flag) have highest priority, then User-level (~/.claude/agents/), then Project-level (.claude/agents/).
+- **Explanation**: CLI-defined agents (--agents flag) have highest priority, then Project-level (.claude/agents/), then User-level (~/.claude/agents/).
 - **Review**: Agents configuration section
 
 ### Q8
