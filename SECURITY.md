@@ -326,8 +326,8 @@ This security policy is reviewed and updated:
 - When the project scope changes
 - Annually as a minimum
 
-**Last Updated**: January 2026
-**Next Review**: January 2027
+**Last Updated**: April 27, 2026
+**Next Review**: April 2027
 
 ---
 

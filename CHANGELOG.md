@@ -1,5 +1,47 @@
 # Changelog
 
+## [v2.4.0] — 2026-04-27
+
+### Synced to Claude Code v2.1.119
+
+Bumps tutorial coverage from Claude Code v2.1.112 → v2.1.119 (April 23, 2026 release).
+v2.1.120 was published April 24 and rolled back due to regressions; clients are
+auto-rolled back to v2.1.119, which remains the stable target.
+
+### Added (English docs)
+
+- Native binary packaging note (v2.1.113) — CLI now ships per-platform native binaries
+- `bfs`/`ugrep` Glob/Grep substitution footnote on native macOS/Linux builds (v2.1.117)
+- `mcp_tool` hook type with example (v2.1.118)
+- `duration_ms` field on PostToolUse / PostToolUseFailure inputs (v2.1.119)
+- `prUrlTemplate` setting (v2.1.119) and expanded `--from-pr` provider list (GitLab, Bitbucket)
+- `cleanupPeriodDays` extended scope (checkpoints + tasks + shell-snapshots + backups, v2.1.117)
+- Plugin marketplace enforcement on every lifecycle event (v2.1.117) and `hostPattern`/`pathPattern` regex (v2.1.119)
+- New env vars: `DISABLE_UPDATES`, `CLAUDE_CODE_HIDE_CWD`, `CLAUDE_CODE_FORK_SUBAGENT`, `OTEL_LOG_TOOL_DETAILS`, `ENABLE_TOOL_SEARCH` Vertex opt-in
+- New slash commands: `/btw`, `/theme` with custom themes
+- `/usage` canonical command (merges `/cost` + `/stats`, v2.1.118)
+- Forked subagents (`CLAUDE_CODE_FORK_SUBAGENT=1`, v2.1.117)
+- Auto mode `"$defaults"` token (v2.1.118)
+- `wslInheritsWindowsSettings` managed policy (v2.1.118)
+- Vim visual / visual-line modes (v2.1.118)
+- `claude install [version]` and `claude plugin tag` subcommands
+
+### Changed
+
+- Documentation host migrated: `docs.anthropic.com/en/docs/claude-code/*` → `code.claude.com/docs/en/*`
+- Opus 4.7 effort levels: `xhigh` is now the Claude Code default since the 2026-04-16 launch; Opus 4.7 native context window confirmed at 1M (v2.1.117 fixed `/context` miscounting it as 200K)
+- Default effort raised from `medium` to `high` for Pro/Max subscribers on Opus 4.6 / Sonnet 4.6 (v2.1.117)
+- `STYLE_GUIDE.md` Source URL updated from Claude Apps article to `code.claude.com/docs/en/changelog`
+
+### Deprecated (tracked, not removed)
+
+- `includeCoAuthoredBy` setting → use `attribution.commit` / `attribution.pr`
+- `voiceEnabled` setting → use `voice.enabled`
+
+### Notes for translation maintainers
+
+The `vi/`, `zh/`, and `uk/` localized trees are community-maintained and may lag the English source. Contributors syncing translations should diff against the English files updated in this release.
+
 ## v2.1.112 — 2026-04-16
 
 ### Highlights

@@ -81,7 +81,7 @@
       "description": "Configuration for production operations with safety checks",
       "config": {
         "general": {
-          "model": "claude-opus-4",
+          "model": "claude-opus-4-7",
           "temperature": 0.1
         },
         "permissions": {
@@ -133,7 +133,7 @@
       "description": "Configuration for security-focused code analysis",
       "config": {
         "general": {
-          "model": "claude-opus-4",
+          "model": "claude-opus-4-7",
           "temperature": 0.2
         },
         "permissions": {
@@ -204,7 +204,7 @@
       "description": "Configuration for major refactoring work",
       "config": {
         "general": {
-          "model": "claude-opus-4",
+          "model": "claude-opus-4-7",
           "temperature": 0.3
         },
         "planning": {
