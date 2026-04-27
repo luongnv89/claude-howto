@@ -142,3 +142,44 @@ repos:
         entry: uv run scripts/build_epub.py --lang vi
         pass_filenames: false
         files: ^(vi/.*\.md|scripts/build_epub\.py)$
+
+  # Japanese documentation checks
+  - repo: local
+    hooks:
+      - id: japanese-markdown-lint
+        name: japanese-markdown-lint
+        language: node
+        entry: markdownlint
+        args: ['--ignore', 'node_modules', '--ignore', '.venv', '--config', '.markdownlint.json']
+        files: ^ja/.*\.md$
+        additional_dependencies: ['markdownlint-cli']
+
+      - id: japanese-cross-references
+        name: japanese-cross-references
+        language: system
+        entry: python scripts/check_cross_references.py
+        pass_filenames: false
+        files: ^ja/.*\.md$
+
+      - id: japanese-mermaid
+        name: japanese-mermaid-syntax
+        language: system
+        entry: python scripts/check_mermaid.py
+        pass_filenames: false
+        files: ^ja/.*\.md$
+        verbose: true
+
+      - id: japanese-link-check
+        name: japanese-link-check
+        language: system
+        entry: python scripts/check_links.py
+        pass_filenames: false
+        files: ^ja/.*\.md$
+        verbose: true
+
+      - id: japanese-build-epub
+        name: japanese-build-epub
+        language: system
+        entry: uv run scripts/build_epub.py --lang ja
+        pass_filenames: false
+        files: ^(ja/.*\.md|scripts/build_epub\.py)$
