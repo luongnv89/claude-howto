@@ -101,10 +101,10 @@
 ### Q2
 - **Category**: practical
 - **Question**: How do you quickly add a new rule to memory during a conversation?
-- **Options**: A) Type `/memory add "rule text"` | B) Prefix your message with `#` (e.g., `# always use TypeScript`) | C) Type `/rule "rule text"` | D) Use `@add-memory "rule text"`
-- **Correct**: B
-- **Explanation**: The `#` prefix pattern allows quick single-rule additions during conversation. Claude will ask which memory level to save it to.
-- **Review**: Quick memory updates section
+- **Options**: A) Use the `/memory` slash command or ask conversationally | B) Prefix your message with `#` (e.g., `# always use TypeScript`) | C) Type `/rule "rule text"` | D) Use `@add-memory "rule text"`
+- **Correct**: A
+- **Explanation**: The recommended ways to add memory are the `/memory` command (opens memory files in your editor) or asking Claude conversationally (e.g., "remember that we always use TypeScript strict mode"). The `#` prefix was discontinued and no longer works.
+- **Review**: Quick memory updates section in README
 
 ### Q3
 - **Category**: conceptual

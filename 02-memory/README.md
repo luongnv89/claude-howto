@@ -992,7 +992,7 @@ graph LR
 
 **Quick update workflow:**
 
-1. For single rules: Use `#` prefix in conversation
+1. For single rules: Use `/memory` to open editor, or ask conversationally
 2. For multiple changes: Use `/memory` to open editor
 3. For initial setup: Use `/init` to create template
 
