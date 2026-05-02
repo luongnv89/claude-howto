@@ -207,6 +207,27 @@ When MCP tool descriptions exceed 10% of the context window, Claude Code automat
 
 > **Note:** Tool search requires Sonnet 4 or later, or Opus 4 or later. Haiku models are not supported for tool search.
 
+### Bypassing Tool Search per Server (v2.1.121+)
+
+If a particular MCP server's tools are needed on every turn, mark its
+configuration with `"alwaysLoad": true` to skip tool-search deferral and
+keep its tools always available:
+
+```json
+{
+  "mcpServers": {
+    "always-on-tool": {
+      "command": "node",
+      "args": ["./tools/always.js"],
+      "alwaysLoad": true
+    }
+  }
+}
+```
+
+Use sparingly — every always-loaded tool consumes context that could
+otherwise be used for tool search to surface a more relevant tool.
+
 ## Dynamic Tool Updates
 
 Claude Code supports MCP `list_changed` notifications. When an MCP server dynamically adds, removes, or modifies its available tools, Claude Code receives the update and adjusts its tool list automatically -- no reconnection or restart required.
@@ -1111,8 +1132,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: April 24, 2026
-**Claude Code Version**: 2.1.119
+**Last Updated**: May 2, 2026
+**Claude Code Version**: 2.1.126
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog

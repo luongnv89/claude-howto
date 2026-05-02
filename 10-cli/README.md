@@ -56,8 +56,11 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `claude remote-control` | Start Remote Control server | `claude remote-control` |
 | `claude plugin` | Manage plugins (install, enable, disable) | `claude plugin install my-plugin` |
 | `claude plugin tag <version>` | Create a release git tag for a plugin with version validation (v2.1.118+) | `claude plugin tag v0.3.0` |
-| `claude install [version]` | Install a specific native-binary version. Accepts `stable`, `latest`, or an explicit version string | `claude install 2.1.119` |
-| `claude auth login` | Log in (supports `--email`, `--sso`) | `claude auth login --email user@example.com` |
+| `claude install [version]` | Install a specific native-binary version. Accepts `stable`, `latest`, or an explicit version string | `claude install 2.1.126` |
+| `claude project purge [path]` | Delete all local Claude Code state for a project (transcripts, tasks, debug logs, file-edit history, prompt history, and `~/.claude.json` entry). Omit `[path]` for an interactive picker. Flags: `--dry-run` to preview, `-y/--yes` to skip confirmation, `-i/--interactive` to confirm each item, `--all` for every project (v2.1.126+) | `claude project purge ~/work/repo --dry-run` |
+| `claude plugin prune` | Remove orphaned auto-installed plugin dependencies (parent plugin gone). `plugin uninstall --prune` does the same cascade after uninstalling a target (v2.1.121+) | `claude plugin prune` |
+| `claude ultrareview [target]` | Run `/ultrareview` non-interactively. Prints findings to stdout, exits 0 on success / 1 on failure. Use `--json` for raw payload, `--timeout <minutes>` to override the 30-minute default (v2.1.120+) | `claude ultrareview 1234 --json` |
+| `claude auth login` | Log in (supports `--email`, `--sso`). Since v2.1.126, accepts the OAuth code pasted into the terminal as a fallback when the browser callback can't reach localhost (WSL2, SSH, containers) | `claude auth login --email user@example.com` |
 | `claude auth logout` | Log out of current account | `claude auth logout` |
 | `claude auth status` | Check auth status (exit 0 if logged in, 1 if not) | `claude auth status` |
 
@@ -146,6 +149,8 @@ claude -p --model opus --fallback-model sonnet "analyze architecture"
 # Use opusplan (Opus plans, Sonnet executes)
 claude --model opusplan "design and implement the caching layer"
 ```
+
+> **Gateway model discovery (v2.1.126+)**: When `ANTHROPIC_BASE_URL` points at an Anthropic-compatible gateway, `/model` populates its picker from the gateway's `/v1/models` endpoint instead of the hard-coded list — useful for self-hosted proxies that expose a different model lineup.
 
 ## System Prompt Customization
 
@@ -319,6 +324,21 @@ claude -r "feature-auth" --fork-session "test with different architecture"
 - Test breaking changes without affecting the main session
 
 The original session remains unchanged, and the fork becomes a new independent session.
+
+### Project State Cleanup (v2.1.126+)
+
+`claude project purge` deletes all local Claude Code state for a project — transcripts, task lists, debug logs, file-edit history, prompt history lines, and the project's `~/.claude.json` entry. Use `--dry-run` first to preview the deletion; `--all` walks every project on the machine.
+
+```bash
+# Preview what would be deleted (safe)
+claude project purge ~/work/repo --dry-run
+
+# Delete state for a specific project, no prompts
+claude project purge ~/work/repo --yes
+
+# Walk every project interactively
+claude project purge --all --interactive
+```
 
 ## Advanced Features
 
@@ -504,6 +524,16 @@ pipeline {
     }
 }
 ```
+
+**Headless `ultrareview` (v2.1.120+):**
+
+```yaml
+# .github/workflows/ultrareview.yml
+- name: Claude ultrareview
+  run: claude ultrareview ${{ github.event.pull_request.number }} --json > review.json
+```
+
+`claude ultrareview` exits 0 on a clean review and 1 when findings are reported, so it's a drop-in PR gate. Use `--timeout <minutes>` to override the 30-minute default.
 
 ### 2. Script Piping
 
@@ -761,6 +791,8 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `max` effort l
 | `CLAUDE_CODE_HIDE_CWD` | When set to `1`, hides the current working directory in the startup logo (privacy / screen-share use) (v2.1.119+) |
 | `CLAUDE_CODE_FORK_SUBAGENT` | Set to `1` to enable forked subagents on external builds (Bedrock, Vertex, Foundry). No effect on Anthropic API where forked subagents are GA (v2.1.117+) |
 | `OTEL_LOG_TOOL_DETAILS` | Set to `1` to unredact custom and MCP command names in OpenTelemetry events (v2.1.117+). Redaction remains the default. |
+| `ANTHROPIC_BEDROCK_SERVICE_TIER` | Selects the Bedrock service tier: `default`, `flex`, or `priority` (v2.1.122+) |
+| `AI_AGENT` | Set automatically on subprocesses so external CLIs (e.g., `gh`) can attribute traffic to Claude Code (v2.1.120+) |
 
 > **`ENABLE_TOOL_SEARCH` on Vertex AI (v2.1.119+)**: Tool search is **disabled by default on Google Cloud Vertex AI** deployments. Users who want the tool-search capability on Vertex must explicitly opt in with `export ENABLE_TOOL_SEARCH=true`. On direct Anthropic API it remains enabled by default.
 
@@ -868,8 +900,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: April 24, 2026
-**Claude Code Version**: 2.1.119
+**Last Updated**: May 2, 2026
+**Claude Code Version**: 2.1.126
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/settings
@@ -879,5 +911,5 @@ claude -p --output-format json "query"
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.116
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.119
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.126
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

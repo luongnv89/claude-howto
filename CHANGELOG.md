@@ -1,12 +1,89 @@
 # Changelog
 
+## [v2.5.0] — 2026-05-02
+
+### Synced to Claude Code v2.1.126
+
+Bumps tutorial coverage from Claude Code v2.1.119 → v2.1.126 (May 1, 2026 release).
+v2.1.120 was rolled back on its first release day (2026-04-24) but re-released
+successfully on 2026-04-28 with the originally-reported regressions fixed.
+v2.1.124 and v2.1.125 were skipped by Anthropic and never released.
+
+### Added (English docs)
+
+- `claude project purge [path]` subcommand (v2.1.126) — deletes all Claude Code
+  state for a project (transcripts, tasks, debug logs, file-edit history,
+  prompt history, `~/.claude.json` entry). Supports `--dry-run`, `-y/--yes`,
+  `-i/--interactive`, `--all`. Documented in `10-cli/README.md`.
+- `claude plugin prune` subcommand (v2.1.121) — removes orphaned auto-installed
+  plugin dependencies; `plugin uninstall --prune` cascades. Documented in
+  `07-plugins/README.md`.
+- `claude ultrareview [target]` subcommand (v2.1.120) — runs `/ultrareview`
+  non-interactively from CI/scripts, prints findings to stdout, exits 0/1 on
+  success/failure; supports `--json` and `--timeout <minutes>`. Documented in
+  `10-cli/README.md`.
+- `${CLAUDE_EFFORT}` placeholder available inside skill content (v2.1.120) —
+  resolves to the current effort level. Documented in `03-skills/README.md`.
+- `alwaysLoad` MCP server config option (v2.1.121) — when `true`, all tools
+  from that server skip tool-search deferral. Documented in `05-mcp/README.md`.
+- `PostToolUse.hookSpecificOutput.updatedToolOutput` now works for all tools
+  (v2.1.121), previously MCP-only. Documented in `06-hooks/README.md`.
+- `ANTHROPIC_BEDROCK_SERVICE_TIER` environment variable (v2.1.122) — selects
+  Bedrock service tier (`default`, `flex`, `priority`). Documented in
+  `10-cli/README.md` env-var table.
+- `--dangerously-skip-permissions` extended-path coverage (v2.1.121, v2.1.126)
+  — now bypasses prompts for writes to `.claude/skills/`, `.claude/agents/`,
+  `.claude/commands/`, `.claude/`, `.git/`, `.vscode/`, shell config files.
+  Catastrophic removal commands (`rm -rf /` etc.) still prompt. Documented in
+  `09-advanced-features/README.md` permission-modes section.
+- OAuth code paste fallback (v2.1.126) — `claude auth login` accepts the OAuth
+  code pasted into the terminal when the browser callback can't reach
+  localhost (WSL2, SSH, containers). Documented in `10-cli/README.md`.
+- Type-to-filter `/skills` menu (v2.1.121). Documented in `03-skills/README.md`.
+- `AI_AGENT` environment variable (v2.1.120) — set on subprocesses so `gh` can
+  attribute traffic to Claude Code. Documented in `10-cli/README.md` env-var
+  table.
+
+### Changed
+
+- `--from-pr` (v2.1.119) and `/resume` PR-URL search (v2.1.122) now both
+  support GitHub, GitHub Enterprise, GitLab, and Bitbucket URLs.
+- Windows: Git for Windows / Git Bash no longer required (v2.1.120) — Claude
+  Code uses PowerShell as the shell tool when Git Bash is absent. From v2.1.126,
+  PowerShell is the primary shell when the PowerShell tool is enabled. Detection
+  extended to PowerShell 7 installed via Microsoft Store, MSI without PATH, or
+  `.NET global tool`. Documented in `09-advanced-features/README.md` platform
+  notes.
+- `/model` picker now lists models from your gateway's `/v1/models` endpoint
+  when `ANTHROPIC_BASE_URL` points at an Anthropic-compatible gateway
+  (v2.1.126). Documented in `10-cli/README.md`.
+- `--dangerously-skip-permissions` no longer prompts for writes to a much
+  broader allowlist (see Added). Catastrophic removals still prompt.
+- Image paste auto-downscale (v2.1.126) — images larger than 2000px are
+  downscaled on paste; oversized images in history are auto-removed and the
+  request retried. (Tutorial-relevant only as a safety/UX note.)
+
+### Security
+
+- Fixed `allowManagedDomainsOnly` / `allowManagedReadPathsOnly` being ignored
+  when a higher-priority managed-settings source lacked a `sandbox` block
+  (v2.1.126).
+
+### Notes for translation maintainers
+
+The `vi/`, `zh/`, `uk/`, and `ja/` localized trees are community-maintained
+and may lag the English source. Contributors syncing translations should diff
+against the English files updated in this release.
+
 ## [v2.4.0] — 2026-04-27
 
 ### Synced to Claude Code v2.1.119
 
 Bumps tutorial coverage from Claude Code v2.1.112 → v2.1.119 (April 23, 2026 release).
-v2.1.120 was published April 24 and rolled back due to regressions; clients are
-auto-rolled back to v2.1.119, which remains the stable target.
+v2.1.120 was published April 24, briefly rolled back the same day due to regressions,
+and re-released on April 28 with fixes — it is now part of the normal release line.
+A subsequent v2.1.126 (May 1, 2026) is the next stable target and is covered in the
+v2.5.0 entry above.
 
 ### Added (English docs)
 
