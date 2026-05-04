@@ -37,11 +37,11 @@ Claude Code 目前提供 55+ 个内置命令和 5 个内置 Skills。你可以�
 | `/desktop` | 继续在桌面应用中处理（别名：`/app`） |
 | `/diff` | 查看未提交更改的交互式 diff |
 | `/doctor` | 检查安装健康状态 |
-| `/effort [low|medium|high|max|auto]` | 设置推理强度；`max` 需要 Opus 4.6 |
+| `/effort [low\|medium\|high\|max\|auto]` | 设置推理强度；`max` 需要 Opus 4.6 |
 | `/exit` | 退出 REPL（别名：`/quit`） |
 | `/export [filename]` | 将当前对话导出为文件或剪贴板内容 |
 | `/extra-usage` | 配置额外用量以应对速率限制 |
-| `/fast [on|off]` | 切换快速模式 |
+| `/fast [on\|off]` | 切换快速模式 |
 | `/feedback` | 提交反馈（别名：`/bug`） |
 | `/help` | 显示帮助 |
 | `/hooks` | 查看 hook 配置 |
