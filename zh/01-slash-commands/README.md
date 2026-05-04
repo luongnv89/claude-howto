@@ -28,7 +28,7 @@ Claude Code 目前提供 55+ 个内置命令和 5 个内置 Skills。你可以�
 | `/btw <question>` | 额外问题，不写入历史 |
 | `/chrome` | 配置 Chrome 浏览器集成 |
 | `/clear` | 清空对话（别名：`/reset`、`/new`） |
-| `/color [color|default]` | 设置提示栏颜色 |
+| `/color [color\|default]` | 设置提示栏颜色 |
 | `/compact [instructions]` | 压缩对话，可附带聚焦指令 |
 | `/config` | 打开设置（别名：`/settings`） |
 | `/context` | 用彩色网格可视化上下文占用 |
