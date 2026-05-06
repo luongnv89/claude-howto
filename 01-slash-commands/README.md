@@ -276,7 +276,7 @@ Usage: `/review-pr 456 high` → `$0`="456", `$1`="high"
 
 ### Dynamic Context with Shell Commands
 
-Execute bash commands before the prompt using `!`command``:
+Execute bash commands before the prompt using `` !`command` ``:
 
 ```yaml
 ---

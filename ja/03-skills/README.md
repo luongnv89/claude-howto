@@ -179,7 +179,7 @@ paths: "src/api/**/*.ts"               # スキルの発火を制限する glob 
 | `effort` | スキルが有効な間の努力レベルの上書き: `low`, `medium`, `high`, `max`。 |
 | `context` | `fork` を指定するとスキルを独自のコンテキストウィンドウを持つフォーク済みサブエージェントコンテキストで実行する。 |
 | `agent` | `context: fork` の際のサブエージェントタイプ（例: `Explore`, `Plan`, `general-purpose`）。 |
-| `shell` | `!`command`` 置換とスクリプトに使うシェル: `bash`（既定）または `powershell`。 |
+| `shell` | `` !`command` `` 置換とスクリプトに使うシェル: `bash`（既定）または `powershell`。 |
 | `hooks` | このスキルのライフサイクルにスコープされたフック（グローバルフックと同じ形式）。 |
 | `paths` | スキルが自動発火する条件を制限する glob パターン。カンマ区切り文字列または YAML リスト。パス固有ルールと同じ形式。 |
 
@@ -266,7 +266,7 @@ Fix GitHub issue $ARGUMENTS following our coding standards.
 
 ## 動的コンテキストの注入
 
-`!`command`` 構文は、スキルコンテンツが Claude に送信される前にシェルコマンドを実行する。
+`` !`command` `` 構文は、スキルコンテンツが Claude に送信される前にシェルコマンドを実行する。
 
 ```yaml
 ---

@@ -176,7 +176,7 @@ paths: "src/api/**/*.ts"               # Glob patterns limiting when skill activ
 | `effort` | Effort level override while the skill is active: `low`, `medium`, `high`, `xhigh`, or `max`. Available levels depend on the model — `xhigh` is the Claude Code default for Opus 4.7. |
 | `context` | `fork` to run the skill in a forked subagent context with its own context window. |
 | `agent` | Subagent type when `context: fork` (e.g., `Explore`, `Plan`, `general-purpose`). |
-| `shell` | Shell used for `!`command`` substitutions and scripts: `bash` (default) or `powershell`. |
+| `shell` | Shell used for `` !`command` `` substitutions and scripts: `bash` (default) or `powershell`. |
 | `hooks` | Hooks scoped to this skill's lifecycle (same format as global hooks). |
 | `paths` | Glob patterns that limit when the skill is auto-activated. Comma-separated string or YAML list. Same format as path-specific rules. |
 
@@ -264,7 +264,7 @@ Running `/fix-issue 123` replaces `$ARGUMENTS` with `123`.
 
 ## Injecting Dynamic Context
 
-The `!`command`` syntax runs shell commands before the skill content is sent to Claude:
+The `` !`command` `` syntax runs shell commands before the skill content is sent to Claude:
 
 ```yaml
 ---

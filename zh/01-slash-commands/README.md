@@ -222,7 +222,7 @@ description: 按优先级审查 PR
 
 ### 用 Shell 命令注入动态上下文
 
-在 prompt 发送前，可用 `!` 命令先执行 shell 命令：
+在 prompt 发送前，可用 `` !`command` `` 先执行 shell 命令：
 
 ```yaml
 ---

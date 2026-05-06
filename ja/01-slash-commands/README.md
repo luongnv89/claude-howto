@@ -280,7 +280,7 @@ Review PR #$0 with priority $1
 
 ### シェルコマンドによる動的コンテキスト
 
-プロンプトの前に `!`command`` で bash コマンドを実行する:
+プロンプトの前に `` !`command` `` で bash コマンドを実行する:
 
 ```yaml
 ---

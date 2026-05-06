@@ -233,7 +233,7 @@ Cách sử dụng: `/review-pr 456 high` → `$0`="456", `$1`="high"
 
 ### Bối Cảnh Động Với Lệnh Shell
 
-Thực thi các lệnh bash trước prompt sử dụng `!`command``:
+Thực thi các lệnh bash trước prompt sử dụng `` !`command` ``:
 
 ```yaml
 ---
