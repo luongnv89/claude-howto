@@ -795,7 +795,7 @@ claude -p --output-format json "query"
 
 | ユースケース | コマンド |
 |-------------|----------|
-| 簡易コードレビュー | `cat file | claude -p "review"` |
+| 簡易コードレビュー | `cat file \| claude -p "review"` |
 | 構造化出力 | `claude -p --output-format json "query"` |
 | 安全な探索 | `claude --permission-mode plan` |
 | 安全装置付き自律実行 | `claude --enable-auto-mode --permission-mode auto` |

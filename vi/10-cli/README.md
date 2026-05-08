@@ -756,7 +756,7 @@ claude -p --output-format json "query"
 
 | Trường Hợp Sử Dụng | Lệnh |
 |----------|---------|
-| Quick code review | `cat file | claude -p "review"` |
+| Quick code review | `cat file \| claude -p "review"` |
 | Structured output | `claude -p --output-format json "query"` |
 | Safe exploration | `claude --permission-mode plan` |
 | Autonomous with safety | `claude --enable-auto-mode --permission-mode auto` |
