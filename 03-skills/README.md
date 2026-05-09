@@ -95,6 +95,8 @@ sequenceDiagram
 
 When skills share the same name across levels, higher-priority locations win: **enterprise > personal > project**. Plugin skills use a `plugin-name:skill-name` namespace, so they cannot conflict.
 
+> **Subagent skill discovery (v2.1.133+)**: Subagents now discover project, user, and plugin skills via the Skill tool the same way the main session does. Earlier versions limited subagents to their own embedded set, which meant skill+subagent workflows quietly degraded; from v2.1.133 the same skill catalog is visible to both.
+
 ### Automatic Discovery
 
 **Nested directories**: When you work with files in subdirectories, Claude Code automatically discovers skills from nested `.claude/skills/` directories. For example, if you're editing a file in `packages/frontend/`, Claude Code also looks for skills in `packages/frontend/.claude/skills/`. This supports monorepo setups where packages have their own skills.
@@ -844,8 +846,8 @@ Once you start building skills seriously, two things become essential: a library
 - [Hooks Guide](../06-hooks/) - Event-driven automation
 
 ---
-**Last Updated**: May 6, 2026
-**Claude Code Version**: 2.1.131
+**Last Updated**: May 9, 2026
+**Claude Code Version**: 2.1.138
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/settings

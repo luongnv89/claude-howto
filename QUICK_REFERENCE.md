@@ -118,7 +118,7 @@ claude -r "session"    # Resume session by name/ID
 | **Skills** | `.claude/skills/*/SKILL.md` | Auto-invoked |
 | **Subagents** | `.claude/agents/*.md` | Auto-delegated |
 | **MCP** | `.mcp.json` (project) or `~/.claude.json` (user) | `/mcp__server__action` |
-| **Hooks (28 events)** | `~/.claude/hooks/*.sh` | Event-triggered (5 types) |
+| **Hooks (29 events)** | `~/.claude/hooks/*.sh` | Event-triggered (5 types) |
 | **Plugins** | Via `/plugin install` | Bundles all |
 | **Checkpoints** | Built-in | `Esc+Esc` or `/rewind` |
 | **Planning Mode** | Built-in | `/plan <task>` |
@@ -189,7 +189,7 @@ vim CLAUDE.md
 
 ### Automation & Hooks
 ```bash
-# Install hooks (28 events, 5 types: command, http, mcp_tool, prompt, agent)
+# Install hooks (29 events, 5 types: command, http, mcp_tool, prompt, agent)
 mkdir -p ~/.claude/hooks
 cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
@@ -389,7 +389,7 @@ cp -r 03-skills/code-review ~/.claude/skills/
 | **Auto Mode** | Fully autonomous operation with background classifier | `--enable-auto-mode` flag, `Shift+Tab` to cycle modes |
 | **Channels** | Discord and Telegram integration | `--channels` flag, Discord/Telegram bots |
 | **Voice Dictation** | Speak commands and context to Claude | `/voice` command |
-| **Hooks (28 events)** | Expanded hook system with 5 types | command, http, mcp_tool, prompt, agent hook types |
+| **Hooks (29 events)** | Expanded hook system with 5 types | command, http, mcp_tool, prompt, agent hook types |
 | **MCP Elicitation** | MCP servers can request user input at runtime | Auto-prompted when server needs clarification |
 | **Plugin LSP** | Language Server Protocol support for plugins | `userConfig`, `${CLAUDE_PLUGIN_DATA}` variable |
 | **Remote Control** | Control Claude Code via WebSocket API | `claude --remote` for external integrations |
@@ -444,7 +444,7 @@ echo $GITHUB_TOKEN
 | Auto workflow | Skill | `03-skills/code-review/` |
 | Specialized task | Subagent | `04-subagents/code-reviewer.md` |
 | External data | MCP (+ Elicitation) | `05-mcp/github-mcp.json` |
-| Event automation | Hook (28 events, 5 types) | `06-hooks/pre-commit.sh` |
+| Event automation | Hook (29 events, 5 types) | `06-hooks/pre-commit.sh` |
 | Complete solution | Plugin (+ LSP support) | `07-plugins/pr-review/` |
 | Safe experiment | Checkpoint | `08-checkpoints/checkpoint-examples.md` |
 | Fully autonomous | Auto Mode | `--enable-auto-mode` or `Shift+Tab` |
@@ -504,11 +504,12 @@ Getting started checklist:
 **This Card**: Keep it handy for quick reference!
 
 ---
-**Last Updated**: May 6, 2026
-**Claude Code Version**: 2.1.131
+**Last Updated**: May 9, 2026
+**Claude Code Version**: 2.1.138
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.131
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

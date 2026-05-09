@@ -530,11 +530,11 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: May 6, 2026
-**Claude Code Version**: 2.1.131
+**Last Updated**: May 9, 2026
+**Claude Code Version**: 2.1.138
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.118
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

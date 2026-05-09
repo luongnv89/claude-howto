@@ -1198,11 +1198,12 @@ For the most up-to-date information, refer to the official Claude Code documenta
 - [Official Memory Docs](https://code.claude.com/docs/en/memory) - Anthropic documentation
 
 ---
-**Last Updated**: May 6, 2026
-**Claude Code Version**: 2.1.131
+**Last Updated**: May 9, 2026
+**Claude Code Version**: 2.1.138
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/settings
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.131
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

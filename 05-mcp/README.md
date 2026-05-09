@@ -265,6 +265,13 @@ For example, if a server named `github` exposes a prompt called `review`, you ca
 
 When the same MCP server is defined at multiple scopes (local, project, user), the local configuration takes precedence. This allows you to override project-level or user-level MCP settings with local customizations without conflicts.
 
+## Recent Lifecycle Fixes (v2.1.136)
+
+Two long-standing MCP lifecycle bugs were fixed in v2.1.136 — worth upgrading for if you run multi-server setups:
+
+- **MCP servers persist across `/clear`**: Servers configured via `.mcp.json`, plugins, or claude.ai connectors no longer disappear after `/clear` in VS Code, JetBrains, or the Agent SDK. Earlier versions silently dropped them and required a restart.
+- **OAuth refresh-token concurrent-refresh fix**: Multi-server OAuth setups no longer lose refresh tokens when several servers race to refresh simultaneously. This eliminates the "every morning I have to re-auth" pattern that affected setups with multiple OAuth-protected MCP servers.
+
 ## MCP Resources via @ Mentions
 
 You can reference MCP resources directly in your prompts using the `@` mention syntax:
@@ -1139,8 +1146,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: May 6, 2026
-**Claude Code Version**: 2.1.131
+**Last Updated**: May 9, 2026
+**Claude Code Version**: 2.1.138
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog

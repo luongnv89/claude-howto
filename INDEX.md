@@ -60,7 +60,7 @@ Persistent context and project standards.
 
 ---
 
-## 03. Skills (28 files)
+## 03. Skills (16 files)
 
 Auto-invoked capabilities with scripts and templates.
 
@@ -218,7 +218,7 @@ Event-driven automation scripts that execute automatically.
 
 **Usage**: Configured in settings, executed automatically
 
-**Hook Types** (5 types, 28 events):
+**Hook Types** (5 types, 29 events):
 - Tool Hooks: PreToolUse, PostToolUse, PostToolUseFailure, PermissionRequest
 - Session Hooks: SessionStart, SessionEnd, Stop, StopFailure, SubagentStart, SubagentStop
 - Task Hooks: UserPromptSubmit, TaskCompleted, TaskCreated, TeammateIdle
@@ -226,7 +226,7 @@ Event-driven automation scripts that execute automatically.
 
 ---
 
-## 07. Plugins (3 complete plugins, 40 files)
+## 07. Plugins (3 complete plugins, 27 files)
 
 Bundled collections of features.
 
@@ -874,16 +874,17 @@ Want to add more examples? Follow the structure:
 
 ---
 
-**Last Updated**: May 6, 2026
-**Claude Code Version**: 2.1.131
+**Last Updated**: May 9, 2026
+**Claude Code Version**: 2.1.138
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.131
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
 **Total Examples**: 100+ files
 **Categories**: 10 features
-**Hooks**: 8 automation scripts
+**Hooks**: 9 automation scripts
 **Configuration Examples**: 10+ scenarios
 **Ready to Use**: All examples

@@ -175,11 +175,12 @@ Subagent-based verification hooks that spawn a dedicated agent to evaluate condi
 
 ## Hook Events
 
-Claude Code supports **28 hook events**:
+Claude Code supports **29 hook events**:
 
 | Event | When Triggered | Matcher Input | Can Block | Common Use |
 |-------|---------------|---------------|-----------|------------|
 | **SessionStart** | Session begins/resumes/clear/compact | startup/resume/clear/compact | No | Environment setup |
+| **Setup** | Initial environment setup (one-time per session) | (none) | No | Provision tooling, install deps |
 | **InstructionsLoaded** | After CLAUDE.md or rules file loaded | (none) | No | Modify/filter instructions |
 | **UserPromptSubmit** | User submits prompt | (none) | Yes | Validate prompts |
 | **UserPromptExpansion** | User prompt is expanded (e.g., `@` mentions, slash commands resolved) | (none) | Yes | Transform or inspect expanded prompt |
@@ -480,7 +481,8 @@ All hooks receive JSON input via stdin:
   "tool_use_id": "toolu_01ABC123...",
   "agent_id": "agent-abc123",
   "agent_type": "main",
-  "worktree": "/path/to/worktree"
+  "worktree": "/path/to/worktree",
+  "effort": { "level": "medium" }
 }
 ```
 
@@ -495,6 +497,7 @@ All hooks receive JSON input via stdin:
 | `agent_id` | Identifier of the agent running this hook |
 | `agent_type` | Type of agent (`"main"`, subagent type name, etc.) |
 | `worktree` | Path to the git worktree, if the agent is running in one |
+| `effort.level` | (v2.1.133+) Active effort level: `low`, `medium`, `high`, `xhigh`, or `max` |
 
 ### Exit Codes
 
@@ -544,6 +547,8 @@ All hooks receive JSON input via stdin:
 | `${CLAUDE_PLUGIN_ROOT}` | Plugin hooks | Path to plugin directory |
 | `${CLAUDE_PLUGIN_DATA}` | Plugin hooks | Path to plugin data directory |
 | `CLAUDE_CODE_SESSIONEND_HOOKS_TIMEOUT_MS` | SessionEnd hooks | Configurable timeout in milliseconds for SessionEnd hooks (overrides default) |
+| `CLAUDE_CODE_SESSION_ID` | Bash tool subprocesses (v2.1.132+) | Session UUID; matches the `session_id` field in hook input JSON. Use to correlate bash logs with hook telemetry. |
+| `CLAUDE_EFFORT` | Bash tool subprocesses (v2.1.133+) | Active effort level (`low`/`medium`/`high`/`xhigh`/`max`); matches `effort.level` in hook input JSON. |
 
 ## Prompt-Based Hooks
 
@@ -1366,11 +1371,12 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: May 6, 2026
-**Claude Code Version**: 2.1.131
+**Last Updated**: May 9, 2026
+**Claude Code Version**: 2.1.138
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.131
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

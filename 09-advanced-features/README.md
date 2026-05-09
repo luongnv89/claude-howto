@@ -202,6 +202,8 @@ claude --model opusplan "design and implement the new API"
 
 > **v2.1.112 update**: Plan files are now named after the prompt that produced them (instead of random words), making them easier to browse and reuse.
 
+> **v2.1.136 update — plan-mode write blocks are unconditional**: Plan mode now blocks all file writes, including when a matching `Edit(...)` rule exists in `permissions.allow`. Previously a permissive `Edit(...)` rule could let writes through in plan mode; that bypass is closed. If a workflow depended on the older behavior, exit plan mode (`Shift+Tab`) before editing.
+
 ---
 
 ## Ultraplan (Cloud Plan Drafting)
@@ -483,6 +485,18 @@ claude auto-mode defaults
 
 Since v2.1.118, `autoMode.allow`, `autoMode.soft_deny`, and `autoMode.environment` accept a `"$defaults"` token that **appends** your rules to the built-in list instead of replacing it. Before v2.1.118, any user-defined array silently clobbered the built-ins.
 
+#### Unconditional blocks with `autoMode.hard_deny` (v2.1.136)
+
+`autoMode.hard_deny` (v2.1.136+) is an array of classifier rules that block a class of actions **regardless of inferred user intent**. Use this for actions that must never run in auto mode — for example, `rm -rf` on root paths or `git push --force` on protected branches. Unlike `soft_deny`, hard-deny rules are not negotiable by the classifier.
+
+```json
+{
+  "autoMode": {
+    "hard_deny": ["Bash(rm -rf /:*)", "Bash(git push --force*)"]
+  }
+}
+```
+
 **Before (replaces built-ins — pre-v2.1.118 behavior):**
 
 ```json
@@ -744,7 +758,7 @@ in 45 minutes, run the integration tests
 | Tool | Description |
 |------|-------------|
 | `CronCreate` | Create a new scheduled task |
-| `CronList` | List all active scheduled tasks |
+| `CronList` | List all active scheduled tasks. Since v2.1.136, output also includes the qualifier(s) and the scheduled prompt body, so you can audit what each cron will run without opening it. |
 | `CronDelete` | Remove a scheduled task |
 
 **Limits and behavior**:
@@ -1071,6 +1085,8 @@ claude --resume auth-refactor --fork-session "alternative approach"
 ### Session Recap (v2.1.108)
 
 When you return to a session after being away, Claude can show a brief recap of what was accomplished. This is enabled by default for users with telemetry disabled (Bedrock, Vertex, Foundry users).
+
+> **OTEL telemetry — re-enable feedback survey (v2.1.136+)**: Organizations capturing OpenTelemetry data can re-enable Anthropic's session-quality survey by setting `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL=1`. The survey is off by default in OTEL deployments because it was previously redirected away from telemetry pipelines.
 
 **Control recap behavior:**
 
@@ -1749,6 +1765,19 @@ Use the `worktree.sparsePaths` setting to perform sparse-checkout in monorepos, 
 }
 ```
 
+### Base Branch Reference (`worktree.baseRef`)
+
+**`worktree.baseRef`** (added v2.1.133) — controls whether `claude --worktree` branches from `origin/<default>` or local `HEAD`.
+
+- `"fresh"` (default) — branch from `origin/<default-branch>`, ignoring local unpushed commits. **This reverts the behavior introduced in v2.1.128**, so users who relied on local-HEAD branching after v2.1.128 must opt back in.
+- `"head"` — branch from local `HEAD`, preserving unpushed commits.
+
+Set in `~/.claude/settings.json`:
+
+```json
+{ "worktree": { "baseRef": "head" } }
+```
+
 ### Worktree Tools and Hooks
 
 | Item | Description |
@@ -1799,6 +1828,19 @@ claude --no-sandbox    # Disable sandboxing
 | `sandbox.network.allowedDomains` | Domains Bash-launched processes are allowed to reach (supports `*.` wildcard) |
 | `sandbox.network.deniedDomains` | Domains to block even when `allowedDomains` wildcard would otherwise permit them (v2.1.113+) |
 | `sandbox.enableWeakerNetworkIsolation` | Enable weaker network isolation on macOS |
+| `sandbox.bwrapPath` | (v2.1.133+, Linux/WSL) Path to the `bubblewrap` binary. Default: `$PATH` lookup. |
+| `sandbox.socatPath` | (v2.1.133+, Linux/WSL) Path to the `socat` binary. Default: `$PATH` lookup. |
+
+**Linux/WSL binary paths** (v2.1.133+) — point Claude Code at non-standard install locations:
+
+```json
+{
+  "sandbox": {
+    "bwrapPath": "/opt/bubblewrap/bin/bwrap",
+    "socatPath": "/opt/socat/bin/socat"
+  }
+}
+```
 
 Example of `deniedDomains` overriding a broad wildcard (v2.1.113+):
 
@@ -1880,6 +1922,7 @@ Since v2.1.83, administrators can deploy multiple managed settings files into a 
 | `allowedChannelPlugins` | Control which channel plugins are permitted |
 | `autoMode.environment` | Configure trusted infrastructure for auto mode |
 | `wslInheritsWindowsSettings` | Windows/WSL only (v2.1.118+): when `true`, Claude Code running inside WSL inherits managed settings from the Windows host, so enterprise policies deployed via Registry/MDM apply uniformly across the Windows and WSL shells |
+| `parentSettingsBehavior` | (v2.1.133+, admin-tier) Controls how the SDK's `managedSettings` merges with parent-process settings. `"first-wins"` keeps existing precedence (earlier setting wins on conflict); `"merge"` deep-merges values. |
 | Custom policies | Organization-specific permission and tool policies |
 
 ### Example: macOS Plist
@@ -2187,8 +2230,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: May 6, 2026
-**Claude Code Version**: 2.1.131
+**Last Updated**: May 9, 2026
+**Claude Code Version**: 2.1.138
 **Sources**:
 - https://code.claude.com/docs/en/permission-modes
 - https://code.claude.com/docs/en/interactive-mode

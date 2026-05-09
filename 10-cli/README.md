@@ -199,6 +199,8 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 
 > **PowerShell auto-approve (v2.1.119)**: PowerShell tool commands can be auto-approved in permission mode exactly the same way Bash commands are. Use the same matcher syntax you already use for `Bash(...)` rules to scope PowerShell permissions — for example, `PowerShell(Get-ChildItem:*)`.
 
+> **`--permission-mode` honored on resume (v2.1.132+)**: `claude -p --continue --permission-mode plan` (and `--resume`) now respects the flag. Earlier versions silently dropped `--permission-mode` when resuming a session, so a plan-mode session resumed without re-passing the flag would silently downgrade — that's fixed.
+
 ### Permission Examples
 
 ```bash
@@ -790,6 +792,9 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `max` effort l
 | `DISABLE_UPDATES` | Blocks all update paths including manual `claude update`. Stricter than `DISABLE_AUTOUPDATER`, which only blocks the background autoupdater (v2.1.118+) |
 | `CLAUDE_CODE_HIDE_CWD` | When set to `1`, hides the current working directory in the startup logo (privacy / screen-share use) (v2.1.119+) |
 | `CLAUDE_CODE_FORK_SUBAGENT` | Set to `1` to enable forked subagents on external builds (Bedrock, Vertex, Foundry). No effect on Anthropic API where forked subagents are GA (v2.1.117+) |
+| `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN` | Set to `1` to opt out of the fullscreen alternate-screen renderer; the session stays in normal terminal scrollback. Useful when piping transcripts to logs or pairing with `script(1)` (v2.1.132+). |
+| `CLAUDE_CODE_SESSION_ID` | Set in every Bash tool subprocess launched by Claude Code; equals the `session_id` in hook input JSON. Use to correlate bash logs with hook telemetry (v2.1.132+). |
+| `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL` | Set to `1` to re-enable Anthropic's session-quality survey for organizations capturing OpenTelemetry data. Off by default in OTEL deployments (v2.1.136+). |
 | `OTEL_LOG_TOOL_DETAILS` | Set to `1` to unredact custom and MCP command names in OpenTelemetry events (v2.1.117+). Redaction remains the default. |
 | `ANTHROPIC_BEDROCK_SERVICE_TIER` | Selects the Bedrock service tier: `default`, `flex`, or `priority` (v2.1.122+) |
 | `AI_AGENT` | Set automatically on subprocesses so external CLIs (e.g., `gh`) can attribute traffic to Claude Code (v2.1.120+) |
@@ -903,8 +908,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: May 6, 2026
-**Claude Code Version**: 2.1.131
+**Last Updated**: May 9, 2026
+**Claude Code Version**: 2.1.138
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/settings
@@ -915,4 +920,5 @@ claude -p --output-format json "query"
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.131
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
