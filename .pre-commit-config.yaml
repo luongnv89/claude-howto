@@ -95,6 +95,13 @@ repos:
         types: [markdown]
         verbose: true
 
+      - id: markdown-rendering
+        name: markdown-rendering
+        language: system
+        entry: python scripts/check_markdown_rendering.py
+        pass_filenames: false
+        types: [markdown]
+
       - id: build-epub
         name: build-epub
         language: system
