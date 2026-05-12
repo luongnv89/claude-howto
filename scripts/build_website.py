@@ -239,10 +239,31 @@ def source_to_site_url(rel_source: str) -> str:
     return rel_source
 
 
+def _disambiguate_url(url: str, used_lower: set[str], rel_source: str) -> str:
+    """Avoid case-insensitive filesystem collisions (e.g. INDEX.html ↔ index.html).
+
+    macOS/Windows treat `INDEX.html` and `index.html` as the same file. When
+    two source files would resolve to URLs that differ only in case, suffix
+    the second one with the source stem so both pages survive the build.
+    """
+    if url.lower() not in used_lower:
+        return url
+    parent, sep, leaf = url.rpartition("/")
+    stem, dot, ext = leaf.rpartition(".")
+    src_stem = Path(rel_source).stem.lower()
+    candidate = f"{parent}{sep}{stem}-{src_stem}{dot}{ext}"
+    suffix = 2
+    while candidate.lower() in used_lower:
+        candidate = f"{parent}{sep}{stem}-{src_stem}-{suffix}{dot}{ext}"
+        suffix += 1
+    return candidate
+
+
 def collect_pages(config: WebsiteConfig, logger: logging.Logger) -> BuildState:
     """Walk the configured chapter order and produce a flat list of pages."""
     state = BuildState()
     seen: set[str] = set()
+    used_urls: set[str] = set()
 
     for item, display_name in CHAPTER_ORDER:
         item_path = config.root_path / item
@@ -255,11 +276,13 @@ def collect_pages(config: WebsiteConfig, logger: logging.Logger) -> BuildState:
                 continue
             seen.add(item)
             page_title = derive_page_title(item_path, display_name)
+            url = _disambiguate_url(source_to_site_url(item), used_urls, item)
+            used_urls.add(url.lower())
             state.pages.append(
                 PageInfo(
                     source=item_path,
                     rel_source=item,
-                    output_url=source_to_site_url(item),
+                    output_url=url,
                     title=page_title,
                     section=display_name,
                     is_section_index=True,
@@ -274,11 +297,13 @@ def collect_pages(config: WebsiteConfig, logger: logging.Logger) -> BuildState:
                 seen.add(rel)
                 is_index = md.name == "README.md" and md.parent == item_path
                 title = derive_page_title(md, display_name if is_index else md.stem)
+                url = _disambiguate_url(source_to_site_url(rel), used_urls, rel)
+                used_urls.add(url.lower())
                 state.pages.append(
                     PageInfo(
                         source=md,
                         rel_source=rel,
-                        output_url=source_to_site_url(rel),
+                        output_url=url,
                         title=title,
                         section=display_name,
                         is_section_index=is_index,
@@ -561,8 +586,12 @@ def copy_assets(
 # =============================================================================
 
 
-def build_navigation(state: BuildState) -> list[dict[str, object]]:
-    """Group pages into the sidebar navigation tree."""
+def build_navigation(state: BuildState, current_url: str) -> list[dict[str, object]]:
+    """Group pages into the sidebar navigation tree, rooted at `current_url`.
+
+    Each item's `url` is a relative URL from `current_url` so the same nav
+    structure works from any page depth (top-level vs nested chapter folders).
+    """
     sections: list[dict[str, object]] = []
     section_map: dict[str, dict[str, object]] = {}
 
@@ -572,19 +601,17 @@ def build_navigation(state: BuildState) -> list[dict[str, object]]:
             section = {
                 "name": page.section,
                 "items": [],
-                "index_url": page.output_url if page.is_section_index else None,
             }
             section_map[page.section] = section
             sections.append(section)
-        elif page.is_section_index and section["index_url"] is None:
-            section["index_url"] = page.output_url
 
         items = section["items"]
         assert isinstance(items, list)
         items.append(
             {
                 "title": page.title,
-                "url": page.output_url,
+                "url": relative_link(current_url, page.output_url),
+                "is_current": page.output_url == current_url,
                 "is_index": page.is_section_index,
             }
         )
@@ -600,10 +627,10 @@ def render_pages(
 ) -> None:
     """Render each markdown page into `<output>/<output_url>`."""
     template = env.get_template("page.html.j2")
-    nav = build_navigation(state)
     total = len(state.pages)
 
     for idx, page in enumerate(state.pages):
+        nav = build_navigation(state, page.output_url)
         try:
             md_content = page.source.read_text(encoding="utf-8")
         except UnicodeDecodeError as e:

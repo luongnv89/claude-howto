@@ -124,7 +124,7 @@
             <li>
               <a
                 href="{{ item.url }}"
-                class="block rounded-md px-3 py-1.5 transition-colors {% if item.url == current_url %}bg-brand-50 font-semibold text-brand-700 dark:bg-brand-700/20 dark:text-brand-100{% else %}text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white{% endif %}"
+                class="block rounded-md px-3 py-1.5 transition-colors {% if item.is_current %}bg-brand-50 font-semibold text-brand-700 dark:bg-brand-700/20 dark:text-brand-100{% else %}text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white{% endif %}"
               >
                 {{ item.title }}
               </a>

@@ -14,6 +14,7 @@ from build_website import (
     BuildState,
     PageInfo,
     WebsiteConfig,
+    _disambiguate_url,
     build_website,
     collect_folder_markdown,
     derive_page_title,
@@ -114,6 +115,20 @@ class TestSourceToSiteUrl:
             source_to_site_url("01-slash-commands/example.md")
             == "01-slash-commands/example.html"
         )
+
+
+class TestDisambiguateUrl:
+    def test_no_collision_passes_through(self) -> None:
+        used: set[str] = {"foo.html"}
+        assert _disambiguate_url("bar.html", used, "bar.md") == "bar.html"
+
+    def test_case_insensitive_collision_disambiguated(self) -> None:
+        # README → index.html lands first; INDEX.md (case-insensitive collision)
+        # must get a suffix on macOS / Windows filesystems.
+        used: set[str] = {"index.html"}
+        result = _disambiguate_url("INDEX.html", used, "INDEX.md")
+        assert result.lower() != "index.html"
+        assert result.endswith(".html")
 
 
 # =============================================================================
