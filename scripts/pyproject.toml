@@ -12,6 +12,7 @@ dependencies = [
     "httpx",
     "pillow",
     "tenacity",
+    "jinja2",
 ]
 
 [project.optional-dependencies]
@@ -114,6 +115,10 @@ ignore_errors = true
 
 [[tool.mypy.overrides]]
 module = ["sync_translations", "scripts.sync_translations"]
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = ["build_website", "scripts.build_website"]
 ignore_errors = true
 
 [tool.bandit]

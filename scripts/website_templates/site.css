@@ -1,0 +1,104 @@
+/* Site-specific styles layered on top of Tailwind. */
+
+html {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Mermaid diagrams: centre and constrain width so they read on mobile. */
+.mermaid {
+  background: transparent !important;
+  padding: 1rem 0;
+  margin: 1.5rem 0;
+  text-align: center;
+  overflow-x: auto;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent prose pre/code from inheriting the Tailwind dark prose background
+   which can clash with our slate-900 preference. */
+.prose pre {
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  line-height: 1.55;
+  font-size: 0.875rem;
+}
+
+.prose pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* Inline code gets a softer treatment than fenced blocks. */
+.prose :where(p, li, h1, h2, h3, h4) code {
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+/* Tables wrap on mobile rather than forcing horizontal scroll on every page. */
+.prose table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .prose table {
+    display: table;
+    white-space: normal;
+  }
+}
+
+/* Anchor offset so sticky header doesn't cover heading targets. */
+.prose :where(h1, h2, h3, h4, h5, h6) {
+  scroll-margin-top: 6rem;
+}
+
+/* Hide focus rings on mouse, keep for keyboard. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Pygments syntax highlighting (paired with `markdown` codehilite extension). */
+.codehilite { background: transparent; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite .c, .codehilite .c1, .codehilite .cm { color: #999988; font-style: italic }
+.codehilite .k, .codehilite .kc, .codehilite .kd, .codehilite .kn, .codehilite .kp,
+.codehilite .kr, .codehilite .kt { color: #f0883e; font-weight: 600 }
+.codehilite .s, .codehilite .s1, .codehilite .s2 { color: #a5d6ff }
+.codehilite .nb { color: #79c0ff }
+.codehilite .nf { color: #d2a8ff }
+.codehilite .o, .codehilite .p { color: #ff7b72 }
+.codehilite .m, .codehilite .mi, .codehilite .mf { color: #79c0ff }
+.codehilite .nv, .codehilite .vc, .codehilite .vg, .codehilite .vi { color: #ffa657 }
+.codehilite .err { color: inherit }
+
+/* Light-theme readability tweaks for code colours. */
+:root:not(.dark) .codehilite .k,
+:root:not(.dark) .codehilite .kc,
+:root:not(.dark) .codehilite .kd,
+:root:not(.dark) .codehilite .kn,
+:root:not(.dark) .codehilite .kp,
+:root:not(.dark) .codehilite .kr,
+:root:not(.dark) .codehilite .kt { color: #cf222e; }
+:root:not(.dark) .codehilite .s,
+:root:not(.dark) .codehilite .s1,
+:root:not(.dark) .codehilite .s2 { color: #0a3069; }
+:root:not(.dark) .codehilite .nb { color: #0550ae; }
+:root:not(.dark) .codehilite .nf { color: #6f42c1; }
+:root:not(.dark) .codehilite .m,
+:root:not(.dark) .codehilite .mi,
+:root:not(.dark) .codehilite .mf { color: #0550ae; }

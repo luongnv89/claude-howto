@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{{ page_title }} — {{ site_title }}</title>
+  <meta name="description" content="{{ site_subtitle }}" />
+  <link rel="icon" href="{{ assets_prefix }}resources/logos/claude-howto-logo.svg" type="image/svg+xml" />
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="{{ assets_prefix }}site.css" />
+  <script>
+    // Apply the saved theme before paint to avoid flash of unstyled content.
+    (function () {
+      try {
+        var saved = localStorage.getItem('claude-howto-theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = saved || (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50:  '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
+
+  <header class="sticky top-0 z-30 border-b border-slate-200 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
+    <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
+      <button
+        type="button"
+        id="nav-toggle"
+        class="inline-flex items-center justify-center rounded-md border border-slate-200 p-2 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 lg:hidden"
+        aria-label="Open navigation"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path d="M3 5h14a1 1 0 110 2H3a1 1 0 110-2zm0 4h14a1 1 0 110 2H3a1 1 0 110-2zm0 4h14a1 1 0 110 2H3a1 1 0 110-2z"/>
+        </svg>
+      </button>
+      <a href="{{ base_path }}index.html" class="flex items-center gap-2 font-semibold tracking-tight">
+        <img
+          src="{{ assets_prefix }}resources/logos/claude-howto-logo.svg"
+          alt=""
+          class="h-7 w-auto dark:hidden"
+          onerror="this.style.display='none'"
+        />
+        <img
+          src="{{ assets_prefix }}resources/logos/claude-howto-logo-dark.svg"
+          alt=""
+          class="hidden h-7 w-auto dark:block"
+          onerror="this.style.display='none'"
+        />
+        <span class="text-sm sm:text-base">{{ site_title }}</span>
+      </a>
+      <div class="ml-auto flex items-center gap-2">
+        <a
+          href="{{ github_source_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden items-center gap-1.5 rounded-md border border-slate-200 px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 sm:inline-flex"
+          title="View this page's markdown source on GitHub"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          <span>Edit on GitHub</span>
+        </a>
+        <button
+          type="button"
+          id="theme-toggle"
+          class="inline-flex items-center justify-center rounded-md border border-slate-200 p-2 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+          aria-label="Toggle theme"
+        >
+          <svg class="hidden h-5 w-5 dark:block" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.95 2.05a1 1 0 010 1.41l-.71.71a1 1 0 11-1.41-1.41l.71-.71a1 1 0 011.41 0zM18 9a1 1 0 110 2h-1a1 1 0 110-2h1zm-2.05 4.95a1 1 0 011.41 1.41l-.71.71a1 1 0 11-1.41-1.41l.71-.71zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-4.95-2.05a1 1 0 010 1.41l-.71.71a1 1 0 11-1.41-1.41l.71-.71a1 1 0 011.41 0zM3 9a1 1 0 110 2H2a1 1 0 110-2h1zm2.05-4.95a1 1 0 011.41-1.41l.71.71a1 1 0 11-1.41 1.41l-.71-.71zM10 6a4 4 0 100 8 4 4 0 000-8z"/>
+          </svg>
+          <svg class="h-5 w-5 dark:hidden" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mx-auto flex max-w-7xl gap-6 px-4 py-8 sm:px-6 lg:px-8">
+    {# ---------- Sidebar navigation ---------- #}
+    <aside
+      id="sidebar"
+      class="fixed inset-y-0 left-0 z-40 w-72 -translate-x-full transform overflow-y-auto border-r border-slate-200 bg-white px-4 pb-10 pt-20 transition-transform duration-200 ease-out dark:border-slate-800 dark:bg-slate-950 lg:sticky lg:top-20 lg:z-0 lg:h-[calc(100vh-5rem)] lg:translate-x-0 lg:bg-transparent lg:px-0 lg:pt-0 lg:dark:bg-transparent"
+    >
+      <nav class="space-y-6 text-sm">
+        {% for section in nav %}
+        <div>
+          <div class="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            {{ section.name }}
+          </div>
+          <ul class="space-y-0.5">
+            {% for item in section['items'] %}
+            <li>
+              <a
+                href="{{ item.url }}"
+                class="block rounded-md px-3 py-1.5 transition-colors {% if item.url == current_url %}bg-brand-50 font-semibold text-brand-700 dark:bg-brand-700/20 dark:text-brand-100{% else %}text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white{% endif %}"
+              >
+                {{ item.title }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endfor %}
+      </nav>
+    </aside>
+
+    {# Backdrop for mobile sidebar #}
+    <div
+      id="sidebar-backdrop"
+      class="fixed inset-0 z-30 hidden bg-slate-900/40 lg:hidden"
+      aria-hidden="true"
+    ></div>
+
+    {# ---------- Main content ---------- #}
+    <main class="flex min-w-0 flex-1 flex-col">
+      <nav class="mb-4 text-xs text-slate-500 dark:text-slate-400" aria-label="Breadcrumb">
+        <ol class="flex flex-wrap items-center gap-1.5">
+          <li><a href="{{ base_path }}index.html" class="hover:underline">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-slate-700 dark:text-slate-200">{{ section }}</li>
+          {% if page_title != section %}
+          <li aria-hidden="true">/</li>
+          <li class="text-slate-700 dark:text-slate-200">{{ page_title }}</li>
+          {% endif %}
+        </ol>
+      </nav>
+
+      <article class="prose prose-slate max-w-none prose-headings:scroll-mt-24 prose-headings:font-semibold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline prose-code:rounded prose-code:bg-slate-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:font-mono prose-code:text-sm prose-code:before:content-none prose-code:after:content-none prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-img:rounded-lg prose-table:text-sm dark:prose-invert dark:prose-code:bg-slate-800 dark:prose-pre:bg-slate-900">
+        {{ content | safe }}
+      </article>
+
+      {% if prev_page or next_page %}
+      <div class="mt-12 grid grid-cols-1 gap-3 border-t border-slate-200 pt-6 dark:border-slate-800 sm:grid-cols-2">
+        {% if prev_page %}
+        <a
+          href="{{ prev_page.url }}"
+          class="group rounded-lg border border-slate-200 p-4 transition hover:border-brand-500 hover:bg-brand-50/50 dark:border-slate-800 dark:hover:border-brand-500 dark:hover:bg-brand-700/10"
+        >
+          <div class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">← Previous</div>
+          <div class="mt-1 font-semibold text-slate-900 group-hover:text-brand-700 dark:text-slate-100 dark:group-hover:text-brand-300">
+            {{ prev_page.title }}
+          </div>
+        </a>
+        {% else %}
+        <span></span>
+        {% endif %}
+        {% if next_page %}
+        <a
+          href="{{ next_page.url }}"
+          class="group rounded-lg border border-slate-200 p-4 text-right transition hover:border-brand-500 hover:bg-brand-50/50 dark:border-slate-800 dark:hover:border-brand-500 dark:hover:bg-brand-700/10"
+        >
+          <div class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Next →</div>
+          <div class="mt-1 font-semibold text-slate-900 group-hover:text-brand-700 dark:text-slate-100 dark:group-hover:text-brand-300">
+            {{ next_page.title }}
+          </div>
+        </a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <footer class="mt-12 border-t border-slate-200 pt-6 text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400">
+        <p>
+          Content rendered from
+          <a href="{{ github_source_url }}" target="_blank" rel="noopener noreferrer" class="underline hover:text-brand-700 dark:hover:text-brand-300">
+            {{ page_title }}
+          </a>
+          on GitHub. Markdown is the single source of truth — re-run
+          <code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono dark:bg-slate-800">scripts/build_website.py</code>
+          after editing to refresh the site.
+        </p>
+      </footer>
+    </main>
+
+    {# ---------- In-page TOC ---------- #}
+    {% if toc %}
+    <aside class="hidden w-56 xl:block">
+      <div class="sticky top-24 text-sm">
+        <div class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          On this page
+        </div>
+        <ul class="space-y-1">
+          {% for entry in toc %}
+          <li>
+            <a
+              href="#{{ entry.anchor }}"
+              class="block truncate text-slate-600 hover:text-brand-700 dark:text-slate-400 dark:hover:text-brand-300 {% if entry.level == 'h3' %}pl-3 text-xs{% endif %}"
+            >{{ entry.text }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </aside>
+    {% endif %}
+  </div>
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    var prefersDark =
+      document.documentElement.classList.contains('dark');
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: prefersDark ? 'dark' : 'default',
+      securityLevel: 'strict',
+      fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
+    });
+  </script>
+  <script>
+    (function () {
+      var toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          var isDark = document.documentElement.classList.toggle('dark');
+          try {
+            localStorage.setItem('claude-howto-theme', isDark ? 'dark' : 'light');
+          } catch (e) {}
+        });
+      }
+      var navToggle = document.getElementById('nav-toggle');
+      var sidebar = document.getElementById('sidebar');
+      var backdrop = document.getElementById('sidebar-backdrop');
+      function closeSidebar() {
+        if (!sidebar) return;
+        sidebar.classList.add('-translate-x-full');
+        if (backdrop) backdrop.classList.add('hidden');
+      }
+      function openSidebar() {
+        if (!sidebar) return;
+        sidebar.classList.remove('-translate-x-full');
+        if (backdrop) backdrop.classList.remove('hidden');
+      }
+      if (navToggle && sidebar) {
+        navToggle.addEventListener('click', function () {
+          if (sidebar.classList.contains('-translate-x-full')) {
+            openSidebar();
+          } else {
+            closeSidebar();
+          }
+        });
+      }
+      if (backdrop) backdrop.addEventListener('click', closeSidebar);
+    })();
+  </script>
+</body>
+</html>
