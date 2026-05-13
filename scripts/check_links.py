@@ -53,7 +53,7 @@ URL_RE = re.compile(r"https?://[a-zA-Z0-9][a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+
 
 def is_skipped(url: str) -> bool:
     try:
-        domain = url.split("/")[2]
+        domain = url.split("/", 3)[2].split(":", 1)[0]
     except IndexError:
         return True  # malformed URL
     if any(skip == domain or domain.endswith("." + skip) for skip in SKIP_DOMAINS):
