@@ -117,10 +117,6 @@ ignore_errors = true
 module = ["sync_translations", "scripts.sync_translations"]
 ignore_errors = true
 
-[[tool.mypy.overrides]]
-module = ["build_website", "scripts.build_website"]
-ignore_errors = true
-
 [tool.bandit]
 targets = ["scripts"]
 exclude_dirs = ["scripts/tests", ".venv", "__pycache__"]
