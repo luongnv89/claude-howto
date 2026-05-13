@@ -7,6 +7,7 @@ on:
     paths:
       - '**/*.md'
       - 'scripts/build_website.py'
+      - 'scripts/vendor_assets.py'
       - 'scripts/website_templates/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:

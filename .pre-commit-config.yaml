@@ -60,6 +60,8 @@ repos:
         args: [--config-file, scripts/pyproject.toml]
         files: ^scripts/
         exclude: ^scripts/tests/
+        additional_dependencies:
+          - types-Markdown
 
   # Local doc quality hooks (mirrors CI checks — CI is a 2nd pass of these)
   - repo: local

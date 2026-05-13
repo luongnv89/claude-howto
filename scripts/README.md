@@ -146,9 +146,13 @@ files remain the single source of truth.
   the corresponding pages on the site
 - References to non-markdown repo files (templates, scripts, JSON) become
   GitHub blob URLs that open the source on github.com
-- Mermaid diagrams render client-side via `mermaid.js` (no pre-render step)
-- Tailwind CSS via CDN — responsive layout with sidebar nav, in-page TOC,
-  dark mode toggle, and prev/next page navigation
+- Mermaid diagrams render client-side via `mermaid.min.js`, served from the
+  built site (no CDN at runtime)
+- Tailwind CSS compiled with the standalone CLI (Go binary, no Node.js) and
+  served from the built site — responsive layout with sidebar nav, in-page
+  TOC, dark mode toggle, and prev/next page navigation
+- Inter + JetBrains Mono fonts are self-hosted alongside the CSS — no
+  third-party requests at page load
 - Mirrors the EPUB curriculum order (`01-` … `10-` plus top-level docs)
 - Hostable as plain static files — designed to deploy to GitHub Pages
 
@@ -191,9 +195,15 @@ with **Source: GitHub Actions** to activate it.
 `build_website.py` reuses the chapter-ordering logic from `build_epub.py` and
 ships HTML templates under `scripts/website_templates/`:
 
-- `page.html.j2` — per-page Jinja2 template with sidebar nav, TOC, prev/next,
-  Tailwind via CDN, Mermaid via CDN
+- `page.html.j2` — per-page Jinja2 template with sidebar nav, TOC, prev/next
+- `tailwind.config.js`, `tailwind.input.css` — config + entry CSS for the
+  Tailwind standalone CLI; the CLI scans the built HTML and produces
+  `site/assets/tailwind.css` with just the utilities actually used
 - `site.css` — small layer of site-specific styles plus Pygments theme
+
+The Tailwind CLI binary, Mermaid bundle, and font files are downloaded on
+first build into `scripts/.vendor-cache/` (gitignored) — see
+`scripts/vendor_assets.py`.
 
 Heading anchors are generated using the exact algorithm in
 `check_cross_references.heading_to_anchor`, so `#anchor` links validated by

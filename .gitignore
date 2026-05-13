@@ -92,3 +92,6 @@ promo-video/
 update-plan*.md
 site/
 .gstack/
+
+# Cached vendor binaries/assets for the website build (Tailwind CLI, Mermaid, fonts).
+scripts/.vendor-cache/

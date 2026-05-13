@@ -359,7 +359,7 @@ class TestBuildWebsite:
             branch="main",
         )
 
-        build_website(config, logger)
+        build_website(config, logger, skip_vendor=True)
 
         # Index page rendered
         index = out_dir / "index.html"
@@ -392,3 +392,55 @@ class TestBuildWebsite:
         assert (out_dir / "assets" / "site.css").exists()
         # Logo copied into assets
         assert (out_dir / "assets" / "resources" / "logos" / "logo.svg").exists()
+        # Template no longer references third-party CDNs.
+        for hostile in (
+            "cdn.tailwindcss.com",
+            "cdn.jsdelivr.net",
+            "fonts.googleapis.com",
+        ):
+            assert (
+                hostile not in index_html
+            ), f"Built HTML still references {hostile} — CDN should be self-hosted"
+
+
+# =============================================================================
+# vendor_assets module smoke test
+# =============================================================================
+
+
+class TestVendorAssets:
+    def test_module_exports(self) -> None:
+        """vendor_assets exposes the API build_website depends on."""
+        import vendor_assets
+
+        for attr in (
+            "build_tailwind_css",
+            "fetch_mermaid",
+            "fetch_fonts",
+            "write_vendor_manifest",
+            "ensure_tailwind_binary",
+            "TAILWIND_VERSION",
+            "MERMAID_VERSION",
+        ):
+            assert hasattr(vendor_assets, attr), f"missing {attr}"
+
+    def test_detect_tailwind_asset_name(self) -> None:
+        """Platform detection returns one of the known asset names."""
+        from vendor_assets import _detect_tailwind_asset_name
+
+        known = {
+            "tailwindcss-macos-arm64",
+            "tailwindcss-macos-x64",
+            "tailwindcss-linux-arm64",
+            "tailwindcss-linux-armv7",
+            "tailwindcss-linux-x64",
+            "tailwindcss-windows-x64.exe",
+        }
+        assert _detect_tailwind_asset_name() in known
+
+    def test_download_rejects_non_http_scheme(self, tmp_path: Path) -> None:
+        """The _download helper refuses file:/ftp:/etc. — defense-in-depth."""
+        from vendor_assets import _download
+
+        with pytest.raises(ValueError, match="non-HTTP URL"):
+            _download("file:///etc/passwd", tmp_path / "out.bin")
