@@ -325,6 +325,45 @@ class TestRewriteLinks:
         assert "github.com/example/repo/blob/main/scripts/build.sh" in out
         assert 'target="_blank"' in out
 
+    def test_repo_directory_link_uses_github_tree(
+        self, tmp_path: Path, logger: logging.Logger
+    ) -> None:
+        (tmp_path / "scripts").mkdir()
+        (tmp_path / "README.md").write_text("# Home")
+        page = PageInfo(
+            source=tmp_path / "README.md",
+            rel_source="README.md",
+            output_url="index.html",
+            title="Home",
+            section="Introduction",
+            is_section_index=True,
+        )
+        html_in = '<a href="scripts/">scripts</a>'
+        out = rewrite_links(
+            html_in, page, self._state(), self._config(tmp_path), logger
+        )
+        assert "github.com/example/repo/tree/main/scripts" in out
+        assert "github.com/example/repo/blob/main/scripts" not in out
+
+    def test_repo_root_link_uses_github_tree(
+        self, tmp_path: Path, logger: logging.Logger
+    ) -> None:
+        (tmp_path / "README.md").write_text("# Home")
+        page = PageInfo(
+            source=tmp_path / "README.md",
+            rel_source="README.md",
+            output_url="index.html",
+            title="Home",
+            section="Introduction",
+            is_section_index=True,
+        )
+        html_in = '<a href=".">repo root</a>'
+        out = rewrite_links(
+            html_in, page, self._state(), self._config(tmp_path), logger
+        )
+        assert "github.com/example/repo/tree/main" in out
+        assert "github.com/example/repo/blob/main/." not in out
+
     def test_external_link_left_alone(
         self, tmp_path: Path, logger: logging.Logger
     ) -> None:

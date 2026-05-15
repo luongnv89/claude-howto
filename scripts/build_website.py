@@ -21,8 +21,8 @@ Output:
 Features:
     - Renders the same chapter order as the EPUB build (curriculum order).
     - Rewrites internal `.md` links to corresponding HTML pages on the site.
-    - Rewrites repo-file references (`.json`, `.sh`, `.py`, etc.) to GitHub
-      blob URLs so users can jump to the source on github.com.
+    - Rewrites repo-file/folder references (`.json`, `.sh`, `.py`, etc.) to
+      GitHub source URLs so users can jump to the source on github.com.
     - Self-hosted Tailwind CSS (compiled via standalone CLI), Inter font, and
       `mermaid.min.js` — no third-party CDN scripts at runtime.
     - Light/dark theme toggle, mobile-friendly responsive layout, sidebar.
@@ -372,6 +372,15 @@ def _resolve_repo_relative(href: str, page_dir: Path, root_path: Path) -> str | 
     return rel_to_root.as_posix()
 
 
+def _github_source_url(
+    config: WebsiteConfig, rel_str: str, *, is_dir: bool, anchor: str = ""
+) -> str:
+    kind = "tree" if is_dir else "blob"
+    if rel_str == ".":
+        return f"{config.repo_url}/{kind}/{config.branch}{anchor}"
+    return f"{config.repo_url}/{kind}/{config.branch}/{rel_str}{anchor}"
+
+
 def _rewrite_anchor(
     a: object,
     page: PageInfo,
@@ -379,7 +388,7 @@ def _rewrite_anchor(
     config: WebsiteConfig,
     logger: logging.Logger,
 ) -> None:
-    """Rewrite a single `<a href>` to its site URL or GitHub blob URL."""
+    """Rewrite a single `<a href>` to its site URL or GitHub source URL."""
     href = a.get("href", "")  # type: ignore[attr-defined]
     if not href or is_external(href) or href.startswith("#"):
         return
@@ -408,7 +417,10 @@ def _rewrite_anchor(
             )
             return
 
-    a["href"] = f"{config.repo_url}/blob/{config.branch}/{rel_str}{anchor}"  # type: ignore[index]
+    github_url = _github_source_url(
+        config, rel_str, is_dir=resolved.is_dir(), anchor=anchor
+    )
+    a["href"] = github_url  # type: ignore[index]
     a["target"] = "_blank"  # type: ignore[index]
     a["rel"] = "noopener noreferrer"  # type: ignore[index]
 
