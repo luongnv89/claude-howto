@@ -17,9 +17,11 @@ from build_website import (
     _disambiguate_url,
     build_website,
     collect_folder_markdown,
+    collect_pages,
     derive_page_title,
     heading_to_anchor,
     is_excluded_dir,
+    is_excluded_top_level_markdown,
     relative_link,
     render_markdown,
     replace_mermaid_blocks,
@@ -47,6 +49,9 @@ def site_root(tmp_path: Path) -> Path:
     (tmp_path / "LEARNING-ROADMAP.md").write_text(
         "# Learning Roadmap\n\nLink back to [Home](README.md#home-page).\n"
     )
+    (tmp_path / "CONTRIBUTING.md").write_text("# Contributing\n\nHelp improve docs.")
+    (tmp_path / "CLAUDE.md").write_text("# Internal Agent Notes\n")
+    (tmp_path / "update-plan-2026-05-02.md").write_text("# Temporary Plan\n")
 
     sc = tmp_path / "01-slash-commands"
     sc.mkdir()
@@ -169,6 +174,17 @@ class TestIsExcludedDir:
         assert is_excluded_dir("01-slash-commands") is False
 
 
+class TestIsExcludedTopLevelMarkdown:
+    def test_internal_agent_file_excluded(self) -> None:
+        assert is_excluded_top_level_markdown("CLAUDE.md") is True
+
+    def test_temporary_update_plan_excluded(self) -> None:
+        assert is_excluded_top_level_markdown("update-plan-2026-05-02.md") is True
+
+    def test_project_doc_included(self) -> None:
+        assert is_excluded_top_level_markdown("CONTRIBUTING.md") is False
+
+
 # =============================================================================
 # collect_folder_markdown
 # =============================================================================
@@ -189,6 +205,19 @@ class TestCollectFolderMarkdown:
         (hidden / "junk.md").write_text("# junk")
         files = collect_folder_markdown(tmp_path)
         assert [f.name for f in files] == ["README.md"]
+
+
+class TestCollectPages:
+    def test_additional_top_level_docs_are_collected(
+        self, site_root: Path, logger: logging.Logger
+    ) -> None:
+        state = collect_pages(
+            WebsiteConfig(root_path=site_root, output_path=site_root / "site"), logger
+        )
+        assert "CONTRIBUTING.md" in state.source_to_url
+        assert state.source_to_url["CONTRIBUTING.md"] == "CONTRIBUTING.html"
+        assert "CLAUDE.md" not in state.source_to_url
+        assert "update-plan-2026-05-02.md" not in state.source_to_url
 
 
 # =============================================================================
@@ -406,10 +435,16 @@ class TestBuildWebsite:
         index_html = index.read_text(encoding="utf-8")
         assert "Home Page" in index_html
         assert "01-slash-commands/index.html" in index_html
+        assert "CONTRIBUTING.html" in index_html
         # Non-markdown link rewritten to GitHub
         assert "github.com/example/repo/blob/main/scripts/build.sh" in index_html
         # <source srcset> inside <picture> rewritten to point at assets/
         assert 'srcset="assets/resources/logos/' in index_html
+
+        # Additional top-level docs rendered
+        assert (out_dir / "CONTRIBUTING.html").exists()
+        assert not (out_dir / "CLAUDE.html").exists()
+        assert not (out_dir / "update-plan-2026-05-02.html").exists()
 
         # Folder index rendered
         sc_index = out_dir / "01-slash-commands" / "index.html"

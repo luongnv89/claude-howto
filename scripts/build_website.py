@@ -99,8 +99,11 @@ EXCLUDE_DIRS = {
 
 # Top-level markdown files that should not be rendered as standalone pages.
 EXCLUDE_TOP_LEVEL = {
+    "CLAUDE.md",
     "README.backup.md",
 }
+
+EXCLUDE_TOP_LEVEL_PREFIXES = ("update-plan",)
 
 # Match the EPUB chapter ordering.
 CHAPTER_ORDER: list[tuple[str, str]] = [
@@ -230,6 +233,12 @@ def collect_folder_markdown(folder: Path) -> list[Path]:
     return files
 
 
+def is_excluded_top_level_markdown(name: str) -> bool:
+    return name in EXCLUDE_TOP_LEVEL or any(
+        name.startswith(prefix) for prefix in EXCLUDE_TOP_LEVEL_PREFIXES
+    )
+
+
 def derive_page_title(md_path: Path, default: str) -> str:
     """Pick a page title from the first H1, falling back to filename / default."""
     try:
@@ -286,7 +295,7 @@ def collect_pages(config: WebsiteConfig, logger: logging.Logger) -> BuildState:
             continue
 
         if item_path.is_file() and item_path.suffix == ".md":
-            if item in EXCLUDE_TOP_LEVEL or item in seen:
+            if is_excluded_top_level_markdown(item) or item in seen:
                 continue
             seen.add(item)
             page_title = derive_page_title(item_path, display_name)
@@ -325,6 +334,26 @@ def collect_pages(config: WebsiteConfig, logger: logging.Logger) -> BuildState:
                 )
         else:
             logger.warning(f"Chapter target is not a file or directory: {item}")
+
+    for md in sorted(config.root_path.glob("*.md")):
+        rel = md.relative_to(config.root_path).as_posix()
+        if is_excluded_top_level_markdown(md.name) or rel in seen:
+            continue
+        seen.add(rel)
+        title_default = md.stem.replace("-", " ").replace("_", " ").title()
+        title = derive_page_title(md, title_default)
+        url = _disambiguate_url(source_to_site_url(rel), used_urls, rel)
+        used_urls.add(url.lower())
+        state.pages.append(
+            PageInfo(
+                source=md,
+                rel_source=rel,
+                output_url=url,
+                title=title,
+                section="Additional Docs",
+                is_section_index=False,
+            )
+        )
 
     for page in state.pages:
         state.source_to_url[page.rel_source] = page.output_url
