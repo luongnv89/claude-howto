@@ -15,7 +15,7 @@
 [![Version](https://img.shields.io/badge/version-2.1.138-brightgreen)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-2.1+-purple)](https://code.claude.com)
 
-🌐 **Language / Ngôn ngữ / 语言 / Мова:** [English](README.md) | [Tiếng Việt](vi/README.md) | [中文](zh/README.md) | [Українська](uk/README.md) | [日本語](ja/README.md)
+🌐 **Language / Ngôn ngữ / 语言 / Мова / 言語 / 언어:** [English](README.md) | [Tiếng Việt](vi/README.md) | [中文](zh/README.md) | [Українська](uk/README.md) | [日本語](ja/README.md) | [한국어](ko/README.md)
 
 # Master Claude Code in a Weekend
 

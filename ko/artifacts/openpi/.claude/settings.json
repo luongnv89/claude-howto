@@ -1,0 +1,16 @@
+{
+  "$comment": "대상: openpi 레포의 .claude/settings.json. 파일 편집 후 ruff로 자동 정리(비차단). 레포 루트에서 실행된다고 가정.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "ruff check --fix . >/dev/null 2>&1; ruff format . >/dev/null 2>&1; true"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$comment": "대상: nexus 레포의 .claude/settings.json. (1) Python 편집 후 ruff format 자동 정리. (2) git commit 실행 전 smoke test 게이트. 로컬 MLflow(:5100)가 떠 있을 때만 게이트가 의미가 있으므로, 미기동 시에는 통과시키고 경고만 출력한다(비차단). 팀 합의 후 차단형으로 강화 가능.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "ruff format . >/dev/null 2>&1; true"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -q 'git commit'; then if curl -fsS http://127.0.0.1:5100/health >/dev/null 2>&1; then python tests/smoke_test.py --tracking-uri http://127.0.0.1:5100 || { echo 'smoke_test 실패 — 커밋 전 확인 필요'; exit 2; }; else echo '[경고] 로컬 MLflow(:5100) 미기동, smoke test 건너뜀'; fi; fi; true"
+          }
+        ]
+      }
+    ]
+  }
+}
