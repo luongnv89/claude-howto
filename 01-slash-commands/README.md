@@ -40,7 +40,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/effort [low\|medium\|high\|xhigh\|max\|auto]` | Set effort level via interactive arrow-key slider. Levels: `low` → `medium` → `high` → `xhigh` (new in v2.1.111) → `max`. Default is `xhigh` on Opus 4.7; `max` requires Opus 4.7 |
 | `/exit` | Exit the REPL (alias: `/quit`) |
 | `/export [filename]` | Export the current conversation to a file or clipboard |
-| `/extra-usage` | Configure extra usage for rate limits |
+| `/usage-credits` | Configure extra usage for rate limits (renamed from `/extra-usage` in v2.1.144; `/extra-usage` still works as an alias) |
 | `/fast [on\|off]` | Toggle fast mode |
 | `/feedback` | Submit feedback (alias: `/bug`). Since v2.1.141, can attach recent sessions (last 24h or 7d) so reports spanning more than one session include context. |
 | `/focus` | Toggle focus view (added v2.1.110; replaces `Ctrl+O` for focus toggle) |
@@ -59,7 +59,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/mcp` | Manage MCP servers and OAuth |
 | `/memory` | Edit `CLAUDE.md`, toggle auto-memory |
 | `/mobile` | QR code for mobile app (aliases: `/ios`, `/android`) |
-| `/model [model]` | Select model with left/right arrows for effort |
+| `/model [model]` | Select model with left/right arrows for effort. Since v2.1.144, the choice applies only to the current session by default; press `d` after selecting a model to set it as the default for new sessions. |
 | `/passes` | Share free week of Claude Code |
 | `/permissions` | View/update permissions (alias: `/allowed-tools`) |
 | `/plan [description]` | Enter plan mode |
@@ -620,16 +620,19 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: May 19, 2026
-**Claude Code Version**: 2.1.143
+**Last Updated**: May 20, 2026
+**Claude Code Version**: 2.1.145
 **Sources**:
 - https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/changelog
+- https://code.claude.com/docs/en/commands
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.116
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.141
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.144
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
 
 *Part of the [Claude How To](../) guide series*

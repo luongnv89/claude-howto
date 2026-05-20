@@ -17,12 +17,12 @@
 |---------|----------|----------|-------|-----------|
 | **Slash Commands** | 60+ | 8 | 68+ | [01-slash-commands/](01-slash-commands/) |
 | **Subagents** | 6 | 11 | 17 | [04-subagents/](04-subagents/) |
-| **Skills** | 5 bundled | 6 | 11 | [03-skills/](03-skills/) |
+| **Skills** | 9 bundled | 6 | 15 | [03-skills/](03-skills/) |
 | **Plugins** | - | 3 | 3 | [07-plugins/](07-plugins/) |
 | **MCP Servers** | 1 | 8 | 9 | [05-mcp/](05-mcp/) |
 | **Hooks** | 29 events | 8 | 8 | [06-hooks/](06-hooks/) |
 | **Memory** | 7 types | 3 | 3 | [02-memory/](02-memory/) |
-| **Total** | **99** | **47** | **121** | |
+| **Total** | **103** | **47** | **125** | |
 
 ---
 
@@ -60,7 +60,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/cost` | Shortcut alias that opens the cost tab of `/usage` (v2.1.118+) | Monitor spending |
 | `/context` | Show context window usage | Manage conversation length |
 | `/export` | Export conversation | Save for reference |
-| `/extra-usage` | Configure extra usage limits | Rate limit management |
+| `/usage-credits` | Configure extra usage limits (renamed from `/extra-usage` in v2.1.144; old name still works as alias) | Rate limit management |
 | `/feedback` | Submit feedback or bug report | Report issues |
 | `/login` | Authenticate with Anthropic | Access features |
 | `/logout` | Sign out | Switch accounts |
@@ -239,11 +239,15 @@ cp -r 03-skills/* ~/.claude/skills/
 
 | Skill | Description | When Auto-Invoked |
 |-------|-------------|-------------------|
-| `/simplify` | Review code for quality | After writing code |
 | `/batch` | Run prompts on multiple files | Batch operations |
-| `/debug` | Debug failing tests/errors | Debugging sessions |
-| `/loop` | Run prompts on interval | Recurring tasks |
 | `/claude-api` | Build apps with Claude API | API development |
+| `/debug` | Debug failing tests/errors | Debugging sessions |
+| `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist | Reduce repeat permission prompts |
+| `/loop` | Run prompts on interval | Recurring tasks |
+| `/run` *(v2.1.145+)* | Launch this project's app to see a change running | Verifying a change in the real app |
+| `/run-skill-generator` *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project | First-time project setup for `/run` |
+| `/simplify` | Review code for quality | After writing code |
+| `/verify` *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works | Validating a fix end-to-end |
 
 ---
 
@@ -340,12 +344,16 @@ Event-driven automation that executes shell commands on Claude Code events.
 | Event | Description | When Triggered | Use Cases |
 |-------|-------------|----------------|-----------|
 | `SessionStart` | Session begins/resumes | Session initialization | Setup tasks |
+| `Setup` | Initial environment setup (one-time per session) | First-time session bootstrap | Provision tooling, install deps |
 | `InstructionsLoaded` | Instructions loaded | CLAUDE.md or rules file loaded | Custom instruction handling |
 | `UserPromptSubmit` | Before prompt processing | User sends message | Input validation |
+| `UserPromptExpansion` | User prompt expanded (@-mentions, slash commands resolved) | After expansion, before submit | Transform or inspect expanded prompt |
 | `PreToolUse` | Before tool execution | Before any tool runs | Validation, logging |
 | `PermissionRequest` | Permission dialog shown | Before sensitive actions | Custom approval flows |
+| `PermissionDenied` | User denies a permission prompt | After permission decline | Logging, analytics, policy enforcement |
 | `PostToolUse` | After tool succeeds | After any tool completes | Formatting, notifications |
 | `PostToolUseFailure` | Tool execution fails | After tool error | Error handling, logging |
+| `PostToolBatch` | After a batch of tool uses completes | End of a tool batch | Aggregate reporting, batched validation |
 | `Notification` | Notification sent | Claude sends notification | External alerts |
 | `SubagentStart` | Subagent spawned | Subagent task starts | Initialize subagent context |
 | `SubagentStop` | Subagent finishes | Subagent task complete | Chain actions |
@@ -530,12 +538,13 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: May 19, 2026
-**Claude Code Version**: 2.1.143
+**Last Updated**: May 20, 2026
+**Claude Code Version**: 2.1.145
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.144
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.143
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

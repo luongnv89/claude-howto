@@ -130,7 +130,7 @@ claude -r "session"    # Resume session by name/ID
 | **Git Worktrees** | Built-in | `/worktree` |
 | **Auto Memory** | Built-in | Auto-saves to CLAUDE.md |
 | **Task List** | Built-in | `/task list` |
-| **Bundled Skills (5)** | Built-in | `/simplify`, `/loop`, `/claude-api`, `/voice`, `/browse` |
+| **Bundled Skills (9)** | Built-in | `/batch`, `/claude-api`, `/debug`, `/fewer-permission-prompts`, `/loop`, `/run` *(v2.1.145+)*, `/run-skill-generator` *(v2.1.145+)*, `/simplify`, `/verify` *(v2.1.145+)* |
 
 ---
 
@@ -382,7 +382,7 @@ cp -r 03-skills/code-review ~/.claude/skills/
 
 ---
 
-## New Features (March 2026)
+## New Features (May 2026)
 
 | Feature | Description | Usage |
 |---------|-------------|-------|
@@ -398,11 +398,15 @@ cp -r 03-skills/code-review ~/.claude/skills/
 | **Task List** | Manage background tasks | `/task list`, `/task status <id>` |
 | **Auto Memory** | Automatic memory saving from conversations | Claude auto-saves key context to CLAUDE.md |
 | **Git Worktrees** | Isolated workspaces for parallel development | `/worktree` to create isolated workspace |
-| **Model Selection** | Switch between Sonnet 4.6, Opus 4.7, and Haiku 4.5 | `/model` or `--model` flag |
+| **Model Selection** | Switch between Sonnet 4.6, Opus 4.7, and Haiku 4.5 | `/model` — session-only by default since v2.1.144; press `d` to set a new default |
 | **Agent Teams** | Coordinate multiple agents on tasks | Enable with `CLAUDE_AGENT_TEAMS=1` env var |
 | **Scheduled Tasks** | Recurring tasks with `/loop` | `/loop 5m /command` or CronCreate tool |
 | **Chrome Integration** | Browser automation | `--chrome` flag or `/chrome` command |
 | **Keyboard Customization** | Custom keybindings | `/keybindings` command |
+| **/usage-credits** | Configure extra usage limits (renamed from `/extra-usage` in v2.1.144; old name still works as alias) | `/usage-credits` |
+| **/run** *(v2.1.145+)* | Launch this project's app to see a change running | `/run` |
+| **/verify** *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works | `/verify` |
+| **/run-skill-generator** *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project | `/run-skill-generator` |
 
 ---
 
@@ -504,12 +508,12 @@ Getting started checklist:
 **This Card**: Keep it handy for quick reference!
 
 ---
-**Last Updated**: May 9, 2026
-**Claude Code Version**: 2.1.138
+**Last Updated**: May 20, 2026
+**Claude Code Version**: 2.1.145
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.131
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.144
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

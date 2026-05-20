@@ -486,6 +486,7 @@ When you dispatch a session from the view (or via `claude --bg <prompt>`), you c
 | `--model <model>` | v2.1.142 | Pin a model for the dispatched session |
 | `--effort <level>` | v2.1.142 | Pin an effort level (`low`/`medium`/`high`/`xhigh`/`max`) |
 | `--dangerously-skip-permissions` | v2.1.142 | Run the dispatched session without permission prompts (use only in sandboxes) |
+| `--json` | v2.1.145 | Print the agent list as machine-readable JSON for scripting (status bars, session pickers, tmux-resurrect integrations) |
 
 Sessions that finish their work but leave a background shell open move from "Working" to "Completed" (v2.1.141 fix). Within an attached agent session, `Shift+Tab` cycles through permission modes including auto mode (v2.1.143).
 
@@ -938,12 +939,13 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: May 19, 2026
-**Claude Code Version**: 2.1.143
+**Last Updated**: May 20, 2026
+**Claude Code Version**: 2.1.145
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/changelog
+- https://code.claude.com/docs/en/agent-view
 - https://www.anthropic.com/news/claude-opus-4-7
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.113
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.116
@@ -955,4 +957,5 @@ claude -p --output-format json "query"
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.141
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.142
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.143
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

@@ -2813,12 +2813,16 @@ Claude Code supports **29 hook events** across five hook types (command, http, m
 | Hook Event | Trigger | Use Cases |
 |------------|---------|-----------|
 | **SessionStart** | Session begins/resumes/clear/compact | Environment setup, initialization |
+| **Setup** | Initial environment setup (one-time per session) | Provision tooling, install deps |
 | **InstructionsLoaded** | CLAUDE.md or rules file loaded | Validation, transformation, augmentation |
 | **UserPromptSubmit** | User submits prompt | Input validation, prompt filtering |
+| **UserPromptExpansion** | User prompt expanded (@-mentions, slash commands resolved) | Transform or inspect expanded prompt |
 | **PreToolUse** | Before any tool runs | Validation, approval gates, logging |
 | **PermissionRequest** | Permission dialog shown | Auto-approve/deny flows |
+| **PermissionDenied** | User denies a permission prompt | Logging, analytics, policy enforcement |
 | **PostToolUse** | After tool succeeds | Auto-formatting, notifications, cleanup |
 | **PostToolUseFailure** | Tool execution fails | Error handling, logging |
+| **PostToolBatch** | After a batch of tool uses completes | Aggregate reporting, batched validation |
 | **Notification** | Notification sent | Alerting, external integrations |
 | **SubagentStart** | Subagent spawned | Context injection, initialization |
 | **SubagentStop** | Subagent finishes | Result validation, logging |
@@ -3139,11 +3143,12 @@ Claude Code supports three models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: May 9, 2026
-**Claude Code Version**: 2.1.138
+**Last Updated**: May 20, 2026
+**Claude Code Version**: 2.1.145
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://www.anthropic.com/news/claude-opus-4-7
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.144
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

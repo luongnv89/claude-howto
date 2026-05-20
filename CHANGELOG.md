@@ -1,5 +1,77 @@
 # Changelog
 
+## [v2.1.145] — 2026-05-20
+
+### Synced to Claude Code v2.1.145
+
+Bumps tutorial coverage from Claude Code v2.1.143 → v2.1.145 (May 19, 2026
+release). Anthropic shipped two patches (v2.1.144 and v2.1.145) since the last
+sync. Highlights: the `/extra-usage` rename to `/usage-credits`, `/model`
+becoming session-only by default, three new bundled skills (`/run`, `/verify`,
+`/run-skill-generator`), Stop/SubagentStop hook input fields
+`background_tasks` and `session_crons`, `claude agents --json` for scripting,
+and a security fix that closes the bare-env-var Bash auto-approve loophole.
+This sync also catches up six root-level reference docs
+(`LEARNING-ROADMAP.md`, `QUICK_REFERENCE.md`, `INDEX.md`, `resources.md`,
+`claude_concepts_guide.md`, `STYLE_GUIDE.md`) that were missed in the
+v2.1.143 sync and were still pinned to v2.1.138.
+
+### Added
+
+- `/usage-credits` slash command (v2.1.144) — replaces `/extra-usage` as the
+  primary name; `/extra-usage` still works as an alias. Documented in
+  `01-slash-commands/README.md` and `CATALOG.md`.
+- Three new bundled skills (v2.1.145) — `/run` (launches the project's app to
+  see a change running), `/verify` (builds, runs, and observes the app to
+  confirm a fix works), `/run-skill-generator` (teaches `/run`/`/verify` how
+  to handle a specific project by generating a per-project skill). Documented
+  in `03-skills/README.md`, `CATALOG.md`, and `QUICK_REFERENCE.md`. Brings
+  the canonical bundled-skill count to **9**.
+- Stop/SubagentStop hook input fields `background_tasks` and `session_crons`
+  (v2.1.145) — hook authors can read these to decide whether to block stop
+  while background work or scheduled tasks are still pending. Documented in
+  `06-hooks/README.md`.
+- `claude agents --json` (v2.1.145) — print the agent list as machine-readable
+  JSON for scripting (status bars, session pickers, tmux-resurrect).
+  Documented in `10-cli/README.md`.
+- Five hook-event rows that were missing from summary tables — `Setup`,
+  `UserPromptExpansion`, `PermissionDenied`, `PostToolBatch` (the narrative
+  already claimed "29 events"; the summary tables in `CATALOG.md`,
+  `claude_concepts_guide.md`, and `INDEX.md` only listed 25).
+
+### Behavior changes
+
+- **`/model` is session-only by default (v2.1.144)**: selecting a model now
+  applies only to the current session; press `d` after selecting to set the
+  choice as the new default for future sessions. Documented in
+  `01-slash-commands/README.md`.
+- **Bash bare env-var auto-approve closed (v2.1.145 security fix)**: a
+  command of the form `FOO=bar somecommand` is no longer auto-approved when
+  only `FOO=bar` was on the allowlist. Re-allow such commands explicitly via
+  `Bash(...)` permission rules that cover the full command. Documented in
+  `06-hooks/README.md`.
+- **`context: fork` infinite-loop fix (v2.1.145)**: a skill using
+  `context: fork` could previously trigger an infinite re-invocation loop in
+  rare cases. Documented as a note in `03-skills/README.md`.
+
+### Documentation
+
+- Caught up six root-level reference docs from v2.1.138 to v2.1.145:
+  `LEARNING-ROADMAP.md`, `QUICK_REFERENCE.md`, `INDEX.md`, `resources.md`,
+  `claude_concepts_guide.md`, `STYLE_GUIDE.md`.
+- Fixed the bundled-skills mismatch — `CATALOG.md`, `QUICK_REFERENCE.md`, and
+  `03-skills/README.md` previously listed three different 5-item lists;
+  reconciled to the canonical 9 (`/batch`, `/claude-api`, `/debug`,
+  `/fewer-permission-prompts`, `/loop`, `/run`, `/run-skill-generator`,
+  `/simplify`, `/verify`). The `QUICK_REFERENCE.md` cell had also incorrectly
+  listed `/voice` and `/browse` as bundled skills — neither is bundled.
+- Renamed "New Features (March 2026)" → "New Features (May 2026)" in
+  `QUICK_REFERENCE.md` and `resources.md` to match the rest of the repo.
+- Bumped the version badge in `README.md` from `2.1.138` to `2.1.145` and
+  updated the two "latest: v2.1.138" claims in the body.
+- Updated the STYLE_GUIDE sample metadata footer from `2.1.97` to `2.1.145`
+  so contributors copy the current version.
+
 ## [v2.1.143] — 2026-05-19
 
 ### Synced to Claude Code v2.1.143

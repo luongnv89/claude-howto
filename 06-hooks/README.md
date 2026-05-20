@@ -348,6 +348,12 @@ Run when Claude finishes responding (Stop) or a subagent completes (SubagentStop
 
 **Additional input field:** Both `Stop` and `SubagentStop` hooks receive a `last_assistant_message` field in their JSON input, containing the final message from Claude or the subagent before stopping. This is useful for evaluating task completion.
 
+**v2.1.145 additions:** The `Stop` and `SubagentStop` hook inputs now also include two arrays:
+- `background_tasks` — any background tasks the session has spawned (handy for blocking stop until work finishes).
+- `session_crons` — any cron jobs (`/schedule`) created during the session.
+
+Hook authors can read these to decide whether to block stop — for example, "don't stop while a background test run or scheduled task is still pending."
+
 **Configuration:**
 ```json
 {
@@ -1265,6 +1271,7 @@ MCP tools follow the pattern `mcp__<server>__<tool>`:
 - **HTTP hooks and environment variables:** HTTP hooks require an explicit `allowedEnvVars` list to use environment variable interpolation in URLs. This prevents accidental leakage of sensitive environment variables to remote endpoints.
 - **Managed settings hierarchy:** The `disableAllHooks` setting now respects the managed settings hierarchy, meaning organization-level settings can enforce hook disablement that individual users cannot override.
 - **PowerShell auto-approve (v2.1.119):** PowerShell tool commands can be auto-approved in permission mode, matching Bash. This brings parity for Windows users running Claude Code with PowerShell-backed shell tools.
+- **Bash bare env-var auto-approve closed (v2.1.145):** Before v2.1.145, a Bash command of the form `FOO=bar somecommand` (a bare variable assignment inline with a non-allowlisted command) could be auto-approved when only `FOO=bar` by itself was on the allowlist. v2.1.145 closes this — such commands now hit the permission prompt. Scripts relying on the implicit allow will start prompting; re-allow them explicitly via a `Bash(...)` permission rule that covers the full command, not just the variable assignment.
 
 ### Best Practices
 
@@ -1433,8 +1440,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: May 19, 2026
-**Claude Code Version**: 2.1.143
+**Last Updated**: May 20, 2026
+**Claude Code Version**: 2.1.145
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/changelog
@@ -1444,4 +1451,5 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.141
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.143
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

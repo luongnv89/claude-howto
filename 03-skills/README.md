@@ -291,6 +291,8 @@ Commands execute immediately; Claude only sees the final output. By default, com
 
 Add `context: fork` to run a skill in an isolated subagent context. The skill content becomes the task for a dedicated subagent with its own context window, keeping the main conversation uncluttered.
 
+> **v2.1.145 fix**: A skill using `context: fork` could previously trigger an infinite re-invocation loop in rare cases. Upgrade to v2.1.145+ if you author or rely on forking skills.
+
 The `agent` field specifies which agent type to use:
 
 | Agent Type | Best For |
@@ -792,15 +794,19 @@ When `disableSkillShellExecution` is `true`, any `` !`command` `` markers in a s
 
 ## Bundled Skills
 
-Claude Code ships with several built-in skills that are always available without installation:
+Claude Code ships with nine built-in skills that are always available without installation:
 
 | Skill | Description |
 |-------|-------------|
-| `/simplify` | Review changed files for reuse, quality, and efficiency; spawns 3 parallel review agents |
 | `/batch <instruction>` | Orchestrate large-scale parallel changes across codebase using git worktrees |
-| `/debug [description]` | Troubleshoot current session by reading debug log |
-| `/loop [interval] <prompt>` | Run prompt repeatedly on interval (e.g., `/loop 5m check the deploy`) |
 | `/claude-api` | Load Claude API/SDK reference; auto-activates on `anthropic`/`@anthropic-ai/sdk` imports |
+| `/debug [description]` | Troubleshoot current session by reading debug log |
+| `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist for common read-only tools |
+| `/loop [interval] <prompt>` | Run prompt repeatedly on interval (e.g., `/loop 5m check the deploy`) |
+| `/run` *(v2.1.145+)* | Launch this project's app to see a change running — looks for a project skill, otherwise falls back to built-in patterns per project type |
+| `/run-skill-generator` *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project by generating a per-project skill |
+| `/simplify` | Review changed files for reuse, quality, and efficiency; spawns 3 parallel review agents |
+| `/verify` *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works (not just that tests pass) |
 
 These skills are available out-of-the-box and do not need to be installed or configured. They follow the same SKILL.md format as custom skills.
 
@@ -846,10 +852,12 @@ Once you start building skills seriously, two things become essential: a library
 - [Hooks Guide](../06-hooks/) - Event-driven automation
 
 ---
-**Last Updated**: May 9, 2026
-**Claude Code Version**: 2.1.138
+**Last Updated**: May 20, 2026
+**Claude Code Version**: 2.1.145
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/changelog
+- https://code.claude.com/docs/en/commands
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
