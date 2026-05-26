@@ -808,12 +808,12 @@ Chạy test trong background
 ### Hiệu Năng
 - `01-slash-commands/optimize.md` - Phân tích hiệu năng
 - `04-subagents/code-reviewer.md` - Review hiệu năng
-- `03-skills/code-review/` - Metrics hiệu năng
+- `03-skills/code-review-specialist/` - Metrics hiệu năng
 - `07-plugins/pr-review/agents/performance-analyzer.md` - Chuyên gia hiệu năng
 
 ### Bảo Mật
 - `04-subagents/secure-reviewer.md` - Review bảo mật
-- `03-skills/code-review/` - Phân tích bảo mật
+- `03-skills/code-review-specialist/` - Phân tích bảo mật
 - `07-plugins/pr-review/` - Kiểm tra bảo mật
 
 ### Testing

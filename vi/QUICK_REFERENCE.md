@@ -442,7 +442,7 @@ echo $GITHUB_TOKEN
 |------|----------|---------|
 | Lối tắt nhanh | Lệnh Slash (55+) | `01-slash-commands/optimize.md` |
 | Tiêu chuẩn đội | Bộ Nhớ | `02-memory/project-CLAUDE.md` |
-| Workflow tự động | Skill | `03-skills/code-review/` |
+| Workflow tự động | Skill | `03-skills/code-review-specialist/` |
 | Tác vụ chuyên biệt | Tác Nhân Con | `04-subagents/code-reviewer.md` |
 | Dữ liệu bên ngoài | MCP (+ Elicitation, WebSocket) | `05-mcp/github-mcp.json` |
 | Tự động hóa sự kiện | Hook (25 sự kiện, 4 loại) | `06-hooks/pre-commit.sh` |

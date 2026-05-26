@@ -817,13 +817,13 @@ claude -p "Run tests and report results"
 
 - `01-slash-commands/optimize.md` - 性能分析
 - `04-subagents/code-reviewer.md` - 性能审查
-- `03-skills/code-review/` - 性能指标
+- `03-skills/code-review-specialist/` - 性能指标
 - `07-plugins/pr-review/agents/performance-analyzer.md` - 性能专家
 
 ### 安全
 
 - `04-subagents/secure-reviewer.md` - 安全审查
-- `03-skills/code-review/` - 安全分析
+- `03-skills/code-review-specialist/` - 安全分析
 - `07-plugins/pr-review/` - 安全检查
 
 ### 测试

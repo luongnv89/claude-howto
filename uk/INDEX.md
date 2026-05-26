@@ -850,13 +850,13 @@ Run tests in background
 
 - `01-slash-commands/optimize.md` — Аналіз продуктивності
 - `04-subagents/code-reviewer.md` — Ревʼю продуктивності
-- `03-skills/code-review/` — Метрики продуктивності
+- `03-skills/code-review-specialist/` — Метрики продуктивності
 - `07-plugins/pr-review/agents/performance-analyzer.md` — Спеціаліст з продуктивності
 
 ### Безпека
 
 - `04-subagents/secure-reviewer.md` — Ревʼю безпеки
-- `03-skills/code-review/` — Аналіз безпеки
+- `03-skills/code-review-specialist/` — Аналіз безпеки
 - `07-plugins/pr-review/` — Перевірки безпеки
 
 ### Тестування

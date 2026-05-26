@@ -476,7 +476,7 @@ echo $GITHUB_TOKEN
 |---------|---------------|---------|
 | Швидкий ярлик | Слеш-команда (55+) | `01-slash-commands/optimize.md` |
 | Командні стандарти | Пам'ять | `02-memory/project-CLAUDE.md` |
-| Автоматичний процес | Навичка | `03-skills/code-review/` |
+| Автоматичний процес | Навичка | `03-skills/code-review-specialist/` |
 | Спеціалізоване завдання | Субагент | `04-subagents/code-reviewer.md` |
 | Зовнішні дані | MCP (+ Elicitation) | `05-mcp/github-mcp.json` |
 | Автоматизація подій | Хук (26 подій, 4 типи) | `06-hooks/pre-commit.sh` |

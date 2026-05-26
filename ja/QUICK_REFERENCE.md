@@ -445,7 +445,7 @@ echo $GITHUB_TOKEN
 |------|----------|---------|
 | 高速ショートカット | スラッシュコマンド (55 個以上) | `01-slash-commands/optimize.md` |
 | チーム標準 | メモリ | `02-memory/project-CLAUDE.md` |
-| 自動ワークフロー | スキル | `03-skills/code-review/` |
+| 自動ワークフロー | スキル | `03-skills/code-review-specialist/` |
 | 専門タスク | サブエージェント | `04-subagents/code-reviewer.md` |
 | 外部データ | MCP（+ Elicitation） | `05-mcp/github-mcp.json` |
 | イベント自動化 | フック (28 イベント、5 種類) | `06-hooks/pre-commit.sh` |

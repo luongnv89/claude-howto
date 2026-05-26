@@ -1,4 +1,4 @@
-<!-- i18n-source: 03-skills/code-review/SKILL.md -->
+<!-- i18n-source: 03-skills/code-review-specialist/SKILL.md -->
 <!-- i18n-source-sha: e978c49 -->
 <!-- i18n-date: 2026-04-27 -->
 

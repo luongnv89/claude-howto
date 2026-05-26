@@ -1,4 +1,4 @@
-<!-- i18n-source: 03-skills/code-review/templates/finding-template.md -->
+<!-- i18n-source: 03-skills/code-review-specialist/templates/finding-template.md -->
 <!-- i18n-source-sha: 6d1e0ae -->
 <!-- i18n-date: 2026-04-27 -->
 

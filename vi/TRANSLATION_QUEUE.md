@@ -86,11 +86,11 @@ Skills có cấu trúc nested directories với subdirectories.
 |------|------------|----------|-----------|-------|
 | `03-skills/claude-md/SKILL.md` | ✅ Done | Claude | 2026-04-02 | CLAUDE.md management |
 
-### 03-skills/code-review/
+### 03-skills/code-review-specialist/
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `03-skills/code-review/SKILL.md` | ✅ Done | Claude | 2026-04-02 | Code review skill |
+| `03-skills/code-review-specialist/SKILL.md` | ✅ Done | Claude | 2026-04-02 | Code review skill |
 
 ### 03-skills/refactor/
 

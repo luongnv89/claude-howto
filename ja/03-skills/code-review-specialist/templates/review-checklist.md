@@ -1,4 +1,4 @@
-<!-- i18n-source: 03-skills/code-review/templates/review-checklist.md -->
+<!-- i18n-source: 03-skills/code-review-specialist/templates/review-checklist.md -->
 <!-- i18n-source-sha: 5caeff2 -->
 <!-- i18n-date: 2026-04-27 -->
 

@@ -812,12 +812,12 @@ Run tests in background
 ### パフォーマンス
 - `01-slash-commands/optimize.md` — パフォーマンス分析
 - `04-subagents/code-reviewer.md` — パフォーマンスレビュー
-- `03-skills/code-review/` — パフォーマンスメトリクス
+- `03-skills/code-review-specialist/` — パフォーマンスメトリクス
 - `07-plugins/pr-review/agents/performance-analyzer.md` — パフォーマンス専門家
 
 ### セキュリティ
 - `04-subagents/secure-reviewer.md` — セキュリティレビュー
-- `03-skills/code-review/` — セキュリティ分析
+- `03-skills/code-review-specialist/` — セキュリティ分析
 - `07-plugins/pr-review/` — セキュリティチェック
 
 ### テスト

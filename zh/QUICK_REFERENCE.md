@@ -442,7 +442,7 @@ echo $GITHUB_TOKEN
 |------|--------|------|
 | 快速快捷操作 | Slash Command（55+） | `01-slash-commands/optimize.md` |
 | 团队规范 | Memory | `02-memory/project-CLAUDE.md` |
-| 自动化工作流 | Skill | `03-skills/code-review/` |
+| 自动化工作流 | Skill | `03-skills/code-review-specialist/` |
 | 专门任务 | Subagent | `04-subagents/code-reviewer.md` |
 | 外部数据 | MCP（+ Elicitation、WebSocket） | `05-mcp/github-mcp.json` |
 | 事件自动化 | Hook（25 个事件、4 类） | `06-hooks/pre-commit.sh` |
