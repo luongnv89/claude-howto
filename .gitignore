@@ -95,3 +95,7 @@ site/
 
 # Cached vendor binaries/assets for the website build (Tailwind CLI, Mermaid, fonts).
 scripts/.vendor-cache/
+
+# Local agent/tooling state
+.asm-improver/
+.gitissue/
