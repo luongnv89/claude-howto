@@ -257,7 +257,7 @@ cat error.log | claude -p "explain this error"
 
 ```bash
 # Вправа 1: Встановіть навичку
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Вправа 2: Налаштуйте хуки
 mkdir -p ~/.claude/hooks

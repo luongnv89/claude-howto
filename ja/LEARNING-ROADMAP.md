@@ -248,7 +248,7 @@ cat error.log | claude -p "explain this error"
 
 ```bash
 # 演習 1: スキルをインストール
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 演習 2: フックをセットアップ
 mkdir -p ~/.claude/hooks

@@ -197,7 +197,7 @@ cp 04-subagents/*.md .claude/agents/
 
 | Навичка | Опис | Коли автоматично викликається | Область | Встановлення |
 |---------|------|------------------------------|---------|-------------|
-| `code-review` | Комплексне ревʼю коду | "Review this code", "Check quality" | Проект | `cp -r 03-skills/code-review .claude/skills/` |
+| `code-review` | Комплексне ревʼю коду | "Review this code", "Check quality" | Проект | `cp -r 03-skills/code-review-specialist .claude/skills/` |
 | `brand-voice` | Перевірка стилю бренду | Написання маркетингових текстів | Проект | `cp -r 03-skills/brand-voice .claude/skills/` |
 | `doc-generator` | Генератор API-документації | "Generate docs", "Document API" | Проект | `cp -r 03-skills/doc-generator .claude/skills/` |
 | `refactor` | Систематичний рефакторинг (за Мартіном Фаулером) | "Refactor this", "Clean up code" | Користувач | `cp -r 03-skills/refactor ~/.claude/skills/` |

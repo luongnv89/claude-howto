@@ -247,7 +247,7 @@ cat error.log | claude -p "explain this error"
 
 ```bash
 # 练习 1：安装一个 skill
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 练习 2：设置 hooks
 mkdir -p ~/.claude/hooks

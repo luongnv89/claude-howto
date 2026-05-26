@@ -191,7 +191,7 @@ Các khả năng tự động gọi với hướng dẫn, scripts, và templates
 
 | Skill | Mô Tả | Khi Tự Động Gọi | Phạm Vi | Cài Đặt |
 |-------|-------------|-------------------|-------|--------------|
-| `code-review` | Review code toàn diện | "Review this code", "Check quality" | Project | `cp -r ../03-skills/code-review .claude/skills/` |
+| `code-review` | Review code toàn diện | "Review this code", "Check quality" | Project | `cp -r ../03-skills/code-review-specialist .claude/skills/` |
 | `brand-voice` | Kiểm tra nhất quán brand | Viết marketing copy | Project | `cp -r ../03-skills/brand-voice .claude/skills/` |
 | `doc-generator` | Trình tạo tài liệu API | "Generate docs", "Document API" | Project | `cp -r ../03-skills/doc-generator .claude/skills/` |
 | `refactor` | Refactor code có hệ thống (Martin Fowler) | "Refactor this", "Clean up code" | User | `cp -r ../03-skills/refactor ~/.claude/skills/` |

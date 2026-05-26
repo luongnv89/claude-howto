@@ -32,10 +32,10 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 ### スキル
 ```bash
 # 個人スキル
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # プロジェクトスキル
-cp -r 03-skills/code-review .claude/skills/
+cp -r 03-skills/code-review-specialist .claude/skills/
 ```
 
 ### サブエージェント
@@ -151,7 +151,7 @@ cp 04-subagents/code-reviewer.md .claude/agents/
 # 利用: 自動委譲
 
 # 方法 3: スキル
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 # 利用: 自動起動
 
 # 方法 4: プラグイン (推奨)
@@ -367,7 +367,7 @@ cp 05-mcp/github-mcp.json .mcp.json
 ### 第 2 週
 ```bash
 # スキルをインストール
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 自動起動させる
 # こう言うだけ: "Review this code for issues"

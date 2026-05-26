@@ -154,7 +154,7 @@ cp 01-slash-commands/optimize.md /path/to/your-project/.claude/commands/
 cp 02-memory/project-CLAUDE.md /path/to/your-project/CLAUDE.md
 
 # 5. 安装一个 skill：
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 ```
 
 如果你想完成更完整的基础配置，这里有一个**1 小时的关键配置方案**：
@@ -167,7 +167,7 @@ cp 01-slash-commands/*.md .claude/commands/
 cp 02-memory/project-CLAUDE.md ./CLAUDE.md
 
 # 安装一个 skill（15 分钟）
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 周末目标：继续添加 hooks、subagents、MCP 和 plugins
 # 按学习路径逐步完成配置
@@ -276,7 +276,7 @@ cp 01-slash-commands/*.md .claude/commands/
 cp 02-memory/project-CLAUDE.md ./CLAUDE.md
 
 # Skills
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Subagents
 cp 04-subagents/*.md .claude/agents/
@@ -376,10 +376,10 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 **安装**:
 ```bash
 # 个人 skills
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 项目 skills
-cp -r 03-skills/code-review /path/to/project/.claude/skills/
+cp -r 03-skills/code-review-specialist /path/to/project/.claude/skills/
 ```
 
 **使用方法**: 在相关场景下自动触发

@@ -204,7 +204,7 @@ cp 04-subagents/*.md .claude/agents/
 
 | スキル | 説明 | 自動起動の条件 | スコープ | インストール |
 |-------|-------------|-------------------|-------|--------------|
-| `code-review` | 包括的なコードレビュー | "Review this code", "Check quality" | プロジェクト | `cp -r 03-skills/code-review .claude/skills/` |
+| `code-review` | 包括的なコードレビュー | "Review this code", "Check quality" | プロジェクト | `cp -r 03-skills/code-review-specialist .claude/skills/` |
 | `brand-voice` | ブランド一貫性チェック | マーケティングコピー作成時 | プロジェクト | `cp -r 03-skills/brand-voice .claude/skills/` |
 | `doc-generator` | API ドキュメント生成 | "Generate docs", "Document API" | プロジェクト | `cp -r 03-skills/doc-generator .claude/skills/` |
 | `refactor` | 体系的リファクタリング（Martin Fowler） | "Refactor this", "Clean up code" | ユーザー | `cp -r 03-skills/refactor ~/.claude/skills/` |

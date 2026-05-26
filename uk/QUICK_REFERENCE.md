@@ -35,10 +35,10 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 
 ```bash
 # Персональні навички
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Навички проекту
-cp -r 03-skills/code-review .claude/skills/
+cp -r 03-skills/code-review-specialist .claude/skills/
 ```
 
 ### Субагенти
@@ -161,7 +161,7 @@ cp 04-subagents/code-reviewer.md .claude/agents/
 # Використання: Автоделегування
 
 # Спосіб 3: Навичка
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 # Використання: Автовиклик
 
 # Спосіб 4: Плагін (найкращий)
@@ -394,7 +394,7 @@ cp 05-mcp/github-mcp.json .mcp.json
 
 ```bash
 # Встановити навичку
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Дозвольте автовиклик
 # Просто скажіть: "Review this code for issues"

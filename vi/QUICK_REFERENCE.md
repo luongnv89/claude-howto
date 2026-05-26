@@ -28,10 +28,10 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 ### Skills
 ```bash
 # Skills cá nhân
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Skills dự án
-cp -r 03-skills/code-review .claude/skills/
+cp -r 03-skills/code-review-specialist .claude/skills/
 ```
 
 ### Tác Nhân Con
@@ -147,7 +147,7 @@ cp 04-subagents/code-reviewer.md .claude/agents/
 # Sử dụng: Tự động ủy quyền
 
 # Cách 3: Skill
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 # Sử dụng: Tự động gọi
 
 # Cách 4: Plugin (tốt nhất)
@@ -363,7 +363,7 @@ cp 05-mcp/github-mcp.json .mcp.json
 ### Tuần 2
 ```bash
 # Cài đặt skill
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Để nó tự động gọi
 # Chỉ cần nói: "Review đoạn code này tìm lỗi"

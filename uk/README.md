@@ -137,7 +137,7 @@ cp 01-slash-commands/optimize.md /path/to/your-project/.claude/commands/
 cp 02-memory/project-CLAUDE.md /path/to/your-project/CLAUDE.md
 
 # 5. Встановіть навичку:
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 ```
 
 Хочете повне налаштування? Ось **необхідне за 1 годину**:
@@ -150,7 +150,7 @@ cp 01-slash-commands/*.md .claude/commands/
 cp 02-memory/project-CLAUDE.md ./CLAUDE.md
 
 # Встановити навичку (15 хв)
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Ціль на вихідні: додати хуки, субагенти, MCP та плагіни
 # Слідуйте навчальному шляху для керованого налаштування
@@ -256,7 +256,7 @@ cp 01-slash-commands/*.md .claude/commands/
 cp 02-memory/project-CLAUDE.md ./CLAUDE.md
 
 # Навички
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Субагенти
 cp 04-subagents/*.md .claude/agents/
@@ -354,10 +354,10 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 **Встановлення**:
 ```bash
 # Персональні навички
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Навички проєкту
-cp -r 03-skills/code-review /path/to/project/.claude/skills/
+cp -r 03-skills/code-review-specialist /path/to/project/.claude/skills/
 ```
 
 **Використання**: Автоматично викликаються за потреби

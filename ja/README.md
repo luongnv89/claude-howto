@@ -162,7 +162,7 @@ cp 01-slash-commands/optimize.md /path/to/your-project/.claude/commands/
 cp 02-memory/project-CLAUDE.md /path/to/your-project/CLAUDE.md
 
 # 5. スキルをインストール:
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 ```
 
 フルセットアップが必要なら、**1 時間で必要な設定** はこちら。
@@ -175,7 +175,7 @@ cp 01-slash-commands/*.md .claude/commands/
 cp 02-memory/project-CLAUDE.md ./CLAUDE.md
 
 # スキルをインストール (15 分)
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 週末ゴール: フック、サブエージェント、MCP、プラグインを追加
 # ガイド付きセットアップは学習パスに従う
@@ -284,7 +284,7 @@ cp 01-slash-commands/*.md .claude/commands/
 cp 02-memory/project-CLAUDE.md ./CLAUDE.md
 
 # Skills
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Subagents
 cp 04-subagents/*.md .claude/agents/
@@ -384,10 +384,10 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 **インストール**：
 ```bash
 # 個人スキル
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # プロジェクトスキル
-cp -r 03-skills/code-review /path/to/project/.claude/skills/
+cp -r 03-skills/code-review-specialist /path/to/project/.claude/skills/
 ```
 
 **使い方**：関連する場面で自動的に起動される

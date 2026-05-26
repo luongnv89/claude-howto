@@ -190,7 +190,7 @@ cp 04-subagents/*.md .claude/agents/
 
 | Skill | 说明 | 何时自动触发 | 作用域 | 安装 |
 |-------|-------------|-------------------|-------|--------------|
-| `code-review` | 全面的代码审查 | “Review this code”, “Check quality” | 项目 | `cp -r 03-skills/code-review .claude/skills/` |
+| `code-review` | 全面的代码审查 | “Review this code”, “Check quality” | 项目 | `cp -r 03-skills/code-review-specialist .claude/skills/` |
 | `brand-voice` | 品牌一致性检查器 | 编写营销文案时 | 项目 | `cp -r 03-skills/brand-voice .claude/skills/` |
 | `doc-generator` | API 文档生成器 | “Generate docs”, “Document API” | 项目 | `cp -r 03-skills/doc-generator .claude/skills/` |
 | `refactor` | 系统化代码重构（Martin Fowler） | “Refactor this”, “Clean up code” | 用户 | `cp -r 03-skills/refactor ~/.claude/skills/` |

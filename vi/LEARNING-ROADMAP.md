@@ -239,7 +239,7 @@ Trước khi bắt đầu Level 2, đảm bảo bạn thoải mái với các kh
 
 ```bash
 # Exercise 1: Cài đặt một skill
-cp -r ../03-skills/code-review ~/.claude/skills/
+cp -r ../03-skills/code-review-specialist ~/.claude/skills/
 
 # Exercise 2: Thiết lập hooks
 mkdir -p ~/.claude/hooks

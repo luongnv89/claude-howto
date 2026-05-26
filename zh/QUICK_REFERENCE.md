@@ -28,10 +28,10 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 ### Skills
 ```bash
 # 个人 skills
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 项目 skills
-cp -r 03-skills/code-review .claude/skills/
+cp -r 03-skills/code-review-specialist .claude/skills/
 ```
 
 ### Subagents
@@ -147,7 +147,7 @@ cp 04-subagents/code-reviewer.md .claude/agents/
 # 使用：自动委派
 
 # 方法 3：skill
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 # 使用：自动触发
 
 # 方法 4：插件（推荐）
@@ -363,7 +363,7 @@ cp 05-mcp/github-mcp.json .mcp.json
 ### 第 2 周
 ```bash
 # 安装 skill
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 让它自动触发
 # 直接说：“Review this code for issues”
