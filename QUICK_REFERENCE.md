@@ -28,10 +28,10 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 ### Skills
 ```bash
 # Personal skills
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Project skills
-cp -r 03-skills/code-review .claude/skills/
+cp -r 03-skills/code-review-specialist .claude/skills/
 ```
 
 ### Subagents
@@ -130,7 +130,7 @@ claude -r "session"    # Resume session by name/ID
 | **Git Worktrees** | Built-in | `/worktree` |
 | **Auto Memory** | Built-in | Auto-saves to CLAUDE.md |
 | **Task List** | Built-in | `/task list` |
-| **Bundled Skills (9)** | Built-in | `/batch`, `/claude-api`, `/debug`, `/fewer-permission-prompts`, `/loop`, `/run` *(v2.1.145+)*, `/run-skill-generator` *(v2.1.145+)*, `/simplify`, `/verify` *(v2.1.145+)* |
+| **Bundled Skills (9)** | Built-in | `/batch`, `/claude-api`, `/code-review` *(renamed from `/simplify` in v2.1.146)*, `/debug`, `/fewer-permission-prompts`, `/loop`, `/run` *(v2.1.145+)*, `/run-skill-generator` *(v2.1.145+)*, `/verify` *(v2.1.145+)* |
 
 ---
 
@@ -147,7 +147,7 @@ cp 04-subagents/code-reviewer.md .claude/agents/
 # Use: Auto-delegated
 
 # Method 3: Skill
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 # Use: Auto-invoked
 
 # Method 4: Plugin (best)
@@ -363,7 +363,7 @@ cp 05-mcp/github-mcp.json .mcp.json
 ### Week 2
 ```bash
 # Install skill
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Let it auto-invoke
 # Just say: "Review this code for issues"
@@ -445,7 +445,7 @@ echo $GITHUB_TOKEN
 |------|----------|---------|
 | Quick shortcut | Slash Command (60+) | `01-slash-commands/optimize.md` |
 | Team standards | Memory | `02-memory/project-CLAUDE.md` |
-| Auto workflow | Skill | `03-skills/code-review/` |
+| Auto workflow | Skill | `03-skills/code-review-specialist/` |
 | Specialized task | Subagent | `04-subagents/code-reviewer.md` |
 | External data | MCP (+ Elicitation) | `05-mcp/github-mcp.json` |
 | Event automation | Hook (29 events, 5 types) | `06-hooks/pre-commit.sh` |
@@ -508,8 +508,8 @@ Getting started checklist:
 **This Card**: Keep it handy for quick reference!
 
 ---
-**Last Updated**: May 20, 2026
-**Claude Code Version**: 2.1.145
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks

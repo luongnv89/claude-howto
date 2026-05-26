@@ -1312,7 +1312,7 @@ Claude Code now includes 5 bundled skills available out of the box:
 
 | Skill | Command | Purpose |
 |-------|---------|---------|
-| **Simplify** | `/simplify` | Simplify complex code or explanations |
+| **Code Review** | `/code-review` | Review the current diff for correctness bugs at a chosen effort level (renamed from `/simplify` in v2.1.146) |
 | **Batch** | `/batch` | Run operations across multiple files or items |
 | **Debug** | `/debug` | Systematic debugging of issues with root cause analysis |
 | **Loop** | `/loop` | Schedule recurring tasks on a timer |
@@ -1327,7 +1327,7 @@ These bundled skills are always available and do not require installation or con
 **Directory Structure:**
 
 ```
-~/.claude/skills/code-review/
+~/.claude/skills/code-review-specialist/
 ├── SKILL.md
 ├── templates/
 │   ├── review-checklist.md
@@ -1337,7 +1337,7 @@ These bundled skills are always available and do not require installation or con
     └── compare-complexity.py
 ```
 
-**File:** `~/.claude/skills/code-review/SKILL.md`
+**File:** `~/.claude/skills/code-review-specialist/SKILL.md`
 
 ```yaml
 ---
@@ -3133,7 +3133,7 @@ Claude Code supports three models with adaptive reasoning effort:
 
 > **Note**: v2.1.117 fixed a bug where Opus 4.7 sessions computed `/context` against 200K instead of the native 1M window — upgrade to v2.1.117 or later to actually get the 1M context on Opus 4.7.
 
-> **Note**: `/cost` and `/stats` merged into `/usage` in v2.1.118. `/usage` is now the canonical command with tabs for cost/stats/etc.; `/cost` and `/stats` remain as shortcut aliases that open the corresponding tab.
+> **Note**: `/cost` and `/stats` merged into `/usage` in v2.1.118. `/usage` is now the canonical command with tabs for cost/stats/etc.; `/cost` and `/stats` remain as shortcut aliases that open the corresponding tab. As of v2.1.149, the cost view also breaks spending down by category (skills, subagents, plugins, and per-MCP-server costs).
 
 ## Resources
 
@@ -3143,8 +3143,8 @@ Claude Code supports three models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: May 20, 2026
-**Claude Code Version**: 2.1.145
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks

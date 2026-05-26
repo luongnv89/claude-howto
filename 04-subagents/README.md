@@ -1238,8 +1238,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: May 19, 2026
-**Claude Code Version**: 2.1.143
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/agent-teams

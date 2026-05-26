@@ -490,6 +490,8 @@ When you dispatch a session from the view (or via `claude --bg <prompt>`), you c
 
 Sessions that finish their work but leave a background shell open move from "Working" to "Completed" (v2.1.141 fix). Within an attached agent session, `Shift+Tab` cycles through permission modes including auto mode (v2.1.143).
 
+**Pin a session** — press `Ctrl+T` on a session in `claude agents` to pin it (v2.1.147). Pinned background sessions stay alive when idle, are restarted in place to apply Claude Code updates, and are shed under memory pressure only after non-pinned sessions. (This `Ctrl+T` is scoped to the Agent View; in the main session it toggles the task list view.)
+
 ---
 
 ## High-Value Use Cases
@@ -939,8 +941,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: May 20, 2026
-**Claude Code Version**: 2.1.145
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/settings

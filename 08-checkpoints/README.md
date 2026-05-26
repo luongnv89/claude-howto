@@ -325,8 +325,8 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 
 ---
 
-**Last Updated**: May 20, 2026
-**Claude Code Version**: 2.1.145
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/settings

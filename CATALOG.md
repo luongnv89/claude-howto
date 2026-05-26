@@ -80,7 +80,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/teleport` | Transfer session to another machine | Continue work remotely |
 | `/desktop` | Open Claude Desktop app | Switch to desktop interface |
 | `/theme` | Change color theme; v2.1.118 added custom named themes via `~/.claude/themes/<name>.json` (plugins can ship a `themes/` dir) | Customize appearance |
-| `/usage` | Canonical command for usage/cost/stats — merged `/cost` and `/stats` into a single tabbed view (v2.1.118) | Monitor quota and costs |
+| `/usage` | Canonical command for usage/cost/stats — merged `/cost` and `/stats` into a single tabbed view (v2.1.118); as of v2.1.149 the cost view breaks spending down by category (skills, subagents, plugins, per-MCP-server) | Monitor quota and costs |
 | `/focus` | Toggle focus view (distraction-free output display) | Reduce visual noise during long tasks |
 | `/fork` | Fork current conversation | Explore alternatives |
 | `/stats` | Shortcut alias that opens the stats tab of `/usage` (v2.1.118+) | Review session metrics |
@@ -200,7 +200,7 @@ Auto-invoked capabilities with instructions, scripts, and templates.
 
 | Skill | Description | When Auto-Invoked | Scope | Installation |
 |-------|-------------|-------------------|-------|--------------|
-| `code-review` | Comprehensive code review | "Review this code", "Check quality" | Project | `cp -r 03-skills/code-review .claude/skills/` |
+| `code-review-specialist` | Comprehensive code review | "Review this code", "Check quality" | Project | `cp -r 03-skills/code-review-specialist .claude/skills/` |
 | `brand-voice` | Brand consistency checker | Writing marketing copy | Project | `cp -r 03-skills/brand-voice .claude/skills/` |
 | `doc-generator` | API documentation generator | "Generate docs", "Document API" | Project | `cp -r 03-skills/doc-generator .claude/skills/` |
 | `refactor` | Systematic code refactoring (Martin Fowler) | "Refactor this", "Clean up code" | User | `cp -r 03-skills/refactor ~/.claude/skills/` |
@@ -246,7 +246,7 @@ cp -r 03-skills/* ~/.claude/skills/
 | `/loop` | Run prompts on interval | Recurring tasks |
 | `/run` *(v2.1.145+)* | Launch this project's app to see a change running | Verifying a change in the real app |
 | `/run-skill-generator` *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project | First-time project setup for `/run` |
-| `/simplify` | Review code for quality | After writing code |
+| `/code-review` *(renamed from `/simplify` in v2.1.146)* | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`); pass `--comment` to post findings as inline PR comments | After writing code, before landing a PR |
 | `/verify` *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works | Validating a fix end-to-end |
 
 ---
@@ -538,8 +538,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: May 20, 2026
-**Claude Code Version**: 2.1.145
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands

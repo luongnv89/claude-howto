@@ -695,6 +695,7 @@ For enterprise deployments, IT administrators can enforce MCP server policies th
 **Features:**
 - `allowedMcpServers` -- whitelist of permitted servers
 - `deniedMcpServers` -- blocklist of prohibited servers
+- `allowAllClaudeAiMcps` -- managed setting that permits loading claude.ai cloud MCP connectors organization-wide (v2.1.149+)
 - Supports matching by server name, command, and URL patterns
 - Organization-wide MCP policies enforced before user configuration
 - Prevents unauthorized server connections
@@ -1167,8 +1168,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: May 19, 2026
-**Claude Code Version**: 2.1.143
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog

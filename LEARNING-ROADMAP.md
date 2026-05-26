@@ -244,7 +244,7 @@ Before starting Level 2, make sure you're comfortable with these Level 1 concept
 
 ```bash
 # Exercise 1: Install a skill
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Exercise 2: Set up hooks
 mkdir -p ~/.claude/hooks
@@ -543,7 +543,7 @@ This repository includes two interactive skills you can use anytime in Claude Co
 
 1. **Slash commands** (15 min): Copy and test `/optimize` and `/pr`
 2. **Project memory** (15 min): Create CLAUDE.md with your project standards
-3. **Install a skill** (15 min): Set up code-review skill
+3. **Install a skill** (15 min): Set up code-review-specialist skill
 4. **Try them together** (15 min): See how they work in harmony
 
 **Outcome**: Basic productivity boost with commands, memory, and auto-skills
@@ -738,8 +738,8 @@ Once you've completed all milestones:
 
 ---
 
-**Last Updated**: May 20, 2026
-**Claude Code Version**: 2.1.145
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks

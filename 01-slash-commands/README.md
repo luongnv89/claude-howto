@@ -107,7 +107,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 | `/claude-api` | Load Claude API reference for project language |
 | `/debug [description]` | Enable debug logging |
 | `/loop [interval] <prompt>` | Run prompt repeatedly on interval |
-| `/simplify [focus]` | Review changed files for code quality |
+| `/code-review [effort]` | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`); renamed from `/simplify` in v2.1.146 |
 
 ### Deprecated Commands
 
@@ -620,8 +620,8 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: May 20, 2026
-**Claude Code Version**: 2.1.145
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/interactive-mode

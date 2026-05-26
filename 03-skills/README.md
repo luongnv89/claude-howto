@@ -75,7 +75,7 @@ sequenceDiagram
     Claude->>System: Check available skills (metadata)
     System-->>Claude: Skill descriptions loaded at startup
     Claude->>Claude: Match request to skill description
-    Claude->>SkillInst: Read code-review/SKILL.md
+    Claude->>SkillInst: Read code-review-specialist/SKILL.md
     SkillInst-->>Claude: Level 2: Instructions loaded
     Claude->>Claude: Determine: Need templates?
     Claude->>SkillRes: Read templates/checklist.md
@@ -334,7 +334,7 @@ Research $ARGUMENTS thoroughly:
 **Directory Structure:**
 
 ```
-~/.claude/skills/code-review/
+~/.claude/skills/code-review-specialist/
 ├── SKILL.md
 ├── templates/
 │   ├── review-checklist.md
@@ -344,7 +344,7 @@ Research $ARGUMENTS thoroughly:
     └── compare-complexity.py
 ```
 
-**File:** `~/.claude/skills/code-review/SKILL.md`
+**File:** `~/.claude/skills/code-review-specialist/SKILL.md`
 
 ```yaml
 ---
@@ -616,8 +616,10 @@ Can you help me review this code for security issues?
 
 **Or invoke it directly** with the skill name:
 ```
-/code-review src/auth/login.ts
+/code-review-specialist src/auth/login.ts
 ```
+
+> **Note**: This local skill is installed as `code-review-specialist` so it does **not** collide with the built-in `/code-review` command (the renamed `/simplify`, shipped in Claude Code v2.1.146). If you copy it to `~/.claude/skills/code-review/` instead, it will shadow the built-in — keep the `-specialist` suffix to avoid that.
 
 ### Updating a Skill
 
@@ -805,7 +807,7 @@ Claude Code ships with nine built-in skills that are always available without in
 | `/loop [interval] <prompt>` | Run prompt repeatedly on interval (e.g., `/loop 5m check the deploy`) |
 | `/run` *(v2.1.145+)* | Launch this project's app to see a change running — looks for a project skill, otherwise falls back to built-in patterns per project type |
 | `/run-skill-generator` *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project by generating a per-project skill |
-| `/simplify` | Review changed files for reuse, quality, and efficiency; spawns 3 parallel review agents |
+| `/code-review [effort]` | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`); pass `--comment` to post findings as inline PR comments. Renamed from `/simplify` in v2.1.146 |
 | `/verify` *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works (not just that tests pass) |
 
 These skills are available out-of-the-box and do not need to be installed or configured. They follow the same SKILL.md format as custom skills.
@@ -852,8 +854,8 @@ Once you start building skills seriously, two things become essential: a library
 - [Hooks Guide](../06-hooks/) - Event-driven automation
 
 ---
-**Last Updated**: May 20, 2026
-**Claude Code Version**: 2.1.145
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/settings

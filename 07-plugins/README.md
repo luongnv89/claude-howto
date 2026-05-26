@@ -1105,8 +1105,8 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: May 19, 2026
-**Claude Code Version**: 2.1.143
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugin-marketplaces

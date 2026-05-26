@@ -1,5 +1,76 @@
 # Changelog
 
+## [v2.1.150] — 2026-05-25
+
+### Synced to Claude Code v2.1.150
+
+Bumps tutorial coverage from Claude Code v2.1.145 → v2.1.150 (May 23, 2026
+release). Anthropic shipped five patches (v2.1.146 through v2.1.150) since the
+last sync. The headline change is the **rename of the bundled `/simplify`
+skill to `/code-review`** (v2.1.146) — a pure rename with **no alias**, so the
+old name no longer works. Because this repo also ships its own local
+code-review skill, the directory was renamed to `code-review-specialist` to
+avoid shadowing the new built-in. Other highlights: `/usage` now breaks costs
+down per category, background sessions can be pinned with `Ctrl+T`, the
+markdown renderer supports GFM task-list checkboxes, and a new
+`allowAllClaudeAiMcps` managed setting was added. This sync also catches up
+four module READMEs (`04-subagents`, `05-mcp`, `07-plugins`,
+`09-advanced-features`) that were still pinned to v2.1.143.
+
+### Behavior changes
+
+- **`/simplify` renamed to `/code-review` (v2.1.146)**: the bundled review
+  skill is now invoked as `/code-review` and takes an optional effort level
+  (e.g. `/code-review high`); pass `--comment` to post findings as inline
+  GitHub PR comments (v2.1.147). The old `/simplify` name no longer works —
+  there is no alias. Updated in `01-slash-commands/README.md`,
+  `03-skills/README.md`, `CATALOG.md`, `QUICK_REFERENCE.md`, and
+  `claude_concepts_guide.md`.
+
+### Changed
+
+- **Renamed the repo's local `code-review` skill to `code-review-specialist`**
+  to avoid colliding with the new built-in `/code-review`. The directory
+  `03-skills/code-review/` → `03-skills/code-review-specialist/`, and all
+  install commands, directory trees, and cross-references were updated in
+  `README.md`, `QUICK_REFERENCE.md`, `INDEX.md`, `CATALOG.md`,
+  `LEARNING-ROADMAP.md`, `claude_concepts_guide.md`, and `03-skills/README.md`.
+  Added a note explaining the collision and how to avoid shadowing the
+  built-in.
+
+### Added
+
+- **`/usage` per-category cost breakdown (v2.1.149)** — the cost view now
+  breaks spending down by category (skills, subagents, plugins, and
+  per-MCP-server costs). Documented in `CATALOG.md` and
+  `claude_concepts_guide.md`.
+- **Pinned background sessions — `Ctrl+T` (v2.1.147)** — pinning a session in
+  `claude agents` keeps it alive when idle, restarts it in place to apply
+  Claude Code updates, and sheds it under memory pressure only after
+  non-pinned sessions. Documented in `10-cli/README.md`.
+- **GFM task-list checkbox rendering (v2.1.149)** — the markdown renderer now
+  renders `- [ ]` / `- [x]` as checkboxes. Documented in
+  `09-advanced-features/README.md`.
+- **`allowAllClaudeAiMcps` managed setting (v2.1.149)** — permits loading
+  claude.ai cloud MCP connectors organization-wide. Documented in
+  `05-mcp/README.md`.
+
+### Removed
+
+- **Stop/SubagentStop hook input fields `background_tasks` and `session_crons`**
+  — removed from `06-hooks/README.md` and `resources.md`. These were added from
+  the v2.1.145 release notes but are not enumerated in the official hooks
+  reference page; removed to keep the docs aligned with the published
+  reference.
+
+### Documentation
+
+- Caught up four module READMEs from v2.1.143 to v2.1.150:
+  `04-subagents/README.md`, `05-mcp/README.md`, `07-plugins/README.md`,
+  `09-advanced-features/README.md`.
+- Bumped every English doc's metadata footer to **v2.1.150 / May 25, 2026** for
+  a consistent sync.
+
 ## [v2.1.145] — 2026-05-20
 
 ### Synced to Claude Code v2.1.145

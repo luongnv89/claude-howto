@@ -66,7 +66,7 @@ Auto-invoked capabilities with scripts and templates.
 
 ### Code Review Skill (5 files)
 ```
-code-review/
+code-review-specialist/
 ├── SKILL.md                          # Skill definition
 ├── scripts/
 │   ├── analyze-metrics.py            # Code metrics analyzer
@@ -515,7 +515,7 @@ claude-howto/
 │   └── README.md
 │
 ├── 03-skills/                                   # Skills
-│   ├── code-review/
+│   ├── code-review-specialist/
 │   │   ├── SKILL.md
 │   │   ├── scripts/
 │   │   │   ├── analyze-metrics.py
@@ -666,7 +666,7 @@ cp 01-slash-commands/optimize.md .claude/commands/
 cp 04-subagents/code-reviewer.md .claude/agents/
 
 # Install skill
-cp -r 03-skills/code-review ~/.claude/skills/
+cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Or install complete plugin
 /plugin install pr-review
@@ -808,12 +808,12 @@ Run tests in background
 ### Performance
 - `01-slash-commands/optimize.md` - Performance analysis
 - `04-subagents/code-reviewer.md` - Performance review
-- `03-skills/code-review/` - Performance metrics
+- `03-skills/code-review-specialist/` - Performance metrics
 - `07-plugins/pr-review/agents/performance-analyzer.md` - Performance specialist
 
 ### Security
 - `04-subagents/secure-reviewer.md` - Security review
-- `03-skills/code-review/` - Security analysis
+- `03-skills/code-review-specialist/` - Security analysis
 - `07-plugins/pr-review/` - Security checks
 
 ### Testing
@@ -874,8 +874,8 @@ Want to add more examples? Follow the structure:
 
 ---
 
-**Last Updated**: May 20, 2026
-**Claude Code Version**: 2.1.145
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks

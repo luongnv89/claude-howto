@@ -348,12 +348,6 @@ Run when Claude finishes responding (Stop) or a subagent completes (SubagentStop
 
 **Additional input field:** Both `Stop` and `SubagentStop` hooks receive a `last_assistant_message` field in their JSON input, containing the final message from Claude or the subagent before stopping. This is useful for evaluating task completion.
 
-**v2.1.145 additions:** The `Stop` and `SubagentStop` hook inputs now also include two arrays:
-- `background_tasks` — any background tasks the session has spawned (handy for blocking stop until work finishes).
-- `session_crons` — any cron jobs (`/schedule`) created during the session.
-
-Hook authors can read these to decide whether to block stop — for example, "don't stop while a background test run or scheduled task is still pending."
-
 **Configuration:**
 ```json
 {
@@ -1440,8 +1434,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: May 20, 2026
-**Claude Code Version**: 2.1.145
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/changelog

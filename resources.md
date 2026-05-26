@@ -250,11 +250,10 @@ These steps capture the core recommendations for smooth workflows with Claude Co
 | **/goal mode** | Register a session-level completion condition; Claude keeps working until met (v2.1.139+) | [Slash Commands](01-slash-commands/) |
 | **claude agents (Agent View)** | List, inspect, and resume background agents from the terminal; `--json` for machine-readable output (v2.1.139+, `--json` added v2.1.145) | [code.claude.com/docs/en/agent-view](https://code.claude.com/docs/en/agent-view) |
 | **/run, /verify, /run-skill-generator** | Bundled skills to launch your project, confirm a fix works, and generate per-project run/verify skills (v2.1.145+) | [Skills Guide](03-skills/) |
-| **Stop/SubagentStop hook fields** | Stop and SubagentStop hook inputs now include `background_tasks` and `session_crons` (v2.1.145+) | [Hooks Guide](06-hooks/) |
 
 ---
-**Last Updated**: May 20, 2026
-**Claude Code Version**: 2.1.145
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/changelog

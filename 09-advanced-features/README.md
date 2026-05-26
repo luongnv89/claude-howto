@@ -1649,7 +1649,7 @@ Transfer your current CLI session to the Desktop App:
 | **PR monitoring** | GitHub CLI integration with auto-fix CI failures and auto-merge when checks pass |
 | **Parallel sessions** | Multiple sessions in the sidebar with automatic Git worktree isolation |
 | **Scheduled tasks** | Recurring tasks (hourly, daily, weekdays, weekly) that run while the app is open |
-| **Rich rendering** | Code, markdown, and diagram rendering with syntax highlighting |
+| **Rich rendering** | Code, markdown, and diagram rendering with syntax highlighting; GitHub-Flavored-Markdown task-list checkboxes (`- [ ]` / `- [x]`) render as checkboxes (v2.1.149+) |
 
 ### App preview configuration
 
@@ -2267,8 +2267,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: May 19, 2026
-**Claude Code Version**: 2.1.143
+**Last Updated**: May 25, 2026
+**Claude Code Version**: 2.1.150
 **Sources**:
 - https://code.claude.com/docs/en/permission-modes
 - https://code.claude.com/docs/en/interactive-mode
