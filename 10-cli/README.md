@@ -766,7 +766,7 @@ claude --model opusplan "design and implement the API"
 /fast
 ```
 
-> **Fast Mode now runs on Opus 4.8 (v2.1.154)**: As of v2.1.154, `/fast` runs **Opus 4.8** by default as a research preview — 2× the standard rate for ~2.5× the output speed (Opus 4.8 fast pricing $10/$50 per MTok vs standard $5/$25). It previously flipped from Opus 4.6 to Opus 4.7 in v2.1.142. The `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` env var was **deprecated in v2.1.154 and removed on 2026-06-01**; to use fast mode on Opus 4.6 now, run `/model claude-opus-4-6[1m]` then `/fast on`.
+> **Fast Mode now runs on Opus 4.8 (v2.1.154)**: As of v2.1.154, `/fast` runs **Opus 4.8** by default as a research preview — about 2× the standard rate for ~2.5× the output speed. It previously flipped from Opus 4.6 to Opus 4.7 in v2.1.142. The `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` env var was **deprecated in v2.1.154 and removed on 2026-06-01**; to use fast mode on Opus 4.6 now, run `/model claude-opus-4-6[1m]` then `/fast on`.
 
 ### Effort Levels (Opus 4.8 / Opus 4.7)
 
