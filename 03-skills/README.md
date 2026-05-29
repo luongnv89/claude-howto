@@ -103,6 +103,8 @@ When skills share the same name across levels, higher-priority locations win: **
 
 **`--add-dir` directories**: Skills from directories added via `--add-dir` are loaded automatically with live change detection. Any edits to skill files in those directories take effect immediately without restarting Claude Code.
 
+**Reloading skills**: The `/reload-skills` command (added v2.1.152) re-scans all skill directories without restarting the session — useful after adding or editing a skill that isn't picked up by live detection. A `SessionStart` hook can trigger the same re-scan by returning `reloadSkills: true` (see [Hooks](../06-hooks/README.md)).
+
 **Description budget**: Skill descriptions (Level 1 metadata) are capped at **1% of the context window** (fallback: **8,000 characters**). If you have many skills installed, descriptions may be shortened. All skill names are always included, but descriptions are trimmed to fit. Front-load the key use case in descriptions. Override the budget with the `SLASH_COMMAND_TOOL_CHAR_BUDGET` environment variable.
 
 ## Creating Custom Skills
@@ -151,6 +153,7 @@ argument-hint: "[filename] [format]"        # Hint for autocomplete
 disable-model-invocation: true              # Only user can invoke
 user-invocable: false                       # Hide from slash menu
 allowed-tools: Read, Grep, Glob             # Restrict tool access
+disallowed-tools: Write, Edit               # Remove specific tools while active (v2.1.152)
 model: opus                                 # Specific model to use
 effort: high                                # Effort level override (low, medium, high, xhigh, max)
 context: fork                               # Run in isolated subagent
@@ -174,8 +177,9 @@ paths: "src/api/**/*.ts"               # Glob patterns limiting when skill activ
 | `disable-model-invocation` | `true` = only the user can invoke via `/name`. Claude will never auto-invoke. |
 | `user-invocable` | `false` = hidden from the `/` menu. Only Claude can invoke it automatically. |
 | `allowed-tools` | Comma-separated list of tools the skill may use without permission prompts. |
+| `disallowed-tools` | Comma-separated list of tools to remove while the skill is active (complements `allowed-tools`). Added v2.1.152. |
 | `model` | Model override while the skill is active (e.g., `opus`, `sonnet`). |
-| `effort` | Effort level override while the skill is active: `low`, `medium`, `high`, `xhigh`, or `max`. Available levels depend on the model — `xhigh` is the Claude Code default for Opus 4.7. |
+| `effort` | Effort level override while the skill is active: `low`, `medium`, `high`, `xhigh`, or `max`. Available levels depend on the model — the default effort is `high` on Opus 4.8 (`xhigh` on Opus 4.7). |
 | `context` | `fork` to run the skill in a forked subagent context with its own context window. |
 | `agent` | Subagent type when `context: fork` (e.g., `Explore`, `Plan`, `general-purpose`). |
 | `shell` | Shell used for `` !`command` `` substitutions and scripts: `bash` (default) or `powershell`. |
@@ -854,12 +858,13 @@ Once you start building skills seriously, two things become essential: a library
 - [Hooks Guide](../06-hooks/) - Event-driven automation
 
 ---
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/commands
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.152
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.154
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

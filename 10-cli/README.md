@@ -134,7 +134,7 @@ claude -p "list todos" | grep "URGENT"
 ### Model Selection Examples
 
 ```bash
-# Use Opus 4.7 for complex tasks
+# Use Opus 4.8 for complex tasks
 claude --model opus "design a caching strategy"
 
 # Use Haiku 4.5 for quick tasks
@@ -747,9 +747,9 @@ Claude Code supports multiple models with different capabilities:
 
 | Model | ID | Context Window | Notes |
 |-------|-----|----------------|-------|
-| Opus 4.7 | `claude-opus-4-7` | 1M tokens (1M context fix landed in v2.1.117) | Most capable, adaptive effort levels; `xhigh` is the default effort on Claude Code since Opus 4.7 launch (2026-04-16) |
+| Opus 4.8 | `claude-opus-4-8` | 1M tokens | Most capable; adaptive effort levels `low → max`; default effort `high` (v2.1.154) |
 | Sonnet 4.6 | `claude-sonnet-4-6` | 1M tokens | Balanced speed and capability; default effort for Pro/Max subscribers raised from `medium` to `high` in v2.1.117 |
-| Haiku 4.5 | `claude-haiku-4-5` | 1M tokens | Fastest, best for quick tasks |
+| Haiku 4.5 | `claude-haiku-4-5` | 200K tokens | Fastest, best for quick tasks; no effort levels |
 
 ### Model Selection
 
@@ -766,24 +766,24 @@ claude --model opusplan "design and implement the API"
 /fast
 ```
 
-> **Fast Mode default flipped to Opus 4.7 (v2.1.142)**: As of v2.1.142, `/fast` runs Opus 4.7 by default (was Opus 4.6 before). To opt back into Opus 4.6 for Fast Mode, export `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1`.
+> **Fast Mode now runs on Opus 4.8 (v2.1.154)**: As of v2.1.154, `/fast` runs **Opus 4.8** by default as a research preview — 2× the standard rate for ~2.5× the output speed (Opus 4.8 fast pricing $10/$50 per MTok vs standard $5/$25). It previously flipped from Opus 4.6 to Opus 4.7 in v2.1.142. The `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` env var was **deprecated in v2.1.154 and removed on 2026-06-01**; to use fast mode on Opus 4.6 now, run `/model claude-opus-4-6[1m]` then `/fast on`.
 
-### Effort Levels (Opus 4.7)
+### Effort Levels (Opus 4.8 / Opus 4.7)
 
-Opus 4.7 supports adaptive reasoning with effort levels, ordered from lightest to heaviest: `low` (○), `medium` (◐), `high` (●), `xhigh` (default on Claude Code since Opus 4.7 launch, 2026-04-16), and `max` (Opus 4.7 only). On Opus 4.6 / Sonnet 4.6, the default effort for Pro/Max subscribers was raised from `medium` to `high` in v2.1.117.
+Opus 4.8 and Opus 4.7 support adaptive reasoning with effort levels, ordered from lightest to heaviest: `low` (○), `medium` (◐), `high` (●), `xhigh`, and `max`. The **default** is `high` on Opus 4.8 (since v2.1.154), Opus 4.6, and Sonnet 4.6, and `xhigh` on Opus 4.7. `xhigh` is available on Opus 4.8 and Opus 4.7; `max` works on Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 has no effort levels. On Opus 4.6 / Sonnet 4.6, the default effort for Pro/Max subscribers was raised from `medium` to `high` in v2.1.117.
 
 ```bash
 # Set effort level via CLI flag
-claude --effort xhigh "complex review"
+claude --effort high "complex review"
 
 # Set effort level via slash command
-/effort xhigh
+/effort high
 
 # Set effort level via environment variable
-export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on Opus 4.7), or max (Opus 4.7 only)
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 4.8/4.7), or max — default is high on Opus 4.8
 ```
 
-The "ultrathink" keyword in prompts activates deep reasoning. The `max` effort level is exclusive to Opus 4.7.
+The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu also offers `ultracode`, which is **not** a model effort level — it sends `xhigh` and has Claude orchestrate dynamic workflows (session-only).
 
 ---
 
@@ -798,7 +798,7 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `max` effort l
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | Override default Sonnet model ID |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | Override default Haiku model ID |
 | `MAX_THINKING_TOKENS` | Set extended thinking token budget |
-| `CLAUDE_CODE_EFFORT_LEVEL` | Set effort level (`low`/`medium`/`high`/`xhigh`/`max`) — `xhigh` is the default on Opus 4.7; `max` is Opus 4.7 only |
+| `CLAUDE_CODE_EFFORT_LEVEL` | Set effort level (`low`/`medium`/`high`/`xhigh`/`max`) — default is `high` on Opus 4.8 (`xhigh` on Opus 4.7); `xhigh` needs Opus 4.8/4.7; `max` works on Opus 4.8/4.7/4.6 and Sonnet 4.6 |
 | `CLAUDE_CODE_SIMPLE` | Minimal mode, set by `--bare` flag |
 | `CLAUDE_CODE_DISABLE_AUTO_MEMORY` | Disable automatic CLAUDE.md updates |
 | `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS` | Disable background task execution |
@@ -833,7 +833,7 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `max` effort l
 | `CLAUDE_CODE_FORCE_SYNC_OUTPUT` | Set to `1` to force synchronous output for terminals where auto-detection misses (e.g., Emacs `eat`) (v2.1.129+) |
 | `CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE` | Set to `1` to enable background upgrades for Homebrew/WinGet installs (which normally do not auto-update) (v2.1.129+) |
 | `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY` | Set to `1` to opt in to gateway `/v1/models` discovery when `ANTHROPIC_BASE_URL` is set. Without it, `/model` shows the built-in static list (v2.1.129+) |
-| `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | Set to `1` to pin Fast Mode (`/fast`) back to Opus 4.6. The default flipped to Opus 4.7 in v2.1.142. |
+| `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **Deprecated (removed 2026-06-01).** Previously pinned Fast Mode (`/fast`) to Opus 4.6. To use fast mode on Opus 4.6 now, run `/model claude-opus-4-6[1m]` then `/fast on`. |
 
 > **`ENABLE_TOOL_SEARCH` on Vertex AI (v2.1.119+)**: Tool search is **disabled by default on Google Cloud Vertex AI** deployments. Users who want the tool-search capability on Vertex must explicitly opt in with `export ENABLE_TOOL_SEARCH=true`. On direct Anthropic API it remains enabled by default.
 
@@ -941,23 +941,17 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/changelog
-- https://code.claude.com/docs/en/agent-view
-- https://www.anthropic.com/news/claude-opus-4-7
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.113
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.116
+- https://code.claude.com/docs/en/model-config
+- https://platform.claude.com/docs/en/about-claude/models/overview
+- https://www.anthropic.com/news/claude-opus-4-8
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.118
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.131
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.141
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.142
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.143
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.154
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

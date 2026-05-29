@@ -325,10 +325,10 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 
 ---
 
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/settings
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

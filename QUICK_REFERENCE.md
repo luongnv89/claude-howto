@@ -130,7 +130,7 @@ claude -r "session"    # Resume session by name/ID
 | **Git Worktrees** | Built-in | `/worktree` |
 | **Auto Memory** | Built-in | Auto-saves to CLAUDE.md |
 | **Task List** | Built-in | `/task list` |
-| **Bundled Skills (9)** | Built-in | `/batch`, `/claude-api`, `/code-review` *(renamed from `/simplify` in v2.1.146)*, `/debug`, `/fewer-permission-prompts`, `/loop`, `/run` *(v2.1.145+)*, `/run-skill-generator` *(v2.1.145+)*, `/verify` *(v2.1.145+)* |
+| **Bundled Skills (10)** | Built-in | `/batch`, `/claude-api`, `/code-review`, `/simplify` *(cleanup-only review; distinct from `/code-review` again since v2.1.154)*, `/debug`, `/fewer-permission-prompts`, `/loop`, `/run` *(v2.1.145+)*, `/run-skill-generator` *(v2.1.145+)*, `/verify` *(v2.1.145+)* |
 
 ---
 
@@ -398,8 +398,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Task List** | Manage background tasks | `/task list`, `/task status <id>` |
 | **Auto Memory** | Automatic memory saving from conversations | Claude auto-saves key context to CLAUDE.md |
 | **Git Worktrees** | Isolated workspaces for parallel development | `/worktree` to create isolated workspace |
-| **Model Selection** | Switch between Sonnet 4.6, Opus 4.7, and Haiku 4.5 | `/model` — session-only by default since v2.1.144; press `d` to set a new default |
+| **Model Selection** | Switch between Sonnet 4.6, Opus 4.8, and Haiku 4.5 | `/model` — since v2.1.153 the choice is saved as the default for new sessions; press `s` for session-only |
 | **Agent Teams** | Coordinate multiple agents on tasks | Enable with `CLAUDE_AGENT_TEAMS=1` env var |
+| **Dynamic Workflows** *(v2.1.154)* | Deterministic multi-agent orchestration | `/workflows` to view runs; ask Claude to create one |
 | **Scheduled Tasks** | Recurring tasks with `/loop` | `/loop 5m /command` or CronCreate tool |
 | **Chrome Integration** | Browser automation | `--chrome` flag or `/chrome` command |
 | **Keyboard Customization** | Custom keybindings | `/keybindings` command |
@@ -508,12 +509,12 @@ Getting started checklist:
 **This Card**: Keep it handy for quick reference!
 
 ---
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.144
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.153
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.154
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

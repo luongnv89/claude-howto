@@ -738,14 +738,14 @@ Once you've completed all milestones:
 
 ---
 
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.144
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 **Maintained by**: Claude How-To Contributors
 **License**: Educational purposes, free to use and adapt
 

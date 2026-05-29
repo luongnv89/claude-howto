@@ -367,6 +367,7 @@ Advanced capabilities for complex workflows.
 | `README.md` | Complete guide | All advanced features documentation |
 | `config-examples.json` | Configuration examples | 10+ use-case-specific configurations |
 | `planning-mode-examples.md` | Planning examples | REST API, database migration, refactoring |
+| Dynamic Workflows | Deterministic multi-agent orchestration via `/workflows` (v2.1.154) | Comprehensive audits, migrations, scale-out |
 | Scheduled Tasks | Recurring tasks with `/loop` and cron tools | Automated recurring workflows |
 | Chrome Integration | Browser automation via headless Chromium | Web testing and scraping |
 | Remote Control (expanded) | Connection methods, security, comparison table | Remote session management |
@@ -390,6 +391,11 @@ Advanced capabilities for complex workflows.
 - Long-running operations without blocking
 - Parallel development workflows
 - Task management and monitoring
+
+### Dynamic Workflows (v2.1.154)
+- Deterministic orchestration of tens-to-hundreds of background subagents
+- Fan-out / pipeline / parallel stages for comprehensive coverage
+- View runs with `/workflows`; `ultracode` `/effort` turns it on for a session
 
 ### Permission Modes
 - **default**: Ask for approval on risky actions
@@ -459,7 +465,7 @@ Command-line interface usage patterns and reference.
 - `claude` - Start interactive session
 - `claude -p "prompt"` - Headless/non-interactive mode
 - `claude web` - Launch web session
-- `claude --model` - Select model (Sonnet 4.6, Opus 4.7, Haiku 4.5)
+- `claude --model` - Select model (Sonnet 4.6, Opus 4.8, Haiku 4.5)
 - `claude --permission-mode` - Set permission mode
 - `claude --remote` - Enable remote control via WebSocket
 
@@ -874,15 +880,15 @@ Want to add more examples? Follow the structure:
 
 ---
 
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.144
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.153
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.154
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 **Total Examples**: 100+ files
 **Categories**: 10 features
 **Hooks**: 9 automation scripts

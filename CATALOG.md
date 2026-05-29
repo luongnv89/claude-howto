@@ -67,6 +67,8 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/sandbox` | Toggle sandbox mode | Safe command execution |
 | `/doctor` | Run diagnostics | Troubleshoot issues |
 | `/reload-plugins` | Reload installed plugins | Plugin management |
+| `/reload-skills` | Re-scan skill directories without restarting (v2.1.152) | Skill management |
+| `/workflows` | View running and completed dynamic workflow runs (v2.1.154) | Multi-agent orchestration |
 | `/release-notes` | Show release notes | Check new features |
 | `/remote-control` | Enable remote control | Remote access |
 | `/permissions` | Manage permissions | Control access |
@@ -246,7 +248,8 @@ cp -r 03-skills/* ~/.claude/skills/
 | `/loop` | Run prompts on interval | Recurring tasks |
 | `/run` *(v2.1.145+)* | Launch this project's app to see a change running | Verifying a change in the real app |
 | `/run-skill-generator` *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project | First-time project setup for `/run` |
-| `/code-review` *(renamed from `/simplify` in v2.1.146)* | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`); pass `--comment` to post findings as inline PR comments | After writing code, before landing a PR |
+| `/code-review` | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`); pass `--comment` to post findings as inline PR comments | After writing code, before landing a PR |
+| `/simplify` *(distinct again since v2.1.154)* | Cleanup-only review (reuse / simplification / efficiency / altitude) that applies the fixes; does not hunt bugs | Tidying code without a bug hunt |
 | `/verify` *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works | Validating a fix end-to-end |
 
 ---
@@ -538,13 +541,12 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.144
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.143
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.154
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

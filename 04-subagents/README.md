@@ -1238,8 +1238,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/agent-teams
@@ -1248,4 +1248,4 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.138
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.140
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

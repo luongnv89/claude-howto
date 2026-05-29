@@ -16,27 +16,28 @@ Comprehensive guide to Claude Code's advanced capabilities including planning mo
 5. [Auto Mode](#auto-mode)
 6. [Background Tasks](#background-tasks)
 7. [Monitor Tool (Event-Driven Streams)](#monitor-tool-event-driven-streams)
-8. [Scheduled Tasks](#scheduled-tasks)
-9. [Permission Modes](#permission-modes)
-10. [Headless Mode](#headless-mode)
-11. [Session Management](#session-management)
-12. [Interactive Features](#interactive-features)
-13. [TUI Mode (Fullscreen)](#tui-mode-fullscreen)
-14. [Voice Dictation](#voice-dictation)
-15. [Channels](#channels)
-16. [Chrome Integration](#chrome-integration)
-17. [Remote Control](#remote-control)
-18. [Web Sessions](#web-sessions)
-19. [Desktop App](#desktop-app)
-20. [Task List](#task-list)
-21. [Prompt Suggestions](#prompt-suggestions)
-22. [Git Worktrees](#git-worktrees)
-23. [Sandboxing](#sandboxing)
-24. [Managed Settings (Enterprise)](#managed-settings-enterprise)
-25. [Configuration and Settings](#configuration-and-settings)
-26. [Agent Teams](#agent-teams)
-27. [Best Practices](#best-practices)
-28. [Additional Resources](#additional-resources)
+8. [Dynamic Workflows](#dynamic-workflows)
+9. [Scheduled Tasks](#scheduled-tasks)
+10. [Permission Modes](#permission-modes)
+11. [Headless Mode](#headless-mode)
+12. [Session Management](#session-management)
+13. [Interactive Features](#interactive-features)
+14. [TUI Mode (Fullscreen)](#tui-mode-fullscreen)
+15. [Voice Dictation](#voice-dictation)
+16. [Channels](#channels)
+17. [Chrome Integration](#chrome-integration)
+18. [Remote Control](#remote-control)
+19. [Web Sessions](#web-sessions)
+20. [Desktop App](#desktop-app)
+21. [Task List](#task-list)
+22. [Prompt Suggestions](#prompt-suggestions)
+23. [Git Worktrees](#git-worktrees)
+24. [Sandboxing](#sandboxing)
+25. [Managed Settings (Enterprise)](#managed-settings-enterprise)
+26. [Configuration and Settings](#configuration-and-settings)
+27. [Agent Teams](#agent-teams)
+28. [Best Practices](#best-practices)
+29. [Additional Resources](#additional-resources)
 
 ---
 
@@ -278,8 +279,8 @@ Extended thinking is a deliberate, step-by-step reasoning process where Claude:
 - `Option + T` (macOS) / `Alt + T` (Windows/Linux) - Toggle extended thinking
 
 **Automatic activation**:
-- Enabled by default for all models (Opus 4.7, Sonnet 4.6, Haiku 4.5)
-- Opus 4.7: Adaptive reasoning with effort levels: `low` (○), `medium` (◐), `high` (●), `xhigh` (Opus 4.7 only, default on Claude Code since Opus 4.7 launch, 2026-04-16), `max`. Opus 4.6 and Sonnet 4.6 also support `low`, `medium`, `high`, `max` (no `xhigh`). Opus 4.7 has a 1M-token native context window (1M context fix landed in v2.1.117 — before that, `/context` miscounted Opus 4.7 against a 200K window and triggered premature autocompact). Since v2.1.129, `/context` shows its visualization in-UI only; the ASCII viz no longer leaks into the conversation context (~1.6k tokens saved per call), so `/context` is safe to invoke freely.
+- Enabled by default for all models (Opus 4.8, Opus 4.7, Sonnet 4.6, Haiku 4.5)
+- Opus 4.8: Adaptive reasoning with effort levels: `low` (○), `medium` (◐), `high` (●), `xhigh`, `max`. The default is `high` on Opus 4.8 (v2.1.154), Opus 4.6, and Sonnet 4.6, and `xhigh` on Opus 4.7. `xhigh` is available on Opus 4.8 and Opus 4.7 (it falls back to `high` on Opus 4.6 / Sonnet 4.6). `max` works on Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 has no effort levels. Opus 4.8 and Opus 4.7 have a 1M-token native context window (1M context fix landed in v2.1.117 — before that, `/context` miscounted Opus 4.7 against a 200K window and triggered premature autocompact). Since v2.1.129, `/context` shows its visualization in-UI only; the ASCII viz no longer leaks into the conversation context (~1.6k tokens saved per call), so `/context` is safe to invoke freely.
 - Pro/Max subscribers on Opus 4.6 / Sonnet 4.6: default effort was raised from `medium` to `high` in v2.1.117.
 - Other models: Fixed budget up to 31,999 tokens
 
@@ -293,9 +294,9 @@ Extended thinking is a deliberate, step-by-step reasoning process where Claude:
 export MAX_THINKING_TOKENS=1024
 ```
 
-**Effort level** (supported on Opus 4.7, Opus 4.6, and Sonnet 4.6):
+**Effort level** (supported on Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 — not Haiku 4.5):
 ```bash
-export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low (○), medium (◐), high (●), xhigh (Opus 4.7 only, default), or max
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), xhigh (Opus 4.8/4.7), or max — default is high on Opus 4.8
 ```
 
 **CLI flag**:
@@ -308,7 +309,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **Note:** The keyword "ultrathink" in prompts activates deep reasoning mode. Effort levels `low`, `medium`, `high`, and `max` are supported on Opus 4.7, Opus 4.6, and Sonnet 4.6. `xhigh` (default on Opus 4.7) is Opus 4.7 only.
+> **Note:** The keyword "ultrathink" in prompts activates deep reasoning mode. Effort levels `low`, `medium`, `high`, and `max` are supported on Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 (Haiku 4.5 has none). `xhigh` is available on Opus 4.8 and Opus 4.7. The default effort is `high` on Opus 4.8 (and Opus 4.6 / Sonnet 4.6) and `xhigh` on Opus 4.7. The `/effort` menu also offers `ultracode`, which is **not** a model effort level — it sends `xhigh` and has Claude orchestrate dynamic workflows (session-only).
 
 ### Benefits of Extended Thinking
 
@@ -396,11 +397,13 @@ Extended thinking is controlled via environment variables, keyboard shortcuts, a
 # Set thinking token budget
 export MAX_THINKING_TOKENS=16000
 
-# Set effort level (Opus 4.7, Opus 4.6, Sonnet 4.6): low (○), medium (◐), high (●), xhigh (Opus 4.7 only, default), or max
-export CLAUDE_CODE_EFFORT_LEVEL=xhigh
+# Set effort level (Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6): low (○), medium (◐), high (●), xhigh (Opus 4.8/4.7), or max — default is high on Opus 4.8
+export CLAUDE_CODE_EFFORT_LEVEL=high
 ```
 
 Toggle during a session with `Alt+T` / `Option+T`, set effort with `/effort`, or configure via `/config`.
+
+> **Lean system prompt (v2.1.154):** The lean system prompt is now the **default** for all models except Haiku, Sonnet, and Opus 4.7-and-earlier, reducing baseline token overhead on Opus 4.8.
 
 ---
 
@@ -411,7 +414,7 @@ Auto Mode is a Research Preview permission mode (March 2026) that uses a backgro
 ### Requirements
 
 - **Plan**: Team, Enterprise, or API (not available on Pro or Max plans)
-- **Model**: Claude Sonnet 4.6 or Opus 4.7
+- **Model**: Claude Sonnet 4.6 or Opus 4.8
 - **Provider**: Anthropic API only (not supported on Bedrock, Vertex, or Foundry)
 - **Classifier**: Runs on Claude Sonnet 4.6 (adds extra token cost)
 
@@ -725,6 +728,30 @@ done
 "Start my dev server and monitor it for errors." Claude launches the server as a background task, attaches a Monitor filter (`tail -F server.log | grep --line-buffered -E "ERROR|FATAL"`), and the session goes quiet. The moment an error line appears in the log, Claude wakes up, reads the error, and can react — restart the server, fix the bug, or surface it to you — without you having to check in.
 
 > **Warning**: When piping into `grep`, **always** use `grep --line-buffered`. Without it, grep buffers stdout in 4KB chunks, which can delay events by minutes on low-traffic streams. This is the #1 way Monitor breaks in practice — if your filter seems silent when it shouldn't be, check for the `--line-buffered` flag first.
+
+---
+
+## Dynamic Workflows
+
+> **New in v2.1.154**
+
+Dynamic workflows let Claude orchestrate tens to hundreds of background [subagents](../04-subagents/README.md) **deterministically** — fan-out, pipelines, and parallel stages encoded in a script rather than left to the model's improvisation. Where a single agent holds one context window, a workflow decomposes a task across many agents and recombines their results.
+
+### When to Use Them
+
+- **Comprehensive coverage** — audit or review across many files/dimensions in parallel.
+- **Confidence** — generate independent perspectives, then adversarially verify findings before committing.
+- **Scale beyond one context** — large migrations, broad sweeps, or research that no single context can hold.
+
+For a one-off task you already understand, a single agent (or a direct edit) is still the right tool — workflows pay off when the work fans out.
+
+### Launching and Viewing
+
+- **Launch**: ask Claude to create a workflow for the task (e.g. "run a workflow to review every file in `src/`"). Claude authors the orchestration script and runs it in the background.
+- **View**: the `/workflows` command shows running and completed workflow runs with live progress.
+- **`ultracode`**: selecting `ultracode` in the `/effort` menu turns this on for the session — it sends `xhigh` to the model *and* has Claude orchestrate dynamic workflows by default. It is session-only and not accepted in the settings file.
+
+Workflows build on the subagent model — see [Subagents](../04-subagents/README.md) for how individual agents are defined and scoped.
 
 ---
 
@@ -2043,8 +2070,8 @@ Override config with environment variables:
 
 ```bash
 # Model selection
-export ANTHROPIC_MODEL=claude-opus-4-7
-export ANTHROPIC_DEFAULT_OPUS_MODEL=claude-opus-4-7
+export ANTHROPIC_MODEL=claude-opus-4-8
+export ANTHROPIC_DEFAULT_OPUS_MODEL=claude-opus-4-8
 export ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-4-6
 export ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-haiku-4-5
 
@@ -2053,7 +2080,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 # Thinking configuration
 export MAX_THINKING_TOKENS=16000
-export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (Opus 4.7 only, default), or max (supported on Opus 4.7, Opus 4.6, Sonnet 4.6)
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 4.8/4.7), or max — default is high on Opus 4.8 (supported on Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6)
 
 # Feature toggles
 export CLAUDE_CODE_DISABLE_AUTO_MEMORY=true
@@ -2267,18 +2294,17 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/permission-modes
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/cli-reference
-- https://www.anthropic.com/news/claude-opus-4-7
+- https://code.claude.com/docs/en/model-config
+- https://www.anthropic.com/news/claude-opus-4-8
 - https://claude.com/blog/introducing-routines-in-claude-code
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.141
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.143
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.154
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

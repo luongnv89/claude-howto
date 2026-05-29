@@ -252,12 +252,12 @@ These steps capture the core recommendations for smooth workflows with Claude Co
 | **/run, /verify, /run-skill-generator** | Bundled skills to launch your project, confirm a fix works, and generate per-project run/verify skills (v2.1.145+) | [Skills Guide](03-skills/) |
 
 ---
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/agent-view
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.144
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

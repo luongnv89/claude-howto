@@ -191,7 +191,7 @@ Subagent-based verification hooks that spawn a dedicated agent to evaluate condi
 
 ## Hook Events
 
-Claude Code supports **29 hook events**:
+Claude Code supports **30 hook events**:
 
 | Event | When Triggered | Matcher Input | Can Block | Common Use |
 |-------|---------------|---------------|-----------|------------|
@@ -207,6 +207,7 @@ Claude Code supports **29 hook events**:
 | **PostToolUseFailure** | Tool execution fails | Tool name | No | Error handling, logging |
 | **PostToolBatch** | After a batch of tool uses completes | (none) | No | Aggregate reporting, batched validation |
 | **Notification** | Notification sent | Notification type | No | Custom notifications |
+| **MessageDisplay** | While assistant message text is displayed | (none) | No | Transform or hide displayed message text (v2.1.152) |
 | **SubagentStart** | Subagent spawned | Agent type name | No | Subagent setup |
 | **SubagentStop** | Subagent finishes | Agent type name | Yes | Subagent validation |
 | **Stop** | Claude finishes responding | (none) | Yes | Task completion check |
@@ -407,6 +408,19 @@ if [ -n "$CLAUDE_ENV_FILE" ]; then
 fi
 exit 0
 ```
+
+**Session-scoped outputs (v2.1.152):** A `SessionStart` hook can return JSON to re-scan skills and set the session title:
+
+```json
+{
+  "reloadSkills": true,
+  "hookSpecificOutput": {
+    "sessionTitle": "Payments migration"
+  }
+}
+```
+
+Top-level `reloadSkills: true` triggers a skill re-scan in the same session (the same action as the `/reload-skills` command), making skills the hook just installed available immediately. `hookSpecificOutput.sessionTitle` sets the session's display title on startup and resume.
 
 ### SessionEnd
 
@@ -1262,6 +1276,7 @@ MCP tools follow the pattern `mcp__<server>__<tool>`:
 ### Security Notes
 
 - **Workspace trust required:** The `statusLine` and `fileSuggestion` hook output commands now require workspace trust acceptance before they take effect.
+- **Status-line terminal size (v2.1.153):** Status-line command scripts now receive `COLUMNS` and `LINES` environment variables, so a script can adapt its output to the terminal width/height (e.g. `[ "$COLUMNS" -lt 80 ] && short_output`).
 - **HTTP hooks and environment variables:** HTTP hooks require an explicit `allowedEnvVars` list to use environment variable interpolation in URLs. This prevents accidental leakage of sensitive environment variables to remote endpoints.
 - **Managed settings hierarchy:** The `disableAllHooks` setting now respects the managed settings hierarchy, meaning organization-level settings can enforce hook disablement that individual users cannot override.
 - **PowerShell auto-approve (v2.1.119):** PowerShell tool commands can be auto-approved in permission mode, matching Bash. This brings parity for Windows users running Claude Code with PowerShell-backed shell tools.
@@ -1434,16 +1449,13 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/changelog
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.118
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.131
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.141
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.143
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.152
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.153
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -3123,15 +3123,18 @@ Complete configuration example:
 
 ## Models and Reasoning Effort
 
-Claude Code supports three models with adaptive reasoning effort:
+Claude Code supports the following models with adaptive reasoning effort:
 
 | Model | Context Window | Effort Levels | Default Effort (Claude Code) |
 |-------|----------------|---------------|------------------------------|
-| Claude Opus 4.7 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `xhigh` (since Opus 4.7 launch, 2026-04-16) |
+| Claude Opus 4.8 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `high` (since v2.1.154) |
+| Claude Opus 4.7 (legacy) | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `xhigh` (since Opus 4.7 launch, 2026-04-16) |
 | Claude Sonnet 4.6 | 1M tokens | `low`, `medium`, `high`, `max` | `high` for Pro/Max subscribers (raised from `medium` in v2.1.117) |
-| Claude Haiku 4.5 | 200K tokens | `low`, `medium`, `high` | `medium` |
+| Claude Haiku 4.5 | 200K tokens | — (no effort support) | — |
 
-> **Note**: v2.1.117 fixed a bug where Opus 4.7 sessions computed `/context` against 200K instead of the native 1M window — upgrade to v2.1.117 or later to actually get the 1M context on Opus 4.7.
+> **Note**: `xhigh` is available on Opus 4.8 and Opus 4.7; `max` works on Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 does not support effort levels.
+
+> **Note**: v2.1.117 fixed a bug where Opus 4.7 sessions computed `/context` against 200K instead of the native 1M window — upgrade to v2.1.117 or later to actually get the 1M context on Opus 4.7. Opus 4.8 also has a native 1M-token window.
 
 > **Note**: `/cost` and `/stats` merged into `/usage` in v2.1.118. `/usage` is now the canonical command with tabs for cost/stats/etc.; `/cost` and `/stats` remain as shortcut aliases that open the corresponding tab. As of v2.1.149, the cost view also breaks spending down by category (skills, subagents, plugins, and per-MCP-server costs).
 
@@ -3143,12 +3146,13 @@ Claude Code supports three models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: May 25, 2026
-**Claude Code Version**: 2.1.150
+**Last Updated**: May 29, 2026
+**Claude Code Version**: 2.1.156
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
-- https://www.anthropic.com/news/claude-opus-4-7
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.144
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+- https://code.claude.com/docs/en/model-config
+- https://platform.claude.com/docs/en/about-claude/models/overview
+- https://www.anthropic.com/news/claude-opus-4-8
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.154
+**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
