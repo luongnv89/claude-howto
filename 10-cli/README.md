@@ -252,7 +252,7 @@ claude -p --json-schema '{"type":"object","properties":{"bugs":{"type":"array"}}
 | `--add-dir` | Add additional working directories | `claude --add-dir ../apps ../lib` |
 | `--setting-sources` | Comma-separated setting sources | `claude --setting-sources user,project` |
 
-> **`/config` persistence (v2.1.119)**: Changes made interactively via the `/config` command are now written to `~/.claude/settings.json` and participate in the normal precedence chain (project → local → policy → user). Before v2.1.119, some `/config` changes were session-only. See [Memory & Settings](../02-memory/README.md) for the full precedence order.
+> **`/config` persistence (v2.1.119)**: Changes made interactively via the `/config` command are now written to `~/.claude/settings.json` and participate in the normal precedence chain (policy → local → project → user). Before v2.1.119, some `/config` changes were session-only. See [Memory & Settings](../02-memory/README.md) for the full precedence order.
 | `--settings` | Load settings from file or JSON | `claude --settings ./settings.json` |
 | `--plugin-dir` | Load plugins from directory (repeatable) | `claude --plugin-dir ./my-plugin` |
 

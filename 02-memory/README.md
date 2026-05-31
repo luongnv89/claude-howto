@@ -298,9 +298,9 @@ Claude Code settings (including `autoMemoryDirectory`, `claudeMdExcludes`, and o
 |-------|----------|-------|
 | 1 (Highest) | Managed policy (system-level) | Organization-wide enforcement |
 | 2 | `managed-settings.d/` (v2.1.83+) | Modular policy drop-ins, merged alphabetically |
-| 3 | `~/.claude/settings.json` | User preferences |
+| 3 | `.claude/settings.local.json` | Local overrides (git-ignored) |
 | 4 | `.claude/settings.json` | Project-level (committed to git) |
-| 5 (Lowest) | `.claude/settings.local.json` | Local overrides (git-ignored) |
+| 5 (Lowest) | `~/.claude/settings.json` | User preferences |
 
 **Platform-specific configuration (v2.1.51+):**
 
@@ -310,7 +310,7 @@ Settings can also be configured via:
 
 These platform-native mechanisms are read alongside JSON settings files and follow the same precedence rules.
 
-> **Note (v2.1.119)**: `/config` changes now persist to `~/.claude/settings.json`. Values written via `/config` participate in the normal project/local/policy precedence chain described above — they are no longer session-only. Use `/config` for interactive edits and edit `settings.json` files directly for scripted or managed configuration.
+> **Note (v2.1.119)**: `/config` changes now persist to `~/.claude/settings.json`. Values written via `/config` participate in the normal policy/local/project precedence chain described above — they are no longer session-only. Use `/config` for interactive edits and edit `settings.json` files directly for scripted or managed configuration.
 
 ### Retention and Cleanup Settings
 
