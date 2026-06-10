@@ -118,7 +118,7 @@ Every MCP stdio server is spawned with `CLAUDE_PROJECT_DIR=<absolute path to rep
 
 Use this when your stdio server needs to read files relative to the project root regardless of where Claude Code was launched.
 
-stdio MCP servers also receive `CLAUDE_CODE_SESSION_ID` (matching the value passed to hooks and Bash), including when the session is resumed with `--resume` (v2.1.161+).
+stdio MCP servers also receive `CLAUDE_CODE_SESSION_ID` (matching the value passed to hooks and Bash), including when the session is resumed with `--resume` (v2.1.163+).
 
 ### SSE Transport (Deprecated)
 
