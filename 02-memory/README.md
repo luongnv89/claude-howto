@@ -1198,11 +1198,12 @@ For the most up-to-date information, refer to the official Claude Code documenta
 - [Official Memory Docs](https://code.claude.com/docs/en/memory) - Anthropic documentation
 
 ---
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: June 10, 2026
+**Claude Code Version**: 2.1.170
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/settings
+- https://code.claude.com/docs/en/cli-reference
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.144
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145

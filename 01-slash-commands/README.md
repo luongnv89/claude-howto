@@ -26,6 +26,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/agents` | Manage agent configurations |
 | `/branch [name]` | Branch conversation into a new session (alias: `/fork`). Note: `/fork` renamed to `/branch` in v2.1.77 |
 | `/btw <question>` | Ask an ephemeral side question while Claude is working on the main task; doesn't pollute the main conversation context |
+| `/cd <path>` | Move the session to a new working directory without breaking the prompt cache (added v2.1.169) |
 | `/chrome` | Configure Chrome browser integration |
 | `/clear` | Clear conversation (aliases: `/reset`, `/new`) |
 | `/color [color\|default]` | Set prompt bar color. Bare `/color` (no args) picks a random session color (v2.1.128+); pass a color name or hex to set explicitly. |
@@ -98,6 +99,8 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/usage` | Canonical usage dashboard (v2.1.118) — combines plan usage limits, rate limits, cost, and daily session stats. `/cost` and `/stats` are typing-shortcut aliases that open specific tabs |
 | `/voice` | Toggle push-to-talk voice dictation |
 | `/workflows` | View running and completed dynamic workflow runs (added v2.1.154). See [Dynamic Workflows](../09-advanced-features/README.md#dynamic-workflows) |
+
+> **Why `/cd` matters:** changing directories used to lose cache warmth (making the next turn slower and costlier); `/cd` preserves the prompt cache across the switch.
 
 ### Bundled Skills
 
@@ -627,8 +630,8 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: June 10, 2026
+**Claude Code Version**: 2.1.170
 **Sources**:
 - https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/interactive-mode

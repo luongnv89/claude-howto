@@ -787,6 +787,23 @@ Skills support the `` !`command` `` syntax to inject the output of shell command
 
 When `disableSkillShellExecution` is `true`, any `` !`command` `` markers in a skill are left as literal text instead of being executed — removing the skill-level shell-injection attack surface without disabling skills themselves. Consider combining this with an `allowedTools` allowlist for defense in depth.
 
+### Hiding bundled skills (`disableBundledSkills`)
+
+The `disableBundledSkills` setting (added in **v2.1.169**) hides the bundled skills, workflows, and commands that ship with Claude Code from the model. Use it when the built-in skills are noise for a given project, or to reduce the model's skill surface:
+
+```jsonc
+// ~/.claude/settings.json or project .claude/settings.json
+{
+  "disableBundledSkills": true
+}
+```
+
+The equivalent environment-variable form is:
+
+```bash
+export CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1
+```
+
 ## Skills vs Other Features
 
 | Feature | Invocation | Best For |
@@ -858,8 +875,8 @@ Once you start building skills seriously, two things become essential: a library
 - [Hooks Guide](../06-hooks/) - Event-driven automation
 
 ---
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: June 10, 2026
+**Claude Code Version**: 2.1.170
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/settings

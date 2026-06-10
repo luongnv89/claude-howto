@@ -736,6 +736,14 @@ claude plugin install plugin-name@marketplace-name
 /plugin disable plugin-name
 ```
 
+### Listing installed plugins (v2.1.163)
+Confirm which plugins are active in the current session:
+```bash
+/plugin list             # all installed plugins
+/plugin list --enabled   # only enabled plugins
+/plugin list --disabled  # only disabled plugins
+```
+
 ### Local Plugin (for development)
 ```bash
 # CLI flag for local testing (repeatable for multiple plugins)
@@ -1107,10 +1115,11 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: June 10, 2026
+**Claude Code Version**: 2.1.170
 **Sources**:
 - https://code.claude.com/docs/en/plugins
+- https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/plugin-marketplaces
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118

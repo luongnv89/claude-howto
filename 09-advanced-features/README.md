@@ -1058,6 +1058,20 @@ claude -p --json-schema '{"type":"object","properties":{"issues":{"type":"array"
 claude -p --no-session-persistence "one-off analysis"
 ```
 
+### Safe Mode (troubleshooting)
+
+`--safe-mode` (and the `CLAUDE_CODE_SAFE_MODE` environment variable, e.g. `CLAUDE_CODE_SAFE_MODE=1`) starts Claude Code with **all customizations disabled** — CLAUDE.md, plugins, skills, hooks, and MCP servers are all turned off.
+
+```bash
+# Launch with every customization disabled
+claude --safe-mode
+
+# Equivalent via environment variable
+CLAUDE_CODE_SAFE_MODE=1 claude
+```
+
+It is a troubleshooting tool: when a custom config is causing problems, launch in safe mode to isolate whether the issue is in your setup or in Claude Code itself.
+
 ---
 
 ## Session Management
@@ -2071,6 +2085,18 @@ Since v2.1.83, administrators can deploy multiple managed settings files into a 
 }
 ```
 
+### Fallback Models (`fallbackModel`)
+
+The `fallbackModel` setting lets you configure **up to three** fallback models, tried in order, when the primary model is overloaded or unavailable.
+
+```json
+{
+  "fallbackModel": ["claude-opus-4-8", "claude-sonnet-4-6", "claude-haiku-4-5"]
+}
+```
+
+As of **v2.1.166** the `--fallback-model` flag also applies to interactive sessions (not just headless). On a fallback, Claude Code retries an unexpected non-retryable error once; auth, rate-limit, request-size, and transport errors still fail immediately.
+
 ### Environment Variables
 
 Override config with environment variables:
@@ -2301,9 +2327,10 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: June 10, 2026
+**Claude Code Version**: 2.1.170
 **Sources**:
+- https://code.claude.com/docs/en/troubleshooting
 - https://code.claude.com/docs/en/permission-modes
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/settings

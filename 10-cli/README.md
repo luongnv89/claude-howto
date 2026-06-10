@@ -81,6 +81,7 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `--teleport` | Resume web session locally | `claude --teleport` |
 | `--teammate-mode` | Agent team display mode | `claude --teammate-mode tmux` |
 | `--bare` | Minimal mode (skip hooks, skills, plugins, MCP, auto memory, CLAUDE.md) | `claude --bare` |
+| `--safe-mode` | Start with all customizations disabled (CLAUDE.md, plugins, skills, hooks, MCP) to isolate config problems; also `CLAUDE_CODE_SAFE_MODE=1` (v2.1.169) | `claude --safe-mode` |
 | `--enable-auto-mode` | Unlock auto permission mode (no longer required for Max subscribers on Opus 4.7) | `claude --enable-auto-mode` |
 | `--channels` | Subscribe to MCP channel plugins | `claude --channels discord,telegram` |
 | `--chrome` / `--no-chrome` | Enable/disable Chrome browser integration | `claude --chrome` |
@@ -127,7 +128,7 @@ claude -p "list todos" | grep "URGENT"
 | Flag | Description | Example |
 |------|-------------|---------|
 | `--model` | Set model (sonnet, opus, haiku, or full name) | `claude --model opus` |
-| `--fallback-model` | Automatic model fallback when overloaded | `claude -p --fallback-model sonnet "query"` |
+| `--fallback-model` | Automatic model fallback when the primary is overloaded/unavailable; configure up to three via the `fallbackModel` setting. Applies to interactive sessions too since v2.1.166 (previously print mode only) | `claude -p --fallback-model sonnet "query"` |
 | `--agent` | Specify agent for session | `claude --agent my-custom-agent` |
 | `--agents` | Define custom subagents via JSON | See [Agents Configuration](#agents-configuration) |
 | `--effort` | Set effort level (low, medium, high, xhigh, max) | `claude --effort xhigh` |
@@ -751,6 +752,7 @@ Claude Code supports multiple models with different capabilities:
 | Opus 4.8 | `claude-opus-4-8` | 1M tokens | Most capable; adaptive effort levels `low → max`; default effort `high` (v2.1.154) |
 | Sonnet 4.6 | `claude-sonnet-4-6` | 1M tokens | Balanced speed and capability; default effort for Pro/Max subscribers raised from `medium` to `high` in v2.1.117 |
 | Haiku 4.5 | `claude-haiku-4-5` | 200K tokens | Fastest, best for quick tasks; no effort levels |
+| Fable 5 | `claude-fable-5` | — | Mythos-class model, made safe for general use (v2.1.170) |
 
 ### Model Selection
 
@@ -801,6 +803,8 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu
 | `MAX_THINKING_TOKENS` | Set extended thinking token budget |
 | `CLAUDE_CODE_EFFORT_LEVEL` | Set effort level (`low`/`medium`/`high`/`xhigh`/`max`) — default is `high` on Opus 4.8 (`xhigh` on Opus 4.7); `xhigh` needs Opus 4.8/4.7; `max` works on Opus 4.8/4.7/4.6 and Sonnet 4.6 |
 | `CLAUDE_CODE_SIMPLE` | Minimal mode, set by `--bare` flag |
+| `CLAUDE_CODE_SAFE_MODE` | Set to `1` to start with all customizations disabled (CLAUDE.md, plugins, skills, hooks, MCP) — env-var form of `--safe-mode`, for isolating config problems (v2.1.169) |
+| `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` | Set to `1` to hide the bundled skills, workflows, and commands from the model (v2.1.169) |
 | `CLAUDE_CODE_DISABLE_AUTO_MEMORY` | Disable automatic CLAUDE.md updates |
 | `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS` | Disable background task execution |
 | `CLAUDE_CODE_DISABLE_CRON` | Disable scheduled/cron tasks |
@@ -943,12 +947,14 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: June 10, 2026
+**Claude Code Version**: 2.1.170
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/changelog
+- https://code.claude.com/docs/en/troubleshooting
+- https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/model-config
 - https://platform.claude.com/docs/en/about-claude/models/overview
 - https://www.anthropic.com/news/claude-opus-4-8

@@ -370,6 +370,17 @@ Run when Claude finishes responding (Stop) or a subagent completes (SubagentStop
 
 > **Safety cap on consecutive blocks (v2.1.143)**: If a `Stop` hook returns `"decision": "block"` (or sets `continue: false`) **8 times in a row** for the same turn, Claude Code short-circuits the loop and ends the session with a warning. Override the threshold with the env var `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=<integer>` (set to `0` to disable the cap entirely). This prevents a buggy Stop hook from looping the session forever.
 
+**Return field (v2.1.163):** A `Stop` or `SubagentStop` hook can return `hookSpecificOutput.additionalContext` to give Claude feedback and **continue the turn without surfacing an error label**. Previously, influencing the model from a Stop hook was awkward; now the hook can inject context cleanly, avoiding the error-label behavior of older feedback paths (such as `"decision": "block"`).
+
+```json
+{
+  "hookSpecificOutput": {
+    "hookEventName": "Stop",
+    "additionalContext": "Reminder: run the test suite before declaring done."
+  }
+}
+```
+
 ### SubagentStart
 
 Runs when a subagent begins execution. The matcher input is the agent type name, allowing hooks to target specific subagent types.
@@ -1449,8 +1460,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: June 10, 2026
+**Claude Code Version**: 2.1.170
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/changelog
