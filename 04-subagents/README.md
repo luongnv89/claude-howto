@@ -901,7 +901,7 @@ graph TB
 
 ### Key Behaviors
 
-- **No nested spawning** - Subagents cannot spawn other subagents
+- **Nested spawning (up to 5 levels)** - As of v2.1.172, subagents can spawn their own subagents, nested up to 5 levels deep. Earlier versions did not allow any nesting. Use the `Agent(agent_type)` restriction syntax (see [Restrict Spawnable Subagents](#restrict-spawnable-subagents)) to control which subagents a given subagent may spawn
 - **Background permissions** - Background subagents auto-deny any permissions that are not pre-approved
 - **Backgrounding** - Press `Ctrl+B` to background a currently running task
 - **Transcripts** - Subagent transcripts are stored at `~/.claude/projects/{project}/{sessionId}/subagents/agent-{agentId}.jsonl`
@@ -1238,11 +1238,12 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: June 15, 2026
+**Claude Code Version**: 2.1.176
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/agent-teams
+- https://code.claude.com/docs/en/changelog#2-1-172
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.131
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.138

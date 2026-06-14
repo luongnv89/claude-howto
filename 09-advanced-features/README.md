@@ -1994,6 +1994,7 @@ Since v2.1.83, administrators can deploy multiple managed settings files into a 
 |---------|-------------|
 | `disableBypassPermissionsMode` | Prevent users from enabling bypass permissions |
 | `availableModels` | Restrict which models users can select |
+| `enforceAvailableModels` | (v2.1.175) When `true`, the `availableModels` allowlist *also* constrains the **Default** model — if the configured default is not in the list, Claude Code falls back to the first allowed model. User and project settings can no longer widen a managed `availableModels` list. |
 | `allowedChannelPlugins` | Control which channel plugins are permitted |
 | `autoMode.environment` | Configure trusted infrastructure for auto mode |
 | `wslInheritsWindowsSettings` | Windows/WSL only (v2.1.118+): when `true`, Claude Code running inside WSL inherits managed settings from the Windows host, so enterprise policies deployed via Registry/MDM apply uniformly across the Windows and WSL shells |
@@ -2327,10 +2328,11 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: June 10, 2026
-**Claude Code Version**: 2.1.170
+**Last Updated**: June 15, 2026
+**Claude Code Version**: 2.1.176
 **Sources**:
 - https://code.claude.com/docs/en/troubleshooting
+- https://code.claude.com/docs/en/changelog#2-1-175
 - https://code.claude.com/docs/en/permission-modes
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/settings

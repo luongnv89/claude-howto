@@ -217,6 +217,8 @@ sequenceDiagram
 
 Subagents are specialized AI assistants with isolated context windows and customized system prompts. They enable delegated task execution while maintaining clean separation of concerns.
 
+As of **v2.1.172**, subagents can spawn their own subagents, nested **up to 5 levels deep** — so the hierarchy is not limited to the single main → subagent layer shown below. Earlier versions did not allow any nesting.
+
 ### Architecture Diagram
 
 ```mermaid
@@ -3146,12 +3148,13 @@ Claude Code supports the following models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: June 15, 2026
+**Claude Code Version**: 2.1.176
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/changelog#2-1-172
 - https://platform.claude.com/docs/en/about-claude/models/overview
 - https://www.anthropic.com/news/claude-opus-4-8
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154

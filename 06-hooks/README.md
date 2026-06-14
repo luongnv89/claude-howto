@@ -77,6 +77,45 @@ Hooks are configured in settings files with a specific structure:
 | `nested_traversal` | Instructions loaded during nested directory traversal |
 | `path_glob_match` | Instructions loaded via path glob pattern matching |
 
+### Narrowing with `if` conditions (tool-argument paths)
+
+The `matcher` field selects a hook by **tool name** (`"Write"`, `"Edit|Write"`, `"*"`). To filter more narrowly by the tool's **arguments** — for example, to run a hook only when an edit touches `src/`, or to guard reads of secret files — add an `if` condition to an individual hook handler. This is distinct from the tool-name matcher: the `matcher` decides *which tool*, the `if` decides *which call*.
+
+`if` uses [permission-rule syntax](https://code.claude.com/docs/en/permissions) (`ToolName(pattern)`), evaluated against the tool name **and** its arguments together. For `Read`/`Edit`/`Write`, the path pattern follows gitignore semantics, with the same anchors as permission rules: a bare name like `.env` matches at any depth, `src/**` is relative to the current directory, `/src/**` to the project root, `~/...` to your home directory, and `//...` is an absolute filesystem path.
+
+The `if` field sits at the **hook-handler level** — a sibling of `type` and `command`, inside the `hooks` array — not on `matcher`:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Edit(src/**)",
+            "command": "./hooks/lint-src.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Read(.env)",
+            "command": "./hooks/block-secret-read.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Examples of valid `if` patterns: `Edit(src/**)` (edits under `src/`), `Read(~/.ssh/**)` (reads of any SSH key), `Read(.env)` (any `.env` at or below the current directory), `Bash(git push *)` (only `git push` subcommands).
+
 ## Hook Types
 
 Claude Code supports five hook types:
@@ -1460,11 +1499,13 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: June 10, 2026
-**Claude Code Version**: 2.1.170
+**Last Updated**: June 15, 2026
+**Claude Code Version**: 2.1.176
 **Sources**:
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/changelog
+- https://code.claude.com/docs/en/changelog#2-1-176
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.152

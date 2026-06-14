@@ -525,6 +525,7 @@ Example `blockedMarketplaces` with host/path regex (v2.1.119):
 
 ### Additional Marketplace Features
 
+- **Marketplace search bar (v2.1.172)**: When browsing a marketplace's plugins in `/plugin`, a search bar lets you filter the marketplace's plugins by name or keyword — handy for large marketplaces where scrolling the full list is slow.
 - **Default git timeout**: Increased from 30s to 120s for large plugin repositories
 - **Custom npm registries**: Plugins can specify custom npm registry URLs for dependency resolution
 - **Version pinning**: Lock plugins to specific versions for reproducible environments
@@ -1115,10 +1116,11 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: June 10, 2026
-**Claude Code Version**: 2.1.170
+**Last Updated**: June 15, 2026
+**Claude Code Version**: 2.1.176
 **Sources**:
 - https://code.claude.com/docs/en/plugins
+- https://code.claude.com/docs/en/changelog#2-1-172
 - https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/plugin-marketplaces
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117

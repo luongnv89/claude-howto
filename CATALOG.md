@@ -82,7 +82,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/teleport` | Transfer session to another machine | Continue work remotely |
 | `/desktop` | Open Claude Desktop app | Switch to desktop interface |
 | `/theme` | Change color theme; v2.1.118 added custom named themes via `~/.claude/themes/<name>.json` (plugins can ship a `themes/` dir) | Customize appearance |
-| `/usage` | Canonical command for usage/cost/stats — merged `/cost` and `/stats` into a single tabbed view (v2.1.118); as of v2.1.149 the cost view breaks spending down by category (skills, subagents, plugins, per-MCP-server) | Monitor quota and costs |
+| `/usage` | Canonical command for usage/cost/stats — merged `/cost` and `/stats` into a single tabbed view (v2.1.118); as of v2.1.149 the cost view breaks spending down by category (skills, subagents, plugins, per-MCP-server). In the **VSCode extension** (v2.1.174), the `/usage` (Account & usage) dialog adds an attribution breakdown — cache misses, long-context cost, subagents, and per-skill / per-agent / per-plugin / per-MCP usage over 24h and 7d windows | Monitor quota and costs |
 | `/focus` | Toggle focus view (distraction-free output display) | Reduce visual noise during long tasks |
 | `/fork` | Fork current conversation | Explore alternatives |
 | `/stats` | Shortcut alias that opens the stats tab of `/usage` (v2.1.118+) | Review session metrics |
@@ -143,6 +143,8 @@ Claude Code supports 6 permission modes that control how tool use is authorized.
 ## Subagents
 
 Specialized AI assistants with isolated contexts for specific tasks.
+
+> **Nested spawning (v2.1.172)**: Subagents can spawn their own subagents, nested up to 5 levels deep. Earlier versions did not allow nesting. See [04-subagents/README.md](04-subagents/README.md#restrict-spawnable-subagents) for the `Agent(agent_type)` syntax that restricts which subagents a given subagent may spawn.
 
 ### Built-in Subagents
 
@@ -543,12 +545,14 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: June 15, 2026
+**Claude Code Version**: 2.1.176
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/changelog#2-1-172
+- https://code.claude.com/docs/en/changelog#2-1-174
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
 - https://code.claude.com/docs/en/plugins

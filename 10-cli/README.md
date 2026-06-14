@@ -845,6 +845,26 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu
 
 ---
 
+## Settings.json Keys
+
+These keys live in a `settings.json` file (`~/.claude/settings.json` for user scope, `.claude/settings.json` for project scope) rather than being passed as flags or env vars. The table below covers a few recently added UI/UX keys; for the managed `enforceAvailableModels` key, see [Advanced Features → Managed Settings](../09-advanced-features/README.md#available-managed-settings).
+
+| Key | Description |
+|-----|-------------|
+| `wheelScrollAccelerationEnabled` | (v2.1.174) Set to `false` to disable mouse-wheel scroll acceleration in the fullscreen renderer. Useful when fast wheel flicks overshoot. |
+| `footerLinksRegexes` | (v2.1.176) Array of regexes that render matched links as badges in the footer row. Configurable in user or managed settings. |
+| `language` | (v2.1.176) Pin the language used for auto-generated session titles. Without it, titles follow the conversation's language. |
+
+```json
+{
+  "wheelScrollAccelerationEnabled": false,
+  "language": "en",
+  "footerLinksRegexes": ["https://jira\\.example\\.com/.*"]
+}
+```
+
+---
+
 ## Quick Reference
 
 ### Most Common Commands
@@ -947,10 +967,12 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: June 10, 2026
-**Claude Code Version**: 2.1.170
+**Last Updated**: June 15, 2026
+**Claude Code Version**: 2.1.176
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
+- https://code.claude.com/docs/en/changelog#2-1-174
+- https://code.claude.com/docs/en/changelog#2-1-176
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/troubleshooting
