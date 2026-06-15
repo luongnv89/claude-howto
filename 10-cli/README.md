@@ -853,12 +853,12 @@ These keys live in a `settings.json` file (`~/.claude/settings.json` for user sc
 |-----|-------------|
 | `wheelScrollAccelerationEnabled` | (v2.1.174) Set to `false` to disable mouse-wheel scroll acceleration in the fullscreen renderer. Useful when fast wheel flicks overshoot. |
 | `footerLinksRegexes` | (v2.1.176) Array of regexes that render matched links as badges in the footer row. Configurable in user or managed settings. |
-| `language` | (v2.1.176) Pin the language used for auto-generated session titles. Without it, titles follow the conversation's language. |
+| `language` | Sets Claude's preferred response language and voice-dictation language (e.g. `"french"`, `"japanese"`). As of **v2.1.176** it also pins the language used for auto-generated session titles. |
 
 ```json
 {
   "wheelScrollAccelerationEnabled": false,
-  "language": "en",
+  "language": "french",
   "footerLinksRegexes": ["https://jira\\.example\\.com/.*"]
 }
 ```

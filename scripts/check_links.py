@@ -96,6 +96,17 @@ def main(strict: bool = False) -> int:
             # Strip trailing Markdown/punctuation characters the regex may over-capture
             # from link syntax like [text](https://url/) or **https://url)**
             clean_url = raw_url.rstrip(")>*_`':.,;").split("#")[0]
+            # Skip bare-hostname partials. URL_RE stops at backslashes, so a
+            # regex string inside a JSON config example like
+            # "footerLinksRegexes": ["https://jira\\.example\\.com/.*"] is
+            # captured as just "https://jira" — a hostname with no dot that is
+            # not a resolvable URL but a truncated pattern. Real public URLs
+            # have a dotted host; localhost-style single-label hosts are in
+            # SKIP_DOMAINS already, so dropping dotless hosts here loses no
+            # genuine link coverage.
+            host = clean_url.split("/", 3)[2] if "://" in clean_url else ""
+            if host and "." not in host.split(":", 1)[0]:
+                continue
             urls.setdefault(clean_url, []).append(str(file_path))
 
     if not urls:
