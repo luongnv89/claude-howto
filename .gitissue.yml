@@ -1,0 +1,14 @@
+# gitissue / IDD configuration for claude-howto
+#
+# This is a documentation/tutorial repo. Doc-sync PRs (e.g. "docs: sync to
+# Claude Code vX") are not tied to a single tracked issue, so they are treated
+# like chore/refactor PRs for traceability: they do not require a `Closes #N`.
+# A PR opts in by including a `Type: docs` (or `Type: chore`/`Type: refactor`)
+# line in its body.
+
+review:
+  # Add `docs` to the built-in refactor/chore exemption so documentation-sync
+  # PRs are not hard-blocked on a missing `Closes #N`. The other three
+  # traceability checks still run.
+  traceability_exempt_pattern: "^\\s*Type:\\s*(refactor|chore|docs)\\s*$"
+  traceability_exempt_labels: ["refactor", "chore", "documentation"]
