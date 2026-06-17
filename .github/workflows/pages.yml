@@ -30,6 +30,16 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+
+      - name: Cache vendor assets
+        uses: actions/cache@v4
+        with:
+          path: scripts/.vendor-cache
+          key: vendor-${{ hashFiles('scripts/vendor_assets.py') }}
+          restore-keys: |
+            vendor-
 
       - name: Build website
         run: uv run scripts/build_website.py --verbose
