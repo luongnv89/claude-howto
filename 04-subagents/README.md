@@ -76,6 +76,8 @@ Subagent files can be stored in multiple locations with different scopes:
 
 When duplicate names exist, higher-priority sources take precedence.
 
+> **Nested `.claude/` precedence (v2.1.178)**: When the same agent name is defined in multiple nested `.claude/agents/` directories (for example, a monorepo with package-level `.claude/` folders), the definition **closest to your current working directory wins**. The same closest-wins rule applies to nested workflow and output-style definitions.
+
 ---
 
 ## Configuration
@@ -1238,12 +1240,13 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: June 15, 2026
-**Claude Code Version**: 2.1.176
+**Last Updated**: June 17, 2026
+**Claude Code Version**: 2.1.179
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/agent-teams
 - https://code.claude.com/docs/en/changelog#2-1-172
+- https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.131
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.138

@@ -99,7 +99,7 @@ When skills share the same name across levels, higher-priority locations win: **
 
 ### Automatic Discovery
 
-**Nested directories**: When you work with files in subdirectories, Claude Code automatically discovers skills from nested `.claude/skills/` directories. For example, if you're editing a file in `packages/frontend/`, Claude Code also looks for skills in `packages/frontend/.claude/skills/`. This supports monorepo setups where packages have their own skills.
+**Nested directories**: When you work with files in subdirectories, Claude Code automatically discovers skills from nested `.claude/skills/` directories. For example, if you're editing a file in `packages/frontend/`, Claude Code also looks for skills in `packages/frontend/.claude/skills/`. This supports monorepo setups where packages have their own skills. As of v2.1.178, when a skill name collides across nested `.claude/skills/` directories, the directory **closest to your current working directory wins** — a package-level skill overrides a repo-root skill of the same name.
 
 **`--add-dir` directories**: Skills from directories added via `--add-dir` are loaded automatically with live change detection. Any edits to skill files in those directories take effect immediately without restarting Claude Code.
 
@@ -875,8 +875,8 @@ Once you start building skills seriously, two things become essential: a library
 - [Hooks Guide](../06-hooks/) - Event-driven automation
 
 ---
-**Last Updated**: June 10, 2026
-**Claude Code Version**: 2.1.170
+**Last Updated**: June 17, 2026
+**Claude Code Version**: 2.1.179
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/settings

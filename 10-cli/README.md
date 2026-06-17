@@ -48,7 +48,7 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `claude -c -p "query"` | Continue in print mode | `claude -c -p "check for type errors"` |
 | `claude -r "<session>" "query"` | Resume session by ID or name | `claude -r "auth-refactor" "finish this PR"` |
 | `claude update` | Update to latest version | `claude update` |
-| `/doctor` (slash command) | Diagnose installation, config, and plugin health. Since v2.1.116 it can be opened **while Claude is responding**, shows status icons inline, and accepts the `f` keypress to auto-fix detected issues | run `/doctor` inside the REPL |
+| `/doctor` (slash command) | Diagnose installation, config, and plugin health. Since v2.1.116 it can be opened **while Claude is responding**, shows status icons inline, and accepts the `f` keypress to auto-fix detected issues. v2.1.178 refreshed the layout to a flat tree with clearer status icons and highlighted commands | run `/doctor` inside the REPL |
 | `claude mcp` | Configure MCP servers | See [MCP documentation](../05-mcp/) |
 | `claude mcp serve` | Run Claude Code as an MCP server | `claude mcp serve` |
 | `claude agents` | Open the **Agent View** (Research Preview, v2.1.139+) — multi-session manager listing every Claude Code session with its status. See [Agent View](#agent-view-claude-agents-v21139) below. | `claude agents` |
@@ -218,6 +218,8 @@ claude --allowedTools "Bash(git status:*)" "Bash(git log:*)"
 # Block dangerous operations
 claude --disallowedTools "Bash(rm -rf:*)" "Bash(git push --force:*)"
 ```
+
+> **Parameter matching `Tool(param:value)` (v2.1.178)**: Permission rules follow the format `Tool` (every use) or `Tool(specifier)`. As of v2.1.178, a specifier can match a tool's input **parameters**, not just command or path patterns — using the `Tool(param:value)` form with wildcard support. This generalizes the matching you already use for `Bash(...)` command prefixes (e.g. `Bash(npm run test *)`) and `Read(...)` path globs (e.g. `Read(./.env.*)`) so other tools can be scoped by their arguments. Check the [permissions reference](https://code.claude.com/docs/en/settings) for the current per-tool example strings before writing a rule, since the exact parameter names differ by tool.
 
 ## Output & Format
 
@@ -967,12 +969,14 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: June 15, 2026
-**Claude Code Version**: 2.1.176
+**Last Updated**: June 17, 2026
+**Claude Code Version**: 2.1.179
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/changelog#2-1-174
 - https://code.claude.com/docs/en/changelog#2-1-176
+- https://code.claude.com/docs/en/changelog
+- https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/troubleshooting

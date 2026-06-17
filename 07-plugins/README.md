@@ -798,6 +798,8 @@ export CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1
 claude plugin install code-reviewer@anthropic
 ```
 
+> **Remote session plugin loading (v2.1.179)**: Plugin loading performance in remote sessions was improved in v2.1.179, so plugins become available faster when you connect to a remote session.
+
 ## When to Create a Plugin
 
 ```mermaid
@@ -1116,11 +1118,12 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: June 15, 2026
-**Claude Code Version**: 2.1.176
+**Last Updated**: June 17, 2026
+**Claude Code Version**: 2.1.179
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/changelog#2-1-172
+- https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/plugin-marketplaces
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
