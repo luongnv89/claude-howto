@@ -54,7 +54,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/install-github-app` | Set up GitHub Actions app |
 | `/install-slack-app` | Install Slack app |
 | `/keybindings` | Open keybindings configuration |
-| `/less-permission-prompts` | Analyze recent Bash/MCP tool calls and add a prioritized allowlist to `.claude/settings.json` to reduce permission prompts (added v2.1.111) |
+| `/fewer-permission-prompts` | Analyze recent Bash/MCP tool calls and add a prioritized allowlist to `.claude/settings.json` to reduce permission prompts (added v2.1.111) |
 | `/login` | Switch Anthropic accounts |
 | `/logout` | Sign out from your Anthropic account |
 | `/mcp` | Manage MCP servers and OAuth |
@@ -150,7 +150,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 - `/proactive` added as alias for `/loop` (v2.1.105)
 - `/effort` gained interactive arrow-key slider and new `xhigh` level between `high` and `max`; default effort raised to `xhigh` for Opus 4.7 plans (v2.1.111). On Opus 4.8 the default is `high` (v2.1.154)
 - `/ultrareview` added for comprehensive cloud-based multi-agent code review (v2.1.111)
-- `/less-permission-prompts` added to analyze Bash/MCP tool calls and reduce permission prompts via an allowlist in `.claude/settings.json` (v2.1.111)
+- `/fewer-permission-prompts` added to analyze Bash/MCP tool calls and reduce permission prompts via an allowlist in `.claude/settings.json` (v2.1.111)
 - Auto mode no longer requires the `--enable-auto-mode` flag for Max subscribers on Opus 4.7 (v2.1.112)
 - `/goal` added — session-level completion condition that Claude works toward across turns; live overlay shows elapsed time, turn count, and token usage (v2.1.139)
 - `/scroll-speed` added — tune mouse-wheel scroll speed of the TUI live-preview pane; persists per-machine (v2.1.139)
