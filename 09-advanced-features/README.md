@@ -1381,7 +1381,7 @@ Execute shell commands directly with `!` prefix:
 
 Use this for quick command execution without switching contexts.
 
-**Since v2.1.187 (changed in v2.1.186):** the output of a `!` command is now automatically sent to Claude, which responds to it. To keep the previous behavior where the output is only added to context without a response, set `"respondToBashCommands": false` in `settings.json`.
+**Since v2.1.186:** the output of a `!` command is now automatically sent to Claude, which responds to it. To keep the previous behavior where the output is only added to context without a response, set `"respondToBashCommands": false` in `settings.json`.
 
 ---
 
