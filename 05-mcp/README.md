@@ -361,9 +361,17 @@ claude mcp remove github
 # Reset project-specific approval choices
 claude mcp reset-project-choices
 
+# Authenticate an MCP server from the CLI (v2.1.186+)
+claude mcp login github
+
+# Sign out of an MCP server (v2.1.186+)
+claude mcp logout github
+
 # Import from Claude Desktop
 claude mcp add-from-claude-desktop
 ```
+
+`claude mcp login <name>` / `claude mcp logout <name>` are the non-interactive equivalent of the OAuth flow in the `/mcp` menu — authenticate or sign out without opening it. Add `--no-browser` to `login` to complete OAuth over SSH or in a headless session (it redirects the flow through stdin).
 
 ## Available MCP Servers Table
 
@@ -1170,11 +1178,13 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: June 10, 2026
-**Claude Code Version**: 2.1.170
+**Last Updated**: June 24, 2026
+**Claude Code Version**: 2.1.187
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
+- https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+- https://docs.anthropic.com/en/docs/claude-code/mcp
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

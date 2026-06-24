@@ -76,7 +76,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/remote-env` | Configure default remote environment |
 | `/rename [name]` | Rename session |
 | `/resume [session]` | Resume conversation (alias: `/continue`) |
-| `/review` | **Deprecated** — install the `code-review` plugin instead |
+| `/review <pr>` | Review a GitHub PR. As of v2.1.186 it runs on the same review engine as `/code-review medium`. Use `/code-review` to review the local working diff |
 | `/rewind` | Rewind conversation and/or code (alias: `/checkpoint`) |
 | `/sandbox` | Toggle sandbox mode |
 | `/schedule [description]` | Create/manage Cloud scheduled tasks |
@@ -119,7 +119,6 @@ These skills ship with Claude Code and are invoked like slash commands:
 
 | Command | Status |
 |---------|--------|
-| `/review` | Deprecated — replaced by `code-review` plugin |
 | `/output-style` | Deprecated since v2.1.73 |
 | `/fork` | Renamed to `/branch` (alias still works, v2.1.77) |
 | `/pr-comments` | Removed in v2.1.91 — ask Claude directly to view PR comments |
@@ -129,7 +128,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 
 - `/fork` renamed to `/branch` with `/fork` kept as alias (v2.1.77)
 - `/output-style` deprecated (v2.1.73)
-- `/review` deprecated in favor of the `code-review` plugin
+- `/review <pr>` now uses the same review engine as `/code-review medium` (v2.1.186)
 - `/effort` command added; `max` level available on Opus 4.6+ (originally Opus 4.6-only)
 - `/voice` command added for push-to-talk voice dictation
 - `/schedule` command added for creating/managing scheduled tasks
@@ -630,14 +629,16 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: June 17, 2026
-**Claude Code Version**: 2.1.179
+**Last Updated**: June 24, 2026
+**Claude Code Version**: 2.1.187
 **Sources**:
 - https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/model-config
+- https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+- https://docs.anthropic.com/en/docs/claude-code/slash-commands
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.144
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.152

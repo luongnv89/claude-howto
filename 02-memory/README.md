@@ -331,6 +331,7 @@ These platform-native mechanisms are read alongside JSON settings files and foll
 |---------|------|-------------|
 | `attribution.commit` | boolean | Adds the `Co-Authored-By: Claude` trailer to commits Claude creates. Replaces the deprecated `includeCoAuthoredBy` flag. |
 | `attribution.pr` | boolean | Adds Claude attribution to pull request descriptions. Replaces the deprecated `includeCoAuthoredBy` flag for PRs. |
+| `attribution.sessionUrl` | boolean | Omit the claude.ai session link from commits and PRs created in web and Remote Control sessions (v2.1.183+). |
 | `voice.enabled` | boolean | Enables push-to-talk voice dictation (`/voice`). Replaces the deprecated `voiceEnabled` flag. |
 | `prUrlTemplate` | string | **New in v2.1.119.** Custom URL template for the footer PR badge; useful for GitLab, Bitbucket, or internal code-review platforms. Supports `{{owner}}`, `{{repo}}`, and `{{number}}` placeholders. |
 
@@ -1198,11 +1199,13 @@ For the most up-to-date information, refer to the official Claude Code documenta
 - [Official Memory Docs](https://code.claude.com/docs/en/memory) - Anthropic documentation
 
 ---
-**Last Updated**: June 10, 2026
-**Claude Code Version**: 2.1.170
+**Last Updated**: June 24, 2026
+**Claude Code Version**: 2.1.187
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/settings
+- https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+- https://docs.anthropic.com/en/docs/claude-code/settings
 - https://code.claude.com/docs/en/cli-reference
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.144

@@ -526,6 +526,16 @@ Since v2.1.118, `autoMode.allow`, `autoMode.soft_deny`, and `autoMode.environmen
 
 Use `"$defaults"` to keep the shipped baseline rules while layering organization- or project-specific additions on top.
 
+#### Built-in intent-based protection (v2.1.183)
+
+Separate from user-configured `hard_deny`, auto mode blocks the following destructive commands by default unless you explicitly asked for them this session:
+
+- `git reset --hard`, `git checkout -- .`, `git clean -fd`, `git stash drop`
+- `git commit --amend` (when the commit wasn't made by the agent this session)
+- `terraform destroy`, `pulumi destroy`, `cdk destroy` (unless you asked for the specific stack)
+
+This is built-in default protection driven by inferred intent — you don't need to add these to `hard_deny` yourself.
+
 ### Fallback Behavior
 
 When the classifier is uncertain, auto mode falls back to prompting the user:
@@ -1371,6 +1381,8 @@ Execute shell commands directly with `!` prefix:
 
 Use this for quick command execution without switching contexts.
 
+**Since v2.1.187 (changed in v2.1.186):** the output of a `!` command is now automatically sent to Claude, which responds to it. To keep the previous behavior where the output is only added to context without a response, set `"respondToBashCommands": false` in `settings.json`.
+
 ---
 
 ## TUI Mode (Fullscreen)
@@ -1905,6 +1917,8 @@ claude --no-sandbox    # Disable sandboxing
 | `sandbox.enableWeakerNetworkIsolation` | Enable weaker network isolation on macOS |
 | `sandbox.bwrapPath` | (v2.1.133+, Linux/WSL) Path to the `bubblewrap` binary. Default: `$PATH` lookup. |
 | `sandbox.socatPath` | (v2.1.133+, Linux/WSL) Path to the `socat` binary. Default: `$PATH` lookup. |
+| `sandbox.credentials` | (v2.1.187+) Block sandboxed commands from reading credential files and secret environment variables. |
+| `sandbox.allowAppleEvents` | (v2.1.181+, macOS) Opt in to let sandboxed commands send Apple Events. |
 
 **Linux/WSL binary paths** (v2.1.133+) — point Claude Code at non-standard install locations:
 
@@ -2186,6 +2200,17 @@ The `/config` command provides an interactive menu to toggle settings such as:
 - Permission mode
 - Model selection
 
+In the interactive menu, press Enter or Space to change the selected setting, and Esc to save and close (v2.1.183+).
+
+You can also set a setting directly from the prompt without opening the menu:
+
+```bash
+/config thinking=false      # set a single setting inline (v2.1.181+)
+/config --help              # list available shorthand keys (v2.1.183+)
+```
+
+The `key=value` shorthand works in interactive sessions, with `-p`, and in Remote Control.
+
 ### Per-Project Configuration
 
 Create `.claude/config.json` in your project:
@@ -2328,9 +2353,11 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: June 15, 2026
-**Claude Code Version**: 2.1.176
+**Last Updated**: June 24, 2026
+**Claude Code Version**: 2.1.187
 **Sources**:
+- https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+- https://docs.anthropic.com/en/docs/claude-code/settings
 - https://code.claude.com/docs/en/troubleshooting
 - https://code.claude.com/docs/en/changelog#2-1-175
 - https://code.claude.com/docs/en/permission-modes

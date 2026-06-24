@@ -707,6 +707,7 @@ Control how teammate activity is displayed:
 | **Auto** | `--teammate-mode auto` | Automatically chooses the best display mode for your terminal |
 | **In-process** (default) | `--teammate-mode in-process` | Shows teammate output inline in the current terminal |
 | **Split-panes** | `--teammate-mode tmux` | Opens each teammate in a separate tmux or iTerm2 pane |
+| **iTerm2** | `--teammate-mode iterm2` | (v2.1.186+) Spawns teammates in dedicated iTerm2 panes. Requires the `it2` CLI; auto mode warns when it can't be found |
 
 ```bash
 claude --teammate-mode tmux
@@ -1240,10 +1241,11 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: June 17, 2026
-**Claude Code Version**: 2.1.179
+**Last Updated**: June 24, 2026
+**Claude Code Version**: 2.1.187
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
+- https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/agent-teams
 - https://code.claude.com/docs/en/changelog#2-1-172
 - https://code.claude.com/docs/en/changelog

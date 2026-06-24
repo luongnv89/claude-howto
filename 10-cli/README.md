@@ -49,7 +49,7 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `claude -r "<session>" "query"` | Resume session by ID or name | `claude -r "auth-refactor" "finish this PR"` |
 | `claude update` | Update to latest version | `claude update` |
 | `/doctor` (slash command) | Diagnose installation, config, and plugin health. Since v2.1.116 it can be opened **while Claude is responding**, shows status icons inline, and accepts the `f` keypress to auto-fix detected issues. v2.1.178 refreshed the layout to a flat tree with clearer status icons and highlighted commands | run `/doctor` inside the REPL |
-| `claude mcp` | Configure MCP servers | See [MCP documentation](../05-mcp/) |
+| `claude mcp` | Configure MCP servers (incl. `login`/`logout` for auth, v2.1.186+) | See [MCP documentation](../05-mcp/) |
 | `claude mcp serve` | Run Claude Code as an MCP server | `claude mcp serve` |
 | `claude agents` | Open the **Agent View** (Research Preview, v2.1.139+) — multi-session manager listing every Claude Code session with its status. See [Agent View](#agent-view-claude-agents-v21139) below. | `claude agents` |
 | `claude auto-mode defaults` | Print auto mode default rules as JSON | `claude auto-mode defaults` |
@@ -841,6 +841,10 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu
 | `CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE` | Set to `1` to enable background upgrades for Homebrew/WinGet installs (which normally do not auto-update) (v2.1.129+) |
 | `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY` | Set to `1` to opt in to gateway `/v1/models` discovery when `ANTHROPIC_BASE_URL` is set. Without it, `/model` shows the built-in static list (v2.1.129+) |
 | `CLAUDE_CODE_ENABLE_AUTO_MODE` | Set to `1` to opt in to auto mode on Bedrock, Vertex, and Foundry for Opus 4.7/4.8 (v2.1.158+) |
+| `CLAUDE_CLIENT_PRESENCE_FILE` | Point at a marker file to suppress mobile push notifications while you're at the machine (v2.1.181+). Note: the name is `CLAUDE_CLIENT_PRESENCE_FILE`, not `CLAUDE_CODE_CLIENT_PRESENCE_FILE`. |
+| `CLAUDE_CODE_MAX_RETRIES` | Maximum number of API retry attempts. Capped at 15 as of v2.1.186. |
+| `CLAUDE_CODE_RETRY_WATCHDOG` | Retry control recommended for unattended sessions, as an alternative to raising `CLAUDE_CODE_MAX_RETRIES` (v2.1.186+). |
+| `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` | Override the 5-minute idle abort for remote MCP tool calls that hang with no response (v2.1.187+). |
 | `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **Removed (no-op as of v2.1.160).** Previously pinned Fast Mode (`/fast`) to Opus 4.6. To use fast mode on Opus 4.6 now, run `/model claude-opus-4-6[1m]` then `/fast on`. |
 
 > **`ENABLE_TOOL_SEARCH` on Vertex AI (v2.1.119+)**: Tool search is **disabled by default on Google Cloud Vertex AI** deployments. Users who want the tool-search capability on Vertex must explicitly opt in with `export ENABLE_TOOL_SEARCH=true`. On direct Anthropic API it remains enabled by default.
@@ -853,6 +857,7 @@ These keys live in a `settings.json` file (`~/.claude/settings.json` for user sc
 
 | Key | Description |
 |-----|-------------|
+| `respondToBashCommands` | (v2.1.186) Auto-respond to the output of `!` bash commands. Default `true`. Set `false` for context-only (pre-v2.1.186) behavior. See [Advanced Features → Bash Mode](../09-advanced-features/README.md#bash-mode). |
 | `wheelScrollAccelerationEnabled` | (v2.1.174) Set to `false` to disable mouse-wheel scroll acceleration in the fullscreen renderer. Useful when fast wheel flicks overshoot. |
 | `footerLinksRegexes` | (v2.1.176) Array of regexes that render matched links as badges in the footer row. Configurable in user or managed settings. |
 | `language` | Sets Claude's preferred response language and voice-dictation language (e.g. `"french"`, `"japanese"`). As of **v2.1.176** it also pins the language used for auto-generated session titles. |
@@ -969,16 +974,16 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: June 17, 2026
-**Claude Code Version**: 2.1.179
+**Last Updated**: June 24, 2026
+**Claude Code Version**: 2.1.187
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/changelog#2-1-174
 - https://code.claude.com/docs/en/changelog#2-1-176
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/settings
-- https://code.claude.com/docs/en/settings
-- https://code.claude.com/docs/en/changelog
+- https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+- https://docs.anthropic.com/en/docs/claude-code/cli-reference
 - https://code.claude.com/docs/en/troubleshooting
 - https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/model-config
