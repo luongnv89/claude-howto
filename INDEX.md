@@ -398,7 +398,7 @@ Advanced capabilities for complex workflows.
 - View runs with `/workflows`; `ultracode` `/effort` turns it on for a session
 
 ### Permission Modes
-- **default**: Ask for approval on risky actions
+- **manual**: Ask for approval on risky actions (renamed from `default` in v2.1.200; `default` still accepted)
 - **acceptEdits**: Auto-accept file edits, ask for others
 - **plan**: Read-only analysis, no modifications
 - **auto**: Automatically approve safe actions, prompt for risky ones
@@ -880,15 +880,16 @@ Want to add more examples? Follow the structure:
 
 ---
 
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: July 11, 2026
+**Claude Code Version**: 2.1.206
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/permission-modes
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.153
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 **Total Examples**: 100+ files
 **Categories**: 10 features
 **Hooks**: 9 automation scripts

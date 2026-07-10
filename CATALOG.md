@@ -127,7 +127,7 @@ Claude Code supports 6 permission modes that control how tool use is authorized.
 
 | Mode | Description | When to Use |
 |------|-------------|-------------|
-| `default` | Prompt for each tool call | Standard interactive use |
+| `manual` | Prompt for each tool call | Standard interactive use (renamed from `default` in v2.1.200; `default` still accepted) |
 | `acceptEdits` | Auto-accept file edits, prompt for others | Trusted editing workflows |
 | `plan` | Read-only tools only, no writes | Planning and exploration |
 | `auto` | Accept all tools without prompting | Fully autonomous operation (Research Preview) |
@@ -545,16 +545,17 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: June 15, 2026
-**Claude Code Version**: 2.1.176
+**Last Updated**: July 11, 2026
+**Claude Code Version**: 2.1.206
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/permission-modes
 - https://code.claude.com/docs/en/changelog#2-1-172
 - https://code.claude.com/docs/en/changelog#2-1-174
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/cli-reference
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

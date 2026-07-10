@@ -365,7 +365,7 @@ Before starting Level 3, make sure you're comfortable with these Level 2 concept
 
 #### What You'll Achieve
 ✅ Planning mode for complex features
-✅ Fine-grained permission control with 6 modes (default, acceptEdits, plan, auto, dontAsk, bypassPermissions)
+✅ Fine-grained permission control with 6 modes (manual — formerly default, acceptEdits, plan, auto, dontAsk, bypassPermissions)
 ✅ Extended thinking via Alt+T / Option+T toggle
 ✅ Background task management
 ✅ Auto Memory for learned preferences
@@ -381,7 +381,7 @@ Before starting Level 3, make sure you're comfortable with these Level 2 concept
 # Exercise 1: Use planning mode
 /plan Implement user authentication system
 
-# Exercise 2: Try permission modes (6 available: default, acceptEdits, plan, auto, dontAsk, bypassPermissions)
+# Exercise 2: Try permission modes (6 available: manual [formerly default], acceptEdits, plan, auto, dontAsk, bypassPermissions)
 claude --permission-mode plan "analyze this codebase"
 claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
@@ -738,14 +738,15 @@ Once you've completed all milestones:
 
 ---
 
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: July 11, 2026
+**Claude Code Version**: 2.1.206
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/permission-modes
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.144
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 **Maintained by**: Claude How-To Contributors
 **License**: Educational purposes, free to use and adapt
 

@@ -50,7 +50,7 @@ Advanced features in Claude Code extend the core capabilities with planning, rea
 - **Extended Thinking**: Deep reasoning for complex problems
 - **Auto Mode**: Background safety classifier reviews each action before execution (Research Preview)
 - **Background Tasks**: Run long operations without blocking the conversation
-- **Permission Modes**: Control what Claude can do (`default`, `acceptEdits`, `plan`, `auto`, `dontAsk`, `bypassPermissions`)
+- **Permission Modes**: Control what Claude can do (`manual` — formerly `default`, `acceptEdits`, `plan`, `auto`, `dontAsk`, `bypassPermissions`)
 - **Print Mode**: Run Claude Code non-interactively for automation and CI/CD (`claude -p`)
 - **Session Management**: Manage multiple work sessions
 - **Interactive Features**: Keyboard shortcuts, multi-line input, and command history
@@ -869,12 +869,14 @@ Permission modes control what actions Claude can take without explicit approval.
 
 | Mode | Behavior |
 |---|---|
-| `default` | Read files only; prompts for all other actions |
+| `manual` | Read files only; prompts for all other actions. Renamed from `default` in v2.1.200 — `default` is still accepted as an alias |
 | `acceptEdits` | Read and edit files; prompts for commands |
 | `plan` | Read files only (research mode, no edits) |
 | `auto` | All actions with background safety classifier checks (Research Preview) |
 | `bypassPermissions` | All actions, no permission checks (dangerous) |
 | `dontAsk` | Only pre-approved tools execute; all others denied |
+
+> **Note**: The interactive default mode was renamed from `default` to **Manual** in v2.1.200 (across the CLI, `--help`, VS Code, and JetBrains), and a grey ⏸ badge appears in the footer while it is active (v2.1.203). Both `--permission-mode manual` and `--permission-mode default` work, as do `"defaultMode": "manual"` and `"defaultMode": "default"` in settings — so the `"mode": "default"` values in the config examples below remain valid.
 
 Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting.
 
@@ -2118,6 +2120,15 @@ Since v2.1.83, administrators can deploy multiple managed settings files into a 
 }
 ```
 
+### Additional Per-User Settings
+
+These keys go in `~/.claude/settings.json` (or a project `.claude/settings.json`) and control interactive behavior for the individual user:
+
+| Setting | Description |
+|---------|-------------|
+| `askUserQuestionTimeout` | Auto-continue an unanswered `AskUserQuestion` dialog after an idle interval. As of **v2.1.200** dialogs no longer auto-continue by default — set this to opt back into timed auto-continue. |
+| `enableArtifact` | Per-user enable/disable of the Artifact tool (v2.1.196). |
+
 ### Fallback Models (`fallbackModel`)
 
 The `fallbackModel` setting lets you configure **up to three** fallback models, tried in order, when the primary model is overloaded or unavailable.
@@ -2371,8 +2382,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: June 28, 2026
-**Claude Code Version**: 2.1.195
+**Last Updated**: July 11, 2026
+**Claude Code Version**: 2.1.206
 **Sources**:
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://docs.anthropic.com/en/docs/claude-code/settings
@@ -2390,4 +2401,4 @@ For more information about Claude Code and related features:
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/sub-agents
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -1314,7 +1314,7 @@ Claude Code now includes 5 bundled skills available out of the box:
 
 | Skill | Command | Purpose |
 |-------|---------|---------|
-| **Code Review** | `/code-review` | Review the current diff for correctness bugs at a chosen effort level (renamed from `/simplify` in v2.1.146) |
+| **Code Review** | `/code-review` | Review the current diff for correctness bugs at a chosen effort level. A distinct skill from `/simplify` (quality/reuse cleanups), which was split back out in v2.1.154 |
 | **Batch** | `/batch` | Run operations across multiple files or items |
 | **Debug** | `/debug` | Systematic debugging of issues with root cause analysis |
 | **Loop** | `/loop` | Schedule recurring tasks on a timer |
@@ -3014,7 +3014,7 @@ Control what Claude can do.
 
 | Mode | Description | Use Case |
 |------|-------------|----------|
-| **default** | Standard permissions with prompts for sensitive actions | General development |
+| **manual** | Standard permissions with prompts for sensitive actions (renamed from `default` in v2.1.200; `default` still works as an alias) | General development |
 | **acceptEdits** | Automatically accept file edits without confirmation | Trusted editing workflows |
 | **plan** | Analysis and planning only, no file modifications | Code review, architecture planning |
 | **auto** | Automatically approve safe actions, prompt only for risky ones | Balanced autonomy with safety |
@@ -3148,14 +3148,16 @@ Claude Code supports the following models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: June 15, 2026
-**Claude Code Version**: 2.1.176
+**Last Updated**: July 11, 2026
+**Claude Code Version**: 2.1.206
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/permission-modes
+- https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/changelog#2-1-172
 - https://platform.claude.com/docs/en/about-claude/models/overview
 - https://www.anthropic.com/news/claude-opus-4-8
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

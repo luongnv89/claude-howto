@@ -47,7 +47,9 @@ Subagents enable delegated task execution in Claude Code by:
 
 Each subagent operates independently with a clean slate, receiving only the specific context necessary for their task, then returning results to the main agent for synthesis.
 
-**Quick Start**: Use the `/agents` command to create, view, edit, and manage your subagents interactively.
+**Quick Start**: Ask Claude to create a subagent for you ("create a subagent that reviews security"), or add a `.claude/agents/<name>.md` file directly — see [Managing Subagents](#managing-subagents) below.
+
+> **Note**: As of v2.1.198, the `/agents` command no longer opens an interactive creation wizard. Create and manage subagents by asking Claude or editing `.claude/agents/` files directly.
 
 ---
 
@@ -130,7 +132,7 @@ to solving problems.
 | `mcpServers` | No | MCP servers to make available to the subagent |
 | `hooks` | No | Component-scoped hooks (PreToolUse, PostToolUse, Stop) |
 | `memory` | No | Persistent memory directory scope: `user`, `project`, or `local` |
-| `background` | No | Set to `true` to always run this subagent as a background task |
+| `background` | No | Subagents already run in the background by default (v2.1.198). Set to `true` to *force* background always and prevent inline execution |
 | `effort` | No | Reasoning effort level: `low`, `medium`, `high`, or `max` |
 | `isolation` | No | Set to `worktree` to give the subagent its own git worktree |
 | `initialPrompt` | No | Auto-submitted first turn when the subagent runs as the main agent |
@@ -251,7 +253,7 @@ Claude Code includes several built-in subagents that are always available:
 |-------|-------|---------|
 | **general-purpose** | Inherits | Complex, multi-step tasks |
 | **Plan** | Inherits | Research for plan mode |
-| **Explore** | Haiku | Read-only codebase exploration (quick/medium/very thorough) |
+| **Explore** | Inherits (capped at Opus) | Read-only codebase exploration (quick/medium/very thorough) |
 | **Bash** | Inherits | Terminal commands in separate context |
 | **statusline-setup** | Sonnet | Configure status line |
 | **Claude Code Guide** | Haiku | Answer Claude Code feature questions |
@@ -280,7 +282,7 @@ Claude Code includes several built-in subagents that are always available:
 
 | Property | Value |
 |----------|-------|
-| **Model** | Haiku (fast, low-latency) |
+| **Model** | Inherits the session model, capped at Opus (v2.1.198). Set `model: haiku` to keep it fast and cheap |
 | **Mode** | Strictly read-only |
 | **Tools** | Glob, Grep, Read, Bash (read-only commands only) |
 | **Purpose** | Fast codebase searching and analysis |
@@ -326,18 +328,17 @@ Claude Code includes several built-in subagents that are always available:
 
 ## Managing Subagents
 
-### Using the `/agents` Command (Recommended)
+### Ask Claude (Recommended)
 
-```bash
-/agents
+The simplest way to create or manage a subagent is to ask Claude directly:
+
+```text
+Create a subagent that reviews code for security vulnerabilities.
 ```
 
-This provides an interactive menu to:
-- View all available subagents (built-in, user, and project)
-- Create new subagents with guided setup
-- Edit existing custom subagents and tool access
-- Delete custom subagents
-- See which subagents are active when duplicates exist
+Claude writes the `.claude/agents/<name>.md` file for you, choosing sensible frontmatter (tools, model, description). You can then refine the file by hand or ask Claude to adjust it.
+
+> **Note**: The `/agents` command no longer opens an interactive creation wizard (removed in v2.1.198). It now points you to ask Claude or edit `.claude/agents/` files directly.
 
 ### Direct File Management
 
@@ -505,11 +506,11 @@ graph LR
 
 ## Background Subagents
 
-Subagents can run in the background, freeing up the main conversation for other tasks.
+Subagents run in the background by default (v2.1.198). Claude keeps working on the main conversation while a subagent runs and is notified when it finishes, so you no longer wait on a subagent to return before continuing.
 
 ### Configuration
 
-Set `background: true` in the frontmatter to always run the subagent as a background task:
+Because background is already the default, `background: true` in the frontmatter *forces* the subagent to always run in the background and prevents it from running inline:
 
 ```yaml
 ---
@@ -909,6 +910,12 @@ graph TB
 - **Backgrounding** - Press `Ctrl+B` to background a currently running task
 - **Transcripts** - Subagent transcripts are stored at `~/.claude/projects/{project}/{sessionId}/subagents/agent-{agentId}.jsonl`
 - **Auto-compaction** - Subagent context auto-compacts at ~95% capacity (override with `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` environment variable)
+- **Extended thinking inherited (v2.1.198)** - Subagents and context compaction now inherit the session's extended-thinking configuration (previously always disabled). There is no per-subagent thinking field
+
+### Additional Controls
+
+- **Disable built-in Explore/Plan agents** - Set `CLAUDE_CODE_DISABLE_EXPLORE_PLAN_AGENTS=1` to remove the built-in Explore and Plan agents (v2.1.198)
+- **Append to every subagent prompt** - In non-interactive / `--print` mode, `--append-subagent-system-prompt "<text>"` appends text to every subagent's system prompt (v2.1.205)
 
 ---
 
@@ -1098,18 +1105,16 @@ This folder contains ready-to-use example subagents:
 
 ## Installation Instructions
 
-### Method 1: Using /agents Command (Recommended)
+### Method 1: Ask Claude (Recommended)
 
-```bash
-/agents
+Describe the subagent you want and let Claude create the file:
+
+```text
+Create a project-level subagent that runs tests and fixes failures.
+Give it access to Bash, Read, Edit, and Grep.
 ```
 
-Then:
-1. Select 'Create New Agent'
-2. Choose project-level or user-level
-3. Describe your subagent in detail
-4. Select tools to grant access (or leave blank to inherit all)
-5. Save and use
+Claude writes `.claude/agents/<name>.md` with appropriate frontmatter. Review the generated file, then use it. (The `/agents` interactive creation wizard was removed in v2.1.198 — ask Claude or edit the file directly instead.)
 
 ### Method 2: Copy to Project
 
@@ -1145,13 +1150,13 @@ cp /path/to/04-subagents/debugger.md ~/.claude/agents/
 
 ### Verification
 
-After installation, verify the agents are recognized:
+After installation, verify the agents are recognized by listing the directory:
 
 ```bash
-/agents
+ls .claude/agents/
 ```
 
-You should see your installed agents listed alongside the built-in ones.
+You can also ask Claude which subagents are available in the current session, and it will report the built-in and custom agents it can delegate to.
 
 ---
 
@@ -1241,10 +1246,11 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: June 24, 2026
-**Claude Code Version**: 2.1.187
+**Last Updated**: July 11, 2026
+**Claude Code Version**: 2.1.206
 **Sources**:
-- https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/subagents
+- https://code.claude.com/docs/en/cli-reference
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/agent-teams
 - https://code.claude.com/docs/en/changelog#2-1-172
@@ -1254,4 +1260,4 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.138
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.140
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
