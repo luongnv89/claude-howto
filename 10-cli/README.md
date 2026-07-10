@@ -154,6 +154,8 @@ claude --model opusplan "design and implement the caching layer"
 
 > **Gateway model discovery (v2.1.129+, opt-in)**: When `ANTHROPIC_BASE_URL` points at an Anthropic-compatible gateway, set `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1` to populate `/model` from the gateway's `/v1/models` endpoint. Without the env var, `/model` falls back to the built-in static list. The flag is opt-in (changed in v2.1.129) because the discovery call can surface models a user may not be entitled to use; v2.1.126 made it implicit and that behavior was reverted.
 
+> **Org default model (v2.1.196)**: When an org admin sets a default model, `/model` labels it as "Org default" (or "Role default").
+
 ## System Prompt Customization
 
 | Flag | Description | Example |
@@ -161,6 +163,7 @@ claude --model opusplan "design and implement the caching layer"
 | `--system-prompt` | Replace entire default prompt | `claude --system-prompt "You are a Python expert"` |
 | `--system-prompt-file` | Load prompt from file (print mode) | `claude -p --system-prompt-file ./prompt.txt "query"` |
 | `--append-system-prompt` | Append to default prompt | `claude --append-system-prompt "Always use TypeScript"` |
+| `--append-subagent-system-prompt` | Append text to every subagent's system prompt (non-interactive) | `claude -p --append-subagent-system-prompt "Cite sources" "query"` |
 
 ### System Prompt Examples
 
@@ -751,6 +754,7 @@ Claude Code supports multiple models with different capabilities:
 
 | Model | ID | Context Window | Notes |
 |-------|-----|----------------|-------|
+| Sonnet 5 | `claude-sonnet-5` | 1M tokens | **Default model** (v2.1.197); native 1M-token context window |
 | Opus 4.8 | `claude-opus-4-8` | 1M tokens | Most capable; adaptive effort levels `low → max`; default effort `high` (v2.1.154) |
 | Sonnet 4.6 | `claude-sonnet-4-6` | 1M tokens | Balanced speed and capability; default effort for Pro/Max subscribers raised from `medium` to `high` in v2.1.117 |
 | Haiku 4.5 | `claude-haiku-4-5` | 200K tokens | Fastest, best for quick tasks; no effort levels |
@@ -845,6 +849,7 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu
 | `CLAUDE_CLIENT_PRESENCE_FILE` | Point at a marker file to suppress mobile push notifications while you're at the machine (v2.1.181+). Note: the name is `CLAUDE_CLIENT_PRESENCE_FILE`, not `CLAUDE_CODE_CLIENT_PRESENCE_FILE`. |
 | `CLAUDE_CODE_MAX_RETRIES` | Maximum number of API retry attempts. Capped at 15 as of v2.1.186. |
 | `CLAUDE_CODE_RETRY_WATCHDOG` | Retry control recommended for unattended sessions, as an alternative to raising `CLAUDE_CODE_MAX_RETRIES` (v2.1.186+). |
+| `CLAUDE_ENABLE_STREAM_WATCHDOG` | Streaming idle watchdog (aborts/retries after 5 min with no stream events) is on by default for all providers; set to `0` to disable (v2.1.196). |
 | `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` | Override the 5-minute idle abort for remote MCP tool calls that hang with no response (v2.1.187+). |
 | `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **Removed (no-op as of v2.1.160).** Previously pinned Fast Mode (`/fast`) to Opus 4.6. To use fast mode on Opus 4.6 now, run `/model claude-opus-4-6[1m]` then `/fast on`. |
 
@@ -975,8 +980,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: June 28, 2026
-**Claude Code Version**: 2.1.195
+**Last Updated**: July 11, 2026
+**Claude Code Version**: 2.1.206
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/env-vars
@@ -997,4 +1002,4 @@ claude -p --output-format json "query"
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/overview
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

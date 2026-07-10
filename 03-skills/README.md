@@ -248,6 +248,7 @@ Skills support dynamic values that are resolved before the skill content reaches
 | `$ARGUMENTS[N]` or `$N` | Access specific argument by index (0-based) |
 | `${CLAUDE_SESSION_ID}` | Current session ID |
 | `${CLAUDE_SKILL_DIR}` | Directory containing the skill's SKILL.md file |
+| `${CLAUDE_PROJECT_DIR}` | Absolute path to the project root. Usable in the skill body and in `allowed-tools` (v2.1.196) |
 | `${CLAUDE_EFFORT}` | Current effort level (`low`, `medium`, `high`, `xhigh`, or `max`). Useful for branching skill behavior: e.g., `[ "${CLAUDE_EFFORT}" = "max" ] && deep_analysis` (v2.1.120+) |
 | `` !`command` `` | Dynamic context injection — runs a shell command and inlines the output |
 
@@ -267,6 +268,10 @@ Fix GitHub issue $ARGUMENTS following our coding standards.
 ```
 
 Running `/fix-issue 123` replaces `$ARGUMENTS` with `123`.
+
+### Stacking Skills
+
+You can stack slash-skills in a single invocation, like `/code-review /fix-issue 123`. As of v2.1.199, this loads ALL leading skills — the first plus up to 5 more — and passes the trailing arguments (`123`) to each; previously only the first skill loaded. If the same skill is invoked more than once, its identical content is de-duplicated (v2.1.202) rather than appended twice.
 
 ## Injecting Dynamic Context
 
@@ -817,18 +822,19 @@ export CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1
 
 ## Bundled Skills
 
-Claude Code ships with nine built-in skills that are always available without installation:
+Claude Code ships with ten built-in skills that are always available without installation:
 
 | Skill | Description |
 |-------|-------------|
 | `/batch <instruction>` | Orchestrate large-scale parallel changes across codebase using git worktrees |
 | `/claude-api` | Load Claude API/SDK reference; auto-activates on `anthropic`/`@anthropic-ai/sdk` imports |
+| `/dataviz` | Chart and dashboard design guidance with a runnable color-palette validator (v2.1.198) |
 | `/debug [description]` | Troubleshoot current session by reading debug log |
 | `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist for common read-only tools |
 | `/loop [interval] <prompt>` | Run prompt repeatedly on interval (e.g., `/loop 5m check the deploy`) |
 | `/run` *(v2.1.145+)* | Launch this project's app to see a change running — looks for a project skill, otherwise falls back to built-in patterns per project type |
 | `/run-skill-generator` *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project by generating a per-project skill |
-| `/code-review [effort]` | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`); pass `--comment` to post findings as inline PR comments. Renamed from `/simplify` in v2.1.146 |
+| `/code-review [effort]` | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`); pass `--comment` to post findings as inline PR comments. A distinct skill from `/simplify` (quality/reuse cleanups), which was split back out in v2.1.154. |
 | `/verify` *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works (not just that tests pass) |
 
 These skills are available out-of-the-box and do not need to be installed or configured. They follow the same SKILL.md format as custom skills.
@@ -875,8 +881,8 @@ Once you start building skills seriously, two things become essential: a library
 - [Hooks Guide](../06-hooks/) - Event-driven automation
 
 ---
-**Last Updated**: June 17, 2026
-**Claude Code Version**: 2.1.179
+**Last Updated**: July 11, 2026
+**Claude Code Version**: 2.1.206
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/settings
@@ -884,4 +890,4 @@ Once you start building skills seriously, two things become essential: a library
 - https://code.claude.com/docs/en/commands
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.152
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

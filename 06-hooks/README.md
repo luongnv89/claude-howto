@@ -510,6 +510,8 @@ Updated matchers for notification events:
 - `idle_prompt` - Idle state notification
 - `auth_success` - Authentication success
 - `elicitation_dialog` - Dialog shown to user
+- `agent_needs_input` - Background agent needs input (v2.1.198)
+- `agent_completed` - Background agent finished (v2.1.198)
 
 ## Component-Scoped Hooks
 
@@ -603,6 +605,7 @@ All hooks receive JSON input via stdin:
 | `session_id` | Unique session identifier |
 | `transcript_path` | Path to the conversation transcript file |
 | `cwd` | Current working directory |
+| `prompt_id` | UUID of the prompt being processed; correlates with the OpenTelemetry `prompt.id` attribute (v2.1.196) |
 | `hook_event_name` | Name of the event that triggered the hook |
 | `agent_id` | Identifier of the agent running this hook |
 | `agent_type` | Type of agent (`"main"`, subagent type name, etc.) |
@@ -1502,8 +1505,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: June 28, 2026
-**Claude Code Version**: 2.1.195
+**Last Updated**: July 11, 2026
+**Claude Code Version**: 2.1.206
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/permissions
@@ -1513,4 +1516,4 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.152
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.153
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

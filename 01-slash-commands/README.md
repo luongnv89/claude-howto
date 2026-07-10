@@ -110,6 +110,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 |-------|---------|
 | `/batch <instruction>` | Orchestrate large-scale parallel changes using worktrees |
 | `/claude-api` | Load Claude API reference for project language |
+| `/dataviz` | Chart and dashboard design guidance with a runnable color-palette validator (v2.1.198) |
 | `/debug [description]` | Enable debug logging |
 | `/loop [interval] <prompt>` | Run prompt repeatedly on interval |
 | `/code-review [effort]` | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`). Originally absorbed `/simplify` in v2.1.146, but `/simplify` returned as a distinct command in v2.1.154 |
@@ -301,6 +302,8 @@ Review PR #$0 with priority $1
 ```
 
 Usage: `/review-pr 456 high` → `$0`="456", `$1`="high"
+
+`${CLAUDE_PROJECT_DIR}` resolves to the absolute path of the project root (v2.1.196).
 
 ### Dynamic Context with Shell Commands
 
@@ -629,10 +632,11 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: June 24, 2026
-**Claude Code Version**: 2.1.187
+**Last Updated**: July 11, 2026
+**Claude Code Version**: 2.1.206
 **Sources**:
 - https://code.claude.com/docs/en/slash-commands
+- https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/commands
@@ -644,6 +648,6 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.152
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.153
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Part of the [Claude How To](../) guide series*
