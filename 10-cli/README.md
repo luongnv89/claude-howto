@@ -754,7 +754,7 @@ Claude Code supports multiple models with different capabilities:
 
 | Model | ID | Context Window | Notes |
 |-------|-----|----------------|-------|
-| Sonnet 5 | `claude-sonnet-5` | 1M tokens | **Default model** (v2.1.197); native 1M-token context window |
+| Sonnet 5 | `claude-sonnet-5` | 1M tokens | Default on Pro / Team Standard / Enterprise seats (v2.1.197); native 1M-token context window. Opus 4.8 remains the default on Max, Team Premium, Enterprise pay-as-you-go, and the Claude API |
 | Opus 4.8 | `claude-opus-4-8` | 1M tokens | Most capable; adaptive effort levels `low → max`; default effort `high` (v2.1.154) |
 | Sonnet 4.6 | `claude-sonnet-4-6` | 1M tokens | Balanced speed and capability; default effort for Pro/Max subscribers raised from `medium` to `high` in v2.1.117 |
 | Haiku 4.5 | `claude-haiku-4-5` | 200K tokens | Fastest, best for quick tasks; no effort levels |

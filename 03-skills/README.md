@@ -822,7 +822,7 @@ export CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1
 
 ## Bundled Skills
 
-Claude Code ships with ten built-in skills that are always available without installation:
+Claude Code ships with a set of built-in skills that are always available without installation (the most useful ones are listed below; see the [commands reference](https://code.claude.com/docs/en/commands) for the full set):
 
 | Skill | Description |
 |-------|-------------|
@@ -835,6 +835,7 @@ Claude Code ships with ten built-in skills that are always available without ins
 | `/run` *(v2.1.145+)* | Launch this project's app to see a change running — looks for a project skill, otherwise falls back to built-in patterns per project type |
 | `/run-skill-generator` *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project by generating a per-project skill |
 | `/code-review [effort]` | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`); pass `--comment` to post findings as inline PR comments. A distinct skill from `/simplify` (quality/reuse cleanups), which was split back out in v2.1.154. |
+| `/simplify` | Cleanup-only review — reuse, simplification, efficiency, altitude — and applies the fixes. Split back out from `/code-review` in v2.1.154 |
 | `/verify` *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works (not just that tests pass) |
 
 These skills are available out-of-the-box and do not need to be installed or configured. They follow the same SKILL.md format as custom skills.
