@@ -3,6 +3,7 @@
 
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 IGNORE_DIRS = {
@@ -28,8 +29,10 @@ def iter_md_files():
 
 def heading_to_anchor(heading: str) -> str:
     # Match GitHub's anchor generation: strip emoji and special punctuation,
-    # keep Unicode letters (including Vietnamese diacritics), lowercase,
-    # replace spaces with hyphens, strip leading/trailing hyphens.
+    # keep Unicode letters (including Vietnamese diacritics) and combining
+    # marks (Thai vowel signs / tone marks, which are separate codepoints
+    # from their base consonant even in NFC), lowercase, replace spaces
+    # with hyphens, strip leading/trailing hyphens.
     # 1. Remove emoji (characters outside BMP or in known emoji ranges)
     heading = re.sub(
         r"[\U0001F000-\U0001FFFF"  # Supplementary Multilingual Plane symbols
@@ -42,8 +45,17 @@ def heading_to_anchor(heading: str) -> str:
         "",
         heading,
     )
-    # 2. Remove punctuation but keep Unicode word chars, spaces, and hyphens
-    anchor = re.sub(r"[^\w\s-]", "", heading.lower(), flags=re.UNICODE)
+    # 2. Remove punctuation but keep Unicode word chars (\w misses combining
+    # marks like Thai tone/vowel signs), spaces, and hyphens
+    anchor = "".join(
+        ch
+        for ch in heading.lower()
+        if ch.isspace()
+        or ch == "-"
+        or ch == "_"
+        or ch.isalnum()
+        or unicodedata.category(ch).startswith("M")
+    )
     # 3. Replace spaces with hyphens
     anchor = anchor.replace(" ", "-")
     # 4. Strip trailing hyphens (keep leading hyphens for emoji-prefixed headings)
