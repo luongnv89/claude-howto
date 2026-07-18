@@ -60,7 +60,7 @@ Persistent context and project standards.
 
 ---
 
-## 03. Skills (22 files)
+## 03. Skills (21 files)
 
 Auto-invoked capabilities with scripts and templates.
 
@@ -767,7 +767,7 @@ Run tests in background
 |----------|----------|--------|-----|-------|---------|-----------|------|--------|-------|
 | **01 Slash Commands** | 8 | - | - | - | - | - | 1 | 1 | **10** |
 | **02 Memory** | - | - | - | - | - | 3 | 1 | 2 | **6** |
-| **03 Skills** | - | - | - | - | 5 | 9 | 8 | - | **22** |
+| **03 Skills** | - | - | - | - | 5 | 9 | 7 | - | **21** |
 | **04 Subagents** | - | 8 | - | - | - | - | 1 | - | **9** |
 | **05 MCP** | - | - | 4 | - | - | - | 1 | - | **5** |
 | **06 Hooks** | - | - | - | 8 | - | - | 1 | - | **9** |

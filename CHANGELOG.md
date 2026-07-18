@@ -37,12 +37,13 @@ independent of the version delta.
   other file that documents this enum.
 - **Bundled-skills count reconciled** — `CATALOG.md`'s summary table said "9
   bundled" against its own 10-row detail table; corrected to 10 (16 total).
-- **`INDEX.md` Skills section count corrected** — header claimed "16 files,"
-  the Feature Coverage Matrix claimed "28" for the same category; neither
-  matched the actual 21 files across the six documented skills. Both now
-  read 21. (The Feature Coverage Matrix's Total column is unreliable beyond
-  this one row — e.g. the Plugins row sums to 36 but shows 40 — full recount
-  deferred to a follow-up pass.)
+- **`INDEX.md` Feature Coverage Matrix fully recomputed** — header claimed "16
+  files," the Skills row claimed "28" for the same category; neither matched
+  the actual 21 files across the six documented skills. The Plugins row
+  similarly summed to 36 but showed 40. Every row was recounted by hand; the
+  Skills row now reads `5 | 9 | 7` (**21**) and the Plugins row now reads
+  `11 | 9 | 3 | 3 | 3 | 3 | 7` (**39**) — every row's Total now equals the sum
+  of its own cells.
 - **Stale `2.1.160` footer cluster bumped** — five files
   (`08-checkpoints/checkpoint-examples.md`,
   `09-advanced-features/planning-mode-examples.md`, and the three
@@ -52,6 +53,13 @@ independent of the version delta.
   `2.1.160`/June 2. Permission-mode block updated to `manual`
   (formerly `default`), Compatible Models gained Sonnet 5, and the "New
   Features (May 2026)" section was retitled and refreshed.
+- **`02-memory/README.md` Memory Hierarchy section rewritten** — replaced a
+  fabricated 8-tier strict-precedence model with the verified structure:
+  CLAUDE.md files and rules are concatenated into context (not selected by
+  override), and `managed-settings.d/` is a `settings.json` mechanism, not a
+  CLAUDE.md one. The Memory Architecture diagram was also corrected — it
+  previously conflated claude.ai's 24h synthesis cycle with Claude Code's
+  continuous auto memory.
 
 ### Added
 
@@ -84,15 +92,9 @@ independent of the version delta.
 
 ### Known gaps (deferred, not fixed this sync)
 
-- `02-memory/README.md`'s "Memory Hierarchy in Claude Code" section presents
-  an 8-tier strict-precedence list that conflates CLAUDE.md file locations
-  with rules and auto-memory loading order. Current official docs describe a
-  simpler 4-tier CLAUDE.md location table where files are concatenated into
-  context, not strictly overriding each other. This needs a full section
-  rewrite, not a spot-fix, and was deliberately deferred.
-- `03-skills/blog-draft/` and `03-skills/.claude/skills/blog-draft/` are two
-  identical copies of the same skill. Flagging for a human decision on which
-  copy is canonical rather than silently deleting either.
+- `03-skills/.claude/skills/blog-draft/` is gitignored local testing scratch
+  (`# Local skill testing` in `03-skills/.gitignore`), not a tracked
+  duplicate of `03-skills/blog-draft/` — confirmed no action needed.
 
 ## [v2.1.160] — 2026-06-02
 
