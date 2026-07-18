@@ -803,6 +803,15 @@ The maximum output limit is configurable via the `MAX_MCP_OUTPUT_TOKENS` environ
 export MAX_MCP_OUTPUT_TOKENS=50000
 ```
 
+## Auto-Backgrounding Long-Running Tool Calls (v2.1.212)
+
+MCP tool calls that run longer than 2 minutes now move to the background automatically, so the session stays usable instead of blocking on a slow tool. The threshold is configurable, and the behavior can be tuned or disabled, via `CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS`:
+
+```bash
+# Change the auto-background threshold to 5 minutes (300,000ms)
+export CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS=300000
+```
+
 ## Solving Context Bloat with Code Execution
 
 As MCP adoption scales, connecting to dozens of servers with hundreds or thousands of tools creates a significant challenge: **context bloat**. This is arguably the biggest problem with MCP at scale, and Anthropic's engineering team has proposed an elegant solution — using code execution instead of direct tool calls.
@@ -1187,8 +1196,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: July 11, 2026
-**Claude Code Version**: 2.1.206
+**Last Updated**: July 18, 2026
+**Claude Code Version**: 2.1.212
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog

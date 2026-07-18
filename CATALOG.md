@@ -17,12 +17,12 @@
 |---------|----------|----------|-------|-----------|
 | **Slash Commands** | 60+ | 8 | 68+ | [01-slash-commands/](01-slash-commands/) |
 | **Subagents** | 6 | 11 | 17 | [04-subagents/](04-subagents/) |
-| **Skills** | 9 bundled | 6 | 15 | [03-skills/](03-skills/) |
+| **Skills** | 10 bundled | 6 | 16 | [03-skills/](03-skills/) |
 | **Plugins** | - | 3 | 3 | [07-plugins/](07-plugins/) |
 | **MCP Servers** | 1 | 8 | 9 | [05-mcp/](05-mcp/) |
 | **Hooks** | 29 events | 8 | 8 | [06-hooks/](06-hooks/) |
 | **Memory** | 7 types | 3 | 3 | [02-memory/](02-memory/) |
-| **Total** | **103** | **47** | **125** | |
+| **Total** | **104** | **47** | **126** | |
 
 ---
 
@@ -130,11 +130,11 @@ Claude Code supports 6 permission modes that control how tool use is authorized.
 | `manual` | Prompt for each tool call | Standard interactive use (renamed from `default` in v2.1.200; `default` still accepted) |
 | `acceptEdits` | Auto-accept file edits, prompt for others | Trusted editing workflows |
 | `plan` | Read-only tools only, no writes | Planning and exploration |
-| `auto` | Accept all tools without prompting | Fully autonomous operation (Research Preview) |
+| `auto` | All actions, with background safety classifier checks | Long tasks, reducing prompt fatigue |
 | `bypassPermissions` | Skip all permission checks | CI/CD, headless environments |
 | `dontAsk` | Skip tools that would require permission | Non-interactive scripting |
 
-> **Note**: `auto` mode is a Research Preview feature (March 2026). Use `bypassPermissions` only in trusted, sandboxed environments.
+> **Note**: `auto` mode requires an eligible plan, model, and provider — see [09-advanced-features/](09-advanced-features/#auto-mode). Use `bypassPermissions` only in trusted, sandboxed environments.
 
 **Reference**: [Official Docs](https://code.claude.com/docs/en/permissions)
 
@@ -476,7 +476,7 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **Scheduled Tasks** | Set up recurring tasks with `/loop` and cron tools | Use `/loop 5m /command` or CronCreate tool |
 | **Chrome Integration** | Browser automation with headless Chromium | Use `--chrome` flag or `/chrome` command |
 | **Keyboard Customization** | Customize keybindings including chord support | Use `/keybindings` or edit `~/.claude/keybindings.json` |
-| **Auto Mode** | Fully autonomous operation without permission prompts (Research Preview) | Use `--mode auto` or `/permissions auto`; March 2026 |
+| **Auto Mode** | Fully autonomous operation with background safety classifier checks | `Shift+Tab` to cycle to it, or `--permission-mode auto` |
 | **Channels** | Multi-channel communication (Telegram, Slack, etc.) (Research Preview) | Configure channel plugins; March 2026 |
 | **Voice Dictation** | Voice input for prompts | Use microphone icon or voice keybinding |
 | **Agent Hook Type** | Hooks that spawn a subagent instead of running a shell command | Set `"type": "agent"` in hook configuration |
@@ -545,8 +545,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: July 11, 2026
-**Claude Code Version**: 2.1.206
+**Last Updated**: July 18, 2026
+**Claude Code Version**: 2.1.212
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands

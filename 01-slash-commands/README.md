@@ -24,7 +24,8 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 |---------|---------|
 | `/add-dir <path>` | Add working directory |
 | `/agents` | Manage agent configurations |
-| `/branch [name]` | Branch conversation into a new session (alias: `/fork`). Note: `/fork` renamed to `/branch` in v2.1.77 |
+| `/branch [name]` | Switch into a copy of the conversation at this point, preserving the original (return to it with `/resume`) |
+| `/fork <directive>` | Spawn a background subagent that inherits the full conversation and works on the directive while you keep going; its own row in `claude agents` |
 | `/btw <question>` | Ask an ephemeral side question while Claude is working on the main task; doesn't pollute the main conversation context |
 | `/cd <path>` | Move the session to a new working directory without breaking the prompt cache (added v2.1.169) |
 | `/chrome` | Configure Chrome browser integration |
@@ -121,13 +122,13 @@ These skills ship with Claude Code and are invoked like slash commands:
 | Command | Status |
 |---------|--------|
 | `/output-style` | Deprecated since v2.1.73 |
-| `/fork` | Renamed to `/branch` (alias still works, v2.1.77) |
 | `/pr-comments` | Removed in v2.1.91 — ask Claude directly to view PR comments |
 | `/vim` | Removed in v2.1.92 — use /config → Editor mode |
 
 ### Recent Changes
 
-- `/fork` renamed to `/branch` with `/fork` kept as alias (v2.1.77)
+- `/fork` was an alias for `/branch` from v2.1.77 until v2.1.161, when they became distinct commands: `/fork` now spawns a background subagent that inherits the conversation, while `/branch` switches you into a copy in place
+- `/resume` (no arguments) opens a picker of past sessions — including ones removed from the visible list — and resumes the chosen one as a background session (v2.1.212)
 - `/output-style` deprecated (v2.1.73)
 - `/review <pr>` now uses the same review engine as `/code-review medium` (v2.1.186)
 - `/effort` command added; `max` level available on Opus 4.6+ (originally Opus 4.6-only)
@@ -632,8 +633,8 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: July 11, 2026
-**Claude Code Version**: 2.1.206
+**Last Updated**: July 18, 2026
+**Claude Code Version**: 2.1.212
 **Sources**:
 - https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/skills

@@ -48,7 +48,7 @@ Advanced features in Claude Code extend the core capabilities with planning, rea
 **Key advanced features include:**
 - **Planning Mode**: Create detailed implementation plans before coding
 - **Extended Thinking**: Deep reasoning for complex problems
-- **Auto Mode**: Background safety classifier reviews each action before execution (Research Preview)
+- **Auto Mode**: Background safety classifier reviews each action before execution
 - **Background Tasks**: Run long operations without blocking the conversation
 - **Permission Modes**: Control what Claude can do (`manual` — formerly `default`, `acceptEdits`, `plan`, `auto`, `dontAsk`, `bypassPermissions`)
 - **Print Mode**: Run Claude Code non-interactively for automation and CI/CD (`claude -p`)
@@ -409,7 +409,7 @@ Toggle during a session with `Alt+T` / `Option+T`, set effort with `/effort`, or
 
 ## Auto Mode
 
-Auto Mode is a Research Preview permission mode (March 2026) that uses a background safety classifier to review each action before execution. It allows Claude to work autonomously while blocking dangerous operations.
+Auto Mode is a permission mode that uses a background safety classifier to review each action before execution. It allows Claude to work autonomously while blocking dangerous operations. It's available on all plans, but requires an eligible model (Claude Opus 4.6+, Sonnet 4.6+, or Fable 5 on the Anthropic API and Claude Platform on AWS; Sonnet 5, Opus 4.7, Opus 4.8, or Fable 5 on Bedrock, Vertex, Foundry, and signed-in Claude apps gateway sessions) and, on Team/Enterprise, an Owner opt-in.
 
 ### Requirements
 
@@ -429,7 +429,9 @@ claude --enable-auto-mode
 
 > **v2.1.112 update**: Auto mode no longer requires the `--enable-auto-mode` flag. Max subscribers access it directly on Opus 4.7.
 
-> **v2.1.158 update**: Auto mode is now available on Bedrock, Vertex, and Foundry for Opus 4.7/4.8 — **opt in** by setting `CLAUDE_CODE_ENABLE_AUTO_MODE=1`.
+> **v2.1.158 update**: Auto mode became available on Bedrock, Vertex, and Foundry for Opus 4.7/4.8, gated behind `CLAUDE_CODE_ENABLE_AUTO_MODE=1`.
+>
+> **v2.1.207 update**: That opt-in requirement was removed. Auto mode is now available by default on Bedrock, Vertex AI, Microsoft Foundry, and signed-in Claude apps gateway sessions for Claude Sonnet 5, Opus 4.7, Opus 4.8, and Fable 5 — no flag or env var needed. Administrators can disable it with `disableAutoMode` in managed settings. `CLAUDE_CODE_ENABLE_AUTO_MODE` is still accepted for compatibility but has no effect from v2.1.207 onward.
 
 Or set it as the default permission mode:
 
@@ -482,6 +484,12 @@ Auto mode blocks the following by default:
 **Print default rules as JSON**:
 ```bash
 claude auto-mode defaults
+```
+
+**Restore default auto-mode configuration** (v2.1.212), with a confirmation prompt (`--yes` to skip):
+```bash
+claude auto-mode reset
+claude auto-mode reset --yes
 ```
 
 **Configure trusted infrastructure** via the `autoMode.environment` managed setting for enterprise deployments. This allows administrators to define trusted CI/CD environments, deployment targets, and infrastructure patterns.
@@ -872,7 +880,7 @@ Permission modes control what actions Claude can take without explicit approval.
 | `manual` | Read files only; prompts for all other actions. Renamed from `default` in v2.1.200 — `default` is still accepted as an alias |
 | `acceptEdits` | Read and edit files; prompts for commands |
 | `plan` | Read files only (research mode, no edits) |
-| `auto` | All actions with background safety classifier checks (Research Preview) |
+| `auto` | All actions with background safety classifier checks. Requires an eligible plan, model (Sonnet 5, Opus 4.7/4.8, or Fable 5 on most providers), and provider — see [Auto Mode](#auto-mode) |
 | `bypassPermissions` | All actions, no permission checks (dangerous) |
 | `dontAsk` | Only pre-approved tools execute; all others denied |
 
@@ -1110,7 +1118,8 @@ Manage multiple Claude Code sessions effectively.
 |---------|-------------|
 | `/resume` | Resume a conversation by ID or name |
 | `/rename` | Name the current session |
-| `/fork` | Fork current session into a new branch |
+| `/fork <directive>` | Spawn a background subagent that inherits the full conversation and works on the directive while you keep going |
+| `/branch [name]` | Switch into a copy of the conversation at this point, preserving the original |
 | `claude -c` | Continue most recent conversation |
 | `claude -r "session"` | Resume session by name or ID |
 
@@ -1131,15 +1140,25 @@ claude -r "auth-refactor" "finish this PR"
 /rename auth-refactor
 ```
 
-### Forking Sessions
+> **v2.1.212 update**: Typing `/resume` (with no arguments) in the agent view now opens a picker of past sessions — including sessions removed from the visible list — and resumes the chosen one as a background session.
 
-Fork a session to try an alternative approach without losing the original:
+### Forking and Branching Sessions
+
+`/fork <directive>` spawns a background subagent that inherits the full conversation and works on the directive while you keep working in the current session — its own row in `claude agents`, with the result returned to your conversation when it finishes:
 
 ```
-/fork
+/fork Investigate why the auth tests are flaky
 ```
 
-Or from the CLI:
+To switch into a copy of the conversation yourself instead of delegating to a background subagent, use `/branch [name]`, which preserves the original and lets you return to it with `/resume`:
+
+```
+/branch try-oauth-instead
+```
+
+> **Note**: Before v2.1.161, `/fork` was simply an alias for `/branch`. Since v2.1.161 they are distinct: `/fork` delegates to a background subagent, `/branch` switches you into a copy in place.
+
+Or fork from the CLI:
 ```bash
 claude --resume auth-refactor --fork-session "try OAuth instead"
 ```
@@ -1215,6 +1234,24 @@ Claude Code supports keyboard shortcuts for efficiency. Here's the complete refe
 | `Ctrl + Y` | Paste (yank) |
 | `Tab` | Autocomplete |
 | `↑ / ↓` | Command history |
+
+### Accessibility
+
+Screen reader mode (v2.1.208+) switches the CLI to a plain-text rendering mode designed for screen readers. Enable it with the CLI flag, an environment variable, or a settings key:
+
+```bash
+claude --ax-screen-reader
+```
+
+```bash
+export CLAUDE_AX_SCREEN_READER=1
+```
+
+```json
+{
+  "axScreenReader": true
+}
+```
 
 ### Customizing keybindings
 
@@ -2210,6 +2247,12 @@ export ANTHROPIC_WORKSPACE_ID=ws_abc123                     # Scope the federate
 
 # Stop hook safety cap (v2.1.143+)
 export CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=8                    # Max consecutive Stop-hook blocks before the session ends with a warning. Set 0 to disable the cap.
+
+# Session-wide spawn caps (v2.1.212)
+export CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION=200         # Cap on WebSearch tool calls per session, to stop runaway search loops. Default 200.
+
+# Accessibility (v2.1.208)
+export CLAUDE_AX_SCREEN_READER=1                            # Enable plain-text screen reader rendering mode. Same effect as --ax-screen-reader or "axScreenReader": true in settings.
 ```
 
 > **v2.1.108**: `ENABLE_PROMPT_CACHING_1H=1` — use a 1-hour prompt cache TTL instead of the default 5-minute TTL. Reduces cache misses in long, stable sessions. (v2.1.129 fixes a regression where the 1-hour TTL was silently downgraded to 5 minutes.)
@@ -2382,8 +2425,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: July 11, 2026
-**Claude Code Version**: 2.1.206
+**Last Updated**: July 18, 2026
+**Claude Code Version**: 2.1.212
 **Sources**:
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://docs.anthropic.com/en/docs/claude-code/settings
@@ -2401,4 +2444,5 @@ For more information about Claude Code and related features:
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/commands
 **Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

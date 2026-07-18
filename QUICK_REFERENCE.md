@@ -92,17 +92,18 @@ chmod +x ~/.claude/hooks/*.sh
 /plan Task description
 
 # Permission modes (use --permission-mode flag)
-# default        - Ask for approval on risky actions
+# manual         - Ask for approval on every action (formerly "default"; "default" still accepted as alias)
 # acceptEdits    - Auto-accept file edits, ask for others
 # plan           - Read-only analysis, no modifications
-# dontAsk        - Accept all actions except risky ones
 # auto           - Background classifier decides permissions automatically
+# dontAsk        - Only pre-approved tools run; everything else is denied
 # bypassPermissions - Accept all actions (requires --dangerously-skip-permissions)
 
 # Session management
-/resume                # Resume a previous conversation
+/resume                # Resume a previous conversation (no args = picker of past sessions)
 /rename "name"         # Name the current session
-/fork                  # Fork the current session
+/fork <directive>      # Spawn a background subagent that inherits the conversation
+/branch [name]         # Switch into a copy of the conversation, preserving the original
 claude -c              # Continue most recent conversation
 claude -r "session"    # Resume session by name/ID
 ```
@@ -382,11 +383,11 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 ---
 
-## New Features (May 2026)
+## Feature Highlights
 
 | Feature | Description | Usage |
 |---------|-------------|-------|
-| **Auto Mode** | Fully autonomous operation with background classifier | `--enable-auto-mode` flag, `Shift+Tab` to cycle modes |
+| **Auto Mode** | Fully autonomous operation with background classifier; available by default on Bedrock/Vertex/Foundry as of v2.1.207 | `Shift+Tab` to cycle modes, or `--permission-mode auto` |
 | **Channels** | Discord and Telegram integration | `--channels` flag, Discord/Telegram bots |
 | **Voice Dictation** | Speak commands and context to Claude | `/voice` command |
 | **Hooks (29 events)** | Expanded hook system with 5 types | command, http, mcp_tool, prompt, agent hook types |
@@ -408,6 +409,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **/run** *(v2.1.145+)* | Launch this project's app to see a change running | `/run` |
 | **/verify** *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works | `/verify` |
 | **/run-skill-generator** *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project | `/run-skill-generator` |
+| **Subagent Output Scanning** *(v2.1.210+)* | Scans subagent reports for prompt-injection patterns and neutralizes them | On by default, no opt-out |
+| **Session-Wide Spawn Caps** *(v2.1.212)* | 200/session limits on WebSearch calls and subagent spawns, to stop runaway loops | `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION`, `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION`; `/clear` resets |
+| **Screen Reader Mode** *(v2.1.208)* | Plain-text rendering mode for screen readers | `--ax-screen-reader` flag, `CLAUDE_AX_SCREEN_READER=1`, or `"axScreenReader": true` in settings |
 
 ---
 
@@ -509,12 +513,14 @@ Getting started checklist:
 **This Card**: Keep it handy for quick reference!
 
 ---
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
+**Last Updated**: July 18, 2026
+**Claude Code Version**: 2.1.212
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/permission-modes
+- https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.153
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

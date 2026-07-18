@@ -101,7 +101,7 @@ skills: skill1, skill2  # Optional - skills to preload into context
 mcpServers: server1  # Optional - MCP servers to make available
 memory: user  # Optional - persistent memory scope (user, project, local)
 background: false  # Optional - run as background task
-effort: high  # Optional - reasoning effort (low, medium, high, max)
+effort: high  # Optional - reasoning effort (low, medium, high, xhigh, max)
 isolation: worktree  # Optional - git worktree isolation
 initialPrompt: "Start by analyzing the codebase"  # Optional - auto-submitted first turn
 hooks:  # Optional - component-scoped hooks
@@ -126,14 +126,14 @@ to solving problems.
 | `tools` | No | Comma-separated list of specific tools. Omit to inherit all tools. Supports `Agent(agent_name)` syntax to restrict spawnable subagents |
 | `disallowedTools` | No | Comma-separated list of tools the subagent must not use |
 | `model` | No | Model to use: `sonnet`, `opus`, `haiku`, full model ID, or `inherit`. Defaults to configured subagent model |
-| `permissionMode` | No | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan` |
+| `permissionMode` | No | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`. As of v2.1.212, the Task tool's `mode` invocation parameter is deprecated and ignored — subagents inherit the parent session's permission mode by default unless overridden here |
 | `maxTurns` | No | Maximum number of agentic turns the subagent can take |
 | `skills` | No | Comma-separated list of skills to preload. Injects full skill content into the subagent's context at startup. **v2.1.133+:** subagents also discover project, user, and plugin skills via the Skill tool — same catalog as the main session, no longer limited to their own embedded set. |
 | `mcpServers` | No | MCP servers to make available to the subagent |
 | `hooks` | No | Component-scoped hooks (PreToolUse, PostToolUse, Stop) |
 | `memory` | No | Persistent memory directory scope: `user`, `project`, or `local` |
 | `background` | No | Subagents already run in the background by default (v2.1.198). Set to `true` to *force* background always and prevent inline execution |
-| `effort` | No | Reasoning effort level: `low`, `medium`, `high`, or `max` |
+| `effort` | No | Reasoning effort level: `low`, `medium`, `high`, `xhigh`, or `max`. Overrides the session effort level; available levels depend on the model |
 | `isolation` | No | Set to `worktree` to give the subagent its own git worktree |
 | `initialPrompt` | No | Auto-submitted first turn when the subagent runs as the main agent |
 
@@ -822,6 +822,20 @@ Plugin-provided subagents have restricted frontmatter capabilities for security.
 
 This prevents plugins from escalating privileges or executing arbitrary commands through subagent hooks.
 
+### Subagent Output Scanning (v2.1.210+)
+
+As of v2.1.210, Claude Code scans each subagent's final report for text that imitates the harness's own output format — fake `<system-reminder>`-style tags, fabricated `Human:`/`Assistant:` turns, or mentions of permission-bypass flags and settings-file paths. This defends against prompt injection carried in subagent output, such as a subagent that fetched a malicious web page containing fake control tokens designed to manipulate the parent session.
+
+When the scan flags something, Claude Code neutralizes it — inserting a backslash or an inline marker such as `[harness: subagent output matched instruction-shaped pattern(s): ...]` naming what triggered the scan — and the parent session is expected to treat the flagged text as a finding to relay, not an instruction to follow. The scan is on by default with no documented opt-out. It errs toward flagging: a legitimate subagent report that quotes a real flag name (e.g. `--dangerously-skip-permissions`) verbatim can trigger a marker even though nothing malicious occurred — a false positive is preferable to a missed injection.
+
+### Session-Wide Subagent Limit (v2.1.212+)
+
+Claude Code caps subagent spawns at **200 per session** by default, to stop runaway delegation loops. Override with `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION`; the budget resets when you run `/clear`.
+
+```bash
+export CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION=200
+```
+
 ---
 
 ## Architecture
@@ -1246,8 +1260,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: July 11, 2026
-**Claude Code Version**: 2.1.206
+**Last Updated**: July 18, 2026
+**Claude Code Version**: 2.1.212
 **Sources**:
 - https://code.claude.com/docs/en/subagents
 - https://code.claude.com/docs/en/cli-reference

@@ -12,7 +12,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/luongnv89/claude-howto?style=flat&color=gold)](https://github.com/luongnv89/claude-howto/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/luongnv89/claude-howto?style=flat)](https://github.com/luongnv89/claude-howto/network/members)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.1.206-brightgreen)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.1.212-brightgreen)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-2.1+-purple)](https://code.claude.com)
 
 🌐 **Language / Ngôn ngữ / 语言 / Мова:** [English](README.md) | [Tiếng Việt](vi/README.md) | [中文](zh/README.md) | [Українська](uk/README.md) | [日本語](ja/README.md)
@@ -102,7 +102,7 @@ Run `/lesson-quiz [topic]` after each module. The quiz pinpoints what you missed
 
 - **GitHub stars** from developers who use Claude Code daily
 - **Forks** from teams adapting this guide for their own workflows
-- **Actively maintained** — synced with every Claude Code release (latest: v2.1.206, July 2026)
+- **Actively maintained** — synced with every Claude Code release (latest: v2.1.212, July 2026)
 - **Community-driven** — contributions from developers who share their real-world configurations
 
 [![Star History Chart](https://api.star-history.com/svg?repos=luongnv89/claude-howto&type=Date)](https://star-history.com/#luongnv89/claude-howto&Date)
@@ -201,7 +201,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 Yes. MIT licensed, free forever. Use it in personal projects, at work, in your team — no restrictions beyond including the license notice.
 
 **Is this maintained?**
-Actively. The guide is synced with every Claude Code release. Current version: v2.1.206 (July 2026), compatible with Claude Code 2.1+.
+Actively. The guide is synced with every Claude Code release. Current version: v2.1.212 (July 2026), compatible with Claude Code 2.1+.
 
 **How is this different from the official docs?**
 The official docs are a feature reference. This guide is a tutorial with diagrams, production-ready templates, and a progressive learning path. They complement each other — start here to learn, reference the docs when you need specifics.
@@ -559,9 +559,9 @@ Configure hooks in `~/.claude/settings.json`:
 - **Planning Mode** — Create detailed implementation plans before coding
 - **Extended Thinking** — Deep reasoning for complex problems (toggle with `Alt+T` / `Option+T`)
 - **Background Tasks** — Run long operations without blocking
-- **Permission Modes** — `manual` (formerly `default`; `default` still accepted), `acceptEdits`, `plan`, `dontAsk`, `bypassPermissions`
+- **Permission Modes** — `manual` (formerly `default`; `default` still accepted), `acceptEdits`, `plan`, `auto`, `dontAsk`, `bypassPermissions`
 - **Headless Mode** — Run Claude Code in CI/CD: `claude -p "Run tests and generate report"`
-- **Session Management** — `/resume`, `/rename`, `/fork`, `claude -c`, `claude -r`
+- **Session Management** — `/resume`, `/rename`, `/fork`, `/branch`, `claude -c`, `claude -r`
 - **Configuration** — Customize behavior in `~/.claude/settings.json`
 
 See [config-examples.json](09-advanced-features/config-examples.json) for complete configurations.
@@ -871,8 +871,8 @@ MIT License - see [LICENSE](LICENSE). Free to use, modify, and distribute. The o
 
 ---
 
-**Last Updated**: July 11, 2026
-**Claude Code Version**: 2.1.206
+**Last Updated**: July 18, 2026
+**Claude Code Version**: 2.1.212
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/changelog

@@ -120,11 +120,11 @@ Claude Code hỗ trợ 6 permission modes điều khiển cách tool use đượ
 | `default` | Hỏi cho mỗi tool call | Sử dụng tương tác tiêu chuẩn |
 | `acceptEdits` | Tự động chấp nhận edits file, hỏi cho các khác | Workflows chỉnh sửa tin cậy |
 | `plan` | Chỉ tools read-only, không ghi | Lập kế hoạch và khám phá |
-| `auto` | Chấp nhận tất cả tools mà không hỏi | Vận hành hoàn toàn tự động (Research Preview) |
+| `auto` | Tất cả hành động, có kiểm tra từ bộ phân loại an toàn nền | Tác vụ dài, giảm số lần nhắc quyền |
 | `bypassPermissions` | Bỏ qua tất cả kiểm tra permissions | CI/CD, môi trường headless |
 | `dontAsk` | Bỏ qua tools cần yêu cầu permission | Scripting không tương tác |
 
-> **Lưu Ý**: `auto` mode là tính năng Research Preview (Tháng 3 năm 2026). Chỉ dùng `bypassPermissions` trong môi trường tin cậy, được sandbox.
+> **Lưu Ý**: `auto` mode yêu cầu gói dịch vụ, model, và nhà cung cấp đủ điều kiện — xem [09-advanced-features/](../09-advanced-features/#auto-mode). Chỉ dùng `bypassPermissions` trong môi trường tin cậy, được sandbox.
 
 **Tham Chiếu**: [Tài Liệu Chính Thức](https://code.claude.com/docs/en/permissions)
 
@@ -445,7 +445,7 @@ cp ../02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **Scheduled Tasks** | Thiết lập tasks định kỳ với `/loop` và cron tools | Sử dụng `/loop 5m /command` hoặc công cụ CronCreate |
 | **Chrome Integration** | Tự động hóa trình duyệt với headless Chromium | Sử dụng flag `--chrome` hoặc command `/chrome` |
 | **Keyboard Customization** | Tùy chỉnh keybindings bao gồm hỗ trợ chord | Sử dụng `/keybindings` hoặc chỉnh sửa `~/.claude/keybindings.json` |
-| **Auto Mode** | Vận hành hoàn toàn tự động mà không cần prompts permission (Research Preview) | Sử dụng `--mode auto` hoặc `/permissions auto`; Tháng 3 năm 2026 |
+| **Auto Mode** | Vận hành hoàn toàn tự động với kiểm tra từ bộ phân loại an toàn nền | `Shift+Tab` để chuyển sang, hoặc `--permission-mode auto` |
 | **Channels** | Communication đa kênh (Telegram, Slack, v.v.) (Research Preview) | Cấu hình plugins channels; Tháng 3 năm 2026 |
 | **Voice Dictation** | Input giọng nói cho prompts | Sử dụng icon microphone hoặc keybinding giọng nói |
 | **Agent Hook Type** | Hooks tạo subagent thay vì chạy shell command | Đặt `"type": "agent"` trong cấu hình hook |

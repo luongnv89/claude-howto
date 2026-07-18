@@ -60,7 +60,7 @@ Persistent context and project standards.
 
 ---
 
-## 03. Skills (16 files)
+## 03. Skills (22 files)
 
 Auto-invoked capabilities with scripts and templates.
 
@@ -767,11 +767,11 @@ Run tests in background
 |----------|----------|--------|-----|-------|---------|-----------|------|--------|-------|
 | **01 Slash Commands** | 8 | - | - | - | - | - | 1 | 1 | **10** |
 | **02 Memory** | - | - | - | - | - | 3 | 1 | 2 | **6** |
-| **03 Skills** | - | - | - | - | 5 | 9 | 1 | - | **28** |
+| **03 Skills** | - | - | - | - | 5 | 9 | 8 | - | **22** |
 | **04 Subagents** | - | 8 | - | - | - | - | 1 | - | **9** |
 | **05 MCP** | - | - | 4 | - | - | - | 1 | - | **5** |
 | **06 Hooks** | - | - | - | 8 | - | - | 1 | - | **9** |
-| **07 Plugins** | 11 | 9 | 3 | 3 | 3 | 3 | 4 | - | **40** |
+| **07 Plugins** | 11 | 9 | 3 | 3 | 3 | 3 | 7 | - | **39** |
 | **08 Checkpoints** | - | - | - | - | - | - | 1 | 1 | **2** |
 | **09 Advanced** | - | - | - | - | - | - | 1 | 2 | **3** |
 | **10 CLI** | - | - | - | - | - | - | 1 | - | **1** |
@@ -880,8 +880,8 @@ Want to add more examples? Follow the structure:
 
 ---
 
-**Last Updated**: July 11, 2026
-**Claude Code Version**: 2.1.206
+**Last Updated**: July 18, 2026
+**Claude Code Version**: 2.1.212
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
