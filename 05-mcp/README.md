@@ -554,7 +554,7 @@ claude mcp add --transport stdio database -- npx @modelcontextprotocol/server-da
 ## Workflow
 
 ### Step 1: Fetch GitHub Data
-/mcp__github__list_prs completed:true last:7days
+Ask Claude: "list pull requests merged in the last 7 days"
 
 Output:
 - Total PRs: 42
@@ -1103,10 +1103,10 @@ export GITHUB_TOKEN="your_github_personal_access_token"
 claude /mcp
 ```
 
-4. **Use MCP tools:**
-```bash
-/mcp__github__list_prs
-/mcp__github__create_issue "Title" "Description"
+4. **Use MCP tools** (ask Claude in natural language):
+```
+list my open pull requests
+create a GitHub issue titled "Title" with body "Description"
 ```
 
 ### Installation for Specific Services

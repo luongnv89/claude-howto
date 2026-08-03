@@ -194,7 +194,7 @@ External tool and API integrations.
 
 **Installation Path**: `.mcp.json` (project scope) or `~/.claude.json` (user scope)
 
-**Usage**: `/mcp__github__list_prs`, etc.
+**Usage**: Ask Claude naturally (e.g., "list my open pull requests")
 
 ---
 

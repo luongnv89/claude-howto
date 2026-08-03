@@ -12,7 +12,7 @@ Slash commands are shortcuts that control Claude's behavior during an interactiv
 - **Built-in commands**: Provided by Claude Code (`/help`, `/clear`, `/model`)
 - **Skills**: User-defined commands created as `SKILL.md` files (`/optimize`, `/pr`)
 - **Plugin commands**: Commands from installed plugins (`/frontend-design:frontend-design`)
-- **MCP prompts**: Commands from MCP servers (`/mcp__github__list_prs`)
+- **MCP prompts**: Commands from MCP servers that expose prompts (`/mcp__<server>__<prompt>`). Note: most MCP servers (including GitHub) expose *tools* that Claude calls internally — not slash command prompts.
 
 > **Note**: Custom slash commands have been merged into skills. Files in `.claude/commands/` still work, but skills (`.claude/skills/`) are now the recommended approach. Both create `/command-name` shortcuts. See the [Skills Guide](../03-skills/) for the full reference.
 
@@ -364,10 +364,12 @@ MCP servers can expose prompts as slash commands:
 
 **Examples:**
 ```bash
-/mcp__github__list_prs
-/mcp__github__pr_review 456
-/mcp__jira__create_issue "Bug title" high
+# Only works if the MCP server exposes prompts (not just tools)
+/mcp__myserver__summarize
+/mcp__myserver__analyze --verbose
 ```
+
+> **Important**: Most MCP servers (like GitHub, Jira) expose **tools**, not prompts. MCP tools are called by Claude internally when you ask in natural language (e.g., "list my open PRs"). They do NOT appear as `/` slash commands.
 
 ### MCP Permission Syntax
 

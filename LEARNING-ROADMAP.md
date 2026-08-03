@@ -306,7 +306,7 @@ export GITHUB_TOKEN="your_github_token"
 claude mcp add github -- npx -y @modelcontextprotocol/server-github
 
 # Exercise 2: Test MCP integration
-# In Claude Code: /mcp__github__list_prs
+# Ask Claude: "list my open pull requests"
 
 # Exercise 3: Install subagents
 mkdir -p .claude/agents
