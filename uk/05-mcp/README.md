@@ -446,7 +446,7 @@ claude mcp add --transport stdio github -- npx @modelcontextprotocol/server-gith
       "command": "npx",
       "args": ["@modelcontextprotocol/server-database"],
       "env": {
-        "DATABASE_URL": "postgresql://user:pass@localhost/mydb"
+        "DATABASE_URL": "${DATABASE_URL}"
       }
     }
   }

@@ -441,7 +441,7 @@ Các biến được mở rộng tại runtime:
       "command": "npx",
       "args": ["@modelcontextprotocol/server-database"],
       "env": {
-        "DATABASE_URL": "postgresql://user:pass@localhost/mydb"
+        "DATABASE_URL": "${DATABASE_URL}"
       }
     }
   }

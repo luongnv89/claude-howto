@@ -15,14 +15,14 @@
 
 | Tính Năng | Built-in | Ví Dụ | Tổng | Tham Chiếu |
 |---------|----------|----------|-------|-----------|
-| **Lệnh Slash** | 55+ | 8 | 63+ | [01-slash-commands/](../01-slash-commands/) |
-| **Tác Nhân Con** | 6 | 10 | 16 | [04-subagents/](../04-subagents/) |
-| **Skills** | 5 bundled | 4 | 9 | [03-skills/](../03-skills/) |
+| **Lệnh Slash** | 60+ | 8 | 68+ | [01-slash-commands/](../01-slash-commands/) |
+| **Tác Nhân Con** | 6 | 6 | 12 | [04-subagents/](../04-subagents/) |
+| **Skills** | 10 bundled | 5 | 15 | [03-skills/](../03-skills/) |
 | **Plugins** | - | 3 | 3 | [07-plugins/](../07-plugins/) |
-| **MCP Servers** | 1 | 8 | 9 | [05-mcp/](../05-mcp/) |
-| **Hooks** | 31 sự kiện | 7 | 7 | [06-hooks/](../06-hooks/) |
-| **Bộ Nhớ** | 7 loại | 3 | 3 | [02-memory/](../02-memory/) |
-| **Tổng** | **99** | **43** | **117** | |
+| **MCP Servers** | 1 | 4 | 5 | [05-mcp/](../05-mcp/) |
+| **Hooks** | 31 sự kiện | 9 | 40 | [06-hooks/](../06-hooks/) |
+| **Bộ Nhớ** | 7 loại | 3 | 10 | [02-memory/](../02-memory/) |
+| **Tổng** | **115** | **38** | **153** | |
 
 ---
 

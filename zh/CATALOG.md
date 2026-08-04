@@ -15,14 +15,14 @@
 
 | 功能 | 内置 | 示例 | 总数 | 参考 |
 |---------|----------|----------|-------|-----------|
-| **Slash Commands** | 55+ | 8 | 63+ | [01-slash-commands/README.md](01-slash-commands/README.md) |
-| **Subagents** | 6 | 10 | 16 | [04-subagents/README.md](04-subagents/README.md) |
-| **Skills** | 10 个内置 | 4 | 14 | [03-skills/README.md](03-skills/README.md) |
+| **Slash Commands** | 60+ | 8 | 68+ | [01-slash-commands/README.md](01-slash-commands/README.md) |
+| **Subagents** | 6 | 8 | 14 | [04-subagents/README.md](04-subagents/README.md) |
+| **Skills** | 10 个内置 | 6 | 16 | [03-skills/README.md](03-skills/README.md) |
 | **Plugins** | - | 3 | 3 | [07-plugins/README.md](07-plugins/README.md) |
-| **MCP Servers** | 1 | 8 | 9 | [05-mcp/README.md](05-mcp/README.md) |
-| **Hooks** | 31 个事件 | 7 | 7 | [06-hooks/README.md](06-hooks/README.md) |
-| **Memory** | 7 种类型 | 3 | 3 | [02-memory/README.md](02-memory/README.md) |
-| **总计** | **110** | **43** | **122** | |
+| **MCP Servers** | 1 | 0 | 1 | [05-mcp/README.md](05-mcp/README.md) |
+| **Hooks** | 31 个事件 | 0 | 31 | [06-hooks/README.md](06-hooks/README.md) |
+| **Memory** | 7 种类型 | 3 | 10 | [02-memory/README.md](02-memory/README.md) |
+| **总计** | **115** | **28** | **143** | |
 
 ---
 

@@ -900,6 +900,6 @@ Want to add more examples? Follow the structure:
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 **Total Examples**: 100+ files
 **Categories**: 10 features
-**Hooks**: 9 automation scripts
+**Hooks**: 11 automation scripts
 **Configuration Examples**: 10+ scenarios
 **Ready to Use**: All examples

@@ -215,10 +215,10 @@ blog-draft/
 **使用方式**：在设置中配置后自动执行
 
 **Hook 类型**（5 类，31 个事件）：
-- 工具 Hook：`PreToolUse`、`PostToolUse`、`PostToolUseFailure`、`PermissionRequest`
-- 会话 Hook：`SessionStart`、`SessionEnd`、`Stop`、`StopFailure`、`SubagentStart`、`SubagentStop`
-- 任务 Hook：`UserPromptSubmit`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`
-- 生命周期 Hook：`ConfigChange`、`CwdChanged`、`FileChanged`、`PreCompact`、`PostCompact`、`WorktreeCreate`、`WorktreeRemove`、`Notification`、`InstructionsLoaded`、`Elicitation`、`ElicitationResult`
+- 工具 Hook：`PreToolUse`、`PostToolUse`、`PostToolUseFailure`、`PostToolBatch`、`PermissionRequest`、`PermissionDenied`
+- 会话 Hook：`SessionStart`、`Setup`、`SessionEnd`、`Stop`、`StopFailure`、`SubagentStart`、`SubagentStop`
+- 任务 Hook：`UserPromptSubmit`、`UserPromptExpansion`、`MessageDisplay`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`
+- 生命周期 Hook：`ConfigChange`、`CwdChanged`、`DirectoryAdded`、`FileChanged`、`PreCompact`、`PostCompact`、`WorktreeCreate`、`WorktreeRemove`、`Notification`、`InstructionsLoaded`、`Elicitation`、`ElicitationResult`
 
 ---
 

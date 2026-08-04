@@ -443,7 +443,7 @@ MCP 設定は環境変数の展開とフォールバックデフォルトをサ�
       "command": "npx",
       "args": ["@modelcontextprotocol/server-database"],
       "env": {
-        "DATABASE_URL": "postgresql://user:pass@localhost/mydb"
+        "DATABASE_URL": "${DATABASE_URL}"
       }
     }
   }

@@ -336,7 +336,7 @@ Lệnh này khởi tạo một pull request review hoàn chỉnh bao gồm:
 ---
 name: security-reviewer
 description: Security-focused code review
-tools: read, grep, diff
+tools: Read, Grep, Bash
 ---
 
 # Security Reviewer

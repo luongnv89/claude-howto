@@ -61,7 +61,7 @@ For each documentation created:
 
 ## API Documentation Example
 
-```markdown
+````markdown
 ## GET /api/users/:id
 
 Retrieves a user by their unique identifier.
@@ -95,7 +95,7 @@ Retrieves a user by their unique identifier.
 curl -X GET https://api.example.com/api/users/abc123 \
   -H "Authorization: Bearer <token>"
 ```
-```
+````
 
 ---
 **Last Updated**: August 4, 2026
