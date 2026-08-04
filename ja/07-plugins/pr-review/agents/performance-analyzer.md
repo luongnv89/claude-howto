@@ -5,7 +5,7 @@
 ---
 name: performance-analyzer
 description: パフォーマンス影響の解析
-tools: read, grep, bash
+tools: Read, Grep, Bash
 ---
 
 # Performance Analyzer

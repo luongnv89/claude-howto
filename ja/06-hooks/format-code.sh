@@ -1,6 +1,6 @@
 #!/bin/bash
 # 書き込み後にコードを自動整形する
-# フック：PostToolUse:Write
+# フック：PostToolUse（matcher: Write）
 #
 # 標準入力の JSON から対象ファイルパスを読み取り、Claude がファイルを書き込んだ
 # 後に、そのファイルに対して適切なフォーマッタをインプレースで実行する。

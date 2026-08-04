@@ -96,7 +96,7 @@ sequenceDiagram
 | **Project** | `.claude/skills/<skill-name>/SKILL.md` | Команда | Так (через git) | Командні стандарти |
 | **Plugin** | `<plugin>/skills/<skill-name>/SKILL.md` | Де увімкнено | Залежить | В складі плагінів |
 
-Коли навички мають однакову назву на різних рівнях, вищі пріоритетні розташування перемагають: **enterprise > personal > project**. Навички плагінів використовують простір імен `plugin-name:skill-name`, тому конфлікти неможливі.
+Коли навички мають однакову назву на різних рівнях, вищі пріоритетні розташування перемагають: **enterprise > project > personal**. Навички плагінів використовують простір імен `plugin-name:skill-name`, тому конфлікти неможливі.
 
 ### Автоматичне виявлення
 
@@ -535,7 +535,7 @@ refactor/
 
 ```yaml
 ---
-name: code-refactor
+name: refactor
 description: Systematic code refactoring based on Martin Fowler's methodology. Use when users ask to refactor code, improve code structure, reduce technical debt, or eliminate code smells.
 ---
 

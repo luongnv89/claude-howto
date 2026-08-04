@@ -18,13 +18,15 @@ Lệnh slash là các lối tắt để điều khiển hành vi của Claude tr
 
 ## Tham Khảo Lệnh Tích Hợp Sẵn
 
-Lệnh tích hợp sẵn là các lối tắt cho các hành động phổ biến. Có **60+ lệnh tích hợp sẵn** và **5 skills được gói** sẵn. Gõ `/` trong Claude Code để xem danh sách đầy đủ, hoặc gõ `/` theo sau bởi bất kỳ chữ cái nào để lọc.
+Lệnh tích hợp sẵn là các lối tắt cho các hành động phổ biến. Có **60+ lệnh tích hợp sẵn** và **10 skills được gói** sẵn. Gõ `/` trong Claude Code để xem danh sách đầy đủ, hoặc gõ `/` theo sau bởi bất kỳ chữ cái nào để lọc.
 
 | Lệnh | Mục Đích |
 |---------|---------|
 | `/add-dir <path>` | Thêm thư mục làm việc |
 | `/agents` | Quản lý cấu hình tác nhân |
-| `/branch [name]` | Phân nhánh cuộc hội thoại vào phiên mới (bí danh: `/fork`). Lưu ý: `/fork` đã đổi tên thành `/branch` trong v2.1.77 |
+| `/branch [name]` | Chuyển sang một bản sao của cuộc hội thoại tại thời điểm này, giữ nguyên bản gốc (quay lại bằng `/resume`) |
+| `/fork [prompt]` | Sao chép cuộc hội thoại hiện tại thành một **phiên nền** mới và bạn vẫn tiếp tục ở đây; từ thời điểm đó hai phiên độc lập nhau và bản sao có dòng riêng trong `claude agents` (v2.1.212+) |
+| `/subtask <task>` | Spawn một **subagent được fork** kế thừa toàn bộ cuộc hội thoại và làm việc trên tác vụ trong khi bạn tiếp tục; kết quả trả về cuộc hội thoại này khi hoàn thành (v2.1.212+) |
 | `/btw <question>` | Câu hỏi phụ không thêm vào lịch sử |
 | `/chrome` | Cấu hình tích hợp trình duyệt Chrome |
 | `/clear` | Xóa cuộc hội thoại (bí danh: `/reset`, `/new`) |
@@ -103,15 +105,14 @@ Những skills này được gửi kèm với Claude Code và được gọi nh�
 | Lệnh | Trạng Thái |
 |---------|--------|
 | `/review` | Đã lỗi thời — được thay thế bởi plugin `code-review` |
-| `/output-style` | Đã lỗi thời kể từ v2.1.73 |
-| `/fork` | Đổi tên thành `/branch` (bí danh vẫn hoạt động, v2.1.77) |
+| `/output-style` | Đã xóa trong v2.1.91 (lỗi thời từ v2.1.73) — dùng `/config` → Output style, hoặc setting `outputStyle` |
 | `/pr-comments` | Đã xóa trong v2.1.91 — hỏi Claude trực tiếp để xem bình luận PR |
 | `/vim` | Đã xóa trong v2.1.92 — sử dụng /config → Editor mode |
 
 ### Thay Đổi Gần Đây
 
-- `/fork` đổi tên thành `/branch` với `/fork` được giữ lại làm bí danh (v2.1.77)
-- `/output-style` đã lỗi thời (v2.1.73)
+- `/fork` và `/subtask` hoán đổi vai trò trong **v2.1.212**. `/fork` giờ sao chép cuộc hội thoại thành một phiên nền độc lập mới; hành vi subagent-được-fork mà nó từng có đã chuyển sang lệnh mới `/subtask`. Lịch sử: `/fork` là bí danh của `/branch` từ v2.1.77 đến v2.1.161; từ v2.1.161 đến v2.1.211 nó khởi chạy một subagent được fork (việc mà `/subtask` làm bây giờ). Khi tắt agent view, `/subtask` không khả dụng và `/fork` giữ hành vi subagent-được-fork
+- `/output-style` đã lỗi thời (v2.1.73) và bị xóa (v2.1.91) — output styles vẫn có sẵn qua `/config` → Output style hoặc setting `outputStyle`; các bản tích hợp sẵn là Default, Proactive, Explanatory, và Learning
 - `/review` đã lỗi thời thay vào đó là plugin `code-review`
 - Lệnh `/effort` được thêm với mức `max` yêu cầu Opus 4.6
 - Lệnh `/voice` được thêm cho nhập liệu giọng nói push-to-talk

@@ -1,6 +1,7 @@
 {
   "mcpServers": {
     "github": {
+      "type": "stdio",
       "command": "npx",
       "args": ["@modelcontextprotocol/server-github"],
       "env": {
@@ -8,6 +9,7 @@
       }
     },
     "database": {
+      "type": "stdio",
       "command": "npx",
       "args": ["@modelcontextprotocol/server-database"],
       "env": {
@@ -15,6 +17,7 @@
       }
     },
     "slack": {
+      "type": "stdio",
       "command": "npx",
       "args": ["@modelcontextprotocol/server-slack"],
       "env": {
@@ -22,6 +25,7 @@
       }
     },
     "filesystem": {
+      "type": "stdio",
       "command": "npx",
       "args": ["@modelcontextprotocol/server-filesystem", "/home/user/projects"]
     }

@@ -95,7 +95,7 @@ chmod +x ~/.claude/hooks/*.sh
 # default        - Hỏi phê duyệt cho các hành động rủi ro
 # acceptEdits    - Tự động chấp nhận chỉnh sửa file, hỏi cho các hành động khác
 # plan           - Chỉ đọc phân tích, không sửa đổi
-# dontAsk        - Chấp nhận tất cả hành động trừ các hành động rủi ro
+# dontAsk        - Chỉ các tool đã phê duyệt trước được chạy; mọi thứ khác bị từ chối
 # auto           - Bộ phân loại nền quyết định quyền tự động
 # bypassPermissions - Chấp nhận tất cả hành động (yêu cầu --dangerously-skip-permissions)
 
@@ -118,7 +118,7 @@ claude -r "session"    # Tiếp tục phiên theo tên/ID
 | **Skills** | `.claude/skills/*/SKILL.md` | Tự động gọi |
 | **Tác Nhân Con** | `.claude/agents/*.md` | Tự động ủy quyền |
 | **MCP** | `.mcp.json` (dự án) hoặc `~/.claude.json` (người dùng) | `/mcp__server__action` |
-| **Hooks (25 sự kiện)** | `~/.claude/hooks/*.sh` | Kích hoạt sự kiện (4 loại) |
+| **Hooks (31 sự kiện)** | `~/.claude/hooks/*.sh` | Kích hoạt sự kiện (5 loại) |
 | **Plugins** | Thông qua `/plugin install` | Gói tất cả |
 | **Checkpoints** | Được tích hợp sẵn | `Esc+Esc` hoặc `/rewind` |
 | **Chế Độ Lập Kế Hoạch** | Được tích hợp sẵn | `/plan <tác vụ>` |
@@ -189,7 +189,7 @@ vim CLAUDE.md
 
 ### Tự Động Hóa & Hooks
 ```bash
-# Cài đặt hooks (25 sự kiện, 4 loại: command, http, prompt, agent)
+# Cài đặt hooks (31 sự kiện, 5 loại: command, http, mcp_tool, prompt, agent)
 mkdir -p ~/.claude/hooks
 cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
@@ -389,7 +389,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Chế Độ Tự Động** | Vận hành hoàn toàn tự chủ với bộ phân loại nền | Cờ `--enable-auto-mode`, `Shift+Tab` để chuyển đổi chế độ |
 | **Kênh** | Tích hợp Discord và Telegram | Cờ `--channels`, bot Discord/Telegram |
 | **Nhập Liệu Giọng Nói** | Nói lệnh và bối cảnh cho Claude | Lệnh `/voice` |
-| **Hooks (25 sự kiện)** | Hệ thống hook mở rộng với 4 loại | Các loại hook command, http, prompt, agent |
+| **Hooks (31 sự kiện)** | Hệ thống hook mở rộng với 5 loại | Các loại hook command, http, mcp_tool, prompt, agent |
 | **MCP Elicitation** | MCP servers có thể yêu cầu input người dùng tại runtime | Tự động nhắc khi server cần làm rõ |
 | **WebSocket MCP** | Vận chuyển WebSocket cho kết nối MCP | Cấu hình trong `.mcp.json` với URL `ws://` |
 | **Plugin LSP** | Hỗ trợ Language Server Protocol cho plugins | `userConfig`, biến `${CLAUDE_PLUGIN_DATA}` |
@@ -445,7 +445,7 @@ echo $GITHUB_TOKEN
 | Workflow tự động | Skill | `03-skills/code-review-specialist/` |
 | Tác vụ chuyên biệt | Tác Nhân Con | `04-subagents/code-reviewer.md` |
 | Dữ liệu bên ngoài | MCP (+ Elicitation, WebSocket) | `05-mcp/github-mcp.json` |
-| Tự động hóa sự kiện | Hook (25 sự kiện, 4 loại) | `06-hooks/pre-commit.sh` |
+| Tự động hóa sự kiện | Hook (31 sự kiện, 5 loại) | `06-hooks/pre-commit.sh` |
 | Giải pháp hoàn chỉnh | Plugin (+ hỗ trợ LSP) | `07-plugins/pr-review/` |
 | Thử nghiệm an toàn | Checkpoint | `08-checkpoints/checkpoint-examples.md` |
 | Hoàn toàn tự chủ | Chế Độ Tự Động | `--enable-auto-mode` hoặc `Shift+Tab` |

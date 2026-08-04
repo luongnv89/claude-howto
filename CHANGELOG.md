@@ -1,5 +1,109 @@
 # Changelog
 
+## [v2.1.220-r2] — 2026-08-04
+
+### Accuracy pass against Claude Code v2.1.220 (no upstream version change)
+
+v2.1.220 (2026-07-25) is still the current Claude Code release, so this entry
+records **internal corrections**, not a version sync. An audit against the
+official docs found no missing upstream features — every v2.1.218–v2.1.220
+capability was already documented. What it did find was broken example code,
+counts and names that disagreed between files, and metadata drift.
+
+### Fixed
+
+- **`06-hooks/pre-commit.sh` never actually blocked a commit** — the script
+  printed "Commit blocked." and then `exit 1` at four places. Per this repo's own
+  exit-code table (`06-hooks/README.md`), exit 1 is a *non-blocking* error, so the
+  commit proceeded anyway; only exit 2 blocks. All four now `exit 2` and write the
+  reason to stderr, which is where Claude Code reads the block reason from.
+- **`06-hooks/dependency-check.sh` never ran** — it read its target from `$1`, but
+  hooks receive JSON on stdin, so the path was always empty and the script exited
+  immediately. Now parses `file_path` from stdin, matching `format-code.sh`.
+- **Nested-subagent depth said 5 in `claude_concepts_guide.md`** — stated "up to 5
+  levels deep as of v2.1.172", contradicting the depth-3 default (v2.1.219) already
+  documented in four other files. Rewritten to lead with current behavior plus the
+  same three-era history note used in `04-subagents/README.md`.
+- **Hook event count was 29 in five files** — `README.md`, `CATALOG.md`,
+  `QUICK_REFERENCE.md` (×4), `INDEX.md` and `resources.md` all said 29; the correct
+  figure is **31**, confirmed name-by-name against the official hook list. The
+  previous sync fixed two files and missed the rest. `README.md`'s event list also
+  enumerated only 25 names and `INDEX.md`'s only 29 — both now list all 31.
+- **`/less-permission-prompts` is not a real command** — the built-in is
+  `/fewer-permission-prompts`. `CATALOG.md` had used *both* names in one file.
+- **`/fork` and `/subtask` were documented with swapped meanings** — they exchanged
+  roles in v2.1.212. `/fork` now copies the conversation into a new independent
+  background session; the forked-subagent behavior moved to `/subtask`, which was
+  absent from the repo entirely. Corrected and added in four files.
+- **`08-checkpoints/README.md` claimed `cleanupPeriodDays` was the only checkpoint
+  setting** — `fileCheckpointingEnabled` (default `true`) also exists, along with
+  `CLAUDE_CODE_DISABLE_FILE_CHECKPOINTING` and a 100-checkpoint retention cap. The
+  repo's own `config-examples.json` already used the key it denied existed.
+- **`03-skills/refactor/SKILL.md` declared `name: code-refactor`** while living in
+  `refactor/` — the same defect fixed for `doc-generator` last sync. Renamed in the
+  English copy and mirrored to `ja/`, `zh/`, `uk/`, `vi/`.
+- **`03-skills/README.md` stated skill precedence two contradictory ways** —
+  "enterprise > personal > project" in one place, "project wins by default" in
+  another. Now consistently **enterprise > project > personal**.
+- **`claude-md` skill described AGENTS.md incorrectly** — called it an
+  agent-definition format. It is a cross-tool project-context file, and Claude Code
+  **does not read it directly**; it must be imported via `@AGENTS.md` or symlinked.
+- **`02-memory/directory-api-CLAUDE.md` claimed it "overrides" root CLAUDE.md** —
+  memory files are concatenated, never overridden.
+- **`INDEX.md` described `auto` and `dontAsk` backwards** — `dontAsk` was written up
+  as permissive ("accept all except risky") when it is the most restrictive mode:
+  it auto-denies anything not pre-approved. Corrected to the official definitions.
+- **`permissions.mode` is not a settings key** — four config samples in
+  `09-advanced-features/README.md` and `claude_concepts_guide.md` used it (with the
+  superseded value `default`). All now use `permissions.defaultMode: "manual"`.
+- **`09-advanced-features/config-examples.json` had no Opus 5** — still used
+  `claude-opus-4-8` for its three "most capable" profiles despite Opus 5 being the
+  default Opus since v2.1.219.
+- **`05-mcp/database-mcp.json` hardcoded a credential** —
+  `postgresql://user:pass@localhost/mydb`, contradicting the module's own "don't
+  hardcode credentials" rule. Now `${DATABASE_URL}`.
+- **`05-mcp/README.md` documented MCP scopes but never the `--scope` flag** —
+  readers had no way to actually select a scope. Added with examples.
+- **`/output-style` was listed as deprecated** — it was *removed* in v2.1.91.
+  Output styles remain available via `/config` or the `outputStyle` setting.
+- **Hook `permissionDecision` was missing `defer`** — the accepted values are
+  `allow`, `deny`, `ask`, `defer`, with precedence `deny` > `defer` > `ask` > `allow`.
+- **Context-tracker hooks assumed a 128k window** — no current Claude model has one.
+  Default raised to 1M, with Haiku 4.5's 200k noted.
+- **Local memory path was wrong in `claude_concepts_guide.md`** —
+  `.claude/local/CLAUDE.md` corrected to `./CLAUDE.local.md`.
+- **Broken fence in `03-skills/doc-generator/SKILL.md`** — the outer ```` ```markdown ````
+  block closed early and left a stray unclosed fence, so half the example rendered
+  as live markdown. Now uses a four-backtick outer fence. Neither validator caught
+  this, because `check_markdown_rendering.py` only scans README files.
+- **Three command templates had invalid skill names** — `Documentation Refactor`,
+  `Setup CI/CD Pipeline` and `Expand Unit Tests` are not valid `name:` values
+  (lowercase/hyphens only), so they would fail if copied into `.claude/skills/` as
+  the README instructs. Also removed a non-standard `tags:` field.
+- **Nine plugin agents used lowercase tool names** (`read, grep, bash`) while the
+  `04-subagents/` templates used canonical `Read, Grep, Bash`. Unified.
+- **"Claude Code 1.0+" requirement in five files** — raised to 2.1+.
+- **Miscounted inventories** — `CATALOG.md`'s summary table did not add up *and*
+  three of its Examples counts were wrong (Subagents 11→9, MCP 8→4, Hooks 8→11);
+  `INDEX.md` understated Plugins (27→39), Skills (21→23), Hooks (9→12), Subagents
+  (9→10) and Advanced (3→4), omitted three hook scripts and
+  `setup-auto-mode-permissions.py`, and mislabeled three hook events. All recounted
+  from the file tree.
+- **`CONTRIBUTING.md` said "all four checks"** — there are five.
+- **Two subagent templates were undocumented** — `clean-code-reviewer.md` and
+  `performance-optimizer.md` existed on disk but appeared in neither the example
+  list nor the file tree of `04-subagents/README.md`.
+- **`resources.md` Mermaid diagrams used an off-guide palette** — remapped to the
+  five `STYLE_GUIDE.md` colors with the required `stroke`/`color`.
+- **Metadata footers** — 61 files had a legacy `Last Updated`-only footer or none at
+  all; all now carry the full block. Four module READMEs were missing the
+  `Compatible Models` line, and `02-memory/README.md` was stranded at v2.1.217 with
+  an ISO-formatted date. All 87 in-scope markdown files now report **2.1.220**.
+- **Smaller fixes** — explicit `exit 0` in `session-end.sh`; `# Hook: Event:Matcher`
+  shorthand (not real syntax) reworded in four scripts; `"type": "stdio"` added to
+  the four MCP example configs; a worked example that reported 42 PRs in one place
+  and 47 in another.
+
 ## [v2.1.220] — 2026-07-29
 
 ### Synced to Claude Code v2.1.220

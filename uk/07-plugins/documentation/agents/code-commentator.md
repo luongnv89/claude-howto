@@ -1,7 +1,7 @@
 ---
 name: code-commentator
 description: Спеціаліст з коментарів коду та інлайн-документації
-tools: read, write, edit
+tools: Read, Write, Edit
 ---
 
 # Коментатор коду

@@ -466,7 +466,16 @@ documentation/
 
 ## Plugin Marketplace
 
-The official Anthropic-managed plugin directory is `anthropics/claude-plugins-official`. Enterprise admins can also create private plugin marketplaces for internal distribution.
+The official Anthropic-managed plugin directory is `anthropics/claude-plugins-official`, auto-registered on first interactive launch. Enterprise admins can also create private plugin marketplaces for internal distribution.
+
+There is also a **community marketplace**, `anthropics/claude-plugins-community`, hosting third-party plugins that have passed Anthropic's automated validation and safety screening — each pinned to a specific commit SHA in the catalog. Unlike the official marketplace you add it manually:
+
+```bash
+/plugin marketplace add anthropics/claude-plugins-community
+
+# Then install from it using the claude-community marketplace name
+/plugin install <plugin-name>@claude-community
+```
 
 ```mermaid
 graph TB
@@ -941,7 +950,7 @@ Complete PR review workflow with security, testing, and documentation checks.
 ```
 
 ## Requirements
-- Claude Code 1.0+
+- Claude Code 2.1+
 - GitHub access
 - CodeQL (optional)
 ```
@@ -1125,7 +1134,7 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: July 29, 2026
+**Last Updated**: August 4, 2026
 **Claude Code Version**: 2.1.220
 **Sources**:
 - https://code.claude.com/docs/en/plugins
@@ -1143,4 +1152,4 @@ The following Claude Code features work together with plugins:
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.143
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config
-**Compatible Models**: Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

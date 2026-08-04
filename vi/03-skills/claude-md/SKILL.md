@@ -193,10 +193,14 @@ Trước khi hoàn thành, xác minh:
 
 Nếu người dùng yêu cầu tạo/cập nhật AGENTS.md:
 
-AGENTS.md được sử dụng để định nghĩa các hành vi tác nhân chuyên biệt. Không giống CLAUDE.md (dành cho bối cảnh dự án), AGENTS.md định nghĩa:
-- Các vai trò và khả năng tác nhân tùy chỉnh
-- Hướng dẫn và ràng buộc cụ thể tác nhân
-- Định nghĩa workflow cho các kịch bản đa tác nhân
+**Claude Code KHÔNG đọc AGENTS.md trực tiếp.** Để nó có hiệu lực, hãy import từ CLAUDE.md bằng `@AGENTS.md`, hoặc symlink `CLAUDE.md` tới nó. Đây là hiểu lầm phổ biến nhất về file này.
+
+AGENTS.md là file bối cảnh dự án dùng chung giữa nhiều công cụ — cùng *loại* tài liệu với CLAUDE.md, không phải định dạng định nghĩa tác nhân. Nó tồn tại để nhiều coding agent có thể dùng chung một bộ quy ước dự án:
+- Các lệnh build, test, và lint
+- Quy ước code style và kiến trúc
+- Bố cục repository và vị trí của các thành phần
+
+Subagents được định nghĩa riêng, trong `.claude/agents/*.md` — không phải trong AGENTS.md.
 
 Áp dụng các nguyên tắc tương tự:
 - Giữ tập trung và ngắn gọn

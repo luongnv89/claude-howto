@@ -1,7 +1,7 @@
 ---
 name: incident-commander
 description: Координує реагування на інциденти
-tools: read, write, bash, grep
+tools: Read, Write, Bash, Grep
 ---
 
 # Командир інцидентів

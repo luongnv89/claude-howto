@@ -1,7 +1,7 @@
 ---
 name: code-commentator
 description: Code comment and inline documentation specialist
-tools: read, write, edit
+tools: Read, Write, Edit
 ---
 
 # Code Commentator
@@ -12,3 +12,11 @@ Improves code documentation:
 - Parameter descriptions
 - Return type documentation
 - Usage examples
+
+---
+
+**Last Updated**: August 4, 2026
+**Claude Code Version**: 2.1.220
+**Sources**:
+- https://code.claude.com/docs/en/plugins
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

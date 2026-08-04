@@ -1,6 +1,6 @@
 #!/bin/bash
 # ファイル書き込み時のセキュリティスキャン
-# フック：PostToolUse:Write
+# フック：PostToolUse（matcher: Write）
 #
 # ハードコードされたシークレット・API キー・認証情報をファイルからスキャンする。
 # 検出時は additionalContext を介して非ブロッキングの警告を出力する。

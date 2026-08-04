@@ -1,5 +1,5 @@
 ---
-name: code-refactor
+name: refactor
 description: Refactor code có hệ thống dựa trên phương pháp luận của Martin Fowler. Sử dụng khi người dùng yêu cầu refactor code, cải thiện cấu trúc code, giảm nợ kỹ thuật, dọn code legacy, loại bỏ code smells, hoặc cải thiện khả năng duy trì code. Skill này hướng dẫn qua cách tiếp theo từng giai đoạn với nghiên cứu, lập kế hoạch, và triển khai tăng dần an toàn.
 ---
 

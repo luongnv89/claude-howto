@@ -1,7 +1,7 @@
 ---
 name: performance-analyzer
 description: Аналіз впливу на продуктивність
-tools: read, grep, bash
+tools: Read, Grep, Bash
 ---
 
 # Аналізатор продуктивності

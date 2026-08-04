@@ -1,7 +1,7 @@
 ---
 name: test-checker
 description: 测试覆盖率与质量分析
-tools: read, bash, grep
+tools: Read, Bash, Grep
 ---
 
 # 测试检查器

@@ -193,10 +193,14 @@ agent_docs/
 
 如果用户请求创建或更新 AGENTS.md：
 
-AGENTS.md 用于定义专门的 agent 行为。与 CLAUDE.md（项目上下文）不同，AGENTS.md 定义的是：
-- 自定义 agent 角色和能力
-- agent 级约束与说明
-- 多 agent 场景下的工作流定义
+**Claude Code 不会直接读取 AGENTS.md。** 要让它生效，需要在 CLAUDE.md 中用 `@AGENTS.md` 导入，或者把 `CLAUDE.md` 软链接到它。这是关于这个文件最常见的误解。
+
+AGENTS.md 是一个跨工具的项目上下文文件 — 和 CLAUDE.md 属于同一*类*文档，而不是 agent 定义格式。它的存在是为了让多个编码 agent 共用同一套项目约定：
+- 构建、测试和 lint 命令
+- 代码风格与架构约定
+- 仓库结构以及各部分所在位置
+
+Subagents 是单独定义的，放在 `.claude/agents/*.md` 里 — 不在 AGENTS.md 中。
 
 同样适用以下原则：
 - 保持聚焦和简洁

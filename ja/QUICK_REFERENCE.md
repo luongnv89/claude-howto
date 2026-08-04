@@ -99,7 +99,7 @@ chmod +x ~/.claude/hooks/*.sh
 # default        - 危険な操作で承認を求める
 # acceptEdits    - ファイル編集を自動承認、それ以外は確認
 # plan           - 読み取り専用分析、変更なし
-# dontAsk        - 危険なもの以外すべて承認
+# dontAsk        - 事前承認済みのツールのみ実行、それ以外はすべて拒否
 # auto           - バックグラウンド分類器が自動的に権限を判断
 # bypassPermissions - すべて承認 (--dangerously-skip-permissions が必要)
 
@@ -122,7 +122,7 @@ claude -r "session"    # 名前 / ID でセッションを再開
 | **スキル** | `.claude/skills/*/SKILL.md` | 自動起動 |
 | **サブエージェント** | `.claude/agents/*.md` | 自動委譲 |
 | **MCP** | `.mcp.json` (プロジェクト) または `~/.claude.json` (ユーザー) | `/mcp__server__action` |
-| **フック (28 イベント)** | `~/.claude/hooks/*.sh` | イベントトリガー (5 種類) |
+| **フック (31 イベント)** | `~/.claude/hooks/*.sh` | イベントトリガー (5 種類) |
 | **プラグイン** | `/plugin install` 経由 | すべてをバンドル |
 | **チェックポイント** | 組み込み | `Esc+Esc` または `/rewind` |
 | **プランニングモード** | 組み込み | `/plan <task>` |
@@ -193,7 +193,7 @@ vim CLAUDE.md
 
 ### 自動化とフック
 ```bash
-# フックをインストール (28 イベント、5 種類: command, http, mcp_tool, prompt, agent)
+# フックをインストール (31 イベント、5 種類: command, http, mcp_tool, prompt, agent)
 mkdir -p ~/.claude/hooks
 cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
@@ -393,7 +393,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Auto Mode** | バックグラウンド分類器による完全自律動作 | `--enable-auto-mode` フラグ、`Shift+Tab` でモード切替 |
 | **チャンネル** | Discord と Telegram 統合 | `--channels` フラグ、Discord / Telegram ボット |
 | **音声入力** | コマンドとコンテキストを Claude に音声で伝える | `/voice` コマンド |
-| **フック (28 イベント)** | 5 種類に拡張されたフックシステム | command、http、mcp_tool、prompt、agent の各フック種別 |
+| **フック (31 イベント)** | 5 種類に拡張されたフックシステム | command、http、mcp_tool、prompt、agent の各フック種別 |
 | **MCP Elicitation** | MCP サーバが実行時にユーザー入力を要求できる | サーバが要明確化なら自動プロンプト |
 | **Plugin LSP** | プラグインの Language Server Protocol サポート | `userConfig`、`${CLAUDE_PLUGIN_DATA}` 変数 |
 | **リモートコントロール** | WebSocket API で Claude Code を制御 | 外部統合のための `claude --remote` |
@@ -448,7 +448,7 @@ echo $GITHUB_TOKEN
 | 自動ワークフロー | スキル | `03-skills/code-review-specialist/` |
 | 専門タスク | サブエージェント | `04-subagents/code-reviewer.md` |
 | 外部データ | MCP（+ Elicitation） | `05-mcp/github-mcp.json` |
-| イベント自動化 | フック (28 イベント、5 種類) | `06-hooks/pre-commit.sh` |
+| イベント自動化 | フック (31 イベント、5 種類) | `06-hooks/pre-commit.sh` |
 | 完全ソリューション | プラグイン (+ LSP サポート) | `07-plugins/pr-review/` |
 | 安全な実験 | チェックポイント | `08-checkpoints/checkpoint-examples.md` |
 | 完全自律 | Auto Mode | `--enable-auto-mode` または `Shift+Tab` |

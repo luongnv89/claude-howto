@@ -1,6 +1,6 @@
 #!/bin/bash
 # Log all bash commands
-# Hook: PostToolUse:Bash
+# Hook: PostToolUse (matcher: Bash)
 
 COMMAND="$1"
 TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")

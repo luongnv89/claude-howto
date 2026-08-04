@@ -56,7 +56,7 @@
 | `/install-github-app` | GitHub Actions アプリをセットアップ |
 | `/install-slack-app` | Slack アプリをインストール |
 | `/keybindings` | キーバインド設定を開く |
-| `/less-permission-prompts` | 直近の Bash／MCP ツール呼び出しを分析し、優先度の高い許可リストを `.claude/settings.json` に追加して権限プロンプトを減らす（v2.1.111 で追加） |
+| `/fewer-permission-prompts` | 直近の Bash／MCP ツール呼び出しを分析し、優先度の高い許可リストを `.claude/settings.json` に追加して権限プロンプトを減らす（v2.1.111 で追加） |
 | `/login` | Anthropic アカウントを切り替え |
 | `/logout` | Anthropic アカウントからサインアウト |
 | `/mcp` | MCP サーバーと OAuth を管理 |
@@ -116,7 +116,7 @@
 | コマンド | ステータス |
 |---------|----------|
 | `/review` | 非推奨 — `code-review` プラグインに置き換え |
-| `/output-style` | v2.1.73 から非推奨 |
+| `/output-style` | v2.1.91 で削除 — 出力スタイルは `/config` または `outputStyle` 設定から引き続き利用できる |
 | `/fork` | `/branch` に改名（エイリアスは引き続き有効、v2.1.77） |
 | `/pr-comments` | v2.1.91 で削除 — Claude に直接 PR コメントを見るよう依頼する |
 | `/vim` | v2.1.92 で削除 — /config → エディタモードを使う |
@@ -124,7 +124,7 @@
 ### 直近の変更点
 
 - `/fork` を `/branch` に改名し、`/fork` はエイリアスとして残置（v2.1.77）
-- `/output-style` を非推奨化（v2.1.73）
+- `/output-style` を削除（v2.1.91）。出力スタイル自体は `/config` または `outputStyle` 設定で引き続き利用できる
 - `/review` を非推奨化、`code-review` プラグインを推奨
 - `/effort` コマンドを追加。`max` レベルは Opus 4.7 が必要（当初は Opus 4.6 限定）
 - プッシュトゥトーク音声入力の `/voice` コマンドを追加
@@ -146,7 +146,7 @@
 - `/proactive` を `/loop` のエイリアスとして追加（v2.1.105）
 - `/effort` がインタラクティブな矢印キースライダーを獲得し、`high` と `max` の間に新しい `xhigh` レベルを追加。Opus 4.7 プランではデフォルト思考量が `xhigh` に引き上げられた（v2.1.111）
 - 包括的なクラウドベースのマルチエージェントコードレビュー用に `/ultrareview` を追加（v2.1.111）
-- Bash／MCP ツール呼び出しを分析し、`.claude/settings.json` の許可リストで権限プロンプトを減らす `/less-permission-prompts` を追加（v2.1.111）
+- Bash／MCP ツール呼び出しを分析し、`.claude/settings.json` の許可リストで権限プロンプトを減らす `/fewer-permission-prompts` を追加（v2.1.111）
 - Opus 4.7 を利用する Max サブスクライバについて、Auto モードに `--enable-auto-mode` フラグが不要になった（v2.1.112）
 
 ### `/team-onboarding` — チームメイト向けランプアップガイド

@@ -1,6 +1,8 @@
 # API Module Standards
 
-This file overrides root CLAUDE.md for everything in /src/api/
+This file supplements root CLAUDE.md for everything in /src/api/. Memory files are
+concatenated, not overridden — the root CLAUDE.md still applies, and Claude Code
+loads this file on demand when it reads files in this subtree.
 
 ## API-Specific Standards
 
@@ -61,4 +63,8 @@ Error responses:
 - Tag cache keys with resource type
 
 ---
-**Last Updated**: April 9, 2026
+**Last Updated**: August 4, 2026
+**Claude Code Version**: 2.1.220
+**Sources**:
+- https://code.claude.com/docs/en/memory
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

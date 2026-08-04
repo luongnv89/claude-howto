@@ -14,7 +14,7 @@ Hooks là các hành động tự động (lệnh shell, HTTP webhooks, prompts 
 **Tính năng chính:**
 - Tự động hóa dựa trên sự kiện
 - Đầu vào/ra dựa trên JSON
-- Hỗ trợ cho các loại hook command, prompt, HTTP, và agent
+- Hỗ trợ cho các loại hook command, prompt, HTTP, mcp_tool, và agent
 - Khớp mẫu cho các hooks cụ thể theo công cụ
 
 ## Cấu Hình / Configuration
@@ -55,7 +55,7 @@ Hooks được cấu hình trong các file settings với cấu trúc cụ thể
 |-------|-------------|---------|
 | `matcher` | Mẫu để khớp tên công cụ (phân biệt hoa/thường) | `"Write"`, `"Edit\|Write"`, `"*"` |
 | `hooks` | Mảng định nghĩa hook | `[{ "type": "command", ... }]` |
-| `type` | Loại hook: `"command"` (bash), `"prompt"` (LLM), `"http"` (webhook), hoặc `"agent"` (subagent) | `"command"` |
+| `type` | Loại hook: `"command"` (bash), `"prompt"` (LLM), `"http"` (webhook), `"mcp_tool"` (gọi công cụ MCP, từ v2.1.118), hoặc `"agent"` (subagent) | `"command"` |
 | `command` | Lệnh shell để thực thi | `"$CLAUDE_PROJECT_DIR/.claude/hooks/format.sh"` |
 | `timeout` | Timeout tùy chọn tính bằng giây (mặc định 60) | `30` |
 | `once` | Nếu `true`, chạy hook chỉ một lần mỗi phiên | `true` |
@@ -71,7 +71,7 @@ Hooks được cấu hình trong các file settings với cấu trúc cụ thể
 
 ## Các Loại Hook / Hook Types
 
-Claude Code hỗ trợ bốn loại hook:
+Claude Code hỗ trợ năm loại hook:
 
 ### Command Hooks / Hooks Lệnh
 
@@ -109,6 +109,28 @@ Các endpoints webhook từ xa nhận cùng đầu vào JSON như command hooks.
 - Được định tuyến qua sandbox khi sandbox được bật
 - Yêu cầu danh sách `allowedEnvVars` rõ ràng cho bất kỳ nội suy biến môi trường nào trong URL
 
+### MCP Tool Hooks / Hooks Công Cụ MCP
+
+> Được thêm vào từ v2.1.118.
+
+Loại `mcp_tool` gọi trực tiếp một công cụ MCP đã được cấu hình; cấu hình tham chiếu đến tên MCP server và tên công cụ thay vì một lệnh shell hay URL. Hữu ích khi logic xác thực hoặc phản hồi đã nằm sẵn trong một MCP server bạn đã cấu hình.
+
+```json
+{
+  "matcher": "Edit",
+  "hooks": [{
+    "type": "mcp_tool",
+    "server": "my-mcp-server",
+    "tool": "validate_edit"
+  }]
+}
+```
+
+**Các thuộc tính chính:**
+- `"type": "mcp_tool"` -- xác định đây là một MCP tool hook
+- `"server"` -- tên MCP server đã cấu hình
+- `"tool"` -- tên công cụ cần gọi trên server đó
+
 ### Prompt Hooks / Hooks Prompt
 
 Prompts được đánh giá bởi LLM nơi nội dung hook là một prompt mà Claude đánh giá. Chủ yếu được sử dụng với các sự kiện `Stop` và `SubagentStop` để kiểm tra hoàn thành tác vụ thông minh.
@@ -143,17 +165,22 @@ Hooks xác thực dựa trên subagent mà spawn một agent chuyên dụng đ�
 
 ## Các Sự Kiện Hook / Hook Events
 
-Claude Code hỗ trợ **25 sự kiện hook**:
+Claude Code hỗ trợ **31 sự kiện hook**:
 
 | Sự Kiện | Khi Được Kích Hoạt | Matcher Input | Có Chặn | Sử Dụng Phổ Biến |
 |-------|---------------|---------------|-----------|------------|
 | **SessionStart** | Phiên bắt đầu/tiếp tục/xóa/dồn/fork | startup/resume/clear/compact/fork | Không | Thiết lập môi trường |
+| **Setup** | Thiết lập môi trường ban đầu (một lần mỗi phiên) | (none) | Không | Cài đặt công cụ, cài dependencies |
 | **InstructionsLoaded** | Sau khi CLAUDE.md hoặc file rules được tải | (none) | Không | Sửa đổi/bộ lọc hướng dẫn |
 | **UserPromptSubmit** | Người dùng gửi prompt | (none) | Có | Xác thực prompts |
+| **UserPromptExpansion** | Prompt được mở rộng (ví dụ: `@` mentions, slash commands được phân giải) | (none) | Có | Biến đổi hoặc kiểm tra prompt đã mở rộng |
+| **MessageDisplay** | Trong khi văn bản phản hồi của assistant được hiển thị | (none) | Không | Biến đổi hoặc ẩn văn bản hiển thị (v2.1.152) |
 | **PreToolUse** | Trước khi thực thi công cụ | Tên công cụ | Có (allow/deny/ask) | Xác thực, sửa đổi đầu vào |
 | **PermissionRequest** | Hộp thoại quyền được hiển thị | Tên công cụ | Có | Tự động phê duyệt/từ chối |
 | **PostToolUse** | Sau khi công cụ thành công | Tên công cụ | Không | Thêm ngữ cảnh, feedback |
 | **PostToolUseFailure** | Thực thi công cụ thất bại | Tên công cụ | Không | Xử lý lỗi, logging |
+| **PostToolBatch** | Sau khi một lô lệnh gọi công cụ hoàn tất | (none) | Không | Báo cáo tổng hợp, xác thực theo lô |
+| **PermissionDenied** | Người dùng từ chối một hộp thoại quyền | Tên công cụ | Không | Logging, phân tích, thực thi chính sách |
 | **Notification** | Thông báo được gửi | Loại thông báo | Không | Thông báo tùy chỉnh |
 | **SubagentStart** | Subagent được spawn | Tên loại agent | Không | Thiết lập subagent |
 | **SubagentStop** | Subagent hoàn thành | Tên loại agent | Có | Xác thực subagent |
@@ -164,6 +191,7 @@ Claude Code hỗ trợ **25 sự kiện hook**:
 | **TaskCreated** | Nhiệm vụ được tạo qua TaskCreate | (none) | Không | Theo dõi nhiệm vụ, logging |
 | **ConfigChange** | File config thay đổi | (none) | Có (trừ policy) | Phản hồi cập nhật config |
 | **CwdChanged** | Thư mục làm việc thay đổi | (none) | Không | Thiết lập cụ thể thư mục |
+| **DirectoryAdded** | Thư mục làm việc mới được đăng ký giữa phiên qua `/add-dir` hoặc control request `register_repo_root` của SDK (v2.1.219) | (none) | Không | Thiết lập công cụ cho thư mục vừa thêm |
 | **FileChanged** | File được watch thay đổi | (none) | Không | Giám sát file, rebuild |
 | **PreCompact** | Trước khi dồn ngữ cảnh | manual/auto | Không | Hành động pre-dồn |
 | **PostCompact** | Sau khi dồn hoàn thành | (none) | Không | Hành động post-dồn |
@@ -199,8 +227,13 @@ Chạy sau khi Claude tạo tham số công cụ và trước khi xử lý. Sử
 **Các matcher phổ biến:** `Task`, `Bash`, `Glob`, `Grep`, `Read`, `Edit`, `Write`, `WebFetch`, `WebSearch`
 
 **Điều khiển đầu ra:**
-- `permissionDecision`: `"allow"`, `"deny"`, hoặc `"ask"`
-- `permissionDecisionReason`: Giải thích cho quyết định
+- `permissionDecision`: `"allow"`, `"deny"`, `"ask"`, hoặc `"defer"`
+  - `"allow"` bỏ qua prompt quyền (trừ các công cụ yêu cầu tương tác người dùng, và các công cụ connector mà tổ chức của bạn đặt thành `ask`)
+  - `"deny"` ngăn lệnh gọi công cụ
+  - `"ask"` nhắc người dùng xác nhận
+  - `"defer"` thoát êm để công cụ có thể được tiếp tục sau; `permissionDecisionReason`, `updatedInput` và `additionalContext` đều bị bỏ qua với giá trị này
+  - Các quy tắc deny và ask vẫn được đánh giá bất kể hook trả về gì. Khi nhiều hook `PreToolUse` bất đồng, thứ tự ưu tiên là `deny` > `defer` > `ask` > `allow`
+- `permissionDecisionReason`: Giải thích cho quyết định. Hiển thị cho người dùng (không phải Claude) với `"allow"` và `"ask"`; hiển thị cho Claude với `"deny"`; bị bỏ qua với `"defer"`
 - `updatedInput`: Các tham số đầu vào công cụ đã sửa đổi
 
 ### PostToolUse

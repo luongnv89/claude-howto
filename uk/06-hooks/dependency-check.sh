@@ -1,15 +1,21 @@
 #!/bin/bash
 # Check for known vulnerabilities in dependencies after manifest files are modified.
-# Hook: PostToolUse:Write
+# Hook: PostToolUse (matcher: Write)
+#
+# Reads the target file path from stdin JSON (Claude Code hook protocol).
+# Source: https://code.claude.com/docs/en/hooks
 
-FILE=$1
+# Read JSON input from stdin (Claude Code hook protocol)
+INPUT=$(cat)
+
+# Extract file_path using sed (compatible with all platforms)
+FILE=$(echo "$INPUT" | sed -n 's/.*"file_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
 
 if [ -z "$FILE" ]; then
-  echo "Usage: $0 <file_path>"
   exit 0
 fi
 
-# Use basename for matching — $1 may be an absolute path
+# Use basename for matching — file_path may be an absolute path
 BASENAME=$(basename "$FILE")
 
 # Only run when a dependency manifest is written

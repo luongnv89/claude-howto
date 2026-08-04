@@ -92,7 +92,7 @@ sequenceDiagram
 | **Project** | `.claude/skills/<skill-name>/SKILL.md` | Đội | Có (qua git) | Tiêu chuẩn đội |
 | **Plugin** | `<plugin>/skills/<skill-name>/SKILL.md` | Nơi được bật | Phụ thuộc | Được gói với plugins |
 
-Khi skills chia sẻ cùng tên qua các cấp, vị trí ưu tiên cao hơn thắng: **enterprise > personal > project**. Plugin skills sử dụng namespace `plugin-name:skill-name`, vì vậy chúng không thể xung đột.
+Khi skills chia sẻ cùng tên qua các cấp, vị trí ưu tiên cao hơn thắng: **enterprise > project > personal**. Skills cấp project ghi đè skills cá nhân theo mặc định; setting `skillOverrides` (v2.1.129+) điều chỉnh hành vi đó. Plugin skills sử dụng namespace `plugin-name:skill-name`, vì vậy chúng không thể xung đột.
 
 ### Khám Phá Tự Động
 
@@ -529,7 +529,7 @@ refactor/
 
 ```yaml
 ---
-name: code-refactor
+name: refactor
 description: Systematic code refactoring based on Martin Fowler's methodology. Use when users ask to refactor code, improve code structure, reduce technical debt, or eliminate code smells.
 ---
 

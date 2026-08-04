@@ -144,11 +144,11 @@ graph TD
     S --> T[Test Automation]
     T --> U[Repository Ready]
 
-    style A fill:#e1f5ff
-    style G fill:#fff4e1
-    style K fill:#f0ffe1
-    style Q fill:#ffe1f5
-    style U fill:#90EE90
+    style A fill:#e1f5fe,stroke:#333,color:#333
+    style G fill:#fff9c4,stroke:#333,color:#333
+    style K fill:#e8f5e9,stroke:#333,color:#333
+    style Q fill:#f3e5f5,stroke:#333,color:#333
+    style U fill:#e8f5e9,stroke:#333,color:#333
 ```
 
 #### Cho Repository Hiện Có / For an Existing Repository
@@ -209,12 +209,12 @@ graph TD
     Y -->|Yes| H
     Y -->|No| Z[Workflow Complete]
 
-    style A fill:#e1f5ff
-    style C fill:#ffecec
-    style D fill:#fff4e1
-    style P fill:#f0ffe1
-    style T fill:#ffe1f5
-    style Z fill:#90EE90
+    style A fill:#e1f5fe,stroke:#333,color:#333
+    style C fill:#fce4ec,stroke:#333,color:#333
+    style D fill:#fff9c4,stroke:#333,color:#333
+    style P fill:#e8f5e9,stroke:#333,color:#333
+    style T fill:#f3e5f5,stroke:#333,color:#333
+    style Z fill:#e8f5e9,stroke:#333,color:#333
 ```
 
 **Tips**:
@@ -240,7 +240,7 @@ Các bước này capture các core recommendations cho smooth workflows với C
 | **Extended Thinking** | Deep reasoning toggle qua `Alt+T`/`Option+T` hoặc `MAX_THINKING_TOKENS` env var | [Advanced Features](09-advanced-features/) |
 | **Permission Modes** | Fine-grained control: default, acceptEdits, plan, auto, dontAsk, bypassPermissions | [Advanced Features](09-advanced-features/) |
 | **7-Tier Memory** | Managed Policy, Project, Project Rules, User, User Rules, Local, Auto Memory | [Memory Guide](02-memory/) |
-| **Hook Events** | 25 events: PreToolUse, PostToolUse, PostToolUseFailure, Stop, StopFailure, SubagentStart, SubagentStop, Notification, Elicitation, và nhiều hơn | [Hooks Guide](06-hooks/) |
+| **Hook Events** | 31 events: PreToolUse, PostToolUse, PostToolUseFailure, Stop, StopFailure, SubagentStart, SubagentStop, Notification, Elicitation, và nhiều hơn | [Hooks Guide](06-hooks/) |
 | **Agent Teams** | Phối hợp nhiều agents làm việc cùng nhau trên các complex tasks | [Subagents Guide](04-subagents/) |
 | **Scheduled Tasks** | Thiết lập recurring tasks với `/loop` và cron tools | [Advanced Features](09-advanced-features/) |
 | **Chrome Integration** | Browser automation với headless Chromium | [Advanced Features](09-advanced-features/) |

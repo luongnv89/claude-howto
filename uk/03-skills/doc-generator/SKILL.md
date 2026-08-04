@@ -18,7 +18,7 @@ description: Генерація вичерпної, точної докумен�
 
 ### Для кожного ендпоінту
 
-```markdown
+````markdown
 ## GET /api/v1/users/:id
 
 ### Опис
@@ -73,4 +73,4 @@ response = requests.get(
 )
 user = response.json()
 ```
-```
+````

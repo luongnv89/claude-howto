@@ -214,7 +214,7 @@ blog-draft/
 
 **使用方式**：在设置中配置后自动执行
 
-**Hook 类型**（4 类，25 个事件）：
+**Hook 类型**（5 类，31 个事件）：
 - 工具 Hook：`PreToolUse`、`PostToolUse`、`PostToolUseFailure`、`PermissionRequest`
 - 会话 Hook：`SessionStart`、`SessionEnd`、`Stop`、`StopFailure`、`SubagentStart`、`SubagentStop`
 - 任务 Hook：`UserPromptSubmit`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`
@@ -391,8 +391,8 @@ documentation/
 - **default**：风险操作需要审批
 - **acceptEdits**：自动接受文件编辑，其他操作仍需审批
 - **plan**：只读分析，不做修改
-- **auto**：自动批准安全操作，风险操作仍提示
-- **dontAsk**：除危险操作外全部接受
+- **auto**：所有操作都执行，附带后台安全检查 — 由分类器审查命令和受保护目录的写入（通过 `autoMode` 设置对象配置）
+- **dontAsk**：只允许预先批准的工具 — 任何本来会弹出提示的调用都会被自动拒绝。Claude 只运行 `permissions.allow` 匹配项、只读 Bash 命令，以及被 `PreToolUse` hook 批准的调用
 - **bypassPermissions**：全部接受（需要 `--dangerously-skip-permissions`）
 
 #### Headless Mode（`claude -p`）

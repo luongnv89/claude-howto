@@ -1,7 +1,6 @@
 ---
-name: Setup CI/CD Pipeline
+name: setup-ci-cd
 description: Triển khai pre-commit hooks và GitHub Actions để đảm bảo chất lượng
-tags: ci-cd, devops, automation
 ---
 
 # Thiết Lập Pipeline CI/CD

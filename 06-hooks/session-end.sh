@@ -92,3 +92,5 @@ echo ""
 echo " Saved to $PROGRESS_FILE"
 [ -n "$NOTES" ] && echo " Notes: $NOTES"
 echo ""
+
+exit 0

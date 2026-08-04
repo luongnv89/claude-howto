@@ -1,7 +1,6 @@
 ---
-name: Documentation Refactor
+name: doc-refactor
 description: Реструктуризація документації проєкту для ясності та доступності
-tags: documentation, refactoring, organization
 ---
 
 # Рефакторинг документації

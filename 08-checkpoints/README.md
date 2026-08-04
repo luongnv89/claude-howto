@@ -214,15 +214,21 @@ Since checkpoints are created automatically, you can focus on your work without 
 
 Checkpoints are a built-in default behavior in Claude Code and do not require any configuration to enable. Every user prompt automatically creates a checkpoint.
 
-The only checkpoint-related setting is `cleanupPeriodDays`, which controls how long sessions and checkpoints are retained:
+Two settings govern checkpoint behavior — whether snapshots are taken at all, and how long they are kept:
 
 ```json
 {
+  "fileCheckpointingEnabled": true,
   "cleanupPeriodDays": 30
 }
 ```
 
-- `cleanupPeriodDays`: Number of days to retain session history and checkpoints (default: `30`)
+| Setting | Default | Effect |
+|---------|---------|--------|
+| `fileCheckpointingEnabled` | `true` | Snapshot files before each edit so `/rewind` can restore them. Requires v2.1.119+. Surfaces in `/config` as **Rewind code (checkpoints)**. Env equivalent: `CLAUDE_CODE_DISABLE_FILE_CHECKPOINTING` |
+| `cleanupPeriodDays` | `30` | Number of days to retain session history and checkpoints |
+
+Claude Code keeps snapshots for the **100 most recent checkpoints**; older ones are dropped even inside the retention window.
 
 > **v2.1.117 update**: `cleanupPeriodDays` now governs retention for four on-disk caches, not just checkpoints:
 >
@@ -330,11 +336,11 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 
 ---
 
-**Last Updated**: July 29, 2026
+**Last Updated**: August 4, 2026
 **Claude Code Version**: 2.1.220
 **Sources**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/settings
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://code.claude.com/docs/en/model-config
-**Compatible Models**: Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

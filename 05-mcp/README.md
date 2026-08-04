@@ -324,11 +324,22 @@ This allows Claude to fetch and include MCP resource content inline as part of t
 
 MCP configurations can be stored at different scopes with varying levels of sharing:
 
-| Scope | Location | Description | Shared With | Requires Approval |
-|-------|----------|-------------|-------------|------------------|
-| **Local** (default) | `~/.claude.json` (under project path) | Private to current user, current project only (was called `project` in older versions) | Just you | No |
-| **Project** | `.mcp.json` | Checked into git repository | Team members | Yes (first use) |
-| **User** | `~/.claude.json` | Available across all projects (was called `global` in older versions) | Just you | No |
+| Scope | Flag | Location | Description | Shared With | Requires Approval |
+|-------|------|----------|-------------|-------------|------------------|
+| **Local** (default) | `--scope local` | `~/.claude.json` (under project path) | Private to current user, current project only (was called `project` in older versions) | Just you | No |
+| **Project** | `--scope project` | `.mcp.json` | Checked into git repository | Team members | Yes (first use) |
+| **User** | `--scope user` | `~/.claude.json` | Available across all projects (was called `global` in older versions) | Just you | No |
+
+Select a scope when adding a server with `--scope` (short form `-s`). Omit it and
+Claude Code uses `local`:
+
+```bash
+# Project scope — writes to .mcp.json so the team shares it
+claude mcp add --scope project --transport http github https://api.github.com/mcp
+
+# User scope — available in every project
+claude mcp add --scope user --transport stdio memory -- npx @modelcontextprotocol/server-memory
+```
 
 ### Using Project Scope
 
@@ -378,7 +389,12 @@ claude mcp logout github
 
 # Import from Claude Desktop
 claude mcp add-from-claude-desktop
+
+# Add a server from a JSON blob (useful for scripted setup)
+claude mcp add-json events-server '{"type":"stdio","command":"npx","args":["@modelcontextprotocol/server-events"]}'
 ```
+
+> **Note**: In JSON configs — `.mcp.json`, `~/.claude.json`, or `claude mcp add-json` — the `type` field accepts `streamable-http` as an alias for `http`. The MCP specification uses the name `streamable-http` for this transport, so configurations copied from a server's own documentation work unmodified.
 
 `claude mcp login <name>` / `claude mcp logout <name>` are the non-interactive equivalent of the OAuth flow in the `/mcp` menu — authenticate or sign out without opening it. Add `--no-browser` to `login` to complete OAuth over SSH or in a headless session (it redirects the flow through stdin).
 
@@ -1236,7 +1252,7 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: July 29, 2026
+**Last Updated**: August 4, 2026
 **Claude Code Version**: 2.1.220
 **Sources**:
 - https://code.claude.com/docs/en/mcp
@@ -1245,4 +1261,4 @@ export GITHUB_TOKEN="your_token"
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/model-config
-**Compatible Models**: Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -96,7 +96,7 @@ sequenceDiagram
 | **Project** | `.claude/skills/<skill-name>/SKILL.md` | チーム | あり（git 経由） | チームの標準 |
 | **Plugin** | `<plugin>/skills/<skill-name>/SKILL.md` | 有効化された範囲 | プラグインに依存 | プラグインへのバンドル |
 
-スキル名がレベル間で重複する場合、優先度の高い配置場所が優先される: **enterprise > personal > project**。プラグインスキルは `plugin-name:skill-name` の名前空間を用いるため衝突しない。
+スキル名がレベル間で重複する場合、優先度の高い配置場所が優先される: **enterprise > project > personal**。プロジェクトスキルはデフォルトで個人スキルを上書きする。プラグインスキルは `plugin-name:skill-name` の名前空間を用いるため衝突しない。
 
 ### 自動検出
 
@@ -535,7 +535,7 @@ refactor/
 
 ```yaml
 ---
-name: code-refactor
+name: refactor
 description: Systematic code refactoring based on Martin Fowler's methodology. Use when users ask to refactor code, improve code structure, reduce technical debt, or eliminate code smells.
 ---
 

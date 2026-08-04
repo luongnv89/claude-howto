@@ -1672,7 +1672,7 @@ Since v2.1.83, administrators can deploy multiple managed settings files into a 
 ```json
 {
   "permissions": {
-    "mode": "default"
+    "defaultMode": "manual"
   },
   "hooks": {
     "PreToolUse:Edit": "eslint --fix ${file_path}",
@@ -1695,7 +1695,7 @@ Since v2.1.83, administrators can deploy multiple managed settings files into a 
 ```json
 {
   "permissions": {
-    "mode": "default",
+    "defaultMode": "manual",
     "allowedTools": ["Bash(git log:*)", "Read"],
     "disallowedTools": ["Bash(rm -rf:*)"]
   },
@@ -1797,7 +1797,7 @@ Create `.claude/config.json` in your project:
     "PreToolUse": [{ "matcher": "Bash", "hooks": ["npm test && npm run lint"] }]
   },
   "permissions": {
-    "mode": "default"
+    "defaultMode": "manual"
   },
   "mcp": {
     "servers": {

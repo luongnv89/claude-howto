@@ -3,9 +3,8 @@
 <!-- i18n-date: 2026-04-27 -->
 
 ---
-name: Setup CI/CD Pipeline
+name: setup-ci-cd
 description: 品質保証のための pre-commit フックと GitHub Actions を導入する
-tags: ci-cd, devops, automation
 ---
 
 # CI/CD パイプラインのセットアップ

@@ -5,7 +5,7 @@
 ---
 name: incident-commander
 description: インシデントレスポンスを統括する
-tools: read, write, bash, grep
+tools: Read, Write, Bash, Grep
 ---
 
 # Incident Commander

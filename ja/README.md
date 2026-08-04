@@ -486,11 +486,11 @@ chmod +x ~/.claude/hooks/*.sh
 
 **使い方**：イベント発生時にフックが自動実行される
 
-**フックの種類**（5 系統、28 イベント）：
-- **ツール系フック**：`PreToolUse`、`PostToolUse`、`PostToolUseFailure`、`PermissionRequest`
-- **セッション系フック**：`SessionStart`、`SessionEnd`、`Stop`、`StopFailure`、`SubagentStart`、`SubagentStop`
-- **タスク系フック**：`UserPromptSubmit`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`
-- **ライフサイクル系フック**：`ConfigChange`、`CwdChanged`、`FileChanged`、`PreCompact`、`PostCompact`、`WorktreeCreate`、`WorktreeRemove`、`Notification`、`InstructionsLoaded`、`Elicitation`、`ElicitationResult`
+**フックの種類**（5 系統、31 イベント）：
+- **ツール系フック**：`PreToolUse`、`PostToolUse`、`PostToolUseFailure`、`PostToolBatch`、`PermissionRequest`、`PermissionDenied`
+- **セッション系フック**：`SessionStart`、`Setup`、`SessionEnd`、`Stop`、`StopFailure`、`SubagentStart`、`SubagentStop`
+- **タスク系フック**：`UserPromptSubmit`、`UserPromptExpansion`、`MessageDisplay`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`
+- **ライフサイクル系フック**：`ConfigChange`、`CwdChanged`、`DirectoryAdded`、`FileChanged`、`PreCompact`、`PostCompact`、`WorktreeCreate`、`WorktreeRemove`、`Notification`、`InstructionsLoaded`、`Elicitation`、`ElicitationResult`
 
 </details>
 

@@ -68,7 +68,7 @@ git checkout -b docs/improvement-area
 
 ### 3. Set Up Your Environment
 
-Pre-commit hooks run the same checks as CI locally before every commit. All four checks must pass before a PR will be accepted.
+Pre-commit hooks run the same checks as CI locally before every commit. All five checks must pass before a PR will be accepted.
 
 **Required dependencies:**
 
@@ -378,4 +378,8 @@ By contributing to this project, you agree that your contributions will be licen
 Thank you for contributing! 🙏
 
 ---
-**Last Updated**: April 9, 2026
+**Last Updated**: August 4, 2026
+**Claude Code Version**: 2.1.220
+**Sources**:
+- https://code.claude.com/docs/en/overview
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

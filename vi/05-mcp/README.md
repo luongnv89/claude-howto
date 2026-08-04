@@ -259,11 +259,22 @@ Ví dụ, để tham khảo một tài nguyên database cụ thể:
 
 Cấu hình MCP có thể được lưu trữ tại các phạm vi khác nhau với các mức độ chia sẻ khác nhau:
 
-| Phạm Vi | Vị Trí | Mô Tả | Chia Sẻ Với | Yêu Cầu Chấp Thuận |
-|-------|----------|-------------|-------------|------------------|
-| **Local** (mặc định) | `~/.claude.json` (dưới đường dẫn project) | Riêng tư cho người dùng hiện tại, project hiện tại chỉ (được gọi là `project` trong các phiên bản cũ hơn) | Chỉ bạn | Không |
-| **Project** | `.mcp.json` | Được check vào git repository | Các thành viên nhóm | Có (lần sử dụng đầu) |
-| **User** | `~/.claude.json` | Có sẵn trên tất cả các projects (được gọi là `global` trong các phiên bản cũ hơn) | Chỉ bạn | Không |
+| Phạm Vi | Cờ | Vị Trí | Mô Tả | Chia Sẻ Với | Yêu Cầu Chấp Thuận |
+|-------|------|----------|-------------|-------------|------------------|
+| **Local** (mặc định) | `--scope local` | `~/.claude.json` (dưới đường dẫn project) | Riêng tư cho người dùng hiện tại, project hiện tại chỉ (được gọi là `project` trong các phiên bản cũ hơn) | Chỉ bạn | Không |
+| **Project** | `--scope project` | `.mcp.json` | Được check vào git repository | Các thành viên nhóm | Có (lần sử dụng đầu) |
+| **User** | `--scope user` | `~/.claude.json` | Có sẵn trên tất cả các projects (được gọi là `global` trong các phiên bản cũ hơn) | Chỉ bạn | Không |
+
+Chọn phạm vi khi thêm server bằng `--scope` (dạng ngắn `-s`). Nếu bỏ qua, Claude
+Code sử dụng `local`:
+
+```bash
+# Phạm vi project — ghi vào .mcp.json để cả nhóm dùng chung
+claude mcp add --scope project --transport http github https://api.github.com/mcp
+
+# Phạm vi user — có sẵn trong mọi project
+claude mcp add --scope user --transport stdio memory -- npx @modelcontextprotocol/server-memory
+```
 
 ### Sử Dụng Phạm Vi Project / Using Project Scope
 

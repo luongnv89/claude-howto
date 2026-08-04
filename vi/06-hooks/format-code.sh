@@ -1,6 +1,6 @@
 #!/bin/bash
 # Auto-format code before writing
-# Hook: PreToolUse:Write
+# Hook: PreToolUse (matcher: Write)
 
 FILE=$1
 

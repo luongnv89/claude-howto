@@ -1,6 +1,7 @@
 {
   "mcpServers": {
     "filesystem": {
+      "type": "stdio",
       "command": "npx",
       "args": ["@modelcontextprotocol/server-filesystem", "/home/user/projects"]
     }

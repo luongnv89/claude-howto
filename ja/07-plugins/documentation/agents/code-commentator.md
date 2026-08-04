@@ -5,7 +5,7 @@
 ---
 name: code-commentator
 description: コードコメントとインラインドキュメントのスペシャリスト
-tools: read, write, edit
+tools: Read, Write, Edit
 ---
 
 # Code Commentator

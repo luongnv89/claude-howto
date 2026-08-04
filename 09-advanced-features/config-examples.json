@@ -44,7 +44,7 @@
       "config": {
         "model": "claude-sonnet-5",
         "permissions": {
-          "defaultMode": "default"
+          "defaultMode": "manual"
         },
         "env": {
           "CLAUDE_CODE_EFFORT_LEVEL": "high"
@@ -57,9 +57,9 @@
       "name": "Production Deployment",
       "description": "Configuration for production operations with safety checks",
       "config": {
-        "model": "claude-opus-4-8",
+        "model": "claude-opus-5",
         "permissions": {
-          "defaultMode": "default",
+          "defaultMode": "manual",
           "deny": ["Bash(git push --force*)", "Bash(rm -rf*)"]
         },
         "hooks": {
@@ -95,7 +95,7 @@
       "name": "Security Audit",
       "description": "Configuration for security-focused code analysis",
       "config": {
-        "model": "claude-opus-4-8",
+        "model": "claude-opus-5",
         "permissions": {
           "defaultMode": "plan"
         },
@@ -133,7 +133,7 @@
       "config": {
         "model": "claude-sonnet-5",
         "permissions": {
-          "defaultMode": "default"
+          "defaultMode": "manual"
         },
         "env": {
           "CLAUDE_CODE_EFFORT_LEVEL": "high"
@@ -145,9 +145,9 @@
       "name": "Large Refactoring",
       "description": "Configuration for major refactoring work: backup before edits, run related tests after",
       "config": {
-        "model": "claude-opus-4-8",
+        "model": "claude-opus-5",
         "permissions": {
-          "defaultMode": "default",
+          "defaultMode": "manual",
           "allow": ["Bash(npm test -- --findRelatedTests *)"]
         },
         "fileCheckpointingEnabled": true,

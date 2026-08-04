@@ -1,6 +1,6 @@
 # API 模块规范
 
-本文件会覆盖 `/src/api/` 下所有内容对应的根目录 `CLAUDE.md`。
+本文件是对根目录 `CLAUDE.md` 的补充，作用于 `/src/api/` 下的所有内容。memory 文件是拼接（concatenate）而不是覆盖 — 根目录 `CLAUDE.md` 依然生效，Claude Code 会在读取该子目录下的文件时按需加载本文件。
 
 ## API 专属规范
 

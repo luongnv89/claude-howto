@@ -1,7 +1,7 @@
 ---
 name: deployment-specialist
 description: Обробляє всі операції розгортання
-tools: read, write, bash, grep
+tools: Read, Write, Bash, Grep
 ---
 
 # Спеціаліст з розгортання

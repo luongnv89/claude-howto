@@ -16,13 +16,13 @@
 | Feature | Built-in | Examples | Total | Reference |
 |---------|----------|----------|-------|-----------|
 | **Slash Commands** | 60+ | 8 | 68+ | [01-slash-commands/](01-slash-commands/) |
-| **Subagents** | 6 | 11 | 17 | [04-subagents/](04-subagents/) |
+| **Subagents** | 6 | 9 | 15 | [04-subagents/](04-subagents/) |
 | **Skills** | 10 bundled | 6 | 16 | [03-skills/](03-skills/) |
 | **Plugins** | - | 3 | 3 | [07-plugins/](07-plugins/) |
-| **MCP Servers** | 1 | 8 | 9 | [05-mcp/](05-mcp/) |
-| **Hooks** | 29 events | 8 | 8 | [06-hooks/](06-hooks/) |
-| **Memory** | 7 types | 3 | 3 | [02-memory/](02-memory/) |
-| **Total** | **104** | **47** | **126** | |
+| **MCP Servers** | 1 | 4 | 5 | [05-mcp/](05-mcp/) |
+| **Hooks** | 31 events | 11 | 42 | [06-hooks/](06-hooks/) |
+| **Memory** | 7 types | 3 | 10 | [02-memory/](02-memory/) |
+| **Total** | **115** | **44** | **159** | |
 
 ---
 
@@ -84,7 +84,8 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/theme` | Change color theme; v2.1.118 added custom named themes via `~/.claude/themes/<name>.json` (plugins can ship a `themes/` dir) | Customize appearance |
 | `/usage` | Canonical command for usage/cost/stats — merged `/cost` and `/stats` into a single tabbed view (v2.1.118); as of v2.1.149 the cost view breaks spending down by category (skills, subagents, plugins, per-MCP-server). In the **VSCode extension** (v2.1.174), the `/usage` (Account & usage) dialog adds an attribution breakdown — cache misses, long-context cost, subagents, and per-skill / per-agent / per-plugin / per-MCP usage over 24h and 7d windows | Monitor quota and costs |
 | `/focus` | Toggle focus view (distraction-free output display) | Reduce visual noise during long tasks |
-| `/fork` | Fork current conversation | Explore alternatives |
+| `/fork` | Copy the conversation into a new independent background session (v2.1.212+) | Explore alternatives in parallel |
+| `/subtask` | Spawn a forked subagent that inherits the conversation and reports back (v2.1.212+) | Delegate a side task without losing your place |
 | `/stats` | Shortcut alias that opens the stats tab of `/usage` (v2.1.118+) | Review session metrics |
 | `/statusline` | Configure status line | Customize status display |
 | `/stickers` | View session stickers | Fun rewards |
@@ -95,7 +96,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/team-onboarding` | Generate a teammate ramp-up guide from this project's Claude Code usage | Onboarding new teammates (v2.1.101) |
 | `/ultraplan` | Hand a planning task to a Claude Code web session in plan mode | Heavy planning offload (Research Preview, v2.1.91+) |
 | `/ultrareview` | Run a cloud multi-agent code review over your current changes | Deep pre-merge review across multiple agents (v2.1.112) |
-| `/less-permission-prompts` | Scan transcripts and propose a prioritized allowlist for common read-only tools | Reduce repeat permission prompts in a project (v2.1.112) |
+| `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist for common read-only tools | Reduce repeat permission prompts in a project (v2.1.112) |
 
 ### Custom Commands (Examples)
 
@@ -461,6 +462,9 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **/tui** | Toggle fullscreen TUI (text user interface) mode for flicker-free rendering (v2.1.110) | Use `/tui` in fullscreen terminals or tmux |
 | **/undo** | Alias for `/rewind` — reverts to the previous checkpoint (v2.1.108) | Use `/undo` interchangeably with `/rewind` |
 | **Monitor Tool** | Watch a background command's stdout stream and react to events instead of polling (v2.1.98+) | Use the Monitor tool via [Advanced Features](09-advanced-features/) |
+| **Output Styles** | Change Claude's role, tone, and default response format via the system prompt. Built-ins: Default, Proactive, Explanatory, Learning | `/config` → Output style, or set `outputStyle`. The `/output-style` command was removed in v2.1.91. See [Advanced Features](09-advanced-features/#output-styles) |
+| **Status Line** | Render a custom status line from a command that receives session, model, cost, and context JSON on stdin | `/statusline` or the `statusLine` setting. See [Advanced Features](09-advanced-features/#status-line) |
+| **Community Marketplace** | Third-party plugins that passed Anthropic's automated validation, each pinned to a commit SHA | `/plugin marketplace add anthropics/claude-plugins-community`, then `/plugin install <name>@claude-community` |
 | **/team-onboarding** | Auto-generate a teammate ramp-up guide from the project's Claude Code setup (v2.1.101) | Run `/team-onboarding` in your project |
 | **Ultraplan auto-create** | Cloud environment created automatically on first `/ultraplan` invocation — no manual setup required (v2.1.101) | Use `/ultraplan <prompt>` |
 | **Remote Control** | Control Claude Code sessions remotely via API | Use the remote control API to send prompts and receive responses programmatically |
@@ -545,7 +549,7 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: July 29, 2026
+**Last Updated**: August 4, 2026
 **Claude Code Version**: 2.1.220
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
@@ -562,4 +566,4 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/skills
-**Compatible Models**: Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

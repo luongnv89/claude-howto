@@ -74,7 +74,7 @@ tags: plugins, documentation, automation
 
 ## 需求
 
-- Claude Code 1.0+
+- Claude Code 2.1+
 - GitHub 访问权限（可选）
 
 ## 示例工作流

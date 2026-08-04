@@ -5,7 +5,7 @@
 ---
 name: test-checker
 description: テストカバレッジと品質の解析
-tools: read, bash, grep
+tools: Read, Bash, Grep
 ---
 
 # Test Checker

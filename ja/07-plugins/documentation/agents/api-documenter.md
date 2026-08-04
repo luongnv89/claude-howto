@@ -5,7 +5,7 @@
 ---
 name: api-documenter
 description: API ドキュメンテーションのスペシャリスト
-tools: read, write, grep
+tools: Read, Write, Grep
 ---
 
 # API Documenter

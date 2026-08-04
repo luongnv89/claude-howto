@@ -1,7 +1,7 @@
 ---
 name: alert-analyzer
 description: Аналізує алерти моніторингу та метрики системи
-tools: read, grep, bash
+tools: Read, Grep, Bash
 ---
 
 # Аналізатор алертів

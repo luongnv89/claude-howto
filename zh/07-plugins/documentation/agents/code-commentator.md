@@ -1,7 +1,7 @@
 ---
 name: code-commentator
 description: 代码注释与内联文档专家
-tools: read, write, edit
+tools: Read, Write, Edit
 ---
 
 # 代码注释专家

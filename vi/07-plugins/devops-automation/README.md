@@ -75,7 +75,7 @@ Complete DevOps automation for deployment, monitoring, and incident response.
 
 ## Requirements
 
-- Claude Code 1.0+
+- Claude Code 2.1+
 - Kubernetes CLI (kubectl)
 - Cluster access configured
 

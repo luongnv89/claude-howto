@@ -136,6 +136,7 @@ to solving problems.
 | `effort` | No | Reasoning effort level: `low`, `medium`, `high`, `xhigh`, or `max`. Overrides the session effort level; available levels depend on the model |
 | `isolation` | No | Set to `worktree` to give the subagent its own git worktree |
 | `initialPrompt` | No | Auto-submitted first turn when the subagent runs as the main agent |
+| `color` | No | Display color for the subagent in the task list and transcript. Accepts `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink`, or `cyan` |
 
 ### Main-Thread Agent Frontmatter Honoring (v2.1.117+/v2.1.119+)
 
@@ -1127,6 +1128,38 @@ This folder contains ready-to-use example subagents:
 
 ---
 
+### 8. Clean Code Reviewer (`clean-code-reviewer.md`)
+
+**Purpose**: Readability and maintainability review against clean-code principles
+
+**Tools**: Read, Grep, Glob, Bash
+
+**Specialization**:
+- Naming, function length, and argument count
+- Duplication and dead code
+- Comment quality and intent
+- Structural clarity over cleverness
+
+**Use When**: You want a style and maintainability pass distinct from correctness review
+
+---
+
+### 9. Performance Optimizer (`performance-optimizer.md`)
+
+**Purpose**: Identify and remediate performance bottlenecks
+
+**Tools**: Read, Edit, Bash, Grep, Glob
+
+**Specialization**:
+- Algorithmic complexity and hot paths
+- Memory allocation and leaks
+- Caching and query optimization
+- Concurrency and I/O bottlenecks
+
+**Use When**: Code is measurably slow and you need targeted optimization
+
+---
+
 ## Installation Instructions
 
 ### Method 1: Ask Claude (Recommended)
@@ -1196,7 +1229,9 @@ project/
 │       ├── secure-reviewer.md
 │       ├── implementation-agent.md
 │       ├── debugger.md
-│       └── data-scientist.md
+│       ├── data-scientist.md
+│       ├── clean-code-reviewer.md
+│       └── performance-optimizer.md
 └── ...
 ```
 
@@ -1285,4 +1320,4 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.140
 - https://code.claude.com/docs/en/model-config
-**Compatible Models**: Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

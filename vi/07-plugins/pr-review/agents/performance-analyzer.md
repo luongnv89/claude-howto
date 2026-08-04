@@ -1,7 +1,7 @@
 ---
 name: performance-analyzer
 description: Performance impact analysis
-tools: read, grep, bash
+tools: Read, Grep, Bash
 ---
 
 # Performance Analyzer

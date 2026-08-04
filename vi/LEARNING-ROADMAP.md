@@ -92,12 +92,12 @@ graph TD
 
 | Bước | Tính Năng | Độ Phức Tạp | Thời Gian | Cấp Độ | Dependencies | Tại Sao Học Cái Này | Lợi Ích Chính |
 |------|---------|-----------|----------|-------|--------------|------------------|--------------|
-| **1** | [Lệnh Slash](../01-slash-commands/) | ⭐ Người mới | 30 phút | Level 1 | None | Gains năng suất nhanh (55+ built-in + 5 bundled skills) | Tự động hóa tức thì, tiêu chuẩn team |
+| **1** | [Lệnh Slash](../01-slash-commands/) | ⭐ Người mới | 30 phút | Level 1 | None | Gains năng suất nhanh (55+ built-in + 10 bundled skills) | Tự động hóa tức thì, tiêu chuẩn team |
 | **2** | [Bộ Nhớ](../02-memory/) | ⭐⭐ Người mới+ | 45 phút | Level 1 | None | Thiết yếu cho tất cả tính năng | Ngữ cảnh lưu trữ, sở thích |
 | **3** | [Checkpoints](../08-checkpoints/) | ⭐⭐ Trung cấp | 45 phút | Level 1 | Quản lý session | Khám phá an toàn | Thử nghiệm, phục hồi |
 | **4** | [CLI Cơ Bản](../10-cli/) | ⭐⭐ Người mới+ | 30 phút | Level 1 | None | Sử dụng CLI cốt | Mode tương tác & print |
 | **5** | [Skills](../03-skills/) | ⭐⭐ Trung cấp | 1 giờ | Level 2 | Lệnh Slash | Chuyên môn tự động | Khả năng tái sử dụng, nhất quán |
-| **6** | [Hooks](../06-hooks/) | ⭐⭐ Trung cấp | 1 giờ | Level 2 | Tools, Commands | Tự động hóa workflow (25 sự kiện, 4 types) | Xác thực, cổng chất lượng |
+| **6** | [Hooks](../06-hooks/) | ⭐⭐ Trung cấp | 1 giờ | Level 2 | Tools, Commands | Tự động hóa workflow (31 sự kiện, 5 types) | Xác thực, cổng chất lượng |
 | **7** | [MCP](../05-mcp/) | ⭐⭐⭐ Trung cấp+ | 1 giờ | Level 2 | Cấu hình | Truy cập dữ liệu trực tiếp | Tích hợp thời gian thực, APIs |
 | **8** | [Tác Nhân Con](../04-subagents/) | ⭐⭐⭐ Trung cấp+ | 1.5 giờ | Level 2 | Bộ Nhớ, Commands | Xử lý task phức tạp (6 built-in bao gồm Bash) | Ủy quyền, chuyên môn hóa |
 | **9** | [Tính Năng Nâng Cao](../09-advanced-features/) | ⭐⭐⭐⭐⭐ Nâng cao | 2-3 giờ | Level 3 | Tất cả trước | Công cụ power user | Planning, Auto Mode, Channels, Voice Dictation, permissions |

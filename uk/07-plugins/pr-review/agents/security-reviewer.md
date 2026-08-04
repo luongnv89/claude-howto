@@ -1,7 +1,7 @@
 ---
 name: security-reviewer
 description: Код-рев'ю з фокусом на безпеці
-tools: read, grep, bash
+tools: Read, Grep, Bash
 ---
 
 # Рецензент безпеки

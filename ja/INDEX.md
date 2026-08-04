@@ -162,20 +162,21 @@ blog-draft/
 
 ---
 
-## 04. サブエージェント（9 ファイル）
+## 04. サブエージェント（10 ファイル）
 
 カスタム能力を持つ専門特化 AI アシスタント。
 
 | ファイル | 説明 | ツール | ユースケース |
 |------|-------------|-------|----------|
-| `code-reviewer.md` | コード品質分析 | read, grep, diff, lint_runner | 包括的レビュー |
-| `test-engineer.md` | テストカバレッジ分析 | read, write, bash, grep | テスト自動化 |
-| `documentation-writer.md` | ドキュメント作成 | read, write, grep | ドキュメント生成 |
-| `secure-reviewer.md` | セキュリティレビュー（読み取り専用） | read, grep | セキュリティ監査 |
-| `implementation-agent.md` | フル実装 | read, write, bash, grep, edit, glob | 機能開発 |
-| `debugger.md` | デバッグ専門家 | read, bash, grep | バグ調査 |
-| `data-scientist.md` | データ分析専門家 | read, write, bash | データワークフロー |
-| `clean-code-reviewer.md` | クリーンコード基準 | read, grep | コード品質 |
+| `code-reviewer.md` | コード品質分析 | Read, Grep, Glob, Bash | 包括的レビュー |
+| `test-engineer.md` | テストカバレッジ分析 | Read, Write, Bash, Grep | テスト自動化 |
+| `documentation-writer.md` | ドキュメント作成 | Read, Write, Grep | ドキュメント生成 |
+| `secure-reviewer.md` | セキュリティレビュー（読み取り専用） | Read, Grep | セキュリティ監査 |
+| `implementation-agent.md` | フル実装 | Read, Write, Edit, Bash, Grep, Glob | 機能開発 |
+| `debugger.md` | デバッグ専門家 | Read, Edit, Bash, Grep, Glob | バグ調査 |
+| `data-scientist.md` | データ分析専門家 | Bash, Read, Write | データワークフロー |
+| `clean-code-reviewer.md` | クリーンコード基準 | Read, Grep, Glob, Bash | コード品質 |
+| `performance-optimizer.md` | パフォーマンスボトルネック分析 | Read, Edit, Bash, Grep, Glob | 最適化作業 |
 | `README.md` | ドキュメント | - | セットアップと使用ガイド |
 
 **インストール先**：`.claude/agents/`
@@ -202,31 +203,32 @@ blog-draft/
 
 ---
 
-## 06. フック（9 ファイル）
+## 06. フック（10 ファイル）
 
 自動実行されるイベント駆動の自動化スクリプト。
 
 | ファイル | 説明 | イベント | ユースケース |
 |------|-------------|-------|----------|
-| `format-code.sh` | コード自動整形 | PreToolUse:Write | コード整形 |
-| `pre-commit.sh` | コミット前のテスト実行 | PreToolUse:Bash | テスト自動化 |
-| `security-scan.sh` | セキュリティスキャン | PostToolUse:Write | セキュリティチェック |
-| `log-bash.sh` | bash コマンド記録 | PostToolUse:Bash | コマンドログ |
-| `validate-prompt.sh` | プロンプト検証 | PreToolUse | 入力検証 |
-| `notify-team.sh` | 通知送信 | Notification | チーム通知 |
-| `context-tracker.py` | コンテキストウィンドウ使用量追跡 | PostToolUse | コンテキスト監視 |
-| `context-tracker-tiktoken.py` | トークンベースのコンテキスト追跡 | PostToolUse | 精密なトークン計測 |
+| `format-code.sh` | コード自動整形 | PostToolUse（matcher: Write） | コード整形 |
+| `pre-commit.sh` | コミット前のテスト実行 | PreToolUse（matcher: Bash） | テスト自動化 |
+| `pre-tool-check.sh` | 実行前のコマンド検証と監査 | PreToolUse（matcher: Bash） | ガードレール、監査ログ |
+| `security-scan.sh` | セキュリティスキャン | PostToolUse（matcher: Write） | セキュリティチェック |
+| `dependency-check.sh` | 依存関係マニフェストの脆弱性スキャン | PostToolUse（matcher: Write） | サプライチェーン検査 |
+| `log-bash.sh` | bash コマンド記録 | PostToolUse（matcher: Bash） | コマンドログ |
+| `notify-team.sh` | 通知送信 | PostToolUse（matcher: Bash） | チーム通知 |
+| `validate-prompt.sh` | プロンプト検証 | UserPromptSubmit | 入力検証 |
+| `session-end.sh` | セッション終了時に進捗を記録 | SessionEnd | 進捗トラッキング |
 | `README.md` | ドキュメント | - | セットアップと使用ガイド |
 
 **インストール先**：`~/.claude/settings.json` で設定
 
 **使い方**：設定で構成し、自動実行される
 
-**フックの種類**（5 系統、28 イベント）：
-- ツール系フック：PreToolUse、PostToolUse、PostToolUseFailure、PermissionRequest
-- セッション系フック：SessionStart、SessionEnd、Stop、StopFailure、SubagentStart、SubagentStop
-- タスク系フック：UserPromptSubmit、TaskCompleted、TaskCreated、TeammateIdle
-- ライフサイクル系フック：ConfigChange、CwdChanged、FileChanged、PreCompact、PostCompact、WorktreeCreate、WorktreeRemove、Notification、InstructionsLoaded、Elicitation、ElicitationResult
+**フックの種類**（5 系統、31 イベント）：
+- ツール系フック：PreToolUse、PostToolUse、PostToolUseFailure、PostToolBatch、PermissionRequest、PermissionDenied
+- セッション系フック：SessionStart、Setup、SessionEnd、Stop、StopFailure、SubagentStart、SubagentStop
+- タスク系フック：UserPromptSubmit、UserPromptExpansion、MessageDisplay、TaskCompleted、TaskCreated、TeammateIdle
+- ライフサイクル系フック：ConfigChange、CwdChanged、DirectoryAdded、FileChanged、PreCompact、PostCompact、WorktreeCreate、WorktreeRemove、Notification、InstructionsLoaded、Elicitation、ElicitationResult
 
 ---
 
@@ -399,8 +401,8 @@ documentation/
 - **default**：危険な操作で承認を求める
 - **acceptEdits**：ファイル編集を自動承認、それ以外は確認
 - **plan**：読み取り専用分析、変更なし
-- **auto**：安全な操作を自動承認、危険なものは確認
-- **dontAsk**：危険なもの以外すべて承認
+- **auto**：バックグラウンドの安全チェック付きで全操作を実行 — 分類器がコマンドと保護ディレクトリへの書き込みを審査する（`autoMode` 設定オブジェクトで構成）
+- **dontAsk**：事前承認済みのツールのみ — 本来プロンプトが出る呼び出しはすべて自動的に拒否される。Claude が実行できるのは `permissions.allow` に一致するもの、読み取り専用の Bash コマンド、`PreToolUse` フックが承認した呼び出しに限られる
 - **bypassPermissions**：すべて承認（`--dangerously-skip-permissions` が必要）
 
 ### ヘッドレスモード（`claude -p`）
@@ -766,9 +768,9 @@ Run tests in background
 | **01 スラッシュコマンド** | 8 | - | - | - | - | - | 1 | 1 | **10** |
 | **02 メモリ** | - | - | - | - | - | 3 | 1 | 2 | **6** |
 | **03 スキル** | - | - | - | - | 5 | 9 | 1 | - | **28** |
-| **04 サブエージェント** | - | 8 | - | - | - | - | 1 | - | **9** |
+| **04 サブエージェント** | - | 9 | - | - | - | - | 1 | - | **10** |
 | **05 MCP** | - | - | 4 | - | - | - | 1 | - | **5** |
-| **06 フック** | - | - | - | 8 | - | - | 1 | - | **9** |
+| **06 フック** | - | - | - | 9 | - | - | 1 | - | **10** |
 | **07 プラグイン** | 11 | 9 | 3 | 3 | 3 | 3 | 4 | - | **40** |
 | **08 チェックポイント** | - | - | - | - | - | - | 1 | 1 | **2** |
 | **09 高度な機能** | - | - | - | - | - | - | 1 | 2 | **3** |

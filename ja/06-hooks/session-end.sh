@@ -92,3 +92,5 @@ echo ""
 echo " $PROGRESS_FILE に保存しました"
 [ -n "$NOTES" ] && echo " メモ: $NOTES"
 echo ""
+
+exit 0

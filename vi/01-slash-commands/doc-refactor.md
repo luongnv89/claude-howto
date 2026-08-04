@@ -1,7 +1,6 @@
 ---
-name: Documentation Refactor
+name: doc-refactor
 description: Cấu trúc lại tài liệu dự án để rõ ràng và dễ truy cập
-tags: documentation, refactoring, organization
 ---
 
 # Documentation Refactor

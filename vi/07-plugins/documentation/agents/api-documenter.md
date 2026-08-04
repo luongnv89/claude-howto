@@ -1,7 +1,7 @@
 ---
 name: api-documenter
 description: API documentation specialist
-tools: read, write, grep
+tools: Read, Write, Grep
 ---
 
 # API Documenter

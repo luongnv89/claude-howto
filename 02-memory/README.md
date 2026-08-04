@@ -494,6 +494,18 @@ Auto memory requires **Claude Code v2.1.59 or later**. If you are on an older ve
 npm install -g @anthropic-ai/claude-code@latest
 ```
 
+### Turning Auto Memory On or Off
+
+Auto memory is **on by default**. The `autoMemoryEnabled` setting (default `true`) controls it; when `false`, Claude neither reads from nor writes to the auto memory directory. You can also toggle it with `/memory` during a session.
+
+```json
+{
+  "autoMemoryEnabled": false
+}
+```
+
+To disable it via environment instead, set `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1`. Setting it to `0` forces auto memory **on** even when `--bare` mode or `autoMemoryEnabled: false` would otherwise disable it.
+
 ### Custom Auto Memory Directory
 
 By default, auto memory is stored in `~/.claude/projects/<project>/memory/`. You can change this location using the `autoMemoryDirectory` setting (available since **v2.1.74**):
@@ -936,13 +948,40 @@ graph LR
 
 - **Don't be vague**: Avoid generic statements like "follow best practices" or "write good code"
 
-- **Don't make it too long**: Keep individual memory files focused — keep it under a few hundred lines; shorter is better
+- **Don't make it too long**: Target **under 200 lines** per CLAUDE.md. Longer files still load in full, but adherence drops — see [Keeping CLAUDE.md small](#keeping-claudemd-small) below
 
 - **Don't over-organize**: Use hierarchy strategically; don't create excessive subdirectory overrides
 
 - **Don't forget to update**: Stale memory can cause confusion and outdated practices
 
 - **Don't exceed nesting limits**: Memory imports support a maximum depth of 4 hops
+
+### Keeping CLAUDE.md Small
+
+Anthropic's current guidance is the opposite of "put everything in CLAUDE.md". The file loads into **every** session, so every line you add is a line that competes for attention on tasks it has nothing to do with.
+
+**Rule of thumb: keep CLAUDE.md under 200 lines.** Longer files still load in full, but instruction adherence degrades as the file grows.
+
+When it starts growing, move content out rather than trimming prose:
+
+| Content | Where it belongs | Why |
+|---------|------------------|-----|
+| Multi-step procedures | A [skill](../03-skills/) | Loads on demand, only when relevant |
+| Directory- or file-type-specific rules | `.claude/rules/*.md` with `paths:` frontmatter | Scoped by glob; loads only when you touch matching files |
+| Reference material and long examples | A skill's `references/` directory | Read only when the skill needs it |
+| Things Claude should remember about *you* | Auto memory (on by default) | Written and loaded automatically |
+
+> **Note**: `@path` imports organize a large CLAUDE.md but do **not** save context — imported files are pulled in at load time just the same. Splitting into path-scoped rules is what actually reduces what loads.
+
+`/doctor` (v2.1.206+) inspects your configuration and proposes trims when CLAUDE.md has grown past the point of usefulness.
+
+### Don't Write Verification Reminders
+
+Older guidance encouraged lines like "always run the tests before saying you're done" or "double-check your work". On **Claude Opus 5 and Fable 5 these now cause over-verification** — Claude re-checks work that was already correct, burning turns and tokens.
+
+Anthropic removed more than 80% of Claude Code's own system prompt for the Claude 5 generation with no measured regression. The same principle applies to your CLAUDE.md: prefer stating the goal and letting Claude exercise judgment over enumerating the checks it should perform.
+
+Delete verification reminders from existing CLAUDE.md files targeting Opus 5 or Fable 5. Keep genuinely non-obvious project requirements — "integration tests need Docker running" is information, not a reminder.
 
 ### Memory Management Tips
 
@@ -1150,7 +1189,8 @@ Auto Memory is a separate mechanism (`~/.claude/projects/<project>/memory/`), no
 
 ---
 
-**Last Updated**: 2026-07-22
-**Claude Code Version**: 2.1.217
+**Last Updated**: August 4, 2026
+**Claude Code Version**: 2.1.220
 **Sources**:
 - https://code.claude.com/docs/en/memory
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

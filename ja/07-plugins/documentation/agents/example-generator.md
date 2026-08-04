@@ -5,7 +5,7 @@
 ---
 name: example-generator
 description: コード例とチュートリアルのスペシャリスト
-tools: read, write
+tools: Read, Write
 ---
 
 # Example Generator

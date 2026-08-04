@@ -66,7 +66,7 @@ Comprehensive documentation generation and maintenance for your project.
 
 ## Requirements
 
-- Claude Code 1.0+
+- Claude Code 2.1+
 - GitHub access (optional)
 
 ## Example Workflow

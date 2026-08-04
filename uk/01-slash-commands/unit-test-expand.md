@@ -1,7 +1,6 @@
 ---
-name: Expand Unit Tests
+name: unit-test-expand
 description: Збільшення покриття тестами шляхом тестування невідстежених гілок та граничних випадків
-tags: testing, coverage, unit-tests
 ---
 
 # Розширення юніт-тестів

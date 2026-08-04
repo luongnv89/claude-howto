@@ -1,7 +1,7 @@
 ---
 name: incident-commander
 description: Coordinates incident response
-tools: read, write, bash, grep
+tools: Read, Write, Bash, Grep
 ---
 
 # Incident Commander

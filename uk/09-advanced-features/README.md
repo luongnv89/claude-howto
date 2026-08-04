@@ -1684,7 +1684,7 @@ claude --no-sandbox    # Вимкнути пісочницю
 ```json
 {
   "permissions": {
-    "mode": "default"
+    "defaultMode": "manual"
   },
   "hooks": {
     "PreToolUse:Edit": "eslint --fix ${file_path}",
@@ -1707,7 +1707,7 @@ claude --no-sandbox    # Вимкнути пісочницю
 ```json
 {
   "permissions": {
-    "mode": "default",
+    "defaultMode": "manual",
     "allowedTools": ["Bash(git log:*)", "Read"],
     "disallowedTools": ["Bash(rm -rf:*)"]
   },
@@ -1809,7 +1809,7 @@ User: /config
     "PreToolUse": [{ "matcher": "Bash", "hooks": ["npm test && npm run lint"] }]
   },
   "permissions": {
-    "mode": "default"
+    "defaultMode": "manual"
   },
   "mcp": {
     "servers": {

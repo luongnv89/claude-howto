@@ -1,7 +1,7 @@
 ---
 name: deployment-specialist
 description: Handles all deployment operations
-tools: read, write, bash, grep
+tools: Read, Write, Bash, Grep
 ---
 
 # Deployment Specialist

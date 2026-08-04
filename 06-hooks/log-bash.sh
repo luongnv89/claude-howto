@@ -1,6 +1,6 @@
 #!/bin/bash
 # Log all bash commands
-# Hook: PostToolUse:Bash
+# Hook: PostToolUse (matcher: Bash)
 #
 # Reads the executed command from stdin JSON and logs it to a file.
 #

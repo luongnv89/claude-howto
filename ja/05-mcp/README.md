@@ -261,11 +261,22 @@ MCP サーバーはスラッシュコマンドとして表示されるプロン�
 
 MCP の設定は共有レベルの異なる複数のスコープに保存できる。
 
-| スコープ | 場所 | 説明 | 共有相手 | 承認の要否 |
-|----------|------|------|----------|-----------|
-| **Local**（デフォルト） | `~/.claude.json`（プロジェクトパス配下） | 現在のユーザー、現在のプロジェクトに非公開（旧バージョンでは `project` と呼ばれていた） | 自分のみ | 不要 |
-| **Project** | `.mcp.json` | git リポジトリにチェックインされる | チームメンバー | 必要（初回使用時） |
-| **User** | `~/.claude.json` | 全プロジェクトで利用可能（旧バージョンでは `global` と呼ばれていた） | 自分のみ | 不要 |
+| スコープ | フラグ | 場所 | 説明 | 共有相手 | 承認の要否 |
+|----------|--------|------|------|----------|-----------|
+| **Local**（デフォルト） | `--scope local` | `~/.claude.json`（プロジェクトパス配下） | 現在のユーザー、現在のプロジェクトに非公開（旧バージョンでは `project` と呼ばれていた） | 自分のみ | 不要 |
+| **Project** | `--scope project` | `.mcp.json` | git リポジトリにチェックインされる | チームメンバー | 必要（初回使用時） |
+| **User** | `--scope user` | `~/.claude.json` | 全プロジェクトで利用可能（旧バージョンでは `global` と呼ばれていた） | 自分のみ | 不要 |
+
+サーバー追加時のスコープは `--scope`（短縮形 `-s`）で選択する。省略した場合、
+Claude Code は `local` を使う。
+
+```bash
+# Project スコープ — .mcp.json に書き込まれ、チームで共有される
+claude mcp add --scope project --transport http github https://api.github.com/mcp
+
+# User スコープ — すべてのプロジェクトで利用できる
+claude mcp add --scope user --transport stdio memory -- npx @modelcontextprotocol/server-memory
+```
 
 ### Project スコープの使用
 

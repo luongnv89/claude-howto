@@ -1,7 +1,6 @@
 ---
-name: 扩充单元测试
+name: unit-test-expand
 description: 通过覆盖未测试分支和边界情况来提高测试覆盖率
-tags: testing, coverage, unit-tests
 ---
 
 # 扩充单元测试

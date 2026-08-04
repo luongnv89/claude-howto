@@ -24,7 +24,9 @@ Claude Code 目前提供 55+ 个内置命令和 5 个内置 Skills。你可以�
 |---------|---------|
 | `/add-dir <path>` | 添加工作目录 |
 | `/agents` | 管理 agent 配置 |
-| `/branch [name]` | 将当前对话分支到新会话（别名：`/fork`。注意：`/fork` 在 v2.1.77 中更名为 `/branch`） |
+| `/branch [name]` | 切换到当前对话的一个副本，原对话保持不变 |
+| `/fork [prompt]` | 把当前对话复制到一个新的**后台会话**，你可以继续在这里工作；从这一刻起两者互相独立，副本会在 `claude agents` 里占一行（v2.1.212+） |
+| `/subtask <task>` | 派生一个**forked subagent**，它继承完整对话并去执行该任务，你可以继续工作；任务完成后结果会返回到本对话（v2.1.212+） |
 | `/btw <question>` | 额外问题，不写入历史 |
 | `/chrome` | 配置 Chrome 浏览器集成 |
 | `/clear` | 清空对话（别名：`/reset`、`/new`） |
@@ -100,14 +102,13 @@ Claude Code 目前提供 55+ 个内置命令和 5 个内置 Skills。你可以�
 | 命令 | 状态 |
 |---------|--------|
 | `/review` | 已弃用，已被 `code-review` 插件替代 |
-| `/output-style` | 自 v2.1.73 起弃用 |
-| `/fork` | 已重命名为 `/branch`（别名仍可用，v2.1.77） |
+| `/output-style` | 已于 v2.1.91 移除（v2.1.73 起弃用）— 改用 `/config` → Output style，或 `outputStyle` 设置 |
 | `/vim` | 自 v2.1.92 起移除；改用 `/config → Editor mode` |
 
 ### 最近变化
 
-- `/fork` 已更名为 `/branch`，但保留 `/fork` 作为别名（v2.1.77）
-- `/output-style` 已弃用（v2.1.73）
+- `/fork` 与 `/subtask` 在 **v2.1.212** 互换了角色。`/fork` 现在是把对话复制到一个独立的后台会话；原来的 forked subagent 行为转移到了新命令 `/subtask`。历史：v2.1.77–v2.1.161 期间 `/fork` 是 `/branch` 的别名；v2.1.161–v2.1.211 期间它启动 forked subagent（即现在 `/subtask` 的行为）。关闭 agent view 时 `/subtask` 不可用，`/fork` 仍保留 forked subagent 行为
+- `/output-style` 已弃用（v2.1.73）并于 v2.1.91 移除 — output styles 仍可通过 `/config` → Output style 或 `outputStyle` 设置使用
 - `/review` 已弃用，推荐改用 `code-review` 插件
 - 新增 `/effort`，其中 `max` 级别需要 Opus 4.6
 - 新增 `/voice`，用于按住说话语音输入

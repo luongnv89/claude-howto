@@ -1,7 +1,6 @@
 ---
-name: Setup CI/CD Pipeline
+name: setup-ci-cd
 description: Implement pre-commit hooks and GitHub Actions for quality assurance
-tags: ci-cd, devops, automation
 ---
 
 # Setup CI/CD Pipeline
@@ -25,4 +24,8 @@ Implement comprehensive DevOps quality gates adapted to project type:
 Use free/open-source tools. Respect existing configs. Keep execution fast.
 
 ---
-**Last Updated**: April 9, 2026
+**Last Updated**: August 4, 2026
+**Claude Code Version**: 2.1.220
+**Sources**:
+- https://code.claude.com/docs/en/commands
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

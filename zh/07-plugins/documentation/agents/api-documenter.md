@@ -1,7 +1,7 @@
 ---
 name: api-documenter
 description: API 文档专家
-tools: read, write, grep
+tools: Read, Write, Grep
 ---
 
 # API 文档专家

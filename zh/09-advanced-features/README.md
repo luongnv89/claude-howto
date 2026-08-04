@@ -470,7 +470,8 @@ echo "hello" | claude -p "translate to Chinese"
 
 - `/resume`
 - `/rename`
-- `/fork`
+- `/fork` — 把对话复制到一个新的独立后台会话（v2.1.212+）
+- `/subtask` — 派生一个继承完整对话的 forked subagent，完成后把结果返回本对话（v2.1.212+）
 - `claude -c`
 - `claude -r`
 

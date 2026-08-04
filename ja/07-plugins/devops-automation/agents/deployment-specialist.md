@@ -5,7 +5,7 @@
 ---
 name: deployment-specialist
 description: あらゆるデプロイ作業を担当する
-tools: read, write, bash, grep
+tools: Read, Write, Bash, Grep
 ---
 
 # Deployment Specialist

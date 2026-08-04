@@ -149,11 +149,11 @@ graph TD
     S --> T[Test Automation]
     T --> U[Repository Ready]
 
-    style A fill:#e1f5ff
-    style G fill:#fff4e1
-    style K fill:#f0ffe1
-    style Q fill:#ffe1f5
-    style U fill:#90EE90
+    style A fill:#e1f5fe,stroke:#333,color:#333
+    style G fill:#fff9c4,stroke:#333,color:#333
+    style K fill:#e8f5e9,stroke:#333,color:#333
+    style Q fill:#f3e5f5,stroke:#333,color:#333
+    style U fill:#e8f5e9,stroke:#333,color:#333
 ```
 
 #### Для існуючого репозиторію
@@ -214,12 +214,12 @@ graph TD
     Y -->|Yes| H
     Y -->|No| Z[Workflow Complete]
 
-    style A fill:#e1f5ff
-    style C fill:#ffecec
-    style D fill:#fff4e1
-    style P fill:#f0ffe1
-    style T fill:#ffe1f5
-    style Z fill:#90EE90
+    style A fill:#e1f5fe,stroke:#333,color:#333
+    style C fill:#fce4ec,stroke:#333,color:#333
+    style D fill:#fff9c4,stroke:#333,color:#333
+    style P fill:#e8f5e9,stroke:#333,color:#333
+    style T fill:#f3e5f5,stroke:#333,color:#333
+    style Z fill:#e8f5e9,stroke:#333,color:#333
 ```
 
 **Поради**:
@@ -245,7 +245,7 @@ graph TD
 | **Extended Thinking** | Перемикання глибокого мислення через `Alt+T`/`Option+T` або змінну `MAX_THINKING_TOKENS` | [Просунуті функції](09-advanced-features/) |
 | **Permission Modes** | Тонке управління: default, acceptEdits, plan, auto, dontAsk, bypassPermissions | [Просунуті функції](09-advanced-features/) |
 | **7-Tier Memory** | Managed Policy, Project, Project Rules, User, User Rules, Local, Auto Memory | [Посібник з пам'яті](02-memory/) |
-| **Hook Events** | 25 подій: PreToolUse, PostToolUse, PostToolUseFailure, Stop, StopFailure, SubagentStart, SubagentStop, Notification, Elicitation та інші | [Посібник з хуків](06-hooks/) |
+| **Hook Events** | 31 подія: PreToolUse, PostToolUse, PostToolUseFailure, Stop, StopFailure, SubagentStart, SubagentStop, Notification, Elicitation та інші | [Посібник з хуків](06-hooks/) |
 | **Agent Teams** | Координація кількох агентів для складних завдань | [Посібник з субагентів](04-subagents/) |
 | **Scheduled Tasks** | Налаштування повторюваних завдань з `/loop` та cron | [Просунуті функції](09-advanced-features/) |
 | **Chrome Integration** | Автоматизація браузера з headless Chromium | [Просунуті функції](09-advanced-features/) |

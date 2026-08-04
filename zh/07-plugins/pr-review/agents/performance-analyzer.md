@@ -1,7 +1,7 @@
 ---
 name: performance-analyzer
 description: 性能影响分析
-tools: read, grep, bash
+tools: Read, Grep, Bash
 ---
 
 # 性能分析器

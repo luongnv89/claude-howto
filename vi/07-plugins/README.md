@@ -760,7 +760,7 @@ Workflow PR review hoàn chỉnh với các kiểm tra bảo mật, testing, và
 ```
 
 ## Yêu Cầu
-- Claude Code 1.0+
+- Claude Code 2.1+
 - Truy cập GitHub
 - CodeQL (tùy chọn)
 ```

@@ -1,7 +1,7 @@
 ---
 name: deployment-specialist
 description: 处理所有部署操作
-tools: read, write, bash, grep
+tools: Read, Write, Bash, Grep
 ---
 
 # 部署专家

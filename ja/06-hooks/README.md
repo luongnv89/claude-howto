@@ -179,14 +179,16 @@ LLM はプロンプトを評価し、構造化された判定を返す（詳細�
 
 ## フックイベント
 
-Claude Code は **28 種類のフックイベント** をサポートする。
+Claude Code は **31 種類のフックイベント** をサポートする。
 
 | イベント | 発火タイミング | マッチャー入力 | ブロック可否 | 用途例 |
 |----------|---------------|---------------|-------------|--------|
 | **SessionStart** | セッション開始/再開/clear/compact/fork | startup/resume/clear/compact/fork | 不可 | 環境セットアップ |
+| **Setup** | 初回の環境セットアップ（セッションごとに1回） | （なし） | 不可 | ツールのプロビジョニング、依存関係のインストール |
 | **InstructionsLoaded** | CLAUDE.md やルールファイルが読み込まれた後 | （なし） | 不可 | 指示の修正/フィルタ |
 | **UserPromptSubmit** | ユーザーがプロンプトを送信 | （なし） | 可 | プロンプト検証 |
 | **UserPromptExpansion** | ユーザープロンプトが展開（`@` メンション、スラッシュコマンド解決など） | （なし） | 可 | 展開後のプロンプトを変換/検査 |
+| **MessageDisplay** | アシスタントのメッセージ本文が表示される際 | （なし） | 不可 | 表示テキストの変換・非表示化（v2.1.152） |
 | **PreToolUse** | ツール実行前 | ツール名 | 可（allow/deny/ask） | 入力の検証・修正 |
 | **PermissionRequest** | 権限ダイアログ表示 | ツール名 | 可 | 自動承認/拒否 |
 | **PermissionDenied** | ユーザーが権限プロンプトを拒否 | ツール名 | 不可 | ロギング、解析、ポリシー強制 |
@@ -203,6 +205,7 @@ Claude Code は **28 種類のフックイベント** をサポートする。
 | **TaskCreated** | TaskCreate でタスク作成 | （なし） | 不可 | タスク追跡、ロギング |
 | **ConfigChange** | 設定ファイル変更 | （なし） | 可（ポリシーを除く） | 設定更新への反応 |
 | **CwdChanged** | 作業ディレクトリ変更 | （なし） | 不可 | ディレクトリ固有のセットアップ |
+| **DirectoryAdded** | `/add-dir` または SDK の `register_repo_root` コントロールリクエストにより、セッション中に新しい作業ディレクトリが登録された時（v2.1.219） | （なし） | 不可 | 追加されたディレクトリ向けのツール設定 |
 | **FileChanged** | 監視ファイル変更 | （なし） | 不可 | ファイル監視、再ビルド |
 | **PreCompact** | コンテキスト圧縮前 | manual/auto | 不可 | 圧縮前の処理 |
 | **PostCompact** | 圧縮完了後 | （なし） | 不可 | 圧縮後の処理 |
@@ -240,8 +243,13 @@ Claude がツールパラメータを生成した後、処理開始前に動作�
 **一般的なマッチャー：** `Task`、`Bash`、`Glob`、`Grep`、`Read`、`Edit`、`Write`、`WebFetch`、`WebSearch`
 
 **出力制御：**
-- `permissionDecision`: `"allow"`、`"deny"`、`"ask"`
-- `permissionDecisionReason`: 判定の理由
+- `permissionDecision`: `"allow"`、`"deny"`、`"ask"`、`"defer"`
+  - `"allow"` は権限プロンプトをスキップする（ユーザー操作が必須のツール、および組織が `ask` に設定したコネクタツールを除く）
+  - `"deny"` はツール呼び出しを阻止する
+  - `"ask"` はユーザーに確認を求める
+  - `"defer"` は正常終了して後でツールを再開できるようにする。この値では `permissionDecisionReason`、`updatedInput`、`additionalContext` はいずれも無視される
+  - フックが何を返しても deny／ask のルールは引き続き評価される。複数の `PreToolUse` フックの判定が食い違う場合、優先順位は `deny` > `defer` > `ask` > `allow` となる
+- `permissionDecisionReason`: 判定の理由。`"allow"` と `"ask"` では（Claude ではなく）ユーザーに表示され、`"deny"` では Claude に表示される。`"defer"` では無視される
 - `updatedInput`: 修正されたツール入力パラメータ
 
 ### PostToolUse

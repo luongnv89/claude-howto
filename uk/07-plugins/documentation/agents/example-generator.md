@@ -1,7 +1,7 @@
 ---
 name: example-generator
 description: Спеціаліст з прикладів коду та туторіалів
-tools: read, write
+tools: Read, Write
 ---
 
 # Генератор прикладів

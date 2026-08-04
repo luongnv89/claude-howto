@@ -215,15 +215,21 @@ Claude Code はチェックポイントを自動管理する：
 
 チェックポイントは Claude Code の組み込み機能で、有効化のための設定は不要である。ユーザー入力のたびにチェックポイントが自動生成される。
 
-チェックポイントに関連する唯一の設定は `cleanupPeriodDays` で、セッションとチェックポイントの保持期間を制御する：
+チェックポイントの挙動は 2 つの設定で制御する。スナップショットを取得するかどうかと、どれだけ保持するかである：
 
 ```json
 {
+  "fileCheckpointingEnabled": true,
   "cleanupPeriodDays": 30
 }
 ```
 
-- `cleanupPeriodDays`: セッション履歴とチェックポイントの保持日数（デフォルト: `30`）
+| 設定 | デフォルト | 効果 |
+|------|-----------|------|
+| `fileCheckpointingEnabled` | `true` | 各編集の前にファイルをスナップショットし、`/rewind` で復元できるようにする。v2.1.119 以降が必要。`/config` では **Rewind code (checkpoints)** として表示される。環境変数での同等指定は `CLAUDE_CODE_DISABLE_FILE_CHECKPOINTING` |
+| `cleanupPeriodDays` | `30` | セッション履歴とチェックポイントの保持日数 |
+
+Claude Code がスナップショットを保持するのは **直近 100 件のチェックポイント** までで、それより古いものは保持期間内であっても削除される。
 
 > **v2.1.117 のアップデート**: `cleanupPeriodDays` がチェックポイントだけでなく、ディスク上の 4 種類のキャッシュの保持期間を統合的に制御するようになった：
 >

@@ -1,7 +1,6 @@
 ---
-name: Expand Unit Tests
+name: unit-test-expand
 description: Increase test coverage by targeting untested branches and edge cases
-tags: testing, coverage, unit-tests
 ---
 
 # Expand Unit Tests
@@ -25,4 +24,8 @@ Expand existing unit tests adapted to project's testing framework:
 Present new test code blocks only. Follow existing test patterns and naming conventions.
 
 ---
-**Last Updated**: April 9, 2026
+**Last Updated**: August 4, 2026
+**Claude Code Version**: 2.1.220
+**Sources**:
+- https://code.claude.com/docs/en/commands
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

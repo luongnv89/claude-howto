@@ -1,7 +1,7 @@
 ---
 name: test-checker
 description: Аналіз покриття тестами та їх якості
-tools: read, bash, grep
+tools: Read, Bash, Grep
 ---
 
 # Перевірник тестів

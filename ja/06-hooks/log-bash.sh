@@ -1,6 +1,6 @@
 #!/bin/bash
 # すべての bash コマンドを記録する
-# フック：PostToolUse:Bash
+# フック：PostToolUse（matcher: Bash）
 #
 # 標準入力の JSON から実行コマンドを読み取り、ファイルに記録する。
 #

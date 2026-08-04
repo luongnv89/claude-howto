@@ -5,7 +5,7 @@
 ---
 name: security-reviewer
 description: セキュリティに特化したコードレビュー
-tools: read, grep, bash
+tools: Read, Grep, Bash
 ---
 
 # Security Reviewer

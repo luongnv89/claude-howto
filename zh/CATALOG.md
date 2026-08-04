@@ -17,12 +17,12 @@
 |---------|----------|----------|-------|-----------|
 | **Slash Commands** | 55+ | 8 | 63+ | [01-slash-commands/README.md](01-slash-commands/README.md) |
 | **Subagents** | 6 | 10 | 16 | [04-subagents/README.md](04-subagents/README.md) |
-| **Skills** | 5 个内置 | 4 | 9 | [03-skills/README.md](03-skills/README.md) |
+| **Skills** | 10 个内置 | 4 | 14 | [03-skills/README.md](03-skills/README.md) |
 | **Plugins** | - | 3 | 3 | [07-plugins/README.md](07-plugins/README.md) |
 | **MCP Servers** | 1 | 8 | 9 | [05-mcp/README.md](05-mcp/README.md) |
-| **Hooks** | 25 个事件 | 7 | 7 | [06-hooks/README.md](06-hooks/README.md) |
+| **Hooks** | 31 个事件 | 7 | 7 | [06-hooks/README.md](06-hooks/README.md) |
 | **Memory** | 7 种类型 | 3 | 3 | [02-memory/README.md](02-memory/README.md) |
-| **总计** | **99** | **43** | **117** | |
+| **总计** | **110** | **43** | **122** | |
 
 ---
 
@@ -78,7 +78,8 @@
 | `/desktop` | 打开 Claude Desktop 应用 | 切换桌面界面 |
 | `/theme` | 更改颜色主题 | 自定义外观 |
 | `/usage` | 显示 API 使用统计 | 监控配额和消耗 |
-| `/fork` | 分叉当前对话 | 探索替代方案 |
+| `/fork` | 把当前对话复制到一个新的独立后台会话（v2.1.212+） | 并行探索替代方案 |
+| `/subtask` | 派生一个继承当前对话的 forked subagent，完成后把结果返回给本对话（v2.1.212+） | 委派支线任务而不打断当前思路 |
 | `/stats` | 显示会话统计 | 查看会话指标 |
 | `/statusline` | 配置状态栏 | 自定义状态显示 |
 | `/stickers` | 查看会话贴纸 | 趣味奖励 |
@@ -234,6 +235,11 @@ cp -r 03-skills/* ~/.claude/skills/
 | `/debug` | 调试失败的测试/错误 | 调试会话 |
 | `/loop` | 按间隔运行提示词 | 周期性任务 |
 | `/claude-api` | 使用 Claude API 构建应用 | API 开发 |
+| `/code-review` | 按指定强度审查当前 diff 的正确性问题（例如 `/code-review high`）；加 `--comment` 可把结论发成 PR 行内评论。自 v2.1.218 起以**后台 subagent** 运行 | 写完代码后、合并 PR 前 |
+| `/fewer-permission-prompts` | 扫描历史记录并给出按优先级排序的允许列表建议 | 减少重复的权限提示 |
+| `/run` *(v2.1.145+)* | 启动当前项目的应用，直观看到改动效果 | 在真实应用里验证改动 |
+| `/run-skill-generator` *(v2.1.145+)* | 教会 `/run`、`/verify` 如何处理某个具体项目 | 首次为项目配置 `/run` |
+| `/verify` *(v2.1.145+)* | 构建、运行并观察应用，确认修复真的生效 | 端到端验证修复 |
 
 ---
 

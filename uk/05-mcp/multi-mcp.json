@@ -1,29 +1,42 @@
 {
   "mcpServers": {
     "github": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["@modelcontextprotocol/server-github"],
+      "args": [
+        "@modelcontextprotocol/server-github"
+      ],
       "env": {
         "GITHUB_TOKEN": "${GITHUB_TOKEN}"
       }
     },
     "database": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["@modelcontextprotocol/server-database"],
+      "args": [
+        "@modelcontextprotocol/server-database"
+      ],
       "env": {
         "DATABASE_URL": "${DATABASE_URL}"
       }
     },
     "slack": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["@modelcontextprotocol/server-slack"],
+      "args": [
+        "@modelcontextprotocol/server-slack"
+      ],
       "env": {
         "SLACK_TOKEN": "${SLACK_TOKEN}"
       }
     },
     "filesystem": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["@modelcontextprotocol/server-filesystem", "/home/user/projects"]
+      "args": [
+        "@modelcontextprotocol/server-filesystem",
+        "/home/user/projects"
+      ]
     }
   }
 }

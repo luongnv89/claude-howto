@@ -103,7 +103,7 @@ graph TD
 | **3** | [Checkpoints](08-checkpoints/README.md) | ⭐⭐ Intermediate | 45 分钟 | Level 1 | 会话管理 | 安全探索 | 试验、恢复 |
 | **4** | [CLI Basics](10-cli/README.md) | ⭐⭐ Beginner+ | 30 分钟 | Level 1 | 无 | 核心 CLI 用法 | 交互式与 print mode |
 | **5** | [Skills](03-skills/README.md) | ⭐⭐ Intermediate | 1 小时 | Level 2 | Slash Commands | 自动化专业能力 | 可复用能力、一致性 |
-| **6** | [Hooks](06-hooks/README.md) | ⭐⭐ Intermediate | 1 小时 | Level 2 | 工具、命令 | 工作流自动化（25 个事件、4 种类型） | 校验、质量门禁 |
+| **6** | [Hooks](06-hooks/README.md) | ⭐⭐ Intermediate | 1 小时 | Level 2 | 工具、命令 | 工作流自动化（31 个事件、5 种类型） | 校验、质量门禁 |
 | **7** | [MCP](05-mcp/README.md) | ⭐⭐⭐ Intermediate+ | 1 小时 | Level 2 | 配置 | 实时数据访问 | 实时集成、API |
 | **8** | [Subagents](04-subagents/README.md) | ⭐⭐⭐ Intermediate+ | 1.5 小时 | Level 2 | Memory、命令 | 处理复杂任务（包含 Bash 在内的 6 个内置 agent） | 委派、专业分工 |
 | **9** | [Advanced Features](09-advanced-features/README.md) | ⭐⭐⭐⭐⭐ Advanced | 2-3 小时 | Level 3 | 前面所有内容 | 高阶工具 | Planning、自动模式（Auto Mode）、通道（Channels）、语音输入、权限控制 |

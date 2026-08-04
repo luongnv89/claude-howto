@@ -575,7 +575,7 @@ graph TD
     B --> C["3. Project Rules<br/>.claude/rules/*.md"]
     C --> D["4. User Memory<br/>~/.claude/CLAUDE.md"]
     D --> E["5. User Rules<br/>~/.claude/rules/*.md"]
-    E --> F["6. Local Memory<br/>.claude/local/CLAUDE.md"]
+    E --> F["6. Local Memory<br/>./CLAUDE.local.md"]
     F --> G["7. Auto Memory<br/>Automatically captured preferences"]
 
     style A fill:#fce4ec,stroke:#333,color:#333
@@ -596,7 +596,7 @@ graph TD
 | 3. Project Rules | `.claude/rules/*.md` | プロジェクト | 高 | チーム（Git） | プロジェクト規約のモジュール化 |
 | 4. User | `~/.claude/CLAUDE.md` | 個人 | 中 | 個人 | 個人の好み |
 | 5. User Rules | `~/.claude/rules/*.md` | 個人 | 中 | 個人 | 個人ルールのモジュール化 |
-| 6. Local | `.claude/local/CLAUDE.md` | ローカル | 低 | 共有しない | マシン固有設定 |
+| 6. Local | `./CLAUDE.local.md` | ローカル | 低 | 共有しない | マシン固有設定 |
 | 7. Auto Memory | 自動 | セッション | 最低 | 個人 | 学習された好み・パターン |
 
 ### Auto Memory
@@ -1166,7 +1166,7 @@ Send summary to #daily-reports channel
 
 Final Output:
 ✅ Report generated and posted
-📊 47 PRs merged this week
+📊 42 PRs merged this week
 💰 $12,450 in daily sales
 ```
 
@@ -2548,7 +2548,7 @@ Complete PR review workflow with security, testing, and documentation checks.
 ```
 
 ## Requirements
-- Claude Code 1.0+
+- Claude Code 2.1+
 - GitHub access
 - CodeQL (optional)
 ~~~~
@@ -2813,7 +2813,7 @@ graph TD
 
 ### フックイベント
 
-Claude Code は 5 種類（command、http、mcp_tool、prompt、agent）にわたる **28 種類のフックイベント** をサポートする：
+Claude Code は 5 種類（command、http、mcp_tool、prompt、agent）にわたる **31 種類のフックイベント** をサポートする：
 
 | フックイベント | トリガー | ユースケース |
 |------------|---------|-----------|
@@ -3113,7 +3113,7 @@ User: \
     "maxConcurrentTasks": 5
   },
   "permissions": {
-    "mode": "default"
+    "defaultMode": "default"
   }
 }
 ```

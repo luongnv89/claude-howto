@@ -1,7 +1,7 @@
 ---
 name: code-commentator
 description: Code comment and inline documentation specialist
-tools: read, write, edit
+tools: Read, Write, Edit
 ---
 
 # Code Commentator

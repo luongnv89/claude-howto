@@ -1,7 +1,6 @@
 ---
-name: 文档重构
+name: doc-refactor
 description: 为项目重新组织文档结构，以提升清晰度和可访问性
-tags: documentation, refactoring, organization
 ---
 
 # 文档重构

@@ -1,7 +1,7 @@
 ---
 name: example-generator
 description: Code example and tutorial specialist
-tools: read, write
+tools: Read, Write
 ---
 
 # Example Generator

@@ -18,14 +18,15 @@ Slash commands are shortcuts that control Claude's behavior during an interactiv
 
 ## Built-in Commands Reference
 
-Built-in commands are shortcuts for common actions. There are **60+ built-in commands** and **5 bundled skills** available. Type `/` in Claude Code to see the full list, or type `/` followed by any letters to filter.
+Built-in commands are shortcuts for common actions. There are **60+ built-in commands** and **10 bundled skills** available. Type `/` in Claude Code to see the full list, or type `/` followed by any letters to filter.
 
 | Command | Purpose |
 |---------|---------|
 | `/add-dir <path>` | Add working directory |
 | `/agents` | Manage agent configurations |
 | `/branch [name]` | Switch into a copy of the conversation at this point, preserving the original (return to it with `/resume`) |
-| `/fork <directive>` | Spawn a background subagent that inherits the full conversation and works on the directive while you keep going; its own row in `claude agents` |
+| `/fork [prompt]` | Copy the current conversation into a new **background session** and keep working here; the two are independent from that point on and the copy gets its own row in `claude agents` (v2.1.212+) |
+| `/subtask <task>` | Spawn a **forked subagent** that inherits the full conversation and works on the task while you keep going; its result returns to this conversation when it finishes (v2.1.212+) |
 | `/btw <question>` | Ask an ephemeral side question while Claude is working on the main task; doesn't pollute the main conversation context |
 | `/cd <path>` | Move the session to a new working directory without breaking the prompt cache (added v2.1.169) |
 | `/chrome` | Configure Chrome browser integration |
@@ -55,7 +56,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/install-github-app` | Set up GitHub Actions app |
 | `/install-slack-app` | Install Slack app |
 | `/keybindings` | Open keybindings configuration |
-| `/less-permission-prompts` | Analyze recent Bash/MCP tool calls and add a prioritized allowlist to `.claude/settings.json` to reduce permission prompts (added v2.1.111) |
+| `/fewer-permission-prompts` | Analyze recent Bash/MCP tool calls and add a prioritized allowlist to `.claude/settings.json` to reduce permission prompts (added v2.1.111) |
 | `/login` | Switch Anthropic accounts |
 | `/logout` | Sign out from your Anthropic account |
 | `/mcp` | Manage MCP servers and OAuth |
@@ -121,15 +122,15 @@ These skills ship with Claude Code and are invoked like slash commands:
 
 | Command | Status |
 |---------|--------|
-| `/output-style` | Deprecated since v2.1.73 |
+| `/output-style` | Removed in v2.1.91 (deprecated v2.1.73) — use `/config` → Output style, or the `outputStyle` setting |
 | `/pr-comments` | Removed in v2.1.91 — ask Claude directly to view PR comments |
 | `/vim` | Removed in v2.1.92 — use /config → Editor mode |
 
 ### Recent Changes
 
-- `/fork` was an alias for `/branch` from v2.1.77 until v2.1.161, when they became distinct commands: `/fork` now spawns a background subagent that inherits the conversation, while `/branch` switches you into a copy in place
+- `/fork` and `/subtask` swapped roles in **v2.1.212**. `/fork` now copies the conversation into a new independent background session; the forked-subagent behavior it used to have moved to the new `/subtask` command. History: `/fork` was an alias for `/branch` from v2.1.77 to v2.1.161; from v2.1.161 to v2.1.211 it started a forked subagent (what `/subtask` does now). When agent view is turned off, `/subtask` is unavailable and `/fork` keeps the forked-subagent behavior
 - `/resume` (no arguments) opens a picker of past sessions — including ones removed from the visible list — and resumes the chosen one as a background session (v2.1.212)
-- `/output-style` deprecated (v2.1.73)
+- `/output-style` deprecated (v2.1.73) and removed (v2.1.91) — output styles are still available via `/config` → Output style or the `outputStyle` setting; the built-ins are Default, Proactive, Explanatory, and Learning
 - `/review <pr>` now uses the same review engine as `/code-review medium` (v2.1.186)
 - `/effort` command added; `max` level available on Opus 4.6+ (originally Opus 4.6-only)
 - `/voice` command added for push-to-talk voice dictation
@@ -151,7 +152,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 - `/proactive` added as alias for `/loop` (v2.1.105)
 - `/effort` gained interactive arrow-key slider and new `xhigh` level between `high` and `max`; default effort raised to `xhigh` for Opus 4.7 plans (v2.1.111). On Opus 4.8 the default is `high` (v2.1.154); Opus 5 also defaults to `high` (v2.1.219)
 - `/ultrareview` added for comprehensive cloud-based multi-agent code review (v2.1.111)
-- `/less-permission-prompts` added to analyze Bash/MCP tool calls and reduce permission prompts via an allowlist in `.claude/settings.json` (v2.1.111)
+- `/fewer-permission-prompts` added to analyze Bash/MCP tool calls and reduce permission prompts via an allowlist in `.claude/settings.json` (v2.1.111)
 - Auto mode no longer requires the `--enable-auto-mode` flag for Max subscribers on Opus 4.7 (v2.1.112)
 - `/goal` added — session-level completion condition that Claude works toward across turns; live overlay shows elapsed time, turn count, and token usage (v2.1.139)
 - `/scroll-speed` added — tune mouse-wheel scroll speed of the TUI live-preview pane; persists per-machine (v2.1.139)
@@ -633,7 +634,7 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: July 29, 2026
+**Last Updated**: August 4, 2026
 **Claude Code Version**: 2.1.220
 **Sources**:
 - https://code.claude.com/docs/en/slash-commands
@@ -648,6 +649,6 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.152
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.153
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
-**Compatible Models**: Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Part of the [Claude How To](../) guide series*

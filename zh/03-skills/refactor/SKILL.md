@@ -1,5 +1,5 @@
 ---
-name: code-refactor
+name: refactor
 description: 基于 Martin Fowler 方法论的系统化代码重构 skill。适用于用户请求重构代码、改进代码结构、减少技术债、清理旧代码、消除 code smell 或提升可维护性时。这个 skill 采用分阶段、带研究与计划的安全增量实施方式。
 ---
 

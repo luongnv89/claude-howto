@@ -108,7 +108,7 @@ chmod +x ~/.claude/hooks/*.sh
 # default        - Запитувати дозвіл на ризиковані дії
 # acceptEdits    - Автоприйняття редагувань, запит на інше
 # plan           - Лише аналіз, без змін (тільки читання)
-# dontAsk        - Приймати все, крім ризикованого
+# dontAsk        - Лише попередньо затверджені інструменти; решта відхиляється
 # auto           - Фоновий класифікатор вирішує автоматично
 # bypassPermissions - Приймати все (потребує --dangerously-skip-permissions)
 
@@ -131,7 +131,7 @@ claude -r "session"    # Відновити сесію за назвою/ID
 | **Навички** | `.claude/skills/*/SKILL.md` | Автовиклик |
 | **Субагенти** | `.claude/agents/*.md` | Автоделегування |
 | **MCP** | `.mcp.json` (проект) або `~/.claude.json` (користувач) | `/mcp__server__action` |
-| **Хуки (25 подій)** | `~/.claude/hooks/*.sh` | Тригер на подію (4 типи) |
+| **Хуки (31 подія)** | `~/.claude/hooks/*.sh` | Тригер на подію (5 типів) |
 | **Плагіни** | Через `/plugin install` | Пакет всього |
 | **Контрольні точки** | Вбудовано | `Esc+Esc` або `/rewind` |
 | **Режим планування** | Вбудовано | `/plan <завдання>` |
@@ -207,7 +207,7 @@ vim CLAUDE.md
 ### Автоматизація та хуки
 
 ```bash
-# Встановити хуки (25 подій, 4 типи: command, http, prompt, agent)
+# Встановити хуки (31 подія, 5 типів: command, http, mcp_tool, prompt, agent)
 mkdir -p ~/.claude/hooks
 cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
@@ -421,7 +421,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Auto Mode** | Повністю автономна робота з фоновим класифікатором | Прапорець `--enable-auto-mode`, `Shift+Tab` для зміни режимів |
 | **Канали** | Інтеграція з Discord та Telegram | Прапорець `--channels`, боти Discord/Telegram |
 | **Голосовий ввід** | Голосові команди та контекст для Claude | Команда `/voice` |
-| **Хуки (26 подій)** | Розширена система хуків з 4 типами | Типи: command, http, prompt, agent |
+| **Хуки (31 подія)** | Розширена система хуків з 5 типами | Типи: command, http, mcp_tool, prompt, agent |
 | **MCP Elicitation** | MCP-сервери можуть запитувати ввід під час виконання | Автозапит при потребі сервера |
 | **Plugin LSP** | Підтримка Language Server Protocol для плагінів | `userConfig`, змінна `${CLAUDE_PLUGIN_DATA}` |
 | **Віддалене керування** | Керування Claude Code через WebSocket API | `claude --remote` для зовнішніх інтеграцій |
@@ -479,7 +479,7 @@ echo $GITHUB_TOKEN
 | Автоматичний процес | Навичка | `03-skills/code-review-specialist/` |
 | Спеціалізоване завдання | Субагент | `04-subagents/code-reviewer.md` |
 | Зовнішні дані | MCP (+ Elicitation) | `05-mcp/github-mcp.json` |
-| Автоматизація подій | Хук (26 подій, 4 типи) | `06-hooks/pre-commit.sh` |
+| Автоматизація подій | Хук (31 подія, 5 типів) | `06-hooks/pre-commit.sh` |
 | Комплексне рішення | Плагін (+ LSP) | `07-plugins/pr-review/` |
 | Безпечний експеримент | Контрольна точка | `08-checkpoints/checkpoint-examples.md` |
 | Повна автономія | Auto Mode | `--enable-auto-mode` або `Shift+Tab` |

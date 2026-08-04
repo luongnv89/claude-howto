@@ -32,7 +32,7 @@ except ImportError:
     )
 
 # Configuration
-CONTEXT_LIMIT = 128000  # Claude's context window (adjust for your model)
+CONTEXT_LIMIT = 1000000  # 1M on Opus 5, Sonnet 5, Opus 4.8, Sonnet 4.6; 200000 on Haiku 4.5 (adjust for your model)
 
 
 def get_state_file(session_id: str) -> str:

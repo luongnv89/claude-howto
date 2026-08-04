@@ -75,7 +75,7 @@
 
 ## Вимоги
 
-- Claude Code 1.0+
+- Claude Code 2.1+
 - Kubernetes CLI (kubectl)
 - Налаштований доступ до кластера
 

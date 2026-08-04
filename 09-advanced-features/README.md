@@ -22,22 +22,24 @@ Comprehensive guide to Claude Code's advanced capabilities including planning mo
 11. [Headless Mode](#headless-mode)
 12. [Session Management](#session-management)
 13. [Interactive Features](#interactive-features)
-14. [TUI Mode (Fullscreen)](#tui-mode-fullscreen)
-15. [Voice Dictation](#voice-dictation)
-16. [Channels](#channels)
-17. [Chrome Integration](#chrome-integration)
-18. [Remote Control](#remote-control)
-19. [Web Sessions](#web-sessions)
-20. [Desktop App](#desktop-app)
-21. [Task List](#task-list)
-22. [Prompt Suggestions](#prompt-suggestions)
-23. [Git Worktrees](#git-worktrees)
-24. [Sandboxing](#sandboxing)
-25. [Managed Settings (Enterprise)](#managed-settings-enterprise)
-26. [Configuration and Settings](#configuration-and-settings)
-27. [Agent Teams](#agent-teams)
-28. [Best Practices](#best-practices)
-29. [Additional Resources](#additional-resources)
+14. [Output Styles](#output-styles)
+15. [Status Line](#status-line)
+16. [TUI Mode (Fullscreen)](#tui-mode-fullscreen)
+17. [Voice Dictation](#voice-dictation)
+18. [Channels](#channels)
+19. [Chrome Integration](#chrome-integration)
+20. [Remote Control](#remote-control)
+21. [Web Sessions](#web-sessions)
+22. [Desktop App](#desktop-app)
+23. [Task List](#task-list)
+24. [Prompt Suggestions](#prompt-suggestions)
+25. [Git Worktrees](#git-worktrees)
+26. [Sandboxing](#sandboxing)
+27. [Managed Settings (Enterprise)](#managed-settings-enterprise)
+28. [Configuration and Settings](#configuration-and-settings)
+29. [Agent Teams](#agent-teams)
+30. [Best Practices](#best-practices)
+31. [Additional Resources](#additional-resources)
 
 ---
 
@@ -319,6 +321,14 @@ Separate from the [`fallbackModel` setting](#fallback-models-fallbackmodel) (whi
 - Workloads in offensive security or biology — penetration testing, Capture the Flag (CTF) exercises, and biology-adjacent codebases — trigger fallback frequently, often on the first request.
 
 Why this matters here: if you run [security-review subagents](../04-subagents/README.md) or CTF/pentest work on Opus 5, expect silent re-runs on Opus 4.8 (different effort ceiling and context window) for cybersecurity prompts, and outright refusals for biology-adjacent ones. Pin a different model explicitly if that behavior gets in the way.
+
+**Controlling the switch** — the `switchModelsOnFlag` setting (v2.1.170+, default `true`) decides whether the fallback happens silently. Set it to `false` and Claude Code pauses instead, letting you choose between switching models and editing the prompt. It appears in `/config` as **Switch models when a message is flagged**.
+
+```json
+{
+  "switchModelsOnFlag": false
+}
+```
 
 ### Benefits of Extended Thinking
 
@@ -900,7 +910,7 @@ Permission modes control what actions Claude can take without explicit approval.
 | `bypassPermissions` | All actions, no permission checks (dangerous) |
 | `dontAsk` | Only pre-approved tools execute; all others denied |
 
-> **Note**: The interactive default mode was renamed from `default` to **Manual** in v2.1.200 (across the CLI, `--help`, VS Code, and JetBrains), and a grey ⏸ badge appears in the footer while it is active (v2.1.203). Both `--permission-mode manual` and `--permission-mode default` work, as do `"defaultMode": "manual"` and `"defaultMode": "default"` in settings — so the `"mode": "default"` values in the config examples below remain valid.
+> **Note**: The interactive default mode was renamed from `default` to **Manual** in v2.1.200 (across the CLI, `--help`, VS Code, and JetBrains), and a grey ⏸ badge appears in the footer while it is active (v2.1.203). Both `--permission-mode manual` and `--permission-mode default` work, as do `"defaultMode": "manual"` and `"defaultMode": "default"` in settings. Note that the settings key is `permissions.defaultMode` — there is no `permissions.mode` key, so the examples below use the canonical spelling.
 
 Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting.
 
@@ -1136,7 +1146,8 @@ Manage multiple Claude Code sessions effectively.
 |---------|-------------|
 | `/resume` | Resume a conversation by ID or name |
 | `/rename` | Name the current session |
-| `/fork <directive>` | Spawn a background subagent that inherits the full conversation and works on the directive while you keep going |
+| `/fork [prompt]` | Copy the conversation into a new independent background session and keep working here (v2.1.212+) |
+| `/subtask <task>` | Spawn a forked subagent that inherits the full conversation and reports its result back here (v2.1.212+) |
 | `/branch [name]` | Switch into a copy of the conversation at this point, preserving the original |
 | `claude -c` | Continue most recent conversation |
 | `claude -r "session"` | Resume session by name or ID |
@@ -1162,19 +1173,27 @@ claude -r "auth-refactor" "finish this PR"
 
 ### Forking and Branching Sessions
 
-`/fork <directive>` spawns a background subagent that inherits the full conversation and works on the directive while you keep working in the current session — its own row in `claude agents`, with the result returned to your conversation when it finishes:
+Three commands make copies of a conversation, and they differ in *where the copy runs*:
+
+`/subtask <task>` spawns a forked subagent that inherits the full conversation and works on the task while you keep working — its own row in `claude agents`, with the result returned to your conversation when it finishes:
 
 ```
-/fork Investigate why the auth tests are flaky
+/subtask Investigate why the auth tests are flaky
 ```
 
-To switch into a copy of the conversation yourself instead of delegating to a background subagent, use `/branch [name]`, which preserves the original and lets you return to it with `/resume`:
+`/fork [prompt]` copies the conversation into a new **background session** instead. The copy starts with everything up to now and runs independently — nothing comes back to this conversation:
+
+```
+/fork Try the OAuth approach end to end
+```
+
+To switch into a copy yourself rather than delegating at all, use `/branch [name]`, which preserves the original and lets you return to it with `/resume`:
 
 ```
 /branch try-oauth-instead
 ```
 
-> **Note**: Before v2.1.161, `/fork` was simply an alias for `/branch`. Since v2.1.161 they are distinct: `/fork` delegates to a background subagent, `/branch` switches you into a copy in place.
+> **Note**: `/fork` and `/subtask` swapped roles in **v2.1.212**. Before v2.1.161 `/fork` was an alias for `/branch`; from v2.1.161 to v2.1.211 it started a forked subagent — the behavior now carried by `/subtask`. When agent view is turned off, `/subtask` is unavailable and `/fork` retains the forked-subagent behavior.
 
 Or fork from the CLI:
 ```bash
@@ -1457,6 +1476,128 @@ Use this for quick command execution without switching contexts.
 **Since v2.1.193:** bash mode (`!`) has live file-path autocomplete, so paths complete as you type your shell command without leaving the prompt.
 
 **Since v2.1.186:** the output of a `!` command is now automatically sent to Claude, which responds to it. To keep the previous behavior where the output is only added to context without a response, set `"respondToBashCommands": false` in `settings.json`.
+
+---
+
+## Output Styles
+
+Output styles change **how** Claude responds, not what it knows. They modify the system prompt to set role, tone, and default response format. Reach for one when you keep re-prompting for the same voice every turn, or when you want Claude acting as something other than a software engineer.
+
+For instructions about your project or codebase, use [CLAUDE.md](../02-memory/) instead — that is a different mechanism with different tradeoffs.
+
+### Built-in styles
+
+| Style | Behavior |
+|-------|----------|
+| **Default** | The standard system prompt, tuned for completing software engineering tasks efficiently |
+| **Proactive** | Claude executes immediately and makes reasonable assumptions instead of pausing for routine decisions. Stronger autonomous-execution guidance than auto mode, but it does **not** change your permission mode — you still see permission prompts |
+| **Explanatory** | Adds educational "Insights" between steps, explaining implementation choices and codebase patterns |
+| **Learning** | Collaborative learn-by-doing. Claude shares insights *and* leaves `TODO(human)` markers for you to implement small, strategic pieces yourself |
+
+### Selecting a style
+
+Run `/config` and choose **Output style**. The selection is saved to `.claude/settings.local.json`. To set it without the menu, edit the setting directly:
+
+```json
+{
+  "outputStyle": "Explanatory"
+}
+```
+
+> **Note**: The standalone `/output-style` command was deprecated in v2.1.73 and **removed in v2.1.91**. Use `/config` or the `outputStyle` setting.
+
+Output style is part of the system prompt, which Claude Code reads once at session start — changes take effect after `/clear` or in a new session.
+
+### Custom output styles
+
+A custom style is a Markdown file with frontmatter, saved at one of three levels:
+
+- User: `~/.claude/output-styles/`
+- Project: `.claude/output-styles/`
+- Managed policy: `.claude/output-styles/` inside the managed settings directory
+
+Project styles load from every `.claude/output-styles/` between the working directory and the repo root. As of v2.1.178, when nested directories define the same style name, the one closest to the working directory wins.
+
+```markdown
+---
+name: Diagrams first
+description: Lead every explanation with a diagram
+keep-coding-instructions: true
+---
+
+When explaining code, architecture, or data flow, start with a Mermaid diagram
+showing the structure, then explain in prose.
+```
+
+| Frontmatter | Purpose | Default |
+|-------------|---------|---------|
+| `name` | Style name, if not the file name | Inherits from file name |
+| `description` | Shown in the `/config` picker | None |
+| `keep-coding-instructions` | Keep Claude Code's built-in software engineering instructions | `false` |
+| `force-for-plugin` | Plugin styles only: apply automatically whenever the plugin is enabled, overriding the user's `outputStyle` | `false` |
+
+**Set `keep-coding-instructions: true`** when you are changing how Claude communicates but still want it coding the same way. Leave it out when Claude is not doing software engineering at all — a writing assistant or data analyst.
+
+### Scope and cost
+
+Output styles apply to the **main conversation only**. A subagent runs its own system prompt, so styles do not change how subagents respond; a fork is the exception, since it inherits the parent's full system prompt.
+
+Adding instructions increases input tokens, though prompt caching absorbs most of that after the first request. Explanatory and Learning produce longer responses by design, which increases output tokens.
+
+### How it compares
+
+| Feature | How it works | Use it when |
+|---------|--------------|-------------|
+| Output styles | Modifies the system prompt | You want a different role, tone, or format every turn |
+| [CLAUDE.md](../02-memory/) | Adds a user message after the system prompt | Claude should always know your project conventions |
+| `--append-system-prompt` | Appends to the system prompt without removing anything | A one-off addition for a single invocation |
+| [Subagents](../04-subagents/) | Runs with its own system prompt, model, and tools | You want a separately scoped helper |
+| [Skills](../03-skills/) | Loads task-specific instructions when invoked | You have a reusable workflow |
+
+---
+
+## Status Line
+
+The status line is a custom command whose output renders at the bottom of the session. Configure it with `/statusline`, or set it directly:
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "padding": 0
+  }
+}
+```
+
+`padding` defaults to `0`. Claude Code pipes a JSON object to the command on stdin, so the script decides what to display.
+
+### Available input fields
+
+| Group | Fields |
+|-------|--------|
+| Session | `session_id`, `session_name`, `prompt_id`, `transcript_path`, `cwd`, `version` |
+| Model | `model.id`, `output_style.name`, `effort.level`, `fast_mode`, `thinking.enabled` |
+| Agent | `agent.name`, `vim.mode` |
+| Cost | `cost.total_cost_usd`, `cost.total_duration_ms`, `cost.total_api_duration_ms`, `cost.total_lines_added` |
+| Context | `context_window.context_window_size`, `.current_usage`, `.remaining_percentage`, `.total_input_tokens`, `.used_percentage` |
+| Limits | `rate_limits.five_hour.used_percentage`, `.resets_at` |
+| Repo | `pr.number`, `pr.review_state`, `workspace.project_dir`, `workspace.added_dirs`, `workspace.git_worktree`, `workspace.repo.host` |
+| Worktree | `worktree.name`, `.branch`, `.path`, `.original_branch`, `.original_cwd` |
+
+### Example
+
+```bash
+#!/bin/bash
+# ~/.claude/statusline.sh — model, context usage, and cost
+input=$(cat)
+model=$(echo "$input" | jq -r '.model.id')
+used=$(echo "$input" | jq -r '.context_window.used_percentage')
+cost=$(echo "$input" | jq -r '.cost.total_cost_usd')
+printf '%s | ctx %.0f%% | $%.2f' "$model" "$used" "$cost"
+```
+
+> **Note**: `statusLine` requires workspace trust. Status-line scripts also receive `COLUMNS` and `LINES` in their environment (v2.1.153+) so they can size output to the terminal.
 
 ---
 
@@ -2129,7 +2270,7 @@ Since v2.1.83, administrators can deploy multiple managed settings files into a 
 ```json
 {
   "permissions": {
-    "mode": "default"
+    "defaultMode": "manual"
   },
   "hooks": {
     "PreToolUse:Edit": "eslint --fix ${file_path}",
@@ -2152,7 +2293,7 @@ Since v2.1.83, administrators can deploy multiple managed settings files into a 
 ```json
 {
   "permissions": {
-    "mode": "default",
+    "defaultMode": "manual",
     "allowedTools": ["Bash(git log:*)", "Read"],
     "disallowedTools": ["Bash(rm -rf:*)"]
   },
@@ -2315,7 +2456,7 @@ Create `.claude/config.json` in your project:
     "PreToolUse": [{ "matcher": "Bash", "hooks": ["npm test && npm run lint"] }]
   },
   "permissions": {
-    "mode": "default"
+    "defaultMode": "manual"
   },
   "mcp": {
     "servers": {
@@ -2447,7 +2588,7 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: July 29, 2026
+**Last Updated**: August 4, 2026
 **Claude Code Version**: 2.1.220
 **Sources**:
 - https://code.claude.com/docs/en/settings
@@ -2455,3 +2596,4 @@ For more information about Claude Code and related features:
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/permission-modes
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

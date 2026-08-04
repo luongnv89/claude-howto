@@ -3,9 +3,8 @@
 <!-- i18n-date: 2026-04-27 -->
 
 ---
-name: Documentation Refactor
+name: doc-refactor
 description: プロジェクトドキュメントを再構成して明瞭性とアクセシビリティを高める
-tags: documentation, refactoring, organization
 ---
 
 # ドキュメントリファクタリング

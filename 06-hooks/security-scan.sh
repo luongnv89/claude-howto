@@ -1,6 +1,6 @@
 #!/bin/bash
 # Security scan on file write
-# Hook: PostToolUse:Write
+# Hook: PostToolUse (matcher: Write)
 #
 # Scans files for hardcoded secrets, API keys, and credentials.
 # Outputs a non-blocking warning via additionalContext when issues are found.

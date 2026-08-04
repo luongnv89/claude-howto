@@ -1112,6 +1112,40 @@ graph TB
 
 ---
 
+### 8. Clean Code Reviewer（`clean-code-reviewer.md`）
+
+**目的**：クリーンコード原則に照らした可読性・保守性のレビュー
+
+**ツール**：Read、Grep、Glob、Bash
+
+**専門分野**：
+
+- 命名、関数の長さ、引数の数
+- 重複コードとデッドコード
+- コメントの質と意図
+- 巧妙さより構造の明快さ
+
+**使用場面**：正しさのレビューとは別に、スタイルと保守性の観点で見直したいとき
+
+---
+
+### 9. Performance Optimizer（`performance-optimizer.md`）
+
+**目的**：パフォーマンスのボトルネックを特定して改善する
+
+**ツール**：Read、Edit、Bash、Grep、Glob
+
+**専門分野**：
+
+- アルゴリズムの計算量とホットパス
+- メモリ確保とリーク
+- キャッシュとクエリの最適化
+- 並行処理と I/O のボトルネック
+
+**使用場面**：計測できるレベルで遅く、的を絞った最適化が必要なとき
+
+---
+
 ## インストール手順
 
 ### 方法 1：/agents コマンドを使う（推奨）
@@ -1184,7 +1218,9 @@ project/
 │       ├── secure-reviewer.md
 │       ├── implementation-agent.md
 │       ├── debugger.md
-│       └── data-scientist.md
+│       ├── data-scientist.md
+│       ├── clean-code-reviewer.md
+│       └── performance-optimizer.md
 └── ...
 ```
 

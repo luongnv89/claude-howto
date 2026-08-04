@@ -218,7 +218,7 @@ Các script tự động hóa dựa trên sự kiện thực thi tự động.
 
 **Cách Dùng**: Cấu hình trong settings, thực thi tự động
 
-**Hook Types** (4 types, 25 events):
+**Hook Types** (5 types, 31 events):
 - Tool Hooks: PreToolUse, PostToolUse, PostToolUseFailure, PermissionRequest
 - Session Hooks: SessionStart, SessionEnd, Stop, StopFailure, SubagentStart, SubagentStop
 - Task Hooks: UserPromptSubmit, TaskCompleted, TaskCreated, TeammateIdle
@@ -393,8 +393,8 @@ Các khả năng nâng cao cho workflows phức tạp.
 - **default**: Hỏi phê duyệt cho hành động rủi ro
 - **acceptEdits**: Tự động chấp nhận edits file, hỏi cho các khác
 - **plan**: Phân tích read-only, không sửa đổi
-- **auto**: Tự động phê duyệt hành động an toàn, hỏi cho rủi ro
-- **dontAsk**: Chấp nhận tất cả trừ rủi ro
+- **auto**: Mọi thứ, với kiểm tra an toàn chạy nền — một classifier review các lệnh và thao tác ghi vào thư mục được bảo vệ (cấu hình qua đối tượng settings `autoMode`)
+- **dontAsk**: Chỉ các tool đã được phê duyệt trước — tự động từ chối mọi lệnh gọi lẽ ra sẽ hỏi. Claude chỉ chạy các mục khớp `permissions.allow`, các lệnh Bash chỉ-đọc, và các lệnh gọi được hook `PreToolUse` phê duyệt
 - **bypassPermissions**: Chấp nhận tất cả (yêu cầu `--dangerously-skip-permissions`)
 
 ### Headless Mode (`claude -p`)

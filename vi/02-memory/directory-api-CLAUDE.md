@@ -1,6 +1,8 @@
 # API Module Standards
 
-This file overrides root CLAUDE.md for everything in /src/api/
+This file supplements root CLAUDE.md for everything in /src/api/. Memory files are
+concatenated, not overridden — the root CLAUDE.md still applies, and Claude Code
+loads this file on demand when it reads files in this subtree.
 
 ## API-Specific Standards
 

@@ -1,7 +1,6 @@
 ---
-name: Expand Unit Tests
+name: unit-test-expand
 description: Tăng vùng phủ test bằng cách nhắm vào các nhánh chưa được test và các trường hợp ngoại lệ
-tags: testing, coverage, unit-tests
 ---
 
 # Mở Rộng Unit Tests

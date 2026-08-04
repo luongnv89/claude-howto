@@ -299,8 +299,13 @@ Runs after Claude creates tool parameters and before processing. Use this to val
 **Common matchers:** `Task`, `Bash`, `Glob`, `Grep`, `Read`, `Edit`, `Write`, `WebFetch`, `WebSearch`
 
 **Output control:**
-- `permissionDecision`: `"allow"`, `"deny"`, or `"ask"`
-- `permissionDecisionReason`: Explanation for decision
+- `permissionDecision`: `"allow"`, `"deny"`, `"ask"`, or `"defer"`
+  - `"allow"` skips the permission prompt (except for tools that require user interaction, and connector tools your organization set to `ask`)
+  - `"deny"` prevents the tool call
+  - `"ask"` prompts the user to confirm
+  - `"defer"` exits gracefully so the tool can be resumed later; `permissionDecisionReason`, `updatedInput` and `additionalContext` are all ignored for this value
+  - Deny and ask rules are still evaluated regardless of what the hook returns. When multiple `PreToolUse` hooks disagree, precedence is `deny` > `defer` > `ask` > `allow`
+- `permissionDecisionReason`: Explanation for decision. Shown to the user (not Claude) for `"allow"` and `"ask"`; shown to Claude for `"deny"`; ignored for `"defer"`
 - `updatedInput`: Modified tool input parameters
 
 ### PostToolUse
@@ -1512,9 +1517,10 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: July 29, 2026
+**Last Updated**: August 4, 2026
 **Claude Code Version**: 2.1.220
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/sub-agents
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

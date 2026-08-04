@@ -95,7 +95,7 @@ chmod +x ~/.claude/hooks/*.sh
 # default          - 风险操作需要审批
 # acceptEdits      - 自动接受文件编辑，其他操作仍需审批
 # plan             - 只读分析，不做修改
-# dontAsk          - 除危险操作外全部接受
+# dontAsk          - 只运行预先批准的工具，其余一律拒绝
 # auto             - 后台分类器自动决定权限
 # bypassPermissions - 全部接受（需要 --dangerously-skip-permissions）
 
@@ -118,7 +118,7 @@ claude -r "session"    # 按名称/ID 恢复会话
 | **Skills** | `.claude/skills/*/SKILL.md` | 自动触发 |
 | **Subagents** | `.claude/agents/*.md` | 自动委派 |
 | **MCP** | `.mcp.json`（项目）或 `~/.claude.json`（用户） | `/mcp__server__action` |
-| **Hooks（25 个事件）** | `~/.claude/hooks/*.sh` | 事件触发（4 类） |
+| **Hooks（31 个事件）** | `~/.claude/hooks/*.sh` | 事件触发（5 类） |
 | **Plugins** | 通过 `/plugin install` | 打包所有能力 |
 | **Checkpoints** | 内置 | `Esc+Esc` 或 `/rewind` |
 | **Planning Mode** | 内置 | `/plan <task>` |
@@ -189,7 +189,7 @@ vim CLAUDE.md
 
 ### 自动化与 Hooks
 ```bash
-# 安装 hooks（25 个事件，4 类：command、http、prompt、agent）
+# 安装 hooks（31 个事件，5 类：command、http、mcp_tool、prompt、agent）
 mkdir -p ~/.claude/hooks
 cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
@@ -389,7 +389,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Auto Mode** | 通过后台分类器实现完全自治 | `--enable-auto-mode` 参数，`Shift+Tab` 切换模式 |
 | **Channels** | Discord 和 Telegram 集成 | `--channels` 参数，Discord / Telegram bot |
 | **Voice Dictation** | 对 Claude 说出命令和上下文 | `/voice` 命令 |
-| **Hooks（25 个事件）** | 扩展后的 hook 系统，包含 4 类 | command、http、prompt、agent hook 类型 |
+| **Hooks（31 个事件）** | 扩展后的 hook 系统，包含 5 类 | command、http、mcp_tool、prompt、agent hook 类型 |
 | **MCP Elicitation** | MCP server 可在运行时请求用户输入 | 当 server 需要澄清时自动提示 |
 | **WebSocket MCP** | MCP 的 WebSocket 传输 | 在 `.mcp.json` 中配置 `ws://` URL |
 | **Plugin LSP** | 插件支持 Language Server Protocol | `userConfig`、`${CLAUDE_PLUGIN_DATA}` 变量 |
@@ -445,7 +445,7 @@ echo $GITHUB_TOKEN
 | 自动化工作流 | Skill | `03-skills/code-review-specialist/` |
 | 专门任务 | Subagent | `04-subagents/code-reviewer.md` |
 | 外部数据 | MCP（+ Elicitation、WebSocket） | `05-mcp/github-mcp.json` |
-| 事件自动化 | Hook（25 个事件、4 类） | `06-hooks/pre-commit.sh` |
+| 事件自动化 | Hook（31 个事件、5 类） | `06-hooks/pre-commit.sh` |
 | 完整方案 | Plugin（+ LSP 支持） | `07-plugins/pr-review/` |
 | 安全实验 | Checkpoint | `08-checkpoints/checkpoint-examples.md` |
 | 完全自治 | Auto Mode | `--enable-auto-mode` 或 `Shift+Tab` |

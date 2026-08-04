@@ -5,7 +5,7 @@
 ---
 name: alert-analyzer
 description: 監視アラートとシステムメトリクスを解析する
-tools: read, grep, bash
+tools: Read, Grep, Bash
 ---
 
 # Alert Analyzer

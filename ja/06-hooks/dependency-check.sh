@@ -1,15 +1,21 @@
 #!/bin/bash
 # マニフェストファイルが変更された後に、依存関係の既知の脆弱性をチェックする。
-# フック：PostToolUse:Write
+# フック：PostToolUse（matcher: Write）
+#
+# 対象ファイルパスは標準入力の JSON から読み取る（Claude Code フックプロトコル）。
+# 出典：https://code.claude.com/docs/en/hooks
 
-FILE=$1
+# Claude Code フックプロトコルに従い、標準入力から JSON を読み取る
+INPUT=$(cat)
+
+# sed で file_path を抽出（全プラットフォーム互換）
+FILE=$(echo "$INPUT" | sed -n 's/.*"file_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
 
 if [ -z "$FILE" ]; then
-  echo "使い方: $0 <file_path>"
   exit 0
 fi
 
-# マッチング用に basename を使う — $1 は絶対パスの可能性がある
+# マッチング用に basename を使う — file_path は絶対パスの可能性がある
 BASENAME=$(basename "$FILE")
 
 # 依存関係マニフェストが書き換えられた場合のみ実行

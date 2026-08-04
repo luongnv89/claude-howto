@@ -3,9 +3,8 @@
 <!-- i18n-date: 2026-04-27 -->
 
 ---
-name: Expand Unit Tests
+name: unit-test-expand
 description: 未テストの分岐やエッジケースを狙ってテストカバレッジを高める
-tags: testing, coverage, unit-tests
 ---
 
 # ユニットテストの拡充

@@ -22,7 +22,7 @@ description: ソースコードから包括的かつ正確な API ドキュメ�
 
 ### 各エンドポイントごと
 
-```markdown
+````markdown
 ## GET /api/v1/users/:id
 
 ### Description
@@ -77,4 +77,4 @@ response = requests.get(
 )
 user = response.json()
 ```
-```
+````

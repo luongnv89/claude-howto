@@ -1,7 +1,6 @@
 ---
-name: 设置 CI/CD 流水线
+name: setup-ci-cd
 description: 实现 pre-commit hooks 和 GitHub Actions 质量保障
-tags: ci-cd, devops, automation
 ---
 
 # 设置 CI/CD 流水线

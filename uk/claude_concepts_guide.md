@@ -571,7 +571,7 @@ graph TD
     B --> C["3. Project Rules<br/>.claude/rules/*.md"]
     C --> D["4. User Memory<br/>~/.claude/CLAUDE.md"]
     D --> E["5. User Rules<br/>~/.claude/rules/*.md"]
-    E --> F["6. Local Memory<br/>.claude/local/CLAUDE.md"]
+    E --> F["6. Local Memory<br/>./CLAUDE.local.md"]
     F --> G["7. Auto Memory<br/>Automatically captured preferences"]
 
     style A fill:#fce4ec,stroke:#333,color:#333
@@ -592,7 +592,7 @@ graph TD
 | 3. Правила проєкту | `.claude/rules/*.md` | Проєкт | Високий | Команда (Git) | Модульні конвенції проєкту |
 | 4. Користувач | `~/.claude/CLAUDE.md` | Персональний | Середній | Індивідуальний | Особисті налаштування |
 | 5. Правила користувача | `~/.claude/rules/*.md` | Персональний | Середній | Індивідуальний | Персональні модулі правил |
-| 6. Локальний | `.claude/local/CLAUDE.md` | Локальний | Низький | Не спільний | Налаштування конкретної машини |
+| 6. Локальний | `./CLAUDE.local.md` | Локальний | Низький | Не спільний | Налаштування конкретної машини |
 | 7. Авто-пам'ять | Автоматичний | Сесія | Найнижчий | Індивідуальний | Засвоєні вподобання, патерни |
 
 ### Авто-пам'ять
@@ -2543,7 +2543,7 @@ Complete PR review workflow with security, testing, and documentation checks.
 ```
 
 ## Requirements
-- Claude Code 1.0+
+- Claude Code 2.1+
 - GitHub access
 - CodeQL (optional)
 ~~~~
@@ -2808,7 +2808,7 @@ graph TD
 
 ### Події хуків
 
-Claude Code підтримує **25 подій хуків** у чотирьох типах хуків (command, http, prompt, agent):
+Claude Code підтримує **31 подія хуків** у п'яти типах хуків (command, http, mcp_tool, prompt, agent):
 
 | Подія хука | Тригер | Сценарії використання |
 |------------|---------|-----------|
@@ -2817,6 +2817,7 @@ Claude Code підтримує **25 подій хуків** у чотирьох 
 | **UserPromptSubmit** | Користувач надсилає промпт | Валідація вводу, фільтрація промптів |
 | **PreToolUse** | Перед запуском будь-якого інструменту | Валідація, шлюзи затвердження, логування |
 | **PermissionRequest** | Показано діалог дозволу | Авто-затвердження/відхилення |
+| **PermissionDenied** | Користувач відхилив запит дозволу | Логування, аналітика, політики |
 | **PostToolUse** | Після успішного виконання інструменту | Авто-форматування, сповіщення, очищення |
 | **PostToolUseFailure** | Помилка виконання інструменту | Обробка помилок, логування |
 | **Notification** | Надіслано сповіщення | Алертинг, зовнішні інтеграції |
@@ -3108,7 +3109,7 @@ User: \
     "maxConcurrentTasks": 5
   },
   "permissions": {
-    "mode": "default"
+    "defaultMode": "manual"
   }
 }
 ```

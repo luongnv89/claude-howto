@@ -1,7 +1,6 @@
 ---
-name: Setup CI/CD Pipeline
+name: setup-ci-cd
 description: Реалізація pre-commit хуків та GitHub Actions для забезпечення якості
-tags: ci-cd, devops, automation
 ---
 
 # Налаштування CI/CD пайплайну

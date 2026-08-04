@@ -1,6 +1,6 @@
 #!/bin/bash
 # Auto-format code after writing
-# Hook: PostToolUse:Write
+# Hook: PostToolUse (matcher: Write)
 #
 # Reads the target file path from stdin JSON and runs the appropriate formatter
 # in-place on the file after Claude writes it.

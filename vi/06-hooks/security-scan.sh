@@ -1,6 +1,6 @@
 #!/bin/bash
 # Security scan on file write
-# Hook: PostToolUse:Write
+# Hook: PostToolUse (matcher: Write)
 
 FILE=$1
 

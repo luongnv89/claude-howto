@@ -81,7 +81,7 @@ tags: plugins, devops, automation
 
 ## 要求
 
-- Claude Code 1.0+
+- Claude Code 2.1+
 - Kubernetes CLI（kubectl）
 - 已配置集群访问
 

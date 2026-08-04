@@ -12,7 +12,7 @@ Claude How To là một repository tutorial về các tính năng của Claude C
 
 ### Kiểm Tra Chất Lượng Pre-commit
 
-Tất cả documentation phải vượt qua bốn kiểm tra chất lượng trước khi commit (các kiểm tra này chạy tự động qua pre-commit hooks):
+Tất cả documentation phải vượt qua năm kiểm tra chất lượng trước khi commit (các kiểm tra này chạy tự động qua pre-commit hooks):
 
 ```bash
 # Cài đặt pre-commit hooks (chạy trên mỗi commit)
@@ -22,7 +22,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-Bốn kiểm tra là:
+Năm kiểm tra là:
 1. **markdown-lint** — Cấu trúc và định dạng Markdown qua `markdownlint`
 2. **cross-references** — Liên kết nội bộ, anchors, cú pháp code fence (Python script)
 3. **mermaid-syntax** — Xác thực tất cả sơ đồ Mermaid parse đúng (Python script)
@@ -141,7 +141,7 @@ Mỗi thư mục đánh số tuân theo pattern:
 
 2. **Scripts là các tiện ích, không phải sản phẩm** — Các script Python trong `scripts/` hỗ trợ chất lượng documentation và tạo EPUB. Nội dung thực tế nằm trong các thư mục module đánh số.
 
-3. **Pre-commit là người gác cổng** — Tất cả bốn kiểm tra chất lượng phải pass trước khi PR được chấp nhận. CI pipeline chạy các kiểm tra tương tự như lần thứ hai.
+3. **Pre-commit là người gác cổng** — Tất cả năm kiểm tra chất lượng phải pass trước khi PR được chấp nhận. CI pipeline chạy các kiểm tra tương tự như lần thứ hai.
 
 4. **Mermaid rendering cần network** — EPUB build gọi Kroki.io API để render diagrams. Các lỗi build ở đây thường là vấn đề network hoặc cú pháp Mermaid không hợp lệ.
 

@@ -193,10 +193,14 @@ Before finalizing, verify:
 
 If the user requests AGENTS.md creation/update:
 
-AGENTS.md is used for defining specialized agent behaviors. Unlike CLAUDE.md (which is for project context), AGENTS.md defines:
-- Custom agent roles and capabilities
-- Agent-specific instructions and constraints
-- Workflow definitions for multi-agent scenarios
+**Claude Code does not read AGENTS.md directly.** To make it take effect, import it from CLAUDE.md with `@AGENTS.md`, or symlink `CLAUDE.md` to it. This is the single most common misunderstanding about the file.
+
+AGENTS.md is a cross-tool project-context file — the same *category* of document as CLAUDE.md, not an agent-definition format. It exists so several coding agents can share one set of project conventions:
+- Build, test, and lint commands
+- Code style and architectural conventions
+- Repository layout and where things live
+
+Subagents are defined separately, in `.claude/agents/*.md` — not in AGENTS.md.
 
 Apply similar principles:
 - Keep focused and concise
@@ -210,3 +214,11 @@ Apply similar principles:
 - The system reminder tells Claude that CLAUDE.md "may or may not be relevant" - the more noise, the more it gets ignored
 - Monorepos benefit most from clear WHAT/WHY/HOW structure
 - Directory-specific CLAUDE.md files should be even more focused
+
+---
+
+**Last Updated**: August 4, 2026
+**Claude Code Version**: 2.1.220
+**Sources**:
+- https://code.claude.com/docs/en/skills
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
