@@ -9,7 +9,6 @@ dependencies = [
     "ebooklib",
     "markdown",
     "beautifulsoup4",
-    "httpx",
     "pillow",
     "tenacity",
     "jinja2",
@@ -123,4 +122,4 @@ ignore_errors = true
 [tool.bandit]
 targets = ["scripts"]
 exclude_dirs = ["scripts/tests", ".venv", "__pycache__"]
-skips = ["B101", "B113"]  # B113: httpx timeout false positive (timeout is set)
+skips = ["B101"]

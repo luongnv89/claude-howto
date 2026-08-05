@@ -23,7 +23,7 @@ Claude How-To の Markdown ファイル群から EPUB 形式の電子書籍を�
 
 - Python 3.10+
 - [uv](https://github.com/astral-sh/uv)
-- Mermaid 図レンダリング用のインターネット接続
+- Mermaid 図レンダリング用の [`mmdc`](https://github.com/mermaid-js/mermaid-cli)（`npm install -g @mermaid-js/mermaid-cli`）
 
 ## クイックスタート
 
@@ -102,7 +102,7 @@ pytest scripts/tests/ -v
 # または uv で直接実行
 uv run --with pytest --with pytest-asyncio \
     --with ebooklib --with markdown --with beautifulsoup4 \
-    --with httpx --with pillow --with tenacity \
+    --with pillow --with tenacity \
     pytest scripts/tests/ -v
 ```
 
@@ -115,7 +115,6 @@ PEP 723 のインラインスクリプトメタデータで管理する：
 | `ebooklib` | EPUB 生成 |
 | `markdown` | Markdown から HTML への変換 |
 | `beautifulsoup4` | HTML パース |
-| `httpx` | 非同期 HTTP クライアント |
 | `pillow` | 表紙画像生成 |
 | `tenacity` | リトライ処理 |
 

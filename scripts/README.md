@@ -112,7 +112,7 @@ pytest scripts/tests/ -v
 # Or with uv directly
 uv run --with pytest --with pytest-asyncio \
     --with ebooklib --with markdown --with beautifulsoup4 \
-    --with httpx --with pillow --with tenacity \
+    --with pillow --with tenacity \
     pytest scripts/tests/ -v
 ```
 
@@ -125,7 +125,6 @@ Managed via PEP 723 inline script metadata:
 | `ebooklib` | EPUB generation |
 | `markdown` | Markdown to HTML conversion |
 | `beautifulsoup4` | HTML parsing |
-| `httpx` | Async HTTP client |
 | `pillow` | Cover image generation |
 | `tenacity` | Retry logic |
 

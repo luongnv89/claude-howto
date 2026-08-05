@@ -20,7 +20,7 @@
 
 - Python 3.10+
 - [uv](https://github.com/astral-sh/uv)
-- Інтернет-з'єднання для рендерингу Mermaid-діаграм
+- [`mmdc`](https://github.com/mermaid-js/mermaid-cli) у `PATH` для рендерингу Mermaid-діаграм (`npm install -g @mermaid-js/mermaid-cli`)
 
 ## Швидкий старт
 
@@ -99,7 +99,7 @@ pytest scripts/tests/ -v
 # Or with uv directly
 uv run --with pytest --with pytest-asyncio \
     --with ebooklib --with markdown --with beautifulsoup4 \
-    --with httpx --with pillow --with tenacity \
+    --with pillow --with tenacity \
     pytest scripts/tests/ -v
 ```
 
@@ -112,7 +112,6 @@ uv run --with pytest --with pytest-asyncio \
 | `ebooklib` | Генерація EPUB |
 | `markdown` | Конвертація Markdown → HTML |
 | `beautifulsoup4` | Парсинг HTML |
-| `httpx` | Асинхронний HTTP-клієнт |
 | `pillow` | Генерація обкладинки |
 | `tenacity` | Логіка повторних спроб |
 
