@@ -486,7 +486,9 @@ chmod +x ~/.claude/hooks/*.sh
 
 **使い方**：イベント発生時にフックが自動実行される
 
-**フックの種類**（5 系統、31 イベント）：
+**フックの種類**（5 種）：`command`、`http`、`prompt`、`mcp_tool`、`agent` — フックの実行方式。
+
+**フックイベント**（31 件、4 カテゴリ）— 実行タイミング：
 - **ツール系フック**：`PreToolUse`、`PostToolUse`、`PostToolUseFailure`、`PostToolBatch`、`PermissionRequest`、`PermissionDenied`
 - **セッション系フック**：`SessionStart`、`Setup`、`SessionEnd`、`Stop`、`StopFailure`、`SubagentStart`、`SubagentStop`
 - **タスク系フック**：`UserPromptSubmit`、`UserPromptExpansion`、`MessageDisplay`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`

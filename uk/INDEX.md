@@ -231,7 +231,9 @@ blog-draft/
 
 **Використання**: Налаштовуються в settings, виконуються автоматично
 
-**Типи хуків** (5 типів, 31 подія):
+**Типи хуків** (5): `command`, `http`, `prompt`, `mcp_tool`, `agent` — як саме виконується хук.
+
+**Події хуків** (31, у 4 категоріях) — коли він виконується:
 
 - Хуки інструментів: PreToolUse, PostToolUse, PostToolUseFailure, PostToolBatch, PermissionRequest, PermissionDenied
 - Хуки сесії: SessionStart, Setup, SessionEnd, Stop, StopFailure, SubagentStart, SubagentStop

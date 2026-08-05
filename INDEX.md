@@ -222,7 +222,9 @@ Event-driven automation scripts that execute automatically.
 
 **Usage**: Configured in settings, executed automatically
 
-**Hook Types** (5 types, 31 events):
+**Hook Types** (5): `command`, `http`, `prompt`, `mcp_tool`, `agent` — how a hook runs.
+
+**Hook Events** (31, in 4 categories) — when it runs:
 - Tool Hooks: PreToolUse, PostToolUse, PostToolUseFailure, PostToolBatch, PermissionRequest, PermissionDenied
 - Session Hooks: SessionStart, Setup, SessionEnd, Stop, StopFailure, SubagentStart, SubagentStop
 - Task Hooks: UserPromptSubmit, UserPromptExpansion, MessageDisplay, TaskCompleted, TaskCreated, TeammateIdle

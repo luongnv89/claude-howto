@@ -214,7 +214,9 @@ blog-draft/
 
 **使用方式**：在设置中配置后自动执行
 
-**Hook 类型**（5 类，31 个事件）：
+**Hook 类型**（5 种）：`command`、`http`、`prompt`、`mcp_tool`、`agent` — 决定 hook 如何运行。
+
+**Hook 事件**（31 个，分 4 类）— 决定 hook 何时运行：
 - 工具 Hook：`PreToolUse`、`PostToolUse`、`PostToolUseFailure`、`PostToolBatch`、`PermissionRequest`、`PermissionDenied`
 - 会话 Hook：`SessionStart`、`Setup`、`SessionEnd`、`Stop`、`StopFailure`、`SubagentStart`、`SubagentStop`
 - 任务 Hook：`UserPromptSubmit`、`UserPromptExpansion`、`MessageDisplay`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`

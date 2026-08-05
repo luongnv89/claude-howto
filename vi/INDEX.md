@@ -218,7 +218,9 @@ Các script tự động hóa dựa trên sự kiện thực thi tự động.
 
 **Cách Dùng**: Cấu hình trong settings, thực thi tự động
 
-**Hook Types** (5 types, 31 events):
+**Hook Types** (5): `command`, `http`, `prompt`, `mcp_tool`, `agent` — cách hook chạy.
+
+**Hook Events** (31, trong 4 nhóm) — khi nào hook chạy:
 - Tool Hooks: PreToolUse, PostToolUse, PostToolUseFailure, PostToolBatch, PermissionRequest, PermissionDenied
 - Session Hooks: SessionStart, Setup, SessionEnd, Stop, StopFailure, SubagentStart, SubagentStop
 - Task Hooks: UserPromptSubmit, UserPromptExpansion, MessageDisplay, TaskCompleted, TaskCreated, TeammateIdle
