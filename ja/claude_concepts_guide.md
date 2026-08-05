@@ -2896,7 +2896,7 @@ Claude Code は 5 種類（command、http、mcp_tool、prompt、agent）にわ�
 - 長時間タスクをフックで実行する
 - 認証情報をハードコードする
 
-**詳細：** [06-hooks/](../06-hooks/)
+**詳細：** [06-hooks/](06-hooks/)
 
 ---
 
@@ -2950,7 +2950,7 @@ Esc + Esc
 }
 ```
 
-**詳細：** [08-checkpoints/](../08-checkpoints/)
+**詳細：** [08-checkpoints/](08-checkpoints/)
 
 ---
 
@@ -3118,7 +3118,7 @@ User: \
 }
 ```
 
-**詳細ガイド：** [09-advanced-features/](../09-advanced-features/)
+**詳細ガイド：** [09-advanced-features/](09-advanced-features/)
 
 ---
 

@@ -19,13 +19,13 @@
 
 | Функція | Вбудовані | Приклади | Разом | Довідник |
 |---------|-----------|----------|-------|----------|
-| **Слеш-команди** | 60+ | 8 | 68+ | [01-slash-commands/](../01-slash-commands/) |
-| **Субагенти** | 6 | 9 | 15 | [04-subagents/](../04-subagents/) |
-| **Навички (Skills)** | 10 вбудованих | 6 | 16 | [03-skills/](../03-skills/) |
-| **Плагіни** | - | 3 | 3 | [07-plugins/](../07-plugins/) |
-| **MCP-сервери** | 1 | 4 | 5 | [05-mcp/](../05-mcp/) |
-| **Хуки** | 31 подія | 10 | 41 | [06-hooks/](../06-hooks/) |
-| **Пам'ять** | 7 типів | 3 | 10 | [02-memory/](../02-memory/) |
+| **Слеш-команди** | 60+ | 8 | 68+ | [01-slash-commands/](01-slash-commands/) |
+| **Субагенти** | 6 | 9 | 15 | [04-subagents/](04-subagents/) |
+| **Навички (Skills)** | 10 вбудованих | 6 | 16 | [03-skills/](03-skills/) |
+| **Плагіни** | - | 3 | 3 | [07-plugins/](07-plugins/) |
+| **MCP-сервери** | 1 | 4 | 5 | [05-mcp/](05-mcp/) |
+| **Хуки** | 31 подія | 10 | 41 | [06-hooks/](06-hooks/) |
+| **Пам'ять** | 7 типів | 3 | 10 | [02-memory/](02-memory/) |
 | **Разом** | **115** | **43** | **158** | |
 
 ---
@@ -105,7 +105,7 @@
 
 > **Область**: `Користувач` = персональні процеси (`~/.claude/commands/`), `Проект` = спільні для команди (`.claude/commands/`)
 
-**Довідник**: [01-slash-commands/](../01-slash-commands/) | [Офіційна документація](https://code.claude.com/docs/en/interactive-mode)
+**Довідник**: [01-slash-commands/](01-slash-commands/) | [Офіційна документація](https://code.claude.com/docs/en/interactive-mode)
 
 **Швидке встановлення (усі кастомні команди)**:
 
@@ -128,7 +128,7 @@ Claude Code підтримує 6 режимів дозволів, що конт�
 | `bypassPermissions` | Пропустити всі перевірки дозволів | CI/CD, headless-середовища |
 | `dontAsk` | Пропустити інструменти, що потребують дозволу | Неінтерактивне скриптування |
 
-> **Примітка**: Режим `auto` вимагає відповідного плану, моделі та провайдера — див. [09-advanced-features/](../09-advanced-features/#auto-mode). Використовуйте `bypassPermissions` лише в довірених ізольованих середовищах.
+> **Примітка**: Режим `auto` вимагає відповідного плану, моделі та провайдера — див. [09-advanced-features/](09-advanced-features/#auto-mode). Використовуйте `bypassPermissions` лише в довірених ізольованих середовищах.
 
 **Довідник**: [Офіційна документація](https://code.claude.com/docs/en/permissions)
 
@@ -179,7 +179,7 @@ Claude Code підтримує 6 режимів дозволів, що конт�
 
 > **Область**: `Користувач` = персональні (`~/.claude/agents/`), `Проект` = спільні для команди (`.claude/agents/`)
 
-**Довідник**: [04-subagents/](../04-subagents/) | [Офіційна документація](https://code.claude.com/docs/en/sub-agents)
+**Довідник**: [04-subagents/](04-subagents/) | [Офіційна документація](https://code.claude.com/docs/en/sub-agents)
 
 **Швидке встановлення (усі кастомні агенти)**:
 
@@ -225,7 +225,7 @@ cp 04-subagents/*.md .claude/agents/
 | `effort` | string | Рівень зусиль міркування (`low`, `medium`, `high`) |
 | `shell` | string | Оболонка для скриптів (`bash`, `zsh`, `sh`) |
 
-**Довідник**: [03-skills/](../03-skills/) | [Офіційна документація](https://code.claude.com/docs/en/skills)
+**Довідник**: [03-skills/](03-skills/) | [Офіційна документація](https://code.claude.com/docs/en/skills)
 
 **Швидке встановлення (усі навички)**:
 
@@ -272,7 +272,7 @@ cp -r 03-skills/* ~/.claude/skills/
 └── scripts/          # Допоміжні скрипти
 ```
 
-**Довідник**: [07-plugins/](../07-plugins/) | [Офіційна документація](https://code.claude.com/docs/en/plugins)
+**Довідник**: [07-plugins/](07-plugins/) | [Офіційна документація](https://code.claude.com/docs/en/plugins)
 
 **Команди управління плагінами**:
 
@@ -321,7 +321,7 @@ cp -r 03-skills/* ~/.claude/skills/
 }
 ```
 
-**Довідник**: [05-mcp/](../05-mcp/) | [Документація MCP](https://modelcontextprotocol.io)
+**Довідник**: [05-mcp/](05-mcp/) | [Документація MCP](https://modelcontextprotocol.io)
 
 **Швидке встановлення (GitHub MCP)**:
 
@@ -401,7 +401,7 @@ export GITHUB_TOKEN="your_token" && claude mcp add github -- npx -y @modelcontex
 }
 ```
 
-**Довідник**: [06-hooks/](../06-hooks/) | [Офіційна документація](https://code.claude.com/docs/en/hooks)
+**Довідник**: [06-hooks/](06-hooks/) | [Офіційна документація](https://code.claude.com/docs/en/hooks)
 
 **Швидке встановлення (усі хуки)**:
 
@@ -429,7 +429,7 @@ mkdir -p ~/.claude/hooks && cp 06-hooks/*.sh ~/.claude/hooks/ && chmod +x ~/.cla
 
 > **Область**: `Організація` = керується адмінами, `Проект` = спільний через git, `Користувач` = персональні, `Локальний` = не комітиться, `Сесія` = автокерований
 
-**Довідник**: [02-memory/](../02-memory/) | [Офіційна документація](https://code.claude.com/docs/en/memory)
+**Довідник**: [02-memory/](02-memory/) | [Офіційна документація](https://code.claude.com/docs/en/memory)
 
 **Швидке встановлення**:
 

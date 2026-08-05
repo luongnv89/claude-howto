@@ -124,7 +124,7 @@ Claude Code 提供 6 种权限模式，用来控制工具调用如何被授权�
 | `bypassPermissions` | 跳过所有权限检查 | CI/CD、无头环境 |
 | `dontAsk` | 跳过需要权限的工具 | 非交互脚本 |
 
-> **注意**：`auto` 模式需要满足合格的套餐、模型和提供商条件 — 参见 [09-advanced-features/](../09-advanced-features/#auto-mode)。只有在可信且已隔离的环境中才使用 `bypassPermissions`。
+> **注意**：`auto` 模式需要满足合格的套餐、模型和提供商条件 — 参见 [09-advanced-features/](09-advanced-features/#auto-mode)。只有在可信且已隔离的环境中才使用 `bypassPermissions`。
 
 **参考**: [官方文档](https://code.claude.com/docs/en/permissions)
 

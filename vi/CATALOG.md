@@ -15,13 +15,13 @@
 
 | Tính Năng | Built-in | Ví Dụ | Tổng | Tham Chiếu |
 |---------|----------|----------|-------|-----------|
-| **Lệnh Slash** | 60+ | 8 | 68+ | [01-slash-commands/](../01-slash-commands/) |
-| **Tác Nhân Con** | 6 | 6 | 12 | [04-subagents/](../04-subagents/) |
-| **Skills** | 10 bundled | 5 | 15 | [03-skills/](../03-skills/) |
-| **Plugins** | - | 3 | 3 | [07-plugins/](../07-plugins/) |
-| **MCP Servers** | 1 | 4 | 5 | [05-mcp/](../05-mcp/) |
-| **Hooks** | 31 sự kiện | 9 | 40 | [06-hooks/](../06-hooks/) |
-| **Bộ Nhớ** | 7 loại | 3 | 10 | [02-memory/](../02-memory/) |
+| **Lệnh Slash** | 60+ | 8 | 68+ | [01-slash-commands/](01-slash-commands/) |
+| **Tác Nhân Con** | 6 | 6 | 12 | [04-subagents/](04-subagents/) |
+| **Skills** | 10 bundled | 5 | 15 | [03-skills/](03-skills/) |
+| **Plugins** | - | 3 | 3 | [07-plugins/](07-plugins/) |
+| **MCP Servers** | 1 | 4 | 5 | [05-mcp/](05-mcp/) |
+| **Hooks** | 31 sự kiện | 9 | 40 | [06-hooks/](06-hooks/) |
+| **Bộ Nhớ** | 7 loại | 3 | 10 | [02-memory/](02-memory/) |
 | **Tổng** | **115** | **38** | **153** | |
 
 ---
@@ -103,7 +103,7 @@ Commands là các lệnh tắt do người dùng gọi thực hiện các hành 
 
 > **Phạm Vi**: `User` = workflows cá nhân (`~/.claude/commands/`), `Project` = chia sẻ team (`.claude/commands/`)
 
-**Tham Chiếu**: [01-slash-commands/](../01-slash-commands/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/interactive-mode)
+**Tham Chiếu**: [01-slash-commands/](01-slash-commands/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/interactive-mode)
 
 **Cài Đặt Nhanh (Tất Cả Custom Commands)**:
 ```bash
@@ -125,7 +125,7 @@ Claude Code hỗ trợ 6 permission modes điều khiển cách tool use đượ
 | `bypassPermissions` | Bỏ qua tất cả kiểm tra permissions | CI/CD, môi trường headless |
 | `dontAsk` | Bỏ qua tools cần yêu cầu permission | Scripting không tương tác |
 
-> **Lưu Ý**: `auto` mode yêu cầu gói dịch vụ, model, và nhà cung cấp đủ điều kiện — xem [09-advanced-features/](../09-advanced-features/#auto-mode). Chỉ dùng `bypassPermissions` trong môi trường tin cậy, được sandbox.
+> **Lưu Ý**: `auto` mode yêu cầu gói dịch vụ, model, và nhà cung cấp đủ điều kiện — xem [09-advanced-features/](09-advanced-features/#auto-mode). Chỉ dùng `bypassPermissions` trong môi trường tin cậy, được sandbox.
 
 **Tham Chiếu**: [Tài Liệu Chính Thức](https://code.claude.com/docs/en/permissions)
 
@@ -175,7 +175,7 @@ Các trợ lý AI chuyên biệt với context bị cô lập cho các tasks c�
 
 > **Phạm Vi**: `User` = cá nhân (`~/.claude/agents/`), `Project` = chia sẻ team (`.claude/agents/`)
 
-**Tham Chiếu**: [04-subagents/](../04-subagents/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/sub-agents)
+**Tham Chiếu**: [04-subagents/](04-subagents/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/sub-agents)
 
 **Cài Đặt Nhanh (Tất Cả Custom Agents)**:
 ```bash
@@ -220,7 +220,7 @@ Skills hỗ trợ YAML frontmatter trong `SKILL.md` để cấu hình:
 | `effort` | string | Mức độ effort lý luận (`low`, `medium`, `high`) |
 | `shell` | string | Shell để dùng cho scripts (`bash`, `zsh`, `sh`) |
 
-**Tham Chiếu**: [03-skills/](../03-skills/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/skills)
+**Tham Chiếu**: [03-skills/](03-skills/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/skills)
 
 **Cài Đặt Nhanh (Tất Cả Skills)**:
 ```bash
@@ -266,7 +266,7 @@ Bộ sưu tập được đóng gói của commands, agents, MCP servers, và ho
 └── scripts/          # Scripts tiện ích
 ```
 
-**Tham Chiếu**: [07-plugins/](../07-plugins/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/plugins)
+**Tham Chiếu**: [07-plugins/](07-plugins/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/plugins)
 
 **Plugin Management Commands**:
 ```bash
@@ -314,7 +314,7 @@ Máy chủ Model Context Protocol cho truy cập công cụ và API bên ngoài.
 }
 ```
 
-**Tham Chiếu**: [05-mcp/](../05-mcp/) | [Tài Liệu Giao Thức MCP](https://modelcontextprotocol.io)
+**Tham Chiếu**: [05-mcp/](05-mcp/) | [Tài Liệu Giao Thức MCP](https://modelcontextprotocol.io)
 
 **Cài Đặt Nhanh (GitHub MCP)**:
 ```bash
@@ -392,7 +392,7 @@ Tự động hóa dựa trên sự kiện thực thi shell commands trên các s
 }
 ```
 
-**Tham Chiếu**: [06-hooks/](../06-hooks/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/hooks)
+**Tham Chiếu**: [06-hooks/](06-hooks/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/hooks)
 
 **Cài Đặt Nhanh (Tất Cả Hooks)**:
 ```bash
@@ -419,7 +419,7 @@ Ngữ cảnh lưu trữ được tải tự động qua sessions.
 
 > **Phạm Vi**: `Organization` = được quản lý bởi admins, `Project` = chia sẻ với team qua git, `User` = sở thích cá nhân, `Local` = không được commit, `Session` = được tự động quản lý
 
-**Tham Chiếu**: [02-memory/](../02-memory/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/memory)
+**Tham Chiếu**: [02-memory/](02-memory/) | [Tài Liệu Chính Thức](https://code.claude.com/docs/en/memory)
 
 **Cài Đặt Nhanh**:
 ```bash

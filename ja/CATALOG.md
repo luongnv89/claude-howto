@@ -136,7 +136,7 @@ Claude Code はツール使用の許可を制御する 6 つの権限モード�
 | `bypassPermissions` | すべての権限チェックをスキップ | CI/CD、ヘッドレス環境 |
 | `dontAsk` | 権限が必要なツールをスキップ | 非対話スクリプト |
 
-> **注**：`auto` モードは対象プラン・モデル・プロバイダの条件を満たす必要がある — [09-advanced-features/](../09-advanced-features/#auto-mode) を参照。`bypassPermissions` は信頼されたサンドボックス環境でのみ利用すること。
+> **注**：`auto` モードは対象プラン・モデル・プロバイダの条件を満たす必要がある — [09-advanced-features/](09-advanced-features/#auto-mode) を参照。`bypassPermissions` は信頼されたサンドボックス環境でのみ利用すること。
 
 **リファレンス**：[公式ドキュメント](https://code.claude.com/docs/en/permissions)
 
