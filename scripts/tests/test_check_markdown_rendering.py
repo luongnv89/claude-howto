@@ -46,11 +46,7 @@ def test_backtick_inside_fence_ignored(repo: Path) -> None:
 
 def test_backtick_inside_blockquote_fence_ignored(repo: Path) -> None:
     content = (
-        "> note\n"
-        ">\n"
-        "> ```json\n"
-        '> { "key": "value with `inner` backtick" }\n'
-        "> ```\n"
+        '> note\n>\n> ```json\n> { "key": "value with `inner` backtick" }\n> ```\n'
     )
     (repo / "README.md").write_text(content)
     errors = cmr.rule_backtick_in_inline_code(Path("README.md"), content)
@@ -67,19 +63,19 @@ def test_backtick_line_number_reported(repo: Path) -> None:
 
 
 def test_unescaped_pipe_in_table_flagged(repo: Path) -> None:
-    content = "| col1 | col2 |\n" "|------|------|\n" "| a | b | c |\n"
+    content = "| col1 | col2 |\n|------|------|\n| a | b | c |\n"
     errors = cmr.rule_unescaped_pipe_in_table(Path("README.md"), content)
     assert any("unescaped-pipe-in-table" in e for e in errors)
 
 
 def test_escaped_pipe_passes(repo: Path) -> None:
-    content = "| col1 | col2 |\n" "|------|------|\n" "| [color\\|default] | b |\n"
+    content = "| col1 | col2 |\n|------|------|\n| [color\\|default] | b |\n"
     errors = cmr.rule_unescaped_pipe_in_table(Path("README.md"), content)
     assert errors == []
 
 
 def test_pipe_inside_inline_code_in_cell_passes(repo: Path) -> None:
-    content = "| col1 | col2 |\n" "|------|------|\n" "| `a \\| b` | text |\n"
+    content = "| col1 | col2 |\n|------|------|\n| `a \\| b` | text |\n"
     errors = cmr.rule_unescaped_pipe_in_table(Path("README.md"), content)
     assert errors == []
 

@@ -7,8 +7,11 @@ default_language_version:
 
 repos:
   # Ruff - Fast Python linter and formatter
+  # Keep this in step with the `ruff` floor in scripts/requirements-dev.txt and
+  # the unpinned `uv pip install ruff` in the CI lint job. A stale pin here
+  # reformats files the newer ruff in CI then rejects, and vice versa.
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.2
+    rev: v0.15.10
     hooks:
       - id: ruff
         name: ruff-lint

@@ -44,7 +44,9 @@ exclude = ["tests", "tests.*"]
 [tool.ruff]
 target-version = "py310"
 line-length = 88
-include = ["scripts/**/*.py"]
+# Ruff resolves these patterns relative to this file's directory (scripts/),
+# not the repo root — "scripts/**/*.py" would mean scripts/scripts/**/*.py.
+include = ["**/*.py"]
 exclude = [
     ".git",
     ".venv",
@@ -89,7 +91,8 @@ force-single-line = false
 combine-as-imports = true
 
 [tool.ruff.lint.per-file-ignores]
-"scripts/tests/*.py" = ["S101", "PLR2004"]
+# Also relative to scripts/ — see the note on [tool.ruff] include above.
+"tests/*.py" = ["S101", "PLR2004"]
 
 [tool.ruff.format]
 quote-style = "double"

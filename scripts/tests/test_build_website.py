@@ -472,9 +472,9 @@ class TestBuildWebsite:
             "cdn.jsdelivr.net",
             "fonts.googleapis.com",
         ):
-            assert (
-                hostile not in index_html
-            ), f"Built HTML still references {hostile} — CDN should be self-hosted"
+            assert hostile not in index_html, (
+                f"Built HTML still references {hostile} — CDN should be self-hosted"
+            )
 
 
 # =============================================================================
