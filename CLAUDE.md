@@ -22,7 +22,7 @@ mypy scripts/ --ignore-missing-imports
 bandit -c scripts/pyproject.toml -r scripts/ --exclude scripts/tests/
 ```
 
-Pre-commit runs 5 checks: markdown-lint, cross-references, mermaid-syntax, link-check, build-epub (on `.md` changes). All must pass.
+Pre-commit runs 5 doc checks on `.md` changes: markdown-lint, cross-references, mermaid-syntax, link-check, markdown-rendering. All must pass. The EPUB build is **not** a pre-commit hook — it runs in CI only (`build-epub` job in `.github/workflows/test.yml`), because it needs a local `mmdc` binary that has no working arm64 build.
 
 ## Architecture map
 

@@ -143,10 +143,20 @@ jobs:
         run: uv run mypy scripts/ --config-file scripts/pyproject.toml
 
   build-epub:
-    name: Build EPUB Artifact
+    name: Build EPUB Artifact (${{ matrix.lang }})
     runs-on: ubuntu-latest
     needs: [pytest, lint, security, type-check]
     if: ${{ !failure() && !cancelled() }}
+
+    # This job is the only gate on the EPUB build — the equivalent pre-commit
+    # hooks were removed because they need a local `mmdc` binary that has no
+    # working arm64 build. The matrix covers every language build_epub.py
+    # accepts, so a broken diagram in any tree fails here rather than at
+    # release time.
+    strategy:
+      fail-fast: false
+      matrix:
+        lang: [en, vi, zh, ja]
 
     steps:
       - name: Checkout code
@@ -169,13 +179,17 @@ jobs:
       - name: Build EPUB
         run: |
           echo '{"args":["--no-sandbox","--disable-setuid-sandbox"]}' > /tmp/puppeteer-ci.json
-          uv run scripts/build_epub.py --puppeteer-config /tmp/puppeteer-ci.json
+          uv run scripts/build_epub.py \
+            --lang ${{ matrix.lang }} \
+            --puppeteer-config /tmp/puppeteer-ci.json
 
       - name: Verify EPUB Created
         run: |
-          if [ -f claude-howto-guide.epub ]; then
+          shopt -s nullglob
+          built=(claude-howto-guide*.epub)
+          if [ ${#built[@]} -gt 0 ]; then
             echo "✅ EPUB built successfully"
-            ls -lh claude-howto-guide.epub
+            ls -lh "${built[@]}"
           else
             echo "❌ EPUB file not found!"
             exit 1
@@ -184,8 +198,9 @@ jobs:
       - name: Upload EPUB Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: claude-howto-guide-epub
-          path: claude-howto-guide.epub
+          name: claude-howto-guide-epub-${{ matrix.lang }}
+          path: claude-howto-guide*.epub
+          if-no-files-found: error
           retention-days: 7
           compression-level: 0
 
@@ -213,7 +228,7 @@ jobs:
           echo "## Artifacts" >> $GITHUB_STEP_SUMMARY
           echo "- pytest-results-* (coverage and test results)" >> $GITHUB_STEP_SUMMARY
           echo "- bandit-security-report (security scan JSON)" >> $GITHUB_STEP_SUMMARY
-          echo "- claude-howto-guide-epub (built EPUB file)" >> $GITHUB_STEP_SUMMARY
+          echo "- claude-howto-guide-epub-* (built EPUB file, one per language)" >> $GITHUB_STEP_SUMMARY
 
       - name: Check if all tests passed
         if: |

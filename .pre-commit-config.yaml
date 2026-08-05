@@ -104,12 +104,10 @@ repos:
         pass_filenames: false
         types: [markdown]
 
-      - id: build-epub
-        name: build-epub
-        language: system
-        entry: uv run scripts/build_epub.py
-        pass_filenames: false
-        files: ^(.*\.md|scripts/build_epub\.py)$
+      # The EPUB build is intentionally CI-only (see the `build-epub` job in
+      # .github/workflows/test.yml). It needs a local `mmdc` binary, which has
+      # no working arm64 build, so running it here made the gate impossible to
+      # satisfy on arm64 machines while `check_mermaid.py` skipped silently.
 
   # Vietnamese documentation checks
   - repo: local
@@ -145,13 +143,6 @@ repos:
         files: ^vi/.*\.md$
         verbose: true
 
-      - id: vietnamese-build-epub
-        name: vietnamese-build-epub
-        language: system
-        entry: uv run scripts/build_epub.py --lang vi
-        pass_filenames: false
-        files: ^(vi/.*\.md|scripts/build_epub\.py)$
-
   # Japanese documentation checks
   - repo: local
     hooks:
@@ -185,10 +176,3 @@ repos:
         pass_filenames: false
         files: ^ja/.*\.md$
         verbose: true
-
-      - id: japanese-build-epub
-        name: japanese-build-epub
-        language: system
-        entry: uv run scripts/build_epub.py --lang ja
-        pass_filenames: false
-        files: ^(ja/.*\.md|scripts/build_epub\.py)$
