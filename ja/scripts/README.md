@@ -13,8 +13,8 @@ Claude How-To の Markdown ファイル群から EPUB 形式の電子書籍を�
 ## 特徴
 
 - フォルダ構成（01-slash-commands、02-memory など）に沿って章を整理する
-- Mermaid 図を Kroki.io API 経由で PNG 画像としてレンダリングする
-- 非同期並行取得 — すべての図を並列にレンダリングする
+- Mermaid 図をローカルの `mmdc` CLI で PNG 画像としてレンダリングする（ネットワーク不要）
+- 同一の図をキャッシュし、ユニークな図は一度だけレンダリングする
 - プロジェクトロゴから表紙画像を生成する
 - 内部 Markdown リンクを EPUB の章参照へ変換する
 - 厳格モード — レンダリング不能な図があればビルドを失敗させる
@@ -53,15 +53,17 @@ python scripts/build_epub.py
 
 ```
 usage: build_epub.py [-h] [--root ROOT] [--output OUTPUT] [--verbose]
-                     [--timeout TIMEOUT] [--max-concurrent MAX_CONCURRENT]
+                     [--mmdc-path MMDC_PATH] [--lang {en,vi,zh,ja}]
+                     [--puppeteer-config PUPPETEER_CONFIG]
 
 options:
   -h, --help            show this help message and exit
   --root, -r ROOT       Root directory (default: repo root)
   --output, -o OUTPUT   Output path (default: claude-howto-guide.epub)
   --verbose, -v         Enable verbose logging
-  --timeout TIMEOUT     API timeout in seconds (default: 30)
-  --max-concurrent N    Max concurrent requests (default: 10)
+  --mmdc-path PATH      Path to mmdc binary (default: mmdc from PATH)
+  --lang {en,vi,zh,ja}  Language to build (default: en)
+  --puppeteer-config P  Puppeteer config JSON passed to mmdc via -p
 ```
 
 ## 使用例
@@ -73,8 +75,11 @@ uv run scripts/build_epub.py --verbose
 # 出力先をカスタマイズ
 uv run scripts/build_epub.py --output ~/Desktop/claude-guide.epub
 
-# 並行リクエスト数を制限（レート制限を受ける場合）
-uv run scripts/build_epub.py --max-concurrent 5
+# 日本語版をビルド
+uv run scripts/build_epub.py --lang ja
+
+# PATH にない mmdc を指定する
+uv run scripts/build_epub.py --mmdc-path ./node_modules/.bin/mmdc
 ```
 
 ## 出力
@@ -116,8 +121,8 @@ PEP 723 のインラインスクリプトメタデータで管理する：
 
 ## トラブルシューティング
 
-**ネットワークエラーでビルドが失敗する**: インターネット接続と Kroki.io の稼働状況を確認する。`--timeout 60` を試す。
+**`mmdc not found` でビルドが失敗する**: Mermaid CLI をインストールする（`npm install -g @mermaid-js/mermaid-cli`）。`PATH` にない場合は `--mmdc-path` を渡す。arm64 では同梱 Chromium が動作しないため、EPUB は CI（`.github/workflows/test.yml` の `build-epub` ジョブ）でビルドすること。
 
-**レート制限**: `--max-concurrent 3` で並行リクエスト数を減らす。
+**CI やコンテナで `mmdc` が失敗する**: Chromium にサンドボックスなしのプロファイルが必要。`{"args":["--no-sandbox","--disable-setuid-sandbox"]}` をファイルに書き出し、`--puppeteer-config` で渡す。
 
 **ロゴが見つからない**: `claude-howto-logo.png` が見つからない場合、スクリプトはテキストのみの表紙を生成する。

@@ -81,11 +81,11 @@ mypy scripts/ --ignore-missing-imports
 ### Build EPUB
 
 ```bash
-# Tạo ebook (render Mermaid diagrams qua Kroki.io API)
+# Tạo ebook (render Mermaid diagrams bằng mmdc CLI cục bộ — không cần mạng)
 uv run scripts/build_epub.py
 
 # Với các tùy chọn
-uv run scripts/build_epub.py --verbose --output custom-name.epub --max-concurrent 5
+uv run scripts/build_epub.py --verbose --output custom-name.epub --lang vi
 ```
 
 ## Cấu Trúc Thư Mục
@@ -102,7 +102,7 @@ uv run scripts/build_epub.py --verbose --output custom-name.epub --max-concurren
 ├── 09-advanced-features/   # Lập kế hoạch, suy nghĩ, background tasks
 ├── 10-cli/                 # Tham chiếu CLI
 ├── scripts/
-│   ├── build_epub.py           # EPUB generator (render Mermaid qua Kroki API)
+│   ├── build_epub.py           # EPUB generator (render Mermaid bằng mmdc cục bộ)
 │   ├── check_cross_references.py   # Xác thực liên kết nội bộ
 │   ├── check_links.py          # Kiểm tra các URL bên ngoài
 │   ├── check_mermaid.py        # Xác thực cú pháp Mermaid
@@ -122,7 +122,7 @@ Mỗi thư mục đánh số tuân theo pattern:
 
 ### Sơ Đồ Mermaid
 - Tất cả sơ đồ phải parse thành công (được kiểm tra bởi pre-commit hook)
-- EPUB build render sơ đồ qua Kroki.io API (cần internet)
+- EPUB build render sơ đồ bằng `mmdc` CLI cục bộ (không cần internet, nhưng cần cài `mmdc`)
 - Sử dụng Mermaid cho flowcharts, sequence diagrams, và architecture visuals
 
 ### Cross-References
@@ -143,7 +143,7 @@ Mỗi thư mục đánh số tuân theo pattern:
 
 3. **Pre-commit là người gác cổng** — Tất cả năm kiểm tra chất lượng phải pass trước khi PR được chấp nhận. CI pipeline chạy các kiểm tra tương tự như lần thứ hai.
 
-4. **Mermaid rendering cần network** — EPUB build gọi Kroki.io API để render diagrams. Các lỗi build ở đây thường là vấn đề network hoặc cú pháp Mermaid không hợp lệ.
+4. **Mermaid rendering cần `mmdc` cục bộ** — EPUB build gọi `mmdc` CLI cục bộ để render diagrams (không cần network). Các lỗi build ở đây thường là do chưa cài `mmdc` hoặc cú pháp Mermaid không hợp lệ. Bản thân EPUB build không chạy trong pre-commit — nó chỉ chạy trong CI.
 
 5. **Đây là tutorial, không phải thư viện** — Khi thêm nội dung, tập trung vào giải thích rõ ràng, ví dụ copy-paste, và sơ đồ trực quan. Giá trị nằm ở việc dạy các khái niệm, không cung cấp code có thể tái sử dụng.
 

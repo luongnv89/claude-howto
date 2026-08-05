@@ -23,8 +23,8 @@ Build an EPUB ebook from the Claude How-To markdown files.
 ## Features
 
 - Organizes chapters by folder structure (01-slash-commands, 02-memory, etc.)
-- Renders Mermaid diagrams as PNG images via Kroki.io API
-- Async concurrent fetching - renders all diagrams in parallel
+- Renders Mermaid diagrams as PNG images via the local `mmdc` CLI (no network required)
+- Caches identical diagrams so each unique diagram is rendered only once
 - Generates a cover image from the project logo
 - Converts internal markdown links to EPUB chapter references
 - Strict error mode - fails if any diagram cannot be rendered
@@ -33,7 +33,7 @@ Build an EPUB ebook from the Claude How-To markdown files.
 
 - Python 3.10+
 - [uv](https://github.com/astral-sh/uv)
-- Internet connection for Mermaid diagram rendering
+- [`mmdc`](https://github.com/mermaid-js/mermaid-cli) on `PATH` for Mermaid diagram rendering (`npm install -g @mermaid-js/mermaid-cli`)
 
 ## Quick Start
 
@@ -63,15 +63,17 @@ python scripts/build_epub.py
 
 ```
 usage: build_epub.py [-h] [--root ROOT] [--output OUTPUT] [--verbose]
-                     [--timeout TIMEOUT] [--max-concurrent MAX_CONCURRENT]
+                     [--mmdc-path MMDC_PATH] [--lang {en,vi,zh,ja}]
+                     [--puppeteer-config PUPPETEER_CONFIG]
 
 options:
   -h, --help            show this help message and exit
   --root, -r ROOT       Root directory (default: repo root)
   --output, -o OUTPUT   Output path (default: claude-howto-guide.epub)
   --verbose, -v         Enable verbose logging
-  --timeout TIMEOUT     API timeout in seconds (default: 30)
-  --max-concurrent N    Max concurrent requests (default: 10)
+  --mmdc-path PATH      Path to mmdc binary (default: mmdc from PATH)
+  --lang {en,vi,zh,ja}  Language to build (default: en)
+  --puppeteer-config P  Puppeteer config JSON passed to mmdc via -p
 ```
 
 ## Examples
@@ -83,8 +85,11 @@ uv run scripts/build_epub.py --verbose
 # Custom output location
 uv run scripts/build_epub.py --output ~/Desktop/claude-guide.epub
 
-# Limit concurrent requests (if rate-limited)
-uv run scripts/build_epub.py --max-concurrent 5
+# Build a translated edition
+uv run scripts/build_epub.py --lang vi
+
+# Point at an mmdc that is not on PATH
+uv run scripts/build_epub.py --mmdc-path ./node_modules/.bin/mmdc
 ```
 
 ## Output
@@ -126,9 +131,9 @@ Managed via PEP 723 inline script metadata:
 
 ## Troubleshooting
 
-**Build fails with network error**: Check internet connectivity and Kroki.io status. Try `--timeout 60`.
+**Build fails with `mmdc not found`**: Install the Mermaid CLI (`npm install -g @mermaid-js/mermaid-cli`), or pass `--mmdc-path` if the binary is not on `PATH`. There is no working arm64 build of the bundled Chromium, so on arm64 machines build the EPUB in CI instead — the `build-epub` job in `.github/workflows/test.yml` covers every language.
 
-**Rate limiting**: Reduce concurrent requests with `--max-concurrent 3`.
+**`mmdc` fails in CI or a container**: Chromium needs a sandbox-free profile. Write `{"args":["--no-sandbox","--disable-setuid-sandbox"]}` to a file and pass it via `--puppeteer-config`.
 
 **Missing logo**: The script generates a text-only cover if `claude-howto-logo.png` is not found.
 

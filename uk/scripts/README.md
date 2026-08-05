@@ -10,8 +10,8 @@
 ## Функції
 
 - Організує розділи за структурою каталогів (01-slash-commands, 02-memory тощо)
-- Рендерить Mermaid-діаграми як PNG-зображення через Kroki.io API
-- Асинхронне паралельне завантаження — рендерить усі діаграми одночасно
+- Рендерить Mermaid-діаграми як PNG-зображення через локальний `mmdc` CLI (без мережі)
+- Кешує однакові діаграми — кожна унікальна діаграма рендериться лише раз
 - Генерує обкладинку з логотипу проєкту
 - Конвертує внутрішні markdown-посилання у посилання на розділи EPUB
 - Суворий режим помилок — падає, якщо діаграма не може бути відрендерена
@@ -50,15 +50,17 @@ python scripts/build_epub.py
 
 ```
 usage: build_epub.py [-h] [--root ROOT] [--output OUTPUT] [--verbose]
-                     [--timeout TIMEOUT] [--max-concurrent MAX_CONCURRENT]
+                     [--mmdc-path MMDC_PATH] [--lang {en,vi,zh,ja}]
+                     [--puppeteer-config PUPPETEER_CONFIG]
 
 options:
   -h, --help            show this help message and exit
   --root, -r ROOT       Root directory (default: repo root)
   --output, -o OUTPUT   Output path (default: claude-howto-guide.epub)
   --verbose, -v         Enable verbose logging
-  --timeout TIMEOUT     API timeout in seconds (default: 30)
-  --max-concurrent N    Max concurrent requests (default: 10)
+  --mmdc-path PATH      Path to mmdc binary (default: mmdc from PATH)
+  --lang {en,vi,zh,ja}  Language to build (default: en)
+  --puppeteer-config P  Puppeteer config JSON passed to mmdc via -p
 ```
 
 ## Приклади
@@ -70,8 +72,11 @@ uv run scripts/build_epub.py --verbose
 # Custom output location
 uv run scripts/build_epub.py --output ~/Desktop/claude-guide.epub
 
-# Limit concurrent requests (if rate-limited)
-uv run scripts/build_epub.py --max-concurrent 5
+# Build a translated edition
+uv run scripts/build_epub.py --lang vi
+
+# Point at an mmdc that is not on PATH
+uv run scripts/build_epub.py --mmdc-path ./node_modules/.bin/mmdc
 ```
 
 ## Вивід
@@ -113,8 +118,8 @@ uv run --with pytest --with pytest-asyncio \
 
 ## Усунення проблем
 
-**Збірка падає з мережевою помилкою**: Перевірте інтернет-з'єднання та стан Kroki.io. Спробуйте `--timeout 60`.
+**Збірка падає з `mmdc not found`**: Встановіть Mermaid CLI (`npm install -g @mermaid-js/mermaid-cli`) або вкажіть шлях через `--mmdc-path`. На arm64 вбудований Chromium не працює — збирайте EPUB у CI (джоб `build-epub` у `.github/workflows/test.yml`).
 
-**Обмеження частоти**: Зменште паралельні запити з `--max-concurrent 3`.
+**`mmdc` падає в CI або контейнері**: Chromium потребує профілю без пісочниці. Запишіть `{"args":["--no-sandbox","--disable-setuid-sandbox"]}` у файл і передайте його через `--puppeteer-config`.
 
 **Відсутній логотип**: Скрипт генерує текстову обкладинку, якщо `claude-howto-logo.png` не знайдено.

@@ -85,11 +85,11 @@ mypy scripts/ --ignore-missing-imports
 ### EPUB ビルド
 
 ```bash
-# 電子書籍を生成（Mermaid 図を Kroki.io API でレンダリング）
+# 電子書籍を生成（Mermaid 図はローカルの mmdc CLI でレンダリング／ネットワーク不要）
 uv run scripts/build_epub.py
 
 # オプション付き
-uv run scripts/build_epub.py --verbose --output custom-name.epub --max-concurrent 5
+uv run scripts/build_epub.py --verbose --output custom-name.epub --lang ja
 ```
 
 ## ディレクトリ構造
@@ -106,7 +106,7 @@ uv run scripts/build_epub.py --verbose --output custom-name.epub --max-concurren
 ├── 09-advanced-features/   # プランニング、シンキング、バックグラウンド
 ├── 10-cli/                 # CLI リファレンス
 ├── scripts/
-│   ├── build_epub.py           # EPUB ジェネレータ（Mermaid を Kroki API でレンダリング）
+│   ├── build_epub.py           # EPUB ジェネレータ（Mermaid をローカル mmdc でレンダリング）
 │   ├── check_cross_references.py   # 内部リンクを検証
 │   ├── check_links.py          # 外部 URL を検証
 │   ├── check_mermaid.py        # Mermaid 構文を検証
@@ -125,7 +125,7 @@ uv run scripts/build_epub.py --verbose --output custom-name.epub --max-concurren
 
 ### Mermaid 図
 - すべての図は正常にパースできること（pre-commit フックで検査）
-- EPUB ビルドは Kroki.io API で図をレンダリングする（インターネット接続が必要）
+- EPUB ビルドはローカルの `mmdc` CLI で図をレンダリングする（ネットワークは不要だが `mmdc` が必要）
 - フローチャート、シーケンス図、アーキテクチャ可視化に Mermaid を使用する
 
 ### 相互参照
@@ -146,7 +146,7 @@ uv run scripts/build_epub.py --verbose --output custom-name.epub --max-concurren
 
 3. **pre-commit がゲートキーパー** — PR が承認される前に 4 つの品質チェックがすべて通過しなければならない。CI パイプラインは同じチェックを 2 回目のパスとして実行する。
 
-4. **Mermaid のレンダリングにはネットワークが必要** — EPUB ビルドは図のレンダリングに Kroki.io API を呼び出す。ここでビルドが失敗する場合は、ネットワーク問題か Mermaid 構文エラーが典型的な原因である。
+4. **Mermaid のレンダリングにはローカルの `mmdc` が必要** — EPUB ビルドは図のレンダリングにローカルの `mmdc` CLI を呼び出す（ネットワークは不要）。ここでビルドが失敗する場合は、`mmdc` が未インストールか、Mermaid 構文エラーが典型的な原因である。EPUB ビルド自体は pre-commit では実行されず、CI のみで実行される。
 
 5. **これはチュートリアルでありライブラリではない** — コンテンツを追加する際は、明快な解説、コピー＆ペースト可能な例、視覚的な図を重視する。価値は概念を教えることにあり、再利用可能なコードを提供することではない。
 

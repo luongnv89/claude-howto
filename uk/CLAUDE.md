@@ -85,11 +85,11 @@ mypy scripts/ --ignore-missing-imports
 ### Збірка EPUB
 
 ```bash
-# Generate ebook (renders Mermaid diagrams via Kroki.io API)
+# Generate ebook (renders Mermaid diagrams with the local mmdc CLI — no network)
 uv run scripts/build_epub.py
 
 # With options
-uv run scripts/build_epub.py --verbose --output custom-name.epub --max-concurrent 5
+uv run scripts/build_epub.py --verbose --output custom-name.epub --mmdc-path ./node_modules/.bin/mmdc
 ```
 
 ## Структура каталогів
@@ -106,7 +106,7 @@ uv run scripts/build_epub.py --verbose --output custom-name.epub --max-concurren
 ├── 09-advanced-features/   # Планування, мислення, фони
 ├── 10-cli/                 # Довідник CLI
 ├── scripts/
-│   ├── build_epub.py           # Генератор EPUB (рендерить Mermaid через Kroki API)
+│   ├── build_epub.py           # Генератор EPUB (рендерить Mermaid через локальний mmdc)
 │   ├── check_cross_references.py   # Валідація внутрішніх посилань
 │   ├── check_links.py          # Перевірка зовнішніх URL
 │   ├── check_mermaid.py        # Валідація синтаксису Mermaid
@@ -125,7 +125,7 @@ uv run scripts/build_epub.py --verbose --output custom-name.epub --max-concurren
 
 ### Mermaid-діаграми
 - Усі діаграми повинні успішно парситися (перевіряється pre-commit хуком)
-- Збірка EPUB рендерить діаграми через Kroki.io API (потрібен інтернет)
+- Збірка EPUB рендерить діаграми через локальний `mmdc` CLI (інтернет не потрібен, але потрібен `mmdc`)
 - Використовуйте Mermaid для блок-схем, діаграм послідовностей та архітектурних візуалізацій
 
 ### Перехресні посилання
@@ -146,7 +146,7 @@ uv run scripts/build_epub.py --verbose --output custom-name.epub --max-concurren
 
 3. **Pre-commit — привратник** — Усі перевірки якості повинні пройти перед прийняттям PR. CI-конвеєр запускає ці ж перевірки як другий прохід.
 
-4. **Рендеринг Mermaid потребує мережі** — Збірка EPUB викликає Kroki.io API для рендерингу діаграм. Помилки збірки тут зазвичай пов'язані з мережею або невалідним синтаксисом Mermaid.
+4. **Рендеринг Mermaid потребує локального `mmdc`** — Збірка EPUB викликає локальний `mmdc` CLI для рендерингу діаграм (мережа не потрібна). Помилки збірки тут зазвичай пов'язані з відсутнім `mmdc` або невалідним синтаксисом Mermaid. Сама збірка EPUB не виконується у pre-commit — лише в CI.
 
 5. **Це туторіал, а не бібліотека** — При додаванні контенту зосереджуйтесь на чітких поясненнях, готових прикладах та візуальних діаграмах. Цінність — у навчанні концепцій, а не у наданні повторно використовуваного коду.
 
