@@ -16,7 +16,7 @@ Claude How To は Claude Code 機能のチュートリアルリポジトリで�
 
 ### pre-commit 品質チェック
 
-すべてのドキュメントは、コミット前に 4 つの品質チェックを通過しなければならない（pre-commit フックで自動実行される）：
+すべてのドキュメントは、コミット前に 5 つの品質チェックを通過しなければならない（pre-commit フックで自動実行される）：
 
 ```bash
 # pre-commit フックをインストール（毎コミットで実行）
@@ -26,12 +26,14 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-4 つのチェックは以下のとおり：
+5 つのチェックは以下のとおり：
 1. **markdown-lint** — `markdownlint` による Markdown 構造とフォーマット
 2. **cross-references** — 内部リンク、アンカー、コードフェンスの構文（Python スクリプト）
 3. **mermaid-syntax** — すべての Mermaid 図が正しくパースされるかを検証（Python スクリプト）
 4. **link-check** — 外部 URL が到達可能か（Python スクリプト）
-5. **build-epub** — EPUB がエラーなく生成されるか（`.md` 変更時）
+5. **markdown-rendering** — Markdown が壊れずにレンダリングされるか（Python スクリプト）
+
+EPUB ビルドは pre-commit フック **ではない** — CI のみで実行される（`.github/workflows/test.yml` の `build-epub` ジョブ）。ローカルの `mmdc` バイナリが必要であり、arm64 で動作するビルドが存在しないためである。
 
 ### 開発環境のセットアップ
 
@@ -144,7 +146,7 @@ uv run scripts/build_epub.py --verbose --output custom-name.epub --lang ja
 
 2. **スクリプトはユーティリティであり製品ではない** — `scripts/` の Python スクリプトはドキュメント品質と EPUB 生成を支援するものである。実際のコンテンツは番号付きモジュールフォルダにある。
 
-3. **pre-commit がゲートキーパー** — PR が承認される前に 4 つの品質チェックがすべて通過しなければならない。CI パイプラインは同じチェックを 2 回目のパスとして実行する。
+3. **pre-commit がゲートキーパー** — PR が承認される前に 5 つの品質チェックがすべて通過しなければならない。CI パイプラインは同じチェックを 2 回目のパスとして実行する。
 
 4. **Mermaid のレンダリングにはローカルの `mmdc` が必要** — EPUB ビルドは図のレンダリングにローカルの `mmdc` CLI を呼び出す（ネットワークは不要）。ここでビルドが失敗する場合は、`mmdc` が未インストールか、Mermaid 構文エラーが典型的な原因である。EPUB ビルド自体は pre-commit では実行されず、CI のみで実行される。
 

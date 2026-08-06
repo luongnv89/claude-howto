@@ -27,7 +27,9 @@ Năm kiểm tra là:
 2. **cross-references** — Liên kết nội bộ, anchors, cú pháp code fence (Python script)
 3. **mermaid-syntax** — Xác thực tất cả sơ đồ Mermaid parse đúng (Python script)
 4. **link-check** — Các URL bên ngoài có thể truy cập được (Python script)
-5. **build-epub** — EPUB tạo ra không có lỗi (khi có thay đổi `.md`)
+5. **markdown-rendering** — Markdown render không lỗi (Python script)
+
+Việc build EPUB **không phải** là một pre-commit hook — nó chỉ chạy trong CI (job `build-epub` trong `.github/workflows/test.yml`), vì nó cần binary `mmdc` cục bộ, vốn không có bản build hoạt động trên arm64.
 
 ### Thiết Lập Môi Trường Phát Triển
 
