@@ -72,6 +72,7 @@ select = [
 ignore = [
     "E501",     # Line too long (handled by formatter)
     "PLR0913",  # Too many arguments
+    "PLR0917",  # Too many positional arguments (stable since ruff 0.16)
     "PLR2004",  # Magic value comparison
     "PLR0915",  # Too many statements
     "PERF203",  # try-except in loop (acceptable for error handling)
