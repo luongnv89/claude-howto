@@ -99,7 +99,7 @@ pytest scripts/tests/ -v
 # Or with uv directly
 uv run --with pytest --with pytest-asyncio \
     --with ebooklib --with markdown --with beautifulsoup4 \
-    --with pillow --with tenacity \
+    --with pillow \
     pytest scripts/tests/ -v
 ```
 
@@ -113,7 +113,6 @@ uv run --with pytest --with pytest-asyncio \
 | `markdown` | Конвертація Markdown → HTML |
 | `beautifulsoup4` | Парсинг HTML |
 | `pillow` | Генерація обкладинки |
-| `tenacity` | Логіка повторних спроб |
 
 ## Усунення проблем
 

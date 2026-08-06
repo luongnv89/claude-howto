@@ -10,7 +10,6 @@ dependencies = [
     "markdown",
     "beautifulsoup4",
     "pillow",
-    "tenacity",
     "jinja2",
 ]
 

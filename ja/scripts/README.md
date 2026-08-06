@@ -102,7 +102,7 @@ pytest scripts/tests/ -v
 # または uv で直接実行
 uv run --with pytest --with pytest-asyncio \
     --with ebooklib --with markdown --with beautifulsoup4 \
-    --with pillow --with tenacity \
+    --with pillow \
     pytest scripts/tests/ -v
 ```
 
@@ -116,7 +116,6 @@ PEP 723 のインラインスクリプトメタデータで管理する：
 | `markdown` | Markdown から HTML への変換 |
 | `beautifulsoup4` | HTML パース |
 | `pillow` | 表紙画像生成 |
-| `tenacity` | リトライ処理 |
 
 ## トラブルシューティング
 

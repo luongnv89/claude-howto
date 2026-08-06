@@ -124,7 +124,6 @@
     "beautifulsoup",
     "ebooklib",
     "pillow",
-    "tenacity",
     "cSpell",
     "markdownlint",
     "Kroki",
