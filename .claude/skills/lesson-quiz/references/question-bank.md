@@ -92,10 +92,10 @@
 
 ### Q1
 - **Category**: conceptual
-- **Question**: How many levels does the Claude Code memory hierarchy have, and what has the highest priority?
-- **Options**: A) 5 levels, User Memory is highest | B) 7 levels, Managed Policy is highest | C) 3 levels, Project Memory is highest | D) 7 levels, Auto Memory is highest
+- **Question**: How do CLAUDE.md memory files relate to each other, and what has the highest authority?
+- **Options**: A) Higher tiers override lower tiers entirely | B) They are concatenated into context; Managed Policy loads first and cannot be excluded | C) The most recently modified file wins | D) Project Memory has the highest priority
 - **Correct**: B
-- **Explanation**: The hierarchy has 7 levels: Managed Policy > Project Memory > Project Rules > User Memory > User Rules > Local Project Memory > Auto Memory. Managed Policy (set by admins) has the highest priority.
+- **Explanation**: CLAUDE.md files are concatenated into context rather than overriding each other — load order sets position in context, not precedence. Managed Policy (admin-managed) loads first and cannot be excluded by individual settings. Auto memory is a separate mechanism.
 - **Review**: Memory hierarchy section
 
 ### Q2
@@ -109,9 +109,9 @@
 ### Q3
 - **Category**: conceptual
 - **Question**: What is the maximum depth for `@path/to/file` imports in CLAUDE.md?
-- **Options**: A) 3 levels deep | B) 5 levels deep | C) 10 levels deep | D) Unlimited
+- **Options**: A) 3 levels deep | B) 4 levels deep | C) 10 levels deep | D) Unlimited
 - **Correct**: B
-- **Explanation**: The `@import` syntax supports recursive imports up to a maximum depth of 5 to prevent infinite loops.
+- **Explanation**: The `@path` import syntax supports recursive imports up to a maximum depth of 4 hops to prevent infinite loops.
 - **Review**: Import syntax section
 
 ### Q4
@@ -157,9 +157,9 @@
 ### Q9
 - **Category**: conceptual
 - **Question**: Can a lower-priority memory tier override rules from a higher-priority tier?
-- **Options**: A) Yes, the most recent rule always wins | B) No, higher tiers always take precedence | C) Yes, if the lower tier uses the `!important` flag | D) It depends on the rule type
+- **Options**: A) Yes, the most recent rule always wins | B) No — CLAUDE.md files are concatenated into context, not overridden; load order sets position, not precedence | C) Yes, if the lower tier uses the `!important` flag | D) It depends on the rule type
 - **Correct**: B
-- **Explanation**: Memory precedence flows downward from Managed Policy. Lower tiers (like Auto Memory) cannot override higher tiers (like Project Memory).
+- **Explanation**: CLAUDE.md files (user, project, local, rules) are concatenated into context rather than overriding each other — later files appear later in context, not "instead of" earlier ones. Only Managed Policy is special: it loads first and cannot be excluded by individual settings. Auto memory is a separate mechanism, not part of the concatenation order.
 - **Review**: Memory hierarchy section
 
 ### Q10
