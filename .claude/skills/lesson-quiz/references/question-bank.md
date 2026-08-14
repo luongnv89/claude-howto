@@ -613,9 +613,9 @@
 ### Q3
 - **Category**: conceptual
 - **Question**: How many rewind options are available, and what are they?
-- **Options**: A) 3: Undo, Redo, Reset | B) 5: Restore code+conversation, Restore conversation, Restore code, Summarize from here, Never mind | C) 2: Full restore, Partial restore | D) 4: Code, Messages, Both, Cancel
+- **Options**: A) 3: Undo, Redo, Reset | B) 6: Restore code+conversation, Restore conversation, Restore code, Summarize from here, Summarize up to here, Never mind | C) 2: Full restore, Partial restore | D) 4: Code, Messages, Both, Cancel
 - **Correct**: B
-- **Explanation**: The 5 options are: Restore code and conversation (full rollback), Restore conversation only, Restore code only, Summarize from here (compress), Never mind (cancel).
+- **Explanation**: The 6 options are: Restore code and conversation (full rollback), Restore conversation only, Restore code only, Summarize from here (compress forward), Summarize up to here (compress backward), Never mind (cancel). The two summary options give bidirectional context compaction.
 - **Review**: Rewind options section
 
 ### Q4
@@ -653,9 +653,9 @@
 ### Q8
 - **Category**: practical
 - **Question**: How do you disable automatic checkpoint creation?
-- **Options**: A) Use `--no-checkpoints` flag | B) Set `autoCheckpoint: false` in settings | C) Delete the checkpoints directory | D) Checkpoints cannot be disabled
+- **Options**: A) Use `--no-checkpoints` flag | B) Set `fileCheckpointingEnabled: false` in settings | C) Delete the checkpoints directory | D) Checkpoints cannot be disabled
 - **Correct**: B
-- **Explanation**: Set `autoCheckpoint: false` in your configuration to disable automatic checkpoint creation (default is true).
+- **Explanation**: Set `fileCheckpointingEnabled: false` in your configuration to disable automatic checkpoint creation (default is true; requires v2.1.119+). Env equivalent: `CLAUDE_CODE_DISABLE_FILE_CHECKPOINTING`.
 - **Review**: Configuration section
 
 ### Q9
