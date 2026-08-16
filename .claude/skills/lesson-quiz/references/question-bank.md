@@ -241,9 +241,9 @@
 ### Q9
 - **Category**: conceptual
 - **Question**: In what order does Claude search for skills?
-- **Options**: A) User > Project > Enterprise | B) Enterprise > Personal > Project (plugin uses namespace) | C) Project > User > Enterprise | D) Alphabetical order
-- **Correct**: B
-- **Explanation**: Priority order is: Enterprise > Personal > Project. Plugin skills use a namespace (plugin-name:skill) so they don't conflict.
+- **Options**: A) Enterprise > Personal > Project | B) User > Project > Enterprise | C) Enterprise > Project > Personal (plugin uses namespace) | D) Project > User > Enterprise
+- **Correct**: C
+- **Explanation**: Priority order is: Enterprise > Project > Personal — project skills override personal ones by default (tunable via `skillOverrides`, v2.1.129+). Plugin skills use a namespace (plugin-name:skill) so they don't conflict.
 - **Review**: Skill types and locations section
 
 ### Q10
