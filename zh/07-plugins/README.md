@@ -444,6 +444,10 @@ graph TB
 | `strictKnownMarketplaces` | 控制允许用户添加哪些市场 |
 | `deniedPlugins` | 管理员维护的黑名单，阻止特定插件被安装 |
 
+> **更友好的别名（v2.1.232）**：`additionalMarketplaces` 被接受为 `extraKnownMarketplaces` 的别名，`allowedMarketplaces` 为 `strictKnownMarketplaces` 的别名。**来源为 changelog** —— v2.1.232 的 changelog 公布了它们，但官方 settings 参考页面尚未列出。继续使用规范键名是安全的。
+
+> **owner 通配符（v2.1.223+）**：`"owner/*"` 条目可允许或阻止某个 GitHub owner 名下的所有市场仓库。**仅在 `strictKnownMarketplaces` 和 `blockedMarketplaces` 中被接受。** 在其他出现 `github` 源的地方 —— 包括 `extraKnownMarketplaces` 和 `/plugin marketplace add` —— `repo` 的值必须指向单个仓库。
+
 ### 额外的市场特性
 
 - **默认 git 超时**：对大型插件仓库从 30 秒增加到 120 秒
@@ -603,6 +607,15 @@ claude plugin validate                       # 验证插件结构
 claude plugin install plugin-name@marketplace-name
 ```
 
+**是否立即生效？** 自 **v2.1.221** 起通常会立即生效 —— 请查看安装摘要的最后一行：
+
+| 安装摘要显示 | 含义 |
+|---|---|
+| `Plugin is now active.` | Claude Code 已在安装过程中激活该插件，无需其他操作。 |
+| `Run /reload-plugins to activate.` | 插件已安装但尚未生效 —— 要么激活会使 prompt cache 失效，要么激活尝试失败。 |
+
+在 v2.1.221 之前，任何安装都要等到你运行 `/reload-plugins` 或重启后才会在当前会话中生效。
+
 ### 启用 / 禁用（自动检测作用域）
 ```bash
 /plugin enable plugin-name
@@ -687,6 +700,10 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 | `extraKnownMarketplaces` | 在默认列表之外添加额外市场源 |
 | `strictKnownMarketplaces` | 限制用户允许添加的市场 |
 | `allowedChannelPlugins` | 控制每个发布渠道允许使用哪些插件 |
+
+> **更友好的别名（v2.1.232）**：`additionalMarketplaces` 被接受为 `extraKnownMarketplaces` 的别名，`allowedMarketplaces` 为 `strictKnownMarketplaces` 的别名。**来源为 changelog** —— v2.1.232 的 changelog 公布了它们，但官方 settings 参考页面尚未列出。继续使用规范键名是安全的。
+
+> **owner 通配符（v2.1.223+）**：`"owner/*"` 条目可允许或阻止某个 GitHub owner 名下的所有市场仓库。**仅在 `strictKnownMarketplaces` 和 `blockedMarketplaces` 中被接受。** 在其他出现 `github` 源的地方 —— 包括 `extraKnownMarketplaces` 和 `/plugin marketplace add` —— `repo` 的值必须指向单个仓库。
 
 这些设置可以通过托管配置文件应用到组织级别，并且优先于用户级设置。
 
@@ -928,3 +945,11 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 - [MCP Server 参考](https://modelcontextprotocol.io/)
 - [Subagent 配置指南](../04-subagents/README.md)
 - [Hook 系统参考](../06-hooks/README.md)
+
+---
+
+**最后更新**: 2026 年 8 月 15 日
+**Claude Code 版本**: 2.1.233
+**来源**:
+- https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/settings

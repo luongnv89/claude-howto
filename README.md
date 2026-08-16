@@ -487,7 +487,7 @@ Configure hooks in `~/.claude/settings.json`:
 **Hook Events** (31, in 4 categories) — when it runs:
 - **Tool Hooks**: `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `PermissionRequest`, `PermissionDenied`
 - **Session Hooks**: `SessionStart`, `Setup`, `SessionEnd`, `Stop`, `StopFailure`, `SubagentStart`, `SubagentStop`
-- **Task Hooks**: `UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`, `TaskCompleted`, `TaskCreated`, `TeammateIdle`
+- **Task Hooks**: `UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`, `TaskCompleted`, `TaskCreated`, `TeammateIdle` — `TaskCompleted` and `TaskCreated` only fire when the todo tools are enabled, which is off by default on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models (`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` restores them)
 - **Lifecycle Hooks**: `ConfigChange`, `CwdChanged`, `DirectoryAdded`, `FileChanged`, `PreCompact`, `PostCompact`, `WorktreeCreate`, `WorktreeRemove`, `Notification`, `InstructionsLoaded`, `Elicitation`, `ElicitationResult`
 
 </details>
@@ -873,9 +873,10 @@ MIT License - see [LICENSE](LICENSE). Free to use, modify, and distribute. The o
 
 ---
 
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 15, 2026
+**Claude Code Version**: 2.1.233
 **Sources**:
+- https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/permission-modes

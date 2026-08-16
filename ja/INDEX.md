@@ -229,7 +229,7 @@ blog-draft/
 **フックイベント**（31 件、4 カテゴリ）— 実行タイミング：
 - ツール系フック：PreToolUse、PostToolUse、PostToolUseFailure、PostToolBatch、PermissionRequest、PermissionDenied
 - セッション系フック：SessionStart、Setup、SessionEnd、Stop、StopFailure、SubagentStart、SubagentStop
-- タスク系フック：UserPromptSubmit、UserPromptExpansion、MessageDisplay、TaskCompleted、TaskCreated、TeammateIdle
+- タスク系フック：UserPromptSubmit、UserPromptExpansion、MessageDisplay、TaskCompleted、TaskCreated、TeammateIdle（TaskCompleted と TaskCreated は todo ツールが有効なときのみ発火 — Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降ではデフォルト無効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活）
 - ライフサイクル系フック：ConfigChange、CwdChanged、DirectoryAdded、FileChanged、PreCompact、PostCompact、WorktreeCreate、WorktreeRemove、Notification、InstructionsLoaded、Elicitation、ElicitationResult
 
 ---
@@ -882,16 +882,16 @@ Run tests in background
 
 ---
 
-**最終更新**：2026 年 4 月 24 日
-**Claude Code バージョン**：2.1.119
-**情報源**：
-- https://code.claude.com/docs/en/overview
-- https://code.claude.com/docs/en/hooks
-- https://code.claude.com/docs/en/commands
-- https://github.com/anthropics/claude-code/releases/tag/v2.1.119
+**最終更新**：2026 年 8 月 15 日
+**Claude Code バージョン**：2.1.233
 **互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5
 **例題総数**：100 ファイル超
 **カテゴリ**：10 機能
 **フック**：自動化スクリプト 8 個
 **設定例**：10 シナリオ以上
 **すぐ使える**：すべての例
+**情報源**：
+- https://code.claude.com/docs/en/overview
+- https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/commands
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.119

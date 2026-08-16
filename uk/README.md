@@ -443,7 +443,7 @@ chmod +x ~/.claude/hooks/*.sh
 **Події хуків** (31, у 4 категоріях) — коли він виконується:
 - **Хуки інструментів**: `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `PermissionRequest`, `PermissionDenied`
 - **Хуки сесій**: `SessionStart`, `Setup`, `SessionEnd`, `Stop`, `StopFailure`, `SubagentStart`, `SubagentStop`
-- **Хуки завдань**: `UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`, `TaskCompleted`, `TaskCreated`, `TeammateIdle`
+- **Хуки завдань**: `UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`, `TaskCompleted`, `TaskCreated`, `TeammateIdle` (`TaskCompleted` і `TaskCreated` спрацьовують лише коли увімкнені todo-інструменти — типово вимкнені на Opus 4.8, Sonnet 5, Fable 5, Mythos 5 і новіших; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` повертає їх)
 - **Хуки життєвого циклу**: `ConfigChange`, `CwdChanged`, `DirectoryAdded`, `FileChanged`, `PreCompact`, `PostCompact`, `WorktreeCreate`, `WorktreeRemove`, `Notification`, `InstructionsLoaded`, `Elicitation`, `ElicitationResult`
 
 </details>
@@ -659,6 +659,8 @@ Claude:
 
 ---
 
-**Останнє оновлення**: Квітень 2026
-**Версія Claude Code**: 2.1.97
+**Останнє оновлення**: 15 серпня 2026
+**Версія Claude Code**: 2.1.233
+**Джерела**:
+- https://code.claude.com/docs/en/hooks
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

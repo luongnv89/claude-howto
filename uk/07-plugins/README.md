@@ -462,6 +462,10 @@ graph TB
 | `strictKnownMarketplaces` | Контролювати, які маркетплейси дозволено додавати користувачам |
 | `deniedPlugins` | Блок-список для запобігання встановленню конкретних плагінів (керований адміністратором) |
 
+> **Дружніші аліаси (v2.1.232)**: `additionalMarketplaces` приймається як аліас для `extraKnownMarketplaces`, а `allowedMarketplaces` — для `strictKnownMarketplaces`. **Джерело — changelog**: changelog v2.1.232 оголошує їх, але офіційна довідка з налаштувань поки не містить жодної з цих назв. Канонічні ключі безпечно використовувати й далі.
+
+> **Шаблони власника (v2.1.223+)**: запис `"owner/*"` дозволяє або блокує всі репозиторії маркетплейсів під одним власником GitHub. **Приймається лише у `strictKnownMarketplaces` та `blockedMarketplaces`.** Скрізь інде, де зʼявляється джерело `github` — включно з `extraKnownMarketplaces` і `/plugin marketplace add` — значення `repo` має вказувати на один репозиторій.
+
 ### Додаткові функції маркетплейсу
 
 - **Стандартний таймаут git**: Збільшено з 30с до 120с для великих репозиторіїв плагінів
@@ -706,6 +710,10 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 | `strictKnownMarketplaces` | Обмеження маркетплейсів, які дозволено додавати користувачам |
 | `allowedChannelPlugins` | Контроль дозволених плагінів для кожного каналу випуску |
 
+> **Дружніші аліаси (v2.1.232)**: `additionalMarketplaces` приймається як аліас для `extraKnownMarketplaces`, а `allowedMarketplaces` — для `strictKnownMarketplaces`. **Джерело — changelog**: changelog v2.1.232 оголошує їх, але офіційна довідка з налаштувань поки не містить жодної з цих назв. Канонічні ключі безпечно використовувати й далі.
+
+> **Шаблони власника (v2.1.223+)**: запис `"owner/*"` дозволяє або блокує всі репозиторії маркетплейсів під одним власником GitHub. **Приймається лише у `strictKnownMarketplaces` та `blockedMarketplaces`.** Скрізь інде, де зʼявляється джерело `github` — включно з `extraKnownMarketplaces` і `/plugin marketplace add` — значення `repo` має вказувати на один репозиторій.
+
 Ці налаштування можна застосувати на рівні організації через файли керованої конфігурації, і вони мають пріоритет над налаштуваннями рівня користувача.
 
 ## Безпека плагінів
@@ -833,6 +841,15 @@ Complete PR review workflow with security, testing, and documentation checks.
    /plugin install plugin-name
    ```
 
+**Чи набуде чинності одразу?** Починаючи з **v2.1.221** — зазвичай так. Прочитайте останній рядок підсумку встановлення:
+
+| Підсумок встановлення каже | Що це означає |
+|---|---|
+| `Plugin is now active.` | Claude Code активував плагін під час встановлення. Більше нічого робити не треба. |
+| `Run /reload-plugins to activate.` | Плагін встановлено, але він ще не активний — або активація знецінила б prompt cache, або спроба активації не вдалася. |
+
+До v2.1.221 жодне встановлення не набувало чинності в поточній сесії, доки ви не запускали `/reload-plugins` або не перезапускали Claude Code.
+
 ### Встановлення з локального шляху
 
 ```bash
@@ -948,6 +965,9 @@ Complete PR review workflow with security, testing, and documentation checks.
 - [Довідник системи хуків](../06-hooks/README.md)
 
 ---
-**Останнє оновлення**: 9 квітня 2026
-**Версія Claude Code**: 2.1.97
+**Останнє оновлення**: 15 серпня 2026
+**Версія Claude Code**: 2.1.233
+**Джерела**:
+- https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/settings
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

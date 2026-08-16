@@ -72,7 +72,7 @@
 | `/privacy-settings` | プライバシー設定（Pro／Max のみ） |
 | `/release-notes` | 変更履歴を表示 |
 | `/recap` | セッションへ戻ってきた際にセッションのおさらい／要約を表示（v2.1.108 で追加） |
-| `/reload-plugins` | アクティブなプラグインをリロード |
+| `/reload-plugins` | アクティブなプラグインをリロード。v2.1.221 以降、ほとんどのインストールは即座に有効化されるため、インストール要約に `Run /reload-plugins to activate.` と表示された場合にのみ必要 |
 | `/remote-control` | claude.ai からのリモート制御（エイリアス: `/rc`） |
 | `/remote-env` | デフォルトのリモート環境を設定 |
 | `/rename [name]` | セッションをリネーム |
@@ -92,8 +92,7 @@
 | `/terminal-setup` | ターミナルのキーバインドを設定 |
 | `/theme` | テーマピッカーを開く／カスタムテーマを管理（v2.1.118）。カスタムテーマは `~/.claude/themes/<name>.json` に JSON で定義 |
 | `/tui` | ちらつきのないフルスクリーン TUI（テキストユーザーインターフェース）モードを切り替え（v2.1.110 で追加） |
-| `/ultraplan <prompt>` | ultraplan セッションでプランを下書きし、ブラウザでレビュー |
-| `/ultrareview` | マルチエージェント分析による包括的なクラウドベースのコードレビュー（v2.1.111 で追加） |
+| `/ultrareview` | マルチエージェント分析による包括的なクラウドベースのコードレビュー（v2.1.111 で追加）。現在の推奨呼び出しは `/code-review ultra` で、`/ultrareview` はそのエイリアスとして残っている。Pro と Max では 3 回まで無料、以降は使用クレジットが必要 |
 | `/undo` | `/rewind` のエイリアス（v2.1.108 で追加） |
 | `/upgrade` | 上位プランへのアップグレードページを開く |
 | `/usage` | 正式な使用状況ダッシュボード（v2.1.118）— プラン使用量制限、レート制限、コスト、日次セッション統計を統合。`/cost` と `/stats` は特定のタブを開くタイピング用エイリアス |
@@ -132,7 +131,7 @@
 - プロンプトバーをカスタマイズする `/color` コマンドを追加
 - /pr-comments を v2.1.91 で削除 — Claude に直接 PR コメントを見るよう依頼する
 - /vim を v2.1.92 で削除 — /config → エディタモードを使う
-- ブラウザベースのプランレビューと実行を行う /ultraplan を追加
+- `/ultraplan` は v2.1.222 で削除された — 代わりにプランモードを使う
 - インタラクティブな機能レッスン用に /powerup を追加
 - サンドボックスモード切替用に /sandbox を追加
 - `/model` ピッカーが、生のモデル ID ではなく可読ラベル（例: "Sonnet 4.6"）を表示するようになった
@@ -145,7 +144,7 @@
 - `/undo` を `/rewind` のエイリアスとして追加（v2.1.108）
 - `/proactive` を `/loop` のエイリアスとして追加（v2.1.105）
 - `/effort` がインタラクティブな矢印キースライダーを獲得し、`high` と `max` の間に新しい `xhigh` レベルを追加。Opus 4.7 プランではデフォルト思考量が `xhigh` に引き上げられた（v2.1.111）
-- 包括的なクラウドベースのマルチエージェントコードレビュー用に `/ultrareview` を追加（v2.1.111）
+- 包括的なクラウドベースのマルチエージェントコードレビュー用に `/ultrareview` を追加（v2.1.111）。v2.1.223 で `/code-review ultra` が推奨の呼び出しとなり、`/ultrareview` はエイリアスとして残った
 - Bash／MCP ツール呼び出しを分析し、`.claude/settings.json` の許可リストで権限プロンプトを減らす `/fewer-permission-prompts` を追加（v2.1.111）
 - Opus 4.7 を利用する Max サブスクライバについて、Auto モードに `--enable-auto-mode` フラグが不要になった（v2.1.112）
 
@@ -605,10 +604,10 @@ Deploy the application to production:
 
 ---
 
-**Last Updated**: April 24, 2026
-**Claude Code Version**: 2.1.119
+**Last Updated**: August 15, 2026
+**Claude Code Version**: 2.1.233
 **Sources**:
-- https://code.claude.com/docs/en/slash-commands
+- https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118

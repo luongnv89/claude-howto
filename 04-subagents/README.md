@@ -579,7 +579,9 @@ graph TB
 
 Forked subagents (`context: fork`) inherit the parent agent's full conversation context at the moment of forking, rather than starting with a clean slate. This is useful for exploring alternative paths without losing the work done so far.
 
-> **Availability**: GA in v2.1.117. On external builds (non-first-party distributions), set `CLAUDE_CODE_FORK_SUBAGENT=1` to enable forking.
+> **Availability**: GA in v2.1.117. **Since v2.1.232, fork mode is on by default in interactive sessions** — on every build, first-party or not. It stays off by default in non-interactive mode (`claude -p`) and in the Agent SDK. On Claude Code older than v2.1.232, or to turn it on where it is off by default, set `CLAUDE_CODE_FORK_SUBAGENT=1`.
+
+> **Fork-mode subagents run in the background.** Where fork mode is on — as it is by default in an interactive session — Claude Code runs the subagent in the background, forked and non-forked subagents alike.
 
 ### Configuration
 
@@ -596,7 +598,10 @@ may explore an alternative approach. Return your findings and the parent
 will decide whether to adopt them.
 ```
 
-### Enabling on External Builds
+### Enabling Fork Mode Explicitly
+
+Interactive sessions on v2.1.232+ need no flag. Use this on older versions, in headless
+runs, or in the Agent SDK:
 
 ```bash
 export CLAUDE_CODE_FORK_SUBAGENT=1
@@ -829,15 +834,11 @@ As of v2.1.210, Claude Code scans each subagent's final report for text that imi
 
 When the scan flags something, Claude Code neutralizes it — inserting a backslash or an inline marker such as `[harness: subagent output matched instruction-shaped pattern(s): ...]` naming what triggered the scan — and the parent session is expected to treat the flagged text as a finding to relay, not an instruction to follow. The scan is on by default with no documented opt-out. It errs toward flagging: a legitimate subagent report that quotes a real flag name (e.g. `--dangerously-skip-permissions`) verbatim can trigger a marker even though nothing malicious occurred — a false positive is preferable to a missed injection.
 
-### Session-Wide Subagent Limit (v2.1.212+)
+### Subagent Concurrency and Depth Limits
 
-Claude Code caps subagent spawns at **200 per session** by default, to stop runaway delegation loops. Override with `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION`; the budget resets when you run `/clear`.
+> **The per-session spawn cap is gone.** Claude Code capped subagent spawns at 200 per session from v2.1.212, but **v2.1.224 removed that cap** — long-running sessions no longer refuse new agents, and the official subagents reference now states plainly that there is no limit on the total number of subagents Claude can spawn over a session. The `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION` variable that overrode it is gone with it.
 
-```bash
-export CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION=200
-```
-
-Two more environment variables cap subagent fan-out:
+Two limits on subagent fan-out do still apply, both set by environment variable:
 
 - `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (v2.1.217) - Maximum number of subagents running **concurrently** at once. Default: 20.
 - `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` (v2.1.217) - Maximum **nesting depth** for subagents spawning their own subagents. **Default: 3 since v2.1.219** (was 1 in v2.1.217–v2.1.218). Set this to `1` to disable nesting (see [Key Behaviors](#key-behaviors)).
@@ -1305,8 +1306,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: July 29, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 15, 2026
+**Claude Code Version**: 2.1.233
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

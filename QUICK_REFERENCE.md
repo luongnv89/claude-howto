@@ -131,7 +131,7 @@ claude -r "session"    # Resume session by name/ID
 | **Git Worktrees** | Built-in | `/worktree` |
 | **Auto Memory** | Built-in | Auto-saves to CLAUDE.md |
 | **Task List** | Built-in | `/task list` |
-| **Bundled Skills (10)** | Built-in | `/batch`, `/claude-api`, `/code-review` *(explicit invocation only since v2.1.215 — Claude won't trigger this on its own)*, `/simplify` *(cleanup-only review; distinct from `/code-review` again since v2.1.154)*, `/debug`, `/fewer-permission-prompts`, `/loop`, `/run` *(v2.1.145+)*, `/run-skill-generator` *(v2.1.145+)*, `/verify` *(v2.1.145+; explicit invocation only since v2.1.215 — Claude won't trigger this on its own)* |
+| **Bundled Skills (10)** | Built-in | `/batch`, `/claude-api`, `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` *(explicit invocation only since v2.1.215 — Claude won't trigger this on its own; with no level given it reuses the last one you typed, v2.1.223)*, `/simplify` *(cleanup-only review; distinct from `/code-review` again since v2.1.154)*, `/debug`, `/fewer-permission-prompts`, `/loop`, `/run` *(v2.1.145+)*, `/run-skill-generator` *(v2.1.145+)*, `/verify` *(v2.1.145+; explicit invocation only since v2.1.215 — Claude won't trigger this on its own)* |
 
 ---
 
@@ -412,7 +412,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **/verify** *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works (explicit invocation only since v2.1.215 — Claude won't trigger this on its own) | `/verify` |
 | **/run-skill-generator** *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project | `/run-skill-generator` |
 | **Subagent Output Scanning** *(v2.1.210+)* | Scans subagent reports for prompt-injection patterns and neutralizes them | On by default, no opt-out |
-| **Session-Wide Spawn Caps** *(v2.1.212, extended v2.1.219)* | 200/session limits on WebSearch calls and subagent spawns; concurrent-subagent cap (default 20) added in v2.1.217; since v2.1.219 subagents can spawn nested subagents up to **depth 3 by default** (v2.1.217 had disabled nesting) | `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION`, `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION`, `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (default 20), `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` (default 3; set 1 to disable); `/clear` resets |
+| **WebSearch Cap and Subagent Fan-Out Limits** *(v2.1.212, extended v2.1.219)* | 200 WebSearch calls per session; concurrent-subagent cap (default 20) added in v2.1.217; since v2.1.219 subagents can spawn nested subagents up to **depth 3 by default** (v2.1.217 had disabled nesting). The 200-subagent-per-session spawn cap was **removed in v2.1.224** — there is no longer any limit on total subagents per session | `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` (default 200; `/clear` resets), `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (default 20), `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` (default 3; set 1 to disable) |
 | **Screen Reader Mode** *(v2.1.208)* | Plain-text rendering mode for screen readers | `--ax-screen-reader` flag, `CLAUDE_AX_SCREEN_READER=1`, or `"axScreenReader": true` in settings |
 
 ---
@@ -516,8 +516,8 @@ Getting started checklist:
 
 ---
 
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 15, 2026
+**Claude Code Version**: 2.1.233
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

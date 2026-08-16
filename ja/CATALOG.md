@@ -70,7 +70,7 @@
 | `/logout` | サインアウト | アカウント切替 |
 | `/sandbox` | サンドボックスモード切替 | 安全なコマンド実行 |
 | `/doctor` | 診断を実行 | 問題のトラブルシューティング |
-| `/reload-plugins` | インストール済みプラグインを再読込 | プラグイン管理 |
+| `/reload-plugins` | インストール済みプラグインを再読込。v2.1.221 以降、ほとんどのインストールは即座に有効化されるため、インストール要約が `Run /reload-plugins to activate.` と示した場合にのみ必要 | プラグイン管理 |
 | `/release-notes` | リリースノートを表示 | 新機能の確認 |
 | `/remote-control` | リモートコントロールを有効化 | リモートアクセス |
 | `/permissions` | 権限を管理 | アクセス制御 |
@@ -95,8 +95,7 @@
 | `/undo` | `/rewind` のエイリアス（v2.1.108） | `/rewind` と同じ |
 | `/upgrade` | アップデート確認 | バージョン管理 |
 | `/team-onboarding` | このプロジェクトの Claude Code 利用状況からオンボーディングガイドを生成 | 新メンバーのオンボーディング（v2.1.101） |
-| `/ultraplan` | プランニングタスクを Claude Code Web セッションに渡す（plan モード） | 重い計画作業のオフロード（Research Preview、v2.1.91+） |
-| `/ultrareview` | 現在の変更に対するクラウドのマルチエージェントコードレビューを実行 | マージ前の深いマルチエージェントレビュー（v2.1.112） |
+| `/code-review ultra` | 現在の変更に対するクラウドのマルチエージェントコードレビューを実行。`/ultrareview` はエイリアスとして残っており、`/code-review ultra` が推奨の呼び出し。Pro と Max では 3 回まで無料、以降は使用クレジットが必要 | マージ前の深いマルチエージェントレビュー（v2.1.112） |
 | `/fewer-permission-prompts` | トランスクリプトをスキャンし、よく使う読取専用ツールの優先許可リストを提案 | プロジェクトでの権限プロンプト繰り返しを削減（v2.1.112） |
 
 ### カスタムコマンド（例）
@@ -357,7 +356,7 @@ Claude Code のイベントでシェルコマンドを自動実行するイベ�
 | `StopFailure` | API エラーでターン終了 | API エラー発生時 | エラー復旧、ログ |
 | `TeammateIdle` | チームメンバーエージェントがアイドル | エージェントチーム協調時 | 作業の分配 |
 | `TaskCompleted` | タスク完了マーク | タスク完了時 | タスク後処理 |
-| `TaskCreated` | TaskCreate でタスク作成 | 新タスク作成時 | タスク追跡、ログ |
+| `TaskCreated` | TaskCreate でタスク作成（todo ツールが有効なときのみ発火 — Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降ではデフォルト無効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活） | 新タスク作成時 | タスク追跡、ログ |
 | `ConfigChange` | 設定更新 | 設定変更時 | 設定変更への対応 |
 | `CwdChanged` | 作業ディレクトリ変更 | ディレクトリ変更時 | ディレクトリ別セットアップ |
 | `FileChanged` | 監視ファイルの変更 | ファイル変更時 | ファイル監視、再ビルド |
@@ -453,7 +452,6 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **/undo** | `/rewind` のエイリアス — 直前のチェックポイントへ戻す（v2.1.108） | `/undo` を `/rewind` と互換に利用 |
 | **Monitor ツール** | バックグラウンドコマンドの stdout を監視し、ポーリングではなくイベントで反応（v2.1.98+） | [高度な機能](09-advanced-features/) 経由で Monitor ツールを利用 |
 | **/team-onboarding** | プロジェクトの Claude Code 設定からオンボーディングガイドを自動生成（v2.1.101） | プロジェクトで `/team-onboarding` を実行 |
-| **Ultraplan 自動作成** | 初回 `/ultraplan` 実行時にクラウド環境を自動作成、手動セットアップ不要（v2.1.101） | `/ultraplan <prompt>` を使う |
 | **リモートコントロール** | API 経由で Claude Code セッションを遠隔制御 | リモートコントロール API でプロンプト送信と応答取得をプログラム的に行う |
 | **Web セッション** | ブラウザベース環境で Claude Code を実行 | `claude web` または Anthropic Console でアクセス |
 | **デスクトップアプリ** | Claude Code のネイティブデスクトップアプリ | `/desktop` または Anthropic サイトからダウンロード |
@@ -534,8 +532,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新**：2026 年 4 月 24 日
-**Claude Code バージョン**：2.1.119
+**最終更新**：2026 年 8 月 15 日
+**Claude Code バージョン**：2.1.233
 **情報源**：
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands

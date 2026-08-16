@@ -64,7 +64,7 @@
 | `/logout` | 登出 | 切换账号 |
 | `/sandbox` | 切换 sandbox 模式 | 安全执行命令 |
 | `/doctor` | 运行诊断 | 排查问题 |
-| `/reload-plugins` | 重新加载已安装的 plugins | 插件管理 |
+| `/reload-plugins` | 重新加载已安装的 plugins。自 v2.1.221 起，大多数安装会立即生效；仅当安装摘要提示 `Run /reload-plugins to activate.` 时才需要 | 插件管理 |
 | `/release-notes` | 显示更新说明 | 查看新功能 |
 | `/remote-control` | 启用远程控制 | 远程访问 |
 | `/permissions` | 管理权限 | 控制访问 |
@@ -349,7 +349,7 @@ export GITHUB_TOKEN="your_token" && claude mcp add github -- npx -y @modelcontex
 | `StopFailure` | API 错误导致结束 | API 错误发生 | 错误恢复、日志 |
 | `TeammateIdle` | 队友 agent 空闲 | agent team 协调 | 分配工作 |
 | `TaskCompleted` | 任务标记完成 | 任务完成 | 任务后处理 |
-| `TaskCreated` | 通过 TaskCreate 创建任务 | 新任务创建 | 任务追踪、日志 |
+| `TaskCreated` | 通过 TaskCreate 创建任务（仅在启用 todo 工具时触发 —— 在 Opus 4.8、Sonnet 5、Fable 5、Mythos 5 及更新模型上默认关闭；`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` 可恢复） | 新任务创建 | 任务追踪、日志 |
 | `ConfigChange` | 配置更新 | 设置被修改 | 响应配置变化 |
 | `CwdChanged` | 当前工作目录变化 | 目录切换 | 目录级初始化 |
 | `FileChanged` | 监控文件发生变化 | 文件被修改 | 文件监控、重建 |
@@ -523,5 +523,8 @@ claude mcp add github -- npx -y @modelcontextprotocol/server-github
 
 ---
 
-**最后更新**: 2026 年 4 月 9 日
-**Claude Code 版本**: 2.1.97
+**最后更新**: 2026 年 8 月 15 日
+**Claude Code 版本**: 2.1.233
+**来源**:
+- https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/hooks

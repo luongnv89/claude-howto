@@ -66,7 +66,7 @@ Lệnh tích hợp sẵn là các lối tắt cho các hành động phổ biế
 | `/powerup` | Khám phá tính năng thông qua các bài học tương tác với demo hoạt hình |
 | `/privacy-settings` | Cài đặt quyền riêng tư (chỉ Pro/Max) |
 | `/release-notes` | Xem changelog |
-| `/reload-plugins` | Tải lại các plugins hoạt động |
+| `/reload-plugins` | Tải lại các plugins hoạt động. Từ v2.1.221, hầu hết các lần cài đặt đều kích hoạt ngay, nên chỉ cần lệnh này khi bản tóm tắt cài đặt hiển thị `Run /reload-plugins to activate.` |
 | `/remote-control` | Điều khiển từ xa từ claude.ai (bí danh: `/rc`) |
 | `/remote-env` | Cấu hình môi trường từ xa mặc định |
 | `/rename [name]` | Đổi tên phiên |
@@ -84,7 +84,6 @@ Lệnh tích hợp sẵn là các lối tắt cho các hành động phổ biế
 | `/tasks` | Liệt kê/quản lý các tác vụ nền |
 | `/terminal-setup` | Cấu hình terminal keybindings |
 | `/theme` | Thay đổi chủ đề màu |
-| `/ultraplan <prompt>` | Soạn kế hoạch trong ultraplan session, xem trong trình duyệt |
 | `/upgrade` | Mở trang nâng cấp cho tier cao hơn |
 | `/voice` | Bật/tắt nhập liệu giọng nói push-to-talk |
 
@@ -120,7 +119,7 @@ Những skills này được gửi kèm với Claude Code và được gọi nh�
 - Lệnh `/color` được thêm để tùy chỉnh thanh prompt
 - `/pr-comments` đã xóa trong v2.1.91 — hỏi Claude trực tiếp để xem bình luận PR
 - `/vim` đã xóa trong v2.1.92 — sử dụng /config → Editor mode thay thế
-- `/ultraplan` được thêm để xem và thực thi kế hoạch trong trình duyệt
+- `/ultraplan` đã bị gỡ bỏ trong v2.1.222 — hãy dùng plan mode thay thế
 - `/powerup` được thêm để học tính năng tương tác
 - `/sandbox` được thêm để bật/tắt chế độ sandbox
 - Bộ chọn `/model` hiện hiển thị nhãn dễ đọc cho con người (ví dụ: "Sonnet 4.6") thay vì ID mô hình thô
@@ -559,8 +558,10 @@ Nếu cả hai tồn tại với cùng tên, **skill sẽ được ưu tiên**. 
 
 ---
 
-**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
-**Phiên Bản Claude Code**: 2.1+
+**Cập Nhật Lần Cuối**: Ngày 15 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.233
+**Nguồn**:
+- https://code.claude.com/docs/en/commands
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
 
 *Phần của series hướng dẫn [Claude How To](../)*

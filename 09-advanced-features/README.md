@@ -11,16 +11,16 @@ Comprehensive guide to Claude Code's advanced capabilities including planning mo
 
 1. [Overview](#overview)
 2. [Planning Mode](#planning-mode)
-3. [Ultraplan (Cloud Plan Drafting)](#ultraplan-cloud-plan-drafting)
-4. [Extended Thinking](#extended-thinking)
-5. [Auto Mode](#auto-mode)
-6. [Background Tasks](#background-tasks)
-7. [Monitor Tool (Event-Driven Streams)](#monitor-tool-event-driven-streams)
-8. [Dynamic Workflows](#dynamic-workflows)
-9. [Scheduled Tasks](#scheduled-tasks)
-10. [Permission Modes](#permission-modes)
-11. [Headless Mode](#headless-mode)
-12. [Session Management](#session-management)
+3. [Extended Thinking](#extended-thinking)
+4. [Auto Mode](#auto-mode)
+5. [Background Tasks](#background-tasks)
+6. [Monitor Tool (Event-Driven Streams)](#monitor-tool-event-driven-streams)
+7. [Dynamic Workflows](#dynamic-workflows)
+8. [Scheduled Tasks](#scheduled-tasks)
+9. [Permission Modes](#permission-modes)
+10. [Headless Mode](#headless-mode)
+11. [Session Management](#session-management)
+12. [Cross-Session Messaging](#cross-session-messaging)
 13. [Interactive Features](#interactive-features)
 14. [Output Styles](#output-styles)
 15. [Status Line](#status-line)
@@ -37,9 +37,10 @@ Comprehensive guide to Claude Code's advanced capabilities including planning mo
 26. [Sandboxing](#sandboxing)
 27. [Managed Settings (Enterprise)](#managed-settings-enterprise)
 28. [Configuration and Settings](#configuration-and-settings)
-29. [Agent Teams](#agent-teams)
-30. [Best Practices](#best-practices)
-31. [Additional Resources](#additional-resources)
+29. [Trust and Permission Scoping](#trust-and-permission-scoping)
+30. [Agent Teams](#agent-teams)
+31. [Best Practices](#best-practices)
+32. [Additional Resources](#additional-resources)
 
 ---
 
@@ -206,60 +207,6 @@ claude --model opusplan "design and implement the new API"
 > **v2.1.112 update**: Plan files are now named after the prompt that produced them (instead of random words), making them easier to browse and reuse.
 
 > **v2.1.136 update — plan-mode write blocks are unconditional**: Plan mode now blocks all file writes, including when a matching `Edit(...)` rule exists in `permissions.allow`. Previously a permissive `Edit(...)` rule could let writes through in plan mode; that bypass is closed. If a workflow depended on the older behavior, exit plan mode (`Shift+Tab`) before editing.
-
----
-
-## Ultraplan (Cloud Plan Drafting)
-
-> **New in v2.1.101**: Ultraplan now auto-creates a Claude Code on the web cloud environment the first time you invoke it — no manual setup, no waiting for a container to warm up before the draft starts.
-
-> **Note**: Ultraplan is a research preview and requires Claude Code v2.1.91 or newer.
-
-`/ultraplan` hands a planning task from your local CLI to a Claude Code on the web session running in plan mode. Claude drafts the plan in the cloud while your terminal stays free for other work, then you review the draft in the browser and choose where to execute — in the same cloud session or teleported back to your terminal.
-
-### When to Use Ultraplan
-
-- You want a richer review surface than the terminal: inline comments, emoji reactions, an outline sidebar, and persistent history.
-- You want hands-off drafting while you keep coding locally — the cloud session researches the repo and writes the plan without blocking your CLI.
-- The plan needs stakeholder review before execution — a shareable web URL beats pasting terminal scrollback.
-
-### Requirements
-
-- A Claude Code on the web account.
-- A GitHub repository (the cloud session clones your repo to draft against real code).
-- **Not available** on Amazon Bedrock, Google Cloud Vertex AI, or Microsoft Foundry.
-
-### Three Ways to Launch
-
-- **Command**: `/ultraplan <prompt>` — explicit invocation.
-- **Keyword**: include the word `ultraplan` anywhere in a normal prompt and Claude routes the request to the cloud.
-- **From a local plan**: after Claude finishes a plan locally, pick "No, refine with Ultraplan on Claude Code on the web" in the approval dialog to hand the draft off for deeper research.
-
-### Usage Example
-
-```bash
-/ultraplan migrate the auth service from sessions to JWTs
-```
-
-Claude acknowledges, spins up the cloud environment (auto-created on first run in v2.1.101+), and returns a session link you can open in your browser.
-
-### Status Indicators
-
-| Status | Meaning |
-|---|---|
-| `◇ ultraplan` | Claude is researching your codebase and drafting the plan |
-| `◇ ultraplan needs your input` | Claude has a clarifying question; open the session link to respond |
-| `◆ ultraplan ready` | The plan is ready to review in your browser |
-
-### Execution Options
-
-Once the plan is ready, you have two execution paths. Approve the plan in the browser to execute in the same cloud session — Claude implements the changes remotely and opens a pull request from the web UI. Or choose "Approve plan and teleport back to terminal" to implement locally. The terminal teleport dialog offers three choices:
-
-- **Implement here** — run the approved plan in your current terminal session.
-- **Start new session** — open a fresh session in the same working directory and implement there.
-- **Cancel** — saves the plan to a file so you can pick it up later.
-
-> **Warning**: Remote Control disconnects when ultraplan starts. Both features share the claude.ai/code interface, so only one can be active at a time.
 
 ---
 
@@ -1238,6 +1185,69 @@ CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1 claude   # force enable recap
 
 ---
 
+## Cross-Session Messaging
+
+> **Added in v2.1.224**, extended through v2.1.232. Available on **macOS and Linux**.
+
+Sessions used to be islands. Cross-session messaging lets one Claude Code session talk to
+another — including sessions on your other machines and your cloud sessions — so you can
+hand a question to the session that already has the right context loaded instead of
+re-explaining it.
+
+### Discovering Sessions
+
+`ListAgents` lists everything you can address: subagents you spawned, other local sessions
+on this machine, your cloud sessions, and (when Remote Control is connected) sessions on
+your other machines. Each row is labeled by kind, and since v2.1.229 rows also carry
+`offline` and `cloud` labels so you can tell a reachable session from a dormant one.
+
+The **name in each row is the address** — that is what you send to.
+
+### Sending a Message
+
+`SendMessage` takes the target and the message:
+
+```text
+SendMessage({ to: "<session name>", message: "What did you conclude about the retry logic?" })
+```
+
+Since v2.1.232, a bare name is enough — you no longer need to append a disambiguating ref
+unless two rows genuinely share the same name.
+
+### `@`-Mention Shorthand (v2.1.232)
+
+Instead of calling the tool explicitly, you can `@`-mention a session directly in your
+prompt to reach it:
+
+```text
+@auth-refactor did the migration tests pass?
+```
+
+### Controlling What Arrives: `crossSessionInbound`
+
+Inbound messages are governed by the `crossSessionInbound` setting (v2.1.224+):
+
+| Value | Behavior |
+|---|---|
+| `"accept"` | Inbound messages are delivered to Claude in this session |
+| `"hold"` | You see a notice that a message arrived; it is not delivered |
+| `"refuse"` | Inbound messages are dropped |
+
+The values form a ladder — `accept < hold < refuse` — and **project and local settings
+apply only when they are stricter** than the user-scope value. A project can tighten
+inbound delivery, never loosen it. Since v2.1.232 the setting also has a `/config` row,
+"Messages from your other sessions."
+
+### Reach and Limits
+
+- Local sessions on the same machine, plus your cloud sessions.
+- Remote Control sessions on your other machines, addressable by name (v2.1.225).
+- A cloud session **receives** your message but cannot message a local session back yet —
+  read its answer in its own transcript.
+- macOS and Linux only.
+
+---
+
 ## Interactive Features
 
 ### Keyboard Shortcuts
@@ -1876,14 +1886,23 @@ This starts a Claude Code session on claude.ai that you can access from any brow
 If you started a session on the web and want to continue it locally:
 
 ```bash
-# Resume a web session in the local terminal
+# Resume a web session in the local terminal — opens a picker of your web sessions
 claude --teleport
 ```
 
 Or from within an interactive REPL:
-```
+
+```text
 /teleport
 ```
+
+`/tp` is an alias for `/teleport`. Both require a claude.ai subscription. Cloud sessions
+show a `/teleport` hint explaining how to continue locally (v2.1.223).
+
+> **Changelog-sourced**: the v2.1.223 changelog shows an argument form,
+> `claude --teleport <session id>`, that jumps straight to a known session. The CLI
+> reference documents only the bare picker form, so prefer `claude --teleport` unless
+> you already have a session ID in hand.
 
 ### Use Cases
 
@@ -2164,6 +2183,43 @@ Example of `deniedDomains` overriding a broad wildcard (v2.1.113+):
 
 The wildcard lets everything on `example.com` through, but `deniedDomains` still blocks the specifically-named host.
 
+### Credential Masking (v2.1.221, v2.1.224)
+
+> **Changelog-sourced**: these `sandbox.credentials` options come from the v2.1.221 and
+> v2.1.224 changelog entries; the settings reference does not yet detail them.
+
+Before v2.1.221, `sandbox.credentials` could only `deny` a credential file — a sandboxed
+command that needed the credential simply failed. `mode: "mask"` keeps the command working
+without exposing the secret: the sandboxed process reads a **sentinel** copy of the file,
+and the sandbox proxy substitutes the real value on the way out to the network.
+
+```json
+{
+  "sandbox": {
+    "network": { "tlsTerminate": true },
+    "credentials": {
+      "files": [
+        { "path": "~/.aws/credentials", "mode": "mask" }
+      ]
+    }
+  }
+}
+```
+
+| Capability | Since | What it does |
+|---|---|---|
+| `mode: "mask"` for credential **files** | v2.1.221 | Sandboxed commands read a sentinel; the proxy swaps in the real value on egress. **Linux and WSL only** — on macOS file masking falls back to `deny`. |
+| `extract` / `onExtractNoMatch` | v2.1.224 | Mask one field inside a structured environment value instead of the whole variable, and decide what happens when the pattern doesn't match. |
+| `decode: "jwt"` with `maskClaims` | v2.1.224 | Decode a JWT and mask only the named claims, leaving the rest readable. |
+| `awsPairs` / `sigv4` | v2.1.224 | Re-sign AWS SigV4 requests at the proxy after substituting the real access key. |
+
+**Two constraints that are easy to miss:**
+
+- All masking requires `network.tlsTerminate` — the proxy has to see inside the request to
+  substitute the value.
+- These options are honored **only** from user settings, managed settings, or `--settings`.
+  Project settings cannot turn masking on or change what gets masked.
+
 ### Example Configuration
 
 ```json
@@ -2327,6 +2383,8 @@ These keys go in `~/.claude/settings.json` (or a project `.claude/settings.json`
 |---------|-------------|
 | `askUserQuestionTimeout` | Auto-continue an unanswered `AskUserQuestion` dialog after an idle interval. As of **v2.1.200** dialogs no longer auto-continue by default — set this to opt back into timed auto-continue. |
 | `enableArtifact` | Per-user enable/disable of the Artifact tool (v2.1.196). |
+| `crossSessionInbound` | (v2.1.224) How inbound [cross-session messages](#cross-session-messaging) are handled — `"accept"`, `"hold"`, or `"refuse"`. Project and local values apply only when *stricter* on the `accept < hold < refuse` ladder. Exposed in `/config` as "Messages from your other sessions" since v2.1.232. |
+| `dialogExpiry` | (v2.1.224) How long an unanswered dialog stays open. Default `"5m"`; accepts `"60s"`, `"5m"`, `"10m"`, or `"never"`. Overridden by `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS`. Exposed in `/config` as "Dialog expiry" since v2.1.232. |
 
 ### Fallback Models (`fallbackModel`)
 
@@ -2415,7 +2473,20 @@ export CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION=200         # Cap on WebSearch t
 
 # Accessibility (v2.1.208)
 export CLAUDE_AX_SCREEN_READER=1                            # Enable plain-text screen reader rendering mode. Same effect as --ax-screen-reader or "axScreenReader": true in settings.
+
+# Newer variables (v2.1.221–v2.1.233) — changelog-sourced; the CLI reference has no env-var section
+export CLAUDE_CODE_ENABLE_TODO_TOOLS=1                      # (v2.1.233) Restore the todo/task-tracking tools (TaskCreate/Get/Update/List, TodoWrite), which are off on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models
+export CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS=900000             # (v2.1.233) WebFetch URL cache TTL. Default 15 minutes.
+export CLAUDE_CODE_TOOL_MEMORY_LIMIT=2G                     # (v2.1.233, Linux) Opt-in memory cgroup applied to Bash commands
+export ANTHROPIC_BEDROCK_REGION_PREFIX=us                   # (v2.1.224) Prefer a specific Bedrock cross-region inference profile
+export CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT=1  # (v2.1.223) Restore pre-v2.1.223 auto-compact behavior on unrecognized model IDs
+export CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS=0             # (v2.1.229) Disable prefix staggering on dynamic-workflow fan-out
+export CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS=300000            # (v2.1.224) Overrides the dialogExpiry setting
 ```
+
+> **v2.1.223 — `CLAUDE_CODE_DISABLE_1M_CONTEXT` widened**: the variable now holds **every**
+> Claude model with a native 1M-token window down to 200K via auto-compaction, rather than
+> only a fixed list of model IDs.
 
 > **v2.1.108**: `ENABLE_PROMPT_CACHING_1H=1` — use a 1-hour prompt cache TTL instead of the default 5-minute TTL. Reduces cache misses in long, stable sessions. (v2.1.129 fixes a regression where the 1-hour TTL was silently downgraded to 5 minutes.)
 
@@ -2470,6 +2541,31 @@ Create `.claude/config.json` in your project:
   }
 }
 ```
+
+---
+
+## Trust and Permission Scoping
+
+> **Changelog-sourced (v2.1.222, v2.1.232)**: these tightenings come from the changelog;
+> the settings reference does not yet spell them out.
+
+A recurring theme in recent releases: security-relevant settings can no longer be widened
+by a repository you cloned. Three changes to know about.
+
+**Nested repositories need their own trust confirmation (v2.1.232).** A git repository
+inside a trusted parent directory no longer inherits that trust. If you trust
+`~/work/monorepo` and it contains a vendored submodule, you will be asked to trust the
+submodule separately the first time Claude Code works inside it.
+
+**`sandbox.ripgrep` is user-scope only (v2.1.232).** The setting that names the ripgrep
+binary the sandbox uses is honored only from user settings, managed settings, or
+`--settings`. Project settings can no longer point the sandbox at a different binary.
+
+**Remote Control auto-start is user-scope only (v2.1.222).** Repo-local settings cannot
+enable Remote Control auto-start; it can only be turned on at user scope via `/config`.
+
+The pattern to internalize: if a setting would let a checked-in file expand what Claude
+Code is allowed to do on your machine, assume it is now user-scope only.
 
 ---
 
@@ -2588,11 +2684,13 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 15, 2026
+**Claude Code Version**: 2.1.233
 **Sources**:
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/sandboxing
+- https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/cli-reference
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/permission-modes

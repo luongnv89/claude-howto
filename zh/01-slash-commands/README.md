@@ -66,7 +66,7 @@ Claude Code 目前提供 55+ 个内置命令和 5 个内置 Skills。你可以�
 | `/pr-comments [PR]` | 获取 GitHub PR 评论 |
 | `/privacy-settings` | 隐私设置（仅 Pro/Max） |
 | `/release-notes` | 查看更新日志 |
-| `/reload-plugins` | 重新加载当前插件 |
+| `/reload-plugins` | 重新加载当前插件。自 v2.1.221 起，大多数安装会立即生效，只有当安装摘要提示 `Run /reload-plugins to activate.` 时才需要执行 |
 | `/remote-control` | 从 claude.ai 进行远程控制（别名：`/rc`） |
 | `/remote-env` | 配置默认远程环境 |
 | `/rename [name]` | 重命名会话 |
@@ -549,8 +549,10 @@ allowed-tools: Bash(npm *), Bash(git *)
 
 ---
 
-**最后更新**: 2026 年 4 月 9 日
-**Claude Code 版本**: 2.1.97
+**最后更新**: 2026 年 8 月 15 日
+**Claude Code 版本**: 2.1.233
+**来源**:
+- https://code.claude.com/docs/en/commands
 
 ---
 

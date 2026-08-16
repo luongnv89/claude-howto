@@ -26,7 +26,7 @@ Claude Code 支持 31 个 hook 事件，按用途分为以下 4 组。事件的 
 
 - **Tool Hooks**：`PreToolUse`、`PostToolUse`、`PostToolUseFailure`、`PostToolBatch`、`PermissionRequest`、`PermissionDenied`
 - **Session Hooks**：`SessionStart`、`Setup`、`SessionEnd`、`Stop`、`StopFailure`、`SubagentStart`、`SubagentStop`
-- **Task Hooks**：`UserPromptSubmit`、`UserPromptExpansion`、`MessageDisplay`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`
+- **Task Hooks**：`UserPromptSubmit`、`UserPromptExpansion`、`MessageDisplay`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`（`TaskCompleted` 和 `TaskCreated` 仅在启用 todo 工具时触发 —— 在 Opus 4.8、Sonnet 5、Fable 5、Mythos 5 及更新模型上默认关闭；`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` 可恢复）
 - **Lifecycle Hooks**：`ConfigChange`、`CwdChanged`、`DirectoryAdded`、`FileChanged`、`PreCompact`、`PostCompact`、`WorktreeCreate`、`WorktreeRemove`、`Notification`、`InstructionsLoaded`、`Elicitation`、`ElicitationResult`
 
 ## 安装
@@ -110,3 +110,10 @@ Hooks 会在匹配到事件时自动执行。你可以把它理解成 Claude Cod
 - [Memory Guide](../02-memory/README.md)
 - [Official Hooks Documentation](https://code.claude.com/docs/en/hooks)
 - [CLI Reference](https://code.claude.com/docs/en/cli-reference)
+
+---
+
+**最后更新**: 2026 年 8 月 15 日
+**Claude Code 版本**: 2.1.233
+**来源**:
+- https://code.claude.com/docs/en/hooks

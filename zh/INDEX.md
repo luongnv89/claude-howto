@@ -219,7 +219,7 @@ blog-draft/
 **Hook 事件**（31 个，分 4 类）— 决定 hook 何时运行：
 - 工具 Hook：`PreToolUse`、`PostToolUse`、`PostToolUseFailure`、`PostToolBatch`、`PermissionRequest`、`PermissionDenied`
 - 会话 Hook：`SessionStart`、`Setup`、`SessionEnd`、`Stop`、`StopFailure`、`SubagentStart`、`SubagentStop`
-- 任务 Hook：`UserPromptSubmit`、`UserPromptExpansion`、`MessageDisplay`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`
+- 任务 Hook：`UserPromptSubmit`、`UserPromptExpansion`、`MessageDisplay`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`（TaskCompleted/TaskCreated 仅在启用 todo 工具时触发 —— 在 Opus 4.8、Sonnet 5、Fable 5、Mythos 5 及更新模型上默认关闭；`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` 可恢复）
 - 生命周期 Hook：`ConfigChange`、`CwdChanged`、`DirectoryAdded`、`FileChanged`、`PreCompact`、`PostCompact`、`WorktreeCreate`、`WorktreeRemove`、`Notification`、`InstructionsLoaded`、`Elicitation`、`ElicitationResult`
 
 ---
@@ -894,9 +894,12 @@ claude -p "Run tests and report results"
 
 ---
 
-**最后更新**：2026 年 3 月
+**最后更新**：2026 年 8 月 15 日
+**Claude Code 版本**：2.1.233
 **总示例数**：100+ 文件
 **分类数**：10 个功能
 **Hooks**：8 个自动化脚本
 **配置示例**：10+ 个场景
 **可直接使用**：所有示例
+**来源**：
+- https://code.claude.com/docs/en/hooks

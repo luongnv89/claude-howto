@@ -487,6 +487,10 @@ graph TB
 | `blockedMarketplaces` | 管理者が管理するマーケットプレイスのブロックリスト（v2.1.119 以降は `hostPattern` / `pathPattern` の正規表現フィールドをサポート） |
 | `deniedPlugins` | 管理者が管理する、特定のプラグインをインストールさせないブロックリスト |
 
+> **より分かりやすいエイリアス（v2.1.232）**：`additionalMarketplaces` は `extraKnownMarketplaces` の、`allowedMarketplaces` は `strictKnownMarketplaces` のエイリアスとして受け付けられる。**changelog 由来** — v2.1.232 の changelog で告知されたが、公式の settings リファレンスにはまだ記載がない。正式なキーをそのまま使い続けて問題ない。
+
+> **オーナーのワイルドカード（v2.1.223 以降）**：`"owner/*"` エントリは、ある GitHub オーナー配下のすべてのマーケットプレイスリポジトリを許可またはブロックする。**`strictKnownMarketplaces` と `blockedMarketplaces` でのみ受け付けられる。** `extraKnownMarketplaces` や `/plugin marketplace add` を含め、`github` ソースが登場する他の箇所では、`repo` の値は単一のリポジトリを指定しなければならない。
+
 > **適用範囲**（v2.1.117 以降）：`blockedMarketplaces` と `strictKnownMarketplaces` は最初の追加時だけでなく、インストール・更新・リフレッシュ・自動更新といったあらゆるプラグインのライフサイクルイベントで適用される。`strictKnownMarketplaces` は管理者専用。
 
 `blockedMarketplaces` でホスト / パス正規表現を使う例（v2.1.119）：
@@ -677,6 +681,15 @@ claude plugin tag <version>                  # Create a release git tag with ver
 claude plugin install plugin-name@marketplace-name
 ```
 
+**すぐに反映されるか？** **v2.1.221** 以降はたいてい反映される。インストール要約の最終行を確認する：
+
+| インストール要約の表示 | 意味 |
+|---|---|
+| `Plugin is now active.` | Claude Code がインストールの一環としてプラグインを有効化した。追加の操作は不要。 |
+| `Run /reload-plugins to activate.` | インストールは済んだがまだ有効ではない。有効化するとプロンプトキャッシュが無効になるため、または有効化の試行が失敗したため。 |
+
+v2.1.221 より前は、`/reload-plugins` を実行するか再起動するまで、どのインストールも現在のセッションには反映されなかった。
+
 ### 有効化 / 無効化（スコープは自動検出）
 ```bash
 /plugin enable plugin-name
@@ -707,7 +720,7 @@ Claude Code は起動時にマーケットプレイスとそこにインスト�
 自動更新が走ると、Claude Code は次の処理を行う：
 1. マーケットプレイスのカタログを更新
 2. インストール済みプラグインを最新バージョンへ更新
-3. `/reload-plugins` を促す通知を表示
+3. プラグインごとに結果を報告する：更新の一環として有効化された場合は `Plugin is now active.`、そうでない場合は `Run /reload-plugins to activate.`
 
 ### 環境変数
 
@@ -792,6 +805,10 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 | `strictKnownMarketplaces` | ユーザーが追加できるマーケットプレイスを制限（管理者専用、v2.1.117 以降はあらゆるプラグインのライフサイクルイベントで適用） |
 | `blockedMarketplaces` | マーケットプレイスのブロックリスト（v2.1.117 以降はあらゆるライフサイクルイベントで適用、v2.1.119 以降は `hostPattern` / `pathPattern` の正規表現フィールドをサポート） |
 | `allowedChannelPlugins` | リリースチャネルごとに許可するプラグインを制御 |
+
+> **より分かりやすいエイリアス（v2.1.232）**：`additionalMarketplaces` は `extraKnownMarketplaces` の、`allowedMarketplaces` は `strictKnownMarketplaces` のエイリアスとして受け付けられる。**changelog 由来** — v2.1.232 の changelog で告知されたが、公式の settings リファレンスにはまだ記載がない。正式なキーをそのまま使い続けて問題ない。
+
+> **オーナーのワイルドカード（v2.1.223 以降）**：`"owner/*"` エントリは、ある GitHub オーナー配下のすべてのマーケットプレイスリポジトリを許可またはブロックする。**`strictKnownMarketplaces` と `blockedMarketplaces` でのみ受け付けられる。** `extraKnownMarketplaces` や `/plugin marketplace add` を含め、`github` ソースが登場する他の箇所では、`repo` の値は単一のリポジトリを指定しなければならない。
 
 これらの設定は管理対象設定ファイルで組織レベルに適用でき、ユーザーレベルの設定より優先される。
 
@@ -1038,8 +1055,10 @@ Complete PR review workflow with security, testing, and documentation checks.
 ---
 
 **最終更新**: 2026 年 4 月 24 日
-**Claude Code バージョン**: 2.1.119
+**Claude Code バージョン**: 2.1.233
 **出典**:
+- https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugin-marketplaces
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117

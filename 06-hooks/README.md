@@ -271,6 +271,13 @@ Claude Code supports **31 hook events**:
 | **ElicitationResult** | User responds to elicitation | (none) | Yes | Response processing |
 | **SessionEnd** | Session terminates | (none) | No | Cleanup, final logging |
 
+> **`TaskCreated` and `TaskCompleted` need the todo tools enabled (v2.1.233).** These two
+> events fire from the todo/task-tracking tools (`TaskCreate`/`Get`/`Update`/`List`,
+> `TodoWrite`), which are **no longer available on Opus 4.8, Sonnet 5, Fable 5, Mythos 5,
+> and newer models**. On those models the hooks are still valid configuration but simply
+> never fire — you get no output and no error. Set `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` to
+> bring the tools, and therefore the events, back.
+
 > **PostToolUse duration (v2.1.119):** `PostToolUse` and `PostToolUseFailure` hook inputs now include `duration_ms` — see the [PostToolUse](#posttooluse) section for details.
 
 ### PreToolUse
@@ -1517,8 +1524,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 15, 2026
+**Claude Code Version**: 2.1.233
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

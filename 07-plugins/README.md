@@ -517,6 +517,17 @@ Enterprise and advanced users can control marketplace behavior through settings:
 | `blockedMarketplaces` | Admin-managed blocklist of marketplaces (supports `hostPattern` / `pathPattern` regex fields since v2.1.119) |
 | `deniedPlugins` | Admin-managed blocklist to prevent specific plugins from being installed |
 
+> **Friendlier aliases (v2.1.232)**: `additionalMarketplaces` is accepted as an alias for
+> `extraKnownMarketplaces`, and `allowedMarketplaces` for `strictKnownMarketplaces`.
+> **Changelog-sourced** — the v2.1.232 changelog announces them, but the official settings
+> reference does not yet list either name. The canonical keys are safe to keep using.
+
+> **Owner wildcards (v2.1.223+)**: a `"owner/*"` entry allows or blocks every marketplace
+> repo under one GitHub owner. **Accepted only in `strictKnownMarketplaces` and
+> `blockedMarketplaces`.** Everywhere else a `github` source appears — including
+> `extraKnownMarketplaces` and `/plugin marketplace add` — the `repo` value must name a
+> single repository.
+
 > **Enforcement** (v2.1.117+): `blockedMarketplaces` and `strictKnownMarketplaces` are enforced on every plugin lifecycle event — install, update, refresh, and autoupdate — not just at first add. `strictKnownMarketplaces` is managed-only.
 
 Example `blockedMarketplaces` with host/path regex (v2.1.119):
@@ -604,8 +615,55 @@ Plugins can be sourced from multiple locations:
 | **Git subdirectory** | `{ "source": "git-subdir", "url": "...", "path": "..." }` | `{ "source": "git-subdir", "url": "https://github.com/org/monorepo.git", "path": "packages/plugin" }` |
 | **npm** | `{ "source": "npm", "package": "..." }` | `{ "source": "npm", "package": "@acme/claude-plugin", "version": "^2.0" }` |
 | **pip** | `{ "source": "pip", "package": "..." }` | `{ "source": "pip", "package": "claude-data-plugin", "version": ">=1.0" }` |
+| **Archive** (v2.1.224+) | `{ "source": "archive", "url": "..." }` | `{ "source": "archive", "url": "https://cdn.example.com/lint-plugin-1.2.0.zip", "sha256": "…" }` |
+| **Command** (v2.1.229+) | `{ "source": "command", "command": "..." }` | `{ "source": "command", "command": "acme-plugin-resolver --print-dir" }` |
 
 GitHub and git sources support optional `ref` (branch/tag) and `sha` (commit hash) fields for version pinning.
+
+#### `archive` source (v2.1.224+)
+
+Install a plugin from a zip over HTTPS — no git clone, no npm install.
+
+```json
+{
+  "source": "archive",
+  "url": "https://cdn.example.com/lint-plugin-1.2.0.zip",
+  "sha256": "3b1f0c2e9a7d4f5b8c6e1a2d3f4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b"
+}
+```
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `url` | Yes | **HTTPS only.** `http://`, loopback, link-local, and cloud-metadata hosts are rejected — and re-checked on **every redirect hop**, so a redirect cannot smuggle you onto a blocked host |
+| `sha256` | No | 64 hex characters. On mismatch the install fails with `Plugin archive integrity check failed` |
+
+Archives are capped at **256 MiB**. Pin `sha256` for anything you did not build yourself — without it, whoever controls the URL controls the code that runs in your session.
+
+#### `command` source (v2.1.229+)
+
+Let a locally installed tool decide where the plugin lives. Useful when an internal
+package manager already knows how to fetch and lay out your plugins.
+
+```json
+{
+  "source": "command",
+  "command": "acme-plugin-resolver --print-dir",
+  "timeout": 60,
+  "mode": "copy"
+}
+```
+
+The contract is strict: **the command must print exactly one line on stdout and exit with
+code 0.** That line is the absolute path of a directory containing the complete plugin.
+
+| Field | Required | Default | Notes |
+|-------|----------|---------|-------|
+| `command` | Yes | — | The command to run |
+| `timeout` | No | `60` (seconds) | Maximum 600 |
+| `mode` | No | `"copy"` | `"copy"` snapshots the directory; `"link"` symlinks it, so edits are live |
+
+The command is re-resolved each session and the result is applied without a restart.
+Organizations can block this source type entirely with `disableCommandPluginSources`.
 
 Reserved marketplace names now include `first-party-plugins` and `healthcare` (v2.1.205) — these are held for official use and cannot be claimed by a custom marketplace.
 
@@ -621,6 +679,13 @@ Reserved marketplace names now include `first-party-plugins` and `healthcare` (v
 ```bash
 /plugin marketplace add https://gitlab.com/org/marketplace-repo.git
 ```
+
+Bare `gitlab.com` repo URLs — including nested subgroups — clone the same way `github.com`
+URLs do (v2.1.232). **The scheme is mandatory**: since v2.1.196 a bare
+`gitlab.example.com/team/plugins` is rejected as an invalid `owner/repo` shorthand, so use
+the full `https://gitlab.com/company/plugins.git` form. v2.1.232 also added GitLab
+token-family secret redaction and gave the `glab` CLI the same sandbox and credential-path
+protection `gh` already had.
 
 **Private repositories**: Supported via git credential helpers or environment tokens. Users must have read access to the repository.
 
@@ -745,6 +810,17 @@ LSP servers were added to the details pane in v2.1.142. See also the marketplace
 claude plugin install plugin-name@marketplace-name
 ```
 
+**Does it take effect right away?** Since **v2.1.221**, usually yes — read the last line of
+the install summary:
+
+| Install summary says | What it means |
+|---|---|
+| `Plugin is now active.` | Claude Code activated the plugin as part of the install. Nothing more to do. |
+| `Run /reload-plugins to activate.` | The plugin is installed but not live yet — either activating it would have invalidated the prompt cache, or the activation attempt failed. |
+
+Before v2.1.221, no install took effect in the current session until you ran
+`/reload-plugins` or restarted, so older guides describe that step as unconditional.
+
 ### Enable / Disable (with auto-detected scope)
 ```bash
 /plugin enable plugin-name
@@ -791,7 +867,7 @@ Claude Code can automatically update marketplaces and their installed plugins at
 When auto-update runs, Claude Code:
 1. Refreshes marketplace catalog
 2. Updates installed plugins to latest versions
-3. Shows notification prompting `/reload-plugins`
+3. Reports the outcome per plugin: `Plugin is now active.` when Claude Code activated it as part of the update, or `Run /reload-plugins to activate.` when it did not
 
 ### Environment Variables
 
@@ -889,6 +965,18 @@ Administrators can control plugin behavior across an organization using managed 
 | `strictKnownMarketplaces` | Restrict which marketplaces users are allowed to add (managed-only; enforced on every plugin lifecycle event since v2.1.117) |
 | `blockedMarketplaces` | Blocklist of marketplaces; enforced on every plugin lifecycle event since v2.1.117; supports `hostPattern` / `pathPattern` regex fields since v2.1.119 |
 | `allowedChannelPlugins` | Control which plugins are permitted per release channel |
+| `disableCommandPluginSources` | Block the `command` plugin source type org-wide (v2.1.229+) |
+
+> **Friendlier aliases (v2.1.232)**: `additionalMarketplaces` is accepted as an alias for
+> `extraKnownMarketplaces`, and `allowedMarketplaces` for `strictKnownMarketplaces`.
+> **Changelog-sourced** — the v2.1.232 changelog announces them, but the official settings
+> reference does not yet list either name. The canonical keys are safe to keep using.
+
+> **Owner wildcards (v2.1.223+)**: a `"owner/*"` entry allows or blocks every marketplace
+> repo under one GitHub owner. **Accepted only in `strictKnownMarketplaces` and
+> `blockedMarketplaces`.** Everywhere else a `github` source appears — including
+> `extraKnownMarketplaces` and `/plugin marketplace add` — the `repo` value must name a
+> single repository.
 
 These settings can be applied at the organization level via managed configuration files and take precedence over user-level settings.
 
@@ -1134,13 +1222,13 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 15, 2026
+**Claude Code Version**: 2.1.233
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/changelog#2-1-172
 - https://code.claude.com/docs/en/changelog
-- https://code.claude.com/docs/en/slash-commands
+- https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/plugin-marketplaces
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118

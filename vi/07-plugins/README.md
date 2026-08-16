@@ -457,6 +457,10 @@ Người dùng enterprise và nâng cao có thể kiểm soát hành vi marketpl
 | `strictKnownMarketplaces` | Kiểm soát marketplace nào người dùng được phép thêm |
 | `deniedPlugins` | Blocklist do quản trị viên quản lý để ngăn cài đặt các plugin cụ thể |
 
+> **Bí danh thân thiện hơn (v2.1.232)**: `additionalMarketplaces` được chấp nhận như bí danh của `extraKnownMarketplaces`, và `allowedMarketplaces` của `strictKnownMarketplaces`. **Nguồn changelog** — changelog v2.1.232 công bố chúng, nhưng trang settings chính thức chưa liệt kê. Các khóa chuẩn vẫn an toàn để tiếp tục dùng.
+
+> **Ký tự đại diện theo owner (v2.1.223+)**: một mục `"owner/*"` cho phép hoặc chặn mọi repo marketplace thuộc một owner GitHub. **Chỉ được chấp nhận trong `strictKnownMarketplaces` và `blockedMarketplaces`.** Ở mọi nơi khác dùng nguồn `github` — kể cả `extraKnownMarketplaces` và `/plugin marketplace add` — giá trị `repo` phải chỉ đúng một repository.
+
 ### Các Tính Năng Marketplace Thêm / Additional Marketplace Features
 
 - **Git timeout mặc định**: Tăng từ 30s lên 120s cho các repository plugin lớn
@@ -616,6 +620,15 @@ claude plugin validate                       # Xác thực cấu trúc plugin
 claude plugin install plugin-name@marketplace-name
 ```
 
+**Có hiệu lực ngay không?** Từ **v2.1.221**, thường là có — hãy đọc dòng cuối của bản tóm tắt cài đặt:
+
+| Bản tóm tắt cài đặt hiển thị | Ý nghĩa |
+|---|---|
+| `Plugin is now active.` | Claude Code đã kích hoạt plugin ngay trong quá trình cài đặt. Không cần làm gì thêm. |
+| `Run /reload-plugins to activate.` | Plugin đã được cài nhưng chưa hoạt động — hoặc vì việc kích hoạt sẽ làm mất hiệu lực prompt cache, hoặc vì lần kích hoạt đã thất bại. |
+
+Trước v2.1.221, không lần cài đặt nào có hiệu lực trong phiên hiện tại cho đến khi bạn chạy `/reload-plugins` hoặc khởi động lại.
+
 ### Kích Hoạt / Vô Hiệu Hóa (với phạm vi tự phát hiện)
 ```bash
 /plugin enable plugin-name
@@ -700,6 +713,10 @@ Các quản trị viên có thể kiểm soát hành vi plugin trên một tổ 
 | `extraKnownMarketplaces` | Thêm các nguồn marketplace bổ sung ngoài mặc định |
 | `strictKnownMarketplaces` | Hạn chế marketplace nào người dùng được phép thêm |
 | `allowedChannelPlugins` | Kiểm soát plugins nào được phép theo kênh phát hành |
+
+> **Bí danh thân thiện hơn (v2.1.232)**: `additionalMarketplaces` được chấp nhận như bí danh của `extraKnownMarketplaces`, và `allowedMarketplaces` của `strictKnownMarketplaces`. **Nguồn changelog** — changelog v2.1.232 công bố chúng, nhưng trang settings chính thức chưa liệt kê. Các khóa chuẩn vẫn an toàn để tiếp tục dùng.
+
+> **Ký tự đại diện theo owner (v2.1.223+)**: một mục `"owner/*"` cho phép hoặc chặn mọi repo marketplace thuộc một owner GitHub. **Chỉ được chấp nhận trong `strictKnownMarketplaces` và `blockedMarketplaces`.** Ở mọi nơi khác dùng nguồn `github` — kể cả `extraKnownMarketplaces` và `/plugin marketplace add` — giá trị `repo` phải chỉ đúng một repository.
 
 Các cài đặt này có thể được áp dụng ở cấp tổ chức qua các file cấu hình được quản lý và có ưu tiên hơn các cài đặt cấp người dùng.
 
@@ -944,6 +961,9 @@ Các tính năng Claude Code sau hoạt động cùng với plugins:
 
 ---
 
-**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
-**Phiên Bản Claude Code**: 2.1+
+**Cập Nhật Lần Cuối**: Ngày 15 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.233
+**Nguồn**:
+- https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/settings
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

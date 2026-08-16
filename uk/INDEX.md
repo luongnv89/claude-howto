@@ -237,7 +237,7 @@ blog-draft/
 
 - Хуки інструментів: PreToolUse, PostToolUse, PostToolUseFailure, PostToolBatch, PermissionRequest, PermissionDenied
 - Хуки сесії: SessionStart, Setup, SessionEnd, Stop, StopFailure, SubagentStart, SubagentStop
-- Хуки завдань: UserPromptSubmit, UserPromptExpansion, MessageDisplay, TaskCompleted, TaskCreated, TeammateIdle
+- Хуки завдань: UserPromptSubmit, UserPromptExpansion, MessageDisplay, TaskCompleted, TaskCreated, TeammateIdle (TaskCompleted/TaskCreated спрацьовують лише коли увімкнені todo-інструменти — типово вимкнені на Opus 4.8, Sonnet 5, Fable 5, Mythos 5 і новіших; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` повертає їх)
 - Хуки життєвого циклу: ConfigChange, CwdChanged, DirectoryAdded, FileChanged, PreCompact, PostCompact, WorktreeCreate, WorktreeRemove, Notification, InstructionsLoaded, Elicitation, ElicitationResult
 
 ---
@@ -932,10 +932,12 @@ Run tests in background
 
 ---
 
-**Останнє оновлення**: 9 квітня 2026
-**Версія Claude Code**: 2.1.97
+**Останнє оновлення**: 15 серпня 2026
+**Версія Claude Code**: 2.1.233
 **Прикладів**: 100+ файлів
 **Категорій**: 10 функцій
 **Хуків**: 8 скриптів автоматизації
 **Прикладів конфігурації**: 10+ сценаріїв
 **Готові до використання**: Усі приклади
+**Джерела**:
+- https://code.claude.com/docs/en/hooks

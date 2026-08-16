@@ -628,3 +628,10 @@ docs(skills): Add comprehensive code review skill
 - [ ] 段落简短且聚焦
 - [ ] 相关指南章节链接到合适的课程
 - [ ] 提交信息符合 conventional commits 格式
+
+---
+
+**最后更新**: 2026 年 8 月 15 日
+**Claude Code 版本**: 2.1.233
+**来源**:
+- https://code.claude.com/docs/en/overview

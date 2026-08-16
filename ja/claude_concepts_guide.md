@@ -2831,7 +2831,7 @@ Claude Code は 5 種類（command、http、mcp_tool、prompt、agent）にわ�
 | **StopFailure** | API エラーでターン終了時 | エラー回復、ログ |
 | **TeammateIdle** | エージェントチームのメンバーがアイドル時 | 作業分配、調整 |
 | **TaskCompleted** | タスク完了時 | 後続処理 |
-| **TaskCreated** | TaskCreate でタスク作成時 | タスク追跡、ログ |
+| **TaskCreated** | TaskCreate でタスク作成時（todo ツールが有効なときのみ発火 — Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降ではデフォルト無効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活） | タスク追跡、ログ |
 | **ConfigChange** | 設定ファイル変更時 | 検証、伝播 |
 | **CwdChanged** | 作業ディレクトリ変更時 | ディレクトリ別セットアップ |
 | **FileChanged** | 監視対象ファイルの変更時 | ファイル監視、再ビルド |
@@ -3145,13 +3145,13 @@ Claude Code は推論努力を調整可能な 3 モデルをサポートする�
 
 ---
 
-*最終更新：2026 年 4 月 24 日*
+*最終更新：2026 年 8 月 15 日*
 *対応：Claude Haiku 4.5、Sonnet 4.6、Opus 4.7*
 *収録機能：フック、チェックポイント、プラニングモード、拡張思考、バックグラウンドタスク、権限モード（6 種）、ヘッドレスモード、セッション管理、Auto Memory、Agent Teams、定期タスク、Chrome 連携、Channels、音声入力、同梱スキル*
 
 ---
-**最終更新：** 2026 年 4 月 24 日
-**Claude Code バージョン：** 2.1.119
+**最終更新：** 2026 年 8 月 15 日
+**Claude Code バージョン：** 2.1.233
 **出典：**
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks

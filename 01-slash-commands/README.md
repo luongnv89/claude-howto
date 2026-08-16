@@ -25,7 +25,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/add-dir <path>` | Add working directory |
 | `/agents` | Manage agent configurations |
 | `/branch [name]` | Switch into a copy of the conversation at this point, preserving the original (return to it with `/resume`) |
-| `/fork [prompt]` | Copy the current conversation into a new **background session** and keep working here; the two are independent from that point on and the copy gets its own row in `claude agents` (v2.1.212+) |
+| `/fork [prompt]` | Copy the current conversation into a new **background session** and keep working here; the two are independent from that point on and the copy gets its own row in `claude agents` (v2.1.212+). Except when the copy edits in place, Claude Code instructs it to create a worktree of its own before making code changes (isolation instruction requires v2.1.221+) |
 | `/subtask <task>` | Spawn a **forked subagent** that inherits the full conversation and works on the task while you keep going; its result returns to this conversation when it finishes (v2.1.212+) |
 | `/btw <question>` | Ask an ephemeral side question while Claude is working on the main task; doesn't pollute the main conversation context |
 | `/cd <path>` | Move the session to a new working directory without breaking the prompt cache (added v2.1.169) |
@@ -72,13 +72,13 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/privacy-settings` | Privacy settings (Pro/Max only) |
 | `/release-notes` | View changelog |
 | `/recap` | Show session recap / summary when returning to a session (added v2.1.108) |
-| `/reload-plugins` | Reload active plugins |
+| `/reload-plugins` | Reload active plugins. Since v2.1.221 most installs activate immediately, so this is only needed when the install summary says `Run /reload-plugins to activate.` |
 | `/reload-skills` | Re-scan skill directories without restarting the session (added v2.1.152) |
 | `/remote-control` | Remote control from claude.ai (alias: `/rc`) |
 | `/remote-env` | Configure default remote environment |
 | `/rename [name]` | Rename session |
 | `/resume [session]` | Resume conversation (alias: `/continue`) |
-| `/review <pr>` | Review a GitHub PR. As of v2.1.186 it runs on the same review engine as `/code-review medium`. Use `/code-review` to review the local working diff |
+| `/review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` | Alias of `/code-review` (v2.1.223): reviews the current diff, or a PR number, branch, or path you pass — e.g. `/review 1234`. Takes the same effort levels and flags. With no level given, it reuses the last `low`–`max` level you typed |
 | `/rewind` | Rewind conversation and/or code (alias: `/checkpoint`) |
 | `/sandbox` | Toggle sandbox mode |
 | `/schedule [description]` | Create/manage Cloud scheduled tasks |
@@ -87,15 +87,15 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/skills` | List available skills |
 | `/stats` | Typing-shortcut alias for `/usage` — opens the stats tab (daily usage, sessions, streaks) (v2.1.118+) |
 | `/stickers` | Order Claude Code stickers |
-| `/status` | Show version, model, account |
+| `/status` | Show version, model, account, and a `Session kind` row reading `background job · attached`, `background job · unattended`, or `interactive` (row added v2.1.221). Openable while Claude is responding |
 | `/statusline` | Configure status line |
 | `/tasks` | List/manage background tasks |
 | `/team-onboarding` | Generate a teammate ramp-up guide from the project's Claude Code setup (new in v2.1.101) |
+| `/teleport` | Resume a Claude Code on the web session in this terminal; opens a picker of your web sessions (alias: `/tp`). Requires a claude.ai subscription |
 | `/terminal-setup` | Configure terminal keybindings |
 | `/theme` | Open theme picker / manage custom themes (v2.1.118). Define custom themes via JSON in `~/.claude/themes/<name>.json` |
 | `/tui` | Toggle fullscreen TUI (text user interface) mode with flicker-free rendering (added v2.1.110) |
-| `/ultraplan <prompt>` | Draft plan in ultraplan session, review in browser |
-| `/ultrareview` | Comprehensive cloud-based code review with multi-agent analysis (added v2.1.111) |
+| `/ultrareview` | Comprehensive cloud-based multi-agent code review (added v2.1.111). The preferred invocation is now `/code-review ultra`; `/ultrareview` remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits |
 | `/undo` | Alias for `/rewind` (added v2.1.108) |
 | `/upgrade` | Open upgrade page for higher plan tier |
 | `/usage` | Canonical usage dashboard (v2.1.118) — combines plan usage limits, rate limits, cost, and daily session stats. `/cost` and `/stats` are typing-shortcut aliases that open specific tabs |
@@ -115,7 +115,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 | `/dataviz` | Chart and dashboard design guidance with a runnable color-palette validator (v2.1.198) |
 | `/debug [description]` | Enable debug logging |
 | `/loop [interval] <prompt>` | Run prompt repeatedly on interval |
-| `/code-review [effort]` | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`). Originally absorbed `/simplify` in v2.1.146, but `/simplify` returned as a distinct command in v2.1.154 |
+| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` | Review the current diff — or a PR number, branch, or path you pass — for correctness bugs. Pass `--fix` to apply findings, `--comment` to post them as inline GitHub PR comments, or `ultra` to run a deep cloud review; with `ultra` on a `github.com` PR target, `--post` preselects posting the findings to the PR. With no effort level given, the review reuses the last level you typed (v2.1.223). Originally absorbed `/simplify` in v2.1.146, but `/simplify` returned as a distinct command in v2.1.154 |
 | `/simplify` | Run a cleanup-only review (reuse / simplification / efficiency / altitude) and apply the fixes; does **not** hunt for bugs — use `/code-review` for that. Briefly an alias of `/code-review --fix` (v2.1.152), it became cleanup-only in v2.1.154 |
 
 ### Deprecated Commands
@@ -131,14 +131,14 @@ These skills ship with Claude Code and are invoked like slash commands:
 - `/fork` and `/subtask` swapped roles in **v2.1.212**. `/fork` now copies the conversation into a new independent background session; the forked-subagent behavior it used to have moved to the new `/subtask` command. History: `/fork` was an alias for `/branch` from v2.1.77 to v2.1.161; from v2.1.161 to v2.1.211 it started a forked subagent (what `/subtask` does now). When agent view is turned off, `/subtask` is unavailable and `/fork` keeps the forked-subagent behavior
 - `/resume` (no arguments) opens a picker of past sessions — including ones removed from the visible list — and resumes the chosen one as a background session (v2.1.212)
 - `/output-style` deprecated (v2.1.73) and removed (v2.1.91) — output styles are still available via `/config` → Output style or the `outputStyle` setting; the built-ins are Default, Proactive, Explanatory, and Learning
-- `/review <pr>` now uses the same review engine as `/code-review medium` (v2.1.186)
+- `/review` became a full alias of `/code-review` — same targets, effort levels, and flags (v2.1.223). History: it first moved onto the `/code-review medium` engine in v2.1.186 while remaining PR-only
 - `/effort` command added; `max` level available on Opus 4.6+ (originally Opus 4.6-only)
 - `/voice` command added for push-to-talk voice dictation
 - `/schedule` command added for creating/managing scheduled tasks
 - `/color` command added for prompt bar customization
 - /pr-comments removed in v2.1.91 — ask Claude directly to view PR comments
 - /vim removed in v2.1.92 — use /config → Editor mode instead
-- /ultraplan added for browser-based plan review and execution
+- `/ultraplan` was removed in v2.1.222 — use plan mode instead
 - /powerup added for interactive feature lessons
 - /sandbox added for toggling sandbox mode
 - `/model` picker now shows human-readable labels (e.g., "Sonnet 4.6") instead of raw model IDs
@@ -160,6 +160,13 @@ These skills ship with Claude Code and are invoked like slash commands:
 - `/model` now saves the selected model as the default for new sessions; press `s` for session-only (keybinding `modelPicker:setAsDefault` → `modelPicker:thisSessionOnly`) (v2.1.153)
 - `/workflows` added — view running and completed dynamic workflow runs (v2.1.154)
 - `/simplify` returned as a distinct cleanup-only review command (reuse / simplification / efficiency / altitude), separate from `/code-review`'s bug hunt (v2.1.154)
+- `/status` gained a `Session kind` row distinguishing attached and unattended background jobs from interactive sessions (v2.1.221)
+- Plugin installs now activate immediately when it is safe to do so; `/reload-plugins` is only needed when the install summary asks for it (v2.1.221)
+- `/ultraplan` removed — use plan mode (v2.1.222)
+- `/code-review` and `/review` remember the last effort level you typed when you omit one (v2.1.223)
+- `/code-review ultra` became the preferred entry point for cloud multi-agent review; `/ultrareview` stays as an alias (v2.1.223)
+- `/code-review` at `high`, `xhigh`, and `max` effort now runs in a background agent like the other levels (v2.1.232)
+- The startup tip suggesting you create custom subagents, and the matching nudge in the `/powerup` tour, were removed (v2.1.232)
 
 ### `/goal` — Session-Level Completion Condition
 
@@ -634,10 +641,9 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 15, 2026
+**Claude Code Version**: 2.1.233
 **Sources**:
-- https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/changelog

@@ -65,7 +65,7 @@ Commands là các lệnh tắt do người dùng gọi thực hiện các hành 
 | `/sandbox` | Bật/tắt sandbox mode | Thực thi command an toàn |
 | `/vim` | Bật/tắt vim mode | Chỉnh sửa kiểu Vim |
 | `/doctor` | Chạy chẩn đoán | Khắc phục sự cố |
-| `/reload-plugins` | Tải lại plugins đã cài đặt | Quản lý plugin |
+| `/reload-plugins` | Tải lại plugins đã cài đặt. Từ v2.1.221, hầu hết các lần cài đặt kích hoạt ngay; chỉ cần khi bản tóm tắt cài đặt hiển thị `Run /reload-plugins to activate.` | Quản lý plugin |
 | `/release-notes` | Hiển thị release notes | Kiểm tra tính năng mới |
 | `/remote-control` | Bật điều khiển từ xa | Truy cập từ xa |
 | `/permissions` | Quản lý permissions | Kiểm soát truy cập |
@@ -345,7 +345,7 @@ Tự động hóa dựa trên sự kiện thực thi shell commands trên các s
 | `StopFailure` | Lỗi API kết thúc turn | Lỗi API xảy ra | Phục hồi lỗi, logging |
 | `TeammateIdle` | Agent teammate rảnh | Phối hợp agent team | Phân phối work |
 | `TaskCompleted` | Task được đánh dấu hoàn tất | Task xong | Xử lý post-task |
-| `TaskCreated` | Task được tạo qua TaskCreate | Task mới được tạo | Theo dõi task, logging |
+| `TaskCreated` | Task được tạo qua TaskCreate (chỉ phát ra khi bật todo tools — tắt mặc định trên Opus 4.8, Sonnet 5, Fable 5, Mythos 5 và mới hơn; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` khôi phục) | Task mới được tạo | Theo dõi task, logging |
 | `ConfigChange` | Cấu hình được cập nhật | Settings được sửa đổi | Phản ứng thay đổi config |
 | `CwdChanged` | Thư mục làm việc thay đổi | Thư mục thay đổi | Thiết lập cụ thể theo thư mục |
 | `FileChanged` | File được theo dõi thay đổi | File được sửa | Giám sát file, rebuild |
@@ -514,4 +514,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Cập Nhật Lần**: Tháng 3 năm 2026
+**Cập Nhật Lần Cuối**: Ngày 15 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.233
+**Nguồn**:
+- https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/hooks

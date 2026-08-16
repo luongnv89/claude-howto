@@ -1155,7 +1155,7 @@ Claude Code supports **31 hook events** across five hook types (command, http, m
 | **StopFailure** | API error ends turn | Error recovery, logging |
 | **TeammateIdle** | Agent team teammate idle | Work distribution, coordination |
 | **TaskCompleted** | Task marked complete | Post-task processing |
-| **TaskCreated** | Task created via TaskCreate | Task tracking, logging |
+| **TaskCreated** | Task created via TaskCreate. Only fires when the todo tools are enabled — off by default on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` restores them (v2.1.233) | Task tracking, logging |
 | **ConfigChange** | Config file changes | Validation, propagation |
 | **CwdChanged** | Working directory changes | Directory-specific setup |
 | **DirectoryAdded** | New working directory registered mid-session via `/add-dir` or the SDK `register_repo_root` control request | Set up tooling for a newly added directory |
@@ -1474,8 +1474,8 @@ Claude Code supports the following models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 15, 2026
+**Claude Code Version**: 2.1.233
 **Sources**:
 - https://www.anthropic.com/news/claude-sonnet-5
 - https://code.claude.com/docs/en/cli-reference

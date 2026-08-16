@@ -61,7 +61,8 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `claude install [version]` | Install a specific native-binary version. Accepts `stable`, `latest`, or an explicit version string | `claude install 2.1.131` |
 | `claude project purge [path]` | Delete all local Claude Code state for a project (transcripts, tasks, debug logs, file-edit history, prompt history, and `~/.claude.json` entry). Omit `[path]` for an interactive picker. Flags: `--dry-run` to preview, `-y/--yes` to skip confirmation, `-i/--interactive` to confirm each item, `--all` for every project (v2.1.126+) | `claude project purge ~/work/repo --dry-run` |
 | `claude plugin prune` | Remove orphaned auto-installed plugin dependencies (parent plugin gone). `plugin uninstall --prune` does the same cascade after uninstalling a target (v2.1.121+) | `claude plugin prune` |
-| `claude ultrareview [target]` | Run `/ultrareview` non-interactively. Prints findings to stdout, exits 0 on success / 1 on failure. Use `--json` for raw payload, `--timeout <minutes>` to override the 30-minute default (v2.1.120+) | `claude ultrareview 1234 --json` |
+| `claude ultrareview [target]` | Run `/ultrareview` non-interactively. Prints findings to stdout, exits 0 on success / 1 on failure. Use `--json` for raw payload, `--timeout <minutes>` to override the 30-minute default, and `--post` / `--no-post` to control whether findings are posted back to the PR. **Requires Claude Code v2.1.227 or later** | `claude ultrareview 1234 --json --no-post` |
+| `claude self-hosted-runner <setup\|doctor\|orchestrator>` | Turn your own machine or container into a place Claude Code web, mobile, and desktop sessions can run. `setup` provisions the runner, `doctor` diagnoses it, `orchestrator` runs the coordinating process. **Team and Enterprise plans; requires Claude Code v2.1.224 or later.** On Windows, startup requires an explicit `--base-dir` (v2.1.229) | `claude self-hosted-runner setup` |
 | `claude auth login` | Log in (supports `--email`, `--sso`). Since v2.1.126, accepts the OAuth code pasted into the terminal as a fallback when the browser callback can't reach localhost (WSL2, SSH, containers) | `claude auth login --email user@example.com` |
 | `claude auth logout` | Log out of current account | `claude auth logout` |
 | `claude auth status` | Check auth status (exit 0 if logged in, 1 if not) | `claude auth status` |
@@ -74,12 +75,12 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `-c, --continue` | Load most recent conversation | `claude --continue` |
 | `-r, --resume` | Resume specific session by ID or name | `claude --resume auth-refactor` |
 | `-v, --version` | Output version number | `claude -v` |
-| `-w, --worktree` | Start in isolated git worktree | `claude -w` |
+| `-w, --worktree` | Start in isolated git worktree. Accepts a GitLab merge-request URL as well as a GitHub PR URL since v2.1.233 | `claude -w` |
 | `-n, --name` | Session display name | `claude -n "auth-refactor"` |
 | `--from-pr <url-or-number>` | Resume sessions linked to a pull/merge request. Accepts GitHub (cloud + Enterprise), GitLab MR, and Bitbucket PR URLs since v2.1.119; previously GitHub.com only | `claude --from-pr 42` or `claude --from-pr https://gitlab.example.com/org/repo/-/merge_requests/17` |
 | `--remote "task"` | Create web session on claude.ai | `claude --remote "implement API"` |
 | `--remote-control, --rc` | Interactive session with Remote Control | `claude --rc` |
-| `--teleport` | Resume web session locally | `claude --teleport` |
+| `--teleport` | Resume a web session locally. Bare form opens a picker of your web sessions; the v2.1.223 changelog also shows a `claude --teleport <session id>` form, which the CLI reference does not document. Requires a claude.ai subscription | `claude --teleport` |
 | `--teammate-mode` | Agent team display mode | `claude --teammate-mode tmux` |
 | `--bare` | Minimal mode (skip hooks, skills, plugins, MCP, auto memory, CLAUDE.md) | `claude --bare` |
 | `--safe-mode` | Start with all customizations disabled (CLAUDE.md, plugins, skills, hooks, MCP) to isolate config problems; also `CLAUDE_CODE_SAFE_MODE=1` (v2.1.169) | `claude --safe-mode` |
@@ -502,6 +503,8 @@ When you dispatch a session from the view (or via `claude --bg <prompt>`), you c
 
 Sessions that finish their work but leave a background shell open move from "Working" to "Completed" (v2.1.141 fix). Within an attached agent session, `Shift+Tab` cycles through permission modes including auto mode (v2.1.143).
 
+**GitLab merge requests (v2.1.233)** — the Agent View recognizes GitLab MR URLs alongside GitHub PR URLs, and displays merge requests as `!N` (GitHub pull requests stay `#N`). The same release taught `--worktree` to accept a GitLab MR URL.
+
 **Pin a session** — press `Ctrl+T` on a session in `claude agents` to pin it (v2.1.147). Pinned background sessions stay alive when idle, are restarted in place to apply Claude Code updates, and are shed under memory pressure only after non-pinned sessions. (This `Ctrl+T` is scoped to the Agent View; in the main session it toggles the task list view.)
 
 ---
@@ -569,15 +572,15 @@ pipeline {
 }
 ```
 
-**Headless `ultrareview` (v2.1.120+):**
+**Headless `ultrareview` (requires v2.1.227+):**
 
 ```yaml
 # .github/workflows/ultrareview.yml
 - name: Claude ultrareview
-  run: claude ultrareview ${{ github.event.pull_request.number }} --json > review.json
+  run: claude ultrareview ${{ github.event.pull_request.number }} --json --no-post > review.json
 ```
 
-`claude ultrareview` exits 0 on a clean review and 1 when findings are reported, so it's a drop-in PR gate. Use `--timeout <minutes>` to override the 30-minute default.
+`claude ultrareview` exits 0 on a clean review and 1 when findings are reported, so it's a drop-in PR gate. Use `--timeout <minutes>` to override the 30-minute default. `--post` posts the finished findings to the pull request; `--no-post` keeps them in stdout only, which is what you want when a later CI step formats the report itself.
 
 ### 2. Script Piping
 
@@ -855,7 +858,6 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu
 | `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY` | Set to `1` to opt in to gateway `/v1/models` discovery when `ANTHROPIC_BASE_URL` is set. Without it, `/model` shows the built-in static list (v2.1.129+) |
 | `CLAUDE_CODE_ENABLE_AUTO_MODE` | Legacy opt-in for auto mode on Bedrock, Vertex, and Foundry (v2.1.158–v2.1.206). As of v2.1.207, auto mode is available by default on those providers for Sonnet 5, Opus 4.7/4.8, and Fable 5 (Opus 5 added in v2.1.219) — this variable is accepted for compatibility but has no effect |
 | `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` | Cap on WebSearch tool calls per session, to stop runaway search loops. Default 200 (v2.1.212) |
-| `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION` | Cap on subagent spawns per session, to stop runaway delegation loops. Default 200; `/clear` resets the budget (v2.1.212) |
 | `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` | Cap on subagents running concurrently. Default 20 (v2.1.217) |
 | `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` | Controls how deep nested subagent spawns can go. Since v2.1.219 the default is **3 layers** (was 1); set to `1` to disable nesting entirely |
 | `CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS` | Threshold, in milliseconds, before a long-running MCP tool call auto-backgrounds. Default 120000 (2 minutes) (v2.1.212) |
@@ -866,6 +868,20 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu
 | `CLAUDE_ENABLE_STREAM_WATCHDOG` | Streaming idle watchdog (aborts/retries after 5 min with no stream events) is on by default for all providers; set to `0` to disable (v2.1.196). |
 | `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` | Override the 5-minute idle abort for remote MCP tool calls that hang with no response (v2.1.187+). |
 | `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **Removed (no-op as of v2.1.160).** Previously pinned Fast Mode (`/fast`) to Opus 4.6. As of v2.1.219, `/fast` applies to **Opus 5 and Opus 4.8** only — Opus 4.6 and Opus 4.7 are no longer fast-mode targets. |
+
+| `CLAUDE_CODE_ENABLE_TODO_TOOLS` | Set to `1` to restore the todo/task-tracking tools (`TaskCreate`/`Get`/`Update`/`List`, `TodoWrite`), which are unavailable on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models (v2.1.233) |
+| `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS` | How long WebFetch caches a fetched URL. Default 15 minutes (v2.1.233) |
+| `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | Linux only: opt in to a memory cgroup applied to Bash commands (v2.1.233) |
+| `ANTHROPIC_BEDROCK_REGION_PREFIX` | Prefer a specific Bedrock cross-region inference profile (v2.1.224) |
+| `CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT` | Set to `1` to restore pre-v2.1.223 auto-compact behavior on unrecognized model IDs (v2.1.223) |
+| `CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS` | Set to `0` to disable prefix staggering on dynamic-workflow fan-out (v2.1.229) |
+| `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS` | Overrides the `dialogExpiry` setting (v2.1.224) |
+
+> **These seven rows are changelog-sourced.** The CLI reference page has no dedicated
+> environment-variable section, so they are documented from the v2.1.221–v2.1.233
+> changelog entries rather than a reference page.
+
+> **`CLAUDE_CODE_DISABLE_1M_CONTEXT` widened in v2.1.223**: it now holds **every** Claude model with a native 1M-token window to 200K via auto-compaction, not just a fixed list of model IDs.
 
 > **`ENABLE_TOOL_SEARCH` on Vertex AI (v2.1.119+)**: Tool search is **disabled by default on Google Cloud Vertex AI** deployments. Users who want the tool-search capability on Vertex must explicitly opt in with `export ENABLE_TOOL_SEARCH=true`. On direct Anthropic API it remains enabled by default.
 
@@ -997,8 +1013,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: July 29, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 15, 2026
+**Claude Code Version**: 2.1.233
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/env-vars
@@ -1008,7 +1024,7 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/settings
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/troubleshooting
-- https://code.claude.com/docs/en/slash-commands
+- https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/model-config
 - https://platform.claude.com/docs/en/about-claude/models/overview
 - https://www.anthropic.com/news/claude-opus-4-8

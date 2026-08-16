@@ -66,7 +66,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/logout` | Sign out | Switch accounts |
 | `/sandbox` | Toggle sandbox mode | Safe command execution |
 | `/doctor` | Run diagnostics | Troubleshoot issues |
-| `/reload-plugins` | Reload installed plugins | Plugin management |
+| `/reload-plugins` | Reload installed plugins. Since v2.1.221 most installs activate immediately; only needed when the install summary says `Run /reload-plugins to activate.` | Plugin management |
 | `/reload-skills` | Re-scan skill directories without restarting (v2.1.152) | Skill management |
 | `/workflows` | View running and completed dynamic workflow runs (v2.1.154) | Multi-agent orchestration |
 | `/release-notes` | Show release notes | Check new features |
@@ -79,7 +79,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/tui` | Toggle fullscreen TUI (text user interface) mode | Flicker-free rendering in fullscreen/tmux |
 | `/tasks` | View background tasks | Monitor async operations |
 | `/copy` | Copy last response to clipboard | Share output quickly |
-| `/teleport` | Transfer session to another machine | Continue work remotely |
+| `/teleport` (alias `/tp`) | Resume a Claude Code on the web session in this terminal; opens a picker. Requires a claude.ai subscription | Continue work remotely |
 | `/desktop` | Open Claude Desktop app | Switch to desktop interface |
 | `/theme` | Change color theme; v2.1.118 added custom named themes via `~/.claude/themes/<name>.json` (plugins can ship a `themes/` dir) | Customize appearance |
 | `/usage` | Canonical command for usage/cost/stats — merged `/cost` and `/stats` into a single tabbed view (v2.1.118); as of v2.1.149 the cost view breaks spending down by category (skills, subagents, plugins, per-MCP-server). In the **VSCode extension** (v2.1.174), the `/usage` (Account & usage) dialog adds an attribution breakdown — cache misses, long-context cost, subagents, and per-skill / per-agent / per-plugin / per-MCP usage over 24h and 7d windows | Monitor quota and costs |
@@ -94,8 +94,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/undo` | Alias for `/rewind` (v2.1.108) | Same as `/rewind` |
 | `/upgrade` | Check for updates | Version management |
 | `/team-onboarding` | Generate a teammate ramp-up guide from this project's Claude Code usage | Onboarding new teammates (v2.1.101) |
-| `/ultraplan` | Hand a planning task to a Claude Code web session in plan mode | Heavy planning offload (Research Preview, v2.1.91+) |
-| `/ultrareview` | Run a cloud multi-agent code review over your current changes | Deep pre-merge review across multiple agents (v2.1.112) |
+| `/code-review ultra` | Run a cloud multi-agent code review over your current changes. `/ultrareview` remains as an alias; `/code-review ultra` is the preferred invocation. Includes 3 free runs on Pro and Max, then requires usage credits | Deep pre-merge review across multiple agents (v2.1.112) |
 | `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist for common read-only tools | Reduce repeat permission prompts in a project (v2.1.112) |
 
 ### Custom Commands (Examples)
@@ -251,7 +250,7 @@ cp -r 03-skills/* ~/.claude/skills/
 | `/loop` | Run prompts on interval | Recurring tasks |
 | `/run` *(v2.1.145+)* | Launch this project's app to see a change running | Verifying a change in the real app |
 | `/run-skill-generator` *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project | First-time project setup for `/run` |
-| `/code-review` | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`); pass `--comment` to post findings as inline PR comments. Runs as a **background subagent** since v2.1.218, so review output no longer fills the conversation and stacked slash commands remain its review target | After writing code, before landing a PR |
+| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` | Review the current diff — or a PR, branch, or path — for correctness bugs. `--fix` applies findings, `--comment` posts them as inline PR comments. With no level given it reuses the last one you typed (v2.1.223). Lower effort levels moved to a **background subagent** in v2.1.218; `high`, `xhigh`, and `max` followed in v2.1.232, so review output no longer fills the conversation | After writing code, before landing a PR |
 | `/simplify` *(distinct again since v2.1.154)* | Cleanup-only review (reuse / simplification / efficiency / altitude) that applies the fixes; does not hunt bugs | Tidying code without a bug hunt |
 | `/verify` *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works | Validating a fix end-to-end |
 
@@ -366,8 +365,8 @@ Event-driven automation that executes shell commands on Claude Code events.
 | `Stop` | Claude finishes responding | Response complete | Cleanup, reporting |
 | `StopFailure` | API error ends turn | API error occurs | Error recovery, logging |
 | `TeammateIdle` | Teammate agent idle | Agent team coordination | Distribute work |
-| `TaskCompleted` | Task marked complete | Task done | Post-task processing |
-| `TaskCreated` | Task created via TaskCreate | New task created | Task tracking, logging |
+| `TaskCompleted` | Task marked complete (only fires when the todo tools are enabled — see [Hooks](06-hooks/README.md#hook-events)) | Task done | Post-task processing |
+| `TaskCreated` | Task created via TaskCreate (only fires when the todo tools are enabled — see [Hooks](06-hooks/README.md#hook-events)) | New task created | Task tracking, logging |
 | `ConfigChange` | Configuration updated | Settings modified | React to config changes |
 | `CwdChanged` | Working directory changes | Directory changed | Directory-specific setup |
 | `FileChanged` | Watched file changes | File modified | File monitoring, rebuild |
@@ -466,10 +465,15 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **Status Line** | Render a custom status line from a command that receives session, model, cost, and context JSON on stdin | `/statusline` or the `statusLine` setting. See [Advanced Features](09-advanced-features/#status-line) |
 | **Community Marketplace** | Third-party plugins that passed Anthropic's automated validation, each pinned to a commit SHA | `/plugin marketplace add anthropics/claude-plugins-community`, then `/plugin install <name>@claude-community` |
 | **/team-onboarding** | Auto-generate a teammate ramp-up guide from the project's Claude Code setup (v2.1.101) | Run `/team-onboarding` in your project |
-| **Ultraplan auto-create** | Cloud environment created automatically on first `/ultraplan` invocation — no manual setup required (v2.1.101) | Use `/ultraplan <prompt>` |
 | **Remote Control** | Control Claude Code sessions remotely via API | Use the remote control API to send prompts and receive responses programmatically |
 | **Web Sessions** | Run Claude Code in a browser-based environment | Access via `claude web` or through the Anthropic Console |
 | **Desktop App** | Native desktop application for Claude Code | Use `/desktop` or download from Anthropic website |
+| **Cross-Session Messaging** | Sessions can message each other — including your other machines and cloud sessions — discovered via `ListAgents` (v2.1.224+, macOS/Linux) | See [Advanced Features](09-advanced-features/README.md#cross-session-messaging); control inbound with `crossSessionInbound` |
+| **Self-Hosted Runner** | Run Claude Code web, mobile, and desktop sessions on your own machines or containers (v2.1.224+, Team/Enterprise) | `claude self-hosted-runner setup`; see [CLI](10-cli/README.md) |
+| **`archive` plugin source** | Install a plugin from an HTTPS zip, optionally pinned by `sha256` (v2.1.224+) | See [Plugins](07-plugins/README.md#archive-source-v21224) |
+| **`command` plugin source** | A locally installed tool prints the plugin directory path (v2.1.229+) | See [Plugins](07-plugins/README.md#command-source-v21229) |
+| **Marketplace owner wildcards** | `"owner/*"` allows or blocks every marketplace repo under a GitHub owner — `strictKnownMarketplaces` and `blockedMarketplaces` only (v2.1.223+) | See [Plugins](07-plugins/README.md#marketplace-configuration) |
+| **Sandbox credential masking** | Sandboxed commands read a sentinel while the proxy substitutes the real secret on egress (v2.1.221+, Linux/WSL) | See [Advanced Features](09-advanced-features/README.md#credential-masking-v21221-v21224) |
 | **Agent Teams** | Coordinate multiple agents working on related tasks | Configure teammate agents that collaborate and share context |
 | **Task List** | Background task management and monitoring | Use `/tasks` to view and manage background operations |
 | **Prompt Suggestions** | Context-aware command suggestions | Suggestions appear automatically based on current context |
@@ -549,8 +553,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 15, 2026
+**Claude Code Version**: 2.1.233
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -566,4 +570,7 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/plugin-marketplaces
+- https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/settings
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -215,6 +215,8 @@ Claude Code は **31 種類のフックイベント** をサポートする。
 | **ElicitationResult** | ユーザーが elicitation に応答 | （なし） | 可 | 応答処理 |
 | **SessionEnd** | セッション終了 | （なし） | 不可 | クリーンアップ、最終ロギング |
 
+> **`TaskCreated` と `TaskCompleted` は todo ツールが有効なときのみ発火する（v2.1.233）。** これらのイベントは todo／タスク追跡ツール（`TaskCreate`/`Get`/`Update`/`List`、`TodoWrite`）から発火するが、それらは **Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降のモデルでは利用できない**。これらのモデルではフックの設定自体は有効なまま、単に発火しない — 出力もエラーも出ない。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` を設定すると復活する。
+
 > **PostToolUse の duration（v2.1.119）：** `PostToolUse` と `PostToolUseFailure` のフック入力に `duration_ms` が含まれるようになった。詳細は [PostToolUse](#posttooluse) セクションを参照。
 
 ### PreToolUse
@@ -1369,8 +1371,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新：** 2026 年 4 月 24 日
-**Claude Code バージョン：** 2.1.119
+**最終更新：** 2026 年 8 月 15 日
+**Claude Code バージョン：** 2.1.233
 **情報源：**
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/changelog
