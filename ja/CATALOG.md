@@ -355,7 +355,7 @@ Claude Code のイベントでシェルコマンドを自動実行するイベ�
 | `Stop` | Claude が応答完了 | 応答完了時 | 後処理、レポート |
 | `StopFailure` | API エラーでターン終了 | API エラー発生時 | エラー復旧、ログ |
 | `TeammateIdle` | チームメンバーエージェントがアイドル | エージェントチーム協調時 | 作業の分配 |
-| `TaskCompleted` | タスク完了マーク | タスク完了時 | タスク後処理 |
+| `TaskCompleted` | タスク完了マーク（todo ツールが有効なときのみ発火 — Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降ではデフォルト無効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活） | タスク完了時 | タスク後処理 |
 | `TaskCreated` | TaskCreate でタスク作成（todo ツールが有効なときのみ発火 — Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降ではデフォルト無効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活） | 新タスク作成時 | タスク追跡、ログ |
 | `ConfigChange` | 設定更新 | 設定変更時 | 設定変更への対応 |
 | `CwdChanged` | 作業ディレクトリ変更 | ディレクトリ変更時 | ディレクトリ別セットアップ |

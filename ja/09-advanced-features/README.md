@@ -2111,7 +2111,7 @@ Claude Code および関連機能の詳細：
 
 ---
 
-**最終更新：** 2026 年 4 月 24 日
+**最終更新：** 2026 年 8 月 15 日
 **Claude Code バージョン：** 2.1.233
 **情報源：**
 - https://code.claude.com/docs/en/permission-modes

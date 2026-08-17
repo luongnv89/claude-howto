@@ -2830,7 +2830,7 @@ Claude Code は 5 種類（command、http、mcp_tool、prompt、agent）にわ�
 | **Stop** | Claude の応答完了時 | サマリー生成、後処理 |
 | **StopFailure** | API エラーでターン終了時 | エラー回復、ログ |
 | **TeammateIdle** | エージェントチームのメンバーがアイドル時 | 作業分配、調整 |
-| **TaskCompleted** | タスク完了時 | 後続処理 |
+| **TaskCompleted** | タスク完了時（todo ツールが有効なときのみ発火 — Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降ではデフォルト無効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活） | 後続処理 |
 | **TaskCreated** | TaskCreate でタスク作成時（todo ツールが有効なときのみ発火 — Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降ではデフォルト無効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活） | タスク追跡、ログ |
 | **ConfigChange** | 設定ファイル変更時 | 検証、伝播 |
 | **CwdChanged** | 作業ディレクトリ変更時 | ディレクトリ別セットアップ |

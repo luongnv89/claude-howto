@@ -77,7 +77,7 @@
 | `/remote-env` | デフォルトのリモート環境を設定 |
 | `/rename [name]` | セッションをリネーム |
 | `/resume [session]` | 会話を再開（エイリアス: `/continue`） |
-| `/review` | **非推奨** — 代わりに `code-review` プラグインを導入する |
+| `/review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` | `/code-review` のエイリアス（v2.1.223）。現在の diff、または渡した PR 番号・ブランチ・パスをレビューする（例: `/review 1234`）。同じ effort レベルとフラグを受け付ける。レベルを省略すると、直前に入力した `low`〜`max` のレベルを再利用する |
 | `/rewind` | 会話やコードを巻き戻す（エイリアス: `/checkpoint`） |
 | `/sandbox` | サンドボックスモードを切り替え |
 | `/schedule [description]` | クラウドのスケジュールタスクを作成／管理 |
@@ -114,7 +114,6 @@
 
 | コマンド | ステータス |
 |---------|----------|
-| `/review` | 非推奨 — `code-review` プラグインに置き換え |
 | `/output-style` | v2.1.91 で削除 — 出力スタイルは `/config` または `outputStyle` 設定から引き続き利用できる |
 | `/fork` | `/branch` に改名（エイリアスは引き続き有効、v2.1.77） |
 | `/pr-comments` | v2.1.91 で削除 — Claude に直接 PR コメントを見るよう依頼する |
@@ -124,7 +123,7 @@
 
 - `/fork` を `/branch` に改名し、`/fork` はエイリアスとして残置（v2.1.77）
 - `/output-style` を削除（v2.1.91）。出力スタイル自体は `/config` または `outputStyle` 設定で引き続き利用できる
-- `/review` を非推奨化、`code-review` プラグインを推奨
+- `/review` が `/code-review` の完全なエイリアスになった — ターゲット、effort レベル、フラグはすべて同じ（v2.1.223）。履歴: v2.1.186 でまず `/code-review medium` エンジンに移行したが、当時は PR 専用だった
 - `/effort` コマンドを追加。`max` レベルは Opus 4.7 が必要（当初は Opus 4.6 限定）
 - プッシュトゥトーク音声入力の `/voice` コマンドを追加
 - スケジュールタスクの作成／管理用の `/schedule` コマンドを追加

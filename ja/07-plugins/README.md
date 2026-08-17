@@ -1054,7 +1054,7 @@ Complete PR review workflow with security, testing, and documentation checks.
 
 ---
 
-**最終更新**: 2026 年 4 月 24 日
+**最終更新**: 2026 年 8 月 15 日
 **Claude Code バージョン**: 2.1.233
 **出典**:
 - https://code.claude.com/docs/en/discover-plugins

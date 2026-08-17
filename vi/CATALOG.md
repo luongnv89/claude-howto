@@ -344,7 +344,7 @@ Tự động hóa dựa trên sự kiện thực thi shell commands trên các s
 | `Stop` | Claude hoàn thành phản hồi | Phản hồi hoàn tất | Dọn dẹp, báo cáo |
 | `StopFailure` | Lỗi API kết thúc turn | Lỗi API xảy ra | Phục hồi lỗi, logging |
 | `TeammateIdle` | Agent teammate rảnh | Phối hợp agent team | Phân phối work |
-| `TaskCompleted` | Task được đánh dấu hoàn tất | Task xong | Xử lý post-task |
+| `TaskCompleted` | Task được đánh dấu hoàn tất (chỉ phát ra khi bật todo tools — tắt mặc định trên Opus 4.8, Sonnet 5, Fable 5, Mythos 5 và mới hơn; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` khôi phục) | Task xong | Xử lý post-task |
 | `TaskCreated` | Task được tạo qua TaskCreate (chỉ phát ra khi bật todo tools — tắt mặc định trên Opus 4.8, Sonnet 5, Fable 5, Mythos 5 và mới hơn; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` khôi phục) | Task mới được tạo | Theo dõi task, logging |
 | `ConfigChange` | Cấu hình được cập nhật | Settings được sửa đổi | Phản ứng thay đổi config |
 | `CwdChanged` | Thư mục làm việc thay đổi | Thư mục thay đổi | Thiết lập cụ thể theo thư mục |

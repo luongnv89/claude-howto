@@ -71,7 +71,7 @@ Lệnh tích hợp sẵn là các lối tắt cho các hành động phổ biế
 | `/remote-env` | Cấu hình môi trường từ xa mặc định |
 | `/rename [name]` | Đổi tên phiên |
 | `/resume [session]` | Tiếp tục cuộc hội thoại (bí danh: `/continue`) |
-| `/review` | **Đã lỗi thời** — cài đặt plugin `code-review` thay thế |
+| `/review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` | Bí danh của `/code-review` (v2.1.223): review diff hiện tại, hoặc số PR, nhánh, hay đường dẫn bạn truyền vào — ví dụ `/review 1234`. Nhận cùng các mức effort và flags. Nếu không chỉ định mức, nó dùng lại mức `low`–`max` bạn đã gõ lần trước |
 | `/rewind` | Quay lại cuộc hội thoại và/hoặc code (bí danh: `/checkpoint`) |
 | `/sandbox` | Bật/tắt chế độ sandbox |
 | `/schedule [description]` | Tạo/quản lý các tác vụ định kỳ |
@@ -103,7 +103,6 @@ Những skills này được gửi kèm với Claude Code và được gọi nh�
 
 | Lệnh | Trạng Thái |
 |---------|--------|
-| `/review` | Đã lỗi thời — được thay thế bởi plugin `code-review` |
 | `/output-style` | Đã xóa trong v2.1.91 (lỗi thời từ v2.1.73) — dùng `/config` → Output style, hoặc setting `outputStyle` |
 | `/pr-comments` | Đã xóa trong v2.1.91 — hỏi Claude trực tiếp để xem bình luận PR |
 | `/vim` | Đã xóa trong v2.1.92 — sử dụng /config → Editor mode |
@@ -112,7 +111,7 @@ Những skills này được gửi kèm với Claude Code và được gọi nh�
 
 - `/fork` và `/subtask` hoán đổi vai trò trong **v2.1.212**. `/fork` giờ sao chép cuộc hội thoại thành một phiên nền độc lập mới; hành vi subagent-được-fork mà nó từng có đã chuyển sang lệnh mới `/subtask`. Lịch sử: `/fork` là bí danh của `/branch` từ v2.1.77 đến v2.1.161; từ v2.1.161 đến v2.1.211 nó khởi chạy một subagent được fork (việc mà `/subtask` làm bây giờ). Khi tắt agent view, `/subtask` không khả dụng và `/fork` giữ hành vi subagent-được-fork
 - `/output-style` đã lỗi thời (v2.1.73) và bị xóa (v2.1.91) — output styles vẫn có sẵn qua `/config` → Output style hoặc setting `outputStyle`; các bản tích hợp sẵn là Default, Proactive, Explanatory, và Learning
-- `/review` đã lỗi thời thay vào đó là plugin `code-review`
+- `/review` trở thành bí danh đầy đủ của `/code-review` — cùng target, mức effort và flags (v2.1.223). Lịch sử: ban đầu nó chuyển sang engine `/code-review medium` trong v2.1.186 nhưng vẫn chỉ dùng cho PR
 - Lệnh `/effort` được thêm với mức `max` yêu cầu Opus 4.6
 - Lệnh `/voice` được thêm cho nhập liệu giọng nói push-to-talk
 - Lệnh `/schedule` được thêm để tạo/quản lý các tác vụ định kỳ

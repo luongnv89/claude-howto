@@ -348,7 +348,7 @@ export GITHUB_TOKEN="your_token" && claude mcp add github -- npx -y @modelcontex
 | `Stop` | Claude 完成响应 | 响应完成 | 清理、汇报 |
 | `StopFailure` | API 错误导致结束 | API 错误发生 | 错误恢复、日志 |
 | `TeammateIdle` | 队友 agent 空闲 | agent team 协调 | 分配工作 |
-| `TaskCompleted` | 任务标记完成 | 任务完成 | 任务后处理 |
+| `TaskCompleted` | 任务标记完成（仅在启用 todo 工具时触发 —— 在 Opus 4.8、Sonnet 5、Fable 5、Mythos 5 及更新模型上默认关闭；`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` 可恢复） | 任务完成 | 任务后处理 |
 | `TaskCreated` | 通过 TaskCreate 创建任务（仅在启用 todo 工具时触发 —— 在 Opus 4.8、Sonnet 5、Fable 5、Mythos 5 及更新模型上默认关闭；`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` 可恢复） | 新任务创建 | 任务追踪、日志 |
 | `ConfigChange` | 配置更新 | 设置被修改 | 响应配置变化 |
 | `CwdChanged` | 当前工作目录变化 | 目录切换 | 目录级初始化 |

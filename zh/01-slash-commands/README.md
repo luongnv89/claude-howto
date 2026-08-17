@@ -71,7 +71,7 @@ Claude Code 目前提供 55+ 个内置命令和 5 个内置 Skills。你可以�
 | `/remote-env` | 配置默认远程环境 |
 | `/rename [name]` | 重命名会话 |
 | `/resume [session]` | 恢复对话（别名：`/continue`） |
-| `/review` | **已弃用**，请改用 `code-review` 插件 |
+| `/review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` | `/code-review` 的别名（v2.1.223）：审查当前 diff，或你传入的 PR 编号、分支、路径 —— 例如 `/review 1234`。接受相同的 effort 级别和标志。未指定级别时，复用你上次输入的 `low`–`max` 级别 |
 | `/rewind` | 回退对话和/或代码（别名：`/checkpoint`） |
 | `/sandbox` | 切换沙盒模式 |
 | `/schedule [description]` | 创建/管理定时任务 |
@@ -101,7 +101,6 @@ Claude Code 目前提供 55+ 个内置命令和 5 个内置 Skills。你可以�
 
 | 命令 | 状态 |
 |---------|--------|
-| `/review` | 已弃用，已被 `code-review` 插件替代 |
 | `/output-style` | 已于 v2.1.91 移除（v2.1.73 起弃用）— 改用 `/config` → Output style，或 `outputStyle` 设置 |
 | `/vim` | 自 v2.1.92 起移除；改用 `/config → Editor mode` |
 
@@ -109,7 +108,7 @@ Claude Code 目前提供 55+ 个内置命令和 5 个内置 Skills。你可以�
 
 - `/fork` 与 `/subtask` 在 **v2.1.212** 互换了角色。`/fork` 现在是把对话复制到一个独立的后台会话；原来的 forked subagent 行为转移到了新命令 `/subtask`。历史：v2.1.77–v2.1.161 期间 `/fork` 是 `/branch` 的别名；v2.1.161–v2.1.211 期间它启动 forked subagent（即现在 `/subtask` 的行为）。关闭 agent view 时 `/subtask` 不可用，`/fork` 仍保留 forked subagent 行为
 - `/output-style` 已弃用（v2.1.73）并于 v2.1.91 移除 — output styles 仍可通过 `/config` → Output style 或 `outputStyle` 设置使用
-- `/review` 已弃用，推荐改用 `code-review` 插件
+- `/review` 成为 `/code-review` 的完整别名 —— 目标、effort 级别和标志完全相同（v2.1.223）。历史：它在 v2.1.186 首次迁移到 `/code-review medium` 引擎，但当时仅支持 PR
 - 新增 `/effort`，其中 `max` 级别需要 Opus 4.6
 - 新增 `/voice`，用于按住说话语音输入
 - 新增 `/schedule`，用于创建和管理定时任务
