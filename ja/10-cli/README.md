@@ -763,7 +763,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on O
 | `CLAUDE_CODE_PERFORCE_MODE` | `1` を設定すると Perforce モードを有効化 — ファイルをデフォルトで読み取り専用として扱う（Perforce/P4 バージョン管理ワークフロー向け）（v2.1.98 追加） |
 | `DISABLE_UPDATES` | 手動の `claude update` を含むすべての更新経路をブロックする。バックグラウンドの自動更新のみブロックする `DISABLE_AUTOUPDATER` より厳密（v2.1.118+） |
 | `CLAUDE_CODE_HIDE_CWD` | `1` に設定すると、起動時ロゴでカレント作業ディレクトリを隠す（プライバシー／画面共有用途）（v2.1.119+） |
-| `CLAUDE_CODE_FORK_SUBAGENT` | `1` を設定すると外部ビルド（Bedrock、Vertex、Foundry）でフォーク済みサブエージェントを有効化。Anthropic API ではフォーク済みサブエージェントが GA のため効果なし（v2.1.117+） |
+| `CLAUDE_CODE_FORK_SUBAGENT` | デフォルトでフォークモードが無効な場面 — 非対話モード（`claude -p`）、Agent SDK、v2.1.232 より古い Claude Code — で `1` を設定するとフォークモードを有効化する。v2.1.232 以降、フォークモードはファーストパーティかどうかを問わずすべてのビルドの対話セッションでデフォルト有効（GA は v2.1.117） |
 | `OTEL_LOG_TOOL_DETAILS` | `1` を設定すると OpenTelemetry イベント中のカスタムおよび MCP コマンド名のリダクションを解除する（v2.1.117+）。デフォルトはリダクション有効。 |
 
 > **Vertex AI 上の `ENABLE_TOOL_SEARCH`（v2.1.119+）**: ツール検索は **Google Cloud Vertex AI 上のデプロイではデフォルト無効** である。Vertex 上でツール検索機能を使いたい場合は `export ENABLE_TOOL_SEARCH=true` で明示的にオプトインする必要がある。Anthropic API 直結ではデフォルト有効のままである。
