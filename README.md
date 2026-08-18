@@ -105,7 +105,7 @@ Run `/lesson-quiz [topic]` after each module. The quiz pinpoints what you missed
 - **Actively maintained** — synced with every Claude Code release (latest: v2.1.220, July 2026)
 - **Community-driven** — contributions from developers who share their real-world configurations
 
-[![Star History Chart](https://api.star-history.com/svg?repos=luongnv89/claude-howto&type=Date)](https://star-history.com/#luongnv89/claude-howto&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=luongnv89/claude-howto&type=date)](https://star-history.dera.page/#luongnv89/claude-howto&type=date)
 
 ---
 
