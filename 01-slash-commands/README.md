@@ -167,7 +167,8 @@ These skills ship with Claude Code and are invoked like slash commands:
 - `/code-review ultra` became the preferred entry point for cloud multi-agent review; `/ultrareview` stays as an alias (v2.1.223)
 - `/code-review` at `high`, `xhigh`, and `max` effort now runs in a background agent like the other levels (v2.1.232)
 - The startup tip suggesting you create custom subagents, and the matching nudge in the `/powerup` tour, were removed (v2.1.232)
-- `/permissions`, `/add-dir`, `/autocompact`, `/theme`, `/help`, `/config`, and `/advisor` now open their dialog immediately when invoked mid-turn, instead of queuing until Claude finishes responding (`/bug` already opened immediately, since v2.1.232) (v2.1.234)
+- `/permissions` can now be opened while Claude is working — rule changes apply to the rest of the current turn (v2.1.234)
+- `/add-dir <path>` can now be used while Claude is working; the `/add-dir`, `/autocompact`, `/theme`, `/help`, `/config`, and `/advisor` dialogs open mid-turn **in the fullscreen TUI**, instead of queuing until Claude finishes responding (`/bug` already opened immediately, since v2.1.232) (v2.1.234)
 
 ### `/goal` — Session-Level Completion Condition
 
