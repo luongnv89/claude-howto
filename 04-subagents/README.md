@@ -35,6 +35,7 @@ Subagents are specialized AI assistants that Claude Code can delegate tasks to. 
 24. [File Structure](#file-structure)
 25. [Related Concepts](#related-concepts)
 26. [Observability](#observability)
+27. [Additional Resources](#additional-resources)
 
 ---
 
