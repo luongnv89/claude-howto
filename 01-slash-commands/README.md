@@ -167,6 +167,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 - `/code-review ultra` became the preferred entry point for cloud multi-agent review; `/ultrareview` stays as an alias (v2.1.223)
 - `/code-review` at `high`, `xhigh`, and `max` effort now runs in a background agent like the other levels (v2.1.232)
 - The startup tip suggesting you create custom subagents, and the matching nudge in the `/powerup` tour, were removed (v2.1.232)
+- `/permissions`, `/add-dir`, `/autocompact`, `/theme`, `/help`, `/config`, and `/advisor` now open their dialog immediately when invoked mid-turn, instead of queuing until Claude finishes responding (`/bug` already opened immediately, since v2.1.232) (v2.1.234)
 
 ### `/goal` — Session-Level Completion Condition
 
@@ -182,6 +183,8 @@ Claude: Goal registered. I'll work toward this until you clear it.
 User: start by listing the REST endpoints
 Claude: [does the work, panel updates]
 ```
+
+**Check-in on stalled background tasks (v2.1.234):** while a goal is active, if a background task makes no progress for 30+ minutes, Claude checks in with a status update instead of silently continuing. Tune the threshold (in minutes) with the `CLAUDE_CODE_GOAL_CHECKIN_MINUTES` environment variable, or set it to `0` to disable check-ins entirely.
 
 ### `/team-onboarding` — Teammate Ramp-Up Guide
 
@@ -641,8 +644,8 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: August 15, 2026
-**Claude Code Version**: 2.1.233
+**Last Updated**: August 19, 2026
+**Claude Code Version**: 2.1.235
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/interactive-mode

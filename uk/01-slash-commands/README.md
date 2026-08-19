@@ -576,10 +576,10 @@ Deploy the application to production:
 
 ---
 
-**Останнє оновлення**: 15 серпня 2026
-**Версія Claude Code**: 2.1.233
+**Останнє оновлення**: 19 серпня 2026
+**Версія Claude Code**: 2.1.235
 **Джерела**:
 - https://code.claude.com/docs/en/commands
-**Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
+**Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Частина серії посібників [Claude How To](../)*

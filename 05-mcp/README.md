@@ -1252,8 +1252,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 19, 2026
+**Claude Code Version**: 2.1.235
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog

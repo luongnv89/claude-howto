@@ -1098,7 +1098,7 @@ Complete PR review workflow with security, testing, and documentation checks.
 
 2. **View plugin details:**
    ```bash
-   /plugin info plugin-name
+   claude plugin details plugin-name
    ```
 
 3. **Install a plugin:**
@@ -1121,13 +1121,17 @@ Complete PR review workflow with security, testing, and documentation checks.
 ### Listing Installed Plugins
 
 ```bash
-/plugin list --installed
+/plugin list             # all installed plugins
+/plugin list --enabled   # only enabled plugins
+/plugin list --disabled  # only disabled plugins
 ```
 
 ### Updating a Plugin
 
+Updating is CLI-only — there is no `/plugin update` slash command:
+
 ```bash
-/plugin update plugin-name
+claude plugin update plugin-name
 ```
 
 ### Disabling/Enabling a Plugin
@@ -1190,7 +1194,7 @@ The following Claude Code features work together with plugins:
 - Verify paths in `plugin.json` match actual directory structure
 - Check file permissions: `chmod +x scripts/`
 - Review component file syntax
-- Check logs: `/plugin debug plugin-name`
+- Check the component inventory: `claude plugin details plugin-name`
 
 ### MCP Connection Failed
 - Verify environment variables are set correctly
@@ -1199,9 +1203,9 @@ The following Claude Code features work together with plugins:
 - Review MCP configuration in `mcp/` directory
 
 ### Commands Not Available After Install
-- Ensure plugin was installed successfully: `/plugin list --installed`
-- Check if plugin is enabled: `/plugin status plugin-name`
-- Restart Claude Code: `exit` and reopen
+- Ensure plugin was installed successfully: `/plugin list`
+- Check if plugin is enabled: `/plugin list --enabled`
+- Check whether it's active yet — see the install summary guidance in [Installation Methods](#installation-methods): `Plugin is now active.` needs no action, `Run /reload-plugins to activate.` means run that command (a restart is not required)
 - Check for naming conflicts with existing commands
 
 ### Hook Execution Issues
@@ -1222,14 +1226,15 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: August 15, 2026
-**Claude Code Version**: 2.1.233
+**Last Updated**: August 19, 2026
+**Claude Code Version**: 2.1.235
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/changelog#2-1-172
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/plugin-marketplaces
+- https://code.claude.com/docs/en/discover-plugins.md
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.131

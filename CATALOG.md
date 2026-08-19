@@ -174,8 +174,6 @@ Specialized AI assistants with isolated contexts for specific tasks.
 | Agent | Description | When to Use | Scope | Installation |
 |-------|-------------|-------------|-------|--------------|
 | `code-reviewer` | Comprehensive code quality | Code review sessions | Project | `cp 04-subagents/code-reviewer.md .claude/agents/` |
-| `code-architect` | Feature architecture design | New feature planning | Project | `cp 04-subagents/code-architect.md .claude/agents/` |
-| `code-explorer` | Deep codebase analysis | Understanding existing features | Project | `cp 04-subagents/code-explorer.md .claude/agents/` |
 | `clean-code-reviewer` | Clean Code principles review | Maintainability review | Project | `cp 04-subagents/clean-code-reviewer.md .claude/agents/` |
 | `test-engineer` | Test strategy & coverage | Test planning | Project | `cp 04-subagents/test-engineer.md .claude/agents/` |
 | `documentation-writer` | Technical documentation | API docs, guides | Project | `cp 04-subagents/documentation-writer.md .claude/agents/` |
@@ -208,6 +206,8 @@ Auto-invoked capabilities with instructions, scripts, and templates.
 | `brand-voice` | Brand consistency checker | Writing marketing copy | Project | `cp -r 03-skills/brand-voice .claude/skills/` |
 | `doc-generator` | API documentation generator | "Generate docs", "Document API" | Project | `cp -r 03-skills/doc-generator .claude/skills/` |
 | `refactor` | Systematic code refactoring (Martin Fowler) | "Refactor this", "Clean up code" | User | `cp -r 03-skills/refactor ~/.claude/skills/` |
+| `claude-md` | Create or update CLAUDE.md files | "Create CLAUDE.md", "Audit CLAUDE.md" | Project | `cp -r 03-skills/claude-md .claude/skills/` |
+| `blog-draft` | Draft a blog post from ideas and resources | "Write a blog post", "Draft an article" | User | `cp -r 03-skills/blog-draft ~/.claude/skills/` |
 
 > **Scope**: `User` = personal (`~/.claude/skills/`), `Project` = team-shared (`.claude/skills/`)
 
@@ -382,14 +382,17 @@ Event-driven automation that executes shell commands on Claude Code events.
 
 | Hook | Description | Event | Scope | Installation |
 |------|-------------|-------|-------|--------------|
-| `validate-bash.py` | Command validation | PreToolUse:Bash | Project | `cp 06-hooks/validate-bash.py .claude/hooks/` |
-| `security-scan.py` | Security scanning | PostToolUse:Write | Project | `cp 06-hooks/security-scan.py .claude/hooks/` |
+| `pre-tool-check.sh` | Blocks/warns on risky Bash commands | PreToolUse:Bash | User | `cp 06-hooks/pre-tool-check.sh ~/.claude/hooks/` |
+| `security-scan.sh` | Security scanning | PostToolUse:Write | Project | `cp 06-hooks/security-scan.sh .claude/hooks/` |
 | `format-code.sh` | Auto-formatting | PostToolUse:Write | User | `cp 06-hooks/format-code.sh ~/.claude/hooks/` |
-| `validate-prompt.py` | Prompt validation | UserPromptSubmit | Project | `cp 06-hooks/validate-prompt.py .claude/hooks/` |
-| `context-tracker.py` | Token usage tracking | Stop | User | `cp 06-hooks/context-tracker.py ~/.claude/hooks/` |
+| `validate-prompt.sh` | Prompt validation | UserPromptSubmit | Project | `cp 06-hooks/validate-prompt.sh .claude/hooks/` |
+| `context-tracker.py` | Token usage tracking | UserPromptSubmit, Stop | User | `cp 06-hooks/context-tracker.py ~/.claude/hooks/` |
+| `context-tracker-tiktoken.py` | Token usage tracking (tiktoken, ~90-95% accuracy) | UserPromptSubmit, Stop | User | `cp 06-hooks/context-tracker-tiktoken.py ~/.claude/hooks/` |
 | `pre-commit.sh` | Pre-commit validation | PreToolUse:Bash | Project | `cp 06-hooks/pre-commit.sh .claude/hooks/` |
 | `log-bash.sh` | Command logging | PostToolUse:Bash | User | `cp 06-hooks/log-bash.sh ~/.claude/hooks/` |
 | `dependency-check.sh` | Vulnerability scan on manifest changes | PostToolUse:Write | Project | `cp 06-hooks/dependency-check.sh .claude/hooks/` |
+| `notify-team.sh` | Team notifications on git push | PostToolUse:Bash | Project | `cp 06-hooks/notify-team.sh .claude/hooks/` |
+| `session-end.sh` | Captures progress when a session ends | SessionEnd | User | `cp 06-hooks/session-end.sh ~/.claude/hooks/` |
 
 > **Scope**: `Project` = team (`.claude/settings.json`), `User` = personal (`~/.claude/settings.json`)
 
@@ -494,6 +497,12 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **Managed Drop-ins** | Organization-managed drop-in configurations (v2.1.83) | Admin-configured via managed policies; auto-applied to all users |
 | **`claude plugin init`** | Scaffold a new plugin in `.claude/skills`; such plugins auto-load with no marketplace (v2.1.157) | Run `claude plugin init <name>` |
 | **Auto Mode on third-party providers** | Available by default on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, and signed-in Claude apps gateway sessions, where the supported models are Claude Sonnet 5, Opus 4.7 or later (which includes Opus 5), and Fable 5 (opt-in required v2.1.158–v2.1.206; removed in v2.1.207 — `CLAUDE_CODE_ENABLE_AUTO_MODE` is still accepted but has no effect) | `Shift+Tab` to cycle to it, or `--permission-mode auto` |
+| **Immediate Dialog Commands** | `/permissions`, `/add-dir`, `/autocompact`, `/theme`, `/help`, `/config`, and `/advisor` now open their dialog immediately when invoked mid-turn, instead of queuing until Claude finishes responding (`/bug` already did this since v2.1.232) (v2.1.234) | Run one of these commands while Claude is working — the dialog opens right away. See [Slash Commands](01-slash-commands/README.md) |
+| **`CLAUDE_CODE_PROJECT_DIR_NAME`** | Env var controlling per-project transcript directory naming (v2.1.234) | Set in your shell/env before launching Claude Code. See [CLI](10-cli/README.md) |
+| **Goal Check-In Threshold** | While a `/goal` is active, Claude checks in with a status update if a background task makes no progress for 30+ minutes, instead of continuing silently; tune with `CLAUDE_CODE_GOAL_CHECKIN_MINUTES`, or set to `0` to disable (v2.1.234) | Set `CLAUDE_CODE_GOAL_CHECKIN_MINUTES=<n>` alongside an active `/goal`. See [Slash Commands](01-slash-commands/README.md) |
+| **Usage-Limit Auto-Continue** | Claude Code auto-continues a session when a claude.ai usage limit resets, if it was blocked on that limit (v2.1.234) | Enable via `/config` → "Continue automatically at usage limit". See [Advanced Features](09-advanced-features/) |
+| **`spellcheck` setting** | Underlines misspelled words using aspell, hunspell, or ispell — whichever is available (v2.1.235) | Set `"spellcheck": true` in `settings.json`. See [Advanced Features](09-advanced-features/) |
+| **Agent Teams Default Model** | The "Default teammate model" `/config` setting was removed; teammates now inherit the team lead's model by default unless the spawn call specifies one explicitly (v2.1.234) | See [Subagents — Agent Teams](04-subagents/README.md#agent-teams-experimental) |
 
 ---
 
@@ -553,8 +562,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: August 15, 2026
-**Claude Code Version**: 2.1.233
+**Last Updated**: August 19, 2026
+**Claude Code Version**: 2.1.235
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

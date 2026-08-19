@@ -569,10 +569,10 @@
 ### Q8
 - **Category**: practical
 - **Question**: How do you manage plugin lifecycle (enable/disable/update)?
-- **Options**: A) Edit a config file manually | B) Use `/plugin enable`, `/plugin disable`, `/plugin update plugin-name` | C) Use `claude plugin-manager` | D) Reinstall the plugin
+- **Options**: A) Edit a config file manually | B) Use `/plugin enable`, `/plugin disable`, `claude plugin update <name>` | C) Use `claude plugin-manager` | D) Reinstall the plugin
 - **Correct**: B
-- **Explanation**: Claude Code provides slash commands for full lifecycle management: enable, disable, update, uninstall.
-- **Review**: Installation methods section
+- **Explanation**: `/plugin enable` and `/plugin disable` are real slash commands, but updating an installed plugin is CLI-only — there is no `/plugin update` slash command. Use `claude plugin update <name>` instead.
+- **Review**: Plugin CLI Commands section
 
 ### Q9
 - **Category**: conceptual
@@ -841,3 +841,11 @@
 - **Correct**: B
 - **Explanation**: Use shell for-loops with print mode to process files one at a time. Each invocation is independent and can produce structured output.
 - **Review**: Batch processing section
+
+---
+
+**Last Updated**: August 19, 2026
+**Claude Code Version**: 2.1.235
+**Sources**:
+- https://code.claude.com/docs/en/discover-plugins.md
+- https://code.claude.com/docs/en/plugins-reference.md

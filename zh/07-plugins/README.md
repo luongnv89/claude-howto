@@ -824,7 +824,7 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 
 2. **查看插件详情：**
    ```bash
-   /plugin info plugin-name
+   claude plugin details plugin-name
    ```
 
 3. **安装插件：**
@@ -847,13 +847,17 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 ### 列出已安装插件
 
 ```bash
-/plugin list --installed
+/plugin list             # 所有已安装插件
+/plugin list --enabled   # 仅已启用插件
+/plugin list --disabled  # 仅已禁用插件
 ```
 
 ### 更新插件
 
+更新仅支持 CLI —— 不存在 `/plugin update` 斜杠命令：
+
 ```bash
-/plugin update plugin-name
+claude plugin update plugin-name
 ```
 
 ### 禁用 / 启用插件
@@ -916,7 +920,7 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 - 验证 `plugin.json` 中的路径与实际目录结构一致
 - 检查文件权限：`chmod +x scripts/`
 - 检查组件文件语法
-- 查看日志：`/plugin debug plugin-name`
+- 查看组件清单：`claude plugin details plugin-name`
 
 ### MCP 连接失败
 - 确认环境变量已正确设置
@@ -925,9 +929,9 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 - 查看 `mcp/` 目录中的 MCP 配置
 
 ### 安装后命令不可用
-- 确认插件已成功安装：`/plugin list --installed`
-- 检查插件是否已启用：`/plugin status plugin-name`
-- 重启 Claude Code：`exit` 后重新打开
+- 确认插件已成功安装：`/plugin list`
+- 检查插件是否已启用：`/plugin list --enabled`
+- 确认是否已生效 —— 参见[安装方式](#安装方式)中的安装摘要说明：`Plugin is now active.` 表示无需其他操作，`Run /reload-plugins to activate.` 表示运行该命令即可（无需重启）
 - 检查是否与现有命令冲突
 
 ### Hook 执行问题
@@ -948,8 +952,8 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 
 ---
 
-**最后更新**: 2026 年 8 月 15 日
-**Claude Code 版本**: 2.1.233
+**最后更新**: 2026 年 8 月 19 日
+**Claude Code 版本**: 2.1.235
 **来源**:
 - https://code.claude.com/docs/en/discover-plugins
 - https://code.claude.com/docs/en/settings

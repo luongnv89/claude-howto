@@ -557,10 +557,10 @@ Nếu cả hai tồn tại với cùng tên, **skill sẽ được ưu tiên**. 
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 15 tháng 8 năm 2026
-**Phiên Bản Claude Code**: 2.1.233
+**Cập Nhật Lần Cuối**: Ngày 19 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.235
 **Nguồn**:
 - https://code.claude.com/docs/en/commands
-**Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Phần của series hướng dẫn [Claude How To](../)*

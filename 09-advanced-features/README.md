@@ -1162,6 +1162,10 @@ claude -r "auth-refactor"
 claude --resume auth-refactor --fork-session "alternative approach"
 ```
 
+### Usage-Limit Auto-Continue (v2.1.234)
+
+As of **v2.1.234**, a session blocked on a claude.ai usage limit auto-continues once that limit resets — no manual re-prompt needed. Toggle this from `/config` under "Continue automatically at usage limit."
+
 ### Session Recap (v2.1.108)
 
 When you return to a session after being away, Claude can show a brief recap of what was accomplished. This is enabled by default for users with telemetry disabled (Bedrock, Vertex, Foundry users).
@@ -2385,6 +2389,7 @@ These keys go in `~/.claude/settings.json` (or a project `.claude/settings.json`
 | `enableArtifact` | Per-user enable/disable of the Artifact tool (v2.1.196). |
 | `crossSessionInbound` | (v2.1.224) How inbound [cross-session messages](#cross-session-messaging) are handled — `"accept"`, `"hold"`, or `"refuse"`. Project and local values apply only when *stricter* on the `accept < hold < refuse` ladder. Exposed in `/config` as "Messages from your other sessions" since v2.1.232. |
 | `dialogExpiry` | (v2.1.224) How long an unanswered dialog stays open. Default `"5m"`; accepts `"60s"`, `"5m"`, `"10m"`, or `"never"`. Overridden by `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS`. Exposed in `/config` as "Dialog expiry" since v2.1.232. |
+| `spellcheck` | (v2.1.235) Underlines misspelled words in the prompt input using whichever of `aspell`, `hunspell`, or `ispell` is available on the system. |
 
 ### Fallback Models (`fallbackModel`)
 
@@ -2684,8 +2689,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: August 15, 2026
-**Claude Code Version**: 2.1.233
+**Last Updated**: August 19, 2026
+**Claude Code Version**: 2.1.235
 **Sources**:
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/sandboxing
@@ -2694,4 +2699,5 @@ For more information about Claude Code and related features:
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/permission-modes
+- https://code.claude.com/docs/en/settings.md
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

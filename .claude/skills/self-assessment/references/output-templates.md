@@ -1,6 +1,6 @@
 # Output Templates
 
-Blank markdown templates for the assessment results and learning path. SKILL.md points here to keep the main body lean; the worked example and verification rules stay in SKILL.md.
+Blank markdown templates for the assessment results and learning path. The Step 3A/3B result templates and the Step 4 path-format template are duplicated verbatim in SKILL.md so results can be produced without re-reading this file.
 
 ## Quick Assessment results (Step 3A)
 
@@ -110,3 +110,10 @@ Based on your gaps, try these real-world exercises to solidify your learning:
 2. **[Project name]**: [1-line description]
 3. **[Project name]**: [1-line description]
 ```
+
+---
+
+**Last Updated**: August 19, 2026
+**Claude Code Version**: 2.1.235
+**Sources**:
+- internal consistency fix — no external source

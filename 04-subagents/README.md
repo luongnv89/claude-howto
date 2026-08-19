@@ -21,17 +21,20 @@ Subagents are specialized AI assistants that Claude Code can delegate tasks to. 
 10. [Persistent Memory for Subagents](#persistent-memory-for-subagents)
 11. [Background Subagents](#background-subagents)
 12. [Worktree Isolation](#worktree-isolation)
-13. [Restrict Spawnable Subagents](#restrict-spawnable-subagents)
-14. [`claude agents` CLI Command](#claude-agents-cli-command)
-15. [Agent Teams (Experimental)](#agent-teams-experimental)
-16. [Plugin Subagent Security](#plugin-subagent-security)
-17. [Architecture](#architecture)
-18. [Context Management](#context-management)
-19. [When to Use Subagents](#when-to-use-subagents)
-20. [Best Practices](#best-practices)
-21. [Example Subagents in This Folder](#example-subagents-in-this-folder)
-22. [Installation Instructions](#installation-instructions)
-23. [Related Concepts](#related-concepts)
+13. [Forked Subagents](#forked-subagents)
+14. [Restrict Spawnable Subagents](#restrict-spawnable-subagents)
+15. [`claude agents` CLI Command](#claude-agents-cli-command)
+16. [Agent Teams (Experimental)](#agent-teams-experimental)
+17. [Plugin Subagent Security](#plugin-subagent-security)
+18. [Architecture](#architecture)
+19. [Context Management](#context-management)
+20. [When to Use Subagents](#when-to-use-subagents)
+21. [Best Practices](#best-practices)
+22. [Example Subagents in This Folder](#example-subagents-in-this-folder)
+23. [Installation Instructions](#installation-instructions)
+24. [File Structure](#file-structure)
+25. [Related Concepts](#related-concepts)
+26. [Observability](#observability)
 
 ---
 
@@ -738,6 +741,10 @@ Use `Shift+Down` to navigate between teammates in split-pane mode.
 
 Team configurations are stored at `~/.claude/teams/{team-name}/config.json`.
 
+### Teammate Model Selection
+
+As of v2.1.234, the "Default teammate model" `/config` setting was removed. Teammates now inherit the team lead's model by default, unless the spawn call specifies a different model explicitly.
+
 ### Architecture
 
 ```mermaid
@@ -1306,8 +1313,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: August 15, 2026
-**Claude Code Version**: 2.1.233
+**Last Updated**: August 19, 2026
+**Claude Code Version**: 2.1.235
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

@@ -930,7 +930,7 @@ Complete PR review workflow with security, testing, and documentation checks.
 
 2. **プラグインの詳細を表示：**
    ```bash
-   /plugin info plugin-name
+   claude plugin details plugin-name
    ```
 
 3. **プラグインをインストール：**
@@ -953,13 +953,17 @@ Complete PR review workflow with security, testing, and documentation checks.
 ### インストール済みプラグインの一覧
 
 ```bash
-/plugin list --installed
+/plugin list             # インストール済みの全プラグイン
+/plugin list --enabled   # 有効なプラグインのみ
+/plugin list --disabled  # 無効なプラグインのみ
 ```
 
 ### プラグインの更新
 
+更新は CLI 専用であり、`/plugin update` というスラッシュコマンドは存在しない：
+
 ```bash
-/plugin update plugin-name
+claude plugin update plugin-name
 ```
 
 ### プラグインの無効化 / 有効化
@@ -1022,7 +1026,7 @@ Complete PR review workflow with security, testing, and documentation checks.
 - `plugin.json` のパスが実際のディレクトリ構造と一致するか確認
 - ファイル権限を確認：`chmod +x scripts/`
 - コンポーネントファイルの構文を確認
-- ログを確認：`/plugin debug plugin-name`
+- コンポーネントの一覧を確認：`claude plugin details plugin-name`
 
 ### MCP 接続が失敗する
 - 環境変数が正しく設定されているか確認
@@ -1031,9 +1035,9 @@ Complete PR review workflow with security, testing, and documentation checks.
 - `mcp/` ディレクトリ内の MCP 設定を確認
 
 ### インストール後にコマンドが利用できない
-- プラグインが正しくインストールされているか確認：`/plugin list --installed`
-- プラグインが有効か確認：`/plugin status plugin-name`
-- Claude Code を再起動：`exit` して再度開く
+- プラグインが正しくインストールされているか確認：`/plugin list`
+- プラグインが有効か確認：`/plugin list --enabled`
+- すでに有効化されているか確認 — [インストール方法](#インストール方法)のインストール要約の説明を参照：`Plugin is now active.` なら追加の操作は不要、`Run /reload-plugins to activate.` ならそのコマンドを実行する（再起動は不要）
 - 既存のコマンドと名前が衝突していないか確認
 
 ### フック実行の問題
@@ -1054,8 +1058,8 @@ Complete PR review workflow with security, testing, and documentation checks.
 
 ---
 
-**最終更新**: 2026 年 8 月 15 日
-**Claude Code バージョン**: 2.1.233
+**最終更新**: 2026 年 8 月 19 日
+**Claude Code バージョン**: 2.1.235
 **出典**:
 - https://code.claude.com/docs/en/discover-plugins
 - https://code.claude.com/docs/en/settings

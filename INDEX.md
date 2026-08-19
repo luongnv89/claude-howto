@@ -13,7 +13,7 @@ This document provides a complete index of all example files organized by featur
 - **Categories**: 10 feature categories
 - **Plugins**: 3 complete plugins
 - **Skills**: 6 complete skills
-- **Hooks**: 8 example hooks
+- **Hooks**: 11 example hooks
 - **Ready to Use**: All examples
 
 ---
@@ -888,8 +888,8 @@ Want to add more examples? Follow the structure:
 
 ---
 
-**Last Updated**: August 15, 2026
-**Claude Code Version**: 2.1.233
+**Last Updated**: August 19, 2026
+**Claude Code Version**: 2.1.235
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
