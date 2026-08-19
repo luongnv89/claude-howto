@@ -571,7 +571,7 @@
 - **Question**: How do you manage plugin lifecycle (enable/disable/update)?
 - **Options**: A) Edit a config file manually | B) Use `/plugin enable`, `/plugin disable`, `claude plugin update <name>` | C) Use `claude plugin-manager` | D) Reinstall the plugin
 - **Correct**: B
-- **Explanation**: `/plugin enable` and `/plugin disable` are real slash commands, but updating an installed plugin is CLI-only — there is no `/plugin update` slash command. Use `claude plugin update <name>` instead.
+- **Explanation**: `/plugin enable` and `/plugin disable` are real slash commands. For updating an installed plugin, `claude plugin update <name>` is the form documented in the plugins reference, and the one Claude Code points you to when an update is available.
 - **Review**: Plugin CLI Commands section
 
 ### Q9

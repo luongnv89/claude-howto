@@ -960,7 +960,7 @@ Complete PR review workflow with security, testing, and documentation checks.
 
 ### プラグインの更新
 
-更新は CLI 専用であり、`/plugin update` というスラッシュコマンドは存在しない：
+更新には CLI 形式を使う。これは [`plugin update`](https://code.claude.com/docs/en/plugins-reference) として文書化されている形式であり、更新がある場合に Claude Code 自身が案内する形式でもある：
 
 ```bash
 claude plugin update plugin-name

@@ -1128,7 +1128,7 @@ Complete PR review workflow with security, testing, and documentation checks.
 
 ### Updating a Plugin
 
-Updating is CLI-only — there is no `/plugin update` slash command:
+Use the CLI form — it is the one documented under [`plugin update`](https://code.claude.com/docs/en/plugins-reference) and the one Claude Code itself points you to when an update is available:
 
 ```bash
 claude plugin update plugin-name

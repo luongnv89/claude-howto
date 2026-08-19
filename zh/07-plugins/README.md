@@ -854,7 +854,7 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 
 ### 更新插件
 
-更新仅支持 CLI —— 不存在 `/plugin update` 斜杠命令：
+使用 CLI 形式 —— 这是 [`plugin update`](https://code.claude.com/docs/en/plugins-reference) 中记录的形式，也是有可用更新时 Claude Code 自身提示你使用的形式：
 
 ```bash
 claude plugin update plugin-name

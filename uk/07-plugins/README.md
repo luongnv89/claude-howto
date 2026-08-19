@@ -872,7 +872,7 @@ Complete PR review workflow with security, testing, and documentation checks.
 
 ### Оновлення плагіна
 
-Оновлення виконується лише через CLI — слеш-команди `/plugin update` не існує:
+Використовуйте форму CLI — саме її задокументовано в розділі [`plugin update`](https://code.claude.com/docs/en/plugins-reference) і саме її пропонує сам Claude Code, коли з'являється оновлення:
 
 ```bash
 claude plugin update plugin-name

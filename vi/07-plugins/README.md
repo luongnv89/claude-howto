@@ -867,7 +867,7 @@ Workflow PR review hoàn chỉnh với các kiểm tra bảo mật, testing, và
 
 ### Cập Nhật Một Plugin
 
-Việc cập nhật chỉ thực hiện qua CLI — không có lệnh slash `/plugin update`:
+Dùng dạng CLI — đây là dạng được ghi trong tài liệu tại [`plugin update`](https://code.claude.com/docs/en/plugins-reference) và cũng là dạng mà chính Claude Code hướng dẫn bạn khi có bản cập nhật:
 
 ```bash
 claude plugin update plugin-name
