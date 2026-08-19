@@ -404,7 +404,7 @@ Event-driven automation that executes shell commands on Claude Code events.
     "PreToolUse": [
       {
         "matcher": "Bash",
-        "command": "~/.claude/hooks/validate-bash.py"
+        "command": "~/.claude/hooks/pre-tool-check.sh"
       }
     ],
     "PostToolUse": [
@@ -501,7 +501,7 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **`CLAUDE_CODE_PROJECT_DIR_NAME`** | Env var controlling per-project transcript directory naming (v2.1.234) | Set in your shell/env before launching Claude Code. See [CLI](10-cli/README.md) |
 | **Goal Check-In Threshold** | While a `/goal` is active, Claude checks in with a status update if a background task makes no progress for 30+ minutes, instead of continuing silently; tune with `CLAUDE_CODE_GOAL_CHECKIN_MINUTES`, or set to `0` to disable (v2.1.234) | Set `CLAUDE_CODE_GOAL_CHECKIN_MINUTES=<n>` alongside an active `/goal`. See [Slash Commands](01-slash-commands/README.md) |
 | **Usage-Limit Auto-Continue** | Claude Code auto-continues a session when a claude.ai usage limit resets, if it was blocked on that limit (v2.1.234) | On by default; turn it off in `/config` → "Continue automatically at usage limit". See [Advanced Features](09-advanced-features/) |
-| **`spellcheck` setting** | Underlines misspelled words using aspell, hunspell, or ispell — whichever is available (v2.1.235) | Set `"spellcheck": true` in `settings.json`. See [Advanced Features](09-advanced-features/) |
+| **`spellcheck` setting** | Underlines misspelled words in the prompt input using whichever of aspell, hunspell, or ispell is on your `PATH`; off by default (v2.1.235) | Install a checker, then set `"spellcheck": { "enabled": true }` in `~/.claude/settings.json`. User, `--settings`, and managed settings only — ignored in project settings. See [Advanced Features](09-advanced-features/) |
 | **Agent Teams Default Model** | The "Default teammate model" `/config` setting was removed; teammates now inherit the team lead's model by default unless the spawn call specifies one explicitly (v2.1.234) | See [Subagents — Agent Teams](04-subagents/README.md#agent-teams-experimental) |
 
 ---
