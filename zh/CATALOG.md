@@ -140,10 +140,10 @@ Claude Code 提供 6 种权限模式，用来控制工具调用如何被授权�
 |-------|-------------|-------|-------|-------------|
 | **general-purpose** | 多步任务、研究 | 所有工具 | 继承当前模型 | 复杂研究、多文件任务 |
 | **Plan** | 实现规划 | Read、Glob、Grep、Bash | 继承当前模型 | 架构设计、规划 |
-| **Explore** | 代码库探索 | Read、Glob、Grep | Haiku 4.5 | 快速搜索、理解代码 |
-| **Bash** | 命令执行 | Bash | 继承当前模型 | git 操作、终端任务 |
+| **Explore** | 代码库探索 | Read、Glob、Grep | 继承（上限为 Opus） | 快速搜索、理解代码 |
+| **claude** | 不适合更专门 agent 的任务的通用兜底 agent | 所有工具 | 继承当前模型 | 没有专门 agent 的任务；被调度的后台会话的默认 agent |
 | **statusline-setup** | 状态栏配置 | Bash、Read、Write | Sonnet 4.6 | 配置状态栏显示 |
-| **Claude Code Guide** | 帮助与文档 | Read、Glob、Grep | Haiku 4.5 | 获取帮助、学习功能 |
+| **claude-code-guide** | 帮助与文档 | Read、Glob、Grep | Haiku 4.5 | 获取帮助、学习功能 |
 
 ### Subagent 配置字段
 

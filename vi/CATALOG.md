@@ -141,10 +141,10 @@ Các trợ lý AI chuyên biệt với context bị cô lập cho các tasks c�
 |-------|-------------|-------|-------|-------------|
 | **general-purpose** | Tasks đa bước, nghiên cứu | All tools | Kế thừa model | Nghiên cứu phức tạp, tasks đa file |
 | **Plan** | Lập kế hoạch triển khai | Read, Glob, Grep, Bash | Kế thừa model | Thiết kế kiến trúc, lập kế hoạch |
-| **Explore** | Khám phá codebase | Read, Glob, Grep | Haiku 4.5 | Tìm kiếm nhanh, hiểu code |
-| **Bash** | Thực thi command | Bash | Kế thừa model | Operations Git, tasks terminal |
+| **Explore** | Khám phá codebase | Read, Glob, Grep | Kế thừa (giới hạn ở Opus) | Tìm kiếm nhanh, hiểu code |
+| **claude** | Tác nhân dự phòng cho các tác vụ không khớp tác nhân chuyên biệt nào | All tools | Kế thừa model | Tác vụ không có tác nhân chuyên biệt; tác nhân mặc định cho phiên nền được điều phối |
 | **statusline-setup** | Cấu hình status line | Bash, Read, Write | Sonnet 4.6 | Cấu hình hiển thị status line |
-| **Claude Code Guide** | Trợ giúp và tài liệu | Read, Glob, Grep | Haiku 4.5 | Nhận trợ giúp, học tính năng |
+| **claude-code-guide** | Trợ giúp và tài liệu | Read, Glob, Grep | Haiku 4.5 | Nhận trợ giúp, học tính năng |
 
 ### Subagent Configuration Fields
 
