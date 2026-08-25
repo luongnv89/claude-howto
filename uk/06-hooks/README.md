@@ -59,7 +59,7 @@
 |------|------|---------|
 | `matcher` | Шаблон для відповідності назвам інструментів (чутливий до регістру) | `"Write"`, `"Edit\|Write"`, `"*"` |
 | `hooks` | Масив визначень хуків | `[{ "type": "command", ... }]` |
-| `type` | Тип хука: `"command"` (bash), `"prompt"` (LLM), `"http"` (вебхук) або `"agent"` (субагент) | `"command"` |
+| `type` | Тип хука: `"command"` (bash), `"prompt"` (LLM), `"http"` (вебхук), `"mcp_tool"` (виклик MCP-інструмента, v2.1.118+) або `"agent"` (субагент) | `"command"` |
 | `command` | Shell-команда для виконання | `"$CLAUDE_PROJECT_DIR/.claude/hooks/format.sh"` |
 | `timeout` | Необовʼязковий таймаут у секундах. За замовчуванням: 600 для command/http/mcp_tool, 30 для prompt, 60 для agent. | `30` |
 | `once` | Якщо `true`, хук запускається лише один раз за сесію | `true` |

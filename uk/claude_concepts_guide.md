@@ -3104,15 +3104,13 @@ User: \
     "enabled": true,
     "showThinkingProcess": true
   },
-  "backgroundTasks": {
-    "enabled": true,
-    "maxConcurrentTasks": 5
-  },
   "permissions": {
     "defaultMode": "manual"
   }
 }
 ```
+
+Немає блоку `settings.json` для фонових завдань — функція керується змінною середовища `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS`, а паралельність — `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (за замовчуванням `20`).
 
 **Дивіться**: [09-advanced-features/](09-advanced-features/) для повного посібника
 

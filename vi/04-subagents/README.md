@@ -122,7 +122,7 @@ của tác nhân con để giải quyết vấn đề.
 | `tools` | Không | Danh sách phân tách bằng dấu phẩy của các công cụ cụ thể. Bỏ qua để kế thừa tất cả công cụ. Hỗ trợ cú pháp `Agent(agent_name)` để hạn chế tác nhân con có thể tạo |
 | `disallowedTools` | Không | Danh sách phân tách bằng dấu phẩy của các công cụ mà tác nhân con không được sử dụng |
 | `model` | Không | Mô hình để sử dụng: `sonnet`, `opus`, `haiku`, ID mô hình đầy đủ, hoặc `inherit`. Mặc định là mô hình tác nhân con được cấu hình |
-| `permissionMode` | Không | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto` |
+| `permissionMode` | Không | `manual` (đổi tên từ `default` ở v2.1.200 — tên cũ `default` vẫn được chấp nhận), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto` |
 | `maxTurns` | Không | Số lượng lượt tác nhân tối đa mà tác nhân con có thể thực hiện |
 | `skills` | Không | Danh sách phân tách bằng dấu phẩy của các skills để tải trước. Tiêm toàn bộ nội dung skill vào bối cảnh của tác nhân con khi khởi động |
 | `mcpServers` | Không | MCP servers để cung cấp cho tác nhân con |
@@ -209,7 +209,7 @@ Claude Code bao gồm một số tác nhân con được tích hợp sẵn luôn
 |-------|-------|---------|
 | **general-purpose** | Kế thừa | Tác vụ đa bước phức tạp |
 | **Plan** | Kế thừa | Nghiên cứu cho chế độ lập kế hoạch |
-| **Explore** | Haiku | Khám phá codebase chỉ đọc (nhanh/trung bình/rất kỹ) |
+| **Explore** | Kế thừa (giới hạn ở Opus) | Khám phá codebase chỉ đọc (nhanh/trung bình/rất kỹ) |
 | **claude** | Kế thừa | Tác nhân dự phòng cho các tác vụ không khớp tác nhân chuyên biệt nào; có mọi công cụ khả dụng cho subagent. Cũng là tác nhân mặc định cho phiên nền được điều phối |
 | **statusline-setup** | Sonnet | Chạy khi bạn dùng `/statusline` để cấu hình dòng trạng thái |
 | **claude-code-guide** | Haiku | Trả lời câu hỏi về tính năng Claude Code |

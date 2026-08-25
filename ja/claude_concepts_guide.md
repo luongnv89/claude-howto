@@ -3108,15 +3108,13 @@ User: \
     "enabled": true,
     "showThinkingProcess": true
   },
-  "backgroundTasks": {
-    "enabled": true,
-    "maxConcurrentTasks": 5
-  },
   "permissions": {
     "defaultMode": "default"
   }
 }
 ```
+
+`settings.json` にバックグラウンドタスク用のブロックは存在しない。この機能は環境変数 `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS` で制御し、同時実行数は `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`（デフォルトは `20`）で決まる。
 
 **詳細ガイド：** [09-advanced-features/](09-advanced-features/)
 

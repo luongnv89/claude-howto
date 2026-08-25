@@ -114,7 +114,7 @@
 ### Останні зміни
 
 - `/fork` перейменовано на `/branch`, `/fork` залишено як аліас (v2.1.77)
-- `/output-style` застаріла (v2.1.73) і видалена (v2.1.91) — стилі виводу все ще доступні через `/config` → Output style або налаштування `outputStyle`; вбудовані: Default, Proactive, Explanatory, Learning
+- `/output-style` застаріла (v2.1.73) і видалена (v2.1.91) — стилі виводу все ще доступні через `/config` → Output style або налаштування `outputStyle`; вбудовані: Default, Proactive, Explanatory, Learning, Concise (додано у v2.1.237)
 - `/review` став повним псевдонімом `/code-review` — ті самі цілі, рівні зусиль і прапорці (v2.1.223). Історія: спершу він перейшов на рушій `/code-review medium` у v2.1.186, залишаючись доступним лише для PR
 - Додано команду `/effort` з рівнем `max` для Opus 4.6
 - Додано команду `/voice` для голосового вводу push-to-talk

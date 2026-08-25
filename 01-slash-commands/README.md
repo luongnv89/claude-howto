@@ -133,7 +133,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 
 - `/fork` and `/subtask` swapped roles in **v2.1.212**. `/fork` now copies the conversation into a new independent background session; the forked-subagent behavior it used to have moved to the new `/subtask` command. History: `/fork` was an alias for `/branch` from v2.1.77 to v2.1.161; from v2.1.161 to v2.1.211 it started a forked subagent (what `/subtask` does now). When agent view is turned off, `/subtask` is unavailable and `/fork` keeps the forked-subagent behavior
 - `/resume` (no arguments) opens a picker of past sessions — including ones removed from the visible list — and resumes the chosen one as a background session (v2.1.212)
-- `/output-style` deprecated (v2.1.73) and removed (v2.1.91) — output styles are still available via `/config` → Output style or the `outputStyle` setting; the built-ins are Default, Proactive, Explanatory, and Learning
+- `/output-style` deprecated (v2.1.73) and removed (v2.1.91) — output styles are still available via `/config` → Output style or the `outputStyle` setting; the built-ins are Default, Proactive, Explanatory, Learning, and Concise (added in v2.1.237)
 - `/review` became a full alias of `/code-review` — same targets, effort levels, and flags (v2.1.223). History: it first moved onto the `/code-review medium` engine in v2.1.186 while remaining PR-only
 - `/effort` command added; `max` level available on Opus 4.6+ (originally Opus 4.6-only)
 - `/voice` command added for push-to-talk voice dictation

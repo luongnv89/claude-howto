@@ -573,17 +573,14 @@ Claude: [Shows linter output from bg-5002]
 
 ### Конфігурація
 
-```json
-{
-  "backgroundTasks": {
-    "enabled": true,
-    "maxConcurrentTasks": 5,
-    "notifyOnCompletion": true,
-    "autoCleanup": true,
-    "logOutput": true
-  }
-}
+Немає блоку `settings.json` для фонових завдань. Функція керується змінною середовища:
+
+```bash
+# Повністю вимкнути фонові завдання
+export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=true
 ```
+
+Паралельність теж не є налаштуванням фонових завдань — кількість одночасно запущених агентів визначає `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (за замовчуванням `20`).
 
 ---
 

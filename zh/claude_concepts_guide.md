@@ -1512,15 +1512,13 @@ claude -r "Feature"
     "autoEnter": true,
     "requireApproval": true
   },
-  "backgroundTasks": {
-    "enabled": true,
-    "maxConcurrentTasks": 5
-  },
   "permissions": {
     "defaultMode": "manual"
   }
 }
 ```
+
+`settings.json` 中没有后台任务配置块 —— 该功能由环境变量 `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS` 控制，并发数由 `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`（默认 `20`）决定。
 
 **详见：** [09-advanced-features/README.md](09-advanced-features/README.md)
 

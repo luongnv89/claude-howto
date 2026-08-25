@@ -152,10 +152,10 @@ Specialized AI assistants with isolated contexts for specific tasks.
 |-------|-------------|-------|-------|-------------|
 | **general-purpose** | Multi-step tasks, research | All tools | Inherits model | Complex research, multi-file tasks |
 | **Plan** | Implementation planning | Read, Glob, Grep, Bash | Inherits model | Architecture design, planning |
-| **Explore** | Codebase exploration | Read, Glob, Grep | Haiku 4.5 | Quick searches, understanding code |
-| **Bash** | Command execution | Bash | Inherits model | Git operations, terminal tasks |
+| **Explore** | Codebase exploration | Read, Glob, Grep | Inherits (capped at Opus) | Quick searches, understanding code |
+| **claude** | Catch-all for tasks that don't fit a more specialized agent | All tools | Inherits model | Tasks with no specialized agent; default agent for a dispatched background session |
 | **statusline-setup** | Status line configuration | Bash, Read, Write | Sonnet 4.6 | Configure status line display |
-| **Claude Code Guide** | Help and documentation | Read, Glob, Grep | Haiku 4.5 | Getting help, learning features |
+| **claude-code-guide** | Help and documentation | Read, Glob, Grep | Haiku 4.5 | Getting help, learning features |
 
 ### Subagent Configuration Fields
 

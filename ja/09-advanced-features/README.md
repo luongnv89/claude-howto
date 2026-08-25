@@ -612,17 +612,14 @@ Claude: [Shows linter output from bg-5002]
 
 ### 設定
 
-```json
-{
-  "backgroundTasks": {
-    "enabled": true,
-    "maxConcurrentTasks": 5,
-    "notifyOnCompletion": true,
-    "autoCleanup": true,
-    "logOutput": true
-  }
-}
+`settings.json` にバックグラウンドタスク用のブロックは存在しない。この機能は環境変数で制御する：
+
+```bash
+# バックグラウンドタスクを完全に無効化する
+export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=true
 ```
+
+同時実行数もバックグラウンドタスクの設定ではない。同時に実行されるエージェント数は `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`（デフォルトは `20`）で決まる。
 
 ---
 

@@ -571,17 +571,14 @@ Claude: [Shows linter output from bg-5002]
 
 ### Configuration
 
-```json
-{
-  "backgroundTasks": {
-    "enabled": true,
-    "maxConcurrentTasks": 5,
-    "notifyOnCompletion": true,
-    "autoCleanup": true,
-    "logOutput": true
-  }
-}
+There is no `settings.json` block for background tasks. The feature is controlled by an environment variable:
+
+```bash
+# Turn background tasks off entirely
+export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=true
 ```
+
+Concurrency is not a background-task setting either — how many agents run at once is governed by `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (default `20`).
 
 ---
 

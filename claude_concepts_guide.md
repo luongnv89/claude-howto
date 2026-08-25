@@ -1433,15 +1433,13 @@ Complete configuration example:
     "enabled": true,
     "showThinkingProcess": true
   },
-  "backgroundTasks": {
-    "enabled": true,
-    "maxConcurrentTasks": 5
-  },
   "permissions": {
     "defaultMode": "manual"
   }
 }
 ```
+
+There is no `settings.json` block for background tasks — the feature is controlled by the `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS` environment variable, and concurrency by `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (default `20`).
 
 **See**: [09-advanced-features/](09-advanced-features/) for comprehensive guide
 

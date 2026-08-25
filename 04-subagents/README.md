@@ -130,7 +130,7 @@ to solving problems.
 | `tools` | No | Comma-separated list of specific tools. Omit to inherit all tools. Supports `Agent(agent_name)` syntax to restrict spawnable subagents |
 | `disallowedTools` | No | Comma-separated list of tools the subagent must not use |
 | `model` | No | Model to use: `sonnet`, `opus`, `haiku`, full model ID, or `inherit`. Defaults to configured subagent model |
-| `permissionMode` | No | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. As of v2.1.212, the Task tool's `mode` invocation parameter is deprecated and ignored — subagents inherit the parent session's permission mode by default unless overridden here |
+| `permissionMode` | No | `manual` (renamed from `default` in v2.1.200 — `default` is still accepted as the older name), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. As of v2.1.212, the Task tool's `mode` invocation parameter is deprecated and ignored — subagents inherit the parent session's permission mode by default unless overridden here |
 | `maxTurns` | No | Maximum number of agentic turns the subagent can take |
 | `skills` | No | Comma-separated list of skills to preload. Injects full skill content into the subagent's context at startup. **v2.1.133+:** subagents also discover project, user, and plugin skills via the Skill tool — same catalog as the main session, no longer limited to their own embedded set. |
 | `mcpServers` | No | MCP servers to make available to the subagent |

@@ -110,7 +110,7 @@ Những skills này được gửi kèm với Claude Code và được gọi nh�
 ### Thay Đổi Gần Đây
 
 - `/fork` và `/subtask` hoán đổi vai trò trong **v2.1.212**. `/fork` giờ sao chép cuộc hội thoại thành một phiên nền độc lập mới; hành vi subagent-được-fork mà nó từng có đã chuyển sang lệnh mới `/subtask`. Lịch sử: `/fork` là bí danh của `/branch` từ v2.1.77 đến v2.1.161; từ v2.1.161 đến v2.1.211 nó khởi chạy một subagent được fork (việc mà `/subtask` làm bây giờ). Khi tắt agent view, `/subtask` không khả dụng và `/fork` giữ hành vi subagent-được-fork
-- `/output-style` đã lỗi thời (v2.1.73) và bị xóa (v2.1.91) — output styles vẫn có sẵn qua `/config` → Output style hoặc setting `outputStyle`; các bản tích hợp sẵn là Default, Proactive, Explanatory, và Learning
+- `/output-style` đã lỗi thời (v2.1.73) và bị xóa (v2.1.91) — output styles vẫn có sẵn qua `/config` → Output style hoặc setting `outputStyle`; các bản tích hợp sẵn là Default, Proactive, Explanatory, Learning, và Concise (thêm ở v2.1.237)
 - `/review` trở thành bí danh đầy đủ của `/code-review` — cùng target, mức effort và flags (v2.1.223). Lịch sử: ban đầu nó chuyển sang engine `/code-review medium` trong v2.1.186 nhưng vẫn chỉ dùng cho PR
 - Lệnh `/effort` được thêm với mức `max` yêu cầu Opus 4.6
 - Lệnh `/voice` được thêm cho nhập liệu giọng nói push-to-talk

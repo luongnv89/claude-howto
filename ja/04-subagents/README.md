@@ -125,7 +125,7 @@ hooks:  # オプション — コンポーネントスコープのフック
 | `tools` | いいえ | 特定ツールのカンマ区切りリスト。省略するとすべてのツールを継承。`Agent(agent_name)` 構文で生成可能なサブエージェントを制限できる |
 | `disallowedTools` | いいえ | サブエージェントが使用してはならないツールのカンマ区切りリスト |
 | `model` | いいえ | 使用モデル：`sonnet`、`opus`、`haiku`、フルモデル ID、または `inherit`。デフォルトは設定済みのサブエージェントモデル |
-| `permissionMode` | いいえ | `default`、`acceptEdits`、`dontAsk`、`bypassPermissions`、`plan`、`auto` |
+| `permissionMode` | いいえ | `manual`（v2.1.200 で `default` から改名 — 旧名の `default` も引き続き有効）、`acceptEdits`、`dontAsk`、`bypassPermissions`、`plan`、`auto` |
 | `maxTurns` | いいえ | サブエージェントが取れるエージェント的ターンの最大数 |
 | `skills` | いいえ | プリロードするスキルのカンマ区切りリスト。起動時にスキルの全内容をサブエージェントのコンテキストに注入する |
 | `mcpServers` | いいえ | サブエージェントから利用可能にする MCP サーバー |
@@ -256,7 +256,7 @@ Claude Code には常に利用可能な組み込みサブエージェントが�
 |-------------|-------|------|
 | **general-purpose** | 継承 | 複雑な多段タスク |
 | **Plan** | 継承 | プランモードのリサーチ |
-| **Explore** | Haiku | 読み取り専用のコードベース探索（quick/medium/very thorough） |
+| **Explore** | 継承（上限は Opus） | 読み取り専用のコードベース探索（quick/medium/very thorough） |
 | **claude** | 継承 | より専門的なエージェントに当てはまらないタスク向けの汎用エージェント。サブエージェントが利用できるすべてのツールを持つ。ディスパッチされたバックグラウンドセッションのデフォルトエージェントでもある |
 | **statusline-setup** | Sonnet | `/statusline` でステータスラインを設定するときに実行される |
 | **claude-code-guide** | Haiku | Claude Code の機能に関する質問への回答 |
