@@ -948,7 +948,7 @@ Claude Code supports keyboard shortcuts for efficiency. Here's the complete refe
 | `Ctrl+C` | Cancel current input/generation |
 | `Ctrl+D` | Exit Claude Code |
 | `Ctrl+G` | Edit plan in external editor |
-| `Ctrl+L` | Clear terminal screen |
+| `Ctrl+L` | Vẽ lại màn hình (chỉ repaint — phím tắt nhấn đúp để `/clear` đã bị gỡ ở v2.1.238) |
 | `Ctrl+O` | Toggle verbose output (view reasoning) |
 | `Ctrl+R` | Reverse search history |
 | `Ctrl+T` | Toggle task list view |
@@ -1428,7 +1428,7 @@ Connect external services for richer context:
 
 ### Permission modes in Desktop
 
-The Desktop App supports the same 4 permission modes as the CLI:
+The Desktop App supports the same permission modes as the CLI:
 
 | Mode | Behavior |
 |------|----------|
@@ -1873,6 +1873,6 @@ For more information about Claude Code and related features:
 
 ---
 
-**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
-**Phiên Bản Claude Code**: 2.1+
+**Cập Nhật Lần Cuối**: Ngày 25 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.245
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

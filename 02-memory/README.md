@@ -683,7 +683,9 @@ Claude will load CLAUDE.md from the specified additional directory alongside the
 ````markdown
 # API Module Standards
 
-This file overrides root CLAUDE.md for everything in /src/api/
+This file supplements root CLAUDE.md for everything in /src/api/. Memory files are
+concatenated, not overridden — the root CLAUDE.md still applies, and Claude Code
+loads this file on demand when it reads files in this subtree.
 
 ## API-Specific Standards
 
@@ -1113,7 +1115,9 @@ If you prefer manual setup:
    cat > /path/to/directory/CLAUDE.md << 'EOF'
    # [Directory Name] Standards
 
-   This file overrides root CLAUDE.md for this directory.
+   This file supplements root CLAUDE.md for this directory. Memory files are
+   concatenated, not overridden — Claude Code loads this file on demand when it
+   reads files in this directory.
 
    ## [Specific Standards]
    EOF
@@ -1189,8 +1193,8 @@ Auto Memory is a separate mechanism (`~/.claude/projects/<project>/memory/`), no
 
 ---
 
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/memory
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

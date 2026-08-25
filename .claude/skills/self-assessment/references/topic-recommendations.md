@@ -19,8 +19,8 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - Done when: Claude remembers your preferences across sessions
 
 **Memory (score 1 — review)**:
-- Focus on: 7-level hierarchy and priority order, .claude/rules/ directory with path-specific rules, `@import` syntax (max depth 5), Auto Memory MEMORY.md (200-line limit)
-- Done when: You have modular rules for different directories and understand the full hierarchy
+- Focus on: the 7 memory locations and how they are concatenated into context (loaded root-down, not overridden), .claude/rules/ directory with path-specific rules, `@import` syntax (max depth 4), Auto Memory MEMORY.md (Claude loads its first 200 lines or 25 KB, whichever comes first — a load cap, not a file-size limit)
+- Done when: You have modular rules for different directories and understand how every memory file is concatenated into context
 
 **Skills (score 0)**:
 - Tutorial: [03-skills/](../../../../03-skills/)
@@ -29,7 +29,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - Done when: A skill automatically activates based on conversation context
 
 **Skills (score 1 — review)**:
-- Focus on: `context: fork` with `agent` field for subagent execution, `disable-model-invocation` vs `user-invocable`, 2% context budget, bundled resources (scripts/, references/, assets/)
+- Focus on: `context: fork` with `agent` field for subagent execution, `disable-model-invocation` vs `user-invocable`, the skill-listing budget (1% of the context window, fallback 8,000 characters, 250 characters per entry), bundled resources (scripts/, references/, assets/)
 - Done when: You can create a skill that runs in a subagent with forked context
 
 **Hooks (score 0)**:
@@ -39,38 +39,38 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - Done when: A hook blocks dangerous commands before execution
 
 **Hooks (score 1 — review)**:
-- Focus on: All 25 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult), 4 hook types (command, http, prompt, agent), component-scoped hooks in SKILL.md frontmatter, HTTP hooks with allowedEnvVars, `CLAUDE_ENV_FILE` for SessionStart/CwdChanged/FileChanged
+- Focus on: All 31 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult, Setup, UserPromptExpansion, MessageDisplay), 5 hook types (command, http, mcp_tool, prompt, agent — agent hooks are experimental and may change), component-scoped hooks in SKILL.md frontmatter, HTTP hooks with allowedEnvVars, `CLAUDE_ENV_FILE` for SessionStart/CwdChanged/FileChanged
 - Done when: You can create a prompt-based Stop hook and a component-scoped hook in a skill
 
 **MCP (score 0)**:
 - Tutorial: [05-mcp/](../../../../05-mcp/)
-- Focus on: `claude mcp add` command, transport types (HTTP recommended), GitHub MCP setup, environment variable expansion
+- Focus on: `claude mcp add` command, transport types (`http` recommended, `stdio`, `ws` for push-style servers, and the deprecated `sse` — note `--transport` does not accept `ws`, so add WebSocket servers with `claude mcp add-json`), GitHub MCP setup, environment variable expansion
 - Key exercise: Add GitHub MCP server and query PRs
 - Done when: You can query live data from an external service via MCP
 
 **MCP (score 1 — review)**:
-- Focus on: Project-scope .mcp.json (requires team approval), OAuth 2.0 auth, MCP resources with `@server:resource` mentions, Tool Search (ENABLE_TOOL_SEARCH), `claude mcp serve`, output limits (10k/25k/50k)
+- Focus on: Project-scope .mcp.json (requires team approval), OAuth 2.0 auth, MCP resources with `@server:resource` mentions, Tool Search (ENABLE_TOOL_SEARCH), `claude mcp serve`, output limits (10,000 tokens warning; 25,000 tokens default max via `MAX_MCP_OUTPUT_TOKENS`; 50,000 characters disk-persistence threshold)
 - Done when: You have a project .mcp.json and understand Tool Search auto mode
 
 **Subagents (score 0)**:
 - Tutorial: [04-subagents/](../../../../04-subagents/)
-- Focus on: Agent file format (.claude/agents/*.md), built-in agents (general-purpose, Plan, Explore), tools/model/permissionMode config
+- Focus on: Agent file format (.claude/agents/*.md), built-in agents (Explore, Plan, general-purpose, claude, statusline-setup, claude-code-guide), tools/model/permissionMode config, spawn limits (depth default 3 since v2.1.219, concurrency default 20, and the 200-per-session spawn cap removed in v2.1.224)
 - Key exercise: Create a code-reviewer subagent and test delegation
 - Done when: Claude delegates code review to your custom agent
 
 **Subagents (score 1 — review)**:
-- Focus on: Worktree isolation (`isolation: worktree`), persistent agent memory (`memory` field with scopes), background agents (Ctrl+B/Ctrl+F), agent allowlists with `Task(agent_name)`, agent teams (`--teammate-mode`)
+- Focus on: Worktree isolation (`isolation: worktree`), persistent agent memory (`memory` field with scopes), background agents (Ctrl+B/Ctrl+F), agent allowlists with `Agent(agent_type)` (`Task(...)` remains a back-compat alias), agent teams (`--teammate-mode`)
 - Done when: You have a subagent with persistent memory running in worktree isolation
 
 **Checkpoints (score 0)**:
 - Tutorial: [08-checkpoints/](../../../../08-checkpoints/)
-- Focus on: Esc+Esc and /rewind access, 5 rewind options (restore code+conversation, restore conversation, restore code, summarize, cancel), limitations (bash filesystem ops not tracked)
+- Focus on: Esc+Esc and /rewind access, 6 rewind options (restore code and conversation, restore conversation, restore code, summarize from here, summarize up to here, never mind), limitations (bash filesystem ops not tracked)
 - Key exercise: Make experimental changes, then rewind to restore
 - Done when: You can confidently experiment knowing you can rewind
 
 **Advanced Features (score 0)**:
 - Tutorial: [09-advanced-features/](../../../../09-advanced-features/)
-- Focus on: Planning mode (/plan or Shift+Tab), permission modes (5 types), extended thinking (Alt+T toggle)
+- Focus on: Planning mode (/plan or Shift+Tab), permission modes (6 types: manual — renamed from default in v2.1.200 — acceptEdits, plan, auto, dontAsk, bypassPermissions), extended thinking (Alt+T toggle)
 - Key exercise: Use planning mode to design a feature, then implement it
 - Done when: You can switch between planning and implementation modes fluently
 
@@ -80,7 +80,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 
 **Plugins (score 0)**:
 - Tutorial: [07-plugins/](../../../../07-plugins/)
-- Focus on: Plugin structure (.claude-plugin/plugin.json), what plugins bundle (commands, agents, MCP, hooks, settings), installation from marketplace
+- Focus on: Plugin structure (.claude-plugin/plugin.json), what plugins bundle (skills, agents, MCP, hooks, settings — plus the legacy `commands/` directory, which still works but `skills/` is preferred for new plugins), installation from marketplace
 - Key exercise: Install a plugin and explore its components
 - Done when: You understand when to use a plugin vs standalone components
 
@@ -97,3 +97,17 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 **CLI (score 1 — review)**:
 - Focus on: --agents flag with JSON config, --json-schema for structured output, --fallback-model, --from-pr, --strict-mcp-config, batch processing with for loops, `claude mcp serve`
 - Done when: You have a CI/CD script that uses Claude with structured JSON output
+
+---
+
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
+**Sources**:
+- https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/memory
+- https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/mcp
+- https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/checkpointing
+- https://code.claude.com/docs/en/permission-modes
+- https://code.claude.com/docs/en/plugins-reference

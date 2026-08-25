@@ -42,7 +42,7 @@ You checked **N/8** items.
 
 ### Overall Level: [Level 1 / Level 2 / Level 3]
 
-**Total Score: N/20 points**
+**Total Score: N/19 points**
 
 [One-line motivational summary]
 
@@ -113,7 +113,7 @@ Based on your gaps, try these real-world exercises to solidify your learning:
 
 ---
 
-**Last Updated**: August 19, 2026
-**Claude Code Version**: 2.1.235
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
-- internal consistency fix — no external source
+- https://code.claude.com/docs/en/overview

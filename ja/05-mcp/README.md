@@ -109,6 +109,28 @@ Server-Sent Events トランスポートは `http` の登場により非推奨�
 claude mcp add --transport sse legacy-server https://example.com/sse
 ```
 
+### WebSocket トランスポート（`ws`）
+
+WebSocket サーバーは持続的な双方向接続を保つため、Claude に対して自発的にイベントを push するリモート MCP サーバーに向いている。サーバーがリクエストに応答するだけなら HTTP を使うこと。HTTP は OAuth と `claude mcp add --transport` フラグの両方をサポートするが、WebSocket はどちらもサポートしない。
+
+`--transport` は `ws` を受け付けないため、`.mcp.json` または `claude mcp add-json` で設定する。
+
+```json
+{
+  "type": "ws",
+  "url": "wss://mcp.example.com/socket",
+  "headers": {
+    "Authorization": "Bearer YOUR_TOKEN"
+  }
+}
+```
+
+`type: "ws"` のエントリは `http` と同じ `url`、`headers`、`headersHelper`、`timeout`、`alwaysLoad` フィールドを受け付ける。認証は**ヘッダーのみ**で、WebSocket サーバー向けの OAuth フローは存在しない。
+
+> **注意**: WebSocket サーバーは `claude mcp list` の出力に表示されない。確認するには `claude mcp get <名前>` または `/mcp` パネルを使うこと。
+
+HTTP や SSE と同様に、WebSocket 接続のアイドル時間は 5 分。stdio と WebSocket にはリクエスト単位のタイマーはない。`type` のない `url` エントリはエラーとなり、有効な値として `"http"`、`"sse"`、`"ws"` が示される。
+
 ### Windows 固有の注意点
 
 ネイティブ Windows（WSL ではない）では、npx コマンドに `cmd /c` を使う。
@@ -1126,8 +1148,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**最終更新：** 2026 年 4 月 24 日
-**Claude Code バージョン：** 2.1.119
+**最終更新：** 2026 年 8 月 25 日
+**Claude Code バージョン：** 2.1.245
 **情報源：**
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog

@@ -92,7 +92,7 @@
 | `/stickers` | セッションステッカーを表示 | 楽しいご褒美 |
 | `/fast` | 高速出力モード切替 | 応答の高速化 |
 | `/terminal-setup` | ターミナル統合を設定 | ターミナル機能のセットアップ |
-| `/undo` | `/rewind` のエイリアス（v2.1.108） | `/rewind` と同じ |
+| `/undo` | **公式ドキュメントに記載なし** — v2.1.108 で `/rewind` のエイリアスとして追加されたが、公式のコマンドリファレンスには一切登場しない | 代わりに `/rewind`（または `Esc Esc`）を使う |
 | `/upgrade` | アップデート確認 | バージョン管理 |
 | `/team-onboarding` | このプロジェクトの Claude Code 利用状況からオンボーディングガイドを生成 | 新メンバーのオンボーディング（v2.1.101） |
 | `/code-review ultra` | 現在の変更に対するクラウドのマルチエージェントコードレビューを実行。`/ultrareview` はエイリアスとして残っており、`/code-review ultra` が推奨の呼び出し。Pro と Max では 3 回まで無料、以降は使用クレジットが必要 | マージ前の深いマルチエージェントレビュー（v2.1.112） |
@@ -449,7 +449,7 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **/proactive** | `/loop` のエイリアス — 同じ反復タスク動作（v2.1.105） | `/proactive` を `/loop` と互換に利用 |
 | **/recap** | 既存セッションに戻ったときに要約を表示（v2.1.108） | 離席後に `/recap` を実行して文脈を取り戻す |
 | **/tui** | フルスクリーン TUI モードを切替してちらつきのない描画（v2.1.110） | フルスクリーンターミナルや tmux で `/tui` を使う |
-| **/undo** | `/rewind` のエイリアス — 直前のチェックポイントへ戻す（v2.1.108） | `/undo` を `/rewind` と互換に利用 |
+| **/undo** | **公式ドキュメントに記載なし** — v2.1.108 で `/rewind` のエイリアスとして追加されたが、公式のコマンドリファレンスには一切登場しない | 代わりに `/rewind`（または `Esc Esc`）を使う |
 | **Monitor ツール** | バックグラウンドコマンドの stdout を監視し、ポーリングではなくイベントで反応（v2.1.98+） | [高度な機能](09-advanced-features/) 経由で Monitor ツールを利用 |
 | **/team-onboarding** | プロジェクトの Claude Code 設定からオンボーディングガイドを自動生成（v2.1.101） | プロジェクトで `/team-onboarding` を実行 |
 | **リモートコントロール** | API 経由で Claude Code セッションを遠隔制御 | リモートコントロール API でプロンプト送信と応答取得をプログラム的に行う |
@@ -532,8 +532,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新**：2026 年 8 月 15 日
-**Claude Code バージョン**：2.1.233
+**最終更新**：2026 年 8 月 25 日
+**Claude Code バージョン**：2.1.245
 **情報源**：
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands

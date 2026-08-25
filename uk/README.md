@@ -659,8 +659,8 @@ Claude:
 
 ---
 
-**Останнє оновлення**: 15 серпня 2026
-**Версія Claude Code**: 2.1.233
+**Останнє оновлення**: 25 серпня 2026
+**Версія Claude Code**: 2.1.245
 **Джерела**:
 - https://code.claude.com/docs/en/hooks
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

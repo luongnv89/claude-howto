@@ -130,7 +130,7 @@ to solving problems.
 | `tools` | No | Comma-separated list of specific tools. Omit to inherit all tools. Supports `Agent(agent_name)` syntax to restrict spawnable subagents |
 | `disallowedTools` | No | Comma-separated list of tools the subagent must not use |
 | `model` | No | Model to use: `sonnet`, `opus`, `haiku`, full model ID, or `inherit`. Defaults to configured subagent model |
-| `permissionMode` | No | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`. As of v2.1.212, the Task tool's `mode` invocation parameter is deprecated and ignored — subagents inherit the parent session's permission mode by default unless overridden here |
+| `permissionMode` | No | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. As of v2.1.212, the Task tool's `mode` invocation parameter is deprecated and ignored — subagents inherit the parent session's permission mode by default unless overridden here |
 | `maxTurns` | No | Maximum number of agentic turns the subagent can take |
 | `skills` | No | Comma-separated list of skills to preload. Injects full skill content into the subagent's context at startup. **v2.1.133+:** subagents also discover project, user, and plugin skills via the Skill tool — same catalog as the main session, no longer limited to their own embedded set. |
 | `mcpServers` | No | MCP servers to make available to the subagent |
@@ -238,6 +238,8 @@ claude --agents '{
 }
 ```
 
+> **Note**: Since v2.1.243, `--agents` no longer silently ignores invalid JSON or invalid agent definitions — Claude Code exits with a clear error, matching the behavior of `--mcp-config`.
+
 **Priority of Agent Definitions:**
 
 Agent definitions are loaded with this priority order (first match wins):
@@ -259,9 +261,9 @@ Claude Code includes several built-in subagents that are always available:
 | **general-purpose** | Inherits | Complex, multi-step tasks |
 | **Plan** | Inherits | Research for plan mode |
 | **Explore** | Inherits (capped at Opus) | Read-only codebase exploration (quick/medium/very thorough) |
-| **Bash** | Inherits | Terminal commands in separate context |
-| **statusline-setup** | Sonnet | Configure status line |
-| **Claude Code Guide** | Haiku | Answer Claude Code feature questions |
+| **claude** | Inherits | Catch-all for tasks that don't fit a more specialized agent; has every tool available to subagents. Also the default agent for a dispatched background session |
+| **statusline-setup** | Sonnet | Runs when you use `/statusline` to configure your status line |
+| **claude-code-guide** | Haiku | Answers questions about Claude Code features |
 
 ### General-Purpose Subagent
 
@@ -299,15 +301,15 @@ Claude Code includes several built-in subagents that are always available:
 - **"medium"** - Moderate exploration, balanced speed and thoroughness, default approach
 - **"very thorough"** - Comprehensive analysis across multiple locations and naming conventions, may take longer
 
-### Bash Subagent
+### Claude Subagent
 
 | Property | Value |
 |----------|-------|
 | **Model** | Inherits from parent |
-| **Tools** | Bash |
-| **Purpose** | Execute terminal commands in a separate context window |
+| **Tools** | Every tool available to subagents |
+| **Purpose** | Catch-all agent for tasks that don't fit a more specialized agent |
 
-**When used**: When running shell commands that benefit from isolated context.
+**When used**: When a task doesn't match a more specialized built-in agent. It is also the default agent for a dispatched background session; which permission mode it starts in depends on how that session was started.
 
 ### Statusline Setup Subagent
 
@@ -319,7 +321,7 @@ Claude Code includes several built-in subagents that are always available:
 
 **When used**: When setting up or customizing the status line.
 
-### Claude Code Guide Subagent
+### Claude Code Guide Subagent (`claude-code-guide`)
 
 | Property | Value |
 |----------|-------|
@@ -1314,8 +1316,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: August 19, 2026
-**Claude Code Version**: 2.1.235
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

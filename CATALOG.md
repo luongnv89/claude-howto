@@ -91,7 +91,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/stickers` | View session stickers | Fun rewards |
 | `/fast` | Toggle fast output mode; applies to **Opus 5 and Opus 4.8** (v2.1.219) | Speed up responses |
 | `/terminal-setup` | Configure terminal integration | Setup terminal features |
-| `/undo` | Alias for `/rewind` (v2.1.108) | Same as `/rewind` |
+| `/undo` | **No longer documented** — added as an alias for `/rewind` in v2.1.108, but it appears nowhere in the official commands reference | Use `/rewind` (or `Esc Esc`) instead |
 | `/upgrade` | Check for updates | Version management |
 | `/team-onboarding` | Generate a teammate ramp-up guide from this project's Claude Code usage | Onboarding new teammates (v2.1.101) |
 | `/code-review ultra` | Run a cloud multi-agent code review over your current changes. `/ultrareview` remains as an alias; `/code-review ultra` is the preferred invocation. Includes 3 free runs on Pro and Max, then requires usage credits | Deep pre-merge review across multiple agents (v2.1.112) |
@@ -246,6 +246,7 @@ cp -r 03-skills/* ~/.claude/skills/
 | `/batch` | Run prompts on multiple files | Batch operations |
 | `/claude-api` | Build apps with Claude API | API development |
 | `/debug` | Debug failing tests/errors | Debugging sessions |
+| `/design` *(research preview, v2.1.233+)* | Create a multi-artboard design canvas — UI mockups, screen flows, landing pages, posters — refined visually instead of in code. Pro/Max/Team/Enterprise | Designing a screen or page you would rather tweak by hand than in HTML |
 | `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist | Reduce repeat permission prompts |
 | `/loop` | Run prompts on interval | Recurring tasks |
 | `/run` *(v2.1.145+)* | Launch this project's app to see a change running | Verifying a change in the real app |
@@ -462,13 +463,13 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **/proactive** | Alias for `/loop` — same recurring-task behavior (v2.1.105) | Use `/proactive` interchangeably with `/loop` |
 | **/recap** | Show a session recap when returning to an existing session (v2.1.108) | Run `/recap` after being away to get context on what was done |
 | **/tui** | Toggle fullscreen TUI (text user interface) mode for flicker-free rendering (v2.1.110) | Use `/tui` in fullscreen terminals or tmux |
-| **/undo** | Alias for `/rewind` — reverts to the previous checkpoint (v2.1.108) | Use `/undo` interchangeably with `/rewind` |
+| **/undo** | **No longer documented** — added as an alias for `/rewind` in v2.1.108, but it appears nowhere in the official commands reference | Use `/rewind` (or `Esc Esc`) instead |
 | **Monitor Tool** | Watch a background command's stdout stream and react to events instead of polling (v2.1.98+) | Use the Monitor tool via [Advanced Features](09-advanced-features/) |
-| **Output Styles** | Change Claude's role, tone, and default response format via the system prompt. Built-ins: Default, Proactive, Explanatory, Learning | `/config` → Output style, or set `outputStyle`. The `/output-style` command was removed in v2.1.91. See [Advanced Features](09-advanced-features/#output-styles) |
+| **Output Styles** | Change Claude's role, tone, and default response format via the system prompt. Built-ins: Default, Proactive, Explanatory, Learning, Concise | `/config` → Output style, or set `outputStyle`. The `/output-style` command was removed in v2.1.91. See [Advanced Features](09-advanced-features/#output-styles) |
 | **Status Line** | Render a custom status line from a command that receives session, model, cost, and context JSON on stdin | `/statusline` or the `statusLine` setting. See [Advanced Features](09-advanced-features/#status-line) |
 | **Community Marketplace** | Third-party plugins that passed Anthropic's automated validation, each pinned to a commit SHA | `/plugin marketplace add anthropics/claude-plugins-community`, then `/plugin install <name>@claude-community` |
 | **/team-onboarding** | Auto-generate a teammate ramp-up guide from the project's Claude Code setup (v2.1.101) | Run `/team-onboarding` in your project |
-| **Remote Control** | Control Claude Code sessions remotely via API | Use the remote control API to send prompts and receive responses programmatically |
+| **Remote Control** | Control Claude Code sessions remotely via API. **No longer a research preview** — any machine running `claude remote-control` shows up as a device card in the Claude app's Code tab, so a session can be started on it from a phone | Run `claude remote-control` on the machine, then pick its device card in the Claude app. See [Advanced Features](09-advanced-features/README.md) |
 | **Web Sessions** | Run Claude Code in a browser-based environment | Access via `claude web` or through the Anthropic Console |
 | **Desktop App** | Native desktop application for Claude Code | Use `/desktop` or download from Anthropic website |
 | **Cross-Session Messaging** | Sessions can message each other — including your other machines and cloud sessions — discovered via `ListAgents` (v2.1.224+, macOS/Linux) | See [Advanced Features](09-advanced-features/README.md#cross-session-messaging); control inbound with `crossSessionInbound` |
@@ -503,6 +504,9 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **Usage-Limit Auto-Continue** | Claude Code auto-continues a session when a claude.ai usage limit resets, if it was blocked on that limit (v2.1.234) | On by default; turn it off in `/config` → "Continue automatically at usage limit". See [Advanced Features](09-advanced-features/) |
 | **`spellcheck` setting** | Underlines misspelled words in the prompt input using whichever of aspell, hunspell, or ispell is on your `PATH`; off by default (v2.1.235) | Install a checker, then set `"spellcheck": { "enabled": true }` in `~/.claude/settings.json`. User, `--settings`, and managed settings only — ignored in project settings. See [Advanced Features](09-advanced-features/) |
 | **Agent Teams Default Model** | The "Default teammate model" `/config` setting was removed; teammates now inherit the team lead's model by default unless the spawn call specifies one explicitly (v2.1.234) | See [Subagents — Agent Teams](04-subagents/README.md#agent-teams-experimental) |
+| **`/design`** | Design canvas — a multi-artboard visual design (UI mockups, screen flows, landing pages, posters) built on artifacts and refined visually rather than in code. Research preview; requires v2.1.233+; Pro/Max/Team/Enterprise | Run `/design` in the CLI or the Desktop app. See [Slash Commands](01-slash-commands/README.md) |
+| **`notify_when_idle`** | Cross-session `SendMessage` input that asks another session on the same machine to send one notice when it next goes idle — opt-in, one-shot, no polling (v2.1.236). Related: `ListAgents` reports the session's own name and lists live teammates, and Windows gained cross-session messaging (v2.1.239) | Pass `notify_when_idle` to `SendMessage`. See [Advanced Features](09-advanced-features/README.md#cross-session-messaging) |
+| **Plugin manifest fields** | `plugin.json` accepts `workflows`, `channels`, `dependencies` (semver), `outputStyles`, `keywords`, `metadata`, `lspServers`, and `experimental.themes` / `experimental.monitors`. CLI gained `claude plugin new`, `remove`/`rm`, `prune`/`autoremove`, and the flags `--with`, `-f`/`--force`, `--available`, `--push`, `--dry-run` | See [Plugins](07-plugins/README.md) |
 
 ---
 
@@ -562,8 +566,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: August 19, 2026
-**Claude Code Version**: 2.1.235
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

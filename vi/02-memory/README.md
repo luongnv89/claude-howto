@@ -644,7 +644,9 @@ Claude sẽ tải CLAUDE.md từ thư mục bổ sung được chỉ định cù
 ```markdown
 # API Module Standards
 
-This file overrides root CLAUDE.md for everything in /src/api/
+This file supplements root CLAUDE.md for everything in /src/api/. Memory files are
+concatenated, not overridden — the root CLAUDE.md still applies, and Claude Code
+loads this file on demand when it reads files in this subtree.
 
 ## API-Specific Standards
 
@@ -1078,7 +1080,9 @@ Claude sẽ nhắc bạn chọn file bộ nhớ nào để cập nhật.
    cat > /path/to/directory/CLAUDE.md << 'EOF'
    # [Directory Name] Standards
 
-   This file overrides root CLAUDE.md for this directory.
+   This file supplements root CLAUDE.md for this directory. Memory files are
+   concatenated, not overridden — Claude Code loads this file on demand when it
+   reads files in this directory.
 
    ## [Specific Standards]
    EOF
@@ -1154,6 +1158,8 @@ Claude sẽ nhắc bạn chọn file bộ nhớ nào để cập nhật.
 
 ---
 
-**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
-**Phiên Bản Claude Code**: 2.1+
+**Cập Nhật Lần Cuối**: Ngày 25 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.245
+**Nguồn**:
+- https://code.claude.com/docs/en/memory
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

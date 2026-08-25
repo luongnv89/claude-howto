@@ -128,6 +128,28 @@ Server-Sent Events transport is deprecated in favor of `http` but still supporte
 claude mcp add --transport sse legacy-server https://example.com/sse
 ```
 
+### WebSocket Transport (`ws`)
+
+WebSocket servers hold a persistent bidirectional connection, which suits remote MCP servers that push events to Claude unprompted. Use HTTP instead when your server only responds to requests, since HTTP supports OAuth and the `claude mcp add --transport` flag, while WebSocket supports neither.
+
+Because `--transport` does not accept `ws`, configure it in `.mcp.json` or through `claude mcp add-json`:
+
+```json
+{
+  "type": "ws",
+  "url": "wss://mcp.example.com/socket",
+  "headers": {
+    "Authorization": "Bearer YOUR_TOKEN"
+  }
+}
+```
+
+The `type: "ws"` entry accepts the same `url`, `headers`, `headersHelper`, `timeout`, and `alwaysLoad` fields as `http`. Authentication is **header-only** — there is no OAuth flow for WebSocket servers.
+
+> **Note**: WebSocket servers don't appear in `claude mcp list` output. Use `claude mcp get <name>` or the `/mcp` panel to check them.
+
+Like HTTP and SSE, WebSocket connections use a 5-minute idle window; stdio and WebSocket have no per-request timer. A `url` entry with no `type` is an error naming `"http"`, `"sse"`, and `"ws"` as the valid values.
+
 ### Session Working Directories (roots/list)
 
 MCP servers can discover the session's working directories: the launch directory plus all `--add-dir`/`additionalDirectories` entries are returned via the MCP `roots/list` request, and a `notifications/roots/list_changed` notification is sent whenever the set changes (v2.1.203). The idle timeout now also applies to stdio servers (30 minutes), with a per-server `timeout` acting as an idle floor (v2.1.203).
@@ -189,6 +211,8 @@ The URL must use `https://`. This option requires Claude Code v2.1.64 or later.
 
 - **Startup auth notice (v2.1.193+)**: At startup, Claude Code surfaces a notice listing any MCP servers that still need authentication, so a server that needs a login isn't left silently non-working.
 - **`headersHelper` auto-refresh (v2.1.193+)**: If you supply custom auth via a `headersHelper`, the helper is re-invoked automatically when a server returns HTTP 401 or 403. Credentials refresh on the fly without a manual reconnect. See [Use dynamic headers for custom authentication](https://code.claude.com/docs/en/mcp).
+
+> **Warning** (v2.1.238): A `headersHelper` in a project `.mcp.json`, and inline MCP servers in project or `--add-dir` agent files, now require that folder's trust dialog to have been accepted — including under `claude -p`. Such helpers also run **without inherited credential environment variables**; user-, managed-, and claude.ai-scope helpers run from the Claude config directory instead. A project config that relied on inherited credentials or on running untrusted will stop working until you accept the trust dialog and supply credentials another way.
 
 ### Claude.ai MCP Connectors
 
@@ -395,6 +419,8 @@ claude mcp add-json events-server '{"type":"stdio","command":"npx","args":["@mod
 ```
 
 > **Note**: In JSON configs — `.mcp.json`, `~/.claude.json`, or `claude mcp add-json` — the `type` field accepts `streamable-http` as an alias for `http`. The MCP specification uses the name `streamable-http` for this transport, so configurations copied from a server's own documentation work unmodified.
+
+Since v2.1.238, `claude mcp list` and `claude mcp get` show disabled servers as `⊘ Disabled` without connecting to them for a health check.
 
 `claude mcp login <name>` / `claude mcp logout <name>` are the non-interactive equivalent of the OAuth flow in the `/mcp` menu — authenticate or sign out without opening it. Add `--no-browser` to `login` to complete OAuth over SSH or in a headless session (it redirects the flow through stdin).
 
@@ -1252,8 +1278,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: August 19, 2026
-**Claude Code Version**: 2.1.235
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog

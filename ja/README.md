@@ -877,8 +877,8 @@ MIT License — [LICENSE](../LICENSE) を参照。利用、変更、再配布は
 
 ---
 
-**最終更新**：2026 年 8 月 15 日
-**Claude Code バージョン**：2.1.233
+**最終更新**：2026 年 8 月 25 日
+**Claude Code バージョン**：2.1.245
 **情報源**：
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/overview

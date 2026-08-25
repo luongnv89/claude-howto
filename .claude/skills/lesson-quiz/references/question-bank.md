@@ -12,7 +12,7 @@
 - **Options**: A) Built-in, skills, plugin commands, MCP prompts | B) Built-in, custom, hook commands, API prompts | C) System, user, plugin, terminal commands | D) Core, extension, macro, script commands
 - **Correct**: A
 - **Explanation**: Claude Code has built-in commands (like /help, /compact), skills (SKILL.md files), plugin commands (namespaced plugin-name:command), and MCP prompts (/mcp__server__prompt).
-- **Review**: Types of Slash Commands section
+- **Review**: Overview section
 
 ### Q2
 - **Category**: practical
@@ -28,7 +28,7 @@
 - **Options**: A) The legacy command | B) The skill | C) Whichever was created first | D) Claude asks the user to choose
 - **Correct**: B
 - **Explanation**: Skills take precedence over legacy commands with the same name. The skill system supersedes the older command system.
-- **Review**: Skill precedence section
+- **Review**: Skill vs Command Conflict section
 
 ### Q4
 - **Category**: practical
@@ -44,7 +44,7 @@
 - **Options**: A) Prevents the skill from running entirely | B) Allows only the user to invoke it (Claude cannot auto-invoke) | C) Hides it from the /help menu | D) Disables the skill's AI processing
 - **Correct**: B
 - **Explanation**: `disable-model-invocation: true` means only the user can trigger the command via `/command-name`. Claude will never auto-invoke it, useful for skills with side effects like deployments.
-- **Review**: Controlling invocation section
+- **Review**: Frontmatter Reference section
 
 ### Q6
 - **Category**: practical
@@ -52,7 +52,7 @@
 - **Options**: A) `disable-model-invocation: true` | B) `user-invocable: false` | C) `hidden: true` | D) `auto-only: true`
 - **Correct**: B
 - **Explanation**: `user-invocable: false` hides the skill from the user's slash menu but allows Claude to invoke it automatically based on context.
-- **Review**: Invocation control matrix
+- **Review**: Frontmatter Reference section
 
 ### Q7
 - **Category**: practical
@@ -60,7 +60,7 @@
 - **Options**: A) `.claude/commands/deploy.md` | B) `.claude/skills/deploy/SKILL.md` | C) `.claude/skills/deploy.md` | D) `.claude/deploy/SKILL.md`
 - **Correct**: B
 - **Explanation**: Skills live in a directory under `.claude/skills/` with a `SKILL.md` file inside. The directory name matches the command name.
-- **Review**: Skill types and locations section
+- **Review**: Creating a Custom Command as a Skill section
 
 ### Q8
 - **Category**: conceptual
@@ -112,7 +112,7 @@
 - **Options**: A) 3 levels deep | B) 4 levels deep | C) 10 levels deep | D) Unlimited
 - **Correct**: B
 - **Explanation**: The `@path` import syntax supports recursive imports up to a maximum depth of 4 hops to prevent infinite loops.
-- **Review**: Import syntax section
+- **Review**: Memory Architecture section
 
 ### Q4
 - **Category**: practical
@@ -127,7 +127,7 @@
 - **Question**: How many lines of Auto Memory's MEMORY.md are loaded at session start?
 - **Options**: A) All lines | B) First 100 lines | C) First 200 lines | D) First 500 lines
 - **Correct**: C
-- **Explanation**: The first 200 lines of MEMORY.md are auto-loaded into context at session start. Topic files referenced from MEMORY.md are loaded on demand.
+- **Explanation**: The first 200 lines of MEMORY.md — or the first 25 KB, whichever comes first — are auto-loaded into context at session start. Topic files referenced from MEMORY.md are loaded on demand.
 - **Review**: Auto Memory section
 
 ### Q6
@@ -188,7 +188,7 @@
 - **Options**: A) The skill's file name | B) The `description` field in frontmatter with when-to-use keywords | C) The skill's directory location | D) The `auto-invoke: true` frontmatter field
 - **Correct**: B
 - **Explanation**: Claude decides whether to auto-invoke a skill based solely on its `description` field. It must include specific trigger phrases and scenarios.
-- **Review**: Auto-invocation section
+- **Review**: Controlling Skill Invocation section
 
 ### Q3
 - **Category**: conceptual
@@ -196,7 +196,7 @@
 - **Options**: A) 100 lines | B) 250 lines | C) 500 lines | D) 1000 lines
 - **Correct**: C
 - **Explanation**: SKILL.md should be kept under 500 lines. Larger reference material belongs in `references/` subdirectory files.
-- **Review**: Content guidelines section
+- **Review**: Keep SKILL.md Under 500 Lines section
 
 ### Q4
 - **Category**: practical
@@ -212,7 +212,7 @@
 - **Options**: A) 0.5% of context window | B) 1% of context window | C) 5% of context window | D) 10% of context window
 - **Correct**: B
 - **Explanation**: Skill metadata occupies about 1% of the context window (fallback: 8,000 characters). This is configurable with `SLASH_COMMAND_TOOL_CHAR_BUDGET`.
-- **Review**: Context budget section
+- **Review**: the "Description budget" paragraph under Automatic Discovery
 
 ### Q6
 - **Category**: practical
@@ -276,10 +276,10 @@
 
 ### Q3
 - **Category**: conceptual
-- **Question**: Which built-in subagent uses the Haiku model and is optimized for read-only codebase exploration?
+- **Question**: Which built-in subagent is optimized for read-only codebase exploration?
 - **Options**: A) general-purpose | B) Plan | C) Explore | D) Bash
 - **Correct**: C
-- **Explanation**: The Explore subagent uses Haiku for fast, read-only codebase exploration. It supports three thoroughness levels: quick, medium, very thorough.
+- **Explanation**: The Explore subagent is the read-only codebase search agent. Since v2.1.198 it inherits the session model, capped at Opus — `model: haiku` is opt-in, not the default. It supports three thoroughness levels: quick, medium, very thorough.
 - **Review**: Built-in subagents section
 
 ### Q4
@@ -300,10 +300,10 @@
 
 ### Q6
 - **Category**: practical
-- **Question**: How do you make a subagent run in the background?
+- **Question**: How do you force a subagent to always run in the background (never inline)?
 - **Options**: A) Set `background: true` in the agent config | B) Use `async: true` in the agent config | C) Press Ctrl+D after starting it | D) Use `--background` CLI flag
 - **Correct**: A
-- **Explanation**: `background: true` in the agent configuration makes the subagent always run as a background task. Users can also use Ctrl+B to send a foreground task to background.
+- **Explanation**: `background: true` in the agent configuration makes the subagent always run as a background task and prevents it from running inline. Subagents already run in the background by default since v2.1.198; this field removes the inline option. Users can also use Ctrl+B to send a foreground task to background.
 - **Review**: Background subagents section
 
 ### Q7
@@ -325,9 +325,9 @@
 ### Q9
 - **Category**: conceptual
 - **Question**: What are the valid `permissionMode` values for a subagent?
-- **Options**: A) read, write, admin | B) default, acceptEdits, bypassPermissions, plan, dontAsk, auto | C) safe, normal, dangerous | D) restricted, standard, elevated
+- **Options**: A) read, write, admin | B) manual, acceptEdits, bypassPermissions, plan, dontAsk, auto | C) safe, normal, dangerous | D) restricted, standard, elevated
 - **Correct**: B
-- **Explanation**: Subagents support six permission modes: default (prompts for everything), acceptEdits (auto-accepts file edits), bypassPermissions (skips all), plan (read-only), dontAsk (auto-denies unless pre-approved), auto (background classifier decides).
+- **Explanation**: Subagents support six permission modes: manual (prompts for everything — renamed from `default` in v2.1.200, which is still accepted as an alias), acceptEdits (auto-accepts file edits), bypassPermissions (skips all), plan (read-only), dontAsk (auto-denies unless pre-approved), auto (background classifier decides).
 - **Review**: Configuration fields section
 
 ### Q10
@@ -344,11 +344,11 @@
 
 ### Q1
 - **Category**: conceptual
-- **Question**: What are the three MCP transport protocols, and which is recommended?
-- **Options**: A) HTTP (recommended), Stdio, SSE (deprecated) | B) WebSocket (recommended), REST, gRPC | C) TCP, UDP, HTTP | D) Stdio (recommended), HTTP, SSE
+- **Question**: What are the four MCP transport protocols, and which is recommended?
+- **Options**: A) HTTP (recommended), Stdio, SSE (deprecated), WebSocket (`ws`) | B) REST (recommended), GraphQL, gRPC, Thrift | C) TCP, UDP, HTTP | D) Stdio (recommended), HTTP, SSE
 - **Correct**: A
-- **Explanation**: HTTP is recommended for remote servers. Stdio is for local processes (most common currently). SSE is deprecated but still supported.
-- **Review**: Transport protocols section
+- **Explanation**: HTTP is recommended for remote servers. Stdio is for local processes (most common currently). SSE is deprecated but still supported. WebSocket (`type: "ws"`) holds a persistent bidirectional connection for servers that push events unprompted; it is added with `claude mcp add-json` or `.mcp.json`, not with `--transport`, and supports header-only auth.
+- **Review**: MCP Installation Methods section
 
 ### Q2
 - **Category**: practical
@@ -428,10 +428,10 @@
 
 ### Q1
 - **Category**: conceptual
-- **Question**: What are the four types of hooks in Claude Code?
-- **Options**: A) Pre, Post, Error, and Filter hooks | B) Command, HTTP, Prompt, and Agent hooks | C) Before, After, Around, and Through hooks | D) Input, Output, Filter, and Transform hooks
+- **Question**: What are the five types of hooks in Claude Code?
+- **Options**: A) Pre, Post, Error, Filter, and Transform hooks | B) Command, HTTP, MCP Tool, Prompt, and Agent hooks | C) Before, After, Around, Through, and Beside hooks | D) Input, Output, Filter, Transform, and Validate hooks
 - **Correct**: B
-- **Explanation**: Command hooks run shell scripts, HTTP hooks call webhook endpoints, Prompt hooks use single-turn LLM evaluation, and Agent hooks use subagent-based verification.
+- **Explanation**: Command hooks run shell scripts, HTTP hooks call webhook endpoints, MCP Tool hooks invoke an MCP tool, Prompt hooks use single-turn LLM evaluation, and Agent hooks use subagent-based verification. Agent hooks are experimental and may change.
 - **Review**: Hook types section
 
 ### Q2
@@ -463,7 +463,7 @@
 - **Question**: Which hook event supports `CLAUDE_ENV_FILE` for persisting environment variables into the session?
 - **Options**: A) PreToolUse | B) UserPromptSubmit | C) SessionStart | D) All events
 - **Correct**: C
-- **Explanation**: Only SessionStart hooks can use `CLAUDE_ENV_FILE` to persist environment variables into the session.
+- **Explanation**: `CLAUDE_ENV_FILE` is available to SessionStart, CwdChanged, and FileChanged hooks, which use it to persist environment variables into the session. Of the options listed, SessionStart is the one that supports it — PreToolUse and UserPromptSubmit do not, and it is not available to all events.
 - **Review**: SessionStart section
 
 ### Q6
@@ -493,9 +493,9 @@
 ### Q9
 - **Category**: conceptual
 - **Question**: How many hook events does Claude Code support in total?
-- **Options**: A) 10 | B) 16 | C) 25 | D) 30
+- **Options**: A) 16 | B) 25 | C) 31 | D) 40
 - **Correct**: C
-- **Explanation**: Claude Code supports 25 hook events: PreToolUse, PostToolUse, PostToolUseFailure, UserPromptSubmit, Stop, StopFailure, SubagentStop, SubagentStart, PermissionRequest, Notification, PreCompact, PostCompact, SessionStart, SessionEnd, WorktreeCreate, WorktreeRemove, ConfigChange, CwdChanged, FileChanged, TeammateIdle, TaskCompleted, TaskCreated, Elicitation, ElicitationResult, InstructionsLoaded.
+- **Explanation**: Claude Code supports 31 hook events. They fall into four groups: session lifecycle (`SessionStart`, `Setup`, `SessionEnd`), prompt and message handling (`UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`), tool use and permissions (`PreToolUse`, `PostToolUse`, `PermissionRequest`, ...), and agent, task, and environment coordination (`SubagentStart`, `TaskCreated`, `CwdChanged`, `WorktreeCreate`, ...). See the full event table in the lesson.
 - **Review**: Hook events table
 
 ### Q10
@@ -532,7 +532,7 @@
 - **Options**: A) `$PLUGIN_HOME` | B) `${CLAUDE_PLUGIN_ROOT}` | C) `$PLUGIN_DIR` | D) `${CLAUDE_PLUGIN_PATH}`
 - **Correct**: B
 - **Explanation**: `${CLAUDE_PLUGIN_ROOT}` resolves to the plugin's installed directory, enabling portable path references in hooks and MCP configs.
-- **Review**: Plugin directory structure section
+- **Review**: Plugin Structure Example section
 
 ### Q4
 - **Category**: practical
@@ -540,15 +540,15 @@
 - **Options**: A) `/check-security` | B) `/pr-review:check-security` | C) `/plugin pr-review check-security` | D) `/pr-review/check-security`
 - **Correct**: B
 - **Explanation**: Plugin commands use a `plugin-name:command-name` namespace to avoid conflicts with user commands and other plugins.
-- **Review**: Plugin commands section
+- **Review**: Plugin Commands section in Lesson 01 (Slash Commands)
 
 ### Q5
 - **Category**: conceptual
 - **Question**: Which components can a plugin bundle?
-- **Options**: A) Only commands and settings | B) Commands, agents, skills, hooks, MCP servers, LSP config, settings, templates, scripts | C) Only commands, hooks, and MCP servers | D) Only skills and agents
+- **Options**: A) Only commands and settings | B) Skills, agents, commands, hooks, MCP servers, LSP config, settings, templates, scripts | C) Only commands, hooks, and MCP servers | D) Only skills and agents
 - **Correct**: B
-- **Explanation**: Plugins can bundle: commands/, agents/, skills/, hooks/hooks.json, .mcp.json, .lsp.json, settings.json, templates/, scripts/, docs/, tests/.
-- **Review**: Plugin directory structure section
+- **Explanation**: Plugins can bundle: skills/, agents/, commands/, hooks/hooks.json, .mcp.json, .lsp.json, settings.json, templates/, scripts/, docs/, tests/. Note that `commands/` is legacy — official guidance is to use `skills/` for new plugins, though existing `commands/` directories keep working.
+- **Review**: Plugin Structure Example section
 
 ### Q6
 - **Category**: practical
@@ -605,7 +605,7 @@
 ### Q2
 - **Category**: practical
 - **Question**: How do you access the checkpoint browser?
-- **Options**: A) Use `/checkpoints` command | B) Press `Esc + Esc` (double-escape) or use `/rewind` | C) Use `/history` command | D) Press `Ctrl+Z`
+- **Options**: A) Use `/restore` command | B) Press `Esc + Esc` (double-escape) or use `/rewind` | C) Use `/history` command | D) Press `Ctrl+Z`
 - **Correct**: B
 - **Explanation**: Double-escape (Esc+Esc) or the `/rewind` command opens the checkpoint browser to select a restore point.
 - **Review**: Accessing checkpoints section
@@ -631,8 +631,8 @@
 - **Question**: How long are checkpoints retained?
 - **Options**: A) Until session ends | B) 7 days | C) 30 days | D) Indefinitely
 - **Correct**: C
-- **Explanation**: Checkpoints persist across sessions for up to 30 days, after which they are automatically cleaned up.
-- **Review**: Checkpoint persistence section
+- **Explanation**: Checkpoints persist across sessions for up to 30 days, after which they are automatically cleaned up. Retention is also capped by count: only the 100 most recent checkpoints per session are kept, so older ones are dropped even inside the 30-day window. The window is governed by `cleanupPeriodDays`.
+- **Review**: Checkpoint Retention section
 
 ### Q6
 - **Category**: practical
@@ -640,7 +640,7 @@
 - **Options**: A) Deletes the conversation from that point | B) Compresses the conversation into an AI-generated summary while preserving the original in the transcript | C) Creates a bullet-point list of changes | D) Exports the conversation to a file
 - **Correct**: B
 - **Explanation**: Summarize compresses the conversation into a shorter AI-generated summary. The original full text is preserved in the transcript file.
-- **Review**: Summarize option section
+- **Review**: Rewind Options section
 
 ### Q7
 - **Category**: conceptual
@@ -681,9 +681,9 @@
 ### Q1
 - **Category**: conceptual
 - **Question**: What are the six permission modes in Claude Code?
-- **Options**: A) read, write, execute, admin, root, sudo | B) default, acceptEdits, plan, auto, dontAsk, bypassPermissions | C) safe, normal, elevated, admin, unrestricted, god | D) view, edit, run, deploy, full, bypass
+- **Options**: A) read, write, execute, admin, root, sudo | B) manual, acceptEdits, plan, auto, dontAsk, bypassPermissions | C) safe, normal, elevated, admin, unrestricted, god | D) view, edit, run, deploy, full, bypass
 - **Correct**: B
-- **Explanation**: The six modes are: default (prompts for everything), acceptEdits (auto-accepts file edits), plan (read-only analysis), auto (background classifier decides), dontAsk (auto-denies unless pre-approved), bypassPermissions (skips all checks).
+- **Explanation**: The six modes are: manual (prompts for everything — renamed from `default` in v2.1.200, which is still accepted as an alias), acceptEdits (auto-accepts file edits), plan (read-only analysis), auto (background classifier decides), dontAsk (auto-denies unless pre-approved), bypassPermissions (skips all checks).
 - **Review**: Permission Modes section
 
 ### Q2
@@ -844,8 +844,15 @@
 
 ---
 
-**Last Updated**: August 19, 2026
-**Claude Code Version**: 2.1.235
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
-- https://code.claude.com/docs/en/discover-plugins.md
-- https://code.claude.com/docs/en/plugins-reference.md
+- https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/mcp
+- https://code.claude.com/docs/en/memory
+- https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/permission-modes
+- https://code.claude.com/docs/en/checkpointing
+- https://code.claude.com/docs/en/plugins-reference
+- https://code.claude.com/docs/en/cli-reference

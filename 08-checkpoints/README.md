@@ -294,7 +294,7 @@ Use both together:
 1. **Work normally** - Claude Code creates checkpoints automatically
 2. **Want to go back?** - Press `Esc` twice or use `/rewind`
 3. **Choose checkpoint** - Select from the list to rewind
-4. **Select what to restore** - Choose from restore code and conversation, restore conversation, restore code, summarize from here, or cancel
+4. **Select what to restore** - Choose from restore code and conversation, restore conversation, restore code, summarize from here, summarize up to here, or cancel
 5. **Continue working** - You're back at that point
 
 ### Keyboard Shortcuts
@@ -336,8 +336,8 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 
 ---
 
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/settings

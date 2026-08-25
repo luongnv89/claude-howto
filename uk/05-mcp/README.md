@@ -109,6 +109,28 @@ claude mcp add --transport stdio myserver --env KEY=value -- npx server
 claude mcp add --transport sse legacy-server https://example.com/sse
 ```
 
+### WebSocket-транспорт (`ws`)
+
+WebSocket-сервери тримають постійне двонаправлене зʼєднання, що підходить віддаленим MCP-серверам, які надсилають події до Claude без запиту. Використовуйте HTTP, якщо ваш сервер лише відповідає на запити, оскільки HTTP підтримує OAuth і прапорець `claude mcp add --transport`, а WebSocket — жодного з них.
+
+Оскільки `--transport` не приймає `ws`, налаштуйте його в `.mcp.json` або через `claude mcp add-json`:
+
+```json
+{
+  "type": "ws",
+  "url": "wss://mcp.example.com/socket",
+  "headers": {
+    "Authorization": "Bearer YOUR_TOKEN"
+  }
+}
+```
+
+Запис `type: "ws"` приймає ті самі поля `url`, `headers`, `headersHelper`, `timeout` і `alwaysLoad`, що й `http`. Автентифікація **лише через заголовки** — потоку OAuth для WebSocket-серверів немає.
+
+> **Примітка**: WebSocket-сервери не зʼявляються у виводі `claude mcp list`. Для перевірки використовуйте `claude mcp get <назва>` або панель `/mcp`.
+
+Як і HTTP та SSE, WebSocket-зʼєднання використовує 5-хвилинне вікно простою; stdio і WebSocket не мають таймера на окремий запит. Запис `url` без `type` призводить до помилки, яка називає `"http"`, `"sse"`, `"ws"` як допустимі значення.
+
 ### Примітка для Windows
 
 На нативній Windows (не WSL) використовуйте `cmd /c` для команд npx:
@@ -1097,6 +1119,8 @@ export GITHUB_TOKEN="your_token"
 - [Документація Claude API](https://docs.anthropic.com)
 
 ---
-**Останнє оновлення**: 9 квітня 2026
-**Версія Claude Code**: 2.1.97
+**Останнє оновлення**: 25 серпня 2026
+**Версія Claude Code**: 2.1.245
+**Джерела**:
+- https://code.claude.com/docs/en/mcp
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

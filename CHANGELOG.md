@@ -1,5 +1,56 @@
 # Changelog
 
+## [v2.1.245] — 2026-08-25
+
+### Documentation sync against Claude Code v2.1.245
+
+Claude Code moved from v2.1.235 (2026-08-19) to **v2.1.245** (2026-08-25) — ten
+releases. This entry records that sync.
+
+> **Note**: This changelog has no entries for the v2.1.233 and v2.1.235 syncs
+> (commits `deb7e5c` and `da6e09e`), which landed in the repository without a
+> changelog entry. That gap is recorded here rather than back-filled with
+> reconstructed dates.
+
+### Fixed
+
+- **Version-currency claims were stale and mutually contradictory** — the root
+  `README.md` said `v2.1.235` in one place and `v2.1.220 (July 2026)` in
+  another, and this changelog's top entry still called v2.1.220 the current
+  Claude Code release. All now say v2.1.245.
+- **Hook default timeout** corrected from 60 seconds to **600** for
+  `command`, `http`, and `mcp_tool` (30 for `prompt`, 60 for `agent`), with the
+  per-event overrides documented.
+- **Skill precedence** corrected to **enterprise > personal > project**; the
+  lesson had project and personal swapped, contradicting its own quiz.
+- **Memory files are concatenated, not overridden** — the last two
+  "overrides root CLAUDE.md" strings in `02-memory/README.md` were replaced.
+- **`SECURITY.md`** no longer advertises support for "1.x releases".
+- **`STYLE_GUIDE.md`** no longer teaches a stale footer by example.
+- Graded material (the `lesson-quiz` and `self-assessment` skills) was realigned
+  with the lessons it grades: 31 hook events, five hook types, six rewind
+  options, six permission modes, import depth 4.
+
+### Added
+
+- **WebSocket (`ws`) MCP transport** — a fourth transport, configured through
+  `.mcp.json` or `claude mcp add-json`.
+- **`Concise` output style** — a fifth built-in (v2.1.237).
+- **New settings keys** — `modelPicker`, `promptCacheTtl`,
+  `subagentPromptCacheTtl`, `modelPricing`, `keybindingFlavor`.
+- **`ANTHROPIC_DEFAULT_MODEL`** env var (v2.1.236).
+- **`/design`** — the design-canvas research preview.
+- **`notify_when_idle`** on cross-session `SendMessage` (v2.1.236).
+- **Plugin manifest fields** — `workflows`, `channels`, `dependencies`, and
+  related CLI additions.
+
+### Changed
+
+- **Remote Control** left research preview; machines running
+  `claude remote-control` now appear as device cards in the Claude app.
+- **`Ctrl+L`** repaints the screen rather than clearing it (v2.1.238).
+- **Plugin `commands/`** is marked legacy; `skills/` is the current guidance.
+
 ## [v2.1.220-r2] — 2026-08-04
 
 ### Accuracy pass against Claude Code v2.1.220 (no upstream version change)
@@ -1166,3 +1217,11 @@ The `vi/`, `zh/`, and `uk/` localized trees are community-maintained and may lag
 - Update all "Last Updated" dates to February 2026
 
 **Full Changelog**: https://github.com/luongnv89/claude-howto/compare/20779db...v2.0.0
+
+---
+
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
+**Sources**:
+- https://code.claude.com/docs/en/changelog
+**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

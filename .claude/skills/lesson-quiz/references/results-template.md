@@ -33,7 +33,7 @@ The output format for Step 5 ("Score and Present Results"). Fill the bracketed p
 **Pre-test score: N/10.** This gives you a baseline! Focus your study on the topics you missed. After completing the lesson, retake the quiz to measure your improvement.
 
 [If during]:
-**Progress check: N/10.** [If 7+: Great progress — keep going! If 4-6: Review the incorrect topics before continuing. If <4: Consider re-reading from the beginning.]
+**Progress check: N/10.** [If 7 or above: Great progress — keep going! If 5-6: Review the incorrect topics before continuing. If 0-4: Consider re-reading from the beginning.]
 
 [If after]:
 **Mastery check: N/10.** [If 9-10: You've mastered this lesson! Move on to the next. If 7-8: Almost there — review the missed topics and retake. If <7: Spend more time with the lesson, especially the sections marked above.]
@@ -46,3 +46,10 @@ The output format for Step 5 ("Score and Present Results"). Fill the bracketed p
 - [If developing or below]: Re-read the full lesson: [lesson link]. Focus on: [list weak categories]
 - [Offer]: "Would you like to retake this quiz, try a different lesson, or get help with a specific topic?"
 ```
+
+---
+
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
+**Sources**:
+- https://code.claude.com/docs/en/overview

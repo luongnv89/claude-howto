@@ -122,7 +122,7 @@ của tác nhân con để giải quyết vấn đề.
 | `tools` | Không | Danh sách phân tách bằng dấu phẩy của các công cụ cụ thể. Bỏ qua để kế thừa tất cả công cụ. Hỗ trợ cú pháp `Agent(agent_name)` để hạn chế tác nhân con có thể tạo |
 | `disallowedTools` | Không | Danh sách phân tách bằng dấu phẩy của các công cụ mà tác nhân con không được sử dụng |
 | `model` | Không | Mô hình để sử dụng: `sonnet`, `opus`, `haiku`, ID mô hình đầy đủ, hoặc `inherit`. Mặc định là mô hình tác nhân con được cấu hình |
-| `permissionMode` | Không | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan` |
+| `permissionMode` | Không | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto` |
 | `maxTurns` | Không | Số lượng lượt tác nhân tối đa mà tác nhân con có thể thực hiện |
 | `skills` | Không | Danh sách phân tách bằng dấu phẩy của các skills để tải trước. Tiêm toàn bộ nội dung skill vào bối cảnh của tác nhân con khi khởi động |
 | `mcpServers` | Không | MCP servers để cung cấp cho tác nhân con |
@@ -210,9 +210,9 @@ Claude Code bao gồm một số tác nhân con được tích hợp sẵn luôn
 | **general-purpose** | Kế thừa | Tác vụ đa bước phức tạp |
 | **Plan** | Kế thừa | Nghiên cứu cho chế độ lập kế hoạch |
 | **Explore** | Haiku | Khám phá codebase chỉ đọc (nhanh/trung bình/rất kỹ) |
-| **Bash** | Kế thừa | Lệnh terminal trong bối cảnh riêng |
-| **statusline-setup** | Sonnet | Cấu hình dòng trạng thái |
-| **Claude Code Guide** | Haiku | Trả lời câu hỏi về tính năng Claude Code |
+| **claude** | Kế thừa | Tác nhân dự phòng cho các tác vụ không khớp tác nhân chuyên biệt nào; có mọi công cụ khả dụng cho subagent. Cũng là tác nhân mặc định cho phiên nền được điều phối |
+| **statusline-setup** | Sonnet | Chạy khi bạn dùng `/statusline` để cấu hình dòng trạng thái |
+| **claude-code-guide** | Haiku | Trả lời câu hỏi về tính năng Claude Code |
 
 ### Tác Nhân General-Purpose
 
@@ -250,15 +250,15 @@ Claude Code bao gồm một số tác nhân con được tích hợp sẵn luôn
 - **"medium"** - Khám phá vừa phải, cân bằng tốc độ và sự kỹ lưỡng, cách tiếp cận mặc định
 - **"very thorough"** - Phân tích toàn diện qua nhiều vị trí và quy ước đặt tên, có thể mất nhiều thời gian hơn
 
-### Tác Nhân Bash
+### Tác Nhân Claude
 
 | Thuộc Tính | Giá Trị |
 |----------|-------|
 | **Mô Hình** | Kế thừa từ cha |
-| **Công Cụ** | Bash |
-| **Mục Đích** | Thực thi các lệnh terminal trong một cửa sổ bối cảnh riêng |
+| **Công Cụ** | Mọi công cụ khả dụng cho subagent |
+| **Mục Đích** | Tác nhân dự phòng cho các tác vụ không khớp tác nhân chuyên biệt nào |
 
-**Khi sử dụng**: Khi chạy các lệnh shell hưởng lợi từ bối cảnh cô lập.
+**Khi sử dụng**: Khi tác vụ không khớp với một tác nhân dựng sẵn chuyên biệt hơn. Đây cũng là tác nhân mặc định cho một phiên nền được điều phối; chế độ quyền mà nó khởi động phụ thuộc vào cách phiên đó được bắt đầu.
 
 ### Tác Nhân Cấu Trình Dòng Trạng Thái
 
@@ -1138,6 +1138,8 @@ graph TD
 
 ---
 
-**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
-**Phiên Bản Claude Code**: 2.1+
+**Cập Nhật Lần Cuối**: Ngày 25 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.245
+**Nguồn**:
+- https://code.claude.com/docs/en/sub-agents
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

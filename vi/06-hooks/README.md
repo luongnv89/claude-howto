@@ -57,8 +57,14 @@ Hooks được cấu hình trong các file settings với cấu trúc cụ thể
 | `hooks` | Mảng định nghĩa hook | `[{ "type": "command", ... }]` |
 | `type` | Loại hook: `"command"` (bash), `"prompt"` (LLM), `"http"` (webhook), `"mcp_tool"` (gọi công cụ MCP, từ v2.1.118), hoặc `"agent"` (subagent) | `"command"` |
 | `command` | Lệnh shell để thực thi | `"$CLAUDE_PROJECT_DIR/.claude/hooks/format.sh"` |
-| `timeout` | Timeout tùy chọn tính bằng giây (mặc định 60) | `30` |
+| `timeout` | Timeout tùy chọn tính bằng giây. Mặc định: 600 cho command/http/mcp_tool, 30 cho prompt, 60 cho agent. | `30` |
 | `once` | Nếu `true`, chạy hook chỉ một lần mỗi phiên | `true` |
+| `async` | Nếu `true`, chạy nền mà không chặn | `true` |
+| `asyncRewake` | Nếu `true`, chạy nền và đánh thức Claude khi mã thoát là 2. Ngầm bật `async`. | `true` |
+| `shell` | Chấp nhận `"bash"` hoặc `"powershell"`. Mặc định `"bash"`, hoặc `"powershell"` trên Windows khi chưa cài Git Bash. | `"bash"` |
+| `statusMessage` | Thông điệp spinner tùy chỉnh hiển thị khi hook đang chạy | `"Đang định dạng…"` |
+
+> **Lưu ý**: Một số sự kiện hạ thấp timeout mặc định. `UserPromptSubmit` hạ mặc định của command, http và mcp_tool xuống 30 giây, còn `MessageDisplay` hạ xuống 10 giây. Các hook `SessionEnd` dùng chung ngân sách 1,5 giây; nếu cài đặt của bạn khai báo `timeout` dài hơn cho một hook, Claude Code nâng ngân sách đó cho khớp, tối đa 60 giây.
 
 ### Các Mẫu Matcher / Matcher Patterns
 
@@ -156,6 +162,8 @@ Hooks xác thực dựa trên subagent mà spawn một agent chuyên dụng đ�
   "timeout": 120
 }
 ```
+
+> **Lưu ý**: Agent hooks là tính năng thử nghiệm và có thể thay đổi.
 
 **Các thuộc tính chính:**
 - `"type": "agent"` -- xác định đây là một agent hook
@@ -517,6 +525,8 @@ Tất cả hooks nhận đầu vào JSON qua stdin:
 }
 ```
 
+> **`retry` (PermissionDenied)**: Dùng JSON `hookSpecificOutput.retry: true` để báo cho model biết nó có thể thử lại lệnh gọi công cụ đã bị từ chối.
+
 ## Các Biến Môi Trường / Environment Variables
 
 | Biến | Khả Dụng | Mô Tả |
@@ -866,8 +876,8 @@ Chỉnh sửa `~/.claude/settings.json` hoặc `.claude/settings.json` với c�
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 15 tháng 8 năm 2026
-**Phiên Bản Claude Code**: 2.1.233
+**Cập Nhật Lần Cuối**: Ngày 25 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.245
 **Nguồn**:
 - https://code.claude.com/docs/en/hooks
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

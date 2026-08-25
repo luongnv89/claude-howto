@@ -878,8 +878,8 @@ MIT 许可证，详见 [LICENSE](LICENSE)。你可以自由使用、修改和分
 
 ---
 
-**最后更新**：2026 年 8 月 15 日
-**Claude Code 版本**：2.1.233
+**最后更新**：2026 年 8 月 25 日
+**Claude Code 版本**：2.1.245
 **来源**：
 - https://code.claude.com/docs/en/hooks
 **兼容模型**：Claude Sonnet 4.6、Claude Opus 4.6、Claude Haiku 4.5

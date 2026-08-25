@@ -42,7 +42,7 @@ graph TD
 
 ### Deep Assessment (~5 min)
 - 5 rounds of questions covering 10 feature areas (2 topics per round)
-- Per-topic scoring (0-2 points each, 20 points total)
+- Per-topic scoring (0-2 points each, 19 points maximum — Checkpoints contributes 0-1)
 - Mastery table with strength areas, priority gaps, and review items
 - Dependency-aware learning path with phases and time estimates
 - Recommended practice projects combining gap topics

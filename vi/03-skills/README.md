@@ -92,7 +92,7 @@ sequenceDiagram
 | **Project** | `.claude/skills/<skill-name>/SKILL.md` | Đội | Có (qua git) | Tiêu chuẩn đội |
 | **Plugin** | `<plugin>/skills/<skill-name>/SKILL.md` | Nơi được bật | Phụ thuộc | Được gói với plugins |
 
-Khi skills chia sẻ cùng tên qua các cấp, vị trí ưu tiên cao hơn thắng: **enterprise > project > personal**. Skills cấp project ghi đè skills cá nhân theo mặc định; setting `skillOverrides` (v2.1.129+) điều chỉnh hành vi đó. Plugin skills sử dụng namespace `plugin-name:skill-name`, vì vậy chúng không thể xung đột.
+Khi skills chia sẻ cùng tên qua các cấp, vị trí ưu tiên cao hơn thắng: **enterprise > personal > project**. Skills cá nhân ghi đè skills cấp project theo mặc định; setting `skillOverrides` (v2.1.129+) điều chỉnh hành vi đó. Plugin skills sử dụng namespace `plugin-name:skill-name`, vì vậy chúng không thể xung đột.
 
 ### Khám Phá Tự Động
 
@@ -136,7 +136,7 @@ Hiển thị các ví dụ cụ thể về việc sử dụng Skill này.
 ### Các Trường Bắt Buộc
 
 - **name**: chỉ chữ thường, số, gạch ngang (tối đa 64 ký tự). Không thể chứa "anthropic" hoặc "claude".
-- **description**: những gì Skill làm VÀ khi nào sử dụng nó (tối đa 1024 ký tự). Điều này quan trọng để Claude biết khi nào kích hoạt skill.
+- **description**: những gì Skill làm VÀ khi nào sử dụng nó. Nội dung `description` + `when_to_use` gộp lại bị cắt ở **1.536 ký tự** trong danh sách skill (có thể điều chỉnh qua `skillListingMaxDescChars`). Điều này quan trọng để Claude biết khi nào kích hoạt skill.
 
 ### Các Trường Frontmatter Tùy Chọn
 
@@ -165,7 +165,8 @@ hooks:                                      # Hooks theo phạm vi skill
 | Trường | Mô Tả |
 |-------|-------------|
 | `name` | Chỉ chữ thường, số, gạch ngang (tối đa 64 ký tự). Không thể chứa "anthropic" hoặc "claude". |
-| `description` | Những gì Skill làm VÀ khi nào sử dụng nó (tối đa 1024 ký tự). Quan trọng cho phù hợp kích hoạt tự động. |
+| `description` | Những gì Skill làm VÀ khi nào sử dụng nó. Nội dung `description` + `when_to_use` gộp lại bị cắt ở 1.536 ký tự trong danh sách skill (có thể điều chỉnh qua `skillListingMaxDescChars`). Quan trọng cho phù hợp kích hoạt tự động. |
+| `when_to_use` | Bối cảnh bổ sung về thời điểm Claude nên gọi skill. Được nối vào `description` trong danh sách skill và tính vào giới hạn 1.536 ký tự. |
 | `argument-hint` | Gợi ý hiển thị trong menu autocomplete `/` (ví dụ: `"[filename] [format]"`). |
 | `disable-model-invocation` | `true` = chỉ người dùng có thể gọi qua `/name`. Claude sẽ không bao giờ tự gọi. |
 | `user-invocable` | `false` = ẩn từ menu `/`. Chỉ Claude có thể gọi nó tự động. |
@@ -611,7 +612,7 @@ Can you help me review this code for security issues?
 
 ### Cập Nhật Một Skill
 
-Chỉnh sửa file `SKILL.md` trực tiếp. Các thay đổi có hiệu lực vào lần khởi động Claude Code tiếp theo.
+Chỉnh sửa file `SKILL.md` trực tiếp, sau đó chạy `/reload-skills` (v2.1.152+) để quét lại các thư mục skill. Khởi động lại Claude Code cũng được nhưng không bắt buộc — skills trong thư mục `--add-dir` được nhận diện tức thời, và hook `SessionStart` trả về `reloadSkills: true` cũng kích hoạt lần quét lại tương tự.
 
 ```bash
 # Personal Skill
@@ -805,6 +806,8 @@ Khi bạn bắt đầu xây dựng skills một cách nghiêm túc, hai điều 
 
 ---
 
-**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
-**Phiên Bản Claude Code**: 2.1+
+**Cập Nhật Lần Cuối**: Ngày 25 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.245
+**Nguồn**:
+- https://code.claude.com/docs/en/skills
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

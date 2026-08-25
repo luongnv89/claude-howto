@@ -597,11 +597,12 @@ Lesson READMEs end with a metadata block:
 
 ```markdown
 ---
-**Last Updated**: July 29, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 ```
 
+- Use the version captured by the current sync run, not the value shown here
 - Use month + day + year format (e.g., "May 20, 2026")
 - Update the version when features change
 - List all compatible models
@@ -631,8 +632,8 @@ Before submitting content, verify:
 
 ---
 
-**Last Updated**: July 29, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/changelog

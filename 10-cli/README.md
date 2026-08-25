@@ -399,6 +399,8 @@ claude --ide "help me with this file"
 
 The `--agents` flag accepts a JSON object defining custom subagents for a session.
 
+As of **v2.1.243**, `--agents` no longer silently ignores invalid JSON or an invalid agent definition — it exits with a clear error, matching how `--mcp-config` already behaved.
+
 ### Agents JSON Format
 
 ```json
@@ -811,6 +813,7 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu
 |----------|-------------|
 | `ANTHROPIC_API_KEY` | API key for authentication |
 | `ANTHROPIC_MODEL` | Override default model |
+| `ANTHROPIC_DEFAULT_MODEL` | (v2.1.236) Sets the model new sessions start on. Unlike `ANTHROPIC_MODEL`, which pins the model, a `/model` pick still overrides this value **and persists across restarts** — that contrast is the point of the variable. |
 | `ANTHROPIC_CUSTOM_MODEL_OPTION` | Custom model option for API |
 | `ANTHROPIC_DEFAULT_OPUS_MODEL` | Override default Opus model ID |
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | Override default Sonnet model ID |
@@ -901,6 +904,11 @@ These keys live in a `settings.json` file (`~/.claude/settings.json` for user sc
 | `emojiCompletionEnabled` | (v2.1.217) Enables emoji shortcode autocomplete in the prompt input (e.g. typing `:heart:` inserts ❤️). Set `false` to disable. |
 | `workflowSizeGuideline` | (v2.1.219) Sets the advisory Dynamic workflow size guideline from any settings file. The guideline is guidance Claude aims for, not a hard cap — the default is medium (aim for fewer than 15 agents), and other sizes or unrestricted can be selected. While this key is set, the "Dynamic workflow size" row is hidden in `/config`. Distinct from `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`, which is an enforced concurrency limit. |
 | `spellcheck` | (v2.1.235) Underlines misspelled words in the prompt input using whichever of `aspell`, `hunspell`, or `ispell` is on your `PATH`, tried in that order. Object-valued — `{"enabled": true, "language": "en_GB"}` — and off by default. **Read from user settings, the `--settings` flag, and managed settings only**: a `spellcheck` block in a project `.claude/settings.json` or `.claude/settings.local.json` is ignored. See also [Advanced Features → Additional Per-User Settings](../09-advanced-features/README.md#additional-per-user-settings). |
+| `modelPicker` | (v2.1.243) Choose which models the `/model` picker lists, in your own order and with your own labels. One of the few settings that **replaces rather than merges** across settings layers. |
+| `promptCacheTtl` | (v2.1.243) Choose the prompt cache lifetime for the main conversation. |
+| `subagentPromptCacheTtl` | (v2.1.243) The same choice for subagents and other requests outside the main conversation. |
+| `modelPricing` | (v2.1.243) **Managed setting.** Supplies your organization's contracted rates so `/cost`, the status line, and telemetry report those instead of list price. **Changelog-sourced** — the settings reference does not yet list this key. |
+| `keybindingFlavor` | (v2.1.238) `"classic"` (default) or `"readline"`. `readline` makes `Ctrl+W` delete back to the previous whitespace, as Bash does; v2.1.239 extended it to `Alt+F`, `Ctrl`/`Option+→`, and `Alt+D`. |
 
 ```json
 {
@@ -1014,8 +1022,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: August 19, 2026
-**Claude Code Version**: 2.1.235
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/env-vars
@@ -1039,4 +1047,5 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/headless
 - https://code.claude.com/docs/en/cli-reference.md
 - https://code.claude.com/docs/en/settings.md
+- https://code.claude.com/docs/en/settings-reference
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

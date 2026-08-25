@@ -61,8 +61,14 @@
 | `hooks` | フック定義の配列 | `[{ "type": "command", ... }]` |
 | `type` | フックタイプ：`"command"`（bash）、`"prompt"`（LLM）、`"http"`（webhook）、`"mcp_tool"`（MCP ツール呼び出し、v2.1.118 以降）、`"agent"`（サブエージェント） | `"command"` |
 | `command` | 実行するシェルコマンド | `"$CLAUDE_PROJECT_DIR/.claude/hooks/format.sh"` |
-| `timeout` | オプションのタイムアウト（秒、デフォルト 60） | `30` |
+| `timeout` | オプションのタイムアウト（秒）。デフォルトは command/http/mcp_tool が 600、prompt が 30、agent が 60。 | `30` |
 | `once` | `true` の場合、フックはセッションごとに 1 回のみ実行 | `true` |
+| `async` | `true` の場合、ブロックせずにバックグラウンドで実行 | `true` |
+| `asyncRewake` | `true` の場合、バックグラウンドで実行し、終了コード 2 で Claude を起こす。`async` を含意する。 | `true` |
+| `shell` | `"bash"` または `"powershell"` を受け付ける。デフォルトは `"bash"`、Git Bash が未インストールの Windows では `"powershell"`。 | `"bash"` |
+| `statusMessage` | フック実行中に表示されるカスタムスピナーメッセージ | `"フォーマット中…"` |
+
+> **注意**: 一部のイベントはデフォルトのタイムアウトを引き下げる。`UserPromptSubmit` は command / http / mcp_tool のデフォルトを 30 秒に、`MessageDisplay` は 10 秒に下げる。`SessionEnd` フックは 1.5 秒の予算を共有し、設定でより長い `timeout` を指定した場合は Claude Code が最大 60 秒まで予算を引き上げる。
 
 ### マッチャーパターン
 
@@ -170,6 +176,8 @@ LLM はプロンプトを評価し、構造化された判定を返す（詳細�
   "timeout": 120
 }
 ```
+
+> **注意**: Agent フックは実験的機能であり、変更される可能性がある。
 
 **主要プロパティ：**
 - `"type": "agent"` -- agent フックであることを示す
@@ -1314,7 +1322,7 @@ echo $?
 
 | 項目 | 動作 |
 |------|------|
-| **タイムアウト** | デフォルト 60 秒、コマンドごとに設定可能 |
+| **タイムアウト** | command/http/mcp_tool はデフォルト 600 秒（prompt は 30 秒、agent は 60 秒）、フックごとに設定可能 |
 | **並列化** | マッチしたフックはすべて並列実行 |
 | **重複排除** | 同一のフックコマンドは重複排除される |
 | **環境** | カレントディレクトリで Claude Code の環境のもと実行 |
@@ -1371,8 +1379,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新：** 2026 年 8 月 15 日
-**Claude Code バージョン：** 2.1.233
+**最終更新：** 2026 年 8 月 25 日
+**Claude Code バージョン：** 2.1.245
 **情報源：**
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/changelog

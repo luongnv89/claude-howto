@@ -57,8 +57,14 @@ Hooks are configured in settings files with a specific structure:
 | `hooks` | Array of hook definitions | `[{ "type": "command", ... }]` |
 | `type` | Hook type: `"command"` (bash), `"prompt"` (LLM), `"http"` (webhook), `"mcp_tool"` (MCP tool invocation, v2.1.118+), or `"agent"` (subagent) | `"command"` |
 | `command` | Shell command to execute | `"$CLAUDE_PROJECT_DIR/.claude/hooks/format.sh"` |
-| `timeout` | Optional timeout in seconds (default 60) | `30` |
+| `timeout` | Optional timeout in seconds. Defaults: 600 for command/http/mcp_tool, 30 for prompt, 60 for agent. | `30` |
 | `once` | If `true`, run the hook only once per session | `true` |
+| `async` | If `true`, runs in the background without blocking | `true` |
+| `asyncRewake` | If `true`, runs in the background and wakes Claude on exit code 2. Implies `async`. | `true` |
+| `shell` | Accepts `"bash"` or `"powershell"`. Defaults to `"bash"`, or to `"powershell"` on Windows when Git Bash isn't installed. | `"bash"` |
+| `statusMessage` | Custom spinner message displayed while the hook runs | `"Formatting…"` |
+
+> **Note**: Some events lower the default timeout. `UserPromptSubmit` lowers the `command`, `http`, and `mcp_tool` default to 30 seconds, and `MessageDisplay` lowers it to 10 seconds. `SessionEnd` hooks share a 1.5-second budget; if your settings set a longer per-hook `timeout`, Claude Code raises that budget to match, up to 60 seconds.
 
 ### Matcher Patterns
 
@@ -218,6 +224,8 @@ The hook input (tool name, tool input, session context) is passed as the MCP too
 ### Agent Hooks
 
 Subagent-based verification hooks that spawn a dedicated agent to evaluate conditions or perform complex checks. Unlike prompt hooks (single-turn LLM evaluation), agent hooks can use tools and perform multi-step reasoning.
+
+> **Note**: Agent hooks are experimental and may change.
 
 ```json
 {
@@ -668,6 +676,8 @@ All hooks receive JSON input via stdin:
 >   }
 > }
 > ```
+
+> **`retry` (PermissionDenied)**: Use JSON `hookSpecificOutput.retry: true` to tell the model it may retry the denied tool call.
 
 #### `terminalSequence` (v2.1.141)
 
@@ -1467,7 +1477,7 @@ echo $?
 
 | Aspect | Behavior |
 |--------|----------|
-| **Timeout** | 60 seconds default, configurable per command |
+| **Timeout** | 600 seconds default for command/http/mcp_tool (30 for prompt, 60 for agent); configurable per hook |
 | **Parallelization** | All matching hooks run in parallel |
 | **Deduplication** | Identical hook commands deduplicated |
 | **Environment** | Runs in current directory with Claude Code's environment |
@@ -1524,8 +1534,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: August 15, 2026
-**Claude Code Version**: 2.1.233
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

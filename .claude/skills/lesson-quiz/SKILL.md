@@ -3,7 +3,7 @@ name: lesson-quiz
 description: "Test a learner on a single Claude Code tutorial lesson (01-10) with 10 questions, scoring answers and flagging weak spots. Use before, during, or after a lesson. Don't use for whole-tutorial assessment or explaining a topic instead of testing it."
 effort: high
 metadata:
-  version: 1.1.0
+  version: 1.2.0
   author: Luong NGUYEN
 ---
 

@@ -685,7 +685,9 @@ Claude は、現在の作業ディレクトリのメモリファイルに加え�
 ````markdown
 # API Module Standards
 
-This file overrides root CLAUDE.md for everything in /src/api/
+This file supplements root CLAUDE.md for everything in /src/api/. Memory files are
+concatenated, not overridden — the root CLAUDE.md still applies, and Claude Code
+loads this file on demand when it reads files in this subtree.
 
 ## API-Specific Standards
 
@@ -1127,7 +1129,9 @@ Claude はどのメモリファイルを更新するかを尋ねる。
    cat > /path/to/directory/CLAUDE.md << 'EOF'
    # [Directory Name] Standards
 
-   This file overrides root CLAUDE.md for this directory.
+   This file supplements root CLAUDE.md for this directory. Memory files are
+   concatenated, not overridden — Claude Code loads this file on demand when it
+   reads files in this directory.
 
    ## [Specific Standards]
    EOF
@@ -1202,8 +1206,8 @@ Claude はどのメモリファイルを更新するかを尋ねる。
 - [公式メモリドキュメント](https://code.claude.com/docs/en/memory) — Anthropic ドキュメント
 
 ---
-**Last Updated**: April 24, 2026
-**Claude Code Version**: 2.1.119
+**最終更新**: 2026 年 8 月 25 日
+**Claude Code バージョン**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/settings

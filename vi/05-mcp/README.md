@@ -105,13 +105,27 @@ Giao thức Server-Sent Events đã lỗi thời để ủng hộ `http` nhưng 
 claude mcp add --transport sse legacy-server https://example.com/sse
 ```
 
-### Giao Thức WebSocket / WebSocket Transport
+### Giao Thức WebSocket (`ws`) / WebSocket Transport (`ws`)
 
-Giao thức WebSocket cho các kết nối hai chiều liên tục:
+Máy chủ WebSocket giữ một kết nối hai chiều liên tục, phù hợp với các máy chủ MCP từ xa cần đẩy sự kiện tới Claude mà không cần được hỏi. Hãy dùng HTTP thay thế nếu máy chủ của bạn chỉ phản hồi các yêu cầu, vì HTTP hỗ trợ OAuth và cờ `claude mcp add --transport`, còn WebSocket thì không hỗ trợ cả hai.
 
-```bash
-claude mcp add --transport ws realtime-server wss://example.com/mcp
+Vì `--transport` không chấp nhận `ws`, hãy cấu hình trong `.mcp.json` hoặc qua `claude mcp add-json`:
+
+```json
+{
+  "type": "ws",
+  "url": "wss://mcp.example.com/socket",
+  "headers": {
+    "Authorization": "Bearer YOUR_TOKEN"
+  }
+}
 ```
+
+Mục `type: "ws"` chấp nhận cùng các trường `url`, `headers`, `headersHelper`, `timeout` và `alwaysLoad` như `http`. Xác thực **chỉ qua header** — không có luồng OAuth cho máy chủ WebSocket.
+
+> **Lưu ý**: Máy chủ WebSocket không xuất hiện trong đầu ra của `claude mcp list`. Hãy dùng `claude mcp get <tên>` hoặc bảng `/mcp` để kiểm tra chúng.
+
+Giống HTTP và SSE, kết nối WebSocket dùng cửa sổ nhàn rỗi 5 phút; stdio và WebSocket không có bộ đếm thời gian cho từng yêu cầu. Một mục `url` không có `type` sẽ báo lỗi và liệt kê `"http"`, `"sse"`, `"ws"` là các giá trị hợp lệ.
 
 ### Lưu Ý Cụ Thể Cho Windows / Windows-Specific Note
 
@@ -1124,6 +1138,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
-**Phiên Bản Claude Code**: 2.1+
+**Cập Nhật Lần Cuối**: Ngày 25 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.245
+**Nguồn**:
+- https://code.claude.com/docs/en/mcp
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

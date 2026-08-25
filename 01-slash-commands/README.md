@@ -20,6 +20,8 @@ Slash commands are shortcuts that control Claude's behavior during an interactiv
 
 Built-in commands are shortcuts for common actions. There are **60+ built-in commands** and **10 bundled skills** available. Type `/` in Claude Code to see the full list, or type `/` followed by any letters to filter.
 
+> **Note**: Since v2.1.236, pressing Enter on a mistyped slash command — or on a command that is not available in the current session — reports an error instead of silently running the closest fuzzy match. Unambiguous prefixes and defined aliases still run as before.
+
 | Command | Purpose |
 |---------|---------|
 | `/add-dir <path>` | Add working directory |
@@ -96,7 +98,6 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/theme` | Open theme picker / manage custom themes (v2.1.118). Define custom themes via JSON in `~/.claude/themes/<name>.json` |
 | `/tui` | Toggle fullscreen TUI (text user interface) mode with flicker-free rendering (added v2.1.110) |
 | `/ultrareview` | Comprehensive cloud-based multi-agent code review (added v2.1.111). The preferred invocation is now `/code-review ultra`; `/ultrareview` remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits |
-| `/undo` | Alias for `/rewind` (added v2.1.108) |
 | `/upgrade` | Open upgrade page for higher plan tier |
 | `/usage` | Canonical usage dashboard (v2.1.118) — combines plan usage limits, rate limits, cost, and daily session stats. `/cost` and `/stats` are typing-shortcut aliases that open specific tabs |
 | `/voice` | Toggle push-to-talk voice dictation |
@@ -114,6 +115,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 | `/claude-api` | Load Claude API reference for project language |
 | `/dataviz` | Chart and dashboard design guidance with a runnable color-palette validator (v2.1.198) |
 | `/debug [description]` | Enable debug logging |
+| `/design [description]` | Create a **design canvas** — a multi-artboard visual design (UI mockups, screen flows, landing pages, posters) published as an artifact and refined visually rather than in code. Use it instead of hand-writing HTML when the layout is what you want to iterate on. Research preview; requires v2.1.233+ and a Pro, Max, Team, or Enterprise plan |
 | `/loop [interval] <prompt>` | Run prompt repeatedly on interval |
 | `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` | Review the current diff — or a PR number, branch, or path you pass — for correctness bugs. Pass `--fix` to apply findings, `--comment` to post them as inline GitHub PR comments, or `ultra` to run a deep cloud review; with `ultra` on a `github.com` PR target, `--post` preselects posting the findings to the PR. With no effort level given, the review reuses the last level you typed (v2.1.223). Originally absorbed `/simplify` in v2.1.146, but `/simplify` returned as a distinct command in v2.1.154 |
 | `/simplify` | Run a cleanup-only review (reuse / simplification / efficiency / altitude) and apply the fixes; does **not** hunt for bugs — use `/code-review` for that. Briefly an alias of `/code-review --fix` (v2.1.152), it became cleanup-only in v2.1.154 |
@@ -125,6 +127,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 | `/output-style` | Removed in v2.1.91 (deprecated v2.1.73) — use `/config` → Output style, or the `outputStyle` setting |
 | `/pr-comments` | Removed in v2.1.91 — ask Claude directly to view PR comments |
 | `/vim` | Removed in v2.1.92 — use /config → Editor mode |
+| `/undo` | No longer listed in the official commands reference as of v2.1.245 (it was added as an alias for `/rewind` in v2.1.108) — use `/rewind` or press `Esc` twice |
 
 ### Recent Changes
 
@@ -148,7 +151,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 - `/tui` command added for flicker-free fullscreen TUI rendering (v2.1.110)
 - `/focus` command added for focus view toggle; `Ctrl+O` now only toggles verbose transcript (v2.1.110)
 - `/recap` command added to manually trigger session context recap (v2.1.108)
-- `/undo` added as alias for `/rewind` (v2.1.108)
+- `/undo` added as alias for `/rewind` (v2.1.108); it no longer appears in the official commands reference as of v2.1.245 — use `/rewind` or `Esc Esc`
 - `/proactive` added as alias for `/loop` (v2.1.105)
 - `/effort` gained interactive arrow-key slider and new `xhigh` level between `high` and `max`; default effort raised to `xhigh` for Opus 4.7 plans (v2.1.111). On Opus 4.8 the default is `high` (v2.1.154); Opus 5 also defaults to `high` (v2.1.219)
 - `/ultrareview` added for comprehensive cloud-based multi-agent code review (v2.1.111)
@@ -645,13 +648,14 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: August 19, 2026
-**Claude Code Version**: 2.1.235
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/whats-new/2026-w34
 - https://code.claude.com/docs/en/model-config
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139

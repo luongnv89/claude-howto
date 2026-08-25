@@ -390,7 +390,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Auto Mode** | Fully autonomous operation with background classifier; available by default on Bedrock/Vertex/Foundry as of v2.1.207 | `Shift+Tab` to cycle modes, or `--permission-mode auto` |
 | **Channels** | Discord and Telegram integration | `--channels` flag, Discord/Telegram bots |
 | **Voice Dictation** | Speak commands and context to Claude | `/voice` command |
-| **Output Styles** | Change Claude's role, tone, and default response format | `/config` → Output style, or `outputStyle` setting. Built-ins: Default, Proactive, Explanatory, Learning |
+| **Output Styles** | Change Claude's role, tone, and default response format | `/config` → Output style, or `outputStyle` setting. Built-ins: Default, Proactive, Explanatory, Learning, Concise |
 | **Status Line** | Custom bottom-of-session status from a command | `/statusline`, or `statusLine` setting; receives session/model/cost/context JSON on stdin |
 | **Hooks (31 events)** | Expanded hook system with 5 types | command, http, mcp_tool, prompt, agent hook types |
 | **MCP Elicitation** | MCP servers can request user input at runtime | Auto-prompted when server needs clarification |
@@ -516,9 +516,10 @@ Getting started checklist:
 
 ---
 
-**Last Updated**: August 15, 2026
-**Claude Code Version**: 2.1.233
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
+- https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/cli-reference
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/sub-agents

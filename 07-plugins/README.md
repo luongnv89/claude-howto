@@ -87,6 +87,20 @@ Plugin manifest uses JSON format in `.claude-plugin/plugin.json`:
 }
 ```
 
+Beyond those identity fields, the manifest can point Claude Code at components that live somewhere other than the default folders, and carry discovery and dependency metadata:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `workflows` | string \| array | Custom [workflow](https://code.claude.com/docs/en/workflows) script files or directories (replaces the default `workflows/`) |
+| `outputStyles` | string \| array | Custom output style files or directories (replaces the default `output-styles/`) |
+| `lspServers` | string \| array \| object | LSP servers for code intelligence — go to definition, find references, diagnostics. Commonly `"./.lsp.json"`. See [LSP server configuration](#lsp-server-configuration) |
+| `channels` | array | Channel declarations for message injection (Telegram, Slack, Discord style) |
+| `dependencies` | array | Other plugins this plugin requires, optionally with semver version constraints |
+| `keywords` | array | Discovery tags used when browsing and searching marketplaces |
+| `metadata` | object | Free-form object for your own data, such as entitlement or catalog fields |
+| `experimental.themes` | string \| array | Color theme files or directories (replaces the default `themes/`) |
+| `experimental.monitors` | string \| array | [Background Monitor](#background-monitors-v21105) configurations that start automatically when the plugin is active |
+
 ## Plugin Structure Example
 
 ```
@@ -123,13 +137,15 @@ my-plugin/
     └── plugin.test.js
 ```
 
+> **Note**: `commands/` is **legacy**. Official guidance is *"Use `skills/` for new plugins."* Existing `commands/` directories keep working — the three example plugins in this module ship one — but a new plugin should put its capabilities in `skills/` as `SKILL.md` directories instead of flat Markdown command files.
+
 ### LSP server configuration
 
 Plugins can include Language Server Protocol (LSP) support for real-time code intelligence. LSP servers provide diagnostics, code navigation, and symbol information as you work.
 
 **Configuration locations**:
 - `.lsp.json` file in the plugin root directory
-- Inline `lsp` key in `plugin.json`
+- The `lspServers` key in `plugin.json` — the official manifest field name. It accepts a string, an array, or an object: a string or array points at LSP config file(s) or directories (for example `"./.lsp.json"`), and an object declares the servers inline.
 
 #### Field reference
 
@@ -543,6 +559,12 @@ Example `blockedMarketplaces` with host/path regex (v2.1.119):
 }
 ```
 
+#### Marketplace `headersHelper` (v2.1.238)
+
+A `url` marketplace — or an individual catalog entry — can name a `headersHelper` command that mints the HTTP headers used to fetch the catalog and any same-origin archives. This is how a private marketplace behind a token-issuing service authenticates without a static secret in the config.
+
+A **catalog entry's** helper runs only on install or update, and only after its command has been shown to you: `claude plugin install` and `claude plugin update` prompt `[y/N]` before running it. Pass `-y` to accept without the prompt in automation.
+
 ### Additional Marketplace Features
 
 - **Marketplace search bar (v2.1.172)**: When browsing a marketplace's plugins in `/plugin`, a search bar lets you filter the marketplace's plugins by name or keyword — handy for large marketplaces where scrolling the full list is slow.
@@ -619,6 +641,10 @@ Plugins can be sourced from multiple locations:
 | **Command** (v2.1.229+) | `{ "source": "command", "command": "..." }` | `{ "source": "command", "command": "acme-plugin-resolver --print-dir" }` |
 
 GitHub and git sources support optional `ref` (branch/tag) and `sha` (commit hash) fields for version pinning.
+
+**Bare source names and `metadata.pluginRoot` (v2.1.239)**: a marketplace's `metadata.pluginRoot` now takes effect — a bare plugin source name in the catalog resolves to a directory under that root, instead of having to be spelled as a full relative path on every entry.
+
+**Skills synced from claude.ai (v2.1.239)**: plugins synced down from claude.ai appear as `name@synced`. Address them that way in `claude plugin enable <name>@synced` and `claude plugin disable <name>@synced`. A synced plugin never overrides an installed plugin of the same name — the two coexist, distinguished by the `@synced` suffix.
 
 #### `archive` source (v2.1.224+)
 
@@ -778,7 +804,23 @@ claude plugin tag <version>                  # Create a release git tag with ver
 claude plugin prune                          # Remove orphaned auto-installed plugin dependencies (v2.1.121+)
 claude plugin uninstall <name> --prune       # Uninstall and cascade-clean orphaned dependencies (v2.1.121+)
 claude plugin details <name>                 # Show inventory + projected per-turn token cost (v2.1.139+)
+claude plugin init                           # Scaffold a new plugin (alias: claude plugin new)
 ```
+
+**Aliases**: `claude plugin new` for `init`, `remove` / `rm` for `uninstall`, `ls` for `list`, and `autoremove` for `prune`.
+
+**Flags worth knowing:**
+
+| Command | Flag | Purpose |
+|---------|------|---------|
+| `plugin init` | `--with <components...>` | Scaffold specific component folders: `skills`, `agents`, `hooks`, `mcp`, `lsp`, `output-style`, `channel` |
+| `plugin init` | `-f`, `--force` | Overwrite an existing `.claude-plugin/` directory |
+| `plugin install` | `--config <key=value>` | Set a `userConfig` option at install time |
+| `plugin install` | `-y`, `--yes` | Accept commands without a confirmation prompt |
+| `plugin list` | `--available` | Also list plugins available from marketplaces (requires `--json`) |
+| `plugin tag` | `--push` | Push the tag to the remote after creating it |
+| `plugin tag` | `--dry-run` | Print what would be tagged without creating the tag |
+| `plugin validate` | `--strict` | Treat warnings as errors |
 
 Example: `claude plugin tag v0.3.0` validates the version format, creates the matching git tag, and is the recommended way to cut plugin releases for distribution.
 
@@ -1226,8 +1268,8 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: August 19, 2026
-**Claude Code Version**: 2.1.235
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/changelog#2-1-172

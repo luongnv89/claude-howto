@@ -685,17 +685,14 @@ Claude: [Shows linter output from bg-5002]
 
 ### Configuration
 
-```json
-{
-  "backgroundTasks": {
-    "enabled": true,
-    "maxConcurrentTasks": 5,
-    "notifyOnCompletion": true,
-    "autoCleanup": true,
-    "logOutput": true
-  }
-}
+There is no `settings.json` block for background tasks. The feature is controlled by an environment variable:
+
+```bash
+# Turn background tasks off entirely
+export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=true
 ```
+
+Concurrency is not a background-task setting either — how many agents run at once is governed by `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (default `20`).
 
 ---
 
@@ -1191,7 +1188,7 @@ CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1 claude   # force enable recap
 
 ## Cross-Session Messaging
 
-> **Added in v2.1.224**, extended through v2.1.232. Available on **macOS and Linux**.
+> **Added in v2.1.224**, extended through v2.1.239. Available on **macOS, Linux, and (since v2.1.239) Windows**.
 
 Sessions used to be islands. Cross-session messaging lets one Claude Code session talk to
 another — including sessions on your other machines and your cloud sessions — so you can
@@ -1217,6 +1214,27 @@ SendMessage({ to: "<session name>", message: "What did you conclude about the re
 
 Since v2.1.232, a bare name is enough — you no longer need to append a disambiguating ref
 unless two rows genuinely share the same name.
+
+### Waiting for a Session to Go Idle (`notify_when_idle`, v2.1.236)
+
+When the session you are messaging is mid-task, you usually want to know when it finishes
+rather than poll it. `SendMessage` takes a `notify_when_idle` input for exactly that:
+
+```text
+SendMessage({
+  to: "auth-refactor",
+  message: "ping me when the migration finishes",
+  notify_when_idle: true
+})
+```
+
+It is **opt-in and one-shot** — the target session sends a single notice the next time it
+goes idle, and then the subscription is done. There is no polling loop and no repeated
+notification if the session goes busy and idle again.
+
+Two related v2.1.239 changes: `ListAgents` now also reports **the session's own name** (so
+a session can tell others how to address it) alongside its live teammates, and cross-session
+messaging became available on **Windows**.
 
 ### `@`-Mention Shorthand (v2.1.232)
 
@@ -1248,7 +1266,7 @@ inbound delivery, never loosen it. Since v2.1.232 the setting also has a `/confi
 - Remote Control sessions on your other machines, addressable by name (v2.1.225).
 - A cloud session **receives** your message but cannot message a local session back yet —
   read its answer in its own transcript.
-- macOS and Linux only.
+- macOS and Linux from v2.1.224; Windows since v2.1.239.
 
 ---
 
@@ -1263,7 +1281,7 @@ Claude Code supports keyboard shortcuts for efficiency. Here's the complete refe
 | `Ctrl+C` | Cancel current input/generation |
 | `Ctrl+D` | Exit Claude Code |
 | `Ctrl+G` | Edit plan in external editor |
-| `Ctrl+L` | Clear terminal screen |
+| `Ctrl+L` | Redraw the screen (repaint only — the double-press `/clear` shortcut was removed in v2.1.238) |
 | `Ctrl+O` | Toggle verbose output (view reasoning) |
 | `Ctrl+R` | Reverse search history. Defaults to **all prompts across all projects** (v2.1.129+); press `Ctrl+S` inside the picker to narrow to the current project. Earlier versions defaulted to project-only. |
 | `Ctrl+T` | Toggle task list view |
@@ -1272,6 +1290,11 @@ Claude Code supports keyboard shortcuts for efficiency. Here's the complete refe
 | `Shift+Tab` / `Alt+M` | Toggle permission modes |
 | `Option+P` / `Alt+P` | Switch model |
 | `Option+T` / `Alt+T` | Toggle extended thinking |
+| `Option+O` / `Alt+O` | Toggle fast mode (`/fast`) |
+| `Ctrl+X` `Ctrl+K` | Stop all background subagents |
+| `Ctrl+S` | Stash the current prompt; press again to restore it |
+| `Ctrl+_` | Undo the last edit to the prompt input |
+| `:` | Type `:` at the start of a word to open emoji shortcode completion, e.g. `:heart:` (v2.1.217+) |
 
 **Line Editing (standard readline shortcuts):**
 
@@ -1507,6 +1530,7 @@ For instructions about your project or codebase, use [CLAUDE.md](../02-memory/) 
 | **Proactive** | Claude executes immediately and makes reasonable assumptions instead of pausing for routine decisions. Stronger autonomous-execution guidance than auto mode, but it does **not** change your permission mode — you still see permission prompts |
 | **Explanatory** | Adds educational "Insights" between steps, explaining implementation choices and codebase patterns |
 | **Learning** | Collaborative learn-by-doing. Claude shares insights *and* leaves `TODO(human)` markers for you to implement small, strategic pieces yourself |
+| **Concise** (v2.1.237) | Claude leads with the result and skips preamble and narration. Thoroughness is unchanged — only the framing around the answer is dropped. Select it in `/config` → Output style, or set `"outputStyle": "Concise"` |
 
 ### Selecting a style
 
@@ -1777,6 +1801,8 @@ Claude Code controls the browser in a visible window — you can watch actions h
 
 Remote Control lets you continue a locally running Claude Code session from your phone, tablet, or any browser. Your local session keeps running on your machine — nothing moves to the cloud. Available on Pro, Max, Team, and Enterprise plans (v2.1.51+).
 
+Remote Control is **no longer a research preview** — the label was dropped in week 34 of 2026. Any machine running `claude remote-control` now shows up as a **device card** in the Code tab of the Claude app, so you can start a session on that machine straight from your phone rather than having to start one on the machine first and then connect to it.
+
 ### Starting Remote Control
 
 **From the CLI**:
@@ -1982,7 +2008,7 @@ Connect external services for richer context:
 
 ### Permission modes in Desktop
 
-The Desktop App supports the same 4 permission modes as the CLI:
+The Desktop App supports the same permission modes as the CLI:
 
 | Mode | Behavior |
 |------|----------|
@@ -2187,6 +2213,8 @@ Example of `deniedDomains` overriding a broad wildcard (v2.1.113+):
 
 The wildcard lets everything on `example.com` through, but `deniedDomains` still blocks the specifically-named host.
 
+> **Note** (v2.1.243): the sandboxed Bash tool's permission prompt **no longer lists the allowed network hosts**. Claude simply attempts the request, and you approve each new host as it comes up — so do not expect the prompt to show you the allowlist up front. The same release also stopped dropping network-violation details when the blocked command happens to exit `0`, so a silent-looking success now still reports what was blocked.
+
 ### Credential Masking (v2.1.221, v2.1.224)
 
 > **Changelog-sourced**: these `sandbox.credentials` options come from the v2.1.221 and
@@ -2389,7 +2417,16 @@ These keys go in `~/.claude/settings.json` (or a project `.claude/settings.json`
 | `enableArtifact` | Per-user enable/disable of the Artifact tool (v2.1.196). |
 | `crossSessionInbound` | (v2.1.224) How inbound [cross-session messages](#cross-session-messaging) are handled — `"accept"`, `"hold"`, or `"refuse"`. Project and local values apply only when *stricter* on the `accept < hold < refuse` ladder. Exposed in `/config` as "Messages from your other sessions" since v2.1.232. |
 | `dialogExpiry` | (v2.1.224) How long an unanswered dialog stays open. Default `"5m"`; accepts `"60s"`, `"5m"`, `"10m"`, or `"never"`. Overridden by `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS`. Exposed in `/config` as "Dialog expiry" since v2.1.232. |
+| `modelPicker` | (v2.1.243) Choose which models the `/model` picker lists, in your own order and with your own labels. One of the few settings that **replaces rather than merges** across settings layers — the nearest-scope value wins outright. |
+| `promptCacheTtl` | (v2.1.243) Choose the prompt cache lifetime for the main conversation. |
+| `subagentPromptCacheTtl` | (v2.1.243) The same choice for subagents and other requests outside the main conversation. |
+| `modelPricing` | (v2.1.243) **Managed setting.** Supplies your organization's contracted rates so `/cost`, the status line, and telemetry report those instead of list price. |
+| `keybindingFlavor` | (v2.1.238) `"classic"` (default) or `"readline"`. `readline` makes `Ctrl+W` delete back to the previous whitespace, as Bash does; v2.1.239 extended it to `Alt+F`, `Ctrl`/`Option+→`, and `Alt+D`. |
 | `spellcheck` | (v2.1.235) Underlines misspelled words in the prompt input using whichever of `aspell`, `hunspell`, or `ispell` is on your `PATH`, tried in that order. Object-valued — `{"enabled": true, "language": "en_GB"}` — and off by default. **Read from user settings, the `--settings` flag, and managed settings only**: a `spellcheck` block in a project `.claude/settings.json` or `.claude/settings.local.json` is ignored. |
+
+> **Changelog-sourced**: `modelPricing` is documented from the v2.1.243 changelog entry;
+> the settings reference does not yet list it. The other four keys above appear in the
+> official settings reference.
 
 ### Fallback Models (`fallbackModel`)
 
@@ -2410,6 +2447,7 @@ Override config with environment variables:
 ```bash
 # Model selection
 export ANTHROPIC_MODEL=claude-opus-4-8
+export ANTHROPIC_DEFAULT_MODEL=claude-opus-4-8   # (v2.1.236) Model new sessions start on. Unlike ANTHROPIC_MODEL, a /model pick still overrides it — and that pick persists across restarts
 export ANTHROPIC_DEFAULT_OPUS_MODEL=claude-opus-4-8
 export ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-4-6
 export ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-haiku-4-5
@@ -2691,8 +2729,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: August 19, 2026
-**Claude Code Version**: 2.1.235
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/sandboxing
@@ -2702,4 +2740,6 @@ For more information about Claude Code and related features:
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/permission-modes
 - https://code.claude.com/docs/en/settings.md
+- https://code.claude.com/docs/en/settings-reference
+- https://code.claude.com/docs/en/whats-new/2026-w34
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

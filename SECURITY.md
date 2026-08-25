@@ -11,7 +11,6 @@ We provide security updates for the following versions:
 | Version | Status | Support Until |
 |---------|--------|---------------|
 | Latest (main) | ✅ Active | Current + 6 months |
-| 1.x releases | ✅ Active | Until next major version |
 
 **Note**: As an educational guide project, we focus on maintaining current best practices and documentation security rather than traditional version support. Updates are applied directly to the main branch.
 
@@ -326,8 +325,8 @@ This security policy is reviewed and updated:
 - When the project scope changes
 - Annually as a minimum
 
-**Last Updated**: August 4, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: August 25, 2026
+**Claude Code Version**: 2.1.245
 **Sources**:
 - https://code.claude.com/docs/en/overview
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
