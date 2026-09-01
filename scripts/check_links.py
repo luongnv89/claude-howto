@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Check external URLs in Markdown files are reachable."""
 
+import io
 import re
 import sys
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 IGNORE_DIRS = {
     ".venv",
@@ -88,7 +92,7 @@ def main(strict: bool = False) -> int:
     ]
 
     for file_path in md_files:
-        content = file_path.read_text()
+        content = file_path.read_text(encoding="utf-8")
         for raw_url in URL_RE.findall(content):
             # Strip trailing Markdown/punctuation characters the regex may over-capture
             # from link syntax like [text](https://url/) or **https://url)**

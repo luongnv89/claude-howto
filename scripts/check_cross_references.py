@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Validate cross-references, anchors, and code fences in Markdown files."""
 
 import re
 import sys
 from pathlib import Path
+
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 IGNORE_DIRS = {
     ".venv",

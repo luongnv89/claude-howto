@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Validate Mermaid diagram syntax in Markdown files using mmdc."""
 
+import io
 import json
 import os
 import re
@@ -8,6 +10,8 @@ import shutil
 import subprocess  # nosec B404
 import sys
 import tempfile
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 from pathlib import Path
 
 IGNORE_DIRS = {".venv", "node_modules", ".git", "blog-posts", ".agents"}
@@ -43,7 +47,7 @@ def main() -> int:
 
     try:
         for file_path in md_files:
-            content = file_path.read_text()
+            content = file_path.read_text(encoding="utf-8")
             blocks = re.findall(r"```mermaid\n(.*?)```", content, re.DOTALL)
             for i, block in enumerate(blocks):
                 with tempfile.NamedTemporaryFile(
