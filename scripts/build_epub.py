@@ -113,6 +113,8 @@ class EPUBConfig:
     vi_subtitle: str = "Làm chủ Claude Code trong một cuối tuần"
     en_title: str = "Claude Code How-To Guide"
     en_subtitle: str = "Master Claude Code in a Weekend"
+    zh_title: str = "Claude Code 实用指南"
+    zh_subtitle: str = "周末精通 Claude Code"
 
     # Cover Settings
     cover_width: int = 600
@@ -1057,8 +1059,8 @@ def main() -> int:
         "--lang",
         type=str,
         default="en",
-        choices=["en", "vi"],
-        help="Language code: 'en' for English, 'vi' for Vietnamese (default: en)",
+        choices=["en", "vi", "zh"],
+        help="Language code: 'en' for English, 'vi' for Vietnamese, 'zh' for Chinese (default: en)",
     )
     parser.add_argument(
         "--puppeteer-config",
@@ -1079,6 +1081,11 @@ def main() -> int:
         output = args.output or (repo_root / "claude-howto-guide-vi.epub")
         title = EPUBConfig.vi_title
         language = "vi"
+    elif args.lang == "zh":
+        root = repo_root / "zh"
+        output = args.output or (repo_root / "claude-howto-guide-zh.epub")
+        title = EPUBConfig.zh_title
+        language = "zh"
     else:
         root = repo_root
         output = args.output or (repo_root / "claude-howto-guide.epub")

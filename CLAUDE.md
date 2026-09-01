@@ -6,13 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Claude How To is a tutorial repository for Claude Code features. This is **documentation-as-code** — the primary output is markdown files organized into numbered learning modules, not an executable application.
 
-**Architecture**: Each module (01-10) covers a specific Claude Code feature with copy-paste templates, Mermaid diagrams, and examples. The build system validates documentation quality and generates an EPUB ebook.
+**Architecture**: Each module (01-10) covers a specific Claude Code feature with copy-paste templates, Mermaid diagrams, and examples. The build system validates documentation quality and generates an EPUB ebook. Translations exist under `zh/` (Chinese) and `vi/` (Vietnamese) with their own pre-commit hooks and EPUB builds.
 
 ## Common Commands
 
 ### Pre-commit Quality Checks
 
-All documentation must pass four quality checks before commits (these run automatically via pre-commit hooks):
+All documentation must pass five quality checks before commits (these run automatically via pre-commit hooks):
 
 ```bash
 # Install pre-commit hooks (runs on every commit)
@@ -22,12 +22,14 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-The four checks are:
+The five doc quality checks are:
 1. **markdown-lint** — Markdown structure and formatting via `markdownlint`
 2. **cross-references** — Internal links, anchors, code fence syntax (Python script)
 3. **mermaid-syntax** — Validates all Mermaid diagrams parse correctly (Python script)
 4. **link-check** — External URLs are reachable (Python script)
 5. **build-epub** — EPUB generates without errors (on `.md` changes)
+
+Additionally, pre-commit runs **shift-left quality gates** (ruff, bandit, mypy) on Python scripts so CI catches issues before they reach the pipeline.
 
 ### Development Environment Setup
 
@@ -108,6 +110,9 @@ uv run scripts/build_epub.py --verbose --output custom-name.epub --max-concurren
 │   ├── check_mermaid.py        # Validates Mermaid syntax
 │   └── tests/                  # Unit tests for scripts
 ├── .pre-commit-config.yaml    # Quality check definitions
+├── resources/               # Logos and images
+├── zh/                      # Chinese translation
+├── vi/                      # Vietnamese translation
 └── README.md               # Main guide (also module index)
 ```
 
@@ -140,7 +145,7 @@ Each numbered folder follows the pattern:
 
 2. **Scripts are utilities, not the product** — The Python scripts in `scripts/` support documentation quality and EPUB generation. The actual content is in the numbered module folders.
 
-3. **Pre-commit is the gatekeeper** — All four quality checks must pass before a PR is accepted. The CI pipeline runs these same checks as a second pass.
+3. **Pre-commit is the gatekeeper** — All five quality checks must pass before a PR is accepted. The CI pipeline runs these same checks as a second pass.
 
 4. **Mermaid rendering requires network** — The EPUB build calls Kroki.io API to render diagrams. Build failures here are typically network issues or invalid Mermaid syntax.
 
