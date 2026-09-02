@@ -49,7 +49,7 @@ The output format for Step 5 ("Score and Present Results"). Fill the bracketed p
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://code.claude.com/docs/en/overview

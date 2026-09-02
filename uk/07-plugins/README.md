@@ -613,7 +613,7 @@ claude plugin uninstall <n>               # Видалити плагін
 claude plugin list                           # Список встановлених плагінів
 claude plugin enable <n>                  # Увімкнути вимкнений плагін
 claude plugin disable <n>                 # Вимкнути плагін
-claude plugin validate                       # Валідація структури плагіна
+claude plugin validate <path>                # Валідація структури плагіна за шляхом <path>
 ```
 
 ## Методи встановлення
@@ -969,9 +969,10 @@ claude plugin update plugin-name
 - [Довідник системи хуків](../06-hooks/README.md)
 
 ---
-**Останнє оновлення**: 19 серпня 2026
-**Версія Claude Code**: 2.1.235
+**Останнє оновлення**: 2 вересня 2026
+**Версія Claude Code**: 2.1.257
 **Джерела**:
 - https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/settings
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

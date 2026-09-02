@@ -58,7 +58,7 @@ sequenceDiagram
     Tools-->>Claude: Plugin installed ✅
 ```
 
-> **No marketplace required (v2.1.157+)**: Plugins placed in `.claude/skills` directories now auto-load without a marketplace. Scaffold a new one with `claude plugin init <name>`.
+> **No marketplace required (v2.1.157+)**: Plugins placed in `.claude/skills` directories now auto-load without a marketplace. Scaffold a new one with `claude plugin init <name>`, which creates it at `~/.claude/skills/<name>/` (user-global) and auto-loads it in the next session as `<name>@skills-dir`.
 
 ## Plugin Types & Distribution
 
@@ -799,12 +799,12 @@ claude plugin update <name>                  # Update installed plugin to latest
 claude plugin list                           # List installed plugins
 claude plugin enable <name>                  # Enable a disabled plugin
 claude plugin disable <name>                 # Disable a plugin
-claude plugin validate                       # Validate plugin structure
-claude plugin tag <version>                  # Create a release git tag with version validation (v2.1.118+)
+claude plugin validate <path>                # Validate the plugin structure at <path>
+claude plugin tag [path]                     # Create a {name}--v{version} release git tag (v2.1.118+)
 claude plugin prune                          # Remove orphaned auto-installed plugin dependencies (v2.1.121+)
 claude plugin uninstall <name> --prune       # Uninstall and cascade-clean orphaned dependencies (v2.1.121+)
 claude plugin details <name>                 # Show inventory + projected per-turn token cost (v2.1.139+)
-claude plugin init                           # Scaffold a new plugin (alias: claude plugin new)
+claude plugin init <name>                    # Scaffold a new plugin (alias: claude plugin new)
 ```
 
 **Aliases**: `claude plugin new` for `init`, `remove` / `rm` for `uninstall`, `ls` for `list`, and `autoremove` for `prune`.
@@ -822,7 +822,7 @@ claude plugin init                           # Scaffold a new plugin (alias: cla
 | `plugin tag` | `--dry-run` | Print what would be tagged without creating the tag |
 | `plugin validate` | `--strict` | Treat warnings as errors |
 
-Example: `claude plugin tag v0.3.0` validates the version format, creates the matching git tag, and is the recommended way to cut plugin releases for distribution.
+Example: `claude plugin tag ./my-plugin` takes a **path** to the plugin (not a version string). It creates a `{name}--v{version}` git tag derived from `plugin.json`, validating that `plugin.json` and any enclosing marketplace entry agree, and is the recommended way to cut plugin releases for distribution.
 
 `claude plugin prune` is useful after installing or uninstalling marketplace plugins that pulled in their own dependencies — it removes any auto-installed plugins whose parent plugin has since been removed. `plugin uninstall --prune` does the same cascade in a single step.
 
@@ -1040,7 +1040,7 @@ This ensures that plugins cannot escalate privileges or modify the host environm
 2. Write `.claude-plugin/plugin.json` manifest
 3. Create `README.md` with documentation
 4. Test locally with `claude --plugin-dir ./my-plugin`
-5. Tag the release with `claude plugin tag v0.3.0` (v2.1.118+) — validates the version string and creates the matching git tag
+5. Tag the release with `claude plugin tag ./my-plugin` (v2.1.118+) — takes the plugin **path** and creates a `{name}--v{version}` git tag derived from `plugin.json`
 6. Submit to plugin marketplace
 7. Get reviewed and approved
 8. Published on marketplace
@@ -1268,10 +1268,11 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://code.claude.com/docs/en/plugins
+- https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/changelog#2-1-172
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/commands

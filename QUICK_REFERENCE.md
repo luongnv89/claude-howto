@@ -119,7 +119,7 @@ claude -r "session"    # Resume session by name/ID
 | **Skills** | `.claude/skills/*/SKILL.md` | Auto-invoked |
 | **Subagents** | `.claude/agents/*.md` | Auto-delegated |
 | **MCP** | `.mcp.json` (project) or `~/.claude.json` (user) | `/mcp__server__action` |
-| **Hooks (31 events)** | `~/.claude/hooks/*.sh` | Event-triggered (5 types) |
+| **Hooks (33 events)** | `~/.claude/hooks/*.sh` | Event-triggered (5 types) |
 | **Plugins** | Via `/plugin install` | Bundles all |
 | **Checkpoints** | Built-in | `Esc+Esc` or `/rewind` |
 | **Planning Mode** | Built-in | `/plan <task>` |
@@ -190,7 +190,7 @@ vim CLAUDE.md
 
 ### Automation & Hooks
 ```bash
-# Install hooks (31 events, 5 types: command, http, mcp_tool, prompt, agent)
+# Install hooks (33 events, 5 types: command, http, mcp_tool, prompt, agent)
 mkdir -p ~/.claude/hooks
 cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
@@ -392,7 +392,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Voice Dictation** | Speak commands and context to Claude | `/voice` command |
 | **Output Styles** | Change Claude's role, tone, and default response format | `/config` → Output style, or `outputStyle` setting. Built-ins: Default, Proactive, Explanatory, Learning, Concise |
 | **Status Line** | Custom bottom-of-session status from a command | `/statusline`, or `statusLine` setting; receives session/model/cost/context JSON on stdin |
-| **Hooks (31 events)** | Expanded hook system with 5 types | command, http, mcp_tool, prompt, agent hook types |
+| **Hooks (33 events)** | Expanded hook system with 5 types | command, http, mcp_tool, prompt, agent hook types |
 | **MCP Elicitation** | MCP servers can request user input at runtime | Auto-prompted when server needs clarification |
 | **Plugin LSP** | Language Server Protocol support for plugins | `userConfig`, `${CLAUDE_PLUGIN_DATA}` variable |
 | **Remote Control** | Control Claude Code via WebSocket API | `claude --remote` for external integrations |
@@ -401,7 +401,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Task List** | Manage background tasks | `/task list`, `/task status <id>` |
 | **Auto Memory** | Automatic memory saving from conversations | Claude auto-saves key context to CLAUDE.md |
 | **Git Worktrees** | Isolated workspaces for parallel development | `/worktree` to create isolated workspace |
-| **Model Selection** | Switch between Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8, and Haiku 4.5 | `/model` — since v2.1.153 the choice is saved as the default for new sessions; press `s` for session-only |
+| **Model Selection** | Switch between Fable 5.1, Fable 5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8, and Haiku 4.5 | `/model` — since v2.1.153 the choice is saved as the default for new sessions; press `s` for session-only |
 | **Agent Teams** | Coordinate multiple agents on tasks | Enable with `CLAUDE_AGENT_TEAMS=1` env var |
 | **Dynamic Workflows** *(v2.1.154)* | Deterministic multi-agent orchestration; since v2.1.219 the default size guideline is medium (aim for fewer than 15 agents) | `/workflows` to view runs; ask Claude to create one; change the size via **Dynamic workflow size** in `/config` |
 | **Scheduled Tasks** | Recurring tasks with `/loop` | `/loop 5m /command` or CronCreate tool |
@@ -414,6 +414,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Subagent Output Scanning** *(v2.1.210+)* | Scans subagent reports for prompt-injection patterns and neutralizes them | On by default, no opt-out |
 | **WebSearch Cap and Subagent Fan-Out Limits** *(v2.1.212, extended v2.1.219)* | 200 WebSearch calls per session; concurrent-subagent cap (default 20) added in v2.1.217; since v2.1.219 subagents can spawn nested subagents up to **depth 3 by default** (v2.1.217 had disabled nesting). The 200-subagent-per-session spawn cap was **removed in v2.1.224** — there is no longer any limit on total subagents per session | `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` (default 200; `/clear` resets), `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (default 20), `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` (default 3; set 1 to disable) |
 | **Screen Reader Mode** *(v2.1.208)* | Plain-text rendering mode for screen readers | `--ax-screen-reader` flag, `CLAUDE_AX_SCREEN_READER=1`, or `"axScreenReader": true` in settings |
+| **Restricted Mode** *(v2.1.248+)* | Drops the built-in tools that run commands or code (Bash, PowerShell, REPL) and WebFetch unless `--tools` names them; ignores user, project, and local settings (managed settings and `--settings` still apply); confines file tools to the working directories; refuses `bypassPermissions` and cloud sessions | `claude --restricted`, or `CLAUDE_CODE_RESTRICTED=1` |
+| **Subagent Cache TTL** *(v2.1.248+)* | `experimental.cacheTtl` agent-frontmatter field sets how long the subagent's prompt cache lives | Add `experimental:` with `cacheTtl: "5m"` (or `"1h"`) to the agent's frontmatter. See [Subagents](04-subagents/README.md) |
+| **Forced Subagent Model** *(v2.1.257+)* | `CLAUDE_CODE_SUBAGENT_MODEL_FORCE=1` makes `CLAUDE_CODE_SUBAGENT_MODEL` override agent frontmatter. Since v2.1.251 the env var no longer wins by default — frontmatter (including `model: inherit`) takes precedence unless this is set | `CLAUDE_CODE_SUBAGENT_MODEL=sonnet CLAUDE_CODE_SUBAGENT_MODEL_FORCE=1 claude` |
 
 ---
 
@@ -455,7 +458,7 @@ echo $GITHUB_TOKEN
 | Auto workflow | Skill | `03-skills/code-review-specialist/` |
 | Specialized task | Subagent | `04-subagents/code-reviewer.md` |
 | External data | MCP (+ Elicitation) | `05-mcp/github-mcp.json` |
-| Event automation | Hook (31 events, 5 types) | `06-hooks/pre-commit.sh` |
+| Event automation | Hook (33 events, 5 types) | `06-hooks/pre-commit.sh` |
 | Complete solution | Plugin (+ LSP support) | `07-plugins/pr-review/` |
 | Safe experiment | Checkpoint | `08-checkpoints/checkpoint-examples.md` |
 | Fully autonomous | Auto Mode | `--permission-mode auto` or `Shift+Tab` |
@@ -516,8 +519,8 @@ Getting started checklist:
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/cli-reference
@@ -525,4 +528,5 @@ Getting started checklist:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/settings
-**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+- https://code.claude.com/docs/en/hooks
+**Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

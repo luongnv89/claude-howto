@@ -137,10 +137,12 @@ Provide clear, step-by-step guidance for Claude.
 Show concrete examples of using this Skill.
 ```
 
-### 必須フィールド
+### 推奨フィールド
 
-- **name**: 小文字、数字、ハイフンのみ（最大 64 文字）。"anthropic" や "claude" を含めることはできない。
-- **description**: スキルが何をするかと、いつ使うか。`description` と `when_to_use` を合わせたテキストはスキル一覧で **1,536 文字**で切り詰められる（`skillListingMaxDescChars` で変更可能）。Claude がスキルを発火させるべきタイミングを判断する上で重要である。
+- **description**（推奨）: スキルが何をするかと、いつ使うか。省略した場合、Claude Code は markdown 本文の最初の段落を使用する。`description` と `when_to_use` を合わせたテキストはスキル一覧で **1,536 文字**で切り詰められる（`skillListingMaxDescChars` で変更可能）。Claude がスキルを発火させるべきタイミングを判断する際に照合するのはこのテキストである。
+- **name**（任意）: 既定ではスキルの**ディレクトリ名**が使われる。指定した場合は表示名となり、小文字・数字・ハイフンのみ（最大 64 文字）で、"anthropic" や "claude" を含めることはできない。プラグインのスキルでは、`name` はコマンドの最後のセグメントも決定する。
+
+SKILL.md のフロントマターのフィールドはすべて任意であり、推奨されるのは `description` だけである。
 
 ### オプションのフロントマターフィールド
 
@@ -824,10 +826,10 @@ chmod +x ~/.claude/skills/my-skill/scripts/*.py
 - [フックガイド](../06-hooks/) - イベント駆動の自動化
 
 ---
-**最終更新**: 2026 年 8 月 25 日
-**Claude Code バージョン**: 2.1.245
+**最終更新**: 2026 年 9 月 2 日
+**Claude Code バージョン**: 2.1.257
 **情報源**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/changelog
-**対応モデル**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+**対応モデル**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

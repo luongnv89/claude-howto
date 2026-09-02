@@ -68,10 +68,10 @@ description: 这个 skill 的用途，以及什么时候触发
 ## Examples
 ```
 
-### 必填字段
+### 推荐字段
 
-- `name`
-- `description`
+- `description`（推荐）：说明这个 skill 做什么、什么时候用；Claude 就是靠它判断是否激活
+- `name`（可选）：省略时默认取 skill 的目录名
 
 ### 可选 frontmatter 字段
 
@@ -269,3 +269,10 @@ chmod +x ~/.claude/skills/*/scripts/*
 - [Slash Commands 中文参考](../01-slash-commands/README.md)
 - [Memory 中文指南](../02-memory/README.md)
 - [Subagents 中文参考](../04-subagents/README.md)
+
+---
+
+**最后更新**: 2026 年 9 月 2 日
+**Claude Code 版本**: 2.1.257
+**来源**:
+- https://code.claude.com/docs/en/skills

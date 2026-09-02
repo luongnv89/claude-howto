@@ -42,7 +42,7 @@ You checked **N/8** items.
 
 ### Overall Level: [Level 1 / Level 2 / Level 3]
 
-**Total Score: N/19 points**
+**Total Score: N/20 points**
 
 [One-line motivational summary]
 
@@ -57,7 +57,7 @@ You checked **N/8** items.
 | MCP | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
 | Subagents | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
 | Checkpoints | N/1 | [None/Proficient] | [Learn/Mastered] |
-| Advanced Features | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
+| Advanced Features | N/3 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
 | Plugins | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
 | CLI | N/2 | [None/Basic/Proficient] | [Learn/Review/Mastered] |
 
@@ -113,7 +113,7 @@ Based on your gaps, try these real-world exercises to solidify your learning:
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://code.claude.com/docs/en/overview

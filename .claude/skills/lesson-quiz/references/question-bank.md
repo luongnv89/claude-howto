@@ -20,7 +20,7 @@
 - **Options**: A) Use `${args}` | B) Use `$ARGUMENTS` | C) Use `$@` | D) Use `$INPUT`
 - **Correct**: B
 - **Explanation**: `$ARGUMENTS` captures all text after the command name. For positional args, use `$0`, `$1`, etc.
-- **Review**: Argument handling section
+- **Review**: Arguments
 
 ### Q3
 - **Category**: conceptual
@@ -36,7 +36,7 @@
 - **Options**: A) Use `$(command)` syntax | B) Use `!`command`` (backtick with !) syntax | C) Use `@shell:command` syntax | D) Use `{command}` syntax
 - **Correct**: B
 - **Explanation**: The `!`command`` syntax runs a shell command and injects its output into the skill prompt before Claude sees it.
-- **Review**: Dynamic context injection section
+- **Review**: Dynamic Context with Shell Commands
 
 ### Q5
 - **Category**: conceptual
@@ -76,7 +76,7 @@
 - **Options**: A) `tools: [Read, Grep]` | B) `allowed-tools: [Read, Grep]` | C) `permissions: [Read, Grep]` | D) `restrict-tools: [Read, Grep]`
 - **Correct**: B
 - **Explanation**: The `allowed-tools` field in SKILL.md frontmatter scopes which tools the command can invoke.
-- **Review**: Frontmatter fields reference
+- **Review**: Frontmatter Reference
 
 ### Q10
 - **Category**: conceptual
@@ -136,7 +136,7 @@
 - **Options**: A) `~/.claude/CLAUDE.md` | B) `CLAUDE.local.md` | C) `.claude/rules/personal.md` | D) `.claude/memory/personal.md`
 - **Correct**: B
 - **Explanation**: `CLAUDE.local.md` in the project root is for personal project-specific preferences. It should be git-ignored.
-- **Review**: Memory locations comparison
+- **Review**: Memory Locations Table
 
 ### Q7
 - **Category**: conceptual
@@ -180,7 +180,7 @@
 - **Options**: A) Metadata, instructions, resources | B) Name, body, attachments | C) Header, content, scripts | D) Summary, details, data
 - **Correct**: A
 - **Explanation**: Level 1: Metadata (~100 tokens, always loaded), Level 2: SKILL.md body (<5k tokens, loaded on trigger), Level 3: Bundled resources (scripts/references/assets, loaded on demand).
-- **Review**: Progressive disclosure architecture section
+- **Review**: How Skills Work: Progressive Disclosure
 
 ### Q2
 - **Category**: practical
@@ -235,7 +235,7 @@
 - **Question**: What characters are allowed in the `name` field of a skill's frontmatter?
 - **Options**: A) Any characters | B) Lowercase letters, numbers, and hyphens only (max 64 chars) | C) Letters and underscores | D) Alphanumeric only
 - **Correct**: B
-- **Explanation**: The name must be kebab-case (lowercase, hyphens), max 64 characters, and cannot contain "anthropic" or "claude".
+- **Explanation**: The name must be kebab-case (lowercase, hyphens), max 64 characters, and cannot contain "anthropic" or "claude". `name` is itself optional — if omitted it defaults to the skill's directory name — but when supplied it must follow these rules.
 - **Review**: SKILL.md format section
 
 ### Q9
@@ -244,7 +244,7 @@
 - **Options**: A) User > Project > Enterprise | B) Enterprise > Personal > Project (plugin uses namespace) | C) Project > User > Enterprise | D) Alphabetical order
 - **Correct**: B
 - **Explanation**: Priority order is: Enterprise > Personal > Project. Plugin skills use a namespace (plugin-name:skill) so they don't conflict.
-- **Review**: Skill types and locations section
+- **Review**: Skill Types & Locations
 
 ### Q10
 - **Category**: practical
@@ -252,7 +252,7 @@
 - **Options**: A) Set `user-invocable: false` | B) Set `disable-model-invocation: true` | C) Remove the description field | D) Set `auto-invoke: false`
 - **Correct**: B
 - **Explanation**: `disable-model-invocation: true` prevents Claude from auto-invoking but keeps the skill available in the user's `/` menu for manual use.
-- **Review**: Controlling invocation section
+- **Review**: Controlling Skill Invocation
 
 ---
 
@@ -271,7 +271,7 @@
 - **Question**: What is the priority order for agent definitions?
 - **Options**: A) Project > User > CLI | B) CLI > Project > User | C) User > Project > CLI | D) They all have equal priority
 - **Correct**: B
-- **Explanation**: CLI-defined agents (`--agents` flag) override Project-level (`.claude/agents/`), which override User-level (`~/.claude/agents/`).
+- **Explanation**: Full order is managed settings > `--agents` flag > project (`.claude/agents/`) > user (`~/.claude/agents/`) > plugin. Of the options listed, CLI > Project > User is the correct relative ordering.
 - **Review**: File locations section
 
 ### Q3
@@ -448,7 +448,7 @@
 - **Options**: A) `tool_name` and `tool_output` | B) `session_id`, `tool_name`, `tool_input`, `hook_event_name`, `cwd`, and more | C) Only `tool_name` | D) The full conversation history
 - **Correct**: B
 - **Explanation**: Hooks receive a JSON object on stdin with: session_id, transcript_path, hook_event_name, tool_name, tool_input, tool_use_id, cwd, and permission_mode.
-- **Review**: JSON input structure section
+- **Review**: JSON Input (via stdin)
 
 ### Q4
 - **Category**: practical
@@ -493,9 +493,9 @@
 ### Q9
 - **Category**: conceptual
 - **Question**: How many hook events does Claude Code support in total?
-- **Options**: A) 16 | B) 25 | C) 31 | D) 40
+- **Options**: A) 16 | B) 25 | C) 33 | D) 40
 - **Correct**: C
-- **Explanation**: Claude Code supports 31 hook events. They fall into four groups: session lifecycle (`SessionStart`, `Setup`, `SessionEnd`), prompt and message handling (`UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`), tool use and permissions (`PreToolUse`, `PostToolUse`, `PermissionRequest`, ...), and agent, task, and environment coordination (`SubagentStart`, `TaskCreated`, `CwdChanged`, `WorktreeCreate`, ...). See the full event table in the lesson.
+- **Explanation**: Claude Code supports 33 hook events. They fall into four groups: session lifecycle (`SessionStart`, `Setup`, `SessionEnd`), prompt and message handling (`UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`), tool use and permissions (`PreToolUse`, `PostToolUse`, `PermissionRequest`, …), and agent, task, and environment coordination (`SubagentStart`, `TaskCreated`, `CwdChanged`, `WorktreeCreate`, `PreModelSwitch`, `PostModelSwitch`, …).
 - **Review**: Hook events table
 
 ### Q10
@@ -515,7 +515,7 @@
 - **Question**: What is the core manifest file for a plugin and where does it live?
 - **Options**: A) `plugin.yaml` in the root directory | B) `.claude-plugin/plugin.json` | C) `package.json` with a "claude" key | D) `.claude/plugin.md`
 - **Correct**: B
-- **Explanation**: The plugin manifest lives at `.claude-plugin/plugin.json` with required fields: name, description, version, author.
+- **Explanation**: The plugin manifest lives at `.claude-plugin/plugin.json`. Only `name` (kebab-case identifier) is required; `description`, `version`, `author`, `homepage`, `repository` and `license` are optional metadata.
 - **Review**: Plugin definition structure section
 
 ### Q2
@@ -580,7 +580,7 @@
 - **Options**: A) Plugins are faster | B) Single-command install, versioned, marketplace distribution, bundles everything together | C) Plugins have more permissions | D) Plugins work offline
 - **Correct**: B
 - **Explanation**: Plugins package multiple components into one installable unit with versioning, marketplace distribution, and automatic updates — vs. manual setup of standalone components.
-- **Review**: Standalone vs Plugin comparison section
+- **Review**: Standalone vs Plugin Approach
 
 ### Q10
 - **Category**: practical
@@ -588,7 +588,7 @@
 - **Options**: A) `.claude-plugin/hooks.json` | B) `hooks/hooks.json` | C) `plugin.json` hooks section | D) `.claude/settings.json`
 - **Correct**: B
 - **Explanation**: Plugin hooks are configured in `hooks/hooks.json` within the plugin directory structure.
-- **Review**: Plugin hooks section
+- **Review**: Plugin Structure Example
 
 ---
 
@@ -623,7 +623,7 @@
 - **Question**: You used `rm -rf temp/` via Bash in Claude Code, then want to rewind. Will the checkpoint restore those files?
 - **Options**: A) Yes, checkpoints capture everything | B) No, Bash filesystem operations (rm, mv, cp) are not tracked by checkpoints | C) Only if you used the Edit tool instead | D) Only if autoCheckpoint was enabled
 - **Correct**: B
-- **Explanation**: Checkpoints only track file changes made by Claude's tools (Write, Edit). Bash commands like rm, mv, cp operate outside checkpoint tracking.
+- **Explanation**: Checkpoints track file changes made by Claude's own Write/Edit tools in the main thread. Bash commands (rm, mv, cp), subagent edits (except a foreground `context: fork` skill), edits made outside Claude Code, and symlinked/hardlinked paths are all outside checkpoint tracking.
 - **Review**: Limitations section
 
 ### Q5
@@ -724,7 +724,7 @@
 - **Options**: A) `claude --ci --json --limit 3` | B) `claude -p --output-format json --max-turns 3 "review code"` | C) `claude --pipeline --format json` | D) `claude run --json --turns 3`
 - **Correct**: B
 - **Explanation**: Print mode (`-p`) with `--output-format json` and `--max-turns` is the standard CI/CD integration pattern.
-- **Review**: Headless/Print Mode section
+- **Review**: Headless Mode
 
 ### Q7
 - **Category**: conceptual
@@ -792,7 +792,7 @@
 - **Options**: A) Just use `--output-format json` | B) Use `--output-format json --json-schema '{"type":"object",...}'` | C) Use `--strict-json` flag | D) JSON output is always schema-valid
 - **Correct**: B
 - **Explanation**: `--output-format json` alone produces best-effort JSON. Adding `--json-schema` with a JSON Schema definition guarantees the output matches the schema.
-- **Review**: Output and format section
+- **Review**: Output & Format
 
 ### Q5
 - **Category**: conceptual
@@ -808,14 +808,14 @@
 - **Options**: A) `claude --read-only "audit code"` | B) `claude --permission-mode plan --tools "Read,Grep,Glob" "audit code"` | C) `claude --safe-mode "audit code"` | D) `claude --no-write "audit code"`
 - **Correct**: B
 - **Explanation**: Combine `--permission-mode plan` (read-only analysis) with `--tools` (allowlist of specific tools) to restrict Claude to only read operations.
-- **Review**: Tool and permission management section
+- **Review**: Tool & Permission Management
 
 ### Q7
 - **Category**: conceptual
 - **Question**: What is the agent definition priority order?
 - **Options**: A) Project > User > CLI | B) CLI > Project > User | C) User > CLI > Project | D) All are equal priority
 - **Correct**: B
-- **Explanation**: CLI-defined agents (--agents flag) have highest priority, then Project-level (.claude/agents/), then User-level (~/.claude/agents/).
+- **Explanation**: Full order is managed settings > `--agents` flag > project (`.claude/agents/`) > user (`~/.claude/agents/`) > plugin. Of the options listed, CLI > Project > User is the correct relative ordering.
 - **Review**: Agents configuration section
 
 ### Q8
@@ -844,8 +844,8 @@
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/skills

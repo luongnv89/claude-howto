@@ -187,7 +187,7 @@ LLM はプロンプトを評価し、構造化された判定を返す（詳細�
 
 ## フックイベント
 
-Claude Code は **31 種類のフックイベント** をサポートする。
+Claude Code は **33 種類のフックイベント** をサポートする。
 
 | イベント | 発火タイミング | マッチャー入力 | ブロック可否 | 用途例 |
 |----------|---------------|---------------|-------------|--------|
@@ -217,6 +217,8 @@ Claude Code は **31 種類のフックイベント** をサポートする。
 | **FileChanged** | 監視ファイル変更 | （なし） | 不可 | ファイル監視、再ビルド |
 | **PreCompact** | コンテキスト圧縮前 | manual/auto | 不可 | 圧縮前の処理 |
 | **PostCompact** | 圧縮完了後 | （なし） | 不可 | 圧縮後の処理 |
+| **PreModelSwitch** | 要求されたモデル切り替えを Claude Code が適用する前 | 切り替え先モデルの正式名（`to_model` から導出） | 可 | モデル変更の制御・拒否 |
+| **PostModelSwitch** | セッションのモデルが変更された後（再開時のモデル復元など、Claude Code 自身による変更を含む） | 切り替え先モデルの正式名（`to_model` から導出） | 不可 | モデル変更のロギング・追随処理 |
 | **WorktreeCreate** | ワークツリー作成中 | （なし） | 可（パス返却） | ワークツリー初期化 |
 | **WorktreeRemove** | ワークツリー削除中 | （なし） | 不可 | ワークツリークリーンアップ |
 | **Elicitation** | MCP サーバーがユーザー入力を要求 | （なし） | 可 | 入力検証 |
@@ -1379,11 +1381,11 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新：** 2026 年 8 月 25 日
-**Claude Code バージョン：** 2.1.245
+**最終更新：** 2026 年 9 月 2 日
+**Claude Code バージョン：** 2.1.257
 **情報源：**
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.119
-**対応モデル：** Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5
+**対応モデル：** Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

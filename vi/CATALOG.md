@@ -20,9 +20,9 @@
 | **Skills** | 10 bundled | 5 | 15 | [03-skills/](03-skills/) |
 | **Plugins** | - | 3 | 3 | [07-plugins/](07-plugins/) |
 | **MCP Servers** | 1 | 4 | 5 | [05-mcp/](05-mcp/) |
-| **Hooks** | 31 sự kiện | 9 | 40 | [06-hooks/](06-hooks/) |
+| **Hooks** | 33 sự kiện | 9 | 42 | [06-hooks/](06-hooks/) |
 | **Bộ Nhớ** | 7 loại | 3 | 10 | [02-memory/](02-memory/) |
-| **Tổng** | **115** | **38** | **153** | |
+| **Tổng** | **117** | **38** | **155** | |
 
 ---
 
@@ -273,7 +273,7 @@ Bộ sưu tập được đóng gói của commands, agents, MCP servers, và ho
 /plugin list              # Liệt kê plugins đã cài
 /plugin install <name>    # Cài plugin
 /plugin remove <name>     # Gỡ plugin
-/plugin update <name>     # Cập nhật plugin
+claude plugin update <name>   # Cập nhật plugin (CLI; dạng slash /plugin update được nhắc trong phần văn bản nhưng không có trong tài liệu tham chiếu lệnh)
 ```
 
 ---
@@ -514,8 +514,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 15 tháng 8 năm 2026
-**Phiên Bản Claude Code**: 2.1.233
+**Cập Nhật Lần Cuối**: Ngày 2 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.257
 **Nguồn**:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/plugins-reference
+- https://code.claude.com/docs/en/discover-plugins

@@ -106,7 +106,7 @@ graph TD
 | **3** | [チェックポイント](08-checkpoints/) | ⭐⭐ 中級 | 45 分 | レベル 1 | セッション管理 | 安全な探索 | 実験、復旧 |
 | **4** | [CLI 基礎](10-cli/) | ⭐⭐ 初級+ | 30 分 | レベル 1 | なし | コア CLI の使い方 | 対話モード・印字モード |
 | **5** | [スキル](03-skills/) | ⭐⭐ 中級 | 1 時間 | レベル 2 | スラッシュコマンド | 自動的な専門性 | 再利用、一貫性 |
-| **6** | [フック](06-hooks/) | ⭐⭐ 中級 | 1 時間 | レベル 2 | ツール、コマンド | ワークフロー自動化（31 イベント、5 種類） | 検証、品質ゲート |
+| **6** | [フック](06-hooks/) | ⭐⭐ 中級 | 1 時間 | レベル 2 | ツール、コマンド | ワークフロー自動化（33 イベント、5 種類） | 検証、品質ゲート |
 | **7** | [MCP](05-mcp/) | ⭐⭐⭐ 中級+ | 1 時間 | レベル 2 | 設定 | ライブデータアクセス | リアルタイム連携、API |
 | **8** | [サブエージェント](04-subagents/) | ⭐⭐⭐ 中級+ | 1.5 時間 | レベル 2 | メモリ、コマンド | 複雑タスクの処理（Bash 含む組み込み 6 個） | 委譲、専門性 |
 | **9** | [高度な機能](09-advanced-features/) | ⭐⭐⭐⭐⭐ 上級 | 2〜3 時間 | レベル 3 | これまでの全機能 | パワーユーザー向けツール | プランニング、Auto Mode、チャンネル、音声入力、権限 |
@@ -239,7 +239,7 @@ cat error.log | claude -p "explain this error"
 
 #### 達成事項
 ✅ YAML フロントマター（`effort` と `shell` フィールドを含む）で専門機能を自動起動
-✅ 31 個のフックイベントにまたがるイベント駆動自動化を構築
+✅ 33 個のフックイベントにまたがるイベント駆動自動化を構築
 ✅ 5 種類のフック（command、http、mcp_tool、prompt、agent）を活用
 ✅ コード品質基準を強制
 ✅ ワークフロー向けカスタムフックを作成
@@ -742,13 +742,13 @@ done
 
 ---
 
-**最終更新**：2026 年 4 月 24 日
-**Claude Code バージョン**：2.1.119
+**最終更新**：2026 年 9 月 2 日
+**Claude Code バージョン**：2.1.257
 **情報源**：
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.119
-**互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5
+**互換モデル**：Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5
 **メンテナンス**：Claude How-To Contributors
 **ライセンス**：教育目的、自由に使用・改変可能
 

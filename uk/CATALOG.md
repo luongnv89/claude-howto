@@ -24,9 +24,9 @@
 | **Навички (Skills)** | 10 вбудованих | 6 | 16 | [03-skills/](03-skills/) |
 | **Плагіни** | - | 3 | 3 | [07-plugins/](07-plugins/) |
 | **MCP-сервери** | 1 | 4 | 5 | [05-mcp/](05-mcp/) |
-| **Хуки** | 31 подія | 10 | 41 | [06-hooks/](06-hooks/) |
+| **Хуки** | 33 події | 10 | 43 | [06-hooks/](06-hooks/) |
 | **Пам'ять** | 7 типів | 3 | 10 | [02-memory/](02-memory/) |
-| **Разом** | **115** | **43** | **158** | |
+| **Разом** | **117** | **43** | **160** | |
 
 ---
 
@@ -278,9 +278,9 @@ cp -r 03-skills/* ~/.claude/skills/
 
 ```bash
 /plugin list              # Список встановлених плагінів
-/plugin install <n>    # Встановити плагін
-/plugin remove <n>     # Видалити плагін
-/plugin update <n>     # Оновити плагін
+/plugin install <name>    # Встановити плагін
+/plugin remove <name>     # Видалити плагін
+claude plugin update <name>   # Оновити плагін (CLI; форма зі скісною рискою /plugin update згадується в тексті, але відсутня в довіднику команд)
 ```
 
 ---
@@ -524,8 +524,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Останнє оновлення**: 15 серпня 2026
-**Версія Claude Code**: 2.1.233
+**Останнє оновлення**: 2 вересня 2026
+**Версія Claude Code**: 2.1.257
 **Джерела**:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/plugins-reference
+- https://code.claude.com/docs/en/discover-plugins

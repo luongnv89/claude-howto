@@ -1132,7 +1132,7 @@ Hooks are event-driven shell commands that execute automatically in response to 
 
 ### Hook Events
 
-Claude Code supports **31 hook events** across five hook types (command, http, mcp_tool, prompt, agent):
+Claude Code supports **33 hook events** across five hook types (command, http, mcp_tool, prompt, agent):
 
 | Hook Event | Trigger | Use Cases |
 |------------|---------|-----------|
@@ -1472,12 +1472,12 @@ Claude Code supports the following models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: August 15, 2026
-**Claude Code Version**: 2.1.233
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://www.anthropic.com/news/claude-sonnet-5
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/hooks
-**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

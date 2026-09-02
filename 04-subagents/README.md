@@ -108,6 +108,8 @@ background: false  # Optional - run as background task
 effort: high  # Optional - reasoning effort (low, medium, high, xhigh, max)
 isolation: worktree  # Optional - git worktree isolation
 initialPrompt: "Start by analyzing the codebase"  # Optional - auto-submitted first turn
+experimental:  # Optional - experimental settings block
+  cacheTtl: "1h"  # Cache TTL for this subagent: "5m" or "1h" (v2.1.248+)
 hooks:  # Optional - component-scoped hooks
   PreToolUse:
     - matcher: "Bash"
@@ -141,6 +143,18 @@ to solving problems.
 | `isolation` | No | Set to `worktree` to give the subagent its own git worktree |
 | `initialPrompt` | No | Auto-submitted first turn when the subagent runs as the main agent |
 | `color` | No | Display color for the subagent in the task list and transcript. Accepts `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink`, or `cyan` |
+| `experimental` | No | Experimental settings block (v2.1.248+). `experimental.cacheTtl` sets the cache TTL for this subagent — `"5m"` or `"1h"` |
+
+#### Subagent Model Environment Variables
+
+Two environment variables affect which model a subagent runs on:
+
+| Variable | Version | Description |
+|----------|---------|-------------|
+| `CLAUDE_CODE_SUBAGENT_MODEL` | — | Sets the model used for subagents |
+| `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` | v2.1.257+ | Set to `1` to force the subagent model over a subagent's frontmatter `model:` |
+
+> **Precedence changed in v2.1.251**: before that release, `CLAUDE_CODE_SUBAGENT_MODEL` came first and overrode agent frontmatter — including `model: inherit`. From v2.1.251 on, a subagent's own `model:` frontmatter wins. Set `CLAUDE_CODE_SUBAGENT_MODEL_FORCE=1` (v2.1.257+) when you want the environment variable to override frontmatter again, for example to pin an entire evaluation run to one model.
 
 ### Main-Thread Agent Frontmatter Honoring (v2.1.117+/v2.1.119+)
 
@@ -1316,8 +1330,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

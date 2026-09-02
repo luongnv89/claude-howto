@@ -243,7 +243,7 @@ Subagent-based verification hooks that spawn a dedicated agent to evaluate condi
 
 ## Hook Events
 
-Claude Code supports **31 hook events**:
+Claude Code supports **33 hook events**:
 
 | Event | When Triggered | Matcher Input | Can Block | Common Use |
 |-------|---------------|---------------|-----------|------------|
@@ -252,7 +252,7 @@ Claude Code supports **31 hook events**:
 | **InstructionsLoaded** | After CLAUDE.md or rules file loaded | (none) | No | Modify/filter instructions |
 | **UserPromptSubmit** | User submits prompt | (none) | Yes | Validate prompts |
 | **UserPromptExpansion** | User prompt is expanded (e.g., `@` mentions, slash commands resolved) | (none) | Yes | Transform or inspect expanded prompt |
-| **PreToolUse** | Before tool execution | Tool name | Yes (allow/deny/ask) | Validate, modify inputs |
+| **PreToolUse** | Before tool execution | Tool name | Yes (allow/deny/ask/defer) | Validate, modify inputs |
 | **PermissionRequest** | Permission dialog shown | Tool name | Yes | Auto-approve/deny |
 | **PermissionDenied** | User denies a permission prompt | Tool name | No | Logging, analytics, policy enforcement |
 | **PostToolUse** | After tool succeeds | Tool name | No | Add context, feedback |
@@ -273,11 +273,15 @@ Claude Code supports **31 hook events**:
 | **FileChanged** | Watched file changes | (none) | No | File monitoring, rebuild |
 | **PreCompact** | Before context compaction | manual/auto | No | Pre-compact actions |
 | **PostCompact** | After compaction completes | (none) | No | Post-compact actions |
+| **PreModelSwitch** | Before Claude Code applies a requested model switch | Canonical name of the model being switched to (from `to_model`) | Yes | Gate or veto model changes |
+| **PostModelSwitch** | After the session's model changes, including changes Claude Code makes itself (such as restoring the model on resume) | Canonical name of the model switched to (from `to_model`) | No | Log or react to model changes |
 | **WorktreeCreate** | Worktree being created | (none) | Yes (path return) | Worktree initialization |
 | **WorktreeRemove** | Worktree being removed | (none) | No | Worktree cleanup |
 | **Elicitation** | MCP server requests user input | (none) | Yes | Input validation |
 | **ElicitationResult** | User responds to elicitation | (none) | Yes | Response processing |
 | **SessionEnd** | Session terminates | (none) | No | Cleanup, final logging |
+
+`PreModelSwitch` and `PostModelSwitch` require v2.1.251 or later. Both receive `from_model` and `to_model`; the matcher is evaluated against the canonical name derived from `to_model` (e.g. `claude-opus-5`, `.*opus.*`). Their `command`, `http`, and `mcp_tool` timeout default is lowered to 30 seconds.
 
 > **`TaskCreated` and `TaskCompleted` need the todo tools enabled (v2.1.233).** These two
 > events fire from the todo/task-tracking tools (`TaskCreate`/`Get`/`Update`/`List`,
@@ -538,6 +542,92 @@ Updated matchers for notification events:
 - `agent_needs_input` - Background agent needs input (v2.1.198)
 - `agent_completed` - Background agent finished (v2.1.198)
 
+### PreModelSwitch
+
+Runs **before** Claude Code applies a requested model switch — for example when you run `/model`, or when a component asks for a different model. Requires v2.1.251 or later.
+
+**Matchers:** the canonical name of the model being switched to, derived from `to_model`. Match an exact model (`claude-opus-5`) or a family with a regex (`.*opus.*`).
+
+**Input fields:** in addition to the common fields, the hook receives `from_model` (the model in use before the switch) and `to_model` (the model requested).
+
+**Can block:** yes. Exit code `2` blocks the switch and shows stderr as an error, so the session keeps its current model. Use this to gate or veto model changes — for example, to keep a cost-sensitive project off the most expensive model.
+
+**Timeout:** this event lowers the `command`, `http`, and `mcp_tool` default timeout to 30 seconds.
+
+**Configuration:**
+```json
+{
+  "hooks": {
+    "PreModelSwitch": [
+      {
+        "matcher": ".*opus.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/gate-model-switch.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+```bash
+#!/bin/bash
+# gate-model-switch.sh - refuse a switch to Opus on this project
+input=$(cat)
+to_model=$(echo "$input" | jq -r '.to_model')
+
+if [[ "$to_model" == *opus* ]]; then
+  echo "This project is budgeted for Sonnet; staying on the current model." >&2
+  exit 2
+fi
+
+exit 0
+```
+
+### PostModelSwitch
+
+Runs **after** the session's model has changed. It also fires for changes Claude Code makes itself — such as restoring the previously selected model when you resume a session — not only for switches you request. Requires v2.1.251 or later.
+
+**Matchers:** same as `PreModelSwitch` — the canonical name derived from `to_model`.
+
+**Input fields:** `from_model` and `to_model`, alongside the common fields.
+
+**Can block:** no. The switch has already happened; the hook can only observe and react.
+
+**Timeout:** this event lowers the `command`, `http`, and `mcp_tool` default timeout to 30 seconds.
+
+**Configuration:**
+```json
+{
+  "hooks": {
+    "PostModelSwitch": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/log-model-switch.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+```bash
+#!/bin/bash
+# log-model-switch.sh - append every model change to a session log
+input=$(cat)
+from=$(echo "$input" | jq -r '.from_model')
+to=$(echo "$input" | jq -r '.to_model')
+
+echo "$(date -Iseconds) $from -> $to" >> ~/.claude/model-switches.log
+exit 0
+```
+
 ## Component-Scoped Hooks
 
 Hooks can be attached to specific components (skills, agents, commands) in their frontmatter:
@@ -678,6 +768,8 @@ All hooks receive JSON input via stdin:
 > ```
 
 > **`retry` (PermissionDenied)**: Use JSON `hookSpecificOutput.retry: true` to tell the model it may retry the denied tool call.
+
+> **Deprecated `PreToolUse` decision form**: For `PreToolUse`, the top-level `decision` and `reason` fields are **deprecated** — use `hookSpecificOutput.permissionDecision` (`allow` / `deny` / `ask` / `defer`) and `permissionDecisionReason` instead. Precedence among decisions is `deny` > `defer` > `ask` > `allow`. Note also that `suppressOutput` is accepted but **has no effect**.
 
 #### `terminalSequence` (v2.1.141)
 
@@ -1534,8 +1626,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

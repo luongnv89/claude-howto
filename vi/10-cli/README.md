@@ -40,7 +40,7 @@ graph TD
 | `claude mcp serve` | Chạy Claude Code như một MCP server | `claude mcp serve` |
 | `claude agents` | Liệt kê tất cả các subagents được cấu hình | `claude agents` |
 | `claude auto-mode defaults` | In các quy tắc mặc định chế độ tự động như JSON | `claude auto-mode defaults` |
-| `claude remote-control` | Bắt đầu server Remote Control | `claude remote-control` |
+| `claude --remote-control [name]` | Khởi động Remote Control (đây là một flag, không phải subcommand; alias `--rc`) | `claude --rc` |
 | `claude plugin` | Quản lý plugins (cài đặt, kích hoạt, vô hiệu hóa) | `claude plugin install my-plugin` |
 | `claude auth login` | Đăng nhập (hỗ trợ `--email`, `--sso`) | `claude auth login --email user@example.com` |
 | `claude auth logout` | Đăng xuất khỏi tài khoản hiện tại | `claude auth logout` |
@@ -57,13 +57,14 @@ graph TD
 | `-w, --worktree` | Bắt đầu trong git worktree cô lập | `claude -w` |
 | `-n, --name` | Tên hiển thị session | `claude -n "auth-refactor"` |
 | `--from-pr <number>` | Resume sessions được liên kết đến GitHub PR | `claude --from-pr 42` |
-| `--remote "task"` | Tạo session web trên claude.ai | `claude --remote "implement API"` |
+| `--cloud [description\|session_id\|url]` | Tạo session cloud trên claude.ai với mô tả đã cho, hoặc gắn vào một session sẵn có bằng session ID hoặc URL claude.ai/code | `claude --cloud "implement API"` |
+| `--remote "task"` | **Alias không dùng nữa của `--cloud`**, bao gồm cả dạng gắn vào session sẵn có. Hãy dùng `--cloud` | `claude --remote "implement API"` |
 | `--remote-control, --rc` | Session tương tác với Remote Control | `claude --rc` |
 | `--teleport` | Resume session web cục bộ | `claude --teleport` |
 | `--teammate-mode` | Chế độ hiển thị agent team | `claude --teammate-mode tmux` |
 | `--bare` | Chế độ tối thiểu (bỏ qua hooks, skills, plugins, MCP, auto memory, CLAUDE.md) | `claude --bare` |
 | `--enable-auto-mode` | Mở khóa chế độ quyền tự động | `claude --enable-auto-mode` |
-| `--channels` | Đăng ký các plugin kênh MCP | `claude --channels discord,telegram` |
+| `--channels` | Đăng ký các plugin kênh MCP. Mỗi mục phải được gắn thẻ `plugin:<name>@<marketplace>`; tên trần sẽ bị từ chối | `claude --channels plugin:discord@my-marketplace` |
 | `--chrome` / `--no-chrome` | Bật/tắt tích hợp trình duyệt Chrome | `claude --chrome` |
 | `--effort` | Đặt mức độ suy nghĩ | `claude --effort high` |
 | `--init` / `--init-only` | Chạy các hooks khởi tạo | `claude --init` |
@@ -243,7 +244,7 @@ claude --settings '{"model":"opus","verbose":true}' "complex task"
 |------|-------------|---------|
 | `--mcp-config` | Tải MCP servers từ JSON | `claude --mcp-config ./mcp.json` |
 | `--strict-mcp-config` | Chỉ sử dụng MCP config được chỉ định | `claude --strict-mcp-config --mcp-config ./mcp.json` |
-| `--channels` | Đăng ký các plugin kênh MCP | `claude --channels discord,telegram` |
+| `--channels` | Đăng ký các plugin kênh MCP. Mỗi mục phải được gắn thẻ `plugin:<name>@<marketplace>`; tên trần sẽ bị từ chối | `claude --channels plugin:discord@my-marketplace` |
 
 ### Ví Dụ MCP / MCP Examples
 
@@ -313,7 +314,7 @@ Session gốc vẫn không thay đổi, và fork trở thành một session đ�
 | `--enable-auto-mode` | Mở khóa chế độ quyền tự động | `claude --enable-auto-mode` |
 | `--effort` | Đặt mức độ suy nghĩ | `claude --effort high` |
 | `--bare` | Chế độ tối thiểu (bỏ qua hooks, skills, plugins, MCP, auto memory, CLAUDE.md) | `claude --bare` |
-| `--channels` | Đăng ký các plugin kênh MCP | `claude --channels discord` |
+| `--channels` | Đăng ký các plugin kênh MCP (gắn thẻ `plugin:<name>@<marketplace>`) | `claude --channels plugin:discord@my-marketplace` |
 | `--tmux` | Tạo tmux session cho worktree | `claude --tmux` |
 | `--fork-session` | Tạo session ID mới khi resume | `claude --resume abc --fork-session` |
 | `--max-budget-usd` | Chi phí tối đa (chế độ in); cũng dừng các subagent chạy nền khi đạt giới hạn (v2.1.217) | `claude -p --max-budget-usd 5.00 "query"` |
@@ -833,6 +834,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Cập Nhật Lần Cuối**: Tháng 4 năm 2026
-**Phiên Bản Claude Code**: 2.1+
-**Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
+**Cập Nhật Lần Cuối**: Ngày 2 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.257
+**Nguồn**:
+- https://code.claude.com/docs/en/cli-reference
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

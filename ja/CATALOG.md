@@ -24,9 +24,9 @@
 | **スキル** | バンドル 10 | 6 | 16 | [03-skills/](03-skills/) |
 | **プラグイン** | - | 3 | 3 | [07-plugins/](07-plugins/) |
 | **MCP サーバ** | 1 | 4 | 5 | [05-mcp/](05-mcp/) |
-| **フック** | 31 イベント | 9 | 40 | [06-hooks/](06-hooks/) |
+| **フック** | 33 イベント | 9 | 42 | [06-hooks/](06-hooks/) |
 | **メモリ** | 7 種類 | 3 | 10 | [02-memory/](02-memory/) |
-| **合計** | **115** | **42** | **157** | |
+| **合計** | **117** | **42** | **159** | |
 
 ---
 
@@ -284,7 +284,7 @@ cp -r 03-skills/* ~/.claude/skills/
 /plugin list              # インストール済みプラグイン一覧
 /plugin install <name>    # プラグインをインストール
 /plugin remove <name>     # プラグインを削除
-/plugin update <name>     # プラグインを更新
+claude plugin update <name>   # プラグインを更新（CLI。/plugin update というスラッシュ形式は説明文中で言及されるが、コマンドリファレンスには存在しない）
 ```
 
 ---
@@ -532,11 +532,13 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新**：2026 年 8 月 25 日
-**Claude Code バージョン**：2.1.245
+**最終更新**：2026 年 9 月 2 日
+**Claude Code バージョン**：2.1.257
 **情報源**：
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
-**互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5
+- https://code.claude.com/docs/en/plugins-reference
+- https://code.claude.com/docs/en/discover-plugins
+**互換モデル**：Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

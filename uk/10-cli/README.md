@@ -44,7 +44,7 @@ graph TD
 | `claude mcp serve` | Запуск Claude Code як MCP-сервера | `claude mcp serve` |
 | `claude agents` | Список усіх налаштованих субагентів | `claude agents` |
 | `claude auto-mode defaults` | Вивести стандартні правила auto mode як JSON | `claude auto-mode defaults` |
-| `claude remote-control` | Запуск сервера Remote Control | `claude remote-control` |
+| `claude --remote-control [name]` | Запуск Remote Control (це прапорець, а не підкоманда; аліас `--rc`) | `claude --rc` |
 | `claude plugin` | Управління плагінами (встановлення, увімкнення, вимкнення) | `claude plugin install my-plugin` |
 | `claude auth login` | Вхід (підтримує `--email`, `--sso`) | `claude auth login --email user@example.com` |
 | `claude auth logout` | Вихід з поточного облікового запису | `claude auth logout` |
@@ -61,13 +61,14 @@ graph TD
 | `-w, --worktree` | Запуск в ізольованому git worktree (робочому дереві) | `claude -w` |
 | `-n, --name` | Відображувана назва сесії | `claude -n "auth-refactor"` |
 | `--from-pr <number>` | Відновити сесії, привʼязані до GitHub PR | `claude --from-pr 42` |
-| `--remote "task"` | Створити веб-сесію на claude.ai | `claude --remote "implement API"` |
+| `--cloud [description\|session_id\|url]` | Створити хмарну сесію на claude.ai із заданим описом або приєднатися до наявної за session ID чи URL claude.ai/code | `claude --cloud "implement API"` |
+| `--remote "task"` | **Застарілий аліас для `--cloud`**, включно з формою приєднання до наявної сесії. Використовуйте `--cloud` | `claude --remote "implement API"` |
 | `--remote-control, --rc` | Інтерактивна сесія з Remote Control | `claude --rc` |
 | `--teleport` | Відновити веб-сесію локально | `claude --teleport` |
 | `--teammate-mode` | Режим відображення Agent Teams | `claude --teammate-mode tmux` |
 | `--bare` | Мінімальний режим (без хуків, навичок, плагінів, MCP, auto memory, CLAUDE.md) | `claude --bare` |
 | `--enable-auto-mode` | Розблокувати auto permission mode | `claude --enable-auto-mode` |
-| `--channels` | Підписка на MCP channel plugins | `claude --channels discord,telegram` |
+| `--channels` | Підписка на MCP channel plugins. Кожен запис має бути позначений як `plugin:<name>@<marketplace>`; голі імена відхиляються | `claude --channels plugin:discord@my-marketplace` |
 | `--chrome` / `--no-chrome` | Увімкнути/вимкнути інтеграцію з браузером Chrome | `claude --chrome` |
 | `--effort` | Встановити рівень зусиль мислення | `claude --effort high` |
 | `--init` / `--init-only` | Запуск хуків ініціалізації | `claude --init` |
@@ -247,7 +248,7 @@ claude --settings '{"model":"opus","verbose":true}' "complex task"
 |-----------|------|---------|
 | `--mcp-config` | Завантажити MCP-сервери з JSON | `claude --mcp-config ./mcp.json` |
 | `--strict-mcp-config` | Використовувати тільки вказану MCP-конфігурацію | `claude --strict-mcp-config --mcp-config ./mcp.json` |
-| `--channels` | Підписка на MCP channel plugins | `claude --channels discord,telegram` |
+| `--channels` | Підписка на MCP channel plugins. Кожен запис має бути позначений як `plugin:<name>@<marketplace>`; голі імена відхиляються | `claude --channels plugin:discord@my-marketplace` |
 
 ### Приклади MCP
 
@@ -317,7 +318,7 @@ claude -r "feature-auth" --fork-session "test with different architecture"
 | `--enable-auto-mode` | Розблокувати auto permission mode | `claude --enable-auto-mode` |
 | `--effort` | Встановити рівень зусиль мислення | `claude --effort high` |
 | `--bare` | Мінімальний режим (без хуків, навичок, плагінів, MCP, auto memory, CLAUDE.md) | `claude --bare` |
-| `--channels` | Підписка на MCP channel plugins | `claude --channels discord` |
+| `--channels` | Підписка на MCP channel plugins (позначені як `plugin:<name>@<marketplace>`) | `claude --channels plugin:discord@my-marketplace` |
 | `--tmux` | Створити tmux-сесію для worktree | `claude --tmux` |
 | `--fork-session` | Створити новий ID сесії при відновленні | `claude --resume abc --fork-session` |
 | `--max-budget-usd` | Максимальні витрати (print mode); також зупиняє фонові subagent-и при досягненні ліміту (v2.1.217) | `claude -p --max-budget-usd 5.00 "query"` |
@@ -836,6 +837,8 @@ claude -p --output-format json "query"
 *Частина серії посібників [Claude How To](../)*
 
 ---
-**Останнє оновлення**: 9 квітня 2026
-**Версія Claude Code**: 2.1.97
-**Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
+**Останнє оновлення**: 2 вересня 2026
+**Версія Claude Code**: 2.1.257
+**Джерела**:
+- https://code.claude.com/docs/en/cli-reference
+**Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

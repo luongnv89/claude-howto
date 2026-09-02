@@ -40,7 +40,7 @@ graph TD
 | `claude mcp serve` | 将 Claude Code 作为 MCP server 运行 | `claude mcp serve` |
 | `claude agents` | 列出所有已配置的 subagents | `claude agents` |
 | `claude auto-mode defaults` | 以 JSON 打印 auto mode 默认规则 | `claude auto-mode defaults` |
-| `claude remote-control` | 启动远程控制服务 | `claude remote-control` |
+| `claude --remote-control [name]` | 启动 Remote Control（这是一个 flag，不是子命令；别名 `--rc`） | `claude --rc` |
 | `claude plugin` | 管理插件（安装、启用、禁用） | `claude plugin install my-plugin` |
 | `claude auth login` | 登录（支持 `--email`、`--sso`） | `claude auth login --email user@example.com` |
 | `claude auth logout` | 注销当前账号 | `claude auth logout` |
@@ -57,13 +57,14 @@ graph TD
 | `-w, --worktree` | 在隔离的 git worktree 中启动 | `claude -w` |
 | `-n, --name` | 设置会话显示名称 | `claude -n "auth-refactor"` |
 | `--from-pr <number>` | 恢复与 GitHub PR 关联的会话 | `claude --from-pr 42` |
-| `--remote "task"` | 在 claude.ai 上创建 web session | `claude --remote "implement API"` |
+| `--cloud [description\|session_id\|url]` | 使用给定描述在 claude.ai 上创建云会话，或通过 session ID / claude.ai/code URL 接入已有会话 | `claude --cloud "implement API"` |
+| `--remote "task"` | **`--cloud` 的已弃用别名**（包括接入已有会话的形式）。请改用 `--cloud` | `claude --remote "implement API"` |
 | `--remote-control, --rc` | 使用 Remote Control 进入交互式会话 | `claude --rc` |
 | `--teleport` | 将 web session 恢复到本地 | `claude --teleport` |
 | `--teammate-mode` | agent team 显示模式 | `claude --teammate-mode tmux` |
 | `--bare` | 极简模式，跳过 hooks、skills、plugins、MCP、自动记忆和 `CLAUDE.md` | `claude --bare` |
 | `--enable-auto-mode` | 解锁 auto permission mode | `claude --enable-auto-mode` |
-| `--channels` | 订阅 MCP channel 插件 | `claude --channels discord,telegram` |
+| `--channels` | 订阅 MCP channel 插件。每一项必须写成 `plugin:<name>@<marketplace>` 的带标签形式；仅写名称会被拒绝 | `claude --channels plugin:discord@my-marketplace` |
 | `--chrome` / `--no-chrome` | 启用 / 禁用 Chrome 浏览器集成 | `claude --chrome` |
 | `--effort` | 设置推理强度 | `claude --effort high` |
 | `--init` / `--init-only` | 运行初始化 hooks | `claude --init` |
@@ -638,3 +639,10 @@ claude --working-directory ./backend --mcp-config ./mcp.json
 - [Slash Commands 中文参考](../01-slash-commands/README.md)
 - [MCP 文档](../05-mcp/README.md)
 - [Claude Code 官方 CLI 文档](https://code.claude.com/docs/en/cli-reference)
+
+---
+
+**最后更新**: 2026 年 9 月 2 日
+**Claude Code 版本**: 2.1.257
+**来源**:
+- https://code.claude.com/docs/en/cli-reference

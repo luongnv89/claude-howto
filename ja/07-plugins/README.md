@@ -666,11 +666,11 @@ claude plugin update <name>                  # Update installed plugin to latest
 claude plugin list                           # List installed plugins
 claude plugin enable <name>                  # Enable a disabled plugin
 claude plugin disable <name>                 # Disable a plugin
-claude plugin validate                       # Validate plugin structure
-claude plugin tag <version>                  # Create a release git tag with version validation (v2.1.118+)
+claude plugin validate <path>                # Validate the plugin structure at <path>
+claude plugin tag [path]                     # Create a {name}--v{version} release git tag (v2.1.118+)
 ```
 
-例：`claude plugin tag v0.3.0` はバージョン形式を検証し、対応する git タグを作成する。配布用にプラグインをリリースする際の推奨手順である。
+例：`claude plugin tag ./my-plugin` は引数にバージョン文字列ではなく**パス**を取る。`plugin.json` から導出した `{name}--v{version}` の git タグを作成し、その際 `plugin.json` と（存在すれば）マーケットプレイスのエントリが一致しているか検証する。配布用にプラグインをリリースする際の推奨手順である。
 
 ## インストール方法
 
@@ -830,7 +830,7 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 2. `.claude-plugin/plugin.json` マニフェストを記述
 3. ドキュメント用の `README.md` を作成
 4. `claude --plugin-dir ./my-plugin` でローカルテスト
-5. `claude plugin tag v0.3.0`（v2.1.118 以降）でリリースタグを作成 — バージョン文字列を検証し、対応する git タグを作成
+5. `claude plugin tag ./my-plugin`（v2.1.118 以降）でリリースタグを作成 — プラグインの**パス**を渡すと、`plugin.json` から導出した `{name}--v{version}` の git タグを作成
 6. プラグインマーケットプレイスへ提出
 7. レビューと承認を受ける
 8. マーケットプレイスで公開
@@ -1058,14 +1058,15 @@ claude plugin update plugin-name
 
 ---
 
-**最終更新**: 2026 年 8 月 19 日
-**Claude Code バージョン**: 2.1.235
+**最終更新**: 2026 年 9 月 2 日
+**Claude Code バージョン**: 2.1.257
 **出典**:
 - https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugin-marketplaces
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.119
-**対応モデル**: Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5
+**対応モデル**: Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

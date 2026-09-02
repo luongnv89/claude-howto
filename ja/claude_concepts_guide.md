@@ -2813,7 +2813,7 @@ graph TD
 
 ### フックイベント
 
-Claude Code は 5 種類（command、http、mcp_tool、prompt、agent）にわたる **31 種類のフックイベント** をサポートする：
+Claude Code は 5 種類（command、http、mcp_tool、prompt、agent）にわたる **33 種類のフックイベント** をサポートする：
 
 | フックイベント | トリガー | ユースケース |
 |------------|---------|-----------|
@@ -3143,17 +3143,18 @@ Claude Code は推論努力を調整可能な 3 モデルをサポートする�
 
 ---
 
-*最終更新：2026 年 8 月 15 日*
-*対応：Claude Haiku 4.5、Sonnet 4.6、Opus 4.7*
+*最終更新：2026 年 9 月 2 日*
+*対応：Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5*
 *収録機能：フック、チェックポイント、プラニングモード、拡張思考、バックグラウンドタスク、権限モード（6 種）、ヘッドレスモード、セッション管理、Auto Memory、Agent Teams、定期タスク、Chrome 連携、Channels、音声入力、同梱スキル*
 
 ---
-**最終更新：** 2026 年 8 月 15 日
-**Claude Code バージョン：** 2.1.233
+**最終更新：** 2026 年 9 月 2 日
+**Claude Code バージョン：** 2.1.257
 **出典：**
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://www.anthropic.com/news/claude-opus-4-7
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
+- https://code.claude.com/docs/en/model-config
 
-**対応モデル：** Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5
+**対応モデル：** Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

@@ -138,10 +138,12 @@ Provide clear, step-by-step guidance for Claude.
 Show concrete examples of using this Skill.
 ```
 
-### Required Fields
+### Recommended Fields
 
-- **name**: lowercase letters, numbers, hyphens only (max 64 characters). Cannot contain "anthropic" or "claude".
-- **description**: what the Skill does AND when to use it. The combined `description` + `when_to_use` text is truncated at **1,536 characters** in the skill listing (configurable via `skillListingMaxDescChars`). This is critical for Claude to know when to activate the skill.
+- **description** (recommended): what the Skill does AND when to use it. If omitted, Claude Code uses the first paragraph of markdown content. The combined `description` + `when_to_use` text is truncated at **1,536 characters** in the skill listing (configurable via `skillListingMaxDescChars`). This is what Claude matches on to decide when to activate the skill.
+- **name** (optional): defaults to the skill's **directory name**. When supplied, it sets the display name — lowercase letters, numbers, hyphens only (max 64 characters), and cannot contain "anthropic" or "claude". For plugin skills, `name` also sets the last segment of the command.
+
+All SKILL.md frontmatter fields are optional; `description` is the only one that is recommended.
 
 ### Optional Frontmatter Fields
 
@@ -895,8 +897,8 @@ Once you start building skills seriously, two things become essential: a library
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

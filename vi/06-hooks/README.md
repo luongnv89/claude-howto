@@ -173,7 +173,7 @@ Hooks xác thực dựa trên subagent mà spawn một agent chuyên dụng đ�
 
 ## Các Sự Kiện Hook / Hook Events
 
-Claude Code hỗ trợ **31 sự kiện hook**:
+Claude Code hỗ trợ **33 sự kiện hook**:
 
 | Sự Kiện | Khi Được Kích Hoạt | Matcher Input | Có Chặn | Sử Dụng Phổ Biến |
 |-------|---------------|---------------|-----------|------------|
@@ -203,6 +203,8 @@ Claude Code hỗ trợ **31 sự kiện hook**:
 | **FileChanged** | File được watch thay đổi | (none) | Không | Giám sát file, rebuild |
 | **PreCompact** | Trước khi dồn ngữ cảnh | manual/auto | Không | Hành động pre-dồn |
 | **PostCompact** | Sau khi dồn hoàn thành | (none) | Không | Hành động post-dồn |
+| **PreModelSwitch** | Trước khi Claude Code áp dụng yêu cầu chuyển đổi model | Tên chuẩn của model sắp chuyển sang (từ `to_model`) | Có | Kiểm soát hoặc từ chối việc đổi model |
+| **PostModelSwitch** | Sau khi model của phiên thay đổi, kể cả những thay đổi do chính Claude Code thực hiện (ví dụ khôi phục model khi tiếp tục phiên) | Tên chuẩn của model đã chuyển sang (từ `to_model`) | Không | Ghi log hoặc phản hồi thay đổi model |
 | **WorktreeCreate** | Worktree đang được tạo | (none) | Có (trả về path) | Khởi tạo worktree |
 | **WorktreeRemove** | Worktree đang được xóa | (none) | Không | Dọn dẹp worktree |
 | **Elicitation** | MCP server yêu cầu đầu vào người dùng | (none) | Có | Xác thực đầu vào |
@@ -876,8 +878,8 @@ Chỉnh sửa `~/.claude/settings.json` hoặc `.claude/settings.json` với c�
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 25 tháng 8 năm 2026
-**Phiên Bản Claude Code**: 2.1.245
+**Cập Nhật Lần Cuối**: Ngày 2 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.257
 **Nguồn**:
 - https://code.claude.com/docs/en/hooks
-**Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

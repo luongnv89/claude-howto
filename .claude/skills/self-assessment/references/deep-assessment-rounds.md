@@ -50,9 +50,9 @@ Options:
 1. "Used checkpoints for safe experimentation" — Created checkpoints, used Esc+Esc or /rewind, restored code and/or conversation, or used either Summarize option (summarize from here / summarize up to here)
 2. "Used planning mode or extended thinking" — Activated planning via /plan, Shift+Tab, or --permission-mode plan; toggled extended thinking with Alt+T/Option+T
 3. "Configured permission modes" — Used any of the six modes — manual (renamed from default in v2.1.200), acceptEdits, plan, auto, dontAsk, or bypassPermissions — via CLI flags, keyboard shortcuts, or settings
-4. "Used remote/desktop/web features" — Used `claude remote-control`, `claude --remote`, `/teleport`, `/desktop`, or worktrees with `claude -w`
+4. "Used remote/desktop/web features" — Used `claude --remote-control`, `claude --cloud`, `/teleport`, `/desktop`, or worktrees with `claude -w`
 
-**Scoring:** Option 1 → **Checkpoints** (0-1); Options 2-4 → **Advanced Features** (0-3, cap at 2)
+**Scoring:** Option 1 → **Checkpoints** (0-1); Options 2-4 → **Advanced Features** (0-3)
 
 ---
 
@@ -69,8 +69,8 @@ Options:
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/sub-agents

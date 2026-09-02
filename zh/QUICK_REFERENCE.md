@@ -118,7 +118,7 @@ claude -r "session"    # 按名称/ID 恢复会话
 | **Skills** | `.claude/skills/*/SKILL.md` | 自动触发 |
 | **Subagents** | `.claude/agents/*.md` | 自动委派 |
 | **MCP** | `.mcp.json`（项目）或 `~/.claude.json`（用户） | `/mcp__server__action` |
-| **Hooks（31 个事件）** | `~/.claude/hooks/*.sh` | 事件触发（5 类） |
+| **Hooks（33 个事件）** | `~/.claude/hooks/*.sh` | 事件触发（5 类） |
 | **Plugins** | 通过 `/plugin install` | 打包所有能力 |
 | **Checkpoints** | 内置 | `Esc+Esc` 或 `/rewind` |
 | **Planning Mode** | 内置 | `/plan <task>` |
@@ -189,7 +189,7 @@ vim CLAUDE.md
 
 ### 自动化与 Hooks
 ```bash
-# 安装 hooks（31 个事件，5 类：command、http、mcp_tool、prompt、agent）
+# 安装 hooks（33 个事件，5 类：command、http、mcp_tool、prompt、agent）
 mkdir -p ~/.claude/hooks
 cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
@@ -389,7 +389,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Auto Mode** | 通过后台分类器实现完全自治 | `--enable-auto-mode` 参数，`Shift+Tab` 切换模式 |
 | **Channels** | Discord 和 Telegram 集成 | `--channels` 参数，Discord / Telegram bot |
 | **Voice Dictation** | 对 Claude 说出命令和上下文 | `/voice` 命令 |
-| **Hooks（31 个事件）** | 扩展后的 hook 系统，包含 5 类 | command、http、mcp_tool、prompt、agent hook 类型 |
+| **Hooks（33 个事件）** | 扩展后的 hook 系统，包含 5 类 | command、http、mcp_tool、prompt、agent hook 类型 |
 | **MCP Elicitation** | MCP server 可在运行时请求用户输入 | 当 server 需要澄清时自动提示 |
 | **WebSocket MCP** | MCP 的 WebSocket 传输 | 在 `.mcp.json` 中配置 `ws://` URL |
 | **Plugin LSP** | 插件支持 Language Server Protocol | `userConfig`、`${CLAUDE_PLUGIN_DATA}` 变量 |
@@ -399,7 +399,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Task List** | 管理后台任务 | `/task list`、`/task status <id>` |
 | **Auto Memory** | 从对话中自动保存记忆 | Claude 会自动保存关键上下文到 `CLAUDE.md` |
 | **Git Worktrees** | 用于并行开发的隔离工作区 | 使用 `/worktree` 创建隔离空间 |
-| **Model Selection** | 在 Sonnet 4.6 和 Opus 4.6 之间切换 | `/model` 或 `--model` 参数 |
+| **Model Selection** | 在 Fable 5.1、Fable 5、Opus 5、Sonnet 5、Sonnet 4.6、Opus 4.8 和 Haiku 4.5 之间切换 | `/model` 或 `--model` 参数 |
 | **Agent Teams** | 协调多个 agent 执行任务 | 通过环境变量 `CLAUDE_AGENT_TEAMS=1` 启用 |
 | **Scheduled Tasks** | 使用 `/loop` 运行周期任务 | `/loop 5m /command` 或 CronCreate 工具 |
 | **Chrome Integration** | 浏览器自动化 | `--chrome` 参数或 `/chrome` 命令 |
@@ -445,7 +445,7 @@ echo $GITHUB_TOKEN
 | 自动化工作流 | Skill | `03-skills/code-review-specialist/` |
 | 专门任务 | Subagent | `04-subagents/code-reviewer.md` |
 | 外部数据 | MCP（+ Elicitation、WebSocket） | `05-mcp/github-mcp.json` |
-| 事件自动化 | Hook（31 个事件、5 类） | `06-hooks/pre-commit.sh` |
+| 事件自动化 | Hook（33 个事件、5 类） | `06-hooks/pre-commit.sh` |
 | 完整方案 | Plugin（+ LSP 支持） | `07-plugins/pr-review/` |
 | 安全实验 | Checkpoint | `08-checkpoints/checkpoint-examples.md` |
 | 完全自治 | Auto Mode | `--enable-auto-mode` 或 `Shift+Tab` |
@@ -504,3 +504,10 @@ echo $GITHUB_TOKEN
 **完整索引**：`cat INDEX.md`
 
 **这张卡片**：建议随手保留，方便快速查阅！
+
+---
+
+**最后更新**：2026 年 9 月 2 日
+**Claude Code 版本**：2.1.257
+**来源**：
+- https://code.claude.com/docs/en/hooks

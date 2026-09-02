@@ -20,9 +20,9 @@
 | **Skills** | 10 个内置 | 6 | 16 | [03-skills/README.md](03-skills/README.md) |
 | **Plugins** | - | 3 | 3 | [07-plugins/README.md](07-plugins/README.md) |
 | **MCP Servers** | 1 | 0 | 1 | [05-mcp/README.md](05-mcp/README.md) |
-| **Hooks** | 31 个事件 | 0 | 31 | [06-hooks/README.md](06-hooks/README.md) |
+| **Hooks** | 33 个事件 | 0 | 33 | [06-hooks/README.md](06-hooks/README.md) |
 | **Memory** | 7 种类型 | 3 | 10 | [02-memory/README.md](02-memory/README.md) |
-| **总计** | **115** | **28** | **143** | |
+| **总计** | **117** | **28** | **145** | |
 
 ---
 
@@ -277,7 +277,7 @@ cp -r 03-skills/* ~/.claude/skills/
 /plugin list              # 列出已安装的 plugins
 /plugin install <name>    # 安装 plugin
 /plugin remove <name>     # 移除 plugin
-/plugin update <name>     # 更新 plugin
+claude plugin update <name>   # 更新 plugin（CLI；/plugin update 斜杠命令形式仅在正文中被提及，命令参考中并无该条目）
 ```
 
 ---
@@ -523,8 +523,10 @@ claude mcp add github -- npx -y @modelcontextprotocol/server-github
 
 ---
 
-**最后更新**: 2026 年 8 月 15 日
-**Claude Code 版本**: 2.1.233
+**最后更新**: 2026 年 9 月 2 日
+**Claude Code 版本**: 2.1.257
 **来源**:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/plugins-reference
+- https://code.claude.com/docs/en/discover-plugins

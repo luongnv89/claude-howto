@@ -1303,7 +1303,7 @@ Hooks 是事件驱动的 shell 命令，会在 Claude Code 的特定事件发生
 
 ### Hook 事件
 
-Claude Code 支持 **25 个 hook 事件**，分布在四类钩子中：
+Claude Code 支持 **33 个 hook 事件**，分布在四类钩子中：
 
 | Hook 事件 | 触发时机 | 常见用途 |
 |-----------|----------|----------|
@@ -1533,6 +1533,10 @@ claude -r "Feature"
 
 ---
 
-*最后更新：2026 年 3 月*
-*适用于 Claude Haiku 4.5、Sonnet 4.6、Opus 4.6*
+*适用于 Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5*
 *现已覆盖：Hooks、Checkpoints、Planning Mode、Extended Thinking、Background Tasks、Permission Modes、Headless Mode、Session Management、Auto Memory、Agent Teams、Scheduled Tasks、Chrome Integration、Bundled Skills 等概念。*
+
+**最后更新**：2026 年 9 月 2 日
+**Claude Code 版本**：2.1.257
+**来源**：
+- https://code.claude.com/docs/en/hooks

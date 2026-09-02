@@ -118,7 +118,7 @@ claude -r "session"    # Tiếp tục phiên theo tên/ID
 | **Skills** | `.claude/skills/*/SKILL.md` | Tự động gọi |
 | **Tác Nhân Con** | `.claude/agents/*.md` | Tự động ủy quyền |
 | **MCP** | `.mcp.json` (dự án) hoặc `~/.claude.json` (người dùng) | `/mcp__server__action` |
-| **Hooks (31 sự kiện)** | `~/.claude/hooks/*.sh` | Kích hoạt sự kiện (5 loại) |
+| **Hooks (33 sự kiện)** | `~/.claude/hooks/*.sh` | Kích hoạt sự kiện (5 loại) |
 | **Plugins** | Thông qua `/plugin install` | Gói tất cả |
 | **Checkpoints** | Được tích hợp sẵn | `Esc+Esc` hoặc `/rewind` |
 | **Chế Độ Lập Kế Hoạch** | Được tích hợp sẵn | `/plan <tác vụ>` |
@@ -189,7 +189,7 @@ vim CLAUDE.md
 
 ### Tự Động Hóa & Hooks
 ```bash
-# Cài đặt hooks (31 sự kiện, 5 loại: command, http, mcp_tool, prompt, agent)
+# Cài đặt hooks (33 sự kiện, 5 loại: command, http, mcp_tool, prompt, agent)
 mkdir -p ~/.claude/hooks
 cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
@@ -389,7 +389,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Chế Độ Tự Động** | Vận hành hoàn toàn tự chủ với bộ phân loại nền | Cờ `--enable-auto-mode`, `Shift+Tab` để chuyển đổi chế độ |
 | **Kênh** | Tích hợp Discord và Telegram | Cờ `--channels`, bot Discord/Telegram |
 | **Nhập Liệu Giọng Nói** | Nói lệnh và bối cảnh cho Claude | Lệnh `/voice` |
-| **Hooks (31 sự kiện)** | Hệ thống hook mở rộng với 5 loại | Các loại hook command, http, mcp_tool, prompt, agent |
+| **Hooks (33 sự kiện)** | Hệ thống hook mở rộng với 5 loại | Các loại hook command, http, mcp_tool, prompt, agent |
 | **MCP Elicitation** | MCP servers có thể yêu cầu input người dùng tại runtime | Tự động nhắc khi server cần làm rõ |
 | **WebSocket MCP** | Vận chuyển WebSocket cho kết nối MCP | Cấu hình trong `.mcp.json` với URL `ws://` |
 | **Plugin LSP** | Hỗ trợ Language Server Protocol cho plugins | `userConfig`, biến `${CLAUDE_PLUGIN_DATA}` |
@@ -399,7 +399,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Danh Sách Tác Vụ** | Quản lý tác vụ nền | `/task list`, `/task status <id>` |
 | **Tự Động Bộ Nhớ** | Tự động lưu bộ nhớ từ cuộc hội thoại | Claude tự động lưu bối cảnh chính vào CLAUDE.md |
 | **Git Worktrees** | Không gian làm việc cô lập cho phát triển song song | `/worktree` để tạo không gian làm việc cô lập |
-| **Chọn Mô Hình** | Chuyển đổi giữa Sonnet 4.6 và Opus 4.6 | `/model` hoặc cờ `--model` |
+| **Chọn Mô Hình** | Chuyển đổi giữa Fable 5.1, Fable 5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8 và Haiku 4.5 | `/model` hoặc cờ `--model` |
 | **Đội Tác Nhân** | Phối hợp nhiều tác nhân trên tác vụ | Bật với biến môi trường `CLAUDE_AGENT_TEAMS=1` |
 | **Tác Vụ Định Kỳ** | Tác vụ định kỳ với `/loop` | `/loop 5m /command` hoặc công cụ CronCreate |
 | **Tích Hợp Chrome** | Tự động hóa trình duyệt | Cờ `--chrome` hoặc lệnh `/chrome` |
@@ -445,7 +445,7 @@ echo $GITHUB_TOKEN
 | Workflow tự động | Skill | `03-skills/code-review-specialist/` |
 | Tác vụ chuyên biệt | Tác Nhân Con | `04-subagents/code-reviewer.md` |
 | Dữ liệu bên ngoài | MCP (+ Elicitation, WebSocket) | `05-mcp/github-mcp.json` |
-| Tự động hóa sự kiện | Hook (31 sự kiện, 5 loại) | `06-hooks/pre-commit.sh` |
+| Tự động hóa sự kiện | Hook (33 sự kiện, 5 loại) | `06-hooks/pre-commit.sh` |
 | Giải pháp hoàn chỉnh | Plugin (+ hỗ trợ LSP) | `07-plugins/pr-review/` |
 | Thử nghiệm an toàn | Checkpoint | `08-checkpoints/checkpoint-examples.md` |
 | Hoàn toàn tự chủ | Chế Độ Tự Động | `--enable-auto-mode` hoặc `Shift+Tab` |
@@ -504,3 +504,10 @@ Checklist bắt đầu:
 **Index Hoàn Chỉnh**: `cat INDEX.md`
 
 **Tham Khảo Này**: Giữ sẵn để tham khảo nhanh!
+
+---
+
+**Cập Nhật Lần Cuối**: Ngày 2 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.257
+**Nguồn**:
+- https://code.claude.com/docs/en/hooks

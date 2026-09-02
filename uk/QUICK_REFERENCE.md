@@ -131,7 +131,7 @@ claude -r "session"    # Відновити сесію за назвою/ID
 | **Навички** | `.claude/skills/*/SKILL.md` | Автовиклик |
 | **Субагенти** | `.claude/agents/*.md` | Автоделегування |
 | **MCP** | `.mcp.json` (проект) або `~/.claude.json` (користувач) | `/mcp__server__action` |
-| **Хуки (31 подія)** | `~/.claude/hooks/*.sh` | Тригер на подію (5 типів) |
+| **Хуки (33 події)** | `~/.claude/hooks/*.sh` | Тригер на подію (5 типів) |
 | **Плагіни** | Через `/plugin install` | Пакет всього |
 | **Контрольні точки** | Вбудовано | `Esc+Esc` або `/rewind` |
 | **Режим планування** | Вбудовано | `/plan <завдання>` |
@@ -207,7 +207,7 @@ vim CLAUDE.md
 ### Автоматизація та хуки
 
 ```bash
-# Встановити хуки (31 подія, 5 типів: command, http, mcp_tool, prompt, agent)
+# Встановити хуки (33 події, 5 типів: command, http, mcp_tool, prompt, agent)
 mkdir -p ~/.claude/hooks
 cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
@@ -421,7 +421,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Auto Mode** | Повністю автономна робота з фоновим класифікатором | Прапорець `--enable-auto-mode`, `Shift+Tab` для зміни режимів |
 | **Канали** | Інтеграція з Discord та Telegram | Прапорець `--channels`, боти Discord/Telegram |
 | **Голосовий ввід** | Голосові команди та контекст для Claude | Команда `/voice` |
-| **Хуки (31 подія)** | Розширена система хуків з 5 типами | Типи: command, http, mcp_tool, prompt, agent |
+| **Хуки (33 події)** | Розширена система хуків з 5 типами | Типи: command, http, mcp_tool, prompt, agent |
 | **MCP Elicitation** | MCP-сервери можуть запитувати ввід під час виконання | Автозапит при потребі сервера |
 | **Plugin LSP** | Підтримка Language Server Protocol для плагінів | `userConfig`, змінна `${CLAUDE_PLUGIN_DATA}` |
 | **Віддалене керування** | Керування Claude Code через WebSocket API | `claude --remote` для зовнішніх інтеграцій |
@@ -430,7 +430,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Список завдань** | Управління фоновими завданнями | `/task list`, `/task status <id>` |
 | **Автопам'ять** | Автоматичне збереження з розмов | Claude автозберігає контекст у CLAUDE.md |
 | **Git Worktrees** | Ізольовані робочі простори для паралельної розробки | `/worktree` для створення |
-| **Вибір моделі** | Перемикання між Sonnet 4.6 та Opus 4.6 | `/model` або прапорець `--model` |
+| **Вибір моделі** | Перемикання між Fable 5.1, Fable 5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8 та Haiku 4.5 | `/model` або прапорець `--model` |
 | **Команди агентів** | Координація кількох агентів | Увімкнути з `CLAUDE_AGENT_TEAMS=1` |
 | **Заплановані завдання** | Повторювані завдання з `/loop` | `/loop 5m /command` або CronCreate |
 | **Інтеграція з Chrome** | Автоматизація браузера | Прапорець `--chrome` або `/chrome` |
@@ -479,7 +479,7 @@ echo $GITHUB_TOKEN
 | Автоматичний процес | Навичка | `03-skills/code-review-specialist/` |
 | Спеціалізоване завдання | Субагент | `04-subagents/code-reviewer.md` |
 | Зовнішні дані | MCP (+ Elicitation) | `05-mcp/github-mcp.json` |
-| Автоматизація подій | Хук (31 подія, 5 типів) | `06-hooks/pre-commit.sh` |
+| Автоматизація подій | Хук (33 події, 5 типів) | `06-hooks/pre-commit.sh` |
 | Комплексне рішення | Плагін (+ LSP) | `07-plugins/pr-review/` |
 | Безпечний експеримент | Контрольна точка | `08-checkpoints/checkpoint-examples.md` |
 | Повна автономія | Auto Mode | `--enable-auto-mode` або `Shift+Tab` |
@@ -541,5 +541,7 @@ echo $GITHUB_TOKEN
 
 ---
 
-**Останнє оновлення**: 9 квітня 2026
-**Версія Claude Code**: 2.1.97
+**Останнє оновлення**: 2 вересня 2026
+**Версія Claude Code**: 2.1.257
+**Джерела**:
+- https://code.claude.com/docs/en/hooks

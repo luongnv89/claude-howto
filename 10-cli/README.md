@@ -54,10 +54,10 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `claude agents` | Open the **Agent View** (Research Preview, v2.1.139+) — multi-session manager listing every Claude Code session with its status. See [Agent View](#agent-view-claude-agents-v21139) below. | `claude agents` |
 | `claude auto-mode defaults` | Print auto mode default rules as JSON | `claude auto-mode defaults` |
 | `claude auto-mode reset` | Restore default auto-mode configuration, with a confirmation prompt (`--yes` to skip) (v2.1.212) | `claude auto-mode reset --yes` |
-| `claude remote-control` | Start Remote Control server | `claude remote-control` |
+| `claude --remote-control [name]` | Start Remote Control (a flag, not a subcommand; alias `--rc`) | `claude --rc` |
 | `claude plugin` | Manage plugins (install, enable, disable) | `claude plugin install my-plugin` |
-| `claude plugin init <name>` | Scaffold a new plugin in `.claude/skills` — auto-loads with no marketplace required (v2.1.157+) | `claude plugin init my-plugin` |
-| `claude plugin tag <version>` | Create a release git tag for a plugin with version validation (v2.1.118+) | `claude plugin tag v0.3.0` |
+| `claude plugin init <name>` | Scaffold a new plugin at `~/.claude/skills/<name>/` (user-global) — auto-loads in the next session as `<name>@skills-dir`, no marketplace required (v2.1.157+) | `claude plugin init my-plugin` |
+| `claude plugin tag [path]` | Create a `{name}--v{version}` release git tag for the plugin at `[path]`, validating that `plugin.json` and any enclosing marketplace entry agree (v2.1.118+) | `claude plugin tag ./my-plugin` |
 | `claude install [version]` | Install a specific native-binary version. Accepts `stable`, `latest`, or an explicit version string | `claude install 2.1.131` |
 | `claude project purge [path]` | Delete all local Claude Code state for a project (transcripts, tasks, debug logs, file-edit history, prompt history, and `~/.claude.json` entry). Omit `[path]` for an interactive picker. Flags: `--dry-run` to preview, `-y/--yes` to skip confirmation, `-i/--interactive` to confirm each item, `--all` for every project (v2.1.126+) | `claude project purge ~/work/repo --dry-run` |
 | `claude plugin prune` | Remove orphaned auto-installed plugin dependencies (parent plugin gone). `plugin uninstall --prune` does the same cascade after uninstalling a target (v2.1.121+) | `claude plugin prune` |
@@ -78,14 +78,16 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `-w, --worktree` | Start in isolated git worktree. Accepts a GitLab merge-request URL as well as a GitHub PR URL since v2.1.233 | `claude -w` |
 | `-n, --name` | Session display name | `claude -n "auth-refactor"` |
 | `--from-pr <url-or-number>` | Resume sessions linked to a pull/merge request. Accepts GitHub (cloud + Enterprise), GitLab MR, and Bitbucket PR URLs since v2.1.119; previously GitHub.com only | `claude --from-pr 42` or `claude --from-pr https://gitlab.example.com/org/repo/-/merge_requests/17` |
-| `--remote "task"` | Create web session on claude.ai | `claude --remote "implement API"` |
+| `--cloud [description\|session_id\|url]` | Create a cloud session on claude.ai with the given description, or attach to an existing one by session ID or claude.ai/code URL | `claude --cloud "implement API"` |
+| `--remote "task"` | **Deprecated alias for `--cloud`**, including the existing-session form. Use `--cloud` instead | `claude --remote "implement API"` |
 | `--remote-control, --rc` | Interactive session with Remote Control | `claude --rc` |
-| `--teleport` | Resume a web session locally. Bare form opens a picker of your web sessions; the v2.1.223 changelog also shows a `claude --teleport <session id>` form, which the CLI reference does not document. Requires a claude.ai subscription | `claude --teleport` |
+| `--teleport [session]` | Resume a web session locally. Bare form opens a picker of your web sessions; pass a session ID to resume that session directly. Requires a claude.ai subscription | `claude --teleport` |
 | `--teammate-mode` | Agent team display mode | `claude --teammate-mode tmux` |
 | `--bare` | Minimal mode (skip hooks, skills, plugins, MCP, auto memory, CLAUDE.md) | `claude --bare` |
 | `--safe-mode` | Start with all customizations disabled (CLAUDE.md, plugins, skills, hooks, MCP) to isolate config problems; also `CLAUDE_CODE_SAFE_MODE=1` (v2.1.169) | `claude --safe-mode` |
+| `--restricted` | Lock the session down for untrusted or shared use: removes the built-in command- and code-running tools and WebFetch, ignores user/project/local settings, confines file tools to the working directories, and refuses `bypassPermissions` and cloud sessions. Also `CLAUDE_CODE_RESTRICTED=1` (v2.1.248+) | `claude --restricted -p "summarize this repo"` |
 | `--permission-mode auto` | Start in auto permission mode (replaces the removed `--enable-auto-mode` flag, gone since v2.1.111) | `claude --permission-mode auto` |
-| `--channels` | Subscribe to MCP channel plugins | `claude --channels discord,telegram` |
+| `--channels` | Subscribe to MCP channel plugins. Entries must be tagged `plugin:<name>@<marketplace>`; bare names are rejected | `claude --channels plugin:discord@my-marketplace` |
 | `--chrome` / `--no-chrome` | Enable/disable Chrome browser integration | `claude --chrome` |
 | `--effort` | Set thinking effort level | `claude --effort high` |
 | `--init` / `--init-only` | Run initialization hooks | `claude --init` |
@@ -93,6 +95,26 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `--disable-slash-commands` | Disable all skills and slash commands | `claude --disable-slash-commands` |
 | `--no-session-persistence` | Disable session saving (print mode) | `claude -p --no-session-persistence "query"` |
 | `--exclude-dynamic-system-prompt-sections` | Exclude dynamic sections from the system prompt for better prompt cache hit rates | `claude -p --exclude-dynamic-system-prompt-sections "query"` |
+
+### Restricted Mode (`--restricted`, v2.1.248+)
+
+`--restricted` (or `CLAUDE_CODE_RESTRICTED=1`) is for running `claude` on behalf of someone whose input you do not control — an evaluation harness on a shared machine, a CI job triggered by an outside contributor, a demo box. It applies all of the following:
+
+- **Removes the tools that run commands or code** — Bash, PowerShell, and the REPL — plus WebFetch, unless `--tools` explicitly names them.
+- **Ignores user, project, and local settings files.** Managed settings and an explicit `--settings` file still apply, so an administrator keeps control while a checked-in `.claude/settings.json` cannot widen the sandbox.
+- **Confines the file tools to the working directories**, so reads and writes cannot escape the paths you started in.
+- **Refuses `bypassPermissions`**, whichever way it is requested.
+- **Refuses to create cloud sessions**, so a restricted run cannot push work off the machine.
+
+```bash
+# Evaluation harness: no shell, no network fetches, no settings inheritance
+claude --restricted -p "summarize the architecture of this repo"
+
+# Same lockdown, but deliberately re-enable one tool
+claude --restricted --tools WebFetch -p "check the linked RFC"
+```
+
+> **Note**: `--restricted` is a coarser lock than `--permission-mode`. It removes tools outright rather than prompting for them, so a restricted session cannot be widened from inside the session.
 
 ### Interactive vs Print Mode
 
@@ -285,7 +307,7 @@ claude --settings '{"model":"opus","verbose":true}' "complex task"
 |------|-------------|---------|
 | `--mcp-config` | Load MCP servers from JSON | `claude --mcp-config ./mcp.json` |
 | `--strict-mcp-config` | Only use specified MCP config | `claude --strict-mcp-config --mcp-config ./mcp.json` |
-| `--channels` | Subscribe to MCP channel plugins | `claude --channels discord,telegram` |
+| `--channels` | Subscribe to MCP channel plugins. Entries must be tagged `plugin:<name>@<marketplace>`; bare names are rejected | `claude --channels plugin:discord@my-marketplace` |
 
 ### MCP Examples
 
@@ -369,7 +391,7 @@ claude project purge --all --interactive
 | `--plugin-dir` | Load plugins from directory (repeatable) | `claude --plugin-dir ./my-plugin` |
 | `--effort` | Set thinking effort level | `claude --effort high` |
 | `--bare` | Minimal mode (skip hooks, skills, plugins, MCP, auto memory, CLAUDE.md) | `claude --bare` |
-| `--channels` | Subscribe to MCP channel plugins | `claude --channels discord` |
+| `--channels` | Subscribe to MCP channel plugins (tagged `plugin:<name>@<marketplace>`) | `claude --channels plugin:discord@my-marketplace` |
 | `--tmux` | Create tmux session for worktree | `claude --tmux` |
 | `--fork-session` | Create new session ID when resuming | `claude --resume abc --fork-session` |
 | `--max-budget-usd` | Maximum spend (print mode); also halts background subagents when hit (v2.1.217) | `claude -p --max-budget-usd 5.00 "query"` |
@@ -769,6 +791,7 @@ Claude Code supports multiple models with different capabilities:
 | Opus 4.8 | `claude-opus-4-8` | 1M tokens | Previous flagship Opus, still selectable; adaptive effort levels `low → max`; default effort `high` (v2.1.154) |
 | Sonnet 4.6 | `claude-sonnet-4-6` | 1M tokens | Balanced speed and capability; default effort for Pro/Max subscribers raised from `medium` to `high` in v2.1.117 |
 | Haiku 4.5 | `claude-haiku-4-5` | 200K tokens | Fastest, best for quick tasks; no effort levels |
+| Fable 5.1 | `claude-fable-5-1` | — | Current Fable model; the `fable` alias resolves to it (v2.1.257) |
 | Fable 5 | `claude-fable-5` | — | Mythos-class model, made safe for general use (v2.1.170) |
 
 ### Model Selection
@@ -785,6 +808,8 @@ claude --model opusplan "design and implement the API"
 # Toggle fast mode during session
 /fast
 ```
+
+> **Fable 5.1 and the `fable` alias (v2.1.257)**: Fable 5.1 (`claude-fable-5-1`) ships in **v2.1.257**, and the `fable` alias now resolves to it rather than to Fable 5. The official model-config page says Fable 5.1 "requires Claude Code v2.1.255 or later", but 2.1.255 was never published — v2.1.257 is the first release users can actually install it with. On a Claude apps gateway, `fable` and `best` still resolve to **Fable 5**; pick 5.1 explicitly in `/model` there.
 
 > **Fast Mode runs on Opus 5 and Opus 4.8 (v2.1.219)**: As of v2.1.219, `/fast` applies to **Opus 5 and Opus 4.8** — Opus 4.7 was removed from fast mode. Opus 5's fast mode is billed at $10/$50 per Mtok. Fast mode first moved to Opus 4.8 in v2.1.154 (about 2× the standard rate for ~2.5× the output speed), having flipped from Opus 4.6 to Opus 4.7 in v2.1.142. The `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` env var was **deprecated in v2.1.154 and removed on 2026-06-01**; fast mode is no longer available on Opus 4.6 — select Opus 5 or Opus 4.8 instead.
 
@@ -1022,8 +1047,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/env-vars

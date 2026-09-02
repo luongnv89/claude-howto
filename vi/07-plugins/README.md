@@ -608,7 +608,7 @@ claude plugin uninstall <name>               # Gỡ bỏ plugin
 claude plugin list                           # Liệt kê các plugin đã cài đặt
 claude plugin enable <name>                  # Kích hoạt plugin đã bị vô hiệu hóa
 claude plugin disable <name>                 # Vô hiệu hóa plugin
-claude plugin validate                       # Xác thực cấu trúc plugin
+claude plugin validate <path>                # Xác thực cấu trúc plugin tại <path>
 ```
 
 ## Các Phương Thức Cài Đặt / Installation Methods
@@ -965,9 +965,10 @@ Các tính năng Claude Code sau hoạt động cùng với plugins:
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 19 tháng 8 năm 2026
-**Phiên Bản Claude Code**: 2.1.235
+**Cập Nhật Lần Cuối**: Ngày 2 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.257
 **Nguồn**:
 - https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/settings
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

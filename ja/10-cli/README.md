@@ -57,9 +57,9 @@ graph TD
 | `claude mcp serve` | Claude Code を MCP サーバーとして起動 | `claude mcp serve` |
 | `claude agents` | 設定済みのサブエージェントを一覧表示 | `claude agents` |
 | `claude auto-mode defaults` | 自動モードのデフォルトルールを JSON で出力 | `claude auto-mode defaults` |
-| `claude remote-control` | リモートコントロールサーバーを起動 | `claude remote-control` |
+| `claude --remote-control [name]` | リモートコントロールを起動（サブコマンドではなくフラグ。エイリアス `--rc`） | `claude --rc` |
 | `claude plugin` | プラグインを管理（インストール・有効化・無効化） | `claude plugin install my-plugin` |
-| `claude plugin tag <version>` | バージョン検証付きでプラグインのリリース git タグを作成（v2.1.118+） | `claude plugin tag v0.3.0` |
+| `claude plugin tag [path]` | `[path]` のプラグインに対し `{name}--v{version}` のリリース git タグを作成。`plugin.json` と（存在すれば）マーケットプレイスのエントリが一致しているか検証する（v2.1.118+） | `claude plugin tag ./my-plugin` |
 | `claude install [version]` | 指定したネイティブバイナリのバージョンをインストール。`stable`、`latest`、明示的なバージョン文字列を受け付ける | `claude install 2.1.119` |
 | `claude auth login` | ログイン（`--email`、`--sso` をサポート） | `claude auth login --email user@example.com` |
 | `claude auth logout` | 現在のアカウントからログアウト | `claude auth logout` |
@@ -76,13 +76,14 @@ graph TD
 | `-w, --worktree` | 隔離された git ワークツリーで起動 | `claude -w` |
 | `-n, --name` | セッションの表示名 | `claude -n "auth-refactor"` |
 | `--from-pr <url-or-number>` | プル／マージリクエストに紐づくセッションを再開する。v2.1.119 以降は GitHub（クラウド + Enterprise）、GitLab MR、Bitbucket PR の URL を受け付ける（以前は GitHub.com のみ） | `claude --from-pr 42` または `claude --from-pr https://gitlab.example.com/org/repo/-/merge_requests/17` |
-| `--remote "task"` | claude.ai 上に web セッションを作成 | `claude --remote "implement API"` |
+| `--cloud [description\|session_id\|url]` | 指定した説明で claude.ai 上にクラウドセッションを作成、またはセッション ID か claude.ai/code の URL で既存セッションに接続 | `claude --cloud "implement API"` |
+| `--remote "task"` | **`--cloud` の非推奨エイリアス**（既存セッションに接続する形式も含む）。`--cloud` を使うこと | `claude --remote "implement API"` |
 | `--remote-control, --rc` | リモートコントロール付きの対話セッション | `claude --rc` |
 | `--teleport` | web セッションをローカルで再開 | `claude --teleport` |
 | `--teammate-mode` | エージェントチームの表示モード | `claude --teammate-mode tmux` |
 | `--bare` | 最小モード（フック、スキル、プラグイン、MCP、自動メモリ、CLAUDE.md をスキップ） | `claude --bare` |
 | `--enable-auto-mode` | 自動権限モードを解禁（Opus 4.7 の Max 加入者には不要） | `claude --enable-auto-mode` |
-| `--channels` | MCP チャンネルプラグインを購読 | `claude --channels discord,telegram` |
+| `--channels` | MCP チャンネルプラグインを購読。各エントリは `plugin:<name>@<marketplace>` の形式でタグ付けする必要があり、名前のみの指定は拒否される | `claude --channels plugin:discord@my-marketplace` |
 | `--chrome` / `--no-chrome` | Chrome ブラウザ統合を有効化／無効化 | `claude --chrome` |
 | `--effort` | 思考労力レベルを設定 | `claude --effort high` |
 | `--init` / `--init-only` | 初期化フックを実行 | `claude --init` |
@@ -269,7 +270,7 @@ claude --settings '{"model":"opus","verbose":true}' "complex task"
 |------|------|-----|
 | `--mcp-config` | JSON から MCP サーバーを読み込む | `claude --mcp-config ./mcp.json` |
 | `--strict-mcp-config` | 指定した MCP 設定のみを使う | `claude --strict-mcp-config --mcp-config ./mcp.json` |
-| `--channels` | MCP チャンネルプラグインを購読 | `claude --channels discord,telegram` |
+| `--channels` | MCP チャンネルプラグインを購読。各エントリは `plugin:<name>@<marketplace>` の形式でタグ付けする必要があり、名前のみの指定は拒否される | `claude --channels plugin:discord@my-marketplace` |
 
 ### MCP の例
 
@@ -339,7 +340,7 @@ claude -r "feature-auth" --fork-session "test with different architecture"
 | `--enable-auto-mode` | 自動権限モードを解禁 | `claude --enable-auto-mode` |
 | `--effort` | 思考労力レベルを設定 | `claude --effort high` |
 | `--bare` | 最小モード（フック、スキル、プラグイン、MCP、自動メモリ、CLAUDE.md をスキップ） | `claude --bare` |
-| `--channels` | MCP チャンネルプラグインを購読 | `claude --channels discord` |
+| `--channels` | MCP チャンネルプラグインを購読（`plugin:<name>@<marketplace>` 形式でタグ付け） | `claude --channels plugin:discord@my-marketplace` |
 | `--tmux` | ワークツリー用に tmux セッションを作成 | `claude --tmux` |
 | `--fork-session` | 再開時に新しいセッション ID を作成 | `claude --resume abc --fork-session` |
 | `--max-budget-usd` | 最大支出額（プリントモード）。上限に達するとバックグラウンドのサブエージェントも停止する (v2.1.217) | `claude -p --max-budget-usd 5.00 "query"` |
@@ -872,8 +873,8 @@ claude -p --output-format json "query"
 
 ---
 
-**最終更新**: 2026 年 4 月 24 日
-**Claude Code バージョン**: 2.1.119
+**最終更新**: 2026 年 9 月 2 日
+**Claude Code バージョン**: 2.1.257
 **出典**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/settings
@@ -884,4 +885,4 @@ claude -p --output-format json "query"
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.119
-**対応モデル**: Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5
+**対応モデル**: Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

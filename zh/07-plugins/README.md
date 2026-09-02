@@ -595,7 +595,7 @@ claude plugin uninstall <name>               # 删除插件
 claude plugin list                           # 列出已安装插件
 claude plugin enable <name>                  # 启用已禁用的插件
 claude plugin disable <name>                 # 禁用插件
-claude plugin validate                       # 验证插件结构
+claude plugin validate <path>                # 验证 <path> 处的插件结构
 ```
 
 ## 安装方式
@@ -952,8 +952,9 @@ claude plugin update plugin-name
 
 ---
 
-**最后更新**: 2026 年 8 月 19 日
-**Claude Code 版本**: 2.1.235
+**最后更新**: 2026 年 9 月 2 日
+**Claude Code 版本**: 2.1.257
 **来源**:
 - https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/settings

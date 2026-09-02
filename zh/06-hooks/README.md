@@ -22,12 +22,12 @@ Hooks 是事件驱动的自动化机制。它们会在 Claude Code 发生某些�
 
 ## Hook 类型
 
-Claude Code 支持 31 个 hook 事件，按用途分为以下 4 组。事件的 handler 类型共 5 种：`command`、`http`、`mcp_tool`、`prompt`、`agent`。
+Claude Code 支持 33 个 hook 事件，按用途分为以下 4 组。事件的 handler 类型共 5 种：`command`、`http`、`mcp_tool`、`prompt`、`agent`。
 
 - **Tool Hooks**：`PreToolUse`、`PostToolUse`、`PostToolUseFailure`、`PostToolBatch`、`PermissionRequest`、`PermissionDenied`
 - **Session Hooks**：`SessionStart`、`Setup`、`SessionEnd`、`Stop`、`StopFailure`、`SubagentStart`、`SubagentStop`
 - **Task Hooks**：`UserPromptSubmit`、`UserPromptExpansion`、`MessageDisplay`、`TaskCompleted`、`TaskCreated`、`TeammateIdle`（`TaskCompleted` 和 `TaskCreated` 仅在启用 todo 工具时触发 —— 在 Opus 4.8、Sonnet 5、Fable 5、Mythos 5 及更新模型上默认关闭；`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` 可恢复）
-- **Lifecycle Hooks**：`ConfigChange`、`CwdChanged`、`DirectoryAdded`、`FileChanged`、`PreCompact`、`PostCompact`、`WorktreeCreate`、`WorktreeRemove`、`Notification`、`InstructionsLoaded`、`Elicitation`、`ElicitationResult`
+- **Lifecycle Hooks**：`ConfigChange`、`CwdChanged`、`DirectoryAdded`、`FileChanged`、`PreCompact`、`PostCompact`、`PreModelSwitch`、`PostModelSwitch`、`WorktreeCreate`、`WorktreeRemove`、`Notification`、`InstructionsLoaded`、`Elicitation`、`ElicitationResult`
 
 ## 安装
 
@@ -113,7 +113,7 @@ Hooks 会在匹配到事件时自动执行。你可以把它理解成 Claude Cod
 
 ---
 
-**最后更新**: 2026 年 8 月 15 日
-**Claude Code 版本**: 2.1.233
+**最后更新**: 2026 年 9 月 2 日
+**Claude Code 版本**: 2.1.257
 **来源**:
 - https://code.claude.com/docs/en/hooks

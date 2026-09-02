@@ -39,7 +39,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - Done when: A hook blocks dangerous commands before execution
 
 **Hooks (score 1 — review)**:
-- Focus on: All 31 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult, Setup, UserPromptExpansion, MessageDisplay), 5 hook types (command, http, mcp_tool, prompt, agent — agent hooks are experimental and may change), component-scoped hooks in SKILL.md frontmatter, HTTP hooks with allowedEnvVars, `CLAUDE_ENV_FILE` for SessionStart/CwdChanged/FileChanged
+- Focus on: All 33 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult, Setup, UserPromptExpansion, MessageDisplay, PreModelSwitch, PostModelSwitch — the last two added in v2.1.251), 5 hook types (command, http, mcp_tool, prompt, agent — agent hooks are experimental and may change), component-scoped hooks in SKILL.md frontmatter, HTTP hooks with allowedEnvVars, `CLAUDE_ENV_FILE` for SessionStart/CwdChanged/FileChanged
 - Done when: You can create a prompt-based Stop hook and a component-scoped hook in a skill
 
 **MCP (score 0)**:
@@ -64,7 +64,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 
 **Checkpoints (score 0)**:
 - Tutorial: [08-checkpoints/](../../../../08-checkpoints/)
-- Focus on: Esc+Esc and /rewind access, 6 rewind options (restore code and conversation, restore conversation, restore code, summarize from here, summarize up to here, never mind), limitations (bash filesystem ops not tracked)
+- Focus on: Esc+Esc and /rewind access, 6 rewind options (restore code and conversation, restore conversation, restore code, summarize from here, summarize up to here, never mind), limitations — bash filesystem ops, subagent edits (except a foreground `context: fork` skill), edits made outside Claude Code, and symlinked/hardlinked paths are all untracked
 - Key exercise: Make experimental changes, then rewind to restore
 - Done when: You can confidently experiment knowing you can rewind
 
@@ -75,7 +75,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - Done when: You can switch between planning and implementation modes fluently
 
 **Advanced Features (score 1 — review)**:
-- Focus on: Remote control (`claude remote-control`), web sessions (`claude --remote`), desktop handoff (`/desktop`), worktrees (`claude -w`), task lists (Ctrl+T), managed settings for enterprise
+- Focus on: Remote control (`claude --remote-control`, alias `--rc`), web sessions (`claude --cloud`; `--remote` is a deprecated alias), desktop handoff (`/desktop`), worktrees (`claude -w`), task lists (Ctrl+T), managed settings for enterprise
 - Done when: You can hand off sessions between CLI, web, and desktop
 
 **Plugins (score 0)**:
@@ -100,8 +100,8 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 2, 2026
+**Claude Code Version**: 2.1.257
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/memory
