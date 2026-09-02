@@ -245,7 +245,7 @@ graph TD
 | **Extended Thinking** | Перемикання глибокого мислення через `Alt+T`/`Option+T` або змінну `MAX_THINKING_TOKENS` | [Просунуті функції](09-advanced-features/) |
 | **Permission Modes** | Тонке управління: default, acceptEdits, plan, auto, dontAsk, bypassPermissions | [Просунуті функції](09-advanced-features/) |
 | **7-Tier Memory** | Managed Policy, Project, Project Rules, User, User Rules, Local, Auto Memory | [Посібник з пам'яті](02-memory/) |
-| **Hook Events** | 31 подія: PreToolUse, PostToolUse, PostToolUseFailure, Stop, StopFailure, SubagentStart, SubagentStop, Notification, Elicitation та інші | [Посібник з хуків](06-hooks/) |
+| **Hook Events** | 33 події: PreToolUse, PostToolUse, PostToolUseFailure, Stop, StopFailure, SubagentStart, SubagentStop, Notification, Elicitation та інші | [Посібник з хуків](06-hooks/) |
 | **Agent Teams** | Координація кількох агентів для складних завдань | [Посібник з субагентів](04-subagents/) |
 | **Scheduled Tasks** | Налаштування повторюваних завдань з `/loop` та cron | [Просунуті функції](09-advanced-features/) |
 | **Chrome Integration** | Автоматизація браузера з headless Chromium | [Просунуті функції](09-advanced-features/) |

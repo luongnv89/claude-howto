@@ -2818,13 +2818,18 @@ Claude Code は 5 種類（command、http、mcp_tool、prompt、agent）にわ�
 | フックイベント | トリガー | ユースケース |
 |------------|---------|-----------|
 | **SessionStart** | セッション開始 / 再開 / クリア / 圧縮時 | 環境構築、初期化 |
+| **Setup** | 初期環境セットアップ（セッションごとに 1 回） | ツール準備、依存関係インストール |
 | **InstructionsLoaded** | CLAUDE.md やルールファイル読み込み時 | 検証、変換、補強 |
 | **UserPromptSubmit** | ユーザーがプロンプト送信時 | 入力検証、プロンプトフィルタ |
+| **UserPromptExpansion** | プロンプト展開（@メンション、スラッシュコマンド解決） | 展開後プロンプトの変換・検査 |
 | **PreToolUse** | 任意のツール実行前 | 検証、承認ゲート、ログ |
 | **PermissionRequest** | 権限ダイアログ表示時 | 自動承認・拒否フロー |
+| **PermissionDenied** | ユーザーが権限要求を拒否 | ログ、分析、ポリシー適用 |
 | **PostToolUse** | ツール成功後 | 自動整形、通知、後処理 |
 | **PostToolUseFailure** | ツール実行失敗時 | エラー処理、ログ |
+| **PostToolBatch** | ツール実行バッチの完了後 | 集約レポート、バッチ検証 |
 | **Notification** | 通知送信時 | アラート、外部連携 |
+| **MessageDisplay** | アシスタントのメッセージ表示時 | 表示テキストの変換・非表示 |
 | **SubagentStart** | サブエージェント生成時 | コンテキスト注入、初期化 |
 | **SubagentStop** | サブエージェント終了時 | 結果検証、ログ |
 | **Stop** | Claude の応答完了時 | サマリー生成、後処理 |
@@ -2834,9 +2839,12 @@ Claude Code は 5 種類（command、http、mcp_tool、prompt、agent）にわ�
 | **TaskCreated** | TaskCreate でタスク作成時（todo ツールが有効なときのみ発火 — Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降ではデフォルト無効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活） | タスク追跡、ログ |
 | **ConfigChange** | 設定ファイル変更時 | 検証、伝播 |
 | **CwdChanged** | 作業ディレクトリ変更時 | ディレクトリ別セットアップ |
+| **DirectoryAdded** | セッション中に作業ディレクトリが追加登録 | 新規ディレクトリ向けツール設定 |
 | **FileChanged** | 監視対象ファイルの変更時 | ファイル監視、再ビルド |
 | **PreCompact** | コンテキスト圧縮直前 | 状態の保存 |
 | **PostCompact** | 圧縮完了後 | 圧縮後の処理 |
+| **PreModelSwitch** | モデル切り替えが適用される直前 | モデル変更のゲート・拒否 |
+| **PostModelSwitch** | セッションのモデルが変更された後 | モデル変更のログ・連動 |
 | **WorktreeCreate** | ワークツリー作成時 | 環境構築、依存関係インストール |
 | **WorktreeRemove** | ワークツリー削除時 | クリーンアップ、リソース解放 |
 | **Elicitation** | MCP サーバーがユーザー入力を要求時 | 入力検証 |

@@ -1162,6 +1162,8 @@ Claude Code supports **33 hook events** across five hook types (command, http, m
 | **FileChanged** | Watched file changes | File monitoring, rebuild triggers |
 | **PreCompact** | Before context compaction | State preservation |
 | **PostCompact** | After compaction completes | Post-compact actions |
+| **PreModelSwitch** | Before a requested model switch is applied | Gate or veto model changes |
+| **PostModelSwitch** | After the session's model changes | Log or react to model changes |
 | **WorktreeCreate** | Worktree being created | Environment setup, dependency install |
 | **WorktreeRemove** | Worktree being removed | Cleanup, resource deallocation |
 | **Elicitation** | MCP server requests user input | Input validation |

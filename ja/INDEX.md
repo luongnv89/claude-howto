@@ -226,11 +226,11 @@ blog-draft/
 
 **フックの種類**（5 種）：`command`、`http`、`prompt`、`mcp_tool`、`agent` — フックの実行方式。
 
-**フックイベント**（31 件、4 カテゴリ）— 実行タイミング：
+**フックイベント**（33 件、4 カテゴリ）— 実行タイミング：
 - ツール系フック：PreToolUse、PostToolUse、PostToolUseFailure、PostToolBatch、PermissionRequest、PermissionDenied
 - セッション系フック：SessionStart、Setup、SessionEnd、Stop、StopFailure、SubagentStart、SubagentStop
 - タスク系フック：UserPromptSubmit、UserPromptExpansion、MessageDisplay、TaskCompleted、TaskCreated、TeammateIdle（TaskCompleted と TaskCreated は todo ツールが有効なときのみ発火 — Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降ではデフォルト無効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活）
-- ライフサイクル系フック：ConfigChange、CwdChanged、DirectoryAdded、FileChanged、PreCompact、PostCompact、WorktreeCreate、WorktreeRemove、Notification、InstructionsLoaded、Elicitation、ElicitationResult
+- ライフサイクル系フック：ConfigChange、CwdChanged、DirectoryAdded、FileChanged、PreCompact、PostCompact、PreModelSwitch、PostModelSwitch、WorktreeCreate、WorktreeRemove、Notification、InstructionsLoaded、Elicitation、ElicitationResult
 
 ---
 

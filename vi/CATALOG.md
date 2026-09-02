@@ -332,13 +332,18 @@ Tự động hóa dựa trên sự kiện thực thi shell commands trên các s
 | Event | Mô Tả | Khi Được Kích Hoạt | Use Cases |
 |-------|-------------|----------------|-----------|
 | `SessionStart` | Session bắt đầu/tiếp tục | Khởi tạo session | Tasks thiết lập |
+| `Setup` | Thiết lập môi trường ban đầu (một lần mỗi session) | Bootstrap session lần đầu | Cài đặt tooling, cài dependencies |
 | `InstructionsLoaded` | Hướng dẫn được tải | CLAUDE.md hoặc file rules được tải | Xử lý hướng dẫn tùy chỉnh |
 | `UserPromptSubmit` | Trước khi xử lý prompt | User gửi tin nhắn | Xác thực input |
+| `UserPromptExpansion` | Prompt được mở rộng (@-mentions, slash commands) | Sau khi mở rộng, trước khi gửi | Biến đổi hoặc kiểm tra prompt đã mở rộng |
 | `PreToolUse` | Trước khi thực thi tool | Trước khi bất kỳ tool chạy | Xác thực, logging |
 | `PermissionRequest` | Dialog permission được hiển thị | Trước hành động nhạy cảm | Flows phê duyệt tùy chỉnh |
+| `PermissionDenied` | Người dùng từ chối yêu cầu quyền | Sau khi từ chối quyền | Ghi log, phân tích, thực thi chính sách |
 | `PostToolUse` | Sau khi tool thành công | Sau khi bất kỳ tool hoàn thành | Formatting, thông báo |
 | `PostToolUseFailure` | Thực thi tool thất bại | Sau khi tool lỗi | Xử lý lỗi, logging |
+| `PostToolBatch` | Sau khi một lô tool use hoàn tất | Kết thúc một lô tool | Báo cáo tổng hợp, xác thực theo lô |
 | `Notification` | Thông báo được gửi | Claude gửi thông báo | Cảnh báo bên ngoài |
+| `MessageDisplay` | Văn bản phản hồi được hiển thị | Trong khi message render | Biến đổi hoặc ẩn nội dung hiển thị |
 | `SubagentStart` | Subagent được tạo | Task subagent bắt đầu | Khởi tạo context subagent |
 | `SubagentStop` | Subagent hoàn thành | Task subagent hoàn tất | Chuỗi hành động |
 | `Stop` | Claude hoàn thành phản hồi | Phản hồi hoàn tất | Dọn dẹp, báo cáo |
@@ -348,9 +353,12 @@ Tự động hóa dựa trên sự kiện thực thi shell commands trên các s
 | `TaskCreated` | Task được tạo qua TaskCreate (chỉ phát ra khi bật todo tools — tắt mặc định trên Opus 4.8, Sonnet 5, Fable 5, Mythos 5 và mới hơn; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` khôi phục) | Task mới được tạo | Theo dõi task, logging |
 | `ConfigChange` | Cấu hình được cập nhật | Settings được sửa đổi | Phản ứng thay đổi config |
 | `CwdChanged` | Thư mục làm việc thay đổi | Thư mục thay đổi | Thiết lập cụ thể theo thư mục |
+| `DirectoryAdded` | Thư mục làm việc mới được đăng ký giữa session | `/add-dir` hoặc SDK `register_repo_root` | Thiết lập tooling cho thư mục mới |
 | `FileChanged` | File được theo dõi thay đổi | File được sửa | Giám sát file, rebuild |
 | `PreCompact` | Trước operation compact | Nén context | Bảo toàn trạng thái |
 | `PostCompact` | Sau khi compact hoàn tất | Compact xong | Hành động post-compact |
+| `PreModelSwitch` | Trước khi áp dụng yêu cầu đổi model | Có yêu cầu đổi model | Kiểm soát hoặc chặn việc đổi model |
+| `PostModelSwitch` | Sau khi model của session thay đổi | Đổi model hoàn tất | Ghi log hoặc phản ứng khi đổi model |
 | `WorktreeCreate` | Worktree đang được tạo | Git worktree được tạo | Thiết lập môi trường worktree |
 | `WorktreeRemove` | Worktree đang bị gỡ | Git worktree bị gỡ | Dọn dẹp tài nguyên worktree |
 | `Elicitation` | MCP server yêu cầu input | MCP elicitation | Xác thực input |

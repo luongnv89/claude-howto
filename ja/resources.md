@@ -245,7 +245,7 @@ graph TD
 | **Extended Thinking** | `Alt+T`／`Option+T` または `MAX_THINKING_TOKENS` 環境変数による深い推論の切り替え | [高度な機能](09-advanced-features/) |
 | **Permission Modes** | きめ細かい制御：default、acceptEdits、plan、auto、dontAsk、bypassPermissions | [高度な機能](09-advanced-features/) |
 | **7-Tier Memory** | Managed Policy、Project、Project Rules、User、User Rules、Local、Auto Memory | [メモリガイド](02-memory/) |
-| **Hook Events** | 31 イベント：PreToolUse、PostToolUse、PostToolUseFailure、Stop、StopFailure、SubagentStart、SubagentStop、Notification、Elicitation など | [フックガイド](06-hooks/) |
+| **Hook Events** | 33 イベント：PreToolUse、PostToolUse、PostToolUseFailure、Stop、StopFailure、SubagentStart、SubagentStop、Notification、Elicitation など | [フックガイド](06-hooks/) |
 | **Agent Teams** | 複雑なタスクで複数のエージェントを協調させる | [サブエージェントガイド](04-subagents/) |
 | **Scheduled Tasks** | `/loop` と cron ツールで定期タスクをセットアップ | [高度な機能](09-advanced-features/) |
 | **Chrome Integration** | ヘッドレス Chromium によるブラウザ自動化 | [高度な機能](09-advanced-features/) |
