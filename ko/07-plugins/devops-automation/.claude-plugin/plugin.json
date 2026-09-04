@@ -1,0 +1,9 @@
+{
+  "name": "devops-automation",
+  "version": "1.0.0",
+  "description": "Complete DevOps automation for deployment, monitoring, and incident response",
+  "author": {
+    "name": "Community"
+  },
+  "license": "MIT"
+}
