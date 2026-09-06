@@ -38,7 +38,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/btw` | Ephemeral side question — doesn't pollute main context | Quick tangent questions |
 | `/chrome` | Configure Chrome integration | Browser automation |
 | `/clear` | Clear conversation history | Start fresh, reduce context |
-| `/diff` | Interactive diff viewer | Review changes |
+| `/diff` | Interactive diff viewer. In the fullscreen TUI (v2.1.260+) it opens a diff panel beside the conversation that stays open and refreshes each time Claude edits a file or runs a command; the classic renderer opens the viewer in place of the prompt instead | Review changes |
 | `/config` | View/edit configuration | Customize behavior |
 | `/status` | Show session status | Check current state |
 | `/agents` | List available agents | See delegation options |
@@ -66,7 +66,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/logout` | Sign out | Switch accounts |
 | `/sandbox` | Toggle sandbox mode | Safe command execution |
 | `/doctor` | Run diagnostics | Troubleshoot issues |
-| `/reload-plugins` | Reload installed plugins. Since v2.1.221 most installs activate immediately; only needed when the install summary says `Run /reload-plugins to activate.` | Plugin management |
+| `/reload-plugins` | Reload installed plugins. Since v2.1.221 most installs activate immediately; only needed when the install summary says `Run /reload-plugins to activate.` Available in headless sessions since v2.1.260+, so it appears in the Claude Code Desktop and SDK command lists | Plugin management |
 | `/reload-skills` | Re-scan skill directories without restarting (v2.1.152) | Skill management |
 | `/workflows` | View running and completed dynamic workflow runs (v2.1.154) | Multi-agent orchestration |
 | `/release-notes` | Show release notes | Check new features |
@@ -96,6 +96,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/team-onboarding` | Generate a teammate ramp-up guide from this project's Claude Code usage | Onboarding new teammates (v2.1.101) |
 | `/code-review ultra` | Run a cloud multi-agent code review over your current changes. `/ultrareview` remains as an alias; `/code-review ultra` is the preferred invocation. Includes 3 free runs on Pro and Max, then requires usage credits | Deep pre-merge review across multiple agents (v2.1.112) |
 | `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist for common read-only tools | Reduce repeat permission prompts in a project (v2.1.112) |
+| `/skill-doctor` | Show which loaded skills go unused and what they cost in context. Opens in the `/plugin` manager's **Stats** tab; prints as text under `-p` | Prune skills you no longer need (v2.1.252+) |
 
 ### Custom Commands (Examples)
 
@@ -512,6 +513,7 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **`notify_when_idle`** | Cross-session `SendMessage` input that asks another session on the same machine to send one notice when it next goes idle — opt-in, one-shot, no polling (v2.1.236). Related: `ListAgents` reports the session's own name and lists live teammates, and Windows gained cross-session messaging (v2.1.239) | Pass `notify_when_idle` to `SendMessage`. See [Advanced Features](09-advanced-features/README.md#cross-session-messaging) |
 | **Plugin manifest fields** | `plugin.json` accepts `workflows`, `channels`, `dependencies` (semver), `outputStyles`, `keywords`, `metadata`, `lspServers`, and `experimental.themes` / `experimental.monitors`. CLI gained `claude plugin new`, `remove`/`rm`, `prune`/`autoremove`, and the flags `--with`, `-f`/`--force`, `--available`, `--push`, `--dry-run` | See [Plugins](07-plugins/README.md) |
 | **Restricted Mode** | Removes the built-in tools that run commands or code (Bash, PowerShell, REPL) and WebFetch unless `--tools` names them; ignores user, project, and local settings (managed settings and `--settings` still apply); confines file tools to the working directories; refuses `bypassPermissions`; and refuses to create cloud sessions (v2.1.248+) | `claude --restricted`, or `CLAUDE_CODE_RESTRICTED=1`. See [CLI](10-cli/README.md) |
+| **`/advisor` text form** | `/advisor`, `/advisor <model>`, and `/advisor off` work as text commands in the desktop app, Remote Control, and other headless (`-p` / Agent SDK) sessions, not just as a dialog (v2.1.260+) | Type `/advisor off` in a headless session. See [Slash Commands](01-slash-commands/README.md) |
 
 ---
 
@@ -571,8 +573,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: September 2, 2026
-**Claude Code Version**: 2.1.257
+**Last Updated**: September 6, 2026
+**Claude Code Version**: 2.1.263
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -592,4 +594,5 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/discover-plugins
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/plugins-reference
+- https://code.claude.com/docs/en/slash-commands
 **Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

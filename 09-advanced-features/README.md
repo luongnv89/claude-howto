@@ -2421,12 +2421,10 @@ These keys go in `~/.claude/settings.json` (or a project `.claude/settings.json`
 | `promptCacheTtl` | (v2.1.243) Choose the prompt cache lifetime for the main conversation. |
 | `subagentPromptCacheTtl` | (v2.1.243) The same choice for subagents and other requests outside the main conversation. |
 | `modelPricing` | (v2.1.243) **Managed setting.** Supplies your organization's contracted rates so `/cost`, the status line, and telemetry report those instead of list price. |
-| `keybindingFlavor` | (v2.1.238) `"classic"` (default) or `"readline"`. `readline` makes `Ctrl+W` delete back to the previous whitespace, as Bash does; v2.1.239 extended it to `Alt+F`, `Ctrl`/`Option+→`, and `Alt+D`. |
+| `keybindingFlavor` | **Deprecated since v2.1.261 and has no effect.** The prompt's word-editing keys always follow readline conventions, as Bash does: `Ctrl+W` deletes back to whitespace, `Alt+F` and `Alt+D` stop at word end, and punctuation separates words. Claude Code still accepts the key, so a settings file that sets it stays valid. (In v2.1.238–v2.1.260 it chose between `"classic"` and `"readline"`.) |
 | `spellcheck` | (v2.1.235) Underlines misspelled words in the prompt input using whichever of `aspell`, `hunspell`, or `ispell` is on your `PATH`, tried in that order. Object-valued — `{"enabled": true, "language": "en_GB"}` — and off by default. **Read from user settings, the `--settings` flag, and managed settings only**: a `spellcheck` block in a project `.claude/settings.json` or `.claude/settings.local.json` is ignored. |
-
-> **Changelog-sourced**: `modelPricing` is documented from the v2.1.243 changelog entry;
-> the settings reference does not yet list it. The other four keys above appear in the
-> official settings reference.
+| `bashOutputMaxChars` | (v2.1.261) How many characters of a **successful** Bash or PowerShell command's output Claude receives inline, up to 128K. Past the limit Claude Code saves the output to a file and Claude gets a short preview plus the path. Setting it makes Claude Code ignore `BASH_MAX_OUTPUT_LENGTH`. |
+| `taskOutputMaxChars` | (v2.1.261) How many characters of a **background task's** output Claude receives inline when reading it with the `TaskOutput` tool, up to 128K. For a longer finished task Claude receives the most recent characters. Setting it makes Claude Code ignore `TASK_MAX_OUTPUT_LENGTH`. |
 
 ### Fallback Models (`fallbackModel`)
 
@@ -2729,8 +2727,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 6, 2026
+**Claude Code Version**: 2.1.263
 **Sources**:
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/sandboxing

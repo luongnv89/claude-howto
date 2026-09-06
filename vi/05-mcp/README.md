@@ -656,42 +656,61 @@ claude mcp add --transport stdio claude-agent -- claude mcp serve
 
 ## Cấu Hình MCP Được Quản Lý (Enterprise) / Managed MCP Configuration
 
-Đối với các triển khai enterprise, các quản trị viên IT có thể thực thi các chính sách MCP server qua file cấu hình `managed-mcp.json`. File này cung cấp kiểm soát độc quyền về việc MCP servers nào được phép hoặc chặn trên toàn tổ chức.
+Đối với các triển khai enterprise, các quản trị viên IT thực thi chính sách MCP server qua hai cơ chế tách biệt: file `managed-mcp.json` triển khai một tập servers cố định với kiểm soát độc quyền, và các settings key `allowedMcpServers` / `deniedMcpServers` lọc xem những servers đã cấu hình nào được phép nạp.
 
 **Vị Trí:**
 - macOS: `/Library/Application Support/ClaudeCode/managed-mcp.json`
-- Linux: `~/.config/ClaudeCode/managed-mcp.json`
-- Windows: `%APPDATA%\ClaudeCode\managed-mcp.json`
+- Linux và WSL: `/etc/claude-code/managed-mcp.json`
+- Windows: `C:\Program Files\ClaudeCode\managed-mcp.json`
 
-**Tính Năng:**
-- `allowedMcpServers` -- whitelist của các servers được phép
-- `deniedMcpServers` -- blocklist của các servers bị cấm
-- Hỗ trợ matching theo tên server, lệnh, và mẫu URL
-- Chính sách MCP toàn tổ chức được thực thi trước cấu hình người dùng
-- Ngăn các kết nối server trái phép
+`managed-mcp.json` dùng cùng định dạng với file `.mcp.json` của dự án — một map `mcpServers` ở cấp cao nhất. Nó triển khai servers; nó không lọc servers:
+
+```json
+{
+  "mcpServers": {
+    "example-remote": {
+      "type": "http",
+      "url": "https://mcp.example.com/mcp"
+    },
+    "company-internal": {
+      "type": "stdio",
+      "command": "/usr/local/bin/company-mcp-server",
+      "args": ["--config", "/etc/company/mcp-config.json"]
+    }
+  }
+}
+```
+
+Mọi người dùng trên máy đều đọc được file này, nên đừng bao giờ đặt thông tin xác thực trong khối `env`. Hãy dùng mở rộng biến `${VAR}`, OAuth, hoặc `headersHelper` thay thế.
+
+**Lọc: allowlist và denylist**
+
+`allowedMcpServers` và `deniedMcpServers` là **settings key, không phải trường của `managed-mcp.json`**. Hãy đặt chúng trong một nguồn settings được quản lý — server-managed settings, `managed-settings.json`, một MDM profile, hoặc registry — để chúng có hiệu lực thực thi:
+
+- `allowedMcpServers` -- allowlist của các servers được phép. Đặt `allowManagedMcpServersOnly: true` cùng chỗ, trong cùng nguồn được quản lý, nếu không các allowlist sẽ hợp nhất từ mọi scope và người dùng có thể nới rộng allowlist của bạn.
+- `deniedMcpServers` -- denylist của các servers bị chặn. Luôn hợp nhất từ mọi scope.
+
+Mỗi mục là một object với **duy nhất một** key:
+
+| Key | Khớp với |
+|-----|----------|
+| `serverUrl` | URL của server từ xa, khớp chính xác hoặc dùng ký tự đại diện `*` |
+| `serverCommand` | Chính xác lệnh và các tham số khởi động một stdio server, dưới dạng mảng — mọi tham số, đúng thứ tự |
+| `serverName` | Nhãn do người dùng đặt. **Chỉ khớp chính xác; ký tự đại diện không được mở rộng** |
 
 **Ví dụ cấu hình:**
 
 ```json
 {
   "allowedMcpServers": [
-    {
-      "serverName": "github",
-      "serverUrl": "https://api.github.com/mcp"
-    },
-    {
-      "serverName": "company-internal",
-      "serverCommand": "company-mcp-server"
-    }
+    { "serverUrl": "https://mcp.example.com/*" },
+    { "serverCommand": ["/usr/local/bin/company-mcp-server", "--config", "/etc/company/mcp-config.json"] }
   ],
   "deniedMcpServers": [
-    {
-      "serverName": "untrusted-*"
-    },
-    {
-      "serverUrl": "http://*"
-    }
-  ]
+    { "serverName": "untrusted-server" },
+    { "serverUrl": "http://*" }
+  ],
+  "allowManagedMcpServersOnly": true
 }
 ```
 
@@ -1138,8 +1157,9 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 25 tháng 8 năm 2026
-**Phiên Bản Claude Code**: 2.1.245
+**Cập Nhật Lần Cuối**: Ngày 6 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.263
 **Nguồn**:
 - https://code.claude.com/docs/en/mcp
+- https://code.claude.com/docs/en/managed-mcp
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

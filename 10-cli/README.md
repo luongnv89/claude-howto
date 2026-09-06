@@ -188,6 +188,7 @@ claude --model opusplan "design and implement the caching layer"
 | `--system-prompt-file` | Load prompt from file (print mode) | `claude -p --system-prompt-file ./prompt.txt "query"` |
 | `--append-system-prompt` | Append to default prompt | `claude --append-system-prompt "Always use TypeScript"` |
 | `--append-subagent-system-prompt` | Append text to every subagent's system prompt (non-interactive) | `claude -p --append-subagent-system-prompt "Cite sources" "query"` |
+| `--append-subagent-system-prompt-file` | (v2.1.261) Load that appended text from a file instead, for prompts too long to pass on the command line. Non-interactive only, and **cannot be combined** with `--append-subagent-system-prompt` | `claude -p --append-subagent-system-prompt-file ./subagent-rules.txt "query"` |
 
 ### System Prompt Examples
 
@@ -222,6 +223,7 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | `--dangerously-skip-permissions` | Skip all permission prompts | `claude --dangerously-skip-permissions` |
 | `--permission-mode` | Begin in specified permission mode | `claude --permission-mode auto` |
 | `--permission-prompt-tool` | MCP tool for permission handling | `claude -p --permission-prompt-tool mcp_auth "query"` |
+| `--permission-prompts` | (v2.1.259) Who answers permission prompts in print mode. Default `host` sends them to the Agent SDK host or the `--permission-prompt-tool` tool; pass `none` when nobody can answer and Claude Code denies them instead | `claude -p --permission-prompts none "query"` |
 
 > **v2.1.111 update**: `--enable-auto-mode` was removed; auto mode is now in the `Shift+Tab` cycle by default — use `--permission-mode auto` to start in it directly.
 
@@ -932,8 +934,10 @@ These keys live in a `settings.json` file (`~/.claude/settings.json` for user sc
 | `modelPicker` | (v2.1.243) Choose which models the `/model` picker lists, in your own order and with your own labels. One of the few settings that **replaces rather than merges** across settings layers. |
 | `promptCacheTtl` | (v2.1.243) Choose the prompt cache lifetime for the main conversation. |
 | `subagentPromptCacheTtl` | (v2.1.243) The same choice for subagents and other requests outside the main conversation. |
-| `modelPricing` | (v2.1.243) **Managed setting.** Supplies your organization's contracted rates so `/cost`, the status line, and telemetry report those instead of list price. **Changelog-sourced** — the settings reference does not yet list this key. |
-| `keybindingFlavor` | (v2.1.238) `"classic"` (default) or `"readline"`. `readline` makes `Ctrl+W` delete back to the previous whitespace, as Bash does; v2.1.239 extended it to `Alt+F`, `Ctrl`/`Option+→`, and `Alt+D`. |
+| `modelPricing` | (v2.1.243) **Managed setting.** Supplies your organization's contracted rates so `/cost`, the status line, and telemetry report those instead of list price. |
+| `keybindingFlavor` | **Deprecated since v2.1.261 and has no effect.** The prompt's word-editing keys always follow readline conventions, as Bash does: `Ctrl+W` deletes back to whitespace, `Alt+F` and `Alt+D` stop at word end, and punctuation separates words. Claude Code still accepts the key, so a settings file that sets it stays valid. (In v2.1.238–v2.1.260 it chose between `"classic"` and `"readline"`.) |
+| `bashOutputMaxChars` | (v2.1.261) How many characters of a **successful** Bash or PowerShell command's output Claude receives inline, up to 128K. Past the limit Claude Code saves the output to a file and Claude gets a short preview plus the path. Setting it makes Claude Code ignore `BASH_MAX_OUTPUT_LENGTH`. |
+| `taskOutputMaxChars` | (v2.1.261) How many characters of a **background task's** output Claude receives inline when reading it with the `TaskOutput` tool, up to 128K. For a longer finished task Claude receives the most recent characters. Setting it makes Claude Code ignore `TASK_MAX_OUTPUT_LENGTH`. |
 
 ```json
 {
@@ -1047,8 +1051,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: September 2, 2026
-**Claude Code Version**: 2.1.257
+**Last Updated**: September 6, 2026
+**Claude Code Version**: 2.1.263
 **Sources**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/env-vars

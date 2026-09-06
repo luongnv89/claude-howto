@@ -638,42 +638,61 @@ claude mcp add --transport stdio claude-agent -- claude mcp serve
 
 ## Managed MCP Configuration (Enterprise)
 
-Для корпоративних розгортань IT-адміністратори можуть застосовувати політики MCP-серверів через конфігураційний файл `managed-mcp.json`. Цей файл забезпечує ексклюзивний контроль над дозволеними або заблокованими MCP-серверами на рівні організації.
+Для корпоративних розгортань IT-адміністратори застосовують політику MCP-серверів через два окремі механізми: файл `managed-mcp.json`, який розгортає фіксований набір серверів з ексклюзивним контролем, і ключі налаштувань `allowedMcpServers` / `deniedMcpServers`, які фільтрують, яким із налаштованих серверів дозволено завантажитись.
 
 **Розташування:**
 - macOS: `/Library/Application Support/ClaudeCode/managed-mcp.json`
-- Linux: `~/.config/ClaudeCode/managed-mcp.json`
-- Windows: `%APPDATA%\ClaudeCode\managed-mcp.json`
+- Linux і WSL: `/etc/claude-code/managed-mcp.json`
+- Windows: `C:\Program Files\ClaudeCode\managed-mcp.json`
 
-**Функції:**
-- `allowedMcpServers` — білий список дозволених серверів
-- `deniedMcpServers` — чорний список заборонених серверів
-- Підтримує зіставлення за назвою сервера, командою та URL-патернами
-- Загальноорганізаційні політики MCP застосовуються перед конфігурацією користувача
-- Запобігає неавторизованим підключенням серверів
+`managed-mcp.json` використовує той самий формат, що й проєктний `.mcp.json` — мапу `mcpServers` на верхньому рівні. Він розгортає сервери, а не фільтрує їх:
+
+```json
+{
+  "mcpServers": {
+    "example-remote": {
+      "type": "http",
+      "url": "https://mcp.example.com/mcp"
+    },
+    "company-internal": {
+      "type": "stdio",
+      "command": "/usr/local/bin/company-mcp-server",
+      "args": ["--config", "/etc/company/mcp-config.json"]
+    }
+  }
+}
+```
+
+Цей файл може прочитати будь-який користувач машини, тож ніколи не зберігайте облікові дані у блоці `env`. Використовуйте розгортання `${VAR}`, OAuth або `headersHelper`.
+
+**Фільтрація: списки дозволених і заборонених**
+
+`allowedMcpServers` і `deniedMcpServers` — це **ключі налаштувань, а не поля `managed-mcp.json`**. Щоб вони мали примусову дію, розміщуйте їх у керованому джерелі налаштувань: server-managed settings, `managed-settings.json`, MDM-профілі або реєстрі.
+
+- `allowedMcpServers` — список дозволених серверів. Задайте поруч, у тому самому керованому джерелі, `allowManagedMcpServersOnly: true`, інакше списки дозволених зливаються з усіх областей і користувач зможе розширити ваш.
+- `deniedMcpServers` — список заблокованих серверів. Зливається з усіх областей у будь-якому разі.
+
+Кожен запис — це об'єкт з **одним** ключем:
+
+| Ключ | Що зіставляє |
+|------|--------------|
+| `serverUrl` | URL віддаленого сервера, точний або з шаблонами `*` |
+| `serverCommand` | Точну команду та аргументи запуску stdio-сервера, у вигляді масиву — кожен аргумент, за порядком |
+| `serverName` | Призначену користувачем назву. **Лише точний збіг; шаблони не розгортаються** |
 
 **Приклад конфігурації:**
 
 ```json
 {
   "allowedMcpServers": [
-    {
-      "serverName": "github",
-      "serverUrl": "https://api.github.com/mcp"
-    },
-    {
-      "serverName": "company-internal",
-      "serverCommand": "company-mcp-server"
-    }
+    { "serverUrl": "https://mcp.example.com/*" },
+    { "serverCommand": ["/usr/local/bin/company-mcp-server", "--config", "/etc/company/mcp-config.json"] }
   ],
   "deniedMcpServers": [
-    {
-      "serverName": "untrusted-*"
-    },
-    {
-      "serverUrl": "http://*"
-    }
-  ]
+    { "serverName": "untrusted-server" },
+    { "serverUrl": "http://*" }
+  ],
+  "allowManagedMcpServersOnly": true
 }
 ```
 
@@ -1119,8 +1138,9 @@ export GITHUB_TOKEN="your_token"
 - [Документація Claude API](https://docs.anthropic.com)
 
 ---
-**Останнє оновлення**: 25 серпня 2026
-**Версія Claude Code**: 2.1.245
+**Останнє оновлення**: 6 вересня 2026
+**Версія Claude Code**: 2.1.263
 **Джерела**:
 - https://code.claude.com/docs/en/mcp
+- https://code.claude.com/docs/en/managed-mcp
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

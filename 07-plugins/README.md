@@ -821,6 +821,7 @@ claude plugin init <name>                    # Scaffold a new plugin (alias: cla
 | `plugin tag` | `--push` | Push the tag to the remote after creating it |
 | `plugin tag` | `--dry-run` | Print what would be tagged without creating the tag |
 | `plugin validate` | `--strict` | Treat warnings as errors |
+| `plugin validate` | `--json` | Emit a machine-readable validation report (v2.1.259+) |
 
 Example: `claude plugin tag ./my-plugin` takes a **path** to the plugin (not a version string). It creates a `{name}--v{version}` git tag derived from `plugin.json`, validating that `plugin.json` and any enclosing marketplace entry agree, and is the recommended way to cut plugin releases for distribution.
 
@@ -1268,8 +1269,8 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: September 2, 2026
-**Claude Code Version**: 2.1.257
+**Last Updated**: September 6, 2026
+**Claude Code Version**: 2.1.263
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1288,4 +1289,5 @@ The following Claude Code features work together with plugins:
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.143
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config
+- https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

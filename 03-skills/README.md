@@ -759,7 +759,7 @@ Move detailed reference material to separate files that Claude loads as needed.
 | YAML errors | Check `---` markers, indentation, no tabs |
 | Skills conflict | Use distinct trigger terms in descriptions |
 | Scripts not running | Check permissions: `chmod +x scripts/*.py` |
-| Claude doesn't see all skills | Too many skills; check `/context` for warnings |
+| Claude doesn't see all skills | Too many skills; check `/context` for warnings, then run `/skill-doctor` (v2.1.252+) to see which skills go unused and what they cost |
 
 ### Skill Not Triggering
 
@@ -897,10 +897,11 @@ Once you start building skills seriously, two things become essential: a library
 
 ---
 
-**Last Updated**: September 2, 2026
-**Claude Code Version**: 2.1.257
+**Last Updated**: September 6, 2026
+**Claude Code Version**: 2.1.263
 **Sources**:
 - https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/slash-commands
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/model-config
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

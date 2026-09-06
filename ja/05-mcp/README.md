@@ -666,42 +666,61 @@ claude mcp add --transport stdio claude-agent -- claude mcp serve
 
 ## 管理対象 MCP 設定（エンタープライズ）
 
-エンタープライズ展開では、IT 管理者が `managed-mcp.json` 設定ファイルを通じて MCP サーバーポリシーを強制できる。このファイルは、組織全体で許可または禁止する MCP サーバーを排他的に制御する。
+エンタープライズ展開では、IT 管理者は 2 つの独立した仕組みで MCP サーバーポリシーを強制する。固定のサーバー群を排他的な制御下で配布する `managed-mcp.json` ファイルと、設定済みのどのサーバーを読み込めるかをフィルタする `allowedMcpServers` / `deniedMcpServers` の設定キーである。
 
 **配置場所：**
 - macOS: `/Library/Application Support/ClaudeCode/managed-mcp.json`
-- Linux: `~/.config/ClaudeCode/managed-mcp.json`
-- Windows: `%APPDATA%\ClaudeCode\managed-mcp.json`
+- Linux および WSL: `/etc/claude-code/managed-mcp.json`
+- Windows: `C:\Program Files\ClaudeCode\managed-mcp.json`
 
-**機能：**
-- `allowedMcpServers` -- 許可するサーバーのホワイトリスト
-- `deniedMcpServers` -- 禁止するサーバーのブロックリスト
-- サーバー名、コマンド、URL パターンによるマッチをサポート
-- ユーザー設定より前に組織全体の MCP ポリシーを強制
-- 認可されていないサーバー接続を防止
+`managed-mcp.json` はプロジェクトの `.mcp.json` と同じ形式、すなわちトップレベルの `mcpServers` マップを使う。サーバーを配布するものであり、フィルタするものではない。
+
+```json
+{
+  "mcpServers": {
+    "example-remote": {
+      "type": "http",
+      "url": "https://mcp.example.com/mcp"
+    },
+    "company-internal": {
+      "type": "stdio",
+      "command": "/usr/local/bin/company-mcp-server",
+      "args": ["--config", "/etc/company/mcp-config.json"]
+    }
+  }
+}
+```
+
+このファイルはマシン上のどのユーザーからも読めるため、`env` ブロックに認証情報を置いてはならない。代わりに `${VAR}` 展開、OAuth、または `headersHelper` を使う。
+
+**フィルタリング：許可リストと拒否リスト**
+
+`allowedMcpServers` と `deniedMcpServers` は **設定キーであり、`managed-mcp.json` のフィールドではない**。強制力を持たせるには、管理された設定ソース（server-managed settings、`managed-settings.json`、MDM プロファイル、またはレジストリ）に置く。
+
+- `allowedMcpServers` -- 許可するサーバーの許可リスト。同じ管理ソース内に `allowManagedMcpServersOnly: true` を併記する。併記しないと許可リストがすべてのスコープからマージされ、ユーザーが許可範囲を広げられてしまう。
+- `deniedMcpServers` -- ブロックするサーバーの拒否リスト。常にすべてのスコープからマージされる。
+
+各エントリは **単一の** キーを持つオブジェクトである。
+
+| キー | マッチ対象 |
+|-----|-----------|
+| `serverUrl` | リモートサーバーの URL。完全一致、または `*` ワイルドカード付き |
+| `serverCommand` | stdio サーバーを起動する正確なコマンドと引数を配列で指定。すべての引数を順序どおりに |
+| `serverName` | ユーザーが付けたラベル。**完全一致のみ。ワイルドカードは展開されない** |
 
 **設定例：**
 
 ```json
 {
   "allowedMcpServers": [
-    {
-      "serverName": "github",
-      "serverUrl": "https://api.github.com/mcp"
-    },
-    {
-      "serverName": "company-internal",
-      "serverCommand": "company-mcp-server"
-    }
+    { "serverUrl": "https://mcp.example.com/*" },
+    { "serverCommand": ["/usr/local/bin/company-mcp-server", "--config", "/etc/company/mcp-config.json"] }
   ],
   "deniedMcpServers": [
-    {
-      "serverName": "untrusted-*"
-    },
-    {
-      "serverUrl": "http://*"
-    }
-  ]
+    { "serverName": "untrusted-server" },
+    { "serverUrl": "http://*" }
+  ],
+  "allowManagedMcpServersOnly": true
 }
 ```
 
@@ -1148,10 +1167,11 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**最終更新：** 2026 年 8 月 25 日
-**Claude Code バージョン：** 2.1.245
+**最終更新：** 2026 年 9 月 6 日
+**Claude Code バージョン：** 2.1.263
 **情報源：**
 - https://code.claude.com/docs/en/mcp
+- https://code.claude.com/docs/en/managed-mcp
 - https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 **対応モデル：** Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

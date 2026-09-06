@@ -25,6 +25,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | Command | Purpose |
 |---------|---------|
 | `/add-dir <path>` | Add working directory |
+| `/advisor [model\|off]` | Configure the advisor. Opens as an interactive dialog; in the desktop app, Remote Control, and headless (`-p` / Agent SDK) sessions it takes a text form instead — bare `/advisor`, `/advisor <model>`, or `/advisor off` (v2.1.260+) |
 | `/agents` | Manage agent configurations |
 | `/branch [name]` | Switch into a copy of the conversation at this point, preserving the original (return to it with `/resume`) |
 | `/fork [prompt]` | Copy the current conversation into a new **background session** and keep working here; the two are independent from that point on and the copy gets its own row in `claude agents` (v2.1.212+). Except when the copy edits in place, Claude Code instructs it to create a worktree of its own before making code changes (isolation instruction requires v2.1.221+) |
@@ -40,7 +41,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/copy [N]` | Copy assistant response to clipboard; `w` writes to file |
 | `/cost` | Typing-shortcut alias for `/usage` — opens the cost tab (v2.1.118+) |
 | `/desktop` | Continue in Desktop app (alias: `/app`) |
-| `/diff` | Interactive diff viewer for uncommitted changes |
+| `/diff` | Interactive diff viewer for uncommitted changes. In fullscreen rendering it instead opens a diff panel beside the conversation that stays open while you keep working — it lists changed files with added/removed line counts and refreshes every time Claude edits a file or runs a shell command; run `/diff` again or click `✕` to close it (v2.1.260+). The classic renderer opens the viewer in place of the prompt |
 | `/doctor` | Diagnose installation health — openable while Claude is responding; shows status icons; press `f` to auto-fix issues (enhanced in v2.1.116; layout refreshed to a flat tree with clearer icons in v2.1.178) |
 | `/effort [low\|medium\|high\|xhigh\|max\|auto]` | Set effort level via interactive arrow-key slider. Levels: `low` → `medium` → `high` → `xhigh` (new in v2.1.111) → `max`. Default is `high` on Opus 5, Sonnet 5, and Opus 4.8 (`xhigh` on Opus 4.7); `xhigh` needs Opus 5, Sonnet 5, Opus 4.8, or Opus 4.7; `max` works on Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6. The menu also offers `ultracode` (not a model effort level — it sends `xhigh` and has Claude orchestrate dynamic workflows; session-only) |
 | `/exit` | Exit the REPL (alias: `/quit`) |
@@ -74,7 +75,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/privacy-settings` | Privacy settings (Pro/Max only) |
 | `/release-notes` | View changelog |
 | `/recap` | Show session recap / summary when returning to a session (added v2.1.108) |
-| `/reload-plugins` | Reload active plugins. Since v2.1.221 most installs activate immediately, so this is only needed when the install summary says `Run /reload-plugins to activate.` |
+| `/reload-plugins` | Reload active plugins. Since v2.1.221 most installs activate immediately, so this is only needed when the install summary says `Run /reload-plugins to activate.` Available in headless sessions as of v2.1.260, so it also appears in the Claude Code Desktop and SDK command lists |
 | `/reload-skills` | Re-scan skill directories without restarting the session (added v2.1.152) |
 | `/remote-control` | Remote control from claude.ai (alias: `/rc`) |
 | `/remote-env` | Configure default remote environment |
@@ -86,6 +87,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/schedule [description]` | Create/manage Cloud scheduled tasks |
 | `/scroll-speed <+N\|-N>` | Tune mouse-wheel scroll speed of the TUI live-preview pane with a live preview. Persists per-machine to `~/.claude/preferences.json` (added v2.1.139). |
 | `/security-review` | Analyze branch for security vulnerabilities |
+| `/skill-doctor` | Show which loaded skills go unused and what each one costs in context, so you can decide which to turn off. The report opens in the `/plugin` manager's **Stats** tab; in non-interactive `-p` mode it prints as text. Over Remote Control it replies `Skill usage reports are not available on this connection.` — run it in the terminal on the machine hosting the session (requires v2.1.252+) |
 | `/skills` | List available skills |
 | `/stats` | Typing-shortcut alias for `/usage` — opens the stats tab (daily usage, sessions, streaks) (v2.1.118+) |
 | `/stickers` | Order Claude Code stickers |
@@ -648,11 +650,13 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 6, 2026
+**Claude Code Version**: 2.1.263
 **Sources**:
 - https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/interactive-mode
+- https://code.claude.com/docs/en/interactive-mode#review-changes-with-diff
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/whats-new/2026-w34

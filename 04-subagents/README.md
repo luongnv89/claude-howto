@@ -966,6 +966,7 @@ graph TB
 
 - **Disable built-in Explore/Plan agents** - Set `CLAUDE_CODE_DISABLE_EXPLORE_PLAN_AGENTS=1` to remove the built-in Explore and Plan agents (v2.1.198)
 - **Append to every subagent prompt** - In non-interactive / `--print` mode, `--append-subagent-system-prompt "<text>"` appends text to every subagent's system prompt (v2.1.205)
+- **Append from a file** - `--append-subagent-system-prompt-file ./subagent-rules.txt` reads the same appended text from a file, for prompts too long to pass on the command line. Also `-p`-only, and it cannot be combined with `--append-subagent-system-prompt` (v2.1.261)
 
 ---
 
@@ -1330,8 +1331,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: September 2, 2026
-**Claude Code Version**: 2.1.257
+**Last Updated**: September 6, 2026
+**Claude Code Version**: 2.1.263
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
