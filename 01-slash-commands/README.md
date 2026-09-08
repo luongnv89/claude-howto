@@ -126,6 +126,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 
 | Command | Status |
 |---------|--------|
+| `/agents` | Removed in v2.1.198 - Ask Claude to create or update subagents for you instead |
 | `/output-style` | Removed in v2.1.91 (deprecated v2.1.73) — use `/config` → Output style, or the `outputStyle` setting |
 | `/pr-comments` | Removed in v2.1.91 — ask Claude directly to view PR comments |
 | `/vim` | Removed in v2.1.92 — use /config → Editor mode |
