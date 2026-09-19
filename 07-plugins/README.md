@@ -844,6 +844,40 @@ projected ctx: +1,420 tokens per turn  ·  +9,800 tokens per /review invocation
 
 LSP servers were added to the details pane in v2.1.142. See also the marketplace browse pane's projected context cost (v2.1.143) covered in [Plugin Marketplace](#plugin-marketplace).
 
+### `claude plugin eval` (v2.1.269+)
+
+`claude plugin eval` runs a plugin's eval suite and reports scored, reproducible results, so you can tell whether a change to a skill or agent actually improved it. Results come back as JSON plus an HTML report.
+
+```bash
+claude plugin eval            # Run the plugin's eval suite
+claude plugin eval --help     # Full option list
+```
+
+### Machine-readable output with `--json` (v2.1.268+)
+
+`--json` is accepted on `install`, `uninstall`, `update`, `enable`, and `disable`, which makes plugin management scriptable in CI. Each row of `claude plugin list --json` also carries `errorDetails` and `noteDetails`, so a failing plugin explains itself without a second command.
+
+```bash
+claude plugin install my-plugin@my-marketplace --json
+claude plugin list --json
+```
+
+### Accepting an exact command with `--accept-command` (v2.1.271+)
+
+`--accept-command <sha256>` on `install` and `update` accepts exactly the command a previous `--json` run displayed, in place of a blanket `-y`.
+
+```bash
+claude plugin install my-plugin@my-marketplace --accept-command <sha256>
+```
+
+### Installing from a marketplace you haven't added (v2.1.275+)
+
+In a session, `/plugin install <plugin> --marketplace <source>` names the marketplace inline and offers to add it before installing, so discovering and adding a marketplace is no longer a separate step. This is the in-session slash-command form, not a `claude plugin` CLI flag.
+
+```bash
+/plugin install code-reviewer --marketplace anthropics/claude-code-plugins
+```
+
 ## Installation Methods
 
 ### From Marketplace
@@ -1269,8 +1303,8 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: September 6, 2026
-**Claude Code Version**: 2.1.263
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference

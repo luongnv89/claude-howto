@@ -349,8 +349,8 @@ Tự động hóa dựa trên sự kiện thực thi shell commands trên các s
 | `Stop` | Claude hoàn thành phản hồi | Phản hồi hoàn tất | Dọn dẹp, báo cáo |
 | `StopFailure` | Lỗi API kết thúc turn | Lỗi API xảy ra | Phục hồi lỗi, logging |
 | `TeammateIdle` | Agent teammate rảnh | Phối hợp agent team | Phân phối work |
-| `TaskCompleted` | Task được đánh dấu hoàn tất (chỉ phát ra khi bật todo tools — tắt mặc định trên Opus 4.8, Sonnet 5, Fable 5, Mythos 5 và mới hơn; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` khôi phục) | Task xong | Xử lý post-task |
-| `TaskCreated` | Task được tạo qua TaskCreate (chỉ phát ra khi bật todo tools — tắt mặc định trên Opus 4.8, Sonnet 5, Fable 5, Mythos 5 và mới hơn; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` khôi phục) | Task mới được tạo | Theo dõi task, logging |
+| `TaskCompleted` | Task được đánh dấu hoàn tất (chỉ phát ra khi bật todo tools — mặc định chỉ có trên Claude 3.x, Opus 4 đến 4.7, Sonnet 4 đến 4.6 và Haiku 4.5; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` khôi phục) | Task xong | Xử lý post-task |
+| `TaskCreated` | Task được tạo qua TaskCreate (chỉ phát ra khi bật todo tools — mặc định chỉ có trên Claude 3.x, Opus 4 đến 4.7, Sonnet 4 đến 4.6 và Haiku 4.5; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` khôi phục) | Task mới được tạo | Theo dõi task, logging |
 | `ConfigChange` | Cấu hình được cập nhật | Settings được sửa đổi | Phản ứng thay đổi config |
 | `CwdChanged` | Thư mục làm việc thay đổi | Thư mục thay đổi | Thiết lập cụ thể theo thư mục |
 | `DirectoryAdded` | Thư mục làm việc mới được đăng ký giữa session | `/add-dir` hoặc SDK `register_repo_root` | Thiết lập tooling cho thư mục mới |
@@ -522,9 +522,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 2 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.257
+**Cập Nhật Lần Cuối**: Ngày 19 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.278
 **Nguồn**:
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/plugins-reference

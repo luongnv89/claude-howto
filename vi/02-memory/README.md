@@ -235,6 +235,7 @@ Claude Code sử dụng một hệ thống bộ nhớ phân cấp đa tầng. C�
 
 3. **Project Memory** - Bối cảnh được chia sẻ cho đội (được kiểm soát phiên bản)
    - `./.claude/CLAUDE.md` hoặc `./CLAUDE.md` (trong root repository)
+   - Từ v2.1.277, `./AGENTS.md` được tải ở chính tầng này thay thế, khi không có `CLAUDE.md` hay `CLAUDE.local.md` ở thư mục làm việc hoặc phía trên nó — điều khiển bằng **Project instructions** trong `/config`
 
 4. **Project Rules** - Hướng dẫn dự án mô-đun, cụ thể theo chủ đề
    - `./.claude/rules/*.md`
@@ -1158,8 +1159,9 @@ Claude sẽ nhắc bạn chọn file bộ nhớ nào để cập nhật.
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 25 tháng 8 năm 2026
-**Phiên Bản Claude Code**: 2.1.245
+**Cập Nhật Lần Cuối**: Ngày 19 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.278
 **Nguồn**:
 - https://code.claude.com/docs/en/memory
+- https://code.claude.com/docs/en/memory#agents-md
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

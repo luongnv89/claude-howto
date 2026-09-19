@@ -61,6 +61,7 @@
 | `/memory` | Редагувати `CLAUDE.md`, перемкнути автопам'ять |
 | `/mobile` | QR-код для мобільного (аліаси: `/ios`, `/android`) |
 | `/model [model]` | Вибір моделі зі стрілками вліво/вправо для рівня зусиль |
+| `/output-style [name]` | Перегляд списку та перемикання стилів виводу (повернена у v2.1.269 після видалення у v2.1.91). Без аргументу виводить список стилів і позначає поточний. Працює в headless- та Remote Control-сесіях; вибір зберігається у `.claude/settings.local.json` |
 | `/passes` | Поділитися безкоштовним тижнем Claude Code |
 | `/permissions` | Переглянути/оновити дозволи (аліас: `/allowed-tools`) |
 | `/plan [description]` | Увійти в режим планування |
@@ -106,7 +107,6 @@
 
 | Команда | Статус |
 |---------|--------|
-| `/output-style` | Видалена в v2.1.91 (застаріла з v2.1.73) — використовуйте `/config` → Output style або налаштування `outputStyle` |
 | `/fork` | Перейменована на `/branch` (аліас працює, v2.1.77) |
 | `/pr-comments` | Видалена в v2.1.91 — запитайте Claude напряму |
 | `/vim` | Видалена в v2.1.92 — використовуйте /config → Editor mode |
@@ -114,7 +114,7 @@
 ### Останні зміни
 
 - `/fork` перейменовано на `/branch`, `/fork` залишено як аліас (v2.1.77)
-- `/output-style` застаріла (v2.1.73) і видалена (v2.1.91) — стилі виводу все ще доступні через `/config` → Output style або налаштування `outputStyle`; вбудовані: Default, Proactive, Explanatory, Learning, Concise (додано у v2.1.237)
+- `/output-style` застаріла (v2.1.73) і була видалена (v2.1.91), а потім **повернена у v2.1.269** — у v2.1.278 це знову робоча команда, що працює в headless- та Remote Control-сесіях. Стилі виводу так само лишаються доступними через `/config` → Output style або налаштування `outputStyle`; вбудовані: Default, Proactive, Explanatory, Learning, Concise (додано у v2.1.237)
 - `/review` став повним псевдонімом `/code-review` — ті самі цілі, рівні зусиль і прапорці (v2.1.223). Історія: спершу він перейшов на рушій `/code-review medium` у v2.1.186, залишаючись доступним лише для PR
 - Додано команду `/effort` з рівнем `max` для Opus 4.6
 - Додано команду `/voice` для голосового вводу push-to-talk
@@ -576,10 +576,11 @@ Deploy the application to production:
 
 ---
 
-**Останнє оновлення**: 19 серпня 2026
-**Версія Claude Code**: 2.1.235
+**Останнє оновлення**: 19 вересня 2026
+**Версія Claude Code**: 2.1.278
 **Джерела**:
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/output-styles
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Частина серії посібників [Claude How To](../)*

@@ -223,7 +223,7 @@ Các script tự động hóa dựa trên sự kiện thực thi tự động.
 **Hook Events** (33, trong 4 nhóm) — khi nào hook chạy:
 - Tool Hooks: PreToolUse, PostToolUse, PostToolUseFailure, PostToolBatch, PermissionRequest, PermissionDenied
 - Session Hooks: SessionStart, Setup, SessionEnd, Stop, StopFailure, SubagentStart, SubagentStop
-- Task Hooks: UserPromptSubmit, UserPromptExpansion, MessageDisplay, TaskCompleted, TaskCreated, TeammateIdle (TaskCompleted/TaskCreated chỉ phát ra khi bật todo tools — tắt mặc định trên Opus 4.8, Sonnet 5, Fable 5, Mythos 5 và mới hơn; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` khôi phục)
+- Task Hooks: UserPromptSubmit, UserPromptExpansion, MessageDisplay, TaskCompleted, TaskCreated, TeammateIdle (TaskCompleted/TaskCreated chỉ phát ra khi bật todo tools — mặc định chỉ có trên Claude 3.x, Opus 4 đến 4.7, Sonnet 4 đến 4.6 và Haiku 4.5; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` khôi phục)
 - Lifecycle Hooks: ConfigChange, CwdChanged, DirectoryAdded, FileChanged, PreCompact, PostCompact, PreModelSwitch, PostModelSwitch, WorktreeCreate, WorktreeRemove, Notification, InstructionsLoaded, Elicitation, ElicitationResult
 
 ---
@@ -876,12 +876,13 @@ Muốn thêm ví dụ nữa? Theo cấu trúc:
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 15 tháng 8 năm 2026
-**Phiên Bản Claude Code**: 2.1.233
+**Cập Nhật Lần Cuối**: Ngày 19 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.278
 **Tổng Số Ví Dụ**: 100+ files
 **Danh Mục**: 10 tính năng
 **Hooks**: 8 scripts tự động hóa
 **Ví Dụ Cấu Hình**: 10+ scenarios
 **Sẵn Sàng Sử Dụng**: Tất cả ví dụ
 **Nguồn**:
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/hooks

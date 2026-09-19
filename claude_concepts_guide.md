@@ -1154,8 +1154,8 @@ Claude Code supports **33 hook events** across five hook types (command, http, m
 | **Stop** | Claude finishes responding | Summary generation, cleanup tasks |
 | **StopFailure** | API error ends turn | Error recovery, logging |
 | **TeammateIdle** | Agent team teammate idle | Work distribution, coordination |
-| **TaskCompleted** | Task marked complete. Only fires when the todo tools are enabled — off by default on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` restores them (v2.1.233) | Post-task processing |
-| **TaskCreated** | Task created via TaskCreate. Only fires when the todo tools are enabled — off by default on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` restores them (v2.1.233) | Task tracking, logging |
+| **TaskCompleted** | Task marked complete. Only fires when the todo tools are enabled — available by default only on Claude 3.x models, Opus 4 through 4.7, Sonnet 4 through 4.6, and Haiku 4.5; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` restores them (v2.1.233) | Post-task processing |
+| **TaskCreated** | Task created via TaskCreate. Only fires when the todo tools are enabled — available by default only on Claude 3.x models, Opus 4 through 4.7, Sonnet 4 through 4.6, and Haiku 4.5; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` restores them (v2.1.233) | Task tracking, logging |
 | **ConfigChange** | Config file changes | Validation, propagation |
 | **CwdChanged** | Working directory changes | Directory-specific setup |
 | **DirectoryAdded** | New working directory registered mid-session via `/add-dir` or the SDK `register_repo_root` control request | Set up tooling for a newly added directory |
@@ -1474,9 +1474,10 @@ Claude Code supports the following models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: September 2, 2026
-**Claude Code Version**: 2.1.257
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://www.anthropic.com/news/claude-sonnet-5
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config

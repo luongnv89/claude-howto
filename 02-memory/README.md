@@ -219,7 +219,7 @@ Claude Code has two complementary memory systems, both loaded at the start of ev
 |-------|----------|---------|
 | Managed policy | macOS: `/Library/Application Support/ClaudeCode/CLAUDE.md`<br>Linux/WSL: `/etc/claude-code/CLAUDE.md`<br>Windows: `C:\Program Files\ClaudeCode\CLAUDE.md` | Organization-wide instructions managed by IT/DevOps. Cannot be excluded by individual settings. |
 | User instructions | `~/.claude/CLAUDE.md` | Personal preferences for all projects |
-| Project instructions | `./CLAUDE.md` or `./.claude/CLAUDE.md` | Team-shared instructions, version controlled |
+| Project instructions | `./CLAUDE.md` or `./.claude/CLAUDE.md` | Team-shared instructions, version controlled. Since v2.1.277, `./AGENTS.md` loads at this same tier instead, when no `CLAUDE.md` or `CLAUDE.local.md` exists at or above the working directory — controlled by **Project instructions** in `/config` |
 | Local instructions | `./CLAUDE.local.md` | Personal project-specific preferences; add to `.gitignore` |
 
 Within the directory tree, Claude Code walks up from your working directory: `foo/CLAUDE.md` loads before `foo/bar/CLAUDE.md` if you launch from `foo/bar/`, so instructions closer to where you launched are read *last* — not "highest priority" in an override sense, just most recent in context. Within each directory, `CLAUDE.local.md` is appended after `CLAUDE.md`. CLAUDE.md and CLAUDE.local.md files in subdirectories *under* your working directory load on demand, when Claude reads files in those subdirectories, rather than at launch.
@@ -252,6 +252,57 @@ graph TD
 ```
 
 All files shown are concatenated into one context, not selected by override — later boxes appear later in context, not "instead of" earlier ones.
+
+## AGENTS.md
+
+`AGENTS.md` is a cross-tool project-context file: the same *category* of document as CLAUDE.md, written so that several coding agents can share one set of project conventions. Since **v2.1.277**, Claude Code reads it directly as project instructions rather than requiring you to import it.
+
+**Default behavior** (`claude-md-or-agents-md`):
+
+| What the project contains | What Claude Code reads |
+|---------------------------|------------------------|
+| `AGENTS.md`, no `CLAUDE.md` | `AGENTS.md` |
+| Both `AGENTS.md` and `CLAUDE.md` | `CLAUDE.md` only |
+| A `CLAUDE.md` that imports `AGENTS.md` with `@AGENTS.md` | `CLAUDE.md`, with the import expanded |
+
+**Which files suppress AGENTS.md.** Claude Code checks the working directory and every directory above it for `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md`. If it finds any of them, `AGENTS.md` is not read. `~/.claude/CLAUDE.md`, managed CLAUDE.md, and `.claude/rules/` do **not** count for this check and keep loading alongside whichever project file wins.
+
+> **Warning**: adding a `CLAUDE.local.md` silently stops `AGENTS.md` being read. If your project instructions seem to vanish after you create a local override, this is usually why.
+
+**What gets read.** Every `AGENTS.md` and `.claude/AGENTS.md` at and above the working directory loads at session start; files in subdirectories load on demand, when Claude reads files there. `@path` imports expand the same way they do in CLAUDE.md, and `claudeMdExcludes` applies.
+
+**What is never read**: `AGENTS.local.md`, `AGENTS.override.md`, and anything under `.agents/`.
+
+**Choosing the behavior.** The **Project instructions** setting takes four values:
+
+| Value | Effect |
+|-------|--------|
+| `claude-md-or-agents-md` | Default — `AGENTS.md` only when no CLAUDE.md file is found |
+| `claude-md-and-agents-md` | Both are read when both exist |
+| `claude-md` | Only CLAUDE.md files; `AGENTS.md` is ignored |
+| `managed-only` | Only managed policy instructions |
+
+Set it through `/config`, or in settings:
+
+```jsonc
+{
+  "pluginConfigs": {
+    "agents-md@builtin": {
+      "options": {
+        "instructionFiles": "claude-md-and-agents-md"
+      }
+    }
+  }
+}
+```
+
+This key is honored in user and managed settings only — setting it in project or local settings has no effect.
+
+**Where direct reading is unavailable.** On versions before v2.1.277, on Bedrock/Vertex/Foundry, with telemetry disabled, during the first session after upgrading, under `disableAllHooks` or `allowManagedHooksOnly`, or with the built-in `agents-md` plugin disabled, Claude Code will not pick up `AGENTS.md` on its own. In those cases, import it from CLAUDE.md:
+
+```markdown
+@AGENTS.md
+```
 
 ## Excluding CLAUDE.md Files with `claudeMdExcludes`
 
@@ -1193,8 +1244,9 @@ Auto Memory is a separate mechanism (`~/.claude/projects/<project>/memory/`), no
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
 - https://code.claude.com/docs/en/memory
+- https://code.claude.com/docs/en/memory#agents-md
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

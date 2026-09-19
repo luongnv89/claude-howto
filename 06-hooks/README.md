@@ -285,10 +285,10 @@ Claude Code supports **33 hook events**:
 
 > **`TaskCreated` and `TaskCompleted` need the todo tools enabled (v2.1.233).** These two
 > events fire from the todo/task-tracking tools (`TaskCreate`/`Get`/`Update`/`List`,
-> `TodoWrite`), which are **no longer available on Opus 4.8, Sonnet 5, Fable 5, Mythos 5,
-> and newer models**. On those models the hooks are still valid configuration but simply
-> never fire — you get no output and no error. Set `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` to
-> bring the tools, and therefore the events, back.
+> `TodoWrite`), which are **available by default only on Claude 3.x models, Opus 4 through
+> 4.7, Sonnet 4 through 4.6, and Haiku 4.5**. On other models the hooks are still valid
+> configuration but simply never fire — you get no output and no error. Set
+> `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` to bring the tools, and therefore the events, back.
 
 > **PostToolUse duration (v2.1.119):** `PostToolUse` and `PostToolUseFailure` hook inputs now include `duration_ms` — see the [PostToolUse](#posttooluse) section for details.
 
@@ -1205,7 +1205,7 @@ if __name__ == "__main__":
 
 ### Example 7: Seed Auto-Mode Permissions (One-Time Setup Script)
 
-A one-time setup script that seeds `~/.claude/settings.json` with ~67 safe permission rules equivalent to Claude Code's auto-mode baseline — without any hook, without remembering future choices. Run it once; safe to re-run (skips rules already present).
+A one-time setup script that seeds `~/.claude/settings.json` with safe permission rules equivalent to Claude Code's auto-mode baseline — 37 by default, up to 63 with every category flag enabled — without any hook, without remembering future choices. Run it once; safe to re-run (skips rules already present).
 
 **File:** `09-advanced-features/setup-auto-mode-permissions.py`
 
@@ -1221,7 +1221,7 @@ python3 09-advanced-features/setup-auto-mode-permissions.py
 
 | Category | Examples |
 |----------|---------|
-| Built-in tools | `Read(*)`, `Edit(*)`, `Write(*)`, `Glob(*)`, `Grep(*)`, `Agent(*)`, `WebSearch(*)` |
+| Built-in tools | `Read(*)`, `Edit(*)`, `Grep(*)`, `Agent(*)`, `WebSearch(*)` |
 | Git read | `Bash(git status:*)`, `Bash(git log:*)`, `Bash(git diff:*)` |
 | Git write (local) | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git checkout:*)` |
 | Package managers | `Bash(npm install:*)`, `Bash(pip install:*)`, `Bash(cargo build:*)` |
@@ -1626,10 +1626,12 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: September 2, 2026
-**Claude Code Version**: 2.1.257
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/permissions
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

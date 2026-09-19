@@ -63,6 +63,7 @@
 | `/memory` | `CLAUDE.md` を編集、自動メモリを切り替え |
 | `/mobile` | モバイルアプリの QR コード（エイリアス: `/ios`、`/android`） |
 | `/model [model]` | モデル選択。左右キーで思考量を変更 |
+| `/output-style [name]` | 出力スタイルの一覧表示と切り替え（v2.1.91 で削除された後、v2.1.269 で再追加）。引数なしで実行するとスタイルを一覧表示し、現在のものを示す。headless と Remote Control のセッションでも動作し、選択内容は `.claude/settings.local.json` に保存される |
 | `/passes` | Claude Code 無料 1 週間を共有 |
 | `/permissions` | 権限を表示／更新（エイリアス: `/allowed-tools`） |
 | `/plan [description]` | プランモードに入る |
@@ -113,7 +114,6 @@
 
 | コマンド | ステータス |
 |---------|----------|
-| `/output-style` | v2.1.91 で削除 — 出力スタイルは `/config` または `outputStyle` 設定から引き続き利用できる |
 | `/fork` | `/branch` に改名（エイリアスは引き続き有効、v2.1.77） |
 | `/pr-comments` | v2.1.91 で削除 — Claude に直接 PR コメントを見るよう依頼する |
 | `/vim` | v2.1.92 で削除 — /config → エディタモードを使う |
@@ -122,7 +122,7 @@
 ### 直近の変更点
 
 - `/fork` を `/branch` に改名し、`/fork` はエイリアスとして残置（v2.1.77）
-- `/output-style` を削除（v2.1.91）。出力スタイル自体は `/config` または `outputStyle` 設定で引き続き利用できる
+- `/output-style` は削除（v2.1.91）された後、**v2.1.269 で再追加**され、v2.1.278 では再び利用可能なコマンドである。headless と Remote Control のセッションでも動作する。出力スタイル自体は `/config` または `outputStyle` 設定でも引き続き利用できる
 - `/review` が `/code-review` の完全なエイリアスになった — ターゲット、effort レベル、フラグはすべて同じ（v2.1.223）。履歴: v2.1.186 でまず `/code-review medium` エンジンに移行したが、当時は PR 専用だった
 - `/effort` コマンドを追加。`max` レベルは Opus 4.7 が必要（当初は Opus 4.6 限定）
 - プッシュトゥトーク音声入力の `/voice` コマンドを追加
@@ -603,10 +603,11 @@ Deploy the application to production:
 
 ---
 
-**最終更新**: 2026 年 8 月 25 日
-**Claude Code バージョン**: 2.1.245
+**最終更新**: 2026 年 9 月 19 日
+**Claude Code バージョン**: 2.1.278
 **Sources**:
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118

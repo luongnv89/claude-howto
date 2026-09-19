@@ -400,10 +400,11 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 | **Desktop App** | Native desktop application | Download from claude.ai/download |
 | **Task List** | Manage background tasks | `/task list`, `/task status <id>` |
 | **Auto Memory** | Automatic memory saving from conversations | Claude auto-saves key context to CLAUDE.md |
+| **AGENTS.md** *(v2.1.277)* | Cross-tool project-context file, read as project instructions when no `CLAUDE.md` exists at or above the working directory | Switch modes with **Project instructions** in `/config`. See [AGENTS.md](02-memory/README.md#agentsmd) |
 | **Git Worktrees** | Isolated workspaces for parallel development | `/worktree` to create isolated workspace |
 | **Model Selection** | Switch between Fable 5.1, Fable 5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8, and Haiku 4.5 | `/model` — since v2.1.153 the choice is saved as the default for new sessions; press `s` for session-only |
 | **Agent Teams** | Coordinate multiple agents on tasks | Enable with `CLAUDE_AGENT_TEAMS=1` env var |
-| **Dynamic Workflows** *(v2.1.154)* | Deterministic multi-agent orchestration; since v2.1.219 the default size guideline is medium (aim for fewer than 15 agents) | `/workflows` to view runs; ask Claude to create one; change the size via **Dynamic workflow size** in `/config` |
+| **Dynamic Workflows** *(v2.1.154)* | Deterministic multi-agent orchestration; since v2.1.219 the default size guideline is medium (aim for fewer than 10 agents) | `/workflows` to view runs; ask Claude to create one; change the size via **Dynamic workflow size** in `/config` |
 | **Scheduled Tasks** | Recurring tasks with `/loop` | `/loop 5m /command` or CronCreate tool |
 | **Chrome Integration** | Browser automation | `--chrome` flag or `/chrome` command |
 | **Keyboard Customization** | Custom keybindings | `/keybindings` command |
@@ -519,9 +520,11 @@ Getting started checklist:
 
 ---
 
-**Last Updated**: September 2, 2026
-**Claude Code Version**: 2.1.257
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
+- https://code.claude.com/docs/en/workflows#set-a-size-guideline
+- https://code.claude.com/docs/en/memory#agents-md
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/cli-reference
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

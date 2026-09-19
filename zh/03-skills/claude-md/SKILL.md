@@ -193,7 +193,7 @@ agent_docs/
 
 如果用户请求创建或更新 AGENTS.md：
 
-**Claude Code 不会直接读取 AGENTS.md。** 要让它生效，需要在 CLAUDE.md 中用 `@AGENTS.md` 导入，或者把 `CLAUDE.md` 软链接到它。这是关于这个文件最常见的误解。
+**从 v2.1.277 起，Claude Code 会直接把 `AGENTS.md` 作为项目指令读取。** 但前提是工作目录以及它上面的每一级目录都没有 `CLAUDE.md`、`.claude/CLAUDE.md` 或 `CLAUDE.local.md`。`~/.claude/CLAUDE.md`、受管理的 CLAUDE.md 和 `.claude/rules/` 不计入这项检查，它们仍会一并加载。该行为由 `/config` 中的 **Project instructions** 控制：`claude-md-or-agents-md`（默认）、`claude-md-and-agents-md`、`claude-md`、`managed-only`。在无法直接读取的环境中 — Bedrock/Vertex/Foundry、关闭遥测、升级后的第一个会话，或 `disableAllHooks`/`allowManagedHooksOnly` — 退回到在 CLAUDE.md 中用 `@AGENTS.md` 导入，或者把 `CLAUDE.md` 软链接到它。
 
 AGENTS.md 是一个跨工具的项目上下文文件 — 和 CLAUDE.md 属于同一*类*文档，而不是 agent 定义格式。它的存在是为了让多个编码 agent 共用同一套项目约定：
 - 构建、测试和 lint 命令

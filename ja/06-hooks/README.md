@@ -225,7 +225,7 @@ Claude Code は **33 種類のフックイベント** をサポートする。
 | **ElicitationResult** | ユーザーが elicitation に応答 | （なし） | 可 | 応答処理 |
 | **SessionEnd** | セッション終了 | （なし） | 不可 | クリーンアップ、最終ロギング |
 
-> **`TaskCreated` と `TaskCompleted` は todo ツールが有効なときのみ発火する（v2.1.233）。** これらのイベントは todo／タスク追跡ツール（`TaskCreate`/`Get`/`Update`/`List`、`TodoWrite`）から発火するが、それらは **Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降のモデルでは利用できない**。これらのモデルではフックの設定自体は有効なまま、単に発火しない — 出力もエラーも出ない。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` を設定すると復活する。
+> **`TaskCreated` と `TaskCompleted` は todo ツールが有効なときのみ発火する（v2.1.233）。** これらのイベントは todo／タスク追跡ツール（`TaskCreate`/`Get`/`Update`/`List`、`TodoWrite`）から発火するが、それらは **Claude 3.x モデル、Opus 4〜4.7、Sonnet 4〜4.6、Haiku 4.5 でのみデフォルトで利用できる**。それ以外のモデルではフックの設定自体は有効なまま、単に発火しない — 出力もエラーも出ない。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` を設定すると復活する。
 
 > **PostToolUse の duration（v2.1.119）：** `PostToolUse` と `PostToolUseFailure` のフック入力に `duration_ms` が含まれるようになった。詳細は [PostToolUse](#posttooluse) セクションを参照。
 
@@ -962,7 +962,7 @@ if __name__ == "__main__":
 
 ### 例 7：自動モード権限のシード（一度限りのセットアップスクリプト）
 
-`~/.claude/settings.json` に Claude Code の自動モードベースラインに相当する約 67 個の安全な権限ルールをシードする一度限りのセットアップスクリプト。フックなし、将来の選択を覚えることもなし。1 回実行すれば良く、再実行しても安全（既存ルールはスキップ）。
+`~/.claude/settings.json` に Claude Code の自動モードベースラインに相当する安全な権限ルール（デフォルトで 37 個、すべてのカテゴリフラグを有効にすると最大 63 個）をシードする一度限りのセットアップスクリプト。フックなし、将来の選択を覚えることもなし。1 回実行すれば良く、再実行しても安全（既存ルールはスキップ）。
 
 **ファイル：** `09-advanced-features/setup-auto-mode-permissions.py`
 
@@ -978,7 +978,7 @@ python3 09-advanced-features/setup-auto-mode-permissions.py
 
 | カテゴリ | 例 |
 |----------|-----|
-| 組み込みツール | `Read(*)`、`Edit(*)`、`Write(*)`、`Glob(*)`、`Grep(*)`、`Agent(*)`、`WebSearch(*)` |
+| 組み込みツール | `Read(*)`、`Edit(*)`、`Grep(*)`、`Agent(*)`、`WebSearch(*)` |
 | Git 読み取り | `Bash(git status:*)`、`Bash(git log:*)`、`Bash(git diff:*)` |
 | Git 書き込み（ローカル） | `Bash(git add:*)`、`Bash(git commit:*)`、`Bash(git checkout:*)` |
 | パッケージマネージャ | `Bash(npm install:*)`、`Bash(pip install:*)`、`Bash(cargo build:*)` |
@@ -1381,10 +1381,12 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新：** 2026 年 9 月 2 日
-**Claude Code バージョン：** 2.1.257
+**最終更新：** 2026 年 9 月 19 日
+**Claude Code バージョン：** 2.1.278
 **情報源：**
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/permissions
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.119

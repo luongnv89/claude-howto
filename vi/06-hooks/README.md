@@ -211,7 +211,7 @@ Claude Code hỗ trợ **33 sự kiện hook**:
 | **ElicitationResult** | Người dùng phản hồi elicitation | (none) | Có | Xử lý phản hồi |
 | **SessionEnd** | Phiên kết thúc | (none) | Không | Dọn dẹp, logging cuối |
 
-> **`TaskCreated` và `TaskCompleted` cần bật todo tools (v2.1.233).** Hai sự kiện này phát ra từ các todo/task-tracking tools (`TaskCreate`/`Get`/`Update`/`List`, `TodoWrite`), vốn **không còn khả dụng trên Opus 4.8, Sonnet 5, Fable 5, Mythos 5 và các model mới hơn**. Trên các model đó, hook vẫn là cấu hình hợp lệ nhưng đơn giản là không bao giờ chạy — không có output và cũng không có lỗi. Đặt `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` để khôi phục.
+> **`TaskCreated` và `TaskCompleted` cần bật todo tools (v2.1.233).** Hai sự kiện này phát ra từ các todo/task-tracking tools (`TaskCreate`/`Get`/`Update`/`List`, `TodoWrite`), vốn **chỉ khả dụng mặc định trên các model Claude 3.x, Opus 4 đến 4.7, Sonnet 4 đến 4.6 và Haiku 4.5**. Trên các model khác, hook vẫn là cấu hình hợp lệ nhưng đơn giản là không bao giờ chạy — không có output và cũng không có lỗi. Đặt `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` để khôi phục.
 
 ### PreToolUse
 
@@ -878,8 +878,9 @@ Chỉnh sửa `~/.claude/settings.json` hoặc `.claude/settings.json` với c�
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 2 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.257
+**Cập Nhật Lần Cuối**: Ngày 19 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.278
 **Nguồn**:
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -59,6 +59,7 @@ Lệnh tích hợp sẵn là các lối tắt cho các hành động phổ biế
 | `/memory` | Chỉnh sửa `CLAUDE.md`, bật/tắt auto-memory |
 | `/mobile` | Mã QR cho ứng dụng di động (bí danh: `/ios`, `/android`) |
 | `/model [model]` | Chọn mô hình với mũi tên trái/phải cho nỗ lực |
+| `/output-style [name]` | Liệt kê và chuyển đổi output style (được thêm lại ở v2.1.269 sau khi bị xóa ở v2.1.91). Không có tham số thì lệnh liệt kê các style và đánh dấu style hiện tại. Hoạt động trong phiên headless và Remote Control; lựa chọn được lưu vào `.claude/settings.local.json` |
 | `/passes` | Chia sẻ tuần miễn phí Claude Code |
 | `/permissions` | Xem/cập nhật quyền (bí danh: `/allowed-tools`) |
 | `/plan [description]` | Nhập chế độ lập kế hoạch |
@@ -103,14 +104,13 @@ Những skills này được gửi kèm với Claude Code và được gọi nh�
 
 | Lệnh | Trạng Thái |
 |---------|--------|
-| `/output-style` | Đã xóa trong v2.1.91 (lỗi thời từ v2.1.73) — dùng `/config` → Output style, hoặc setting `outputStyle` |
 | `/pr-comments` | Đã xóa trong v2.1.91 — hỏi Claude trực tiếp để xem bình luận PR |
 | `/vim` | Đã xóa trong v2.1.92 — sử dụng /config → Editor mode |
 
 ### Thay Đổi Gần Đây
 
 - `/fork` và `/subtask` hoán đổi vai trò trong **v2.1.212**. `/fork` giờ sao chép cuộc hội thoại thành một phiên nền độc lập mới; hành vi subagent-được-fork mà nó từng có đã chuyển sang lệnh mới `/subtask`. Lịch sử: `/fork` là bí danh của `/branch` từ v2.1.77 đến v2.1.161; từ v2.1.161 đến v2.1.211 nó khởi chạy một subagent được fork (việc mà `/subtask` làm bây giờ). Khi tắt agent view, `/subtask` không khả dụng và `/fork` giữ hành vi subagent-được-fork
-- `/output-style` đã lỗi thời (v2.1.73) và bị xóa (v2.1.91) — output styles vẫn có sẵn qua `/config` → Output style hoặc setting `outputStyle`; các bản tích hợp sẵn là Default, Proactive, Explanatory, Learning, và Concise (thêm ở v2.1.237)
+- `/output-style` đã lỗi thời (v2.1.73) và bị xóa (v2.1.91), sau đó **được thêm lại ở v2.1.269** — nó là lệnh còn hoạt động trở lại trong v2.1.278, và chạy được trong phiên headless lẫn Remote Control. Output styles cũng vẫn có sẵn qua `/config` → Output style hoặc setting `outputStyle`; các bản tích hợp sẵn là Default, Proactive, Explanatory, Learning, và Concise (thêm ở v2.1.237)
 - `/review` trở thành bí danh đầy đủ của `/code-review` — cùng target, mức effort và flags (v2.1.223). Lịch sử: ban đầu nó chuyển sang engine `/code-review medium` trong v2.1.186 nhưng vẫn chỉ dùng cho PR
 - Lệnh `/effort` được thêm với mức `max` yêu cầu Opus 4.6
 - Lệnh `/voice` được thêm cho nhập liệu giọng nói push-to-talk
@@ -557,10 +557,11 @@ Nếu cả hai tồn tại với cùng tên, **skill sẽ được ưu tiên**. 
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 19 tháng 8 năm 2026
-**Phiên Bản Claude Code**: 2.1.235
+**Cập Nhật Lần Cuối**: Ngày 19 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.278
 **Nguồn**:
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/output-styles
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Phần của series hướng dẫn [Claude How To](../)*

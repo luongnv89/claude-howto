@@ -144,6 +144,7 @@ to solving problems.
 | `initialPrompt` | No | Auto-submitted first turn when the subagent runs as the main agent |
 | `color` | No | Display color for the subagent in the task list and transcript. Accepts `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink`, or `cyan` |
 | `experimental` | No | Experimental settings block (v2.1.248+). `experimental.cacheTtl` sets the cache TTL for this subagent — `"5m"` or `"1h"` |
+| `omitClaudeMd` | No | Set to `true` to launch the subagent without the user, project, and local CLAUDE.md files (v2.1.271+). Managed policy files still load, except for managed subagents. Ignored when the agent runs as the main session agent via `--agent` or the `agent` setting. Also accepted in `--agents` JSON |
 
 #### Subagent Model Environment Variables
 
@@ -1331,8 +1332,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: September 6, 2026
-**Claude Code Version**: 2.1.263
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

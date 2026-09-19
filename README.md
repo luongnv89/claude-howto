@@ -12,7 +12,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/luongnv89/claude-howto?style=flat&color=gold)](https://github.com/luongnv89/claude-howto/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/luongnv89/claude-howto?style=flat)](https://github.com/luongnv89/claude-howto/network/members)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.1.263-brightgreen)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.1.278-brightgreen)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-2.1+-purple)](https://code.claude.com)
 
 🌐 **Language / Ngôn ngữ / 语言 / Мова:** [English](README.md) | [Tiếng Việt](vi/README.md) | [中文](zh/README.md) | [Українська](uk/README.md) | [日本語](ja/README.md)
@@ -201,7 +201,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 Yes. MIT licensed, free forever. Use it in personal projects, at work, in your team — no restrictions beyond including the license notice.
 
 **Is this maintained?**
-Actively. The guide is synced with every Claude Code release. Current version: v2.1.263 (September 2026), compatible with Claude Code 2.1+.
+Actively. The guide is synced with every Claude Code release. Current version: v2.1.278 (September 2026), compatible with Claude Code 2.1+.
 
 **How is this different from the official docs?**
 The official docs are a feature reference. This guide is a tutorial with diagrams, production-ready templates, and a progressive learning path. They complement each other — start here to learn, reference the docs when you need specifics.
@@ -487,7 +487,7 @@ Configure hooks in `~/.claude/settings.json`:
 **Hook Events** (33, in 4 categories) — when it runs:
 - **Tool Hooks**: `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `PermissionRequest`, `PermissionDenied`
 - **Session Hooks**: `SessionStart`, `Setup`, `SessionEnd`, `Stop`, `StopFailure`, `SubagentStart`, `SubagentStop`
-- **Task Hooks**: `UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`, `TaskCompleted`, `TaskCreated`, `TeammateIdle` — `TaskCompleted` and `TaskCreated` only fire when the todo tools are enabled, which is off by default on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models (`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` restores them)
+- **Task Hooks**: `UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`, `TaskCompleted`, `TaskCreated`, `TeammateIdle` — `TaskCompleted` and `TaskCreated` only fire when the todo tools are enabled, which is available by default only on Claude 3.x models, Opus 4 through 4.7, Sonnet 4 through 4.6, and Haiku 4.5 (`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` restores them)
 - **Lifecycle Hooks**: `ConfigChange`, `CwdChanged`, `DirectoryAdded`, `FileChanged`, `PreCompact`, `PostCompact`, `PreModelSwitch`, `PostModelSwitch`, `WorktreeCreate`, `WorktreeRemove`, `Notification`, `InstructionsLoaded`, `Elicitation`, `ElicitationResult`
 
 </details>
@@ -873,9 +873,10 @@ MIT License - see [LICENSE](LICENSE). Free to use, modify, and distribute. The o
 
 ---
 
-**Last Updated**: September 6, 2026
-**Claude Code Version**: 2.1.263
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/changelog

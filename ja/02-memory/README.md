@@ -227,6 +227,7 @@ Claude Code は多階層のメモリシステムを使う。Claude Code 起動�
 
 3. **Project Memory** — チーム共有のコンテキスト（バージョン管理対象）
    - `./.claude/CLAUDE.md` または `./CLAUDE.md`（リポジトリのルート）
+   - v2.1.277 以降、作業ディレクトリとその上位に `CLAUDE.md` も `CLAUDE.local.md` も存在しない場合、同じ階層で代わりに `./AGENTS.md` が読み込まれる。`/config` の **Project instructions** で制御する
 
 4. **Project Rules** — モジュール式・トピック別のプロジェクト指示
    - `./.claude/rules/*.md`
@@ -1206,10 +1207,11 @@ Claude はどのメモリファイルを更新するかを尋ねる。
 - [公式メモリドキュメント](https://code.claude.com/docs/en/memory) — Anthropic ドキュメント
 
 ---
-**最終更新**: 2026 年 8 月 25 日
-**Claude Code バージョン**: 2.1.245
+**最終更新**: 2026 年 9 月 19 日
+**Claude Code バージョン**: 2.1.278
 **Sources**:
 - https://code.claude.com/docs/en/memory
+- https://code.claude.com/docs/en/memory#agents-md
 - https://code.claude.com/docs/en/settings
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.119

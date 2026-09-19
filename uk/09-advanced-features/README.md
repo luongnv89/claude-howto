@@ -351,7 +351,7 @@ Auto Mode — це режим дозволів, який використову�
 - **План**: Team, Enterprise або API (недоступно на планах Pro або Max)
 - **Модель**: Claude Sonnet 4.6 або Opus 4.6
 - **Провайдер**: Тільки Anthropic API (не підтримується на Bedrock, Vertex або Foundry)
-- **Класифікатор**: Працює на Claude Sonnet 4.6 (додаткова вартість токенів)
+- **Класифікатор**: Додаткова вартість токенів, окрім планів Enterprise та акаунтів Claude API, де v2.1.278+ виконує перевірку на боці сервера без оплати
 
 ### Увімкнення Auto Mode
 
@@ -447,9 +447,9 @@ python3 09-advanced-features/setup-auto-mode-permissions.py --include-git-write 
 
 | Категорія | Приклади |
 |----------|---------|
-| Базові інструменти тільки для читання | `Read(*)`, `Glob(*)`, `Grep(*)`, `Agent(*)`, `WebSearch(*)`, `WebFetch(*)` |
+| Базові інструменти тільки для читання | `Read(*)`, `Grep(*)`, `Agent(*)`, `WebSearch(*)`, `WebFetch(*)` |
 | Локальне інспектування | `Bash(git status:*)`, `Bash(git log:*)`, `Bash(git diff:*)`, `Bash(cat:*)` |
-| Опціональне редагування | `Edit(*)`, `Write(*)`, `NotebookEdit(*)` |
+| Опціональне редагування | `Edit(*)` |
 | Опціональні тести/збірка | `Bash(pytest:*)`, `Bash(python3 -m pytest:*)`, `Bash(cargo test:*)` |
 | Опціональний запис у git | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git stash:*)` |
 | Git (локальний запис) | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git checkout:*)` |
@@ -1933,8 +1933,10 @@ claude --teammate-mode in-process
 - [Офіційна документація Agent Teams](https://code.claude.com/docs/en/agent-teams)
 
 ---
-**Останнє оновлення**: 25 серпня 2026
-**Версія Claude Code**: 2.1.245
+**Останнє оновлення**: 19 вересня 2026
+**Версія Claude Code**: 2.1.278
 **Джерела**:
+- https://code.claude.com/docs/en/permissions
+- https://code.claude.com/docs/en/auto-mode-classifier-billing
 - https://code.claude.com/docs/en/commands
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

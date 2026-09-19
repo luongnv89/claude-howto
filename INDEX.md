@@ -58,6 +58,8 @@ Persistent context and project standards.
 
 **Usage**: Automatically loaded by Claude
 
+**AGENTS.md** (v2.1.277): read as project instructions when no `CLAUDE.md`, `.claude/CLAUDE.md` or `CLAUDE.local.md` exists at or above the working directory — see `02-memory/README.md#agentsmd`
+
 ---
 
 ## 03. Skills (23 files)
@@ -227,7 +229,7 @@ Event-driven automation scripts that execute automatically.
 **Hook Events** (33, in 4 categories) — when it runs:
 - Tool Hooks: PreToolUse, PostToolUse, PostToolUseFailure, PostToolBatch, PermissionRequest, PermissionDenied
 - Session Hooks: SessionStart, Setup, SessionEnd, Stop, StopFailure, SubagentStart, SubagentStop
-- Task Hooks: UserPromptSubmit, UserPromptExpansion, MessageDisplay, TaskCompleted, TaskCreated, TeammateIdle (TaskCompleted/TaskCreated only fire when the todo tools are enabled — off by default on Opus 4.8, Sonnet 5, Fable 5, Mythos 5 and newer)
+- Task Hooks: UserPromptSubmit, UserPromptExpansion, MessageDisplay, TaskCompleted, TaskCreated, TeammateIdle (TaskCompleted/TaskCreated only fire when the todo tools are enabled — available by default only on Claude 3.x models, Opus 4 through 4.7, Sonnet 4 through 4.6, and Haiku 4.5)
 - Lifecycle Hooks: ConfigChange, CwdChanged, DirectoryAdded, FileChanged, PreCompact, PostCompact, PreModelSwitch, PostModelSwitch, WorktreeCreate, WorktreeRemove, Notification, InstructionsLoaded, Elicitation, ElicitationResult
 
 ---
@@ -404,7 +406,7 @@ Advanced capabilities for complex workflows.
 - Deterministic orchestration of tens-to-hundreds of background subagents
 - Fan-out / pipeline / parallel stages for comprehensive coverage
 - View runs with `/workflows`; `ultracode` `/effort` turns it on for a session
-- Default size guideline is medium (aim for fewer than 15 agents) as of v2.1.219 — change it with **Dynamic workflow size** in `/config`
+- Default size guideline is medium (aim for fewer than 10 agents) as of v2.1.219 — change it with **Dynamic workflow size** in `/config`
 
 ### Permission Modes
 - **manual**: Ask for approval on risky actions (renamed from `default` in v2.1.200; `default` still accepted)
@@ -895,9 +897,12 @@ Want to add more examples? Follow the structure:
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
+- https://code.claude.com/docs/en/workflows#set-a-size-guideline
+- https://code.claude.com/docs/en/memory#agents-md
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands

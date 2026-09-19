@@ -26,7 +26,6 @@ SETTINGS_PATH = Path.home() / ".claude" / "settings.json"
 # Core baseline: read-only inspection and low-risk local shell commands.
 CORE_PERMISSIONS = [
     "Read(*)",
-    "Glob(*)",
     "Grep(*)",
     "Agent(*)",
     "Skill(*)",
@@ -68,8 +67,6 @@ CORE_PERMISSIONS = [
 # Optional but still local: file edits and task bookkeeping.
 EDITING_PERMISSIONS = [
     "Edit(*)",
-    "Write(*)",
-    "NotebookEdit(*)",
     "TaskCreate(*)",
     "TaskUpdate(*)",
 ]
@@ -133,7 +130,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--include-edits",
         action="store_true",
-        help="Add file-editing permissions (Edit/Write/NotebookEdit/TaskCreate/TaskUpdate)",
+        help="Add file-editing permissions (Edit/TaskCreate/TaskUpdate)",
     )
     parser.add_argument(
         "--include-tests",

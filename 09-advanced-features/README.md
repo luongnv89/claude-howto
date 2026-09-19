@@ -385,7 +385,7 @@ Auto mode is available only when your account meets all of these requirements:
 - **Organization**: on Team and Enterprise, auto mode is available by default. Administrators can turn it off for the organization by setting `permissions.disableAutoMode` to `"disable"` in managed settings.
 - **Model**: on the Anthropic API and Claude Platform on AWS — Claude Opus 4.6 or later (Opus 5 included), Sonnet 4.6 or later, or Fable 5. On Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions — only Claude Sonnet 5, Opus 4.7 or later (Opus 5 included), and Fable 5. Older models — Sonnet 4.5, Opus 4.5, Haiku, and claude-3 models — are not supported on any provider.
 - **Provider**: available by default on the Anthropic API, Claude Platform on AWS, Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions. In v2.1.158 through v2.1.206, auto mode was off on all of these except the Anthropic API and Claude Platform on AWS until you set `CLAUDE_CODE_ENABLE_AUTO_MODE=1`; v2.1.207 removed the requirement. The variable is still accepted for compatibility and has no effect from v2.1.207 onward.
-- **Classifier**: runs on Claude Sonnet 4.6 (adds extra token cost)
+- **Classifier**: adds extra token cost, except on Enterprise plans and Claude API accounts, where v2.1.278+ runs the check server-side at no charge
 
 ### Enabling Auto Mode
 
@@ -559,9 +559,9 @@ The script adds rules across these categories:
 
 | Category | Examples |
 |----------|---------|
-| Core read-only tools | `Read(*)`, `Glob(*)`, `Grep(*)`, `Agent(*)`, `WebSearch(*)`, `WebFetch(*)` |
+| Core read-only tools | `Read(*)`, `Grep(*)`, `Agent(*)`, `WebSearch(*)`, `WebFetch(*)` |
 | Local inspection | `Bash(git status:*)`, `Bash(git log:*)`, `Bash(git diff:*)`, `Bash(cat:*)` |
-| Optional edits | `Edit(*)`, `Write(*)`, `NotebookEdit(*)` |
+| Optional edits | `Edit(*)` |
 | Optional test/build | `Bash(pytest:*)`, `Bash(python3 -m pytest:*)`, `Bash(cargo test:*)` |
 | Optional git writes | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git stash:*)` |
 | Git (local write) | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git checkout:*)` |
@@ -702,6 +702,8 @@ Concurrency is not a background-task setting either — how many agents run at o
 
 Monitor attaches to any shell command that writes to stdout. Each stdout line from the command becomes a notification that wakes the session. Claude specifies the command; the harness streams output and delivers events as they fire. See the related [Background Tasks](#background-tasks) section for launching the underlying processes.
 
+> **Deadlines (v2.1.271)**: every Monitor watch now carries a deadline — at most 30 minutes, or 10 minutes in single-prompt `-p` runs. When the deadline passes, Claude is notified so it can re-arm the watch. There is no longer a way to arm a watch that never times out.
+
 ### Why It Matters
 
 Polling with `/loop` or `sleep` burns a full API round-trip every cycle, whether or not anything changed. Monitor stays silent until an event fires, consuming **zero tokens** while the command is quiet. When an event does occur, Claude reacts immediately — no delayed discovery waiting for the next poll tick. For anything that runs longer than a few minutes, this is both cheaper and faster than poll loops.
@@ -739,7 +741,7 @@ done
 
 Dynamic workflows let Claude orchestrate tens to hundreds of background [subagents](../04-subagents/README.md) **deterministically** — fan-out, pipelines, and parallel stages encoded in a script rather than left to the model's improvisation. Where a single agent holds one context window, a workflow decomposes a task across many agents and recombines their results.
 
-As of v2.1.219, dynamic workflows default to a **medium size guideline (aim for fewer than 15 agents)**. Pick another size — or unrestricted — via **Dynamic workflow size** in `/config`, or set the `workflowSizeGuideline` key in your settings file. The running-workflow status line shows the active size and points to `/config` for changing it.
+As of v2.1.219, dynamic workflows default to a **medium size guideline (aim for fewer than 10 agents)** — or to **small** when you are signed in on a Pro plan, since v2.1.271. Pick another size — or unrestricted — via **Dynamic workflow size** in `/config`, or set the `workflowSizeGuideline` key in your settings file. The running-workflow status line shows the active size and points to `/config` for changing it.
 
 ### When to Use Them
 
@@ -1292,6 +1294,7 @@ Claude Code supports keyboard shortcuts for efficiency. Here's the complete refe
 | `Option+T` / `Alt+T` | Toggle extended thinking |
 | `Option+O` / `Alt+O` | Toggle fast mode (`/fast`) |
 | `Ctrl+X` `Ctrl+K` | Stop all background subagents |
+| `Ctrl+Enter` (or `Ctrl+X` `Ctrl+S`) | Send now — interrupt the current turn and send every queued message at once. Sent and queued messages stay gray until the model receives them (v2.1.275) |
 | `Ctrl+S` | Stash the current prompt; press again to restore it |
 | `Ctrl+_` | Undo the last edit to the prompt input |
 | `:` | Type `:` at the start of a word to open emoji shortcode completion, e.g. `:heart:` (v2.1.217+) |
@@ -1534,7 +1537,7 @@ For instructions about your project or codebase, use [CLAUDE.md](../02-memory/) 
 
 ### Selecting a style
 
-Run `/config` and choose **Output style**. The selection is saved to `.claude/settings.local.json`. To set it without the menu, edit the setting directly:
+Run `/config` and choose **Output style**, or run `/output-style <style>` to switch directly — with no argument it lists the available styles and marks the current one. Either way the selection is saved to `.claude/settings.local.json`. To set it without the menu, edit the setting directly:
 
 ```json
 {
@@ -1542,7 +1545,7 @@ Run `/config` and choose **Output style**. The selection is saved to `.claude/se
 }
 ```
 
-> **Note**: The standalone `/output-style` command was deprecated in v2.1.73 and **removed in v2.1.91**. Use `/config` or the `outputStyle` setting.
+> **Note**: The standalone `/output-style` command was deprecated in v2.1.73 and removed in v2.1.91, but it **returned in v2.1.269** and is live in v2.1.278. It works in headless and Remote Control sessions. `/config` and the `outputStyle` setting still work too.
 
 Output style is part of the system prompt, which Claude Code reads once at session start — changes take effect after `/clear` or in a new session.
 
@@ -2424,7 +2427,10 @@ These keys go in `~/.claude/settings.json` (or a project `.claude/settings.json`
 | `keybindingFlavor` | **Deprecated since v2.1.261 and has no effect.** The prompt's word-editing keys always follow readline conventions, as Bash does: `Ctrl+W` deletes back to whitespace, `Alt+F` and `Alt+D` stop at word end, and punctuation separates words. Claude Code still accepts the key, so a settings file that sets it stays valid. (In v2.1.238–v2.1.260 it chose between `"classic"` and `"readline"`.) |
 | `spellcheck` | (v2.1.235) Underlines misspelled words in the prompt input using whichever of `aspell`, `hunspell`, or `ispell` is on your `PATH`, tried in that order. Object-valued — `{"enabled": true, "language": "en_GB"}` — and off by default. **Read from user settings, the `--settings` flag, and managed settings only**: a `spellcheck` block in a project `.claude/settings.json` or `.claude/settings.local.json` is ignored. |
 | `bashOutputMaxChars` | (v2.1.261) How many characters of a **successful** Bash or PowerShell command's output Claude receives inline, up to 128K. Past the limit Claude Code saves the output to a file and Claude gets a short preview plus the path. Setting it makes Claude Code ignore `BASH_MAX_OUTPUT_LENGTH`. |
-| `taskOutputMaxChars` | (v2.1.261) How many characters of a **background task's** output Claude receives inline when reading it with the `TaskOutput` tool, up to 128K. For a longer finished task Claude receives the most recent characters. Setting it makes Claude Code ignore `TASK_MAX_OUTPUT_LENGTH`. |
+| `taskOutputMaxChars` | (v2.1.261) **Superseded in v2.1.278 and has no effect.** It used to cap how many characters of a **background task's** output Claude received inline when reading it with the `TaskOutput` tool. v2.1.278 removed the `TaskOutput` tool — Claude now reads a background task's output file with `Read` — so this key and `TASK_MAX_OUTPUT_LENGTH` are both inert. Claude Code still accepts the key, so a settings file that sets it stays valid. |
+| `maxEffortLevel` | (v2.1.267) Caps the effort level Claude Code may use, on every provider including Bedrock, Vertex, and Foundry. Set it top-level or per-model under `modelSettings`. Users can still pick a lower level. |
+| `bashEditDiffEnabled` | (v2.1.269) Bash tool results include a diff of the files the command changed. |
+| `syncClaudeAiSkills` / `syncClaudeAiPlugins` | (v2.1.275) Set either to `false` to opt out of syncing the skills or plugins you have enabled on your claude.ai account into terminal sessions. |
 
 ### Fallback Models (`fallbackModel`)
 
@@ -2516,7 +2522,7 @@ export CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION=200         # Cap on WebSearch t
 export CLAUDE_AX_SCREEN_READER=1                            # Enable plain-text screen reader rendering mode. Same effect as --ax-screen-reader or "axScreenReader": true in settings.
 
 # Newer variables (v2.1.221–v2.1.234) — changelog-sourced; the CLI reference has no env-var section
-export CLAUDE_CODE_ENABLE_TODO_TOOLS=1                      # (v2.1.233) Restore the todo/task-tracking tools (TaskCreate/Get/Update/List, TodoWrite), which are off on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models
+export CLAUDE_CODE_ENABLE_TODO_TOOLS=1                      # (v2.1.233) Restore the todo/task-tracking tools (TaskCreate/Get/Update/List, TodoWrite), which are available by default only on Claude 3.x models, Opus 4 through 4.7, Sonnet 4 through 4.6, and Haiku 4.5 (v2.1.268)
 export CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS=900000             # (v2.1.233) WebFetch URL cache TTL. Default 15 minutes.
 export CLAUDE_CODE_TOOL_MEMORY_LIMIT=2G                     # (v2.1.233, Linux) Opt-in memory cgroup applied to Bash commands
 export ANTHROPIC_BEDROCK_REGION_PREFIX=us                   # (v2.1.224) Prefer a specific Bedrock cross-region inference profile
@@ -2525,6 +2531,12 @@ export CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS=0             # (v2.1.229) Disable
 export CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS=300000            # (v2.1.224) Overrides the dialogExpiry setting
 export CLAUDE_CODE_PROJECT_DIR_NAME=my-app                  # (v2.1.234) Short name for the per-project transcript directory, for hosts that give each session its own config directory
 export CLAUDE_CODE_GOAL_CHECKIN_MINUTES=30                  # (v2.1.234) Minutes a background task may stall before Claude checks in while a /goal is active. Set 0 to disable check-ins.
+
+# Newer variables (v2.1.268-v2.1.278) - changelog-sourced
+export CLAUDE_CODE_MCP_STARTUP_WAIT_MS=5000                 # (v2.1.274) How long the first non-interactive turn waits for MCP servers that are still connecting. 0 = do not wait.
+export CLAUDE_CODE_WEBFETCH_DEADLINE_MS=300000              # (v2.1.268) Overrides WebFetch's new 300-second deadline. 0 disables the deadline.
+export CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS=32        # (v2.1.269) Raises the Workflow tool's per-run concurrent agent limit. Accepts 1-256.
+export CLAUDE_CODE_AUTO_MODE_SERVER=0                       # (v2.1.278) Opt out of server-side auto-mode checks on Bedrock, Vertex, Foundry, and gateways
 ```
 
 > **v2.1.223 — `CLAUDE_CODE_DISABLE_1M_CONTEXT` widened**: the variable now holds **every**
@@ -2727,9 +2739,16 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: September 6, 2026
-**Claude Code Version**: 2.1.263
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
+- https://code.claude.com/docs/en/output-styles
+- https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
+- https://code.claude.com/docs/en/permissions
+- https://code.claude.com/docs/en/workflows#set-a-size-guideline
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
+- https://code.claude.com/docs/en/auto-mode-classifier-billing
+- https://code.claude.com/docs/en/env-vars
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/sandboxing
 - https://code.claude.com/docs/en/commands

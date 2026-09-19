@@ -226,6 +226,7 @@ Claude Code використовує багаторівневу ієрархіч
 
 3. **Project Memory** — спільний контекст команди (версіонований)
    - `./.claude/CLAUDE.md` або `./CLAUDE.md` (у корені репозиторію)
+   - Починаючи з v2.1.277, на цьому ж рівні натомість завантажується `./AGENTS.md`, якщо ні в робочому каталозі, ні вище немає `CLAUDE.md` чи `CLAUDE.local.md` — керується через **Project instructions** у `/config`
 
 4. **Project Rules** — модульні, тематичні інструкції проєкту
    - `./.claude/rules/*.md`
@@ -1158,8 +1159,9 @@ Claude запропонує обрати, який файл пам'яті оно
 - [Офіційна документація пам'яті](https://code.claude.com/docs/en/memory) — документація Anthropic
 
 ---
-**Останнє оновлення**: 25 серпня 2026
-**Версія Claude Code**: 2.1.245
+**Останнє оновлення**: 19 вересня 2026
+**Версія Claude Code**: 2.1.278
 **Джерела**:
 - https://code.claude.com/docs/en/memory
+- https://code.claude.com/docs/en/memory#agents-md
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

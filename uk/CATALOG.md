@@ -357,8 +357,8 @@ export GITHUB_TOKEN="your_token" && claude mcp add github -- npx -y @modelcontex
 | `Stop` | Claude завершив відповідь | Відповідь готова | Очищення, звітність |
 | `StopFailure` | API-помилка завершила черга | API-помилка | Відновлення, логування |
 | `TeammateIdle` | Агент-партнер бездіє | Координація агентів | Розподіл роботи |
-| `TaskCompleted` | Завдання позначено як виконане (спрацьовує лише коли увімкнені todo-інструменти — типово вимкнені на Opus 4.8, Sonnet 5, Fable 5, Mythos 5 і новіших; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` повертає їх) | Завдання завершено | Пост-обробка |
-| `TaskCreated` | Завдання створено через TaskCreate (спрацьовує лише коли увімкнені todo-інструменти — типово вимкнені на Opus 4.8, Sonnet 5, Fable 5, Mythos 5 і новіших; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` повертає їх) | Нове завдання створено | Відстеження, логування |
+| `TaskCompleted` | Завдання позначено як виконане (спрацьовує лише коли увімкнені todo-інструменти — доступні типово тільки на Claude 3.x, Opus 4–4.7, Sonnet 4–4.6 та Haiku 4.5; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` повертає їх) | Завдання завершено | Пост-обробка |
+| `TaskCreated` | Завдання створено через TaskCreate (спрацьовує лише коли увімкнені todo-інструменти — доступні типово тільки на Claude 3.x, Opus 4–4.7, Sonnet 4–4.6 та Haiku 4.5; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` повертає їх) | Нове завдання створено | Відстеження, логування |
 | `ConfigChange` | Конфігурацію оновлено | Налаштування змінені | Реакція на зміни конфігурації |
 | `CwdChanged` | Робочий каталог змінився | Зміна каталогу | Налаштування для каталогу |
 | `DirectoryAdded` | Новий робочий каталог зареєстровано під час сесії | `/add-dir` або SDK `register_repo_root` | Налаштування інструментів для нового каталогу |
@@ -532,9 +532,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Останнє оновлення**: 2 вересня 2026
-**Версія Claude Code**: 2.1.257
+**Останнє оновлення**: 19 вересня 2026
+**Версія Claude Code**: 2.1.278
 **Джерела**:
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/plugins-reference

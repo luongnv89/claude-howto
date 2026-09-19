@@ -75,6 +75,7 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `-c, --continue` | Load most recent conversation | `claude --continue` |
 | `-r, --resume` | Resume specific session by ID or name | `claude --resume auth-refactor` |
 | `-v, --version` | Output version number | `claude -v` |
+| `--system-prompt-snapshot off` | Render the system prompt fresh on every request instead of reusing the prompt recorded with the conversation. Useful while iterating on prompt text (v2.1.267) | `claude --system-prompt-snapshot off` |
 | `-w, --worktree` | Start in isolated git worktree. Accepts a GitLab merge-request URL as well as a GitHub PR URL since v2.1.233 | `claude -w` |
 | `-n, --name` | Session display name | `claude -n "auth-refactor"` |
 | `--from-pr <url-or-number>` | Resume sessions linked to a pull/merge request. Accepts GitHub (cloud + Enterprise), GitLab MR, and Bitbucket PR URLs since v2.1.119; previously GitHub.com only | `claude --from-pr 42` or `claude --from-pr https://gitlab.example.com/org/repo/-/merge_requests/17` |
@@ -291,7 +292,7 @@ claude -p --json-schema '{"type":"object","properties":{"bugs":{"type":"array"}}
 
 > **`/config` persistence (v2.1.119)**: Changes made interactively via the `/config` command are now written to `~/.claude/settings.json` and participate in the normal precedence chain (policy → local → project → user). Before v2.1.119, some `/config` changes were session-only. See [Memory & Settings](../02-memory/README.md) for the full precedence order.
 | `--settings` | Load settings from file or JSON. File must be no larger than 2 MiB (v2.1.214) | `claude --settings ./settings.json` |
-| `--plugin-dir` | Load plugins from directory (repeatable) | `claude --plugin-dir ./my-plugin` |
+| `--plugin-dir` | Load plugins from directory (repeatable). Since v2.1.265 it also accepts a **folder of plugins** — every child folder with a manifest loads, and children added or removed while the session runs are picked up | `claude --plugin-dir ./my-plugin` |
 
 ### Multi-Directory Example
 
@@ -390,7 +391,7 @@ claude project purge --all --interactive
 | `--debug` | Enable debug mode with filtering | `claude --debug "api,mcp"` |
 | `--enable-lsp-logging` | Enable verbose LSP logging | `claude --enable-lsp-logging` |
 | `--betas` | Beta headers for API requests | `claude --betas interleaved-thinking` |
-| `--plugin-dir` | Load plugins from directory (repeatable) | `claude --plugin-dir ./my-plugin` |
+| `--plugin-dir` | Load plugins from directory (repeatable). Since v2.1.265 it also accepts a **folder of plugins** — every child folder with a manifest loads, and children added or removed while the session runs are picked up | `claude --plugin-dir ./my-plugin` |
 | `--effort` | Set thinking effort level | `claude --effort high` |
 | `--bare` | Minimal mode (skip hooks, skills, plugins, MCP, auto memory, CLAUDE.md) | `claude --bare` |
 | `--channels` | Subscribe to MCP channel plugins (tagged `plugin:<name>@<marketplace>`) | `claude --channels plugin:discord@my-marketplace` |
@@ -898,7 +899,11 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu
 | `CLAUDE_ENABLE_STREAM_WATCHDOG` | Streaming idle watchdog (aborts/retries after 5 min with no stream events) is on by default for all providers; set to `0` to disable (v2.1.196). |
 | `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` | Override the 5-minute idle abort for remote MCP tool calls that hang with no response (v2.1.187+). |
 | `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **Removed (no-op as of v2.1.160).** Previously pinned Fast Mode (`/fast`) to Opus 4.6. As of v2.1.219, `/fast` applies to **Opus 5 and Opus 4.8** only — Opus 4.6 and Opus 4.7 are no longer fast-mode targets. |
-| `CLAUDE_CODE_ENABLE_TODO_TOOLS` | Set to `1` to restore the todo/task-tracking tools (`TaskCreate`/`Get`/`Update`/`List`, `TodoWrite`), which are unavailable on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models (v2.1.233) |
+| `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` | Bounds how long the first non-interactive turn waits for MCP servers that are still connecting. Set `0` to not wait at all (v2.1.274) |
+| `CLAUDE_CODE_WEBFETCH_DEADLINE_MS` | Overrides WebFetch's 300-second deadline, introduced in v2.1.268. Set `0` to disable the deadline (v2.1.268) |
+| `CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS` | Raises the Workflow tool's per-run concurrent agent limit. Accepts 1–256 (v2.1.269) |
+| `CLAUDE_CODE_AUTO_MODE_SERVER` | Set to `0` to opt out of server-side auto-mode checks on Bedrock, Vertex, Foundry, and gateways (v2.1.278) |
+| `CLAUDE_CODE_ENABLE_TODO_TOOLS` | Set to `1` to restore the todo/task-tracking tools (`TaskCreate`/`Get`/`Update`/`List`, `TodoWrite`), which are available by default only on Claude 3.x models, Opus 4 through 4.7, Sonnet 4 through 4.6, and Haiku 4.5 (v2.1.268) |
 | `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS` | How long WebFetch caches a fetched URL. Default 15 minutes (v2.1.233) |
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | Linux only: opt in to a memory cgroup applied to Bash commands (v2.1.233) |
 | `ANTHROPIC_BEDROCK_REGION_PREFIX` | Prefer a specific Bedrock cross-region inference profile (v2.1.224) |
@@ -929,7 +934,7 @@ These keys live in a `settings.json` file (`~/.claude/settings.json` for user sc
 | `language` | Sets Claude's preferred response language and voice-dictation language (e.g. `"french"`, `"japanese"`). As of **v2.1.176** it also pins the language used for auto-generated session titles. |
 | `sandbox.filesystem.disabled` | (v2.1.216) Skips filesystem sandboxing while keeping network egress control enforced. For workflows where file sandboxing breaks tooling but network policy must stay enforced. |
 | `emojiCompletionEnabled` | (v2.1.217) Enables emoji shortcode autocomplete in the prompt input (e.g. typing `:heart:` inserts ❤️). Set `false` to disable. |
-| `workflowSizeGuideline` | (v2.1.219) Sets the advisory Dynamic workflow size guideline from any settings file. The guideline is guidance Claude aims for, not a hard cap — the default is medium (aim for fewer than 15 agents), and other sizes or unrestricted can be selected. While this key is set, the "Dynamic workflow size" row is hidden in `/config`. Distinct from `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`, which is an enforced concurrency limit. |
+| `workflowSizeGuideline` | (v2.1.219) Sets the advisory Dynamic workflow size guideline from any settings file. The guideline is guidance Claude aims for, not a hard cap — the default is medium (aim for fewer than 10 agents), or small when signed in on a Pro plan (v2.1.271+), and other sizes or unrestricted can be selected. While this key is set, the "Dynamic workflow size" row is hidden in `/config`. Distinct from `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`, which is an enforced concurrency limit. |
 | `spellcheck` | (v2.1.235) Underlines misspelled words in the prompt input using whichever of `aspell`, `hunspell`, or `ispell` is on your `PATH`, tried in that order. Object-valued — `{"enabled": true, "language": "en_GB"}` — and off by default. **Read from user settings, the `--settings` flag, and managed settings only**: a `spellcheck` block in a project `.claude/settings.json` or `.claude/settings.local.json` is ignored. See also [Advanced Features → Additional Per-User Settings](../09-advanced-features/README.md#additional-per-user-settings). |
 | `modelPicker` | (v2.1.243) Choose which models the `/model` picker lists, in your own order and with your own labels. One of the few settings that **replaces rather than merges** across settings layers. |
 | `promptCacheTtl` | (v2.1.243) Choose the prompt cache lifetime for the main conversation. |
@@ -937,7 +942,10 @@ These keys live in a `settings.json` file (`~/.claude/settings.json` for user sc
 | `modelPricing` | (v2.1.243) **Managed setting.** Supplies your organization's contracted rates so `/cost`, the status line, and telemetry report those instead of list price. |
 | `keybindingFlavor` | **Deprecated since v2.1.261 and has no effect.** The prompt's word-editing keys always follow readline conventions, as Bash does: `Ctrl+W` deletes back to whitespace, `Alt+F` and `Alt+D` stop at word end, and punctuation separates words. Claude Code still accepts the key, so a settings file that sets it stays valid. (In v2.1.238–v2.1.260 it chose between `"classic"` and `"readline"`.) |
 | `bashOutputMaxChars` | (v2.1.261) How many characters of a **successful** Bash or PowerShell command's output Claude receives inline, up to 128K. Past the limit Claude Code saves the output to a file and Claude gets a short preview plus the path. Setting it makes Claude Code ignore `BASH_MAX_OUTPUT_LENGTH`. |
-| `taskOutputMaxChars` | (v2.1.261) How many characters of a **background task's** output Claude receives inline when reading it with the `TaskOutput` tool, up to 128K. For a longer finished task Claude receives the most recent characters. Setting it makes Claude Code ignore `TASK_MAX_OUTPUT_LENGTH`. |
+| `taskOutputMaxChars` | (v2.1.261) **Superseded in v2.1.278 and has no effect.** It used to cap how many characters of a **background task's** output Claude received inline when reading it with the `TaskOutput` tool. v2.1.278 removed the `TaskOutput` tool — Claude now reads a background task's output file with `Read` — so this key and `TASK_MAX_OUTPUT_LENGTH` are both inert. Claude Code still accepts the key, so a settings file that sets it stays valid. |
+| `maxEffortLevel` | (v2.1.267) Caps the effort level Claude Code may use, on every provider including Bedrock, Vertex, and Foundry. Set it top-level or per-model under `modelSettings`. Users can still pick a lower level. |
+| `bashEditDiffEnabled` | (v2.1.269) Bash tool results include a diff of the files the command changed. |
+| `syncClaudeAiSkills` / `syncClaudeAiPlugins` | (v2.1.275) Set either to `false` to opt out of syncing the skills or plugins you have enabled on your claude.ai account into terminal sessions. |
 
 ```json
 {
@@ -1051,9 +1059,12 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: September 6, 2026
-**Claude Code Version**: 2.1.263
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
+- https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
+- https://code.claude.com/docs/en/workflows#set-a-size-guideline
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/env-vars
 - https://code.claude.com/docs/en/changelog#2-1-174

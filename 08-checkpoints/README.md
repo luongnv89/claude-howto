@@ -246,6 +246,7 @@ Checkpoints have the following limitations:
 - **Bash command changes NOT tracked** - Operations like `rm`, `mv`, `cp` on the filesystem are not captured in checkpoints
 - **External changes NOT tracked** - Changes made outside Claude Code (in your editor, terminal, etc.) are not captured
 - **Not a replacement for version control** - Use git for permanent, auditable changes to your codebase
+- **Subagent edits NOT restored** - Files edited by a subagent are untracked, so `/rewind` leaves them as they are; the exception is a foreground `context: fork` skill, whose edits are restored like the main session's
 
 > **v2.1.216 update**: `/rewind` no longer restores or deletes files through symlinks or hard links at tracked paths. If a tracked path resolves through a symlink or hard link, rewind skips it rather than following the link, and it reports how many paths it skipped for this reason.
 
@@ -336,8 +337,8 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 
 ---
 
-**Last Updated**: August 25, 2026
-**Claude Code Version**: 2.1.245
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/settings

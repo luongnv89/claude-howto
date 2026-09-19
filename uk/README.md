@@ -443,7 +443,7 @@ chmod +x ~/.claude/hooks/*.sh
 **Події хуків** (33, у 4 категоріях) — коли він виконується:
 - **Хуки інструментів**: `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `PermissionRequest`, `PermissionDenied`
 - **Хуки сесій**: `SessionStart`, `Setup`, `SessionEnd`, `Stop`, `StopFailure`, `SubagentStart`, `SubagentStop`
-- **Хуки завдань**: `UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`, `TaskCompleted`, `TaskCreated`, `TeammateIdle` (`TaskCompleted` і `TaskCreated` спрацьовують лише коли увімкнені todo-інструменти — типово вимкнені на Opus 4.8, Sonnet 5, Fable 5, Mythos 5 і новіших; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` повертає їх)
+- **Хуки завдань**: `UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`, `TaskCompleted`, `TaskCreated`, `TeammateIdle` (`TaskCompleted` і `TaskCreated` спрацьовують лише коли увімкнені todo-інструменти — доступні типово тільки на Claude 3.x, Opus 4–4.7, Sonnet 4–4.6 та Haiku 4.5; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` повертає їх)
 - **Хуки життєвого циклу**: `ConfigChange`, `CwdChanged`, `DirectoryAdded`, `FileChanged`, `PreCompact`, `PostCompact`, `PreModelSwitch`, `PostModelSwitch`, `WorktreeCreate`, `WorktreeRemove`, `Notification`, `InstructionsLoaded`, `Elicitation`, `ElicitationResult`
 
 </details>
@@ -659,9 +659,10 @@ Claude:
 
 ---
 
-**Останнє оновлення**: 2 вересня 2026
-**Версія Claude Code**: 2.1.257
+**Останнє оновлення**: 19 вересня 2026
+**Версія Claude Code**: 2.1.278
 **Джерела**:
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/model-config
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

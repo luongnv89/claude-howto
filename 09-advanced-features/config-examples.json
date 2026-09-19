@@ -194,7 +194,7 @@
         "model": "claude-sonnet-5",
         "permissions": {
           "defaultMode": "acceptEdits",
-          "allow": ["Write(**/*.md)"]
+          "allow": ["Edit(**/*.md)"]
         },
         "hooks": {
           "PostToolUse": [

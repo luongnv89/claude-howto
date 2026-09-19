@@ -360,8 +360,8 @@ Claude Code のイベントでシェルコマンドを自動実行するイベ�
 | `Stop` | Claude が応答完了 | 応答完了時 | 後処理、レポート |
 | `StopFailure` | API エラーでターン終了 | API エラー発生時 | エラー復旧、ログ |
 | `TeammateIdle` | チームメンバーエージェントがアイドル | エージェントチーム協調時 | 作業の分配 |
-| `TaskCompleted` | タスク完了マーク（todo ツールが有効なときのみ発火 — Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降ではデフォルト無効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活） | タスク完了時 | タスク後処理 |
-| `TaskCreated` | TaskCreate でタスク作成（todo ツールが有効なときのみ発火 — Opus 4.8、Sonnet 5、Fable 5、Mythos 5 以降ではデフォルト無効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活） | 新タスク作成時 | タスク追跡、ログ |
+| `TaskCompleted` | タスク完了マーク（todo ツールが有効なときのみ発火 — Claude 3.x、Opus 4〜4.7、Sonnet 4〜4.6、Haiku 4.5 でのみデフォルト有効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活） | タスク完了時 | タスク後処理 |
+| `TaskCreated` | TaskCreate でタスク作成（todo ツールが有効なときのみ発火 — Claude 3.x、Opus 4〜4.7、Sonnet 4〜4.6、Haiku 4.5 でのみデフォルト有効。`CLAUDE_CODE_ENABLE_TODO_TOOLS=1` で復活） | 新タスク作成時 | タスク追跡、ログ |
 | `ConfigChange` | 設定更新 | 設定変更時 | 設定変更への対応 |
 | `CwdChanged` | 作業ディレクトリ変更 | ディレクトリ変更時 | ディレクトリ別セットアップ |
 | `DirectoryAdded` | セッション中に作業ディレクトリが追加登録 | `/add-dir` または SDK `register_repo_root` | 新規ディレクトリ向けツール設定 |
@@ -540,9 +540,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新**：2026 年 9 月 2 日
-**Claude Code バージョン**：2.1.257
+**最終更新**：2026 年 9 月 19 日
+**Claude Code バージョン**：2.1.278
 **情報源**：
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks

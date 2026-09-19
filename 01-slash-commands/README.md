@@ -66,6 +66,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/memory` | Edit `CLAUDE.md`, toggle auto-memory |
 | `/mobile` | QR code for mobile app (aliases: `/ios`, `/android`) |
 | `/model [model]` | Select model with left/right arrows for effort. Since v2.1.153, the choice is **saved as the default** for new sessions (matching the IDE); press `s` after selecting to apply it to the current session only. (The keybinding `modelPicker:setAsDefault` was renamed to `modelPicker:thisSessionOnly`; the old `d` action is now `s`.) As of v2.1.219, the picker shows the merged Opus row as "Opus (1M context)". |
+| `/output-style [name]` | List and switch output styles (re-added in v2.1.269 after being removed in v2.1.91). With no argument it lists the styles and marks the current one. Works in headless and Remote Control sessions; the selection is saved to `.claude/settings.local.json` |
 | `/passes` | Share free week of Claude Code |
 | `/permissions` | View/update permissions (alias: `/allowed-tools`) |
 | `/plan [description]` | Enter plan mode |
@@ -126,7 +127,6 @@ These skills ship with Claude Code and are invoked like slash commands:
 
 | Command | Status |
 |---------|--------|
-| `/output-style` | Removed in v2.1.91 (deprecated v2.1.73) — use `/config` → Output style, or the `outputStyle` setting |
 | `/pr-comments` | Removed in v2.1.91 — ask Claude directly to view PR comments |
 | `/vim` | Removed in v2.1.92 — use /config → Editor mode |
 | `/undo` | No longer listed in the official commands reference as of v2.1.245 (it was added as an alias for `/rewind` in v2.1.108) — use `/rewind` or press `Esc` twice |
@@ -135,7 +135,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 
 - `/fork` and `/subtask` swapped roles in **v2.1.212**. `/fork` now copies the conversation into a new independent background session; the forked-subagent behavior it used to have moved to the new `/subtask` command. History: `/fork` was an alias for `/branch` from v2.1.77 to v2.1.161; from v2.1.161 to v2.1.211 it started a forked subagent (what `/subtask` does now). When agent view is turned off, `/subtask` is unavailable and `/fork` keeps the forked-subagent behavior
 - `/resume` (no arguments) opens a picker of past sessions — including ones removed from the visible list — and resumes the chosen one as a background session (v2.1.212)
-- `/output-style` deprecated (v2.1.73) and removed (v2.1.91) — output styles are still available via `/config` → Output style or the `outputStyle` setting; the built-ins are Default, Proactive, Explanatory, Learning, and Concise (added in v2.1.237)
+- `/output-style` was deprecated (v2.1.73) and removed (v2.1.91), then **re-added in v2.1.269** — it is a live command again in v2.1.278, and works in headless and Remote Control sessions. Output styles also remain available via `/config` → Output style or the `outputStyle` setting; the built-ins are Default, Proactive, Explanatory, Learning, and Concise (added in v2.1.237)
 - `/review` became a full alias of `/code-review` — same targets, effort levels, and flags (v2.1.223). History: it first moved onto the `/code-review medium` engine in v2.1.186 while remaining PR-only
 - `/effort` command added; `max` level available on Opus 4.6+ (originally Opus 4.6-only)
 - `/voice` command added for push-to-talk voice dictation
@@ -650,9 +650,10 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: September 6, 2026
-**Claude Code Version**: 2.1.263
+**Last Updated**: September 19, 2026
+**Claude Code Version**: 2.1.278
 **Sources**:
+- https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/interactive-mode
