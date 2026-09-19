@@ -970,12 +970,13 @@ python3 09-advanced-features/setup-auto-mode-permissions.py
 
 | Категорія | Приклади |
 |-----------|---------|
-| Вбудовані інструменти | `Read(*)`, `Edit(*)`, `Grep(*)`, `Agent(*)`, `WebSearch(*)` |
+| Вбудовані інструменти | `Read(*)`, `Grep(*)`, `Agent(*)`, `WebSearch(*)` |
+| Опціональне редагування (--include-edits) | `Edit(*)` |
 | Git читання | `Bash(git status:*)`, `Bash(git log:*)`, `Bash(git diff:*)` |
 | Git запис (локально) | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git checkout:*)` |
-| Пакетні менеджери | `Bash(npm install:*)`, `Bash(pip install:*)`, `Bash(cargo build:*)` |
+| Пакетні менеджери | `Bash(npm ci:*)`, `Bash(npm install:*)`, `Bash(pip install:*)`, `Bash(pip3 install:*)` |
 | Збірка та тестування | `Bash(make:*)`, `Bash(pytest:*)`, `Bash(go test:*)` |
-| Загальні shell-команди | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(find:*)`, `Bash(cp:*)`, `Bash(mv:*)` |
+| Загальні shell-команди | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(find:*)` |
 | GitHub CLI | `Bash(gh pr view:*)`, `Bash(gh pr create:*)`, `Bash(gh issue list:*)` |
 
 **Що навмисно виключено** (цей скрипт ніколи не додає):

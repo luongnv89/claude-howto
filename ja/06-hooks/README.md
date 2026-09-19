@@ -978,12 +978,13 @@ python3 09-advanced-features/setup-auto-mode-permissions.py
 
 | カテゴリ | 例 |
 |----------|-----|
-| 組み込みツール | `Read(*)`、`Edit(*)`、`Grep(*)`、`Agent(*)`、`WebSearch(*)` |
+| 組み込みツール | `Read(*)`、`Grep(*)`、`Agent(*)`、`WebSearch(*)` |
+| オプションの編集（--include-edits） | `Edit(*)` |
 | Git 読み取り | `Bash(git status:*)`、`Bash(git log:*)`、`Bash(git diff:*)` |
 | Git 書き込み（ローカル） | `Bash(git add:*)`、`Bash(git commit:*)`、`Bash(git checkout:*)` |
-| パッケージマネージャ | `Bash(npm install:*)`、`Bash(pip install:*)`、`Bash(cargo build:*)` |
+| パッケージマネージャ | `Bash(npm ci:*)`、`Bash(npm install:*)`、`Bash(pip install:*)`、`Bash(pip3 install:*)` |
 | ビルド・テスト | `Bash(make:*)`、`Bash(pytest:*)`、`Bash(go test:*)` |
-| 一般的なシェル | `Bash(ls:*)`、`Bash(cat:*)`、`Bash(find:*)`、`Bash(cp:*)`、`Bash(mv:*)` |
+| 一般的なシェル | `Bash(ls:*)`、`Bash(cat:*)`、`Bash(find:*)` |
 | GitHub CLI | `Bash(gh pr view:*)`、`Bash(gh pr create:*)`、`Bash(gh issue list:*)` |
 
 **意図的に除外される項目**（このスクリプトでは追加されない）：

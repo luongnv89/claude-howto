@@ -1221,12 +1221,13 @@ python3 09-advanced-features/setup-auto-mode-permissions.py
 
 | Category | Examples |
 |----------|---------|
-| Built-in tools | `Read(*)`, `Edit(*)`, `Grep(*)`, `Agent(*)`, `WebSearch(*)` |
+| Built-in tools | `Read(*)`, `Grep(*)`, `Agent(*)`, `WebSearch(*)` |
+| Optional edits (--include-edits) | `Edit(*)` |
 | Git read | `Bash(git status:*)`, `Bash(git log:*)`, `Bash(git diff:*)` |
 | Git write (local) | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git checkout:*)` |
-| Package managers | `Bash(npm install:*)`, `Bash(pip install:*)`, `Bash(cargo build:*)` |
+| Package managers | `Bash(npm ci:*)`, `Bash(npm install:*)`, `Bash(pip install:*)`, `Bash(pip3 install:*)` |
 | Build & test | `Bash(make:*)`, `Bash(pytest:*)`, `Bash(go test:*)` |
-| Common shell | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(find:*)`, `Bash(cp:*)`, `Bash(mv:*)` |
+| Common shell | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(find:*)` |
 | GitHub CLI | `Bash(gh pr view:*)`, `Bash(gh pr create:*)`, `Bash(gh issue list:*)` |
 
 **What is intentionally excluded** (never added by this script):
