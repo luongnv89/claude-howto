@@ -103,7 +103,7 @@
 - **持续维护中**，会与每次 Claude Code 发布保持同步（最新版本：v2.1.112，2026 年 4 月）
 - **社区驱动**，贡献者会分享他们在真实工作中的配置和经验
 
-[![Star History Chart](https://api.star-history.com/svg?repos=luongnv89/claude-howto&type=Date)](https://star-history.com/#luongnv89/claude-howto&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=luongnv89/claude-howto&type=date)](https://star-history.dera.page/#luongnv89/claude-howto&type=date)
 
 ---
 
