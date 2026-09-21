@@ -1,0 +1,87 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^https://docs\\.example\\.com",
+      "comment": "Example placeholder URLs in documentation templates"
+    },
+    {
+      "pattern": "^\\./docs/",
+      "comment": "Example relative paths in documentation templates"
+    },
+    {
+      "pattern": "^FORMS\\.md$|^REFERENCE\\.md$",
+      "comment": "Example file references in skill templates"
+    },
+    {
+      "pattern": "^https://en\\.wikipedia\\.org/wiki/N%2B1",
+      "comment": "Wikipedia N+1 article - URL encoding issues"
+    },
+    {
+      "pattern": "^https://twitter.com",
+      "comment": "Twitter/X links require authentication"
+    },
+    {
+      "pattern": "^https://x.com",
+      "comment": "X (Twitter) links require authentication"
+    },
+    {
+      "pattern": "^https://github.com/[^/]+/claude-howto",
+      "comment": "Self-referencing links"
+    },
+    {
+      "pattern": "^https://docs\\.claude\\.com",
+      "comment": "Claude docs - URL structure may vary"
+    },
+    {
+      "pattern": "^https://docs\\.anthropic\\.com",
+      "comment": "Anthropic docs - May have authentication or access restrictions"
+    },
+    {
+      "pattern": "^https://code\\.claude\\.com",
+      "comment": "Claude Code docs - May have dynamic content or routing issues"
+    },
+    {
+      "pattern": "^https://plugins\\.claude\\.com",
+      "comment": "Plugin marketplace - May have access restrictions"
+    },
+    {
+      "pattern": "^https://medium\\.com",
+      "comment": "Medium posts - May have paywall or tracking restrictions"
+    },
+    {
+      "pattern": "^https://modelcontextprotocol\\.io",
+      "comment": "MCP docs - May have infrastructure limitations"
+    },
+    {
+      "pattern": "^https://discord\\.gg",
+      "comment": "Discord invite links - May expire or have access issues"
+    },
+    {
+      "pattern": "^https://bsky\\.app",
+      "comment": "BlueSky links - May require authentication"
+    },
+    {
+      "pattern": "^https://api\\.star-history\\.com",
+      "comment": "External badge service - May have rate limiting"
+    },
+    {
+      "pattern": "^https://jazz\\.tools",
+      "comment": "External tool links - May have dynamic routing"
+    },
+    {
+      "pattern": "^https://mcp\\.notion\\.com",
+      "comment": "Notion-hosted docs - May require authentication"
+    }
+  ],
+  "replacementPatterns": [
+    {
+      "pattern": "^/",
+      "replacement": "https://github.com/luongnv89/claude-howto/blob/main/"
+    }
+  ],
+  "timeout": 10000,
+  "retryOn": [429, 503],
+  "retryCount": 3,
+  "fallbackRetryDelay": 5000,
+  "aliveStatusCodes": [200, 206]
+}
