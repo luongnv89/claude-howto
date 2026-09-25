@@ -179,6 +179,8 @@ LLM はプロンプトを評価し、構造化された判定を返す（詳細�
 
 > **注意**: Agent フックは実験的機能であり、変更される可能性がある。
 
+> **注意**: v2.1.280 以降、agent フックは `PermissionRequest` では実行されない。その応答ではリクエストを許可も拒否もできないためである。`PermissionRequest` には command、http、mcp_tool、または prompt フックを使うこと。
+
 **主要プロパティ：**
 - `"type": "agent"` -- agent フックであることを示す
 - `"prompt"` -- サブエージェントへのタスク説明
@@ -1161,7 +1163,7 @@ open local-progress/index.html
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/validate.sh"
           }
         ]
       }
@@ -1382,10 +1384,11 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新：** 2026 年 9 月 19 日
-**Claude Code バージョン：** 2.1.278
+**最終更新：** 2026 年 9 月 26 日
+**Claude Code バージョン：** 2.1.283
 **情報源：**
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/plugins/manifest-reference#quoting-and-path-separators
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/changelog

@@ -177,6 +177,8 @@ LLM оцінює промпт і повертає структуроване р�
 
 > **Примітка**: Agent-хуки є експериментальними і можуть змінитися.
 
+> **Примітка**: Починаючи з v2.1.280, agent-хуки не запускаються на `PermissionRequest` — їхня відповідь ніколи не могла дозволити чи відхилити запит. Використовуйте там хук типу command, http, mcp_tool або prompt.
+
 **Ключові властивості:**
 - `"type": "agent"` — ідентифікує як agent-хук
 - `"prompt"` — опис завдання для субагента
@@ -999,7 +1001,7 @@ python3 09-advanced-features/setup-auto-mode-permissions.py
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/validate.sh"
           }
         ]
       }
@@ -1218,10 +1220,11 @@ chmod +x ~/.claude/hooks/*.sh
 - **[Посібник з памʼяті](../02-memory/)** — конфігурація постійного контексту
 
 ---
-**Останнє оновлення**: 19 вересня 2026
-**Версія Claude Code**: 2.1.278
+**Останнє оновлення**: 26 вересня 2026
+**Версія Claude Code**: 2.1.283
 **Джерела**:
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/plugins/manifest-reference#quoting-and-path-separators
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

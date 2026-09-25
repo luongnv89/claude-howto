@@ -73,6 +73,8 @@ Claude Code 自带一些常见角色，例如：
 
 ### 使用 `/agents` 命令（推荐）
 
+> **注意**：`/agents` 交互式向导已在 v2.1.198 中移除，且自 v2.1.281 起 `/agents` 不再出现在 `/` 菜单或 `/help` 中。请让 Claude 创建或管理 subagent（例如“创建一个审查安全问题的 subagent”），或直接添加 `.claude/agents/<name>.md` 文件。
+
 ```bash
 /agents
 ```
@@ -333,6 +335,8 @@ subagent 在隔离上下文里工作，但仍能把结果汇总回主会话。
 
 ### 方法 1：使用 `/agents`
 
+> **注意**：`/agents` 交互式向导已在 v2.1.198 中移除，且自 v2.1.281 起 `/agents` 不再出现在 `/` 菜单或 `/help` 中。请让 Claude 创建或管理 subagent（例如“创建一个审查安全问题的 subagent”），或直接添加 `.claude/agents/<name>.md` 文件。
+
 ```bash
 /agents
 ```
@@ -353,7 +357,7 @@ cp 04-subagents/*.md ~/.claude/agents/
 
 ### 验证
 
-- 运行 `/agents`
+- 让 Claude 创建一个 subagent，或直接添加 `.claude/agents/<name>.md` 文件
 - 检查对应 agent 是否出现在列表中
 - 试着让 Claude 委派一个简单任务
 
@@ -378,3 +382,11 @@ cp 04-subagents/*.md ~/.claude/agents/
 - [Memory 中文指南](../02-memory/README.md)
 - [Hooks 中文指南](../06-hooks/README.md)
 - [Plugins 中文指南](../07-plugins/README.md)
+
+---
+
+**最后更新**: 2026 年 9 月 26 日
+**Claude Code 版本**: 2.1.283
+**来源**:
+- https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/commands

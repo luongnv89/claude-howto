@@ -41,7 +41,7 @@
 | `/diff` | 交互式 diff 查看器 | 审查变更 |
 | `/config` | 查看/编辑配置 | 自定义行为 |
 | `/status` | 显示会话状态 | 检查当前状态 |
-| `/agents` | 列出可用 agents | 查看委派选项 |
+| `/agents` | 已移除：向导在 v2.1.198 中移除，该命令在 v2.1.281 中从 `/` 菜单和 `/help` 中移除 — 请让 Claude 创建或管理 subagents，或编辑 `.claude/agents/` | 让 Claude 管理 subagents |
 | `/skills` | 列出可用 skills | 查看可自动触发的能力 |
 | `/hooks` | 列出已配置的 hooks | 调试自动化 |
 | `/insights` | 分析会话模式 | 优化会话使用 |
@@ -531,8 +531,8 @@ claude mcp add github -- npx -y @modelcontextprotocol/server-github
 
 ---
 
-**最后更新**: 2026 年 9 月 19 日
-**Claude Code 版本**: 2.1.278
+**最后更新**: 2026 年 9 月 26 日
+**Claude Code 版本**: 2.1.283
 **来源**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/commands

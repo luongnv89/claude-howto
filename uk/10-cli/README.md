@@ -141,7 +141,7 @@ claude --model opusplan "design and implement the caching layer"
 | Прапорець | Опис | Приклад |
 |-----------|------|---------|
 | `--system-prompt` | Замінити весь стандартний промпт | `claude --system-prompt "You are a Python expert"` |
-| `--system-prompt-file` | Завантажити промпт з файлу (print mode) | `claude -p --system-prompt-file ./prompt.txt "query"` |
+| `--system-prompt-file` | Завантажити промпт з файлу, замінивши промпт за замовчуванням | `claude -p --system-prompt-file ./prompt.txt "query"` |
 | `--append-system-prompt` | Додати до стандартного промпта | `claude --append-system-prompt "Always use TypeScript"` |
 
 ### Приклади системного промпта
@@ -162,10 +162,10 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | Прапорець | Поведінка | Інтерактивний | Print |
 |-----------|----------|---------------|-------|
 | `--system-prompt` | Замінює весь стандартний системний промпт | ✅ | ✅ |
-| `--system-prompt-file` | Замінює промптом з файлу | ❌ | ✅ |
+| `--system-prompt-file` | Замінює промптом з файлу | ✅ | ✅ |
 | `--append-system-prompt` | Додає до стандартного системного промпта | ✅ | ✅ |
 
-**Використовуйте `--system-prompt-file` лише в print-режимі. Для інтерактивного режиму використовуйте `--system-prompt` або `--append-system-prompt`.**
+**Усі прапорці системного промпту працюють як в інтерактивному, так і в print-режимі (файлові форми — з v2.1.69). `--system-prompt` і `--system-prompt-file` замінюють промпт за замовчуванням; прапорці append додають до нього.**
 
 ## Управління інструментами та дозволами
 
@@ -837,8 +837,8 @@ claude -p --output-format json "query"
 *Частина серії посібників [Claude How To](../)*
 
 ---
-**Останнє оновлення**: 2 вересня 2026
-**Версія Claude Code**: 2.1.257
+**Останнє оновлення**: 26 вересня 2026
+**Версія Claude Code**: 2.1.283
 **Джерела**:
 - https://code.claude.com/docs/en/cli-reference
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

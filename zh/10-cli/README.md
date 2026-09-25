@@ -137,7 +137,7 @@ claude --model opusplan "设计并实现缓存层"
 | 参数 | 说明 | 示例 |
 |------|-------------|---------|
 | `--system-prompt` | 替换整段默认系统提示词 | `claude --system-prompt "You are a Python expert"` |
-| `--system-prompt-file` | 从文件加载提示词（仅打印模式） | `claude -p --system-prompt-file ./prompt.txt "query"` |
+| `--system-prompt-file` | 从文件加载提示词，替换默认提示词 | `claude -p --system-prompt-file ./prompt.txt "query"` |
 | `--append-system-prompt` | 在默认提示词后追加内容 | `claude --append-system-prompt "Always use TypeScript"` |
 
 ### 系统提示词示例
@@ -158,10 +158,10 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | 参数 | 行为 | 交互模式 | 打印模式 |
 |------|----------|-------------|-------|
 | `--system-prompt` | 替换整个默认系统提示词 | ✅ | ✅ |
-| `--system-prompt-file` | 用文件中的提示词替换 | ❌ | ✅ |
+| `--system-prompt-file` | 用文件中的提示词替换 | ✅ | ✅ |
 | `--append-system-prompt` | 追加到默认系统提示词后 | ✅ | ✅ |
 
-**仅在打印模式中使用 `--system-prompt-file`。交互模式请使用 `--system-prompt` 或 `--append-system-prompt`。**
+**所有系统提示词标志都可在交互模式和打印模式中使用（文件形式自 v2.1.69 起）。`--system-prompt` 和 `--system-prompt-file` 会替换默认提示词；append 类标志则在其基础上追加。**
 
 ## 工具与权限管理
 
@@ -642,7 +642,7 @@ claude --working-directory ./backend --mcp-config ./mcp.json
 
 ---
 
-**最后更新**: 2026 年 9 月 2 日
-**Claude Code 版本**: 2.1.257
+**最后更新**: 2026 年 9 月 26 日
+**Claude Code 版本**: 2.1.283
 **来源**:
 - https://code.claude.com/docs/en/cli-reference

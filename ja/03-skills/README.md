@@ -140,7 +140,7 @@ Show concrete examples of using this Skill.
 ### 推奨フィールド
 
 - **description**（推奨）: スキルが何をするかと、いつ使うか。省略した場合、Claude Code は markdown 本文の最初の段落を使用する。`description` と `when_to_use` を合わせたテキストはスキル一覧で **1,536 文字**で切り詰められる（`skillListingMaxDescChars` で変更可能）。Claude がスキルを発火させるべきタイミングを判断する際に照合するのはこのテキストである。
-- **name**（任意）: 既定ではスキルの**ディレクトリ名**が使われる。指定した場合は表示名となり、小文字・数字・ハイフンのみ（最大 64 文字）で、"anthropic" や "claude" を含めることはできない。プラグインのスキルでは、`name` はコマンドの最後のセグメントも決定する。
+- **name**（任意）: 既定ではスキルの**ディレクトリ名**が使われる。指定した場合は表示名となり、小文字・数字・ハイフンのみ（最大 64 文字）。Claude Code では `anthropic-skills` と `synced` が予約されており、プラグイン外では読み込まれない。"anthropic" や "claude" を含められないというより厳しい制限は、claude.ai や Skills API にアップロードするスキルに適用される。プラグインのスキルでは、`name` はコマンドの最後のセグメントも決定する。
 
 SKILL.md のフロントマターのフィールドはすべて任意であり、推奨されるのは `description` だけである。
 
@@ -171,7 +171,7 @@ paths: "src/api/**/*.ts"               # スキルの発火を制限する glob 
 
 | フィールド | 説明 |
 |-------|-------------|
-| `name` | 小文字、数字、ハイフンのみ（最大 64 文字）。"anthropic" や "claude" を含められない。 |
+| `name` | 小文字、数字、ハイフンのみ（最大 64 文字）。Claude Code では `anthropic-skills` と `synced` が予約されている。 |
 | `description` | スキルが何をするかと、いつ使うか。`description` と `when_to_use` を合わせたテキストはスキル一覧で 1,536 文字で切り詰められる（`skillListingMaxDescChars` で変更可能）。自動呼び出しのマッチングに重要。 |
 | `when_to_use` | Claude がスキルを呼び出すべきタイミングに関する補足情報。スキル一覧では `description` の後ろに連結され、1,536 文字の上限に算入される。 |
 | `argument-hint` | `/` の自動補完メニューに表示されるヒント（例: `"[filename] [format]"`）。 |
@@ -826,8 +826,8 @@ chmod +x ~/.claude/skills/my-skill/scripts/*.py
 - [フックガイド](../06-hooks/) - イベント駆動の自動化
 
 ---
-**最終更新**: 2026 年 9 月 2 日
-**Claude Code バージョン**: 2.1.257
+**最終更新**: 2026 年 9 月 26 日
+**Claude Code バージョン**: 2.1.283
 **情報源**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/settings

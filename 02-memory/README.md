@@ -298,7 +298,7 @@ Set it through `/config`, or in settings:
 
 This key is honored in user and managed settings only — setting it in project or local settings has no effect.
 
-**Where direct reading is unavailable.** On versions before v2.1.277, on Bedrock/Vertex/Foundry, with telemetry disabled, during the first session after upgrading, under `disableAllHooks` or `allowManagedHooksOnly`, or with the built-in `agents-md` plugin disabled, Claude Code will not pick up `AGENTS.md` on its own. In those cases, import it from CLAUDE.md:
+**Where direct reading is unavailable.** On versions before v2.1.277 (or before v2.1.281 on Bedrock/Vertex/Foundry, behind LLM gateways, or with telemetry disabled), during the first session after upgrading, or with the built-in `agents-md` plugin disabled, Claude Code will not pick up `AGENTS.md` on its own. In those cases, import it from CLAUDE.md:
 
 ```markdown
 @AGENTS.md
@@ -1244,9 +1244,10 @@ Auto Memory is a separate mechanism (`~/.claude/projects/<project>/memory/`), no
 
 ---
 
-**Last Updated**: September 19, 2026
-**Claude Code Version**: 2.1.278
+**Last Updated**: September 26, 2026
+**Claude Code Version**: 2.1.283
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
+- https://code.claude.com/docs/en/memory#when-agents-md-support-is-unavailable
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

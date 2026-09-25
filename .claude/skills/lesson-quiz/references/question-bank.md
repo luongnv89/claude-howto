@@ -72,10 +72,10 @@
 
 ### Q9
 - **Category**: practical
-- **Question**: You want to restrict which tools a skill can use. Which frontmatter field do you add?
+- **Question**: You want a skill to use certain tools without asking for permission each time. Which frontmatter field do you add?
 - **Options**: A) `tools: [Read, Grep]` | B) `allowed-tools: [Read, Grep]` | C) `permissions: [Read, Grep]` | D) `restrict-tools: [Read, Grep]`
 - **Correct**: B
-- **Explanation**: The `allowed-tools` field in SKILL.md frontmatter scopes which tools the command can invoke.
+- **Explanation**: `allowed-tools` pre-approves the listed tools during the turn that invokes the skill, so Claude can use them without a permission prompt; the grant clears when you send your next message. It does not restrict which tools are available — to remove tools while a skill is active, use `disallowed-tools`.
 - **Review**: Frontmatter Reference
 
 ### Q10
@@ -152,7 +152,7 @@
 - **Options**: A) Delete the ~/.claude/projects directory | B) Set `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` | C) Add `auto-memory: false` to CLAUDE.md | D) Use `/memory disable auto`
 - **Correct**: B
 - **Explanation**: Setting `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` disables auto memory. Value `0` forces it on. Unset = default on.
-- **Review**: Auto Memory configuration section
+- **Review**: Turning Auto Memory On or Off
 
 ### Q9
 - **Category**: conceptual
@@ -235,7 +235,7 @@
 - **Question**: What characters are allowed in the `name` field of a skill's frontmatter?
 - **Options**: A) Any characters | B) Lowercase letters, numbers, and hyphens only (max 64 chars) | C) Letters and underscores | D) Alphanumeric only
 - **Correct**: B
-- **Explanation**: The name must be kebab-case (lowercase, hyphens), max 64 characters, and cannot contain "anthropic" or "claude". `name` is itself optional — if omitted it defaults to the skill's directory name — but when supplied it must follow these rules.
+- **Explanation**: The name must be kebab-case (lowercase, hyphens), max 64 characters. `name` is itself optional — if omitted it defaults to the skill's directory name — but when supplied it must follow these rules. In Claude Code, the `anthropic-skills` name and namespace are reserved for skills synced from claude.ai, so a skill with that name doesn't load; the broader ban on "anthropic" or "claude" applies to claude.ai skill uploads and the Skills API.
 - **Review**: SKILL.md format section
 
 ### Q9
@@ -327,15 +327,15 @@
 - **Question**: What are the valid `permissionMode` values for a subagent?
 - **Options**: A) read, write, admin | B) manual, acceptEdits, bypassPermissions, plan, dontAsk, auto | C) safe, normal, dangerous | D) restricted, standard, elevated
 - **Correct**: B
-- **Explanation**: Subagents support six permission modes: manual (prompts for everything — renamed from `default` in v2.1.200, which is still accepted as an alias), acceptEdits (auto-accepts file edits), bypassPermissions (skips all), plan (read-only), dontAsk (auto-denies unless pre-approved), auto (background classifier decides).
+- **Explanation**: Subagents support six permission modes: manual (prompts for everything — shown as Manual; its config value is `default`, and manual is accepted as an alias since v2.1.200), acceptEdits (auto-accepts file edits), bypassPermissions (skips all), plan (read-only), dontAsk (auto-denies unless pre-approved), auto (background classifier decides).
 - **Review**: Configuration fields section
 
 ### Q10
 - **Category**: practical
 - **Question**: How do you resume a subagent that returned an agentId from a previous run?
-- **Options**: A) Use `/resume agent-id` | B) Pass the `resume` parameter with the agentId when calling Task tool | C) Use `claude -r agent-id` | D) Subagents cannot be resumed
+- **Options**: A) Use `/resume agent-id` | B) Ask Claude to resume it — Claude messages the subagent with the SendMessage tool, using its agent ID or name | C) Use `claude -r agent-id` | D) Subagents cannot be resumed
 - **Correct**: B
-- **Explanation**: Subagents can be resumed by passing the `resume` parameter with the previously returned agentId, continuing with full context preserved.
+- **Explanation**: Each invocation starts a new instance. To continue earlier work, ask Claude to resume the subagent: Claude uses the SendMessage tool with the agent's ID or name, and the subagent resumes with its full conversation history. The built-in Explore and Plan agents are one-shot and can't be resumed.
 - **Review**: Resumable agents section
 
 ---
@@ -360,10 +360,10 @@
 
 ### Q3
 - **Category**: conceptual
-- **Question**: What happens when MCP tool descriptions exceed 10% of the context window?
-- **Options**: A) They are truncated | B) Tool Search auto-enables to dynamically select relevant tools | C) Claude shows an error | D) Extra tools are disabled
+- **Question**: With `ENABLE_TOOL_SEARCH=auto`, what happens when MCP tool definitions reach 10% of the context window?
+- **Options**: A) They are truncated | B) Tool search kicks in: MCP tools are deferred and discovered on demand | C) Claude shows an error | D) Extra tools are disabled
 - **Correct**: B
-- **Explanation**: MCP Tool Search auto-enables when tools exceed 10% of context. It requires Sonnet 4 or Opus 4 minimum (Haiku not supported).
+- **Explanation**: By default (`ENABLE_TOOL_SEARCH` unset) tool search is already on and all MCP tools are deferred. `auto` is threshold mode: tools load upfront until their definitions reach 10% of the context window, then all are deferred (`auto:N` sets a custom percentage). Tool search needs a model that supports `tool_reference` blocks: Sonnet 4.5, Haiku 4.5, Opus 4.5 and later.
 - **Review**: MCP Tool Search section
 
 ### Q4
@@ -471,7 +471,7 @@
 - **Question**: You want a hook that only runs once when a skill is first loaded, not on every tool call. What field do you add?
 - **Options**: A) `run-once: true` | B) `once: true` in the component hook definition | C) `single: true` | D) `max-runs: 1`
 - **Correct**: B
-- **Explanation**: Component-scoped hooks (defined in SKILL.md or agent frontmatter) support `once: true` to run only on first activation.
+- **Explanation**: Hooks declared in a skill's frontmatter support `once: true` — Claude Code removes the hook after its first successful run (a run that fails, blocks, or times out leaves it in place). `once` is honored only in skill frontmatter.
 - **Review**: Component-scoped hooks section
 
 ### Q7
@@ -683,7 +683,7 @@
 - **Question**: What are the six permission modes in Claude Code?
 - **Options**: A) read, write, execute, admin, root, sudo | B) manual, acceptEdits, plan, auto, dontAsk, bypassPermissions | C) safe, normal, elevated, admin, unrestricted, god | D) view, edit, run, deploy, full, bypass
 - **Correct**: B
-- **Explanation**: The six modes are: manual (prompts for everything — renamed from `default` in v2.1.200, which is still accepted as an alias), acceptEdits (auto-accepts file edits), plan (read-only analysis), auto (background classifier decides), dontAsk (auto-denies unless pre-approved), bypassPermissions (skips all checks).
+- **Explanation**: The six modes are: manual (prompts for everything — shown as Manual; its config value is `default`, and manual is accepted as an alias since v2.1.200), acceptEdits (auto-accepts file edits), plan (read-only analysis), auto (background classifier decides), dontAsk (auto-denies unless pre-approved), bypassPermissions (skips all checks).
 - **Review**: Permission Modes section
 
 ### Q2
@@ -704,10 +704,10 @@
 
 ### Q4
 - **Category**: practical
-- **Question**: How do you toggle extended thinking on or off during a session?
+- **Question**: On a model where thinking can be turned off (for example Sonnet 5), how do you toggle extended thinking on or off during a session?
 - **Options**: A) Type `/effort max` | B) Press `Option+T` (macOS) or `Alt+T` | C) Include "ultrathink" in prompt | D) It's always enabled and cannot be toggled
 - **Correct**: B
-- **Explanation**: Option+T (macOS) or Alt+T toggles extended thinking on/off for the session. (`Ctrl+O` toggles verbose mode to show/hide the reasoning text.) For one-off deep reasoning, include "ultrathink" in your prompt; for session-level control, use `/effort` command.
+- **Explanation**: Option+T (macOS) or Alt+T toggles extended thinking on/off for the session. (`Ctrl+O` toggles verbose mode to show/hide the reasoning text.) On Opus 5.5 (the default model since v2.1.280) and the Fable models, thinking can't be turned off: the toggle, `alwaysThinkingEnabled` and `MAX_THINKING_TOKENS=0` have no effect there. For one-off deep reasoning, include "ultrathink" in your prompt; for session-level control, use the `/effort` command.
 - **Review**: Extended Thinking section
 
 ### Q5
@@ -798,9 +798,9 @@
 - **Category**: conceptual
 - **Question**: Which flag only works in print mode (-p) and has no effect in interactive mode?
 - **Options**: A) `--model` | B) `--system-prompt-file` | C) `--verbose` | D) `--max-turns`
-- **Correct**: B
-- **Explanation**: `--system-prompt-file` loads a system prompt from a file but only works in print mode. Use `--system-prompt` (inline string) for interactive sessions.
-- **Review**: System prompt flags comparison table
+- **Correct**: D
+- **Explanation**: `--max-turns` limits the number of agentic turns and applies only in print mode (`-p`); it exits with an error when the limit is reached. `--system-prompt-file`, like the other system-prompt flags, works in both interactive and print modes.
+- **Review**: Advanced Features
 
 ### Q6
 - **Category**: practical
@@ -844,8 +844,8 @@
 
 ---
 
-**Last Updated**: September 2, 2026
-**Claude Code Version**: 2.1.257
+**Last Updated**: September 26, 2026
+**Claude Code Version**: 2.1.283
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/skills
@@ -856,3 +856,4 @@
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/cli-reference
+- https://code.claude.com/docs/en/model-config#extended-thinking

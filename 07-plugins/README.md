@@ -823,6 +823,8 @@ claude plugin init <name>                    # Scaffold a new plugin (alias: cla
 | `plugin validate` | `--strict` | Treat warnings as errors |
 | `plugin validate` | `--json` | Emit a machine-readable validation report (v2.1.259+) |
 
+`claude plugin validate` also checks `.mcp.json` entries (v2.1.281+) and fails when `outputStyles`, `themes`, `monitors`, or `lspServers` paths are missing or point outside the plugin directory (v2.1.283+).
+
 Example: `claude plugin tag ./my-plugin` takes a **path** to the plugin (not a version string). It creates a `{name}--v{version}` git tag derived from `plugin.json`, validating that `plugin.json` and any enclosing marketplace entry agree, and is the recommended way to cut plugin releases for distribution.
 
 `claude plugin prune` is useful after installing or uninstalling marketplace plugins that pulled in their own dependencies — it removes any auto-installed plugins whose parent plugin has since been removed. `plugin uninstall --prune` does the same cascade in a single step.
@@ -846,7 +848,7 @@ LSP servers were added to the details pane in v2.1.142. See also the marketplace
 
 ### `claude plugin eval` (v2.1.269+)
 
-`claude plugin eval` runs a plugin's eval suite and reports scored, reproducible results, so you can tell whether a change to a skill or agent actually improved it. Results come back as JSON plus an HTML report.
+`claude plugin eval` runs a plugin's eval suite and reports scored, reproducible results, so you can tell whether a change to a skill or agent actually improved it. Results come back as JSON plus an HTML report. Since v2.1.283, it requires git 2.31 or later when git is installed.
 
 ```bash
 claude plugin eval            # Run the plugin's eval suite
@@ -1303,8 +1305,8 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: September 19, 2026
-**Claude Code Version**: 2.1.278
+**Last Updated**: September 26, 2026
+**Claude Code Version**: 2.1.283
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1324,4 +1326,8 @@ The following Claude Code features work together with plugins:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+- https://code.claude.com/docs/en/plugins/cli-reference
+- https://code.claude.com/docs/en/plugin-evals
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.281
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.283
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -41,7 +41,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/diff` | Interactive diff viewer. In the fullscreen TUI (v2.1.260+) it opens a diff panel beside the conversation that stays open and refreshes each time Claude edits a file or runs a command; the classic renderer opens the viewer in place of the prompt instead | Review changes |
 | `/config` | View/edit configuration | Customize behavior |
 | `/status` | Show session status | Check current state |
-| `/agents` | List available agents | See delegation options |
+| `/agents` | Removed: the wizard went in v2.1.198 and the command left the `/` menu and `/help` in v2.1.281 — ask Claude to create or manage subagents, or edit `.claude/agents/` | Manage subagents by asking Claude |
 | `/skills` | List available skills | See auto-invoke capabilities |
 | `/hooks` | List configured hooks | Debug automation |
 | `/insights` | Analyze session patterns | Session optimization |
@@ -89,7 +89,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/stats` | Shortcut alias that opens the stats tab of `/usage` (v2.1.118+) | Review session metrics |
 | `/statusline` | Configure status line | Customize status display |
 | `/stickers` | View session stickers | Fun rewards |
-| `/fast` | Toggle fast output mode; applies to **Opus 5 and Opus 4.8** (v2.1.219) | Speed up responses |
+| `/fast` | Toggle fast output mode; applies to **Opus 5.5** (the default since v2.1.280), **Opus 5, and Opus 4.8** | Speed up responses |
 | `/terminal-setup` | Configure terminal integration | Setup terminal features |
 | `/undo` | **No longer documented** — added as an alias for `/rewind` in v2.1.108, but it appears nowhere in the official commands reference | Use `/rewind` (or `Esc Esc`) instead |
 | `/upgrade` | Check for updates | Version management |
@@ -573,8 +573,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: September 19, 2026
-**Claude Code Version**: 2.1.278
+**Last Updated**: September 26, 2026
+**Claude Code Version**: 2.1.283
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -595,4 +595,5 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/slash-commands
+- https://code.claude.com/docs/en/fast-mode
 **Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

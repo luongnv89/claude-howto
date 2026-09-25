@@ -157,7 +157,7 @@ claude --model opusplan "design and implement the caching layer"
 | フラグ | 説明 | 例 |
 |------|------|-----|
 | `--system-prompt` | デフォルトプロンプト全体を置き換える | `claude --system-prompt "You are a Python expert"` |
-| `--system-prompt-file` | ファイルからプロンプトを読み込む（プリントモード） | `claude -p --system-prompt-file ./prompt.txt "query"` |
+| `--system-prompt-file` | ファイルからプロンプトを読み込み、デフォルトのプロンプトを置き換える | `claude -p --system-prompt-file ./prompt.txt "query"` |
 | `--append-system-prompt` | デフォルトプロンプトに追記 | `claude --append-system-prompt "Always use TypeScript"` |
 
 ### システムプロンプトの例
@@ -178,10 +178,10 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | フラグ | 挙動 | 対話 | プリント |
 |------|-----|------|---------|
 | `--system-prompt` | デフォルトのシステムプロンプト全体を置き換える | ✅ | ✅ |
-| `--system-prompt-file` | ファイルのプロンプトに置き換える | ❌ | ✅ |
+| `--system-prompt-file` | ファイルのプロンプトに置き換える | ✅ | ✅ |
 | `--append-system-prompt` | デフォルトに追記する | ✅ | ✅ |
 
-**`--system-prompt-file` はプリントモードでのみ使用する。対話モードでは `--system-prompt` または `--append-system-prompt` を使うこと。**
+**すべてのシステムプロンプトフラグは対話モードとプリントモードの両方で動作する（ファイル形式は v2.1.69 以降）。`--system-prompt` と `--system-prompt-file` はデフォルトのプロンプトを置き換え、append 系のフラグはそれに追加する。**
 
 ## ツールと権限の管理
 
@@ -873,8 +873,8 @@ claude -p --output-format json "query"
 
 ---
 
-**最終更新**: 2026 年 9 月 2 日
-**Claude Code バージョン**: 2.1.257
+**最終更新**: 2026 年 9 月 26 日
+**Claude Code バージョン**: 2.1.283
 **出典**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/settings

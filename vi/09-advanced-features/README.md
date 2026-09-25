@@ -672,7 +672,7 @@ Permission modes control what actions Claude can take without explicit approval.
 | `bypassPermissions` | All actions, no permission checks (dangerous) |
 | `dontAsk` | Only pre-approved tools execute; all others denied |
 
-Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting.
+Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting. Since v2.1.283, an interactive session on a third-party provider (Bedrock, Google Cloud's Agent Platform, Foundry) or with telemetry off starts in auto mode when no permission mode is configured; `permissions.defaultMode` still overrides it.
 
 ### Activation Methods
 
@@ -1024,7 +1024,7 @@ Keybindings support chord sequences (multi-key combinations):
 ```
 
 **Keystroke syntax**:
-- **Modifiers**: `ctrl`, `alt` (or `opt`), `shift`, `meta` (or `cmd`)
+- **Modifiers**: `ctrl` (or `control`), `alt` (or `opt`, `option`, `meta`), `shift`, and `cmd` (or `command`, `super`, `win`) — `cmd` is a separate modifier, not an alias of `meta`, and is only detected in terminals that report the Super key
 - **Uppercase implies Shift**: `K` is equivalent to `shift+k`
 - **Special keys**: `escape`, `enter`, `return`, `tab`, `space`, `backspace`, `delete`, arrow keys
 
@@ -1869,9 +1869,12 @@ For more information about Claude Code and related features:
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 19 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.278
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.283
 **Nguồn**:
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
+- https://code.claude.com/docs/en/keybindings#modifiers
+- https://code.claude.com/docs/en/permission-modes
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.283
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

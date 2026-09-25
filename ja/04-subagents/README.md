@@ -51,7 +51,7 @@
 
 各サブエージェントは独立して動作し、クリーンスレートの状態でそのタスクに必要な特定のコンテキストのみを受け取り、結果をメインエージェントに返して統合する。
 
-**クイックスタート**：`/agents` コマンドを使うと、サブエージェントを対話的に作成・表示・編集・管理できる。
+**クイックスタート**：Claude にサブエージェントの作成を頼む（「セキュリティをレビューするサブエージェントを作成して」）か、`.claude/agents/<name>.md` ファイルを直接追加する。詳しくは後述の[サブエージェントの管理](#サブエージェントの管理)を参照。
 
 ---
 
@@ -334,6 +334,8 @@ Claude Code には常に利用可能な組み込みサブエージェントが�
 
 ### `/agents` コマンドを使う（推奨）
 
+> **注**：`/agents` の対話型ウィザードは v2.1.198 で削除され、v2.1.281 以降は `/agents` が `/` メニューにも `/help` にも表示されない。サブエージェントの作成や管理は Claude に頼む（例：「セキュリティをレビューするサブエージェントを作成して」）か、`.claude/agents/<name>.md` ファイルを直接追加すること。
+
 ```bash
 /agents
 ```
@@ -531,7 +533,7 @@ description: Performs long-running analysis tasks in the background
 | ショートカット | 動作 |
 |-------------|------|
 | `Ctrl+B` | 現在実行中のサブエージェントタスクをバックグラウンド化 |
-| `Ctrl+F` | バックグラウンドエージェントをすべて終了（確認のため 2 回押下） |
+| `Ctrl+X` `Ctrl+K` | 実行中のバックグラウンドサブエージェントをすべて停止（確認のため 3 秒以内に 2 回押下。`Ctrl+F` から置き換わった） |
 
 ### バックグラウンドタスクの無効化
 
@@ -1150,6 +1152,8 @@ graph TB
 
 ### 方法 1：/agents コマンドを使う（推奨）
 
+> **注**：`/agents` の対話型ウィザードは v2.1.198 で削除され、v2.1.281 以降は `/agents` が `/` メニューにも `/help` にも表示されない。サブエージェントの作成や管理は Claude に頼む（例：「セキュリティをレビューするサブエージェントを作成して」）か、`.claude/agents/<name>.md` ファイルを直接追加すること。
+
 ```bash
 /agents
 ```
@@ -1275,12 +1279,14 @@ graph TD
 
 ---
 
-**最終更新**：2026 年 8 月 25 日
-**Claude Code バージョン**：2.1.245
+**最終更新**：2026 年 9 月 26 日
+**Claude Code バージョン**：2.1.283
 **ソース**：
 
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/agent-teams
+- https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/interactive-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.119
 

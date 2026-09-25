@@ -165,6 +165,8 @@ Hooks xác thực dựa trên subagent mà spawn một agent chuyên dụng đ�
 
 > **Lưu ý**: Agent hooks là tính năng thử nghiệm và có thể thay đổi.
 
+> **Lưu ý**: Kể từ v2.1.280, agent hooks không chạy trên `PermissionRequest` — câu trả lời của chúng không bao giờ có thể cho phép hoặc từ chối yêu cầu. Hãy dùng hook command, http, mcp_tool, hoặc prompt ở đó.
+
 **Các thuộc tính chính:**
 - `"type": "agent"` -- xác định đây là một agent hook
 - `"prompt"` -- mô tả nhiệm vụ cho subagent
@@ -756,7 +758,7 @@ Plugins có thể bao gồm hooks trong file `hooks/hooks.json` của chúng:
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/validate.sh"
           }
         ]
       }
@@ -878,9 +880,10 @@ Chỉnh sửa `~/.claude/settings.json` hoặc `.claude/settings.json` với c�
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 19 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.278
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.283
 **Nguồn**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
+- https://code.claude.com/docs/en/plugins/manifest-reference#quoting-and-path-separators
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

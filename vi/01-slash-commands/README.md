@@ -23,7 +23,7 @@ Lệnh tích hợp sẵn là các lối tắt cho các hành động phổ biế
 | Lệnh | Mục Đích |
 |---------|---------|
 | `/add-dir <path>` | Thêm thư mục làm việc |
-| `/agents` | Quản lý cấu hình tác nhân |
+| `/agents` | Không còn là lệnh hoạt động: trình hướng dẫn tương tác đã bị gỡ bỏ ở v2.1.198, và từ v2.1.281 `/agents` không còn xuất hiện trong menu `/` hay `/help` — gõ lệnh này chỉ giải thích trình hướng dẫn đã được chuyển đi đâu. Hãy yêu cầu Claude tạo hoặc quản lý subagent, hoặc chỉnh sửa trực tiếp các tệp trong `.claude/agents/` |
 | `/branch [name]` | Chuyển sang một bản sao của cuộc hội thoại tại thời điểm này, giữ nguyên bản gốc (quay lại bằng `/resume`) |
 | `/fork [prompt]` | Sao chép cuộc hội thoại hiện tại thành một **phiên nền** mới và bạn vẫn tiếp tục ở đây; từ thời điểm đó hai phiên độc lập nhau và bản sao có dòng riêng trong `claude agents` (v2.1.212+) |
 | `/subtask <task>` | Spawn một **subagent được fork** kế thừa toàn bộ cuộc hội thoại và làm việc trên tác vụ trong khi bạn tiếp tục; kết quả trả về cuộc hội thoại này khi hoàn thành (v2.1.212+) |
@@ -557,11 +557,12 @@ Nếu cả hai tồn tại với cùng tên, **skill sẽ được ưu tiên**. 
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 19 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.278
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.283
 **Nguồn**:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/output-styles
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.281
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Phần của series hướng dẫn [Claude How To](../)*

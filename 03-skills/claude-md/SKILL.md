@@ -193,7 +193,7 @@ Before finalizing, verify:
 
 If the user requests AGENTS.md creation/update:
 
-**Since v2.1.277, Claude Code reads `AGENTS.md` directly as project instructions** — but only when the working directory and every directory above it contain no `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md`. `~/.claude/CLAUDE.md`, managed CLAUDE.md, and `.claude/rules/` do not count for that check and keep loading alongside. Which files are read is controlled by **Project instructions** in `/config`: `claude-md-or-agents-md` (default), `claude-md-and-agents-md`, `claude-md`, or `managed-only`. Where direct reading is unavailable — Bedrock/Vertex/Foundry, telemetry disabled, the first session after upgrading, or `disableAllHooks`/`allowManagedHooksOnly` — fall back to importing it from CLAUDE.md with `@AGENTS.md`, or symlinking `CLAUDE.md` to it.
+**Since v2.1.277, Claude Code reads `AGENTS.md` directly as project instructions** — but only when the working directory and every directory above it contain no `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md`. `~/.claude/CLAUDE.md`, managed CLAUDE.md, and `.claude/rules/` do not count for that check and keep loading alongside. Which files are read is controlled by **Project instructions** in `/config`: `claude-md-or-agents-md` (default), `claude-md-and-agents-md`, `claude-md`, or `managed-only`. Where direct reading is unavailable — versions before v2.1.277 (before v2.1.281 on Bedrock/Vertex/Foundry, LLM gateways, or with telemetry disabled), or the first session after upgrading — fall back to importing it from CLAUDE.md with `@AGENTS.md`, or symlinking `CLAUDE.md` to it.
 
 AGENTS.md is a cross-tool project-context file — the same *category* of document as CLAUDE.md, not an agent-definition format. It exists so several coding agents can share one set of project conventions:
 - Build, test, and lint commands
@@ -217,9 +217,10 @@ Apply similar principles:
 
 ---
 
-**Last Updated**: September 19, 2026
-**Claude Code Version**: 2.1.278
+**Last Updated**: September 26, 2026
+**Claude Code Version**: 2.1.283
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/memory#agents-md
+- https://code.claude.com/docs/en/memory#when-agents-md-support-is-unavailable
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

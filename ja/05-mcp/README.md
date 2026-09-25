@@ -222,16 +222,17 @@ sequenceDiagram
 
 ## MCP ツール検索
 
-MCP ツールの説明文がコンテキストウィンドウの 10% を超える場合、Claude Code は自動的にツール検索を有効にし、モデルコンテキストを圧迫せずに適切なツールを効率的に選択する。
+ツール検索はデフォルトで有効。MCP ツールは遅延され、必要に応じて検出されるため、その定義がモデルコンテキストを埋めることはない。`ANTHROPIC_BASE_URL` がファーストパーティ以外のホストを指している場合、ほとんどのプロキシは必要なブロックを転送しないため、Claude Code はツール検索を無効にする。
 
 | 設定 | 値 | 説明 |
 |------|-----|------|
-| `ENABLE_TOOL_SEARCH` | `auto`（デフォルト） | ツールの説明がコンテキストの 10% を超えた時点で自動的に有効化 |
-| `ENABLE_TOOL_SEARCH` | `auto:<N>` | カスタムしきい値 `N` 個のツール数で自動的に有効化 |
-| `ENABLE_TOOL_SEARCH` | `true` | ツール数に関係なく常に有効 |
+| `ENABLE_TOOL_SEARCH` | （未設定 — デフォルト） | すべての MCP ツールを遅延し、必要に応じて読み込む |
+| `ENABLE_TOOL_SEARCH` | `auto` | しきい値モード：ツール定義がコンテキストウィンドウの 10% に達するまではツールを事前に読み込み、達した時点ですべてを遅延する |
+| `ENABLE_TOOL_SEARCH` | `auto:<N>` | カスタムのパーセンテージ（0-100）によるしきい値モード。例：`auto:5` で 5% |
+| `ENABLE_TOOL_SEARCH` | `true` | すべての MCP ツールを遅延 |
 | `ENABLE_TOOL_SEARCH` | `false` | 無効。すべてのツールの説明が完全な形で送信される |
 
-> **注意：** ツール検索には Sonnet 4 以降、もしくは Opus 4 以降が必要。Haiku モデルはツール検索をサポートしない。
+> **注意：** ツール検索には `tool_reference` ブロックをサポートするモデルが必要：Claude Sonnet 4.5、Claude Haiku 4.5、Claude Opus 4.5、およびそれ以降のモデル。
 
 ## 動的ツール更新
 
@@ -1167,10 +1168,11 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**最終更新：** 2026 年 9 月 6 日
-**Claude Code バージョン：** 2.1.263
+**最終更新：** 2026 年 9 月 26 日
+**Claude Code バージョン：** 2.1.283
 **情報源：**
 - https://code.claude.com/docs/en/mcp
+- https://code.claude.com/docs/en/mcp#configure-tool-search
 - https://code.claude.com/docs/en/managed-mcp
 - https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117

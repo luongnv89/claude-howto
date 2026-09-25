@@ -136,7 +136,7 @@ Hiển thị các ví dụ cụ thể về việc sử dụng Skill này.
 ### Các Trường Khuyến Nghị
 
 - **description** (khuyến nghị): những gì Skill làm VÀ khi nào sử dụng nó. Nếu bỏ trống, Claude Code dùng đoạn văn đầu tiên của nội dung markdown. Nội dung `description` + `when_to_use` gộp lại bị cắt ở **1.536 ký tự** trong danh sách skill (có thể điều chỉnh qua `skillListingMaxDescChars`). Đây là nội dung Claude đối chiếu để quyết định khi nào kích hoạt skill.
-- **name** (tùy chọn): mặc định lấy theo **tên thư mục** của skill. Khi được khai báo, nó đặt tên hiển thị — chỉ chữ thường, số, gạch ngang (tối đa 64 ký tự), và không thể chứa "anthropic" hoặc "claude". Với skill trong plugin, `name` cũng đặt phân đoạn cuối của lệnh.
+- **name** (tùy chọn): mặc định lấy theo **tên thư mục** của skill. Khi được khai báo, nó đặt tên hiển thị — chỉ chữ thường, số, gạch ngang (tối đa 64 ký tự). Trong Claude Code, `anthropic-skills` và `synced` là tên dành riêng và không được tải bên ngoài plugin; quy tắc chặt hơn cấm "anthropic" hoặc "claude" áp dụng cho các skill được tải lên claude.ai hoặc Skills API. Với skill trong plugin, `name` cũng đặt phân đoạn cuối của lệnh.
 
 Mọi trường frontmatter trong SKILL.md đều là tùy chọn; `description` là trường duy nhất được khuyến nghị.
 
@@ -166,7 +166,7 @@ hooks:                                      # Hooks theo phạm vi skill
 
 | Trường | Mô Tả |
 |-------|-------------|
-| `name` | Chỉ chữ thường, số, gạch ngang (tối đa 64 ký tự). Không thể chứa "anthropic" hoặc "claude". |
+| `name` | Chỉ chữ thường, số, gạch ngang (tối đa 64 ký tự). `anthropic-skills` và `synced` là tên dành riêng trong Claude Code. |
 | `description` | Những gì Skill làm VÀ khi nào sử dụng nó. Nội dung `description` + `when_to_use` gộp lại bị cắt ở 1.536 ký tự trong danh sách skill (có thể điều chỉnh qua `skillListingMaxDescChars`). Quan trọng cho phù hợp kích hoạt tự động. |
 | `when_to_use` | Bối cảnh bổ sung về thời điểm Claude nên gọi skill. Được nối vào `description` trong danh sách skill và tính vào giới hạn 1.536 ký tự. |
 | `argument-hint` | Gợi ý hiển thị trong menu autocomplete `/` (ví dụ: `"[filename] [format]"`). |
@@ -808,8 +808,8 @@ Khi bạn bắt đầu xây dựng skills một cách nghiêm túc, hai điều 
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 2 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.257
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.283
 **Nguồn**:
 - https://code.claude.com/docs/en/skills
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

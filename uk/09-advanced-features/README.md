@@ -674,7 +674,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 | `bypassPermissions` | Усі дії, без перевірки дозволів (небезпечно) |
 | `dontAsk` | Виконуються лише попередньо затверджені інструменти; всі інші відхиляються |
 
-Перемикайте режими через `Shift+Tab` у CLI. Встановіть режим за замовчуванням через прапорець `--permission-mode` або налаштування `permissions.defaultMode`.
+Перемикайте режими через `Shift+Tab` у CLI. Встановіть режим за замовчуванням через прапорець `--permission-mode` або налаштування `permissions.defaultMode`. Починаючи з v2.1.283, інтерактивна сесія у стороннього провайдера (Bedrock, Agent Platform від Google Cloud, Foundry) або з вимкненою телеметрією запускається в режимі auto, якщо режим дозволів не налаштовано; `permissions.defaultMode` і далі має пріоритет.
 
 ### Методи активації
 
@@ -1026,7 +1026,7 @@ Claude Code підтримує клавіатурні скорочення дл�
 ```
 
 **Синтаксис клавіш**:
-- **Модифікатори**: `ctrl`, `alt` (або `opt`), `shift`, `meta` (або `cmd`)
+- **Модифікатори**: `ctrl` (або `control`), `alt` (або `opt`, `option`, `meta`), `shift` і `cmd` (або `command`, `super`, `win`) — `cmd` є окремим модифікатором, а не псевдонімом `meta`, і розпізнається лише в терміналах, які передають клавішу Super
 - **Великі літери включають Shift**: `K` еквівалентно `shift+k`
 - **Спеціальні клавіші**: `escape`, `enter`, `return`, `tab`, `space`, `backspace`, `delete`, клавіші стрілок
 
@@ -1932,10 +1932,13 @@ claude --teammate-mode in-process
 - [Офіційна документація Agent Teams](https://code.claude.com/docs/en/agent-teams)
 
 ---
-**Останнє оновлення**: 19 вересня 2026
-**Версія Claude Code**: 2.1.278
+**Останнє оновлення**: 26 вересня 2026
+**Версія Claude Code**: 2.1.283
 **Джерела**:
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/keybindings#modifiers
+- https://code.claude.com/docs/en/permission-modes
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.283
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

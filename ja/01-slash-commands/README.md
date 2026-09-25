@@ -27,7 +27,7 @@
 | コマンド | 用途 |
 |---------|------|
 | `/add-dir <path>` | 作業ディレクトリを追加 |
-| `/agents` | エージェント設定を管理 |
+| `/agents` | 現在は動作するコマンドではない。対話型ウィザードは v2.1.198 で削除され、v2.1.281 以降 `/agents` は `/` メニューにも `/help` にも表示されない — 入力してもウィザードの移動先が説明されるだけ。サブエージェントの作成や管理は Claude に依頼するか、`.claude/agents/` のファイルを直接編集する |
 | `/branch [name]` | 会話を分岐させて新しいセッションにする（エイリアス: `/fork`）。注: `/fork` は v2.1.77 で `/branch` に改名 |
 | `/btw <question>` | Claude がメインタスクを進めている間に、メイン会話のコンテキストを汚さず一時的なサイド質問をする |
 | `/chrome` | Chrome ブラウザ統合を設定 |
@@ -603,8 +603,8 @@ Deploy the application to production:
 
 ---
 
-**最終更新**: 2026 年 9 月 19 日
-**Claude Code バージョン**: 2.1.278
+**最終更新**: 2026 年 9 月 26 日
+**Claude Code バージョン**: 2.1.283
 **Sources**:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/output-styles
@@ -612,6 +612,7 @@ Deploy the application to production:
 - https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.116
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.281
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
 
 *[Claude How To](../) ガイドシリーズの一部*

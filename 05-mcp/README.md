@@ -259,16 +259,17 @@ Type `/mcp` inside a session to list connected servers, trigger OAuth flows, and
 
 ## MCP Tool Search
 
-When MCP tool descriptions exceed 10% of the context window, Claude Code automatically enables tool search to efficiently select the right tools without overwhelming the model context.
+Tool search is on by default: MCP tools are deferred and discovered on demand, so their definitions don't fill the model context. Claude Code turns it off when `ANTHROPIC_BASE_URL` points to a non-first-party host, since most proxies don't forward the blocks it needs.
 
 | Setting | Value | Description |
 |---------|-------|-------------|
-| `ENABLE_TOOL_SEARCH` | `auto` (default) | Automatically enables when tool descriptions exceed 10% of context |
-| `ENABLE_TOOL_SEARCH` | `auto:<N>` | Automatically enables at a custom threshold of `N` tools |
-| `ENABLE_TOOL_SEARCH` | `true` | Always enabled regardless of tool count |
+| `ENABLE_TOOL_SEARCH` | (unset — default) | All MCP tools deferred and loaded on demand |
+| `ENABLE_TOOL_SEARCH` | `auto` | Threshold mode: tools load upfront until their definitions reach 10% of the context window, then all are deferred |
+| `ENABLE_TOOL_SEARCH` | `auto:<N>` | Threshold mode with a custom percentage (0-100) — for example, `auto:5` for 5% |
+| `ENABLE_TOOL_SEARCH` | `true` | All MCP tools deferred |
 | `ENABLE_TOOL_SEARCH` | `false` | Disabled; all tool descriptions sent in full |
 
-> **Note:** Tool search requires Sonnet 4 or later, or Opus 4 or later. Haiku models are not supported for tool search.
+> **Note:** Tool search requires a model that supports `tool_reference` blocks: Claude Sonnet 4.5, Claude Haiku 4.5, Claude Opus 4.5, and later models.
 
 ### Bypassing Tool Search per Server (v2.1.121+)
 
@@ -305,7 +306,7 @@ MCP servers can request structured input from the user via interactive dialogs (
 
 ## Tool Description and Instruction Cap
 
-As of v2.1.84, Claude Code enforces a **2 KB cap** on tool descriptions and instructions per MCP server. This prevents individual servers from consuming excessive context with overly verbose tool definitions, reducing context bloat and keeping interactions efficient.
+As of v2.1.84, Claude Code enforces a **2 KB cap** on tool descriptions and instructions per MCP server. This prevents individual servers from consuming excessive context with overly verbose tool definitions, reducing context bloat and keeping interactions efficient. Since v2.1.280, you can change this 2,048-character cap with the `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` environment variable.
 
 ## MCP Prompts as Slash Commands
 
@@ -1299,8 +1300,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: September 6, 2026
-**Claude Code Version**: 2.1.263
+**Last Updated**: September 26, 2026
+**Claude Code Version**: 2.1.283
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
@@ -1309,4 +1310,6 @@ export GITHUB_TOKEN="your_token"
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/mcp#configure-tool-search
+- https://code.claude.com/docs/en/env-vars
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

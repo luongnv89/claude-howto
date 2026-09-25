@@ -750,7 +750,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 | `bypassPermissions` | 全操作、権限チェックなし（危険） |
 | `dontAsk` | 事前承認済みツールのみ実行、その他はすべて拒否 |
 
-CLI では `Shift+Tab` でモードを切り替える。デフォルトは `--permission-mode` フラグまたは `permissions.defaultMode` 設定で指定する。
+CLI では `Shift+Tab` でモードを切り替える。デフォルトは `--permission-mode` フラグまたは `permissions.defaultMode` 設定で指定する。v2.1.283 以降、サードパーティプロバイダー（Bedrock、Google Cloud の Agent Platform、Foundry）上またはテレメトリをオフにした対話セッションは、パーミッションモードが未設定の場合 auto モードで開始する。`permissions.defaultMode` は引き続きこれより優先される。
 
 ### 起動方法
 
@@ -1119,7 +1119,7 @@ Claude Code は効率向上のためキーボードショートカットをサ�
 ```
 
 **キー記法：**
-- **修飾キー：** `ctrl`、`alt`（または `opt`）、`shift`、`meta`（または `cmd`）
+- **修飾キー：** `ctrl`（または `control`）、`alt`（または `opt`、`option`、`meta`）、`shift`、`cmd`（または `command`、`super`、`win`）。`cmd` は `meta` の別名ではなく独立した修飾キーで、Super キーを報告するターミナルでのみ検出される
 - **大文字は Shift を含意：** `K` は `shift+k` と等価
 - **特殊キー：** `escape`、`enter`、`return`、`tab`、`space`、`backspace`、`delete`、矢印キー
 
@@ -2107,8 +2107,8 @@ Claude Code および関連機能の詳細：
 
 ---
 
-**最終更新：** 2026 年 9 月 19 日
-**Claude Code バージョン：** 2.1.278
+**最終更新：** 2026 年 9 月 26 日
+**Claude Code バージョン：** 2.1.283
 **情報源：**
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
@@ -2119,5 +2119,8 @@ Claude Code および関連機能の詳細：
 - https://www.anthropic.com/news/claude-opus-4-7
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
+- https://code.claude.com/docs/en/keybindings#modifiers
+- https://code.claude.com/docs/en/permission-modes
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.283
 
 **互換モデル：** Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

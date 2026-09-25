@@ -2789,7 +2789,7 @@ graph TD
 
 ### 第 3 週：作業の分担
 - 特定の役割を持つサブエージェントを最初に作る
-- `/agents` コマンドを使う
+- Claude に作成を依頼するか、`.claude/agents/<name>.md` ファイルを追加する（`/agents` ウィザードは削除済み）
 - 簡単なタスクで委譲をテストする
 
 ### 第 4 週：すべてを自動化する
@@ -3156,8 +3156,8 @@ Claude Code は推論努力を調整可能な 3 モデルをサポートする�
 *収録機能：フック、チェックポイント、プラニングモード、拡張思考、バックグラウンドタスク、権限モード（6 種）、ヘッドレスモード、セッション管理、Auto Memory、Agent Teams、定期タスク、Chrome 連携、Channels、音声入力、同梱スキル*
 
 ---
-**最終更新：** 2026 年 9 月 19 日
-**Claude Code バージョン：** 2.1.278
+**最終更新：** 2026 年 9 月 26 日
+**Claude Code バージョン：** 2.1.283
 **出典：**
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/overview
@@ -3165,5 +3165,6 @@ Claude Code は推論努力を調整可能な 3 モデルをサポートする�
 - https://www.anthropic.com/news/claude-opus-4-7
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/sub-agents
 
 **対応モデル：** Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

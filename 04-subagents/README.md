@@ -547,7 +547,7 @@ description: Performs long-running analysis tasks in the background
 | Shortcut | Action |
 |----------|--------|
 | `Ctrl+B` | Background a currently running subagent task |
-| `Ctrl+F` | Kill all background agents (press twice to confirm) |
+| `Ctrl+X` `Ctrl+K` | Stop all running background subagents (press twice within 3 seconds to confirm; this replaced `Ctrl+F`) |
 
 ### Disabling Background Tasks
 
@@ -1332,8 +1332,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: September 19, 2026
-**Claude Code Version**: 2.1.278
+**Last Updated**: September 26, 2026
+**Claude Code Version**: 2.1.283
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1347,4 +1347,5 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.139
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.140
 - https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/interactive-mode
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

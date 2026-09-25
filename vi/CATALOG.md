@@ -41,7 +41,7 @@ Commands là các lệnh tắt do người dùng gọi thực hiện các hành 
 | `/diff` | Trình xem diff tương tác | Review thay đổi |
 | `/config` | Xem/chỉnh sửa cấu hình | Tùy chỉnh hành vi |
 | `/status` | Hiển thị trạng thái session | Kiểm tra trạng thái hiện tại |
-| `/agents` | Liệt kê các agents có sẵn | Xem tùy chọn ủy quyền |
+| `/agents` | Đã bị gỡ bỏ: wizard bị gỡ trong v2.1.198 và lệnh đã rời khỏi menu `/` và `/help` trong v2.1.281 — hãy yêu cầu Claude tạo hoặc quản lý subagents, hoặc chỉnh sửa `.claude/agents/` | Quản lý subagents bằng cách yêu cầu Claude |
 | `/skills` | Liệt kê các skills có sẵn | Xem khả năng auto-invoke |
 | `/hooks` | Liệt kê các hooks đã cấu hình | Debug tự động hóa |
 | `/insights` | Phân tích patterns của session | Tối ưu hóa session |
@@ -522,8 +522,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 19 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.278
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.283
 **Nguồn**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/commands

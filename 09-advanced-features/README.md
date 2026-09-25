@@ -225,11 +225,11 @@ Extended thinking is a deliberate, step-by-step reasoning process where Claude:
 ### Activating Extended Thinking
 
 **Keyboard shortcut**:
-- `Option + T` (macOS) / `Alt + T` (Windows/Linux) - Toggle extended thinking
+- `Option + T` (macOS) / `Alt + T` (Windows/Linux) - Toggle extended thinking. On Opus 5.5 (the default model since v2.1.280) and the Fable models, thinking can't be turned off — the toggle, `alwaysThinkingEnabled`, and `MAX_THINKING_TOKENS=0` have no effect there.
 
 **Automatic activation**:
 - Enabled by default for all models (Opus 5, Opus 4.8, Opus 4.7, Sonnet 4.6, Haiku 4.5)
-- Opus 5 / Opus 4.8: Adaptive reasoning with effort levels: `low` (○), `medium` (◐), `high` (●), `xhigh`, `max`. The default is `high` on Opus 5 (v2.1.219), Opus 4.8 (v2.1.154), Opus 4.6, and Sonnet 4.6, and `xhigh` on Opus 4.7. `xhigh` is available on Opus 5, Opus 4.8, and Opus 4.7 (it falls back to `high` on Opus 4.6 / Sonnet 4.6). `max` works on Opus 5 and Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 has no effort levels. Opus 5, Opus 4.8, and Opus 4.7 have a 1M-token native context window (1M context fix landed in v2.1.117 — before that, `/context` miscounted Opus 4.7 against a 200K window and triggered premature autocompact). Since v2.1.129, `/context` shows its visualization in-UI only; the ASCII viz no longer leaks into the conversation context (~1.6k tokens saved per call), so `/context` is safe to invoke freely.
+- Opus 5 / Opus 4.8: Adaptive reasoning with effort levels: `low` (○), `medium` (◐), `high` (●), `xhigh`, `max`. The default is `medium` on Opus 5.5 (the default model since v2.1.280), `high` on Opus 5 (v2.1.219), Opus 4.8 (v2.1.154), Opus 4.6, and Sonnet 4.6, and `xhigh` on Opus 4.7. `xhigh` is available on Opus 5.5, Opus 5, Opus 4.8, and Opus 4.7 (it falls back to `high` on Opus 4.6 / Sonnet 4.6). `max` works on Opus 5.5, Opus 5, and Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 has no effort levels. Opus 5, Opus 4.8, and Opus 4.7 have a 1M-token native context window (1M context fix landed in v2.1.117 — before that, `/context` miscounted Opus 4.7 against a 200K window and triggered premature autocompact). Since v2.1.129, `/context` shows its visualization in-UI only; the ASCII viz no longer leaks into the conversation context (~1.6k tokens saved per call), so `/context` is safe to invoke freely.
 - Pro/Max subscribers on Opus 4.6 / Sonnet 4.6: default effort was raised from `medium` to `high` in v2.1.117.
 - Other models: Fixed budget up to 31,999 tokens
 
@@ -851,19 +851,19 @@ Permission modes control what actions Claude can take without explicit approval.
 | `manual` | Read files only; prompts for all other actions. Renamed from `default` in v2.1.200 — `default` is still accepted as an alias |
 | `acceptEdits` | Read and edit files; prompts for commands |
 | `plan` | Read files only (research mode, no edits) |
-| `auto` | All actions with background safety classifier checks. Requires an eligible model (Opus 5, Sonnet 5, Opus 4.7/4.8, or Fable 5 on most providers) and provider — available on all plans, see [Auto Mode](#auto-mode) |
+| `auto` | All actions with background safety classifier checks. Requires an eligible model (Opus 5.5, Opus 5, Sonnet 5, Opus 4.7/4.8, or Fable 5 on most providers) and provider — available on all plans, see [Auto Mode](#auto-mode) |
 | `bypassPermissions` | All actions, no permission checks (dangerous) |
 | `dontAsk` | Only pre-approved tools execute; all others denied |
 
 > **Note**: The interactive default mode was renamed from `default` to **Manual** in v2.1.200 (across the CLI, `--help`, VS Code, and JetBrains), and a grey ⏸ badge appears in the footer while it is active (v2.1.203). Both `--permission-mode manual` and `--permission-mode default` work, as do `"defaultMode": "manual"` and `"defaultMode": "default"` in settings. Note that the settings key is `permissions.defaultMode` — there is no `permissions.mode` key, so the examples below use the canonical spelling.
 
-Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting.
+Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting. Since v2.1.283, an interactive session on a third-party provider (Bedrock, Google Cloud's Agent Platform, Foundry) or with telemetry off starts in auto mode when no permission mode is configured; `permissions.defaultMode` still overrides it.
 
 > **Plan mode defers shell commands to the classifier (v2.1.218)**: When [auto mode](#auto-mode) is available and the `useAutoModeDuringPlan` setting is on — which it is by default — the classifier reviews shell commands during planning instead of prompting you. Approved commands run, and rejected ones are blocked. Plan mode still blocks file writes unconditionally.
 
 As of v2.1.160, even `acceptEdits` prompts before writing shell-startup files (`.zshenv`, `.zlogin`, `.bash_login`, `~/.config/git/`) and code-executing build configs (`.npmrc`, `.yarnrc*`, `bunfig.toml`, `.bazelrc`, `.pre-commit-config.yaml`, `.devcontainer/`, …), which could otherwise lead to unintended command execution.
 
-> **`--dangerously-skip-permissions` extended path coverage (v2.1.121, v2.1.126)**: The `--dangerously-skip-permissions` CLI flag (and equivalent `bypassPermissions` mode) now bypasses prompts for writes to a much broader allowlist — `.claude/skills/`, `.claude/agents/`, `.claude/commands/`, `.claude/`, `.git/`, `.vscode/`, and shell config files. Catastrophic removal commands (`rm -rf /`, etc.) still prompt in this mode (in auto mode they are judged by the classifier instead — see [Auto Mode](#auto-mode)). Treat the flag as a sharper tool than before; use it only in throwaway sandboxes.
+> **`--dangerously-skip-permissions` extended path coverage (v2.1.121, v2.1.126)**: The `--dangerously-skip-permissions` CLI flag (and equivalent `bypassPermissions` mode) now bypasses prompts for writes to a much broader allowlist — `.claude/skills/`, `.claude/agents/`, `.claude/commands/`, `.claude/`, `.git/`, `.vscode/`, and shell config files. Catastrophic removal commands (`rm -rf /`, etc.) still prompt in this mode — since v2.1.281 that prompt waits 2 minutes, then denies the command with a rewrite hint so unattended sessions keep going (`CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT=1` turns this off) (in auto mode, critical-path removals go to the classifier instead, while other dangerous `rm` forms such as `rm -rf "$(pwd)"` still prompt — see [Auto Mode](#auto-mode)). Treat the flag as a sharper tool than before; use it only in throwaway sandboxes.
 
 > **Windows shell detection (v2.1.120, v2.1.126)**: Git for Windows / Git Bash is no longer required. When Git Bash is absent, Claude Code uses PowerShell as the shell tool. From v2.1.126 PowerShell is the *primary* shell when the PowerShell tool is enabled, and detection covers PowerShell 7 installed via the Microsoft Store, MSI without PATH, or as a `.NET global tool`.
 
@@ -1293,7 +1293,7 @@ Claude Code supports keyboard shortcuts for efficiency. Here's the complete refe
 | `Option+T` / `Alt+T` | Toggle extended thinking |
 | `Option+O` / `Alt+O` | Toggle fast mode (`/fast`) |
 | `Ctrl+X` `Ctrl+K` | Stop all background subagents |
-| `Ctrl+Enter` (or `Ctrl+X` `Ctrl+S`) | Send now — interrupt the current turn and send every queued message at once. Sent and queued messages stay gray until the model receives them (v2.1.275) |
+| `Ctrl+Enter` (or `Ctrl+X` `Ctrl+S`) | Send now — send every queued message at once. Since v2.1.281, running tools and subagents move to the background instead of the turn being cancelled. Sent and queued messages stay gray until the model receives them (v2.1.275) |
 | `Ctrl+S` | Stash the current prompt; press again to restore it |
 | `Ctrl+_` | Undo the last edit to the prompt input |
 | `:` | Type `:` at the start of a word to open emoji shortcode completion, e.g. `:heart:` (v2.1.217+) |
@@ -1386,7 +1386,7 @@ Keybindings support chord sequences (multi-key combinations):
 ```
 
 **Keystroke syntax**:
-- **Modifiers**: `ctrl`, `alt` (or `opt`), `shift`, `meta` (or `cmd`)
+- **Modifiers**: `ctrl` (or `control`), `alt` (or `opt`, `option`, `meta`), `shift`, and `cmd` (or `command`, `super`, `win`) — `cmd` is a separate modifier, not an alias of `meta`, and is only detected in terminals that report the Super key
 - **Uppercase implies Shift**: `K` is equivalent to `shift+k`
 - **Special keys**: `escape`, `enter`, `return`, `tab`, `space`, `backspace`, `delete`, arrow keys
 
@@ -2535,7 +2535,7 @@ export CLAUDE_CODE_GOAL_CHECKIN_MINUTES=30                  # (v2.1.234) Minutes
 export CLAUDE_CODE_MCP_STARTUP_WAIT_MS=5000                 # (v2.1.274) How long the first non-interactive turn waits for MCP servers that are still connecting. 0 = do not wait.
 export CLAUDE_CODE_WEBFETCH_DEADLINE_MS=300000              # (v2.1.268) Overrides WebFetch's new 300-second deadline. 0 disables the deadline.
 export CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS=32        # (v2.1.269) Raises the Workflow tool's per-run concurrent agent limit. Accepts 1-256.
-export CLAUDE_CODE_AUTO_MODE_SERVER=0                       # (v2.1.278) Opt out of server-side auto-mode checks on Bedrock, Vertex, Foundry, and gateways
+export CLAUDE_CODE_AUTO_MODE_SERVER=0                       # (v2.1.278; direct Anthropic API since v2.1.281) Opt out of server-side auto-mode classifier review
 ```
 
 > **v2.1.223 — `CLAUDE_CODE_DISABLE_1M_CONTEXT` widened**: the variable now holds **every**
@@ -2738,8 +2738,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: September 19, 2026
-**Claude Code Version**: 2.1.278
+**Last Updated**: September 26, 2026
+**Claude Code Version**: 2.1.283
 **Sources**:
 - https://code.claude.com/docs/en/output-styles
 - https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
@@ -2758,4 +2758,11 @@ For more information about Claude Code and related features:
 - https://code.claude.com/docs/en/settings.md
 - https://code.claude.com/docs/en/settings-reference
 - https://code.claude.com/docs/en/whats-new/2026-w34
+- https://code.claude.com/docs/en/model-config#adjust-effort-level
+- https://code.claude.com/docs/en/interactive-mode
+- https://code.claude.com/docs/en/keybindings#modifiers
+- https://code.claude.com/docs/en/model-config#extended-thinking
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.281
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.283
+- https://code.claude.com/docs/en/permission-modes#critical-paths
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

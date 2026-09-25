@@ -216,16 +216,17 @@ sequenceDiagram
 
 ## Tìm Kiếm Công Cụ MCP / MCP Tool Search
 
-Khi mô tả công cụ MCP vượt quá 10% cửa sổ ngữ cảnh, Claude Code tự động kích hoạt tìm kiếm công cụ để chọn công cụ phù hợp một cách hiệu quả mà không làm bội ngữ cảnh mô hình.
+Tìm kiếm công cụ được bật theo mặc định: các công cụ MCP được hoãn lại và khám phá khi cần, nên định nghĩa của chúng không lấp đầy ngữ cảnh mô hình. Claude Code tắt tính năng này khi `ANTHROPIC_BASE_URL` trỏ tới một host không phải của bên thứ nhất, vì hầu hết các proxy không chuyển tiếp các khối mà nó cần.
 
 | Cài Đặt | Giá Trị | Mô Tả |
 |---------|-------|-------------|
-| `ENABLE_TOOL_SEARCH` | `auto` (mặc định) | Tự động kích hoạt khi mô tả công cụ vượt quá 10% ngữ cảnh |
-| `ENABLE_TOOL_SEARCH` | `auto:<N>` | Tự động kích hoạt tại ngưỡng tùy chỉnh của `N` công cụ |
-| `ENABLE_TOOL_SEARCH` | `true` | Luôn được kích hoạt bất kể số lượng công cụ |
+| `ENABLE_TOOL_SEARCH` | (không đặt — mặc định) | Tất cả công cụ MCP được hoãn lại và tải khi cần |
+| `ENABLE_TOOL_SEARCH` | `auto` | Chế độ ngưỡng: công cụ được tải trước cho đến khi định nghĩa của chúng đạt 10% cửa sổ ngữ cảnh, sau đó tất cả được hoãn lại |
+| `ENABLE_TOOL_SEARCH` | `auto:<N>` | Chế độ ngưỡng với tỷ lệ phần trăm tùy chỉnh (0-100) — ví dụ, `auto:5` cho 5% |
+| `ENABLE_TOOL_SEARCH` | `true` | Tất cả công cụ MCP được hoãn lại |
 | `ENABLE_TOOL_SEARCH` | `false` | Đã tắt; tất cả mô tả công cụ được gửi đầy đủ |
 
-> **Lưu Ý:** Tìm kiếm công cụ yêu cầu Sonnet 4 hoặc mới hơn, hoặc Opus 4 hoặc mới hơn. Các mô hình Haiku không được hỗ trợ cho tìm kiếm công cụ.
+> **Lưu Ý:** Tìm kiếm công cụ yêu cầu một mô hình hỗ trợ các khối `tool_reference`: Claude Sonnet 4.5, Claude Haiku 4.5, Claude Opus 4.5, và các mô hình mới hơn.
 
 ## Cập Nhật Công Cụ Động / Dynamic Tool Updates
 
@@ -1157,9 +1158,10 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 6 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.263
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.283
 **Nguồn**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
+- https://code.claude.com/docs/en/mcp#configure-tool-search
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

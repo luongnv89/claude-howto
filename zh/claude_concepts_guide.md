@@ -1279,7 +1279,7 @@ graph TD
 
 ### 第 3 周：分发工作
 - 创建第一个针对角色的 Subagent
-- 使用 `/agents`
+- 让 Claude 创建，或添加 `.claude/agents/<name>.md` 文件（`/agents` 向导已移除）
 - 用简单任务测试委派
 
 ### 第 4 周：全面自动化
@@ -1536,7 +1536,8 @@ claude -r "Feature"
 *适用于 Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5*
 *现已覆盖：Hooks、Checkpoints、Planning Mode、Extended Thinking、Background Tasks、Permission Modes、Headless Mode、Session Management、Auto Memory、Agent Teams、Scheduled Tasks、Chrome Integration、Bundled Skills 等概念。*
 
-**最后更新**：2026 年 9 月 2 日
-**Claude Code 版本**：2.1.257
+**最后更新**：2026 年 9 月 26 日
+**Claude Code 版本**：2.1.283
 **来源**：
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/sub-agents

@@ -137,7 +137,7 @@ claude --model opusplan "design and implement the caching layer"
 | Cờ | Mô Tả | Ví Dụ |
 |------|-------------|---------|
 | `--system-prompt` | Thay thế toàn bộ prompt mặc định | `claude --system-prompt "You are a Python expert"` |
-| `--system-prompt-file` | Tải prompt từ file (chế độ in) | `claude -p --system-prompt-file ./prompt.txt "query"` |
+| `--system-prompt-file` | Tải prompt từ file, thay thế prompt mặc định | `claude -p --system-prompt-file ./prompt.txt "query"` |
 | `--append-system-prompt` | Append vào prompt mặc định | `claude --append-system-prompt "Always use TypeScript"` |
 
 ### Ví Dụ System Prompt / System Prompt Examples
@@ -158,10 +158,10 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | Cờ | Hành Vi | Interactive | Print |
 |------|----------|-------------|-------|
 | `--system-prompt` | Thay thế toàn bộ system prompt | ✅ | ✅ |
-| `--system-prompt-file` | Thay thế bằng prompt từ file | ❌ | ✅ |
+| `--system-prompt-file` | Thay thế bằng prompt từ file | ✅ | ✅ |
 | `--append-system-prompt` | Thêm vào system prompt mặc định | ✅ | ✅ |
 
-**Chỉ sử dụng `--system-prompt-file` trong chế độ in. Trong chế độ tương tác, sử dụng `--system-prompt` hoặc `--append-system-prompt`.**
+**Tất cả các cờ system prompt đều hoạt động trong cả chế độ tương tác và chế độ in (các dạng file từ v2.1.69). `--system-prompt` và `--system-prompt-file` thay thế prompt mặc định; các cờ append thêm vào prompt đó.**
 
 ## Công Cụ & Quản Lý Quyền / Tool & Permission Management
 
@@ -834,8 +834,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 2 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.257
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.283
 **Nguồn**:
 - https://code.claude.com/docs/en/cli-reference
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

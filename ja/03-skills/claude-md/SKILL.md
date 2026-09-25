@@ -196,7 +196,7 @@ Brief one-line description.
 
 ユーザーが AGENTS.md の作成・更新を求めた場合:
 
-**v2.1.277 以降、Claude Code は `AGENTS.md` をプロジェクト指示として直接読み込む。** ただし、作業ディレクトリとその上位すべてのディレクトリに `CLAUDE.md`、`.claude/CLAUDE.md`、`CLAUDE.local.md` のいずれも存在しない場合に限る。`~/.claude/CLAUDE.md`、管理 CLAUDE.md、`.claude/rules/` はこの判定の対象外であり、引き続き併せて読み込まれる。この挙動は `/config` の **Project instructions** で制御する: `claude-md-or-agents-md`（デフォルト）、`claude-md-and-agents-md`、`claude-md`、`managed-only`。直接読み込みが利用できない環境 — Bedrock/Vertex/Foundry、テレメトリ無効、アップグレード後の最初のセッション、`disableAllHooks`/`allowManagedHooksOnly` — では、CLAUDE.md から `@AGENTS.md` でインポートするか、`CLAUDE.md` をこのファイルへのシンボリックリンクにするフォールバックを使う。
+**v2.1.277 以降、Claude Code は `AGENTS.md` をプロジェクト指示として直接読み込む。** ただし、作業ディレクトリとその上位すべてのディレクトリに `CLAUDE.md`、`.claude/CLAUDE.md`、`CLAUDE.local.md` のいずれも存在しない場合に限る。`~/.claude/CLAUDE.md`、管理 CLAUDE.md、`.claude/rules/` はこの判定の対象外であり、引き続き併せて読み込まれる。この挙動は `/config` の **Project instructions** で制御する: `claude-md-or-agents-md`（デフォルト）、`claude-md-and-agents-md`、`claude-md`、`managed-only`。直接読み込みが利用できない環境 — v2.1.277 より前のバージョン（Bedrock/Vertex/Foundry、LLM ゲートウェイ、テレメトリ無効の場合は v2.1.281 より前）、またはアップグレード後の最初のセッション — では、CLAUDE.md から `@AGENTS.md` でインポートするか、`CLAUDE.md` をこのファイルへのシンボリックリンクにするフォールバックを使う。
 
 AGENTS.md はツール横断のプロジェクトコンテキストファイルであり、CLAUDE.md と同じ *種類* のドキュメントである。エージェント定義フォーマットではない。複数のコーディングエージェントが 1 つのプロジェクト規約を共有できるようにするために存在する:
 - ビルド、テスト、リントのコマンド

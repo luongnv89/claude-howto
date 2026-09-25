@@ -23,7 +23,7 @@ Claude Code 目前提供 55+ 个内置命令和 5 个内置 Skills。你可以�
 | 命令 | 作用 |
 |---------|---------|
 | `/add-dir <path>` | 添加工作目录 |
-| `/agents` | 管理 agent 配置 |
+| `/agents` | 已不再是可用命令：交互式向导已在 v2.1.198 中移除，且从 v2.1.281 起 `/agents` 不再出现在 `/` 菜单或 `/help` 中 — 输入它只会说明向导的去向。请让 Claude 创建或管理 subagent，或直接编辑 `.claude/agents/` 中的文件 |
 | `/branch [name]` | 切换到当前对话的一个副本，原对话保持不变 |
 | `/fork [prompt]` | 把当前对话复制到一个新的**后台会话**，你可以继续在这里工作；从这一刻起两者互相独立，副本会在 `claude agents` 里占一行（v2.1.212+） |
 | `/subtask <task>` | 派生一个**forked subagent**，它继承完整对话并去执行该任务，你可以继续工作；任务完成后结果会返回到本对话（v2.1.212+） |
@@ -548,11 +548,12 @@ allowed-tools: Bash(npm *), Bash(git *)
 
 ---
 
-**最后更新**: 2026 年 9 月 19 日
-**Claude Code 版本**: 2.1.278
+**最后更新**: 2026 年 9 月 26 日
+**Claude Code 版本**: 2.1.283
 **来源**:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/output-styles
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.281
 **兼容模型**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 ---

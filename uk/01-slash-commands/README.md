@@ -27,7 +27,7 @@
 | Команда | Призначення |
 |---------|------------|
 | `/add-dir <path>` | Додати робочий каталог |
-| `/agents` | Управління конфігураціями агентів |
+| `/agents` | Більше не робоча команда: інтерактивний майстер видалено у v2.1.198, а з v2.1.281 `/agents` не з'являється ні в меню `/`, ні в `/help` — введення команди лише пояснює, куди перемістився майстер. Попросіть Claude створити субагентів або керувати ними, або редагуйте файли в `.claude/agents/` напряму |
 | `/branch [name]` | Розгалужити розмову в нову сесію (аліас: `/fork`). Примітка: `/fork` перейменовано на `/branch` у v2.1.77 |
 | `/btw <question>` | Побічне запитання без додавання в історію |
 | `/chrome` | Налаштування інтеграції з Chrome |
@@ -576,11 +576,12 @@ Deploy the application to production:
 
 ---
 
-**Останнє оновлення**: 19 вересня 2026
-**Версія Claude Code**: 2.1.278
+**Останнє оновлення**: 26 вересня 2026
+**Версія Claude Code**: 2.1.283
 **Джерела**:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/output-styles
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.281
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Частина серії посібників [Claude How To](../)*

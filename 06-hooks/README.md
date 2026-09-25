@@ -227,6 +227,8 @@ Subagent-based verification hooks that spawn a dedicated agent to evaluate condi
 
 > **Note**: Agent hooks are experimental and may change.
 
+> **Note**: Since v2.1.280, agent hooks don't run on `PermissionRequest` — their answer could never allow or deny the request. Use a command, http, mcp_tool, or prompt hook there.
+
 ```json
 {
   "type": "agent",
@@ -1404,7 +1406,7 @@ Plugins can include hooks in their `hooks/hooks.json` file:
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/validate.sh"
           }
         ]
       }
@@ -1627,12 +1629,13 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: September 19, 2026
-**Claude Code Version**: 2.1.278
+**Last Updated**: September 26, 2026
+**Claude Code Version**: 2.1.283
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
+- https://code.claude.com/docs/en/plugins/manifest-reference#quoting-and-path-separators
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

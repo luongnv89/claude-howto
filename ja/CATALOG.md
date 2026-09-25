@@ -45,7 +45,7 @@
 | `/diff` | 対話式 diff ビューア | 変更レビュー |
 | `/config` | 設定を表示・編集 | 動作カスタマイズ |
 | `/status` | セッション状態を表示 | 現状確認 |
-| `/agents` | 利用可能エージェントを表示 | 委譲オプション確認 |
+| `/agents` | 削除済み：ウィザードは v2.1.198 で削除され、コマンドは v2.1.281 で `/` メニューと `/help` から外れた — サブエージェントの作成や管理は Claude に依頼するか、`.claude/agents/` を編集する | Claude に依頼してサブエージェントを管理 |
 | `/skills` | 利用可能スキルを表示 | 自動起動機能の確認 |
 | `/hooks` | 設定済みフックを表示 | 自動化のデバッグ |
 | `/insights` | セッションパターンを分析 | セッション最適化 |
@@ -540,8 +540,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新**：2026 年 9 月 19 日
-**Claude Code バージョン**：2.1.278
+**最終更新**：2026 年 9 月 26 日
+**Claude Code バージョン**：2.1.283
 **情報源**：
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/overview

@@ -47,7 +47,7 @@ Tác nhân con cho phép thực thi tác vụ được ủy quyền trong Claude
 
 Mỗi tác nhân con hoạt động độc lập với một trang sạch, chỉ nhận bối cảnh cụ thể cần thiết cho tác vụ của họ, sau đó trả về kết quả cho tác nhân chính để tổng hợp.
 
-**Bắt Đầu Nhanh**: Sử dụng lệnh `/agents` để tạo, xem, chỉnh sửa, và quản lý các tác nhân con của bạn một cách tương tác.
+**Bắt Đầu Nhanh**: Hãy yêu cầu Claude tạo tác nhân con cho bạn ("tạo một tác nhân con để review bảo mật"), hoặc thêm trực tiếp một file `.claude/agents/<name>.md` — xem [Quản Lý Tác Nhân Con](#quản-lý-tác-nhân-con) bên dưới.
 
 ---
 
@@ -286,6 +286,8 @@ Claude Code bao gồm một số tác nhân con được tích hợp sẵn luôn
 
 ### Sử Dụng Lệnh `/agents` (Khuyến Nghị)
 
+> **Lưu ý**: Trình hướng dẫn tương tác `/agents` đã bị gỡ bỏ trong v2.1.198, và kể từ v2.1.281, `/agents` không còn xuất hiện trong menu `/` hoặc `/help`. Hãy yêu cầu Claude tạo hoặc quản lý tác nhân con (ví dụ: "tạo một tác nhân con để review bảo mật"), hoặc thêm trực tiếp một file `.claude/agents/<name>.md`.
+
 ```bash
 /agents
 ```
@@ -480,7 +482,7 @@ description: Performs long-running analysis tasks in the background
 | Phím Tắt | Hành Động |
 |----------|--------|
 | `Ctrl+B` | Chạy nền một tác vụ tác nhân con đang chạy |
-| `Ctrl+F` | Giết tất cả các tác nhân nền (nhấn hai lần để xác nhận) |
+| `Ctrl+X` `Ctrl+K` | Dừng tất cả các tác nhân con nền đang chạy (nhấn hai lần trong vòng 3 giây để xác nhận; tổ hợp này thay thế `Ctrl+F`) |
 
 ### Vô Hiệu hóa Tác Vụ Nền
 
@@ -1016,6 +1018,8 @@ Thư mục này chứa các ví dụ tác nhân con đã sẵn sàng sử dụng
 
 ### Phương Pháp 1: Sử Dụng Lệnh /agents (Khuyến Nghị)
 
+> **Lưu ý**: Trình hướng dẫn tương tác `/agents` đã bị gỡ bỏ trong v2.1.198, và kể từ v2.1.281, `/agents` không còn xuất hiện trong menu `/` hoặc `/help`. Hãy yêu cầu Claude tạo hoặc quản lý tác nhân con (ví dụ: "tạo một tác nhân con để review bảo mật"), hoặc thêm trực tiếp một file `.claude/agents/<name>.md`.
+
 ```bash
 /agents
 ```
@@ -1138,8 +1142,10 @@ graph TD
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 25 tháng 8 năm 2026
-**Phiên Bản Claude Code**: 2.1.245
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.283
 **Nguồn**:
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/interactive-mode
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
