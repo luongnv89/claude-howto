@@ -63,7 +63,10 @@ def main() -> int:
     errors: list[str] = []
     repo_root = Path().resolve()
 
-    for file_path in iter_md_files():
+    # Materialize file list once to avoid double iteration
+    md_files = list(iter_md_files())
+
+    for file_path in md_files:
         content = file_path.read_text(encoding="utf-8")
         # Strip code blocks before scanning for links/anchors to avoid false positives
         # from documentation examples inside code fences.
@@ -106,8 +109,7 @@ def main() -> int:
             print(f"  - {e}")
         return 1
 
-    md_count = sum(1 for _ in iter_md_files())
-    print(f"✅ All cross-references valid ({md_count} files checked)")
+    print(f"✅ All cross-references valid ({len(md_files)} files checked)")
     return 0
 
 

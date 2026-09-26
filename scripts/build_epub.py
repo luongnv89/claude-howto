@@ -50,6 +50,7 @@ import shutil
 import subprocess  # nosec B404
 import sys
 import tempfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from io import BytesIO
 from pathlib import Path
@@ -86,6 +87,17 @@ class CoverGenerationError(EPUBBuildError):
     """Error generating cover image."""
 
     pass
+
+
+# =============================================================================
+# Pre-compiled Regex Patterns
+# =============================================================================
+
+# Mermaid code block pattern - pre-compiled for performance
+MERMAID_PATTERN = re.compile(r"```mermaid\n(.*?)```", flags=re.DOTALL)
+
+# Numbered list pattern inside Mermaid nodes
+MERMAID_NUMBERED_LIST_PATTERN = re.compile(r'\[(["\']?)(\d+)\.(\s)')
 
 
 # =============================================================================
@@ -252,8 +264,7 @@ def sanitize_mermaid(mermaid_code: str) -> str:
     to prevent that.
     """
     # Escape numbered list patterns inside brackets: [1. Text] -> [1\. Text]
-    sanitized = re.sub(r'\[(["\']?)(\d+)\.(\s)', r"[\1\2\\.\3", mermaid_code)
-    return sanitized
+    return MERMAID_NUMBERED_LIST_PATTERN.sub(r"[\1\2\\.\3", mermaid_code)
 
 
 class MermaidRenderer:
@@ -334,16 +345,28 @@ class MermaidRenderer:
     def render_all(
         self, diagrams: list[tuple[int, str]]
     ) -> dict[str, tuple[bytes, str]]:
-        """Render all Mermaid diagrams using local mmdc."""
+        """Render all Mermaid diagrams in parallel using ThreadPoolExecutor."""
         mmdc = self._resolve_mmdc()
         results: dict[str, tuple[bytes, str]] = {}
 
-        self.logger.info(f"Rendering {len(diagrams)} Mermaid diagrams locally...")
-        for idx, code in diagrams:
-            sanitized = sanitize_mermaid(code)
-            cache_key = sanitized.strip()
-            data = self._render_one(mmdc, sanitized, idx)
-            results[cache_key] = data
+        self.logger.info(f"Rendering {len(diagrams)} Mermaid diagrams in parallel...")
+
+        # Use ThreadPoolExecutor for parallel rendering (4 workers to avoid overwhelming system)
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            futures = {
+                pool.submit(self._render_one, mmdc, sanitize_mermaid(code), idx): (idx, code)
+                for idx, code in diagrams
+            }
+
+            for future in as_completed(futures):
+                idx, code = futures[future]
+                try:
+                    data = future.result()
+                    cache_key = sanitize_mermaid(code).strip()
+                    results[cache_key] = data
+                except MermaidRenderError:
+                    # Re-raise to fail the build
+                    raise
 
         self.logger.info(
             f"Successfully rendered {len(results)} unique diagrams ({len(diagrams)} total blocks)"
@@ -355,7 +378,6 @@ def extract_all_mermaid_blocks(
     md_files: list[tuple[Path, str]], logger: logging.Logger
 ) -> list[tuple[int, str]]:
     """Extract all unique Mermaid code blocks from markdown files."""
-    pattern = r"```mermaid\n(.*?)```"
     seen: set[str] = set()
     diagrams: list[tuple[int, str]] = []
     counter = 0
@@ -363,7 +385,7 @@ def extract_all_mermaid_blocks(
     for file_path, _ in md_files:
         try:
             content = file_path.read_text(encoding="utf-8")
-            for match in re.finditer(pattern, content, flags=re.DOTALL):
+            for match in MERMAID_PATTERN.finditer(content):
                 code = match.group(1).strip()
                 if code not in seen:
                     seen.add(code)
@@ -722,7 +744,6 @@ def process_mermaid_blocks(
     md_content: str, book: epub.EpubBook, state: BuildState, logger: logging.Logger
 ) -> str:
     """Find mermaid code blocks and replace with image references."""
-    pattern = r"```mermaid\n(.*?)```"
 
     def replace_mermaid(match: re.Match[str]) -> str:
         mermaid_code = sanitize_mermaid(match.group(1))
@@ -746,7 +767,7 @@ def process_mermaid_blocks(
             logger.error("Mermaid diagram not found in cache")
             raise MermaidRenderError("Mermaid diagram not found in cache")
 
-    return re.sub(pattern, replace_mermaid, md_content, flags=re.DOTALL)
+    return MERMAID_PATTERN.sub(replace_mermaid, md_content)
 
 
 def convert_internal_links(
@@ -825,7 +846,7 @@ def md_to_html(
         ],
     )
 
-    # Embed SVG images as EPUB resources (using <img> tags, not <object>)
+    # Single BeautifulSoup parse for all HTML transformations
     soup = BeautifulSoup(html_content, "html.parser")
     chapter_dir = current_file.parent
 
@@ -837,6 +858,7 @@ def md_to_html(
         else:
             picture.decompose()
 
+    # Process SVG images
     for img in soup.find_all("img"):
         src = img.get("src", "")
         if not src.endswith(".svg"):
@@ -850,12 +872,45 @@ def md_to_html(
         )
         img.replace_with(BeautifulSoup(converted, "html.parser"))
 
-    html_content = str(soup)
+    # Convert internal links to EPUB chapter references (same soup object)
+    for link in soup.find_all("a"):
+        href = link.get("href", "")
+        if not href or href.startswith(("http://", "https://", "mailto:", "#")):
+            continue
 
-    # Convert internal links to EPUB chapter references
-    html_content = convert_internal_links(html_content, current_file, root_path, state)
+        # Remove anchor part for path resolution
+        anchor = ""
+        if "#" in href:
+            href, anchor = href.split("#", 1)
+            anchor = "#" + anchor
 
-    return html_content
+        # Resolve relative path from current file's directory
+        if href:
+            resolved = (current_file.parent / href).resolve()
+            try:
+                rel_to_root = resolved.relative_to(root_path)
+            except ValueError:
+                # Link points outside the repo
+                continue
+
+            # Normalize the path for lookup
+            lookup_path = str(rel_to_root)
+
+            # Try various path forms for matching
+            paths_to_try = [
+                lookup_path,
+                lookup_path.rstrip("/"),
+                lookup_path + "/README.md"
+                if not lookup_path.endswith(".md")
+                else lookup_path,
+            ]
+
+            for path in paths_to_try:
+                if path in state.path_to_chapter:
+                    link["href"] = state.path_to_chapter[path] + anchor
+                    break
+
+    return str(soup)
 
 
 # =============================================================================
