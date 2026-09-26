@@ -1,0 +1,188 @@
+{
+  "levels": [
+    {
+      "id": "beginner",
+      "name": "Level 1 — Beginner",
+      "title": "Getting started",
+      "summary": "Get productive on day one: commands, memory, safe rewinds and the CLI basics.",
+      "modules": [
+        {
+          "id": "slash-commands",
+          "number": "01",
+          "title": "Slash Commands",
+          "source": "01-slash-commands/README.md",
+          "time": "30 min",
+          "tagline": "Built-in commands, custom commands and team shortcuts.",
+          "lessons": [
+            {"id": "overview", "title": "Overview", "heading": "Overview"},
+            {"id": "built-in", "title": "Built-in commands reference", "heading": "Built-in Commands Reference"},
+            {"id": "custom", "title": "Custom commands (now skills)", "heading": "Custom Commands (Now Skills)"},
+            {"id": "mcp-prompts", "title": "MCP prompts as commands", "heading": "MCP Prompts as Commands"},
+            {"id": "create", "title": "Create your own commands", "heading": "Creating Your Own Commands"},
+            {"id": "best-practices", "title": "Best practices", "heading": "Best Practices"}
+          ]
+        },
+        {
+          "id": "memory",
+          "number": "02",
+          "title": "Memory",
+          "source": "02-memory/README.md",
+          "time": "45 min",
+          "tagline": "CLAUDE.md, rules and auto memory that persist across sessions.",
+          "lessons": [
+            {"id": "overview", "title": "Overview", "heading": "Overview"},
+            {"id": "quick-start", "title": "Quick start: initialize memory", "heading": "Quick Start: Initializing Memory"},
+            {"id": "hierarchy", "title": "The memory hierarchy", "heading": "Memory Hierarchy in Claude Code"},
+            {"id": "rules", "title": "Modular rules system", "heading": "Modular Rules System"},
+            {"id": "auto-memory", "title": "Auto memory", "heading": "Auto Memory"}
+          ]
+        },
+        {
+          "id": "checkpoints",
+          "number": "08",
+          "title": "Checkpoints",
+          "source": "08-checkpoints/README.md",
+          "time": "45 min",
+          "tagline": "Try bold ideas and rewind in one keystroke.",
+          "lessons": [
+            {"id": "overview", "title": "Overview", "heading": "Overview"},
+            {"id": "accessing", "title": "Accessing checkpoints", "heading": "Accessing Checkpoints"},
+            {"id": "rewind", "title": "Rewind options", "heading": "Rewind Options"},
+            {"id": "patterns", "title": "Workflow patterns", "heading": "Workflow Patterns"},
+            {"id": "git", "title": "Checkpoints and Git", "heading": "Integration with Git"}
+          ]
+        },
+        {
+          "id": "cli",
+          "number": "10",
+          "title": "CLI",
+          "source": "10-cli/README.md",
+          "time": "30 min",
+          "tagline": "Interactive and print mode, flags and scripting.",
+          "lessons": [
+            {"id": "overview", "title": "Overview", "heading": "Overview"},
+            {"id": "commands", "title": "CLI commands", "heading": "CLI Commands"},
+            {"id": "flags", "title": "Core flags", "heading": "Core Flags"},
+            {"id": "output", "title": "Output and formats", "heading": "Output & Format"},
+            {"id": "use-cases", "title": "High-value use cases", "heading": "High-Value Use Cases"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intermediate",
+      "name": "Level 2 — Intermediate",
+      "title": "Building workflows",
+      "summary": "Automate with skills and hooks, then connect live data and delegate to subagents.",
+      "modules": [
+        {
+          "id": "skills",
+          "number": "03",
+          "title": "Skills",
+          "source": "03-skills/README.md",
+          "time": "1 hour",
+          "tagline": "Reusable expertise Claude loads only when it needs it.",
+          "lessons": [
+            {"id": "overview", "title": "Overview", "heading": "Overview"},
+            {"id": "progressive-disclosure", "title": "Progressive disclosure", "heading": "How Skills Work: Progressive Disclosure"},
+            {"id": "create", "title": "Create custom skills", "heading": "Creating Custom Skills"},
+            {"id": "invocation", "title": "Control skill invocation", "heading": "Controlling Skill Invocation"},
+            {"id": "subagents", "title": "Run skills in subagents", "heading": "Running Skills in Subagents"},
+            {"id": "manage", "title": "Manage skills", "heading": "Managing Skills"}
+          ]
+        },
+        {
+          "id": "hooks",
+          "number": "06",
+          "title": "Hooks",
+          "source": "06-hooks/README.md",
+          "time": "1 hour",
+          "tagline": "Quality gates and automation on every tool call and event.",
+          "lessons": [
+            {"id": "overview", "title": "Overview", "heading": "Overview"},
+            {"id": "configuration", "title": "Configuration", "heading": "Configuration"},
+            {"id": "types", "title": "Hook types", "heading": "Hook Types"},
+            {"id": "events", "title": "Hook events", "heading": "Hook Events"},
+            {"id": "io", "title": "Hook input and output", "heading": "Hook Input and Output"},
+            {"id": "prompt-hooks", "title": "Prompt-based hooks", "heading": "Prompt-Based Hooks"},
+            {"id": "debugging", "title": "Debugging hooks", "heading": "Debugging"}
+          ]
+        },
+        {
+          "id": "mcp",
+          "number": "05",
+          "title": "MCP",
+          "source": "05-mcp/README.md",
+          "time": "1 hour",
+          "tagline": "Connect GitHub, databases and APIs as live tools.",
+          "lessons": [
+            {"id": "overview", "title": "Overview", "heading": "Overview"},
+            {"id": "install", "title": "Installation methods", "heading": "MCP Installation Methods"},
+            {"id": "scopes", "title": "MCP scopes", "heading": "MCP Scopes"},
+            {"id": "resources", "title": "Resources via @ mentions", "heading": "MCP Resources via @ Mentions"},
+            {"id": "tool-search", "title": "MCP tool search", "heading": "MCP Tool Search"},
+            {"id": "serve", "title": "Claude as an MCP server", "heading": "Claude as MCP Server (`claude mcp serve`)"}
+          ]
+        },
+        {
+          "id": "subagents",
+          "number": "04",
+          "title": "Subagents",
+          "source": "04-subagents/README.md",
+          "time": "1.5 hours",
+          "tagline": "Delegate to specialists with their own context and tools.",
+          "lessons": [
+            {"id": "overview", "title": "Overview", "heading": "Overview"},
+            {"id": "configuration", "title": "Configuration", "heading": "Configuration"},
+            {"id": "built-in", "title": "Built-in subagents", "heading": "Built-in Subagents"},
+            {"id": "chaining", "title": "Chaining subagents", "heading": "Chaining Subagents"},
+            {"id": "background", "title": "Background subagents", "heading": "Background Subagents"},
+            {"id": "worktree", "title": "Worktree isolation", "heading": "Worktree Isolation"},
+            {"id": "teams", "title": "Agent teams", "heading": "Agent Teams (Experimental)"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "name": "Level 3 — Advanced",
+      "title": "Power user",
+      "summary": "Plan, run headless and on a schedule, then package everything as a plugin for your team.",
+      "modules": [
+        {
+          "id": "advanced-features",
+          "number": "09",
+          "title": "Advanced Features",
+          "source": "09-advanced-features/README.md",
+          "time": "2–3 hours",
+          "tagline": "Planning, auto mode, permissions, headless runs and more.",
+          "lessons": [
+            {"id": "overview", "title": "Overview", "heading": "Overview"},
+            {"id": "planning", "title": "Planning mode", "heading": "Planning Mode"},
+            {"id": "thinking", "title": "Extended thinking", "heading": "Extended Thinking"},
+            {"id": "auto-mode", "title": "Auto mode", "heading": "Auto Mode"},
+            {"id": "scheduled", "title": "Scheduled tasks", "heading": "Scheduled Tasks"},
+            {"id": "permissions", "title": "Permission modes", "heading": "Permission Modes"},
+            {"id": "headless", "title": "Headless mode", "heading": "Headless Mode"}
+          ]
+        },
+        {
+          "id": "plugins",
+          "number": "07",
+          "title": "Plugins",
+          "source": "07-plugins/README.md",
+          "time": "2 hours",
+          "tagline": "Bundle commands, agents, hooks and MCP into one install.",
+          "lessons": [
+            {"id": "overview", "title": "Overview", "heading": "Overview"},
+            {"id": "architecture", "title": "Plugin architecture", "heading": "Plugin Architecture"},
+            {"id": "structure", "title": "Plugin definition structure", "heading": "Plugin Definition Structure"},
+            {"id": "marketplace", "title": "Plugin marketplace", "heading": "Plugin Marketplace"},
+            {"id": "testing", "title": "Test a plugin", "heading": "Testing a Plugin"},
+            {"id": "publishing", "title": "Publish a plugin", "heading": "Publishing a Plugin"}
+          ]
+        }
+      ]
+    }
+  ]
+}

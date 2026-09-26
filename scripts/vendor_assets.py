@@ -11,6 +11,7 @@ use v3-style runtime configuration; Tailwind v4 deprecated that config format.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import os
@@ -29,8 +30,10 @@ MERMAID_URL = (
 )
 GOOGLE_FONTS_CSS_URL = (
     "https://fonts.googleapis.com/css2?"
-    "family=Inter:wght@400;500;600;700;800"
+    "family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600"
+    "&family=Inter:wght@400;500;600;700;800"
     "&family=JetBrains+Mono:wght@400;500;600"
+    "&family=Manrope:wght@400;500;600;700"
     "&display=swap"
 )
 GOOGLE_FONTS_UA = (
@@ -160,7 +163,10 @@ def fetch_fonts(target_dir: Path, logger: logging.Logger) -> Path:
     """Download Google Fonts CSS + WOFF2 files, rewrite URLs to relative paths."""
     cache = _vendor_cache_dir() / "fonts"
     cache.mkdir(parents=True, exist_ok=True)
-    css_cache = cache / "fonts.css"
+    # Key the cached CSS on the request URL so adding/removing font families
+    # invalidates the cache instead of silently serving the old stylesheet.
+    css_key = hashlib.sha1(GOOGLE_FONTS_CSS_URL.encode("utf-8")).hexdigest()[:10]
+    css_cache = cache / f"fonts-{css_key}.css"
     files_cache = cache / "files"
     files_cache.mkdir(parents=True, exist_ok=True)
 
@@ -201,7 +207,10 @@ def write_vendor_manifest(target_dir: Path, fonts_count: int) -> None:
     manifest = {
         "tailwind": TAILWIND_VERSION,
         "mermaid": MERMAID_VERSION,
-        "fonts": {"family": ["Inter", "JetBrains Mono"], "files": fonts_count},
+        "fonts": {
+            "family": ["Fraunces", "Inter", "JetBrains Mono", "Manrope"],
+            "files": fonts_count,
+        },
     }
     target_dir.mkdir(parents=True, exist_ok=True)
     (target_dir / "manifest.json").write_text(

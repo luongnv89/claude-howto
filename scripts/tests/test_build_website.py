@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import sys
 from pathlib import Path
@@ -56,7 +57,7 @@ def site_root(tmp_path: Path) -> Path:
     sc = tmp_path / "01-slash-commands"
     sc.mkdir()
     (sc / "README.md").write_text(
-        "# Slash Commands\n\nMermaid time:\n\n```mermaid\nflowchart LR\nA-->B\n```\n\n"
+        "# Slash Commands\n\n## Advanced Usage\n\nMermaid time:\n\n```mermaid\nflowchart LR\nA-->B\n```\n\n"
         "See [example](example.md).\n"
     )
     (sc / "example.md").write_text("# Example\n\nGo back to [overview](README.md).\n")
@@ -518,3 +519,191 @@ class TestVendorAssets:
 
         with pytest.raises(ValueError, match="non-HTTP URL"):
             _download("file:///etc/passwd", tmp_path / "out.bin")
+
+
+# =============================================================================
+# Landing page
+# =============================================================================
+
+
+def _write_roadmap(path: Path, modules: list[dict]) -> Path:
+    data = {
+        "levels": [
+            {
+                "id": "beginner",
+                "name": "Level 1 — Beginner",
+                "title": "Getting started",
+                "summary": "Start here.",
+                "modules": modules,
+            }
+        ]
+    }
+    path.write_text(json.dumps(data), encoding="utf-8")
+    return path
+
+
+def _roadmap_module(lessons: list[dict], **overrides) -> dict:
+    module = {
+        "id": "slash-commands",
+        "number": "01",
+        "title": "Slash Commands",
+        "source": "01-slash-commands/README.md",
+        "time": "30 min",
+        "tagline": "Commands.",
+        "lessons": lessons,
+    }
+    module.update(overrides)
+    return module
+
+
+class TestLanding:
+    def _config(self, site_root: Path, out_dir: Path, roadmap: Path) -> WebsiteConfig:
+        return WebsiteConfig(
+            root_path=site_root,
+            output_path=out_dir,
+            repo_url="https://github.com/example/repo",
+            branch="main",
+            landing=True,
+            roadmap_path=roadmap,
+        )
+
+    def test_landing_build(
+        self, site_root: Path, tmp_path: Path, logger: logging.Logger
+    ) -> None:
+        roadmap = _write_roadmap(
+            tmp_path / "roadmap.json",
+            [
+                _roadmap_module(
+                    [
+                        {
+                            "id": "overview",
+                            "title": "Overview",
+                            "heading": "Slash Commands",
+                        },
+                        {
+                            "id": "advanced",
+                            "title": "Advanced usage",
+                            "heading": "Advanced Usage",
+                        },
+                    ]
+                )
+            ],
+        )
+        out_dir = site_root / "site"
+        build_website(
+            self._config(site_root, out_dir, roadmap), logger, skip_vendor=True
+        )
+
+        index = out_dir / "index.html"
+        assert index.exists()
+        index_html = index.read_text(encoding="utf-8")
+        # The landing takes index.html
+        assert 'id="roadmap"' in index_html
+        assert 'data-lesson="slash-commands/overview"' in index_html
+        # Lesson anchors resolve into the module page
+        assert "01-slash-commands/index.html#advanced-usage" in index_html
+        # Landing assets are copied alongside the site CSS
+        assert (out_dir / "assets" / "landing.css").exists()
+        assert (out_dir / "assets" / "landing.js").exists()
+        # The landing must not pull in the docs-page stylesheet or CDNs
+        assert "tailwind.css" not in index_html
+        for hostile in ("cdn.tailwindcss.com", "fonts.googleapis.com"):
+            assert hostile not in index_html
+
+        # The README moved to guide.html
+        guide = out_dir / "guide.html"
+        assert guide.exists()
+        assert "Home Page" in guide.read_text(encoding="utf-8")
+
+        # Links from other pages to README.md now resolve to guide.html
+        roadmap_page = (out_dir / "LEARNING-ROADMAP.html").read_text(encoding="utf-8")
+        assert "guide.html#home-page" in roadmap_page
+        assert "index.html#home-page" not in roadmap_page
+
+    def test_landing_missing_heading(
+        self, site_root: Path, tmp_path: Path, logger: logging.Logger
+    ) -> None:
+        roadmap = _write_roadmap(
+            tmp_path / "roadmap.json",
+            [
+                _roadmap_module(
+                    [
+                        {
+                            "id": "ghost",
+                            "title": "Ghost",
+                            "heading": "Does Not Exist",
+                        }
+                    ]
+                )
+            ],
+        )
+        with pytest.raises(RuntimeError, match="Does Not Exist"):
+            build_website(
+                self._config(site_root, site_root / "site", roadmap),
+                logger,
+                skip_vendor=True,
+            )
+
+    def test_landing_missing_source(
+        self, site_root: Path, tmp_path: Path, logger: logging.Logger
+    ) -> None:
+        roadmap = _write_roadmap(
+            tmp_path / "roadmap.json",
+            [
+                _roadmap_module(
+                    [{"id": "x", "title": "X", "heading": "X"}],
+                    source="99-nope/README.md",
+                )
+            ],
+        )
+        with pytest.raises(RuntimeError, match=r"99-nope/README\.md"):
+            build_website(
+                self._config(site_root, site_root / "site", roadmap),
+                logger,
+                skip_vendor=True,
+            )
+
+    def test_landing_duplicate_ids(
+        self, site_root: Path, tmp_path: Path, logger: logging.Logger
+    ) -> None:
+        lesson = {"id": "overview", "title": "Overview", "heading": "Slash Commands"}
+        roadmap = _write_roadmap(
+            tmp_path / "roadmap.json",
+            [_roadmap_module([lesson, dict(lesson)])],
+        )
+        with pytest.raises(RuntimeError, match="duplicate lesson id"):
+            build_website(
+                self._config(site_root, site_root / "site", roadmap),
+                logger,
+                skip_vendor=True,
+            )
+
+    def test_landing_real_repo(self, tmp_path: Path, logger: logging.Logger) -> None:
+        """Every heading in the shipped roadmap.json must resolve to an anchor."""
+        repo_root = Path(__file__).resolve().parents[2]
+        out_dir = tmp_path / "site"
+        config = WebsiteConfig(
+            root_path=repo_root,
+            output_path=out_dir,
+            landing=True,
+        )
+        build_website(config, logger, skip_vendor=True)
+        index_html = (out_dir / "index.html").read_text(encoding="utf-8")
+        assert 'id="roadmap"' in index_html
+        assert 'data-lesson="slash-commands/overview"' in index_html
+        assert (out_dir / "guide.html").exists()
+
+    def test_landing_off_keeps_readme_index(
+        self, site_root: Path, logger: logging.Logger
+    ) -> None:
+        out_dir = site_root / "site"
+        config = WebsiteConfig(
+            root_path=site_root,
+            output_path=out_dir,
+            landing=False,
+        )
+        build_website(config, logger, skip_vendor=True)
+        index_html = (out_dir / "index.html").read_text(encoding="utf-8")
+        assert "Home Page" in index_html
+        assert 'id="roadmap"' not in index_html
+        assert not (out_dir / "guide.html").exists()

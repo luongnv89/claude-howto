@@ -1,7 +1,11 @@
 #!/usr/bin/env -S uv run --script
 # /// script
-# dependencies = ["markdown", "beautifulsoup4", "jinja2"]
+# dependencies = ["markdown==3.7", "beautifulsoup4==4.12.3", "jinja2==3.1.4"]
 # ///
+
+# Versions pinned to match scripts/requirements.txt — markdown 3.11+ mis-parses
+# raw `</...>` inside code spans (e.g. `read -r INPUT </dev/tty`) and silently
+# truncates the rendered page.
 """
 Build a static website from the Claude How-To markdown files.
 
@@ -37,6 +41,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import json
 import logging
 import re
 import shutil
@@ -139,6 +144,8 @@ class WebsiteConfig:
     site_title: str = "Claude Code How-To Guide"
     site_subtitle: str = "Master Claude Code in a Weekend"
     language: str = "en"
+    landing: bool = False  # render the marketing landing page as index.html
+    roadmap_path: Path | None = None  # defaults to website_templates/roadmap.json
 
 
 @dataclass
@@ -160,6 +167,7 @@ class BuildState:
 
     pages: list[PageInfo] = field(default_factory=list)
     source_to_url: dict[str, str] = field(default_factory=dict)
+    page_anchors: dict[str, set[str]] = field(default_factory=dict)
 
 
 # =============================================================================
@@ -312,7 +320,11 @@ def collect_pages(config: WebsiteConfig, logger: logging.Logger) -> BuildState:
             seen.add(item)
             content = read_source(item_path)
             page_title = title_from_content(content, display_name)
-            url = _disambiguate_url(source_to_site_url(item), used_urls, item)
+            url = source_to_site_url(item)
+            if config.landing and item == "README.md":
+                # The landing page takes index.html; the README becomes guide.html.
+                url = "guide.html"
+            url = _disambiguate_url(url, used_urls, item)
             used_urls.add(url.lower())
             state.pages.append(
                 PageInfo(
@@ -767,6 +779,9 @@ def render_pages(
         soup = render_markdown_to_soup(md_content)
         toc = extract_toc_from_soup(soup)
         rewrite_links_in_soup(soup, page, state, config, logger)
+        state.page_anchors[page.output_url] = {
+            str(el["id"]) for el in soup.find_all(id=True)
+        }
         html_content = str(soup)
 
         prev_page = state.pages[idx - 1] if idx > 0 else None
@@ -817,6 +832,159 @@ def render_pages(
 
 
 # =============================================================================
+# Landing page
+# =============================================================================
+
+
+def _resolve_landing_roadmap(
+    data: dict[str, object], state: BuildState
+) -> tuple[list[dict[str, object]], int, int, list[str]]:
+    """Resolve roadmap module sources and lesson headings to site URLs.
+
+    Returns (levels, module_count, lesson_count, problems). Every module
+    `source` must map to a rendered page and every lesson `heading` must
+    match an element id on that page — problems are collected, not raised,
+    so a single error lists all drift at once.
+    """
+    problems: list[str] = []
+    seen_module_ids: set[str] = set()
+    seen_lesson_ids: set[str] = set()
+    resolved_levels: list[dict[str, object]] = []
+    module_count = 0
+    lesson_count = 0
+
+    levels = data.get("levels", [])
+    if not isinstance(levels, list):
+        raise RuntimeError("roadmap.json: 'levels' must be a list")
+
+    for level in levels:
+        resolved_modules: list[dict[str, object]] = []
+        for module in level.get("modules", []):
+            mod_id = str(module.get("id", ""))
+            source = str(module.get("source", ""))
+            module_count += 1
+            if mod_id in seen_module_ids:
+                problems.append(f"duplicate module id: '{mod_id}'")
+            seen_module_ids.add(mod_id)
+
+            url = state.source_to_url.get(source)
+            if url is None:
+                problems.append(
+                    f"module '{mod_id}': source '{source}' was not rendered"
+                )
+            anchors = state.page_anchors.get(url, set()) if url else set()
+
+            resolved_lessons: list[dict[str, object]] = []
+            for lesson in module.get("lessons", []):
+                lesson_id = str(lesson.get("id", ""))
+                full_id = f"{mod_id}/{lesson_id}"
+                lesson_count += 1
+                if full_id in seen_lesson_ids:
+                    problems.append(f"duplicate lesson id: '{full_id}'")
+                seen_lesson_ids.add(full_id)
+
+                heading = str(lesson.get("heading", ""))
+                anchor = heading_to_anchor(heading)
+                if url is not None and anchor not in anchors:
+                    problems.append(
+                        f"lesson '{full_id}': heading '{heading}' resolves to "
+                        f"#{anchor}, which is missing from {source}"
+                    )
+                resolved_lessons.append(
+                    {
+                        "id": lesson_id,
+                        "full_id": full_id,
+                        "title": lesson.get("title", heading),
+                        "href": (
+                            relative_link("index.html", url, f"#{anchor}")
+                            if url
+                            else "#"
+                        ),
+                    }
+                )
+            resolved_modules.append(
+                {
+                    "id": mod_id,
+                    "number": module.get("number", ""),
+                    "title": module.get("title", mod_id),
+                    "time": module.get("time", ""),
+                    "tagline": module.get("tagline", ""),
+                    "url": relative_link("index.html", url) if url else "#",
+                    "lessons": resolved_lessons,
+                    "lesson_count": len(resolved_lessons),
+                }
+            )
+        resolved_levels.append(
+            {
+                "id": level.get("id", ""),
+                "name": level.get("name", ""),
+                "title": level.get("title", ""),
+                "summary": level.get("summary", ""),
+                "modules": resolved_modules,
+            }
+        )
+    return resolved_levels, module_count, lesson_count, problems
+
+
+def render_landing(
+    config: WebsiteConfig,
+    state: BuildState,
+    env: Environment,
+    logger: logging.Logger,
+) -> None:
+    """Render the marketing landing page as `index.html`.
+
+    The landing is generated only for the English build — translated sites
+    keep their README at index.html because their heading anchors differ.
+    """
+    template_dir = Path(__file__).parent / "website_templates"
+    roadmap_path = config.roadmap_path or (template_dir / "roadmap.json")
+    data = json.loads(roadmap_path.read_text(encoding="utf-8"))
+
+    levels, module_count, lesson_count, problems = _resolve_landing_roadmap(data, state)
+    if problems:
+        raise RuntimeError(
+            "roadmap.json does not match the rendered pages:\n  - "
+            + "\n  - ".join(problems)
+        )
+
+    version = None
+    readme_text = read_source(config.root_path / "README.md")
+    if readme_text:
+        match = re.search(r"badge/version-([\d.]+)", readme_text)
+        if match:
+            version = match.group(1)
+
+    template = env.get_template("landing.html.j2")
+    rendered = template.render(
+        site_title=config.site_title,
+        site_subtitle=config.site_subtitle,
+        levels=levels,
+        module_count=module_count,
+        lesson_count=lesson_count,
+        version=version,
+        guide_url=state.source_to_url.get("README.md", "guide.html"),
+        repo_url=config.repo_url,
+        branch=config.branch,
+    )
+
+    out_file = config.output_path / "index.html"
+    out_file.parent.mkdir(parents=True, exist_ok=True)
+    out_file.write_text(rendered, encoding="utf-8")
+
+    assets_dir = config.output_path / "assets"
+    assets_dir.mkdir(parents=True, exist_ok=True)
+    for name in ("landing.css", "landing.js"):
+        src = template_dir / name
+        if src.exists():
+            shutil.copy2(src, assets_dir / name)
+        else:
+            logger.warning(f"Landing asset missing, skipped: {src}")
+
+    logger.info(f"Rendered landing page → {out_file}")
+
+
+# =============================================================================
 # Build orchestration
 # =============================================================================
 
@@ -853,6 +1021,8 @@ def build_website(
         )
 
     render_pages(config, state, env, logger)
+    if config.landing:
+        render_landing(config, state, env, logger)
     copy_assets(config, state, logger)
 
     # Self-hosted vendor assets — drop all CDN dependencies.
@@ -958,6 +1128,7 @@ def main() -> int:
         repo_url=args.repo_url,
         branch=args.branch,
         language=args.lang,
+        landing=(args.lang == "en"),
     )
 
     try:

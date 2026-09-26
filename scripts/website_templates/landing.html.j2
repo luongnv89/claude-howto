@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{{ site_title }} — Master Claude Code in a Weekend</title>
+  <meta
+    name="description"
+    content="Go from typing claude to orchestrating agents, hooks, skills, and MCP servers — visual tutorials, copy-paste templates, and a guided learning path for Claude Code."
+  />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfaf7" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
+  <link rel="icon" href="assets/resources/logos/claude-howto-logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/vendor/fonts/fonts.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <script>
+    // Apply the saved theme before paint to avoid flash of unstyled content.
+    (function () {
+      try {
+        var saved = localStorage.getItem('claude-howto-theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = saved || (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <script>
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+  <script src="assets/landing.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#roadmap">Skip to the roadmap</a>
+
+  {# ============ Sticky nav ============ #}
+  <header class="nav" id="top">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html" aria-label="Claude How-To home">
+        <img
+          src="assets/resources/logos/claude-howto-logo.svg"
+          alt="claude-howto"
+          class="nav-logo logo-light"
+          onerror="this.style.display='none'"
+        />
+        <img
+          src="assets/resources/logos/claude-howto-logo-dark.svg"
+          alt="claude-howto"
+          class="nav-logo logo-dark"
+          onerror="this.style.display='none'"
+        />
+      </a>
+      <nav class="nav-links" id="nav-menu" aria-label="Primary">
+        <a href="#why">Why</a>
+        <a href="#vs-docs">vs&nbsp;Docs</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="{{ guide_url }}">Guide</a>
+        <a href="{{ repo_url }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn btn-primary btn-sm" href="#roadmap">Start learning</a>
+        <button
+          class="theme-toggle"
+          id="theme-toggle"
+          type="button"
+          aria-label="Switch to dark theme"
+        >
+          <svg class="ti-sun" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <circle cx="10" cy="10" r="4" />
+            <path d="M10 1.8v2.2M10 16v2.2M1.8 10H4M16 10h2.2M4.2 4.2l1.6 1.6M14.2 14.2l1.6 1.6M15.8 4.2l-1.6 1.6M5.8 14.2l-1.6 1.6" stroke-linecap="round" />
+          </svg>
+          <svg class="ti-moon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+          </svg>
+        </button>
+        <button
+          class="nav-toggle"
+          id="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+          aria-label="Toggle menu"
+        >
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path class="menu-open" d="M3 5.5h14M3 10h14M3 14.5h14" stroke-linecap="round" />
+            <path class="menu-close" d="M5 5l10 10M15 5L5 15" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    {# ============ Hero ============ #}
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow-row reveal" style="--d: 0s">
+            <p class="eyebrow">~/claude-howto · a weekend curriculum</p>
+            {% if version %}<span class="version-pill">Synced to v{{ version }}</span>{% endif %}
+          </div>
+          <h1 class="hero-title reveal" style="--d: 0.08s">
+            Master <em>Claude&nbsp;Code</em><br />in a Weekend
+          </h1>
+          <p class="hero-sub reveal" style="--d: 0.16s">
+            Go from typing <code>claude</code> to orchestrating agents, hooks,
+            skills, and MCP servers — with visual tutorials, copy&#8209;paste
+            templates, and a guided learning path.
+          </p>
+          <div class="hero-cta reveal" style="--d: 0.24s">
+            <a class="btn btn-primary" href="#roadmap">Start the roadmap</a>
+            <a class="btn btn-ghost" href="{{ guide_url }}">Read the guide</a>
+          </div>
+          <dl class="hero-stats reveal" style="--d: 0.32s">
+            <div class="stat">
+              <dt>Modules</dt>
+              <dd>{{ module_count }}</dd>
+            </div>
+            <div class="stat">
+              <dt>Time</dt>
+              <dd>11–13&nbsp;h</dd>
+            </div>
+            <div class="stat">
+              <dt>Languages</dt>
+              <dd>5</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div
+          class="hero-term reveal"
+          style="--d: 0.2s"
+          role="img"
+          aria-label="Terminal recording of a short Claude Code session: launching claude, running /init and /self-assessment, a hook firing, and a subagent delegating work"
+        >
+          <div class="term">
+            <div class="term-bar">
+              <span class="term-dot"></span>
+              <span class="term-dot"></span>
+              <span class="term-dot"></span>
+              <span class="term-title">~/project — claude</span>
+            </div>
+            <div class="term-body" id="terminal">
+              <div class="t-line" data-t="cmd"><span class="t-pp">$</span><span class="t-tt">claude</span></div>
+              <div class="t-line" data-t="out" data-c="dim">Claude Code · working in ~/project</div>
+              <div class="t-line" data-t="cmd"><span class="t-pp t-pp-in">&gt;</span><span class="t-tt">/init</span></div>
+              <div class="t-line" data-t="out" data-c="ok">✓ wrote CLAUDE.md — 6 rules, 3 imports</div>
+              <div class="t-line" data-t="cmd"><span class="t-pp t-pp-in">&gt;</span><span class="t-tt">/self-assessment</span></div>
+              <div class="t-line" data-t="out" data-c="info">→ level: intermediate · start at 03-skills</div>
+              <div class="t-line" data-t="cmd"><span class="t-pp t-pp-in">&gt;</span><span class="t-tt">add rate limiting to the api</span></div>
+              <div class="t-line" data-t="out" data-c="warn">⚡ hook PreToolUse → ruff check . — passed</div>
+              <div class="t-line" data-t="out" data-c="ok">◆ Explore agent → mapped 14 routes — done</div>
+              <div class="t-line" data-t="cmd"><span class="t-pp">$</span><span class="t-tt"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {# ============ Why / value ============ #}
+    <section class="section" id="why">
+      <p class="kicker reveal">Why this guide</p>
+      <h2 class="section-title reveal">The docs tell you <em>what</em>.<br />This shows you <em>how</em>.</h2>
+      <div class="cards">
+        <article class="card reveal">
+          <div class="card-glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.5" />
+              <rect x="14" y="14" width="7" height="7" rx="1.5" />
+              <path d="M10 6.5h4a3 3 0 0 1 3 3V14M14 17.5h-4a3 3 0 0 1-3-3V10" />
+            </svg>
+          </div>
+          <h3>Visual by default</h3>
+          <p>
+            Mermaid diagrams show how each feature works under the hood — so
+            you understand <em>why</em>, not just <em>how</em>.
+          </p>
+        </article>
+        <article class="card reveal" style="--d: 0.08s">
+          <div class="card-glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="8" width="12" height="12" rx="2" />
+              <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" />
+            </svg>
+          </div>
+          <h3>Copy-paste templates</h3>
+          <p>
+            Production-ready slash commands, CLAUDE.md files, hook scripts, MCP
+            configs and plugin bundles — drop them into your project today.
+          </p>
+        </article>
+        <article class="card reveal" style="--d: 0.16s">
+          <div class="card-glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="19" r="2.5" />
+              <circle cx="18" cy="5" r="2.5" />
+              <path d="M8 17.5 10 15a10 10 0 0 1 6-7.5" />
+              <path d="M8.5 19H15" stroke-dasharray="2 2.6" />
+            </svg>
+          </div>
+          <h3>A guided path</h3>
+          <p>
+            Ten modules in the order a learner needs them — beginner to power
+            user in 11–13 hours. No more guessing what to learn next.
+          </p>
+        </article>
+        <article class="card reveal" style="--d: 0.24s">
+          <div class="card-glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11.5 11 14l4.5-5" />
+              <circle cx="12" cy="12" r="9" />
+            </svg>
+          </div>
+          <h3>Self-assessment built in</h3>
+          <p>
+            Run <code>/self-assessment</code> or <code>/lesson-quiz</code> inside
+            Claude Code to find your gaps and get a personalized path.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    {# ============ Docs vs guide ============ #}
+    <section class="section" id="vs-docs">
+      <p class="kicker reveal">Official docs vs this guide</p>
+      <h2 class="section-title reveal">Different jobs, same tool</h2>
+      <p class="section-sub reveal">
+        This guide complements the
+        <a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener noreferrer">official docs</a>
+        — they are the reference; this is the curriculum.
+      </p>
+      <div class="versus reveal">
+        <div class="versus-head" role="presentation">
+          <span></span>
+          <span class="v-docs">Official docs</span>
+          <span class="v-guide">This guide</span>
+        </div>
+        <div class="versus-row">
+          <span class="v-label">Format</span>
+          <span class="v-docs">Reference documentation</span>
+          <span class="v-guide">Visual tutorials with Mermaid diagrams</span>
+        </div>
+        <div class="versus-row">
+          <span class="v-label">Depth</span>
+          <span class="v-docs">Feature descriptions</span>
+          <span class="v-guide">How it works under the hood</span>
+        </div>
+        <div class="versus-row">
+          <span class="v-label">Examples</span>
+          <span class="v-docs">Basic snippets</span>
+          <span class="v-guide">Production-ready templates you use immediately</span>
+        </div>
+        <div class="versus-row">
+          <span class="v-label">Structure</span>
+          <span class="v-docs">Feature-organized</span>
+          <span class="v-guide">Progressive learning path (beginner to advanced)</span>
+        </div>
+        <div class="versus-row">
+          <span class="v-label">Onboarding</span>
+          <span class="v-docs">Self-directed</span>
+          <span class="v-guide">Guided roadmap with time estimates</span>
+        </div>
+        <div class="versus-row">
+          <span class="v-label">Self-assessment</span>
+          <span class="v-docs">None</span>
+          <span class="v-guide">Interactive quizzes that build a personalized path</span>
+        </div>
+      </div>
+    </section>
+
+    {# ============ Roadmap ============ #}
+    <section class="section roadmap" id="roadmap">
+      <p class="kicker reveal">The roadmap</p>
+      <h2 class="section-title reveal">Ten stations, one line</h2>
+      <p class="section-sub reveal">
+        Three levels, {{ module_count }} modules, {{ lesson_count }} lessons.
+        Progress is saved in your browser — check lessons off as you go.
+      </p>
+
+      <div class="progress-panel reveal" id="progress-panel">
+        <div class="ring-wrap" role="img" aria-label="Overall progress">
+          <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ring-bg" cx="60" cy="60" r="52" />
+            <circle class="ring-fg" id="ring-fg" cx="60" cy="60" r="52" />
+          </svg>
+          <div class="ring-label">
+            <span class="ring-pct" id="ring-pct">0%</span>
+            <span class="ring-cap">complete</span>
+          </div>
+        </div>
+        <div class="progress-mid">
+          <p class="counts">
+            <span><b id="c-done">0</b> done</span>
+            <span class="counts-sep" aria-hidden="true">·</span>
+            <span><b id="c-prog">0</b> in progress</span>
+            <span class="counts-sep" aria-hidden="true">·</span>
+            <span><b id="c-todo">{{ lesson_count }}</b> not started</span>
+          </p>
+          <div class="progress-actions">
+            <a class="btn btn-primary btn-sm" id="continue-btn" href="#roadmap">Continue</a>
+            <span class="all-done" id="all-done" hidden>All done — roadmap complete.</span>
+            <button class="btn btn-ghost btn-sm" id="reset-btn" type="button">Reset progress</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="subway" id="subway">
+        <div class="track" aria-hidden="true"><div class="track-fill" id="track-fill"></div></div>
+        {% for level in levels %}
+        <section class="level" aria-labelledby="level-{{ level.id }}">
+          <header class="level-head reveal">
+            <p class="level-name">{{ level.name }}</p>
+            <h3 class="level-title" id="level-{{ level.id }}">{{ level.title }}</h3>
+            <p class="level-sum">{{ level.summary }}</p>
+          </header>
+          <ol class="stations">
+            {% for module in level.modules %}
+            <li class="station reveal" data-module="{{ module.id }}" data-status="not-started">
+              <span class="node" aria-hidden="true"></span>
+              <article class="station-card">
+                <header class="station-head">
+                  <span class="station-num" aria-hidden="true">{{ module.number }}</span>
+                  <div class="station-meta">
+                    <h4 class="station-title">
+                      <a href="{{ module.lessons[0].href if module.lessons else module.url }}">{{ module.title }}</a>
+                    </h4>
+                    <p class="station-tag">{{ module.tagline }}</p>
+                  </div>
+                  <div class="station-side">
+                    <span class="station-time">{{ module.time }}</span>
+                    <span class="pill" data-pill>Not started</span>
+                  </div>
+                </header>
+                <div class="station-bar">
+                  <span class="bar" aria-hidden="true"><i data-bar></i></span>
+                  <span class="bar-count" data-count>0/{{ module.lesson_count }}</span>
+                </div>
+                <button
+                  class="station-toggle"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="lessons-{{ module.id }}"
+                >
+                  <span>{{ module.lesson_count }} lessons</span>
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+                    <path d="M4 6l4 4 4-4" />
+                  </svg>
+                </button>
+                <ul class="lessons" id="lessons-{{ module.id }}">
+                  {% for lesson in module.lessons %}
+                  <li class="lesson" data-lesson="{{ lesson.full_id }}" data-status="not-started">
+                    <button
+                      class="check"
+                      type="button"
+                      role="checkbox"
+                      aria-checked="false"
+                      aria-label="Mark '{{ lesson.title }}' as done"
+                    >
+                      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path class="check-dash" d="M4 8h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                        <path class="check-mark" d="M3.2 8.6 6.4 11.6 13 4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </button>
+                    <a class="lesson-link" href="{{ lesson.href }}">{{ lesson.title }}</a>
+                    <span class="lesson-status" data-lstatus>Not started</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </article>
+            </li>
+            {% endfor %}
+          </ol>
+        </section>
+        {% endfor %}
+      </div>
+    </section>
+
+    {# ============ Get started ============ #}
+    <section class="section" id="get-started">
+      <p class="kicker reveal">Get started</p>
+      <h2 class="section-title reveal">Fifteen minutes to your first workflow</h2>
+      <ol class="steps">
+        <li class="step reveal">
+          <span class="step-num" aria-hidden="true">01</span>
+          <h3>Clone the repo</h3>
+          <p>Everything is markdown — templates included, nothing to install.</p>
+          <div class="code">
+            <code>git clone {{ repo_url }}.git</code>
+            <button class="copy" type="button" data-copy="git clone {{ repo_url }}.git" aria-label="Copy clone command">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="5.5" y="5.5" width="8" height="8" rx="1.5" />
+                <path d="M10.5 5.5V4a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 4v5A1.5 1.5 0 0 0 4 10.5h1.5" />
+              </svg>
+              <span class="copy-label">Copy</span>
+            </button>
+          </div>
+        </li>
+        <li class="step reveal" style="--d: 0.08s">
+          <span class="step-num" aria-hidden="true">02</span>
+          <h3>Take the self-assessment</h3>
+          <p>Inside Claude Code, find your level and skip what you know.</p>
+          <div class="code">
+            <code>/self-assessment</code>
+            <button class="copy" type="button" data-copy="/self-assessment" aria-label="Copy self-assessment command">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="5.5" y="5.5" width="8" height="8" rx="1.5" />
+                <path d="M10.5 5.5V4a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 4v5A1.5 1.5 0 0 0 4 10.5h1.5" />
+              </svg>
+              <span class="copy-label">Copy</span>
+            </button>
+          </div>
+        </li>
+        <li class="step reveal" style="--d: 0.16s">
+          <span class="step-num" aria-hidden="true">03</span>
+          <h3>Follow the roadmap</h3>
+          <p>Work through the modules at your level — progress is tracked above.</p>
+          <a class="step-link" href="#roadmap">Start at your level →</a>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  {# ============ Footer ============ #}
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col footer-brand">
+        <img
+          src="assets/resources/logos/claude-howto-logo.svg"
+          alt=""
+          class="footer-logo logo-light"
+          onerror="this.style.display='none'"
+        />
+        <img
+          src="assets/resources/logos/claude-howto-logo-dark.svg"
+          alt=""
+          class="footer-logo logo-dark"
+          onerror="this.style.display='none'"
+        />
+        <p class="footer-note">
+          A community guide to Claude Code. Markdown is the source of truth.
+        </p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-head">Project</p>
+        <a href="{{ repo_url }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="{{ repo_url }}/blob/{{ branch }}/LICENSE" target="_blank" rel="noopener noreferrer">MIT license</a>
+        <a href="{{ repo_url }}/blob/{{ branch }}/CHANGELOG.md" target="_blank" rel="noopener noreferrer">Changelog</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-head">Languages</p>
+        <a href="{{ repo_url }}/blob/{{ branch }}/vi/README.md" target="_blank" rel="noopener noreferrer">Tiếng Việt</a>
+        <a href="{{ repo_url }}/blob/{{ branch }}/zh/README.md" target="_blank" rel="noopener noreferrer">中文</a>
+        <a href="{{ repo_url }}/blob/{{ branch }}/ja/README.md" target="_blank" rel="noopener noreferrer">日本語</a>
+        <a href="{{ repo_url }}/blob/{{ branch }}/uk/README.md" target="_blank" rel="noopener noreferrer">Українська</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-head">Docs</p>
+        <a href="{{ guide_url }}">Guide</a>
+        <a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener noreferrer">Official docs</a>
+        {% if version %}<span class="footer-version">Synced to v{{ version }}</span>{% endif %}
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>claude-howto · MIT licensed</span>
+      <a href="#top" class="footer-top">Back to top ↑</a>
+    </div>
+  </footer>
+</body>
+</html>
