@@ -75,9 +75,11 @@ Claude Code 自带一些常见角色，例如：
 
 > **注意**：`/agents` 交互式向导已在 v2.1.198 中移除，且自 v2.1.281 起 `/agents` 不再出现在 `/` 菜单或 `/help` 中。请让 Claude 创建或管理 subagent（例如“创建一个审查安全问题的 subagent”），或直接添加 `.claude/agents/<name>.md` 文件。
 
-```bash
-/agents
+```text
+创建一个审查代码安全漏洞的 subagent。
 ```
+
+Claude 会为你写好 `.claude/agents/<name>.md` 文件，并选择合适的 frontmatter（工具、模型、描述）。之后你可以手动调整该文件，或让 Claude 修改。
 
 ### 直接管理文件
 
@@ -337,9 +339,12 @@ subagent 在隔离上下文里工作，但仍能把结果汇总回主会话。
 
 > **注意**：`/agents` 交互式向导已在 v2.1.198 中移除，且自 v2.1.281 起 `/agents` 不再出现在 `/` 菜单或 `/help` 中。请让 Claude 创建或管理 subagent（例如“创建一个审查安全问题的 subagent”），或直接添加 `.claude/agents/<name>.md` 文件。
 
-```bash
-/agents
+```text
+创建一个项目级 subagent，用于运行测试并修复失败。
+给它 Bash、Read、Edit 和 Grep 的访问权限。
 ```
+
+Claude 会写入带有合适 frontmatter 的 `.claude/agents/<name>.md`。检查生成的文件后即可使用。
 
 ### 方法 2：复制到项目
 
@@ -358,7 +363,8 @@ cp 04-subagents/*.md ~/.claude/agents/
 ### 验证
 
 - 让 Claude 创建一个 subagent，或直接添加 `.claude/agents/<name>.md` 文件
-- 检查对应 agent 是否出现在列表中
+- 列出目录，确认 agent 文件已就位：`ls .claude/agents/`
+- 也可以询问 Claude 当前会话中有哪些可用的 subagent，它会报告可委派的内置与自定义 agent
 - 试着让 Claude 委派一个简单任务
 
 ## 文件结构
