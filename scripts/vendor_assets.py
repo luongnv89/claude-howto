@@ -165,7 +165,7 @@ def fetch_fonts(target_dir: Path, logger: logging.Logger) -> Path:
     cache.mkdir(parents=True, exist_ok=True)
     # Key the cached CSS on the request URL so adding/removing font families
     # invalidates the cache instead of silently serving the old stylesheet.
-    css_key = hashlib.sha1(GOOGLE_FONTS_CSS_URL.encode("utf-8")).hexdigest()[:10]
+    css_key = hashlib.sha256(GOOGLE_FONTS_CSS_URL.encode("utf-8")).hexdigest()[:10]
     css_cache = cache / f"fonts-{css_key}.css"
     files_cache = cache / "files"
     files_cache.mkdir(parents=True, exist_ok=True)

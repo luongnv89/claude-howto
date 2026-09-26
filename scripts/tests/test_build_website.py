@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
 import pytest
+from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -520,6 +524,42 @@ class TestVendorAssets:
         with pytest.raises(ValueError, match="non-HTTP URL"):
             _download("file:///etc/passwd", tmp_path / "out.bin")
 
+    def test_font_css_cache_uses_sha256_url_key(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch, logger: logging.Logger
+    ) -> None:
+        """Font CSS variants get distinct ten-character SHA-256 cache keys."""
+        import vendor_assets
+
+        cache_dir = tmp_path / "vendor-cache"
+        monkeypatch.setattr(vendor_assets, "_vendor_cache_dir", lambda: cache_dir)
+        urls = [
+            vendor_assets.GOOGLE_FONTS_CSS_URL,
+            vendor_assets.GOOGLE_FONTS_CSS_URL + "&variant=regression",
+        ]
+        downloads: list[str] = []
+
+        def fake_download(
+            url: str, dest: Path, headers: dict[str, str] | None = None
+        ) -> None:
+            del headers
+            downloads.append(url)
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_text(f"/* {url} */", encoding="utf-8")
+
+        monkeypatch.setattr(vendor_assets, "_download", fake_download)
+
+        keys: list[str] = []
+        for index, url in enumerate(urls):
+            monkeypatch.setattr(vendor_assets, "GOOGLE_FONTS_CSS_URL", url)
+            vendor_assets.fetch_fonts(tmp_path / f"output-{index}", logger)
+            key = hashlib.sha256(url.encode("utf-8")).hexdigest()[:10]
+            keys.append(key)
+            assert len(key) == 10
+            assert (cache_dir / "fonts" / f"fonts-{key}.css").is_file()
+
+        assert keys[0] != keys[1]
+        assert downloads == urls
+
 
 # =============================================================================
 # Landing page
@@ -597,14 +637,23 @@ class TestLanding:
         index = out_dir / "index.html"
         assert index.exists()
         index_html = index.read_text(encoding="utf-8")
+        soup = BeautifulSoup(index_html, "html.parser")
         # The landing takes index.html
-        assert 'id="roadmap"' in index_html
-        assert 'data-lesson="slash-commands/overview"' in index_html
+        assert soup.select_one("#roadmap") is not None
+        assert soup.select_one('[data-lesson="slash-commands/overview"]') is not None
+        # The header CTA and live copy status remain available in the rendered page.
+        assert soup.select_one('header .nav-cta[href="#roadmap"]') is not None
+        copy_status = soup.select_one("#copy-status")
+        assert copy_status is not None
+        assert copy_status.get("role") == "status"
+        assert copy_status.get("aria-live") == "polite"
         # Lesson anchors resolve into the module page
         assert "01-slash-commands/index.html#advanced-usage" in index_html
-        # Landing assets are copied alongside the site CSS
+        # Landing assets are copied and referenced alongside the site CSS
         assert (out_dir / "assets" / "landing.css").exists()
         assert (out_dir / "assets" / "landing.js").exists()
+        assert soup.select_one('link[href="assets/landing.css"]') is not None
+        assert soup.select_one('script[src="assets/landing.js"]') is not None
         # The landing must not pull in the docs-page stylesheet or CDNs
         assert "tailwind.css" not in index_html
         for hostile in ("cdn.tailwindcss.com", "fonts.googleapis.com"):
@@ -707,3 +756,217 @@ class TestLanding:
         assert "Home Page" in index_html
         assert 'id="roadmap"' not in index_html
         assert not (out_dir / "guide.html").exists()
+
+
+LANDING_JS_NODE_HARNESS = r"""
+const assert = require("assert");
+const fs = require("fs");
+const vm = require("vm");
+const source = fs.readFileSync(process.argv[1], "utf8");
+
+function element(id = null, classes = [], attrs = {}) {
+  const names = new Set(classes);
+  const listeners = {};
+  const item = {
+    id, attrs, style: {}, hidden: false, textContent: "",
+    classList: {
+      add(...values) { values.forEach((value) => names.add(value)); },
+      remove(...values) { values.forEach((value) => names.delete(value)); },
+      contains(value) { return names.has(value); },
+      toggle(value, force) {
+        const next = force === undefined ? !names.has(value) : force;
+        if (next) names.add(value); else names.delete(value);
+        return next;
+      },
+    },
+    getAttribute(name) { return name === "id" ? item.id : item.attrs[name] ?? null; },
+    setAttribute(name, value) { item.attrs[name] = String(value); },
+    addEventListener(name, handler) { (listeners[name] ||= []).push(handler); },
+    dispatch(name) { (listeners[name] || []).forEach((handler) => handler({ target: item })); },
+    querySelector: () => null,
+    querySelectorAll: () => [],
+    closest: () => null,
+    appendChild: () => {},
+    removeChild: () => {},
+    select: () => {},
+  };
+  return item;
+}
+
+function makeEnvironment(spec) {
+  const ids = new Map();
+  const register = (id, classes = []) => {
+    const item = element(id, classes);
+    ids.set(id, item);
+    return item;
+  };
+  const copy = element(null, [], { "data-copy": "echo copied" });
+  const label = element();
+  label.classList.add("copy-label");
+  label.textContent = "Copy";
+  copy.querySelector = (selector) => selector === ".copy-label" ? label : null;
+  const document = {
+    documentElement: element(null, ["no-js"]),
+    body: element(),
+    getElementById: (id) => ids.get(id) || null,
+    querySelectorAll: (selector) => selector === "[data-copy]" ? [copy] : [],
+    createElement: () => element(),
+    addEventListener: () => {},
+  };
+  register("top", ["nav"]);
+  register("nav-toggle");
+  register("nav-menu");
+  register("copy-status");
+
+  let clipboardCalls = 0;
+  let execCalls = 0;
+  let copiedText = null;
+  let resolveClipboard;
+  const timers = new Map();
+  let nextTimer = 1;
+  document.execCommand = () => {
+    execCalls += 1;
+    if (spec.exec === "throw") throw new Error("copy denied");
+    return spec.exec === "true";
+  };
+  const clipboard = spec.clipboard ? {
+    writeText(text) {
+      clipboardCalls += 1;
+      copiedText = text;
+      if (spec.clipboard === "deferred") {
+        return new Promise((resolve) => { resolveClipboard = resolve; });
+      }
+      return spec.clipboard === "reject"
+        ? Promise.reject(new Error("clipboard unavailable"))
+        : Promise.resolve();
+    },
+  } : null;
+  const navigator = { clipboard };
+  const storage = new Map();
+  const window = {
+    innerHeight: 800,
+    localStorage: {
+      getItem: (key) => storage.get(key) || null,
+      setItem: (key, value) => storage.set(key, value),
+    },
+    matchMedia: () => ({ matches: false }),
+    setTimeout: (fn) => {
+      const id = nextTimer++;
+      timers.set(id, fn);
+      return id;
+    },
+    clearTimeout: (id) => timers.delete(id),
+    addEventListener: () => {},
+    requestAnimationFrame: () => {},
+    confirm: () => true,
+    navigator,
+  };
+  return {
+    copy, document, top: ids.get("top"),
+    context: { console, Date, document, navigator, Promise, window },
+    counters: () => ({ clipboardCalls, copiedText, execCalls }),
+    resolveClipboard: () => resolveClipboard(),
+    flushTimers: () => {
+      const pending = Array.from(timers.values());
+      timers.clear();
+      pending.forEach((fn) => fn());
+    },
+  };
+}
+
+function runCase(spec) {
+  const env = makeEnvironment(spec);
+  vm.runInNewContext(source, env.context, { filename: "landing.js" });
+  env.copy.dispatch("click");
+  return new Promise((resolve) => setImmediate(() => {
+    const label = env.copy.querySelector(".copy-label");
+    const status = env.document.getElementById("copy-status");
+    resolve({
+      name: spec.name, label: label.textContent, status: status.textContent,
+      copied: env.copy.classList.contains("copied"),
+      navEnhanced: env.top.classList.contains("nav-enhanced"),
+      ...env.counters(),
+    });
+  }));
+}
+
+async function runRapidClicks() {
+  const spec = { clipboard: null, exec: "true" };
+  const env = makeEnvironment(spec);
+  vm.runInNewContext(source, env.context, { filename: "landing.js" });
+  const label = env.copy.querySelector(".copy-label");
+  const status = env.document.getElementById("copy-status");
+  env.copy.dispatch("click");
+  assert.strictEqual(label.textContent, "Copied");
+  spec.exec = "false";
+  env.copy.dispatch("click");
+  assert.strictEqual(label.textContent, "Copy failed");
+  env.flushTimers();
+  assert.strictEqual(label.textContent, "Copy");
+  assert.strictEqual(status.textContent, "Unable to copy to clipboard");
+  assert.strictEqual(env.copy.classList.contains("copied"), false);
+
+  const pending = makeEnvironment({ clipboard: "deferred", exec: "false" });
+  vm.runInNewContext(source, pending.context, { filename: "landing.js" });
+  pending.copy.dispatch("click");
+  pending.context.navigator.clipboard = null;
+  pending.copy.dispatch("click");
+  pending.resolveClipboard();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.strictEqual(pending.copy.querySelector(".copy-label").textContent, "Copy failed");
+  assert.strictEqual(pending.document.getElementById("copy-status").textContent, "Unable to copy to clipboard");
+  pending.flushTimers();
+  assert.strictEqual(pending.copy.querySelector(".copy-label").textContent, "Copy");
+  return { name: "rapid-clicks" };
+}
+
+const cases = [
+  ["clipboard-success", "resolve", "false", "Copied", "Copied to clipboard", true, 0, 1, "echo copied"],
+  ["legacy-false", null, "false", "Copy failed", "Unable to copy to clipboard", false, 1, 0, null],
+  ["legacy-throw", null, "throw", "Copy failed", "Unable to copy to clipboard", false, 1, 0, null],
+  ["rejection-legacy-success", "reject", "true", "Copied", "Copied to clipboard", true, 1, 1, "echo copied"],
+  ["rejection-legacy-false", "reject", "false", "Copy failed", "Unable to copy to clipboard", false, 1, 1, "echo copied"],
+];
+Promise.all([
+  ...cases.map(([name, clipboard, exec]) => runCase({ name, clipboard, exec })),
+  runRapidClicks(),
+])
+  .then((results) => {
+    results.slice(0, cases.length).forEach((result, index) => {
+      const [, , , label, status, copied, execCalls, clipboardCalls, copiedText] = cases[index];
+      assert.deepStrictEqual(
+        [result.label, result.status, result.copied, result.execCalls, result.clipboardCalls, result.copiedText, result.navEnhanced],
+        [label, status, copied, execCalls, clipboardCalls, copiedText, true], result.name,
+      );
+    });
+    process.stdout.write(JSON.stringify(results));
+  })
+  .catch((error) => {
+    console.error(error.stack || error);
+    process.exitCode = 1;
+  });
+"""
+
+
+class TestLandingJavaScript:
+    @pytest.mark.skipif(shutil.which("node") is None, reason="node is required")
+    def test_copy_fallbacks_and_mobile_nav_enhancement(self) -> None:
+        node = shutil.which("node")
+        assert node is not None
+        landing_js = Path(__file__).parent.parent / "website_templates" / "landing.js"
+        result = subprocess.run(
+            [node, "-e", LANDING_JS_NODE_HARNESS, str(landing_js)],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert result.returncode == 0, result.stderr
+        results = json.loads(result.stdout)
+        assert {result["name"] for result in results} == {
+            "clipboard-success",
+            "legacy-false",
+            "legacy-throw",
+            "rejection-legacy-success",
+            "rejection-legacy-false",
+            "rapid-clicks",
+        }
