@@ -80,6 +80,17 @@ jobs:
         with:
           python-version: '3.11'
 
+      # Markers for diagrams that already passed. Keys include the mmdc
+      # version, so a stale cache is harmless. Each run saves a fresh entry
+      # (keyed by run id) and restores the newest one.
+      - name: Cache passing Mermaid diagrams
+        uses: actions/cache@v4
+        with:
+          path: .cache/mermaid-ok
+          key: mermaid-ok-${{ github.run_id }}
+          restore-keys: |
+            mermaid-ok-
+
       - name: Validate Mermaid diagrams
         run: python scripts/check_mermaid.py
         env:
