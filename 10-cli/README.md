@@ -91,6 +91,7 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `--channels` | Subscribe to MCP channel plugins. Entries must be tagged `plugin:<name>@<marketplace>`; bare names are rejected | `claude --channels plugin:discord@my-marketplace` |
 | `--chrome` / `--no-chrome` | Enable/disable Chrome browser integration | `claude --chrome` |
 | `--effort` | Set thinking effort level | `claude --effort high` |
+| `--desktop` | Open the session in the Claude desktop app on the current directory; add `--continue` or `--resume <id>` to pick the session (v2.1.285) | `claude --desktop --continue` |
 | `--init` / `--init-only` | Run initialization hooks | `claude --init` |
 | `--maintenance` | Run maintenance hooks and exit | `claude --maintenance` |
 | `--disable-slash-commands` | Disable all skills and slash commands | `claude --disable-slash-commands` |
@@ -178,6 +179,8 @@ claude --model opusplan "design and implement the caching layer"
 ```
 
 > **Gateway model discovery (v2.1.129+, opt-in)**: When `ANTHROPIC_BASE_URL` points at an Anthropic-compatible gateway, set `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1` to populate `/model` from the gateway's `/v1/models` endpoint. Without the env var, `/model` falls back to the built-in static list. The flag is opt-in (changed in v2.1.129) because the discovery call can surface models a user may not be entitled to use; v2.1.126 made it implicit and that behavior was reverted.
+
+> **1M context behind a custom base URL (v2.1.285)**: Sessions whose `ANTHROPIC_BASE_URL` points at a custom endpoint now use the 1M context window of models that have one (Opus 4.7+, Sonnet 5+, Fable). If your gateway stops at 200K, run `/autocompact 200k`.
 
 > **Org default model (v2.1.196)**: When an org admin sets a default model, `/model` labels it as "Org default" (or "Role default").
 
@@ -790,6 +793,7 @@ Claude Code supports multiple models with different capabilities:
 | Model | ID | Context Window | Notes |
 |-------|-----|----------------|-------|
 | Opus 5.5 | `claude-opus-5-5` | 1M tokens | Default model and default Opus model since v2.1.280 on Pro, Max, Team, Enterprise, the Anthropic API, Claude Platform on AWS, Amazon Bedrock, and Google Cloud's Agent Platform (Pro and Team Standard previously defaulted to Sonnet 5); Microsoft Foundry still resolves `opus` to Opus 4.6 and `default` to Sonnet 4.5. Adaptive effort levels `low → max`, default effort `medium`; thinking can't be turned off. Requires v2.1.280+ |
+| Sonnet 5.5 | `claude-sonnet-5-5` | 1M tokens | Default Sonnet model on the Anthropic API since v2.1.284 (the `sonnet` alias resolves to it there); adaptive effort levels `low → max`, default effort `medium`; thinking can't be turned off; not available in fast mode. Requires v2.1.284+ |
 | Sonnet 5 | `claude-sonnet-5` | 1M tokens | Default on Pro / Team Standard seats from v2.1.197 until v2.1.280, when those plans moved to Opus 5.5; native 1M-token context window |
 | Opus 5 | `claude-opus-5` | 1M tokens | Default Opus model from v2.1.219 until v2.1.280 (now Opus 5.5); still selectable; adaptive effort levels `low → max`, default effort `high` |
 | Opus 4.8 | `claude-opus-4-8` | 1M tokens | Previous flagship Opus, still selectable; adaptive effort levels `low → max`; default effort `high` (v2.1.154) |
@@ -819,7 +823,7 @@ claude --model opusplan "design and implement the API"
 
 ### Effort Levels (Opus 5 / Sonnet 5 / Opus 4.8 / Opus 4.7)
 
-Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7 support adaptive reasoning with effort levels, ordered from lightest to heaviest: `low` (○), `medium` (◐), `high` (●), `xhigh`, and `max`. Opus 5.5 supports all five levels too. The **default** is `medium` on Opus 5.5 (the default model since v2.1.280) and `high` on Opus 5, Sonnet 5, Opus 4.8 (since v2.1.154), Opus 4.6, and Sonnet 4.6, and `xhigh` on Opus 4.7. `xhigh` is available on Opus 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7; `max` works on Opus 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 has no effort levels. On Opus 4.6 / Sonnet 4.6, the default effort for Pro/Max subscribers was raised from `medium` to `high` in v2.1.117.
+Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7 support adaptive reasoning with effort levels, ordered from lightest to heaviest: `low` (○), `medium` (◐), `high` (●), `xhigh`, and `max`. Opus 5.5 and Sonnet 5.5 support all five levels too. The **default** is `medium` on Opus 5.5 (the default model since v2.1.280) and Sonnet 5.5, `high` on Opus 5, Sonnet 5, Opus 4.8 (since v2.1.154), Opus 4.6, and Sonnet 4.6, and `xhigh` on Opus 4.7. `xhigh` is available on Opus 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7; `max` works on Opus 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 has no effort levels. On Opus 4.6 / Sonnet 4.6, the default effort for Pro/Max subscribers was raised from `medium` to `high` in v2.1.117.
 
 ```bash
 # Set effort level via CLI flag
@@ -832,7 +836,7 @@ claude --effort high "complex review"
 export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5
 ```
 
-The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu also offers `ultracode`, which is **not** a model effort level — it sends `xhigh` and has Claude orchestrate dynamic workflows (session-only).
+The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` slider also has an **Ultracode** toggle (Tab, or `/effort ultracode [on|off]`), which is **not** a model effort level — it has Claude orchestrate dynamic workflows at whichever effort level the session runs at. Since v2.1.284 it no longer forces `xhigh` and stays on when you change the level; `--effort ultracode` and the Agent SDK's `effortLevel: "ultracode"` still set `xhigh`.
 
 ---
 
@@ -848,7 +852,7 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | Override default Sonnet model ID |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | Override default Haiku model ID |
 | `MAX_THINKING_TOKENS` | Set extended thinking token budget |
-| `CLAUDE_CODE_EFFORT_LEVEL` | Set effort level (`low`/`medium`/`high`/`xhigh`/`max`) — default is `medium` on Opus 5.5, `high` on Opus 5, Sonnet 5, and Opus 4.8 (`xhigh` on Opus 4.7); `xhigh` needs Opus 5.5, Opus 5, Sonnet 5, or Opus 4.8/4.7; `max` works on Opus 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6 |
+| `CLAUDE_CODE_EFFORT_LEVEL` | Set effort level (`low`/`medium`/`high`/`xhigh`/`max`) — default is `medium` on Opus 5.5 and Sonnet 5.5, `high` on Opus 5, Sonnet 5, and Opus 4.8 (`xhigh` on Opus 4.7); `xhigh` needs Opus 5.5, Opus 5, Sonnet 5, or Opus 4.8/4.7; `max` works on Opus 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6 |
 | `CLAUDE_CODE_SIMPLE` | Minimal mode, set by `--bare` flag |
 | `CLAUDE_CODE_SAFE_MODE` | Set to `1` to start with all customizations disabled (CLAUDE.md, plugins, skills, hooks, MCP) — env-var form of `--safe-mode`, for isolating config problems (v2.1.169) |
 | `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` | Set to `1` to hide the bundled skills, workflows, and commands from the model (v2.1.169) |
@@ -900,7 +904,9 @@ The "ultrathink" keyword in prompts activates deep reasoning. The `/effort` menu
 | `CLAUDE_ENABLE_STREAM_WATCHDOG` | Streaming idle watchdog (aborts/retries after 5 min with no stream events) is on by default for all providers; set to `0` to disable (v2.1.196). |
 | `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` | Override the 5-minute idle abort for remote MCP tool calls that hang with no response (v2.1.187+). |
 | `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **Removed (no-op as of v2.1.160).** Previously pinned Fast Mode (`/fast`) to Opus 4.6. As of v2.1.219, `/fast` applies to **Opus 5 and Opus 4.8** only — Opus 4.6 and Opus 4.7 are no longer fast-mode targets. |
-| `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` | Bounds how long the first non-interactive turn waits for MCP servers that are still connecting. Set `0` to not wait at all (v2.1.274) |
+| `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` | Bounds how long the first non-interactive turn waits for MCP servers that are still connecting. Set `0` to not wait (v2.1.274), except that since v2.1.284 the first turn still waits up to 2 s for servers named by `--allowedTools` or an `mcp_tool` hook |
+| `CLAUDE_CODE_DISABLE_WEB_FETCH` | Turns off the WebFetch tool (v2.1.285) |
+| `CLAUDE_CODE_NONSTREAMING_TIMEOUT_RETRIES` | Caps how many times a timed-out non-streaming fallback request is re-sent (v2.1.285) |
 | `CLAUDE_CODE_WEBFETCH_DEADLINE_MS` | Overrides WebFetch's 300-second deadline, introduced in v2.1.268. Set `0` to disable the deadline (v2.1.268) |
 | `CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS` | Raises the Workflow tool's per-run concurrent agent limit. Accepts 1–256 (v2.1.269) |
 | `CLAUDE_CODE_AUTO_MODE_SERVER` | Set to `0` to use Claude Code's own auto-mode classifier requests instead of server-side review — on Bedrock, Vertex, Foundry, and gateways since v2.1.278, and on a direct Anthropic API connection since v2.1.281 (there the local classifier then counts toward usage, and `1` opts in) |
@@ -1067,8 +1073,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
@@ -1100,4 +1106,7 @@ claude -p --output-format json "query"
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.281
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.282
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.283
+- https://code.claude.com/docs/en/settings-reference#ultracode
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.284
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

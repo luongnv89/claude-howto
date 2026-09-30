@@ -405,7 +405,7 @@ Advanced capabilities for complex workflows.
 ### Dynamic Workflows (v2.1.154)
 - Deterministic orchestration of tens-to-hundreds of background subagents
 - Fan-out / pipeline / parallel stages for comprehensive coverage
-- View runs with `/workflows`; `ultracode` `/effort` turns it on for a session
+- View runs with `/workflows`; the Ultracode toggle in `/effort` (`/effort ultracode [on|off]`) turns it on for a session without changing the effort level (v2.1.284); the `ultracode` setting makes it persist
 - Default size guideline is medium (aim for fewer than 10 agents) as of v2.1.219 — change it with **Dynamic workflow size** in `/config`
 
 ### Permission Modes
@@ -897,8 +897,8 @@ Want to add more examples? Follow the structure:
 
 ---
 
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
@@ -911,6 +911,7 @@ Want to add more examples? Follow the structure:
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/workflows#let-claude-decide-with-ultracode
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 **Total Examples**: 100+ files
 **Categories**: 10 features

@@ -146,7 +146,7 @@ Because `--transport` does not accept `ws`, configure it in `.mcp.json` or throu
 
 The `type: "ws"` entry accepts the same `url`, `headers`, `headersHelper`, `timeout`, and `alwaysLoad` fields as `http`. Authentication is **header-only** — there is no OAuth flow for WebSocket servers.
 
-> **Note**: WebSocket servers don't appear in `claude mcp list` output. Use `claude mcp get <name>` or the `/mcp` panel to check them.
+> **Note**: Since v2.1.285, `claude mcp list` lists WebSocket (`ws`) servers with their URL and health status (earlier versions left them out). You can also check them with `claude mcp get <name>` or the `/mcp` panel.
 
 Like HTTP and SSE, WebSocket connections use a 5-minute idle window; stdio and WebSocket have no per-request timer. A `url` entry with no `type` is an error naming `"http"`, `"sse"`, and `"ws"` as the valid values.
 
@@ -1300,8 +1300,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
@@ -1312,4 +1312,5 @@ export GITHUB_TOKEN="your_token"
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/mcp#configure-tool-search
 - https://code.claude.com/docs/en/env-vars
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

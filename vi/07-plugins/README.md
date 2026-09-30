@@ -644,7 +644,9 @@ claude --plugin-dir ./plugin-a --plugin-dir ./plugin-b
 
 ### Từ Git Repository
 ```bash
-/plugin install github:username/repo
+/plugin marketplace add username/repo                    # Thêm repo GitHub làm marketplace
+/plugin install plugin-name@marketplace-name             # Sau đó cài một plugin từ marketplace đó
+/plugin install plugin-name --marketplace username/repo  # Hoặc làm cả hai trong một bước (v2.1.275+)
 ```
 
 ## Khi Nào Tạo Một Plugin / When to Create a Plugin
@@ -854,7 +856,9 @@ Workflow PR review hoàn chỉnh với các kiểm tra bảo mật, testing, và
 ### Cài Đặt Từ GitHub
 
 ```bash
-/plugin install github:username/repo
+/plugin marketplace add username/repo                    # Thêm repo GitHub làm marketplace
+/plugin install plugin-name@marketplace-name             # Sau đó cài một plugin từ marketplace đó
+/plugin install plugin-name --marketplace username/repo  # Hoặc làm cả hai trong một bước (v2.1.275+)
 ```
 
 ### Liệt Kê Các Plugins Đã Cài Đặt
@@ -965,10 +969,12 @@ Các tính năng Claude Code sau hoạt động cùng với plugins:
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 2 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.257
+**Cập Nhật Lần Cuối**: Ngày 30 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.285
 **Nguồn**:
 - https://code.claude.com/docs/en/discover-plugins
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/settings
+- https://code.claude.com/docs/en/plugins/install
+- https://code.claude.com/docs/en/plugins/cli-reference
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

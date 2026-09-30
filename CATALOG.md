@@ -502,7 +502,7 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **Plugin LSP Support** | Language Server Protocol integration via plugins | Configure LSP servers in `plugin.json` for editor features |
 | **Managed Drop-ins** | Organization-managed drop-in configurations (v2.1.83) | Admin-configured via managed policies; auto-applied to all users |
 | **`claude plugin init`** | Scaffold a new plugin in `.claude/skills`; such plugins auto-load with no marketplace (v2.1.157) | Run `claude plugin init <name>` |
-| **Auto Mode on third-party providers** | Available by default on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, and signed-in Claude apps gateway sessions, where the supported models are Claude Sonnet 5, Opus 4.7 or later (which includes Opus 5), and Fable 5 (opt-in required v2.1.158–v2.1.206; removed in v2.1.207 — `CLAUDE_CODE_ENABLE_AUTO_MODE` is still accepted but has no effect) | `Shift+Tab` to cycle to it, or `--permission-mode auto` |
+| **Auto Mode on third-party providers** | Available by default on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, and signed-in Claude apps gateway sessions, where the supported models are Claude Sonnet 5 or later, Opus 4.7 or later, and the Fable models (opt-in required v2.1.158–v2.1.206; removed in v2.1.207 — `CLAUDE_CODE_ENABLE_AUTO_MODE` is still accepted but has no effect) | `Shift+Tab` to cycle to it, or `--permission-mode auto` |
 | **Immediate Dialog Commands** | `/permissions` can be opened while Claude is working (rule changes apply to the rest of the turn), and the `/add-dir`, `/autocompact`, `/theme`, `/help`, `/config`, and `/advisor` dialogs open mid-turn **in the fullscreen TUI** instead of queuing until Claude finishes responding (`/bug` already did this since v2.1.232) (v2.1.234) | Run one of these commands while Claude is working. See [Slash Commands](01-slash-commands/README.md) |
 | **`CLAUDE_CODE_PROJECT_DIR_NAME`** | Env var controlling per-project transcript directory naming (v2.1.234) | Set in your shell/env before launching Claude Code. See [CLI](10-cli/README.md) |
 | **Goal Check-In Threshold** | While a `/goal` is active, Claude checks in with a status update if a background task makes no progress for 30+ minutes, instead of continuing silently; tune with `CLAUDE_CODE_GOAL_CHECKIN_MINUTES`, or set to `0` to disable (v2.1.234) | Set `CLAUDE_CODE_GOAL_CHECKIN_MINUTES=<n>` alongside an active `/goal`. See [Slash Commands](01-slash-commands/README.md) |
@@ -573,8 +573,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -596,4 +596,5 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/slash-commands
 - https://code.claude.com/docs/en/fast-mode
+- https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode
 **Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

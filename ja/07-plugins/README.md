@@ -705,7 +705,9 @@ claude --plugin-dir ./plugin-a --plugin-dir ./plugin-b
 
 ### Git リポジトリから
 ```bash
-/plugin install github:username/repo
+/plugin marketplace add username/repo                    # GitHub リポジトリをマーケットプレイスとして追加
+/plugin install plugin-name@marketplace-name             # 次にそこからプラグインをインストール
+/plugin install plugin-name --marketplace username/repo  # または 1 ステップで両方を実行（v2.1.275+）
 ```
 
 ## 自動更新
@@ -947,7 +949,9 @@ Complete PR review workflow with security, testing, and documentation checks.
 ### GitHub からインストール
 
 ```bash
-/plugin install github:username/repo
+/plugin marketplace add username/repo                    # GitHub リポジトリをマーケットプレイスとして追加
+/plugin install plugin-name@marketplace-name             # 次にそこからプラグインをインストール
+/plugin install plugin-name --marketplace username/repo  # または 1 ステップで両方を実行（v2.1.275+）
 ```
 
 ### インストール済みプラグインの一覧
@@ -1058,8 +1062,8 @@ claude plugin update plugin-name
 
 ---
 
-**最終更新**: 2026 年 9 月 2 日
-**Claude Code バージョン**: 2.1.257
+**最終更新**: 2026 年 9 月 30 日
+**Claude Code バージョン**: 2.1.285
 **出典**:
 - https://code.claude.com/docs/en/discover-plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1069,4 +1073,6 @@ claude plugin update plugin-name
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.119
+- https://code.claude.com/docs/en/plugins/install
+- https://code.claude.com/docs/en/plugins/cli-reference
 **対応モデル**: Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

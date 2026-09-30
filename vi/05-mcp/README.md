@@ -123,7 +123,7 @@ Vì `--transport` không chấp nhận `ws`, hãy cấu hình trong `.mcp.json` 
 
 Mục `type: "ws"` chấp nhận cùng các trường `url`, `headers`, `headersHelper`, `timeout` và `alwaysLoad` như `http`. Xác thực **chỉ qua header** — không có luồng OAuth cho máy chủ WebSocket.
 
-> **Lưu ý**: Máy chủ WebSocket không xuất hiện trong đầu ra của `claude mcp list`. Hãy dùng `claude mcp get <tên>` hoặc bảng `/mcp` để kiểm tra chúng.
+> **Lưu ý**: Từ v2.1.285, `claude mcp list` liệt kê các máy chủ WebSocket (`ws`) cùng URL và trạng thái sức khỏe của chúng (các phiên bản trước bỏ sót chúng). Bạn cũng có thể kiểm tra chúng bằng `claude mcp get <tên>` hoặc bảng `/mcp`.
 
 Giống HTTP và SSE, kết nối WebSocket dùng cửa sổ nhàn rỗi 5 phút; stdio và WebSocket không có bộ đếm thời gian cho từng yêu cầu. Một mục `url` không có `type` sẽ báo lỗi và liệt kê `"http"`, `"sse"`, `"ws"` là các giá trị hợp lệ.
 
@@ -1158,10 +1158,11 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.283
+**Cập Nhật Lần Cuối**: Ngày 30 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.285
 **Nguồn**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
 - https://code.claude.com/docs/en/mcp#configure-tool-search
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

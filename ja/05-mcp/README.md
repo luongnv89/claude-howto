@@ -127,7 +127,7 @@ WebSocket サーバーは持続的な双方向接続を保つため、Claude に
 
 `type: "ws"` のエントリは `http` と同じ `url`、`headers`、`headersHelper`、`timeout`、`alwaysLoad` フィールドを受け付ける。認証は**ヘッダーのみ**で、WebSocket サーバー向けの OAuth フローは存在しない。
 
-> **注意**: WebSocket サーバーは `claude mcp list` の出力に表示されない。確認するには `claude mcp get <名前>` または `/mcp` パネルを使うこと。
+> **注意**: v2.1.285 以降、`claude mcp list` は WebSocket（`ws`）サーバーを URL とヘルスステータス付きで一覧表示する（それ以前のバージョンでは表示されなかった）。`claude mcp get <名前>` または `/mcp` パネルでも確認できる。
 
 HTTP や SSE と同様に、WebSocket 接続のアイドル時間は 5 分。stdio と WebSocket にはリクエスト単位のタイマーはない。`type` のない `url` エントリはエラーとなり、有効な値として `"http"`、`"sse"`、`"ws"` が示される。
 
@@ -1168,12 +1168,13 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**最終更新：** 2026 年 9 月 26 日
-**Claude Code バージョン：** 2.1.283
+**最終更新：** 2026 年 9 月 30 日
+**Claude Code バージョン：** 2.1.285
 **情報源：**
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/mcp#configure-tool-search
 - https://code.claude.com/docs/en/managed-mcp
 - https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
 **対応モデル：** Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

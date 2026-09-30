@@ -450,7 +450,7 @@ paths: src/api/**/*.ts
 Rules in `.claude/rules/` support two organizational features:
 
 - **Subdirectories**: Rules are discovered recursively, so you can organize them into topic-based folders (e.g., `rules/api/`, `rules/testing/`, `rules/security/`)
-- **Symlinks**: Symlinks are supported for sharing rules across multiple projects. For example, you can symlink a shared rule file from a central location into each project's `.claude/rules/` directory
+- **Symlinks**: Symlinks are supported for sharing rules across multiple projects. For example, you can symlink a shared rule file from a central location into each project's `.claude/rules/` directory. Since v2.1.284, a rule symlinked from outside the project — or a `.claude` directory symlinked from outside — shows the same external-imports approval prompt as an `@path` import
 
 ## Memory Locations Table
 
@@ -1244,10 +1244,11 @@ Auto Memory is a separate mechanism (`~/.claude/projects/<project>/memory/`), no
 
 ---
 
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
 - https://code.claude.com/docs/en/memory#when-agents-md-support-is-unavailable
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.284
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

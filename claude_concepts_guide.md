@@ -1454,6 +1454,7 @@ Claude Code supports the following models with adaptive reasoning effort:
 | Model | Context Window | Effort Levels | Default Effort (Claude Code) |
 |-------|----------------|---------------|------------------------------|
 | Claude Opus 5.5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — default model and default Opus model since v2.1.280 (requires Claude Code v2.1.280+) |
+| Claude Sonnet 5.5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — default Sonnet model on the Anthropic API since v2.1.284 (requires Claude Code v2.1.284+) |
 | Claude Opus 5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `high` — default Opus model from v2.1.219 until v2.1.280 (requires Claude Code v2.1.219+) |
 | Claude Sonnet 5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `high` — default model for Pro/Team Standard from v2.1.197 until v2.1.280 (now Opus 5.5) |
 | Claude Opus 4.8 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `high` (since v2.1.154) |
@@ -1475,8 +1476,8 @@ Claude Code supports the following models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://www.anthropic.com/news/claude-sonnet-5

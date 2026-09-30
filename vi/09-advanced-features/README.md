@@ -354,10 +354,11 @@ Auto Mode is a permission mode that uses a background safety classifier to revie
 ### Enabling Auto Mode
 
 ```bash
-# Unlock auto mode with CLI flag
-claude --enable-auto-mode
+# Interactive sessions start in auto mode when no permission mode is configured (v2.1.284+)
+# To pick it explicitly, for example when your settings default to another mode:
+claude --permission-mode auto
 
-# Then cycle to it with Shift+Tab in the REPL
+# Or cycle to it with Shift+Tab in the REPL
 ```
 
 Or set it as the default permission mode:
@@ -672,7 +673,7 @@ Permission modes control what actions Claude can take without explicit approval.
 | `bypassPermissions` | All actions, no permission checks (dangerous) |
 | `dontAsk` | Only pre-approved tools execute; all others denied |
 
-Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting. Since v2.1.283, an interactive session on a third-party provider (Bedrock, Google Cloud's Agent Platform, Foundry) or with telemetry off starts in auto mode when no permission mode is configured; `permissions.defaultMode` still overrides it.
+Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting. When no permission mode is configured, interactive terminal and VS Code sessions start in auto mode on every plan and provider since v2.1.284 (v2.1.283 did this only on third-party providers such as Bedrock, Google Cloud's Agent Platform, and Foundry, or with telemetry off); `permissions.defaultMode` still overrides it, and a session where auto mode isn't available starts in Manual instead. `claude -p` and the Agent SDK start in `default` when nothing is configured, except that since v2.1.285 `claude -p` and Python Agent SDK sessions on third-party providers or with telemetry off also start in auto mode; `--permission-mode` still overrides it.
 
 ### Activation Methods
 
@@ -1869,12 +1870,15 @@ For more information about Claude Code and related features:
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.283
+**Cập Nhật Lần Cuối**: Ngày 30 tháng 9 năm 2026
+**Phiên Bản Claude Code**: 2.1.285
 **Nguồn**:
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
 - https://code.claude.com/docs/en/keybindings#modifiers
 - https://code.claude.com/docs/en/permission-modes
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.283
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-session-starts-in
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.284
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

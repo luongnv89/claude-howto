@@ -183,7 +183,7 @@ paths: "src/api/**/*.ts"               # Glob patterns limiting when skill activ
 | `allowed-tools` | Comma-separated list of tools the skill may use without permission prompts. |
 | `disallowed-tools` | Comma-separated list of tools to remove while the skill is active (complements `allowed-tools`). Added v2.1.152. |
 | `model` | Model override while the skill is active (e.g., `opus`, `sonnet`). |
-| `effort` | Effort level override while the skill is active: `low`, `medium`, `high`, `xhigh`, or `max` — all five are supported on Opus 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `high` on every model that supports effort, except Opus 5.5, which defaults to `medium`, and Opus 4.7, which defaults to `xhigh`. |
+| `effort` | Effort level override while the skill is active: `low`, `medium`, `high`, `xhigh`, or `max` — all five are supported on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `high` on every model that supports effort, except Opus 5.5 and Sonnet 5.5, which default to `medium`, and Opus 4.7, which defaults to `xhigh`. |
 | `context` | `fork` to run the skill in a forked subagent context with its own context window. |
 | `agent` | Subagent type when `context: fork` (e.g., `Explore`, `Plan`, `general-purpose`). |
 | `background` | Only meaningful with `context: fork`. Defaults to `true` for `context: fork` skills, so they run in the background; set `false` to run them in the foreground. Added v2.1.218. |
@@ -897,8 +897,8 @@ Once you start building skills seriously, two things become essential: a library
 
 ---
 
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/slash-commands

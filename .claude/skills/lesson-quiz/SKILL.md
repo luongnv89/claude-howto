@@ -3,13 +3,13 @@ name: lesson-quiz
 description: "Test a learner on a single Claude Code tutorial lesson (01-10) with 10 questions, scoring answers and flagging weak spots. Use before, during, or after a lesson. Don't use for whole-tutorial assessment or explaining a topic instead of testing it."
 effort: high
 metadata:
-  version: 1.4.0
+  version: 1.5.0
   author: Luong NGUYEN
 ---
 
 # Lesson Quiz
 
-Interactive quiz that tests understanding of a specific Claude Code lesson with 8-10 questions, provides per-question feedback, and identifies areas to review.
+Interactive quiz that tests understanding of a specific Claude Code lesson with 10 questions, provides per-question feedback, and identifies areas to review.
 
 ## Prerequisites
 

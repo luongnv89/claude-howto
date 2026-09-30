@@ -257,10 +257,11 @@ Auto mode 是一种权限模式，会在每个动作执行前用后台安全分�
 ### 启用方式
 
 ```bash
-# 用 CLI 解锁 auto mode
-claude --enable-auto-mode
+# 未配置权限模式时，交互式会话会以 auto mode 启动（v2.1.284+）
+# 如需显式选择它，例如当你的设置默认使用其他模式时：
+claude --permission-mode auto
 
-# 然后在 REPL 中用 Shift+Tab 切换到它
+# 或者在 REPL 中用 Shift+Tab 切换到它
 ```
 
 ### 分类器如何工作
@@ -953,3 +954,10 @@ worktree 场景下依然可以配合工具和 hooks 自动化流程。
 - [Checkpoints 中文指南](../08-checkpoints/README.md)
 - [Plugins 中文指南](../07-plugins/README.md)
 - [CLI 中文参考](../10-cli/README.md)
+
+---
+
+**最后更新**: 2026 年 9 月 30 日
+**Claude Code 版本**: 2.1.285
+**来源**:
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-session-starts-in

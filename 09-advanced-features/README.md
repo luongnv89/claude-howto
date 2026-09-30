@@ -258,7 +258,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **Note:** The keyword "ultrathink" in prompts activates deep reasoning mode. Effort levels `low`, `medium`, `high`, and `max` are supported on Opus 5, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 (Haiku 4.5 has none). `xhigh` is available on Opus 5, Opus 4.8, and Opus 4.7. The default effort is `high` on Opus 5, Opus 4.8 (and Opus 4.6 / Sonnet 4.6) and `xhigh` on Opus 4.7. Unlike Opus 4.8 and Opus 4.7, which pin their default effort on first run, Opus 5 has no such hold — a level you previously set carries over. The `/effort` menu also offers `ultracode`, which is **not** a model effort level — it sends `xhigh` and has Claude orchestrate dynamic workflows (session-only).
+> **Note:** The keyword "ultrathink" in prompts activates deep reasoning mode. Effort levels `low`, `medium`, `high`, and `max` are supported on Opus 5, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 (Haiku 4.5 has none). `xhigh` is available on Opus 5, Opus 4.8, and Opus 4.7. The default effort is `high` on Opus 5, Opus 4.8 (and Opus 4.6 / Sonnet 4.6) and `xhigh` on Opus 4.7. Unlike Opus 4.8 and Opus 4.7, which pin their default effort on first run, Opus 5 has no such hold — a level you previously set carries over. The `/effort` slider also has an **Ultracode** toggle (Tab, or `/effort ultracode [on|off]`), which is **not** a model effort level — it has Claude orchestrate dynamic workflows at whichever effort level the session runs at. Since v2.1.284 it no longer forces `xhigh` and stays on when you change the level; `--effort ultracode` and the Agent SDK's `effortLevel: "ultracode"` still set `xhigh`.
 
 ### Safety-Classifier Fallback on Opus 5
 
@@ -375,7 +375,7 @@ Toggle during a session with `Alt+T` / `Option+T`, set effort with `/effort`, or
 
 ## Auto Mode
 
-Auto Mode is a permission mode that uses a background safety classifier to review each action before execution. It allows Claude to work autonomously while blocking dangerous operations. It's available on all plans, but requires an eligible model (Claude Opus 5, Opus 4.6+, Sonnet 4.6+, or Fable 5 on the Anthropic API and Claude Platform on AWS; Opus 5, Sonnet 5, Opus 4.7, Opus 4.8, or Fable 5 on Bedrock, Vertex, Foundry, and signed-in Claude apps gateway sessions). On Team and Enterprise it is on by default — administrators can turn it off for the organization in managed settings.
+Auto Mode is a permission mode that uses a background safety classifier to review each action before execution. It allows Claude to work autonomously while blocking dangerous operations. It's available on all plans, but requires an eligible model (Claude Opus 4.6 or later, Sonnet 4.6 or later, or a Fable model on the Anthropic API and Claude Platform on AWS; Sonnet 5 or later, Opus 4.7 or later, or a Fable model on Bedrock, Vertex, Foundry, and signed-in Claude apps gateway sessions). On Team and Enterprise it is on by default — administrators can turn it off for the organization in managed settings.
 
 ### Requirements
 
@@ -383,17 +383,18 @@ Auto mode is available only when your account meets all of these requirements:
 
 - **Plan**: all plans.
 - **Organization**: on Team and Enterprise, auto mode is available by default. Administrators can turn it off for the organization by setting `permissions.disableAutoMode` to `"disable"` in managed settings.
-- **Model**: on the Anthropic API and Claude Platform on AWS — Claude Opus 4.6 or later (Opus 5 included), Sonnet 4.6 or later, or Fable 5. On Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions — only Claude Sonnet 5, Opus 4.7 or later (Opus 5 included), and Fable 5. Older models — Sonnet 4.5, Opus 4.5, Haiku, and claude-3 models — are not supported on any provider.
+- **Model**: on the Anthropic API and Claude Platform on AWS — Claude Opus 4.6 or later, Sonnet 4.6 or later, or a Fable model. On Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions — only Claude Sonnet 5 or later, Opus 4.7 or later, and the Fable models. Older models — Sonnet 4.5, Opus 4.5, Haiku, and claude-3 models — are not supported on any provider.
 - **Provider**: available by default on the Anthropic API, Claude Platform on AWS, Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions. In v2.1.158 through v2.1.206, auto mode was off on all of these except the Anthropic API and Claude Platform on AWS until you set `CLAUDE_CODE_ENABLE_AUTO_MODE=1`; v2.1.207 removed the requirement. The variable is still accepted for compatibility and has no effect from v2.1.207 onward.
 - **Classifier**: adds extra token cost, except on Enterprise plans and Claude API accounts, where v2.1.278+ runs the check server-side at no charge
 
 ### Enabling Auto Mode
 
 ```bash
-# Unlock auto mode with CLI flag (no longer required for Max subscribers on Opus 4.7 — access it directly)
-claude --enable-auto-mode
+# Interactive sessions start in auto mode when no permission mode is configured (v2.1.284+)
+# To pick it explicitly, for example when your settings default to another mode:
+claude --permission-mode auto
 
-# Then cycle to it with Shift+Tab in the REPL
+# Or cycle to it with Shift+Tab in the REPL
 ```
 
 > **v2.1.112 update**: Auto mode no longer requires the `--enable-auto-mode` flag. Max subscribers access it directly on Opus 4.7.
@@ -693,6 +694,8 @@ export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=true
 
 Concurrency is not a background-task setting either — how many agents run at once is governed by `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (default `20`).
 
+Background Bash and PowerShell commands have a time limit (v2.1.285): a command started with `run_in_background` stops after its `timeout` — 30 minutes by default, at most 2 hours — and Claude is notified when one is stopped.
+
 ---
 
 ## Monitor Tool (Event-Driven Streams)
@@ -754,7 +757,7 @@ For a one-off task you already understand, a single agent (or a direct edit) is 
 
 - **Launch**: ask Claude to create a workflow for the task (e.g. "run a workflow to review every file in `src/`"). Claude authors the orchestration script and runs it in the background.
 - **View**: the `/workflows` command shows running and completed workflow runs with live progress.
-- **`ultracode`**: selecting `ultracode` in the `/effort` menu turns this on for the session — it sends `xhigh` to the model *and* has Claude orchestrate dynamic workflows by default. It is session-only and not accepted in the settings file. (As of v2.1.160 the trigger keyword is `ultracode`; the bare word "workflow" no longer triggers a run.)
+- **`ultracode`**: turn it on with the Ultracode toggle in the `/effort` slider (Tab) or `/effort ultracode [on|off]` — Claude then orchestrates dynamic workflows by default, at whichever effort level the session runs at. Since v2.1.284 the toggle leaves the effort level unchanged (it used to force `xhigh`); `--effort ultracode` and the Agent SDK's `effortLevel: "ultracode"` still set `xhigh`. `/effort ultracode` lasts for the session; set the `ultracode` key in settings to start every session with it (`effortLevel` and `CLAUDE_CODE_EFFORT_LEVEL` don't accept `ultracode`). (As of v2.1.160 the trigger keyword is `ultracode`; the bare word "workflow" no longer triggers a run.)
 
 Workflows build on the subagent model — see [Subagents](../04-subagents/README.md) for how individual agents are defined and scoped.
 
@@ -851,13 +854,13 @@ Permission modes control what actions Claude can take without explicit approval.
 | `manual` | Read files only; prompts for all other actions. Renamed from `default` in v2.1.200 — `default` is still accepted as an alias |
 | `acceptEdits` | Read and edit files; prompts for commands |
 | `plan` | Read files only (research mode, no edits) |
-| `auto` | All actions with background safety classifier checks. Requires an eligible model (Opus 5.5, Opus 5, Sonnet 5, Opus 4.7/4.8, or Fable 5 on most providers) and provider — available on all plans, see [Auto Mode](#auto-mode) |
+| `auto` | All actions with background safety classifier checks. Requires an eligible model (Sonnet 5 or later, Opus 4.7 or later, or a Fable model on every provider; Opus 4.6 and Sonnet 4.6 also qualify on the Anthropic API and Claude Platform on AWS) and provider — available on all plans, see [Auto Mode](#auto-mode) |
 | `bypassPermissions` | All actions, no permission checks (dangerous) |
 | `dontAsk` | Only pre-approved tools execute; all others denied |
 
-> **Note**: The interactive default mode was renamed from `default` to **Manual** in v2.1.200 (across the CLI, `--help`, VS Code, and JetBrains), and a grey ⏸ badge appears in the footer while it is active (v2.1.203). Both `--permission-mode manual` and `--permission-mode default` work, as do `"defaultMode": "manual"` and `"defaultMode": "default"` in settings. Note that the settings key is `permissions.defaultMode` — there is no `permissions.mode` key, so the examples below use the canonical spelling.
+> **Note**: The `default` permission mode was renamed to **Manual** in v2.1.200 (across the CLI, `--help`, VS Code, and JetBrains), and a grey ⏸ badge appears in the footer while it is active (v2.1.203). Both `--permission-mode manual` and `--permission-mode default` work, as do `"defaultMode": "manual"` and `"defaultMode": "default"` in settings. Note that the settings key is `permissions.defaultMode` — there is no `permissions.mode` key, so the examples below use the canonical spelling.
 
-Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting. Since v2.1.283, an interactive session on a third-party provider (Bedrock, Google Cloud's Agent Platform, Foundry) or with telemetry off starts in auto mode when no permission mode is configured; `permissions.defaultMode` still overrides it.
+Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting. When no permission mode is configured, interactive terminal and VS Code sessions start in auto mode on every plan and provider since v2.1.284 (v2.1.283 did this only on third-party providers such as Bedrock, Google Cloud's Agent Platform, and Foundry, or with telemetry off); `permissions.defaultMode` still overrides it, and a session where auto mode isn't available starts in Manual instead. `claude -p` and the Agent SDK start in `default` when nothing is configured, except that since v2.1.285 `claude -p` and Python Agent SDK sessions on third-party providers or with telemetry off also start in auto mode; `--permission-mode` still overrides it.
 
 > **Plan mode defers shell commands to the classifier (v2.1.218)**: When [auto mode](#auto-mode) is available and the `useAutoModeDuringPlan` setting is on — which it is by default — the classifier reviews shell commands during planning instead of prompting you. Approved commands run, and rejected ones are blocked. Plan mode still blocks file writes unconditionally.
 
@@ -2532,7 +2535,7 @@ export CLAUDE_CODE_PROJECT_DIR_NAME=my-app                  # (v2.1.234) Short n
 export CLAUDE_CODE_GOAL_CHECKIN_MINUTES=30                  # (v2.1.234) Minutes a background task may stall before Claude checks in while a /goal is active. Set 0 to disable check-ins.
 
 # Newer variables (v2.1.268-v2.1.278) - changelog-sourced
-export CLAUDE_CODE_MCP_STARTUP_WAIT_MS=5000                 # (v2.1.274) How long the first non-interactive turn waits for MCP servers that are still connecting. 0 = do not wait.
+export CLAUDE_CODE_MCP_STARTUP_WAIT_MS=5000                 # (v2.1.274) How long the first non-interactive turn waits for MCP servers that are still connecting. 0 = do not wait, except for servers named by --allowedTools or an mcp_tool hook (still up to 2s, v2.1.284+).
 export CLAUDE_CODE_WEBFETCH_DEADLINE_MS=300000              # (v2.1.268) Overrides WebFetch's new 300-second deadline. 0 disables the deadline.
 export CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS=32        # (v2.1.269) Raises the Workflow tool's per-run concurrent agent limit. Accepts 1-256.
 export CLAUDE_CODE_AUTO_MODE_SERVER=0                       # (v2.1.278; direct Anthropic API since v2.1.281) Opt out of server-side auto-mode classifier review
@@ -2738,8 +2741,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://code.claude.com/docs/en/output-styles
 - https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
@@ -2765,4 +2768,9 @@ For more information about Claude Code and related features:
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.281
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.283
 - https://code.claude.com/docs/en/permission-modes#critical-paths
+- https://code.claude.com/docs/en/settings-reference#ultracode
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-session-starts-in
+- https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.284
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

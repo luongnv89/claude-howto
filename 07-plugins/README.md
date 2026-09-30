@@ -804,6 +804,7 @@ claude plugin tag [path]                     # Create a {name}--v{version} relea
 claude plugin prune                          # Remove orphaned auto-installed plugin dependencies (v2.1.121+)
 claude plugin uninstall <name> --prune       # Uninstall and cascade-clean orphaned dependencies (v2.1.121+)
 claude plugin details <name>                 # Show inventory + projected per-turn token cost (v2.1.139+)
+claude plugin configure <name>               # Show a plugin's options and which are unset; save values from stdin with --values-stdin (v2.1.285+)
 claude plugin init <name>                    # Scaffold a new plugin (alias: claude plugin new)
 ```
 
@@ -815,7 +816,7 @@ claude plugin init <name>                    # Scaffold a new plugin (alias: cla
 |---------|------|---------|
 | `plugin init` | `--with <components...>` | Scaffold specific component folders: `skills`, `agents`, `hooks`, `mcp`, `lsp`, `output-style`, `channel` |
 | `plugin init` | `-f`, `--force` | Overwrite an existing `.claude-plugin/` directory |
-| `plugin install` | `--config <key=value>` | Set a `userConfig` option at install time |
+| `plugin install` | `--config <key=value>` | Set a `userConfig` option at install time; since v2.1.285, `<server>.<key>=<value>` sets a bundled `.mcpb` MCP server's own setting so it starts without visiting `/plugin` → Configure |
 | `plugin install` | `-y`, `--yes` | Accept commands without a confirmation prompt |
 | `plugin list` | `--available` | Also list plugins available from marketplaces (requires `--json`) |
 | `plugin tag` | `--push` | Push the tag to the remote after creating it |
@@ -931,7 +932,9 @@ claude --plugin-url https://example.com/releases/my-plugin-0.3.0.zip
 
 ### From Git Repository
 ```bash
-/plugin install github:username/repo
+/plugin marketplace add username/repo                    # Add the GitHub repo as a marketplace
+/plugin install plugin-name@marketplace-name             # Then install a plugin from it
+/plugin install plugin-name --marketplace username/repo  # Or both in one step (v2.1.275+)
 ```
 
 ## Auto-Update
@@ -1194,7 +1197,9 @@ Complete PR review workflow with security, testing, and documentation checks.
 ### Installing from GitHub
 
 ```bash
-/plugin install github:username/repo
+/plugin marketplace add username/repo                    # Add the GitHub repo as a marketplace
+/plugin install plugin-name@marketplace-name             # Then install a plugin from it
+/plugin install plugin-name --marketplace username/repo  # Or both in one step (v2.1.275+)
 ```
 
 ### Listing Installed Plugins
@@ -1305,8 +1310,8 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1330,4 +1335,6 @@ The following Claude Code features work together with plugins:
 - https://code.claude.com/docs/en/plugin-evals
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.281
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.283
+- https://code.claude.com/docs/en/plugins/install
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

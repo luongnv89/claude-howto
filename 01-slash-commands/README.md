@@ -43,7 +43,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/desktop` | Continue in Desktop app (alias: `/app`) |
 | `/diff` | Interactive diff viewer for uncommitted changes. In fullscreen rendering it instead opens a diff panel beside the conversation that stays open while you keep working — it lists changed files with added/removed line counts and refreshes every time Claude edits a file or runs a shell command; run `/diff` again or click `✕` to close it (v2.1.260+). The classic renderer opens the viewer in place of the prompt |
 | `/doctor` | Diagnose installation health — openable while Claude is responding; shows status icons; press `f` to auto-fix issues (enhanced in v2.1.116; layout refreshed to a flat tree with clearer icons in v2.1.178); `/doctor prompt-audit` (also `/checkup prompt-audit`) audits CLAUDE.md files, skills, agents, and commands for prompting patterns written for older models (v2.1.283) |
-| `/effort [low\|medium\|high\|xhigh\|max\|auto]` | Set effort level via interactive arrow-key slider. Levels: `low` → `medium` → `high` → `xhigh` (new in v2.1.111) → `max`. Default is `medium` on Opus 5.5 (the default model since v2.1.280), `high` on Opus 5, Sonnet 5, and Opus 4.8, and `xhigh` on Opus 4.7; `xhigh` needs Opus 5.5, Opus 5, Sonnet 5, Opus 4.8, or Opus 4.7; `max` works on Opus 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6. A level saved before `/effort` became per-model doesn't apply to newly released models such as Opus 5.5 (v2.1.280). The menu also offers `ultracode` (not a model effort level — it sends `xhigh` and has Claude orchestrate dynamic workflows; session-only) |
+| `/effort [low\|medium\|high\|xhigh\|max\|auto\|ultracode [on\|off]]` | Set effort level via interactive arrow-key slider. Levels: `low` → `medium` → `high` → `xhigh` (new in v2.1.111) → `max`. Default is `medium` on Opus 5.5 (the default model since v2.1.280) and Sonnet 5.5, `high` on Opus 5, Sonnet 5, and Opus 4.8, and `xhigh` on Opus 4.7; `xhigh` needs Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8, or Opus 4.7; `max` works on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6. A level saved before `/effort` became per-model doesn't apply to newly released models such as Opus 5.5 (v2.1.280). The slider also has an **Ultracode** toggle (Tab, or `/effort ultracode [on\|off]`) — not a model effort level: it has Claude orchestrate dynamic workflows at whichever effort level the session runs at. Since v2.1.284 it no longer forces `xhigh` and stays on when you change the level; `/effort ultracode` lasts for the session, and the `ultracode` setting makes it persist |
 | `/exit` | Exit the REPL (alias: `/quit`) |
 | `/export [filename]` | Export the current conversation to a file or clipboard |
 | `/usage-credits` | Configure extra usage for rate limits (renamed from `/extra-usage` in v2.1.144; `/extra-usage` still works as an alias) |
@@ -135,6 +135,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 
 - `/fork` and `/subtask` swapped roles in **v2.1.212**. `/fork` now copies the conversation into a new independent background session; the forked-subagent behavior it used to have moved to the new `/subtask` command. History: `/fork` was an alias for `/branch` from v2.1.77 to v2.1.161; from v2.1.161 to v2.1.211 it started a forked subagent (what `/subtask` does now). When agent view is turned off, `/subtask` is unavailable and `/fork` keeps the forked-subagent behavior
 - `/resume` (no arguments) opens a picker of past sessions — including ones removed from the visible list — and resumes the chosen one as a background session (v2.1.212)
+- `/resume` and `claude --resume` on a session that is running in the background open that session instead of refusing, and `claude --resume <id> "prompt"` sends the prompt as its next turn (v2.1.285)
 - `/output-style` was deprecated (v2.1.73) and removed (v2.1.91), then **re-added in v2.1.269** — it is a live command again in v2.1.278, and works in headless and Remote Control sessions. Output styles also remain available via `/config` → Output style or the `outputStyle` setting; the built-ins are Default, Proactive, Explanatory, Learning, and Concise (added in v2.1.237)
 - `/review` became a full alias of `/code-review` — same targets, effort levels, and flags (v2.1.223). History: it first moved onto the `/code-review medium` engine in v2.1.186 while remaining PR-only
 - `/effort` command added; `max` level available on Opus 4.6+ (originally Opus 4.6-only)
@@ -650,8 +651,8 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills
@@ -671,6 +672,8 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.281
 - https://code.claude.com/docs/en/fast-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.283
+- https://code.claude.com/docs/en/workflows#let-claude-decide-with-ultracode
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Part of the [Claude How To](../) guide series*

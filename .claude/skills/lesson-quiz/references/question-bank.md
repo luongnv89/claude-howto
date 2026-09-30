@@ -279,15 +279,15 @@
 - **Question**: Which built-in subagent is optimized for read-only codebase exploration?
 - **Options**: A) general-purpose | B) Plan | C) Explore | D) Bash
 - **Correct**: C
-- **Explanation**: The Explore subagent is the read-only codebase search agent. Since v2.1.198 it inherits the session model, capped at Opus — `model: haiku` is opt-in, not the default. It supports three thoroughness levels: quick, medium, very thorough.
+- **Explanation**: The Explore subagent is the read-only codebase search agent. Since v2.1.198 it inherits the session model, capped at Opus on the Claude API — `model: haiku` is opt-in, not the default. It supports three thoroughness levels: quick, medium, very thorough.
 - **Review**: Built-in subagents section
 
 ### Q4
 - **Category**: practical
 - **Question**: How do you restrict which subagents a coordinator agent can spawn?
-- **Options**: A) Use `allowed-agents:` field | B) Use `Task(agent_name)` syntax in the `tools` field | C) Set `spawn-limit: 2` | D) Use `restrict-agents: [name1, name2]`
+- **Options**: A) Use `allowed-agents:` field | B) Use `Agent(agent_name)` syntax in the `tools` field | C) Set `spawn-limit: 2` | D) Use `restrict-agents: [name1, name2]`
 - **Correct**: B
-- **Explanation**: Adding `Task(worker, researcher)` in the tools field creates an allowlist — the agent can only spawn subagents named "worker" or "researcher".
+- **Explanation**: For an agent running as the main thread with `claude --agent`, `tools: Agent(worker, researcher)` creates an allowlist — it can only spawn subagents named "worker" or "researcher". `Task(...)` still works as an alias (the Task tool was renamed Agent in v2.1.63).
 - **Review**: Restrict spawnable subagents section
 
 ### Q5
@@ -456,7 +456,7 @@
 - **Options**: A) Return modified JSON on stderr | B) Return JSON with `updatedInput` field on stdout (exit code 0) | C) Write to a temp file | D) Hooks cannot modify inputs
 - **Correct**: B
 - **Explanation**: A PreToolUse hook can output JSON with `"updatedInput": {...}` on stdout (with exit 0) to modify the tool's parameters before Claude uses them.
-- **Review**: PreToolUse output section
+- **Review**: PreToolUse section
 
 ### Q5
 - **Category**: conceptual
@@ -553,9 +553,9 @@
 ### Q6
 - **Category**: practical
 - **Question**: How do you install a plugin from GitHub?
-- **Options**: A) `claude plugin add github:username/repo` | B) `/plugin install github:username/repo` | C) `npm install @claude/username-repo` | D) `git clone` then `claude plugin register`
+- **Options**: A) `claude plugin add github:username/repo` | B) `/plugin marketplace add username/repo`, then `/plugin install plugin-name@marketplace-name` | C) `npm install @claude/username-repo` | D) `git clone` then `claude plugin register`
 - **Correct**: B
-- **Explanation**: Use `/plugin install github:username/repo` to install directly from a GitHub repository.
+- **Explanation**: Add the GitHub repo as a marketplace with `/plugin marketplace add username/repo`, then install with `/plugin install plugin-name@marketplace-name`. Since v2.1.275 you can do both in one step inside a session: `/plugin install plugin-name --marketplace username/repo`. There is no `github:` install form.
 - **Review**: Installation methods section
 
 ### Q7
@@ -707,7 +707,7 @@
 - **Question**: On a model where thinking can be turned off (for example Sonnet 5), how do you toggle extended thinking on or off during a session?
 - **Options**: A) Type `/effort max` | B) Press `Option+T` (macOS) or `Alt+T` | C) Include "ultrathink" in prompt | D) It's always enabled and cannot be toggled
 - **Correct**: B
-- **Explanation**: Option+T (macOS) or Alt+T toggles extended thinking on/off for the session. (`Ctrl+O` toggles verbose mode to show/hide the reasoning text.) On Opus 5.5 (the default model since v2.1.280) and the Fable models, thinking can't be turned off: the toggle, `alwaysThinkingEnabled` and `MAX_THINKING_TOKENS=0` have no effect there. For one-off deep reasoning, include "ultrathink" in your prompt; for session-level control, use the `/effort` command.
+- **Explanation**: Option+T (macOS) or Alt+T toggles extended thinking on/off for the session. (`Ctrl+O` toggles verbose mode to show/hide the reasoning text.) On Opus 5.5 (the default model since v2.1.280), Sonnet 5.5 (what the `sonnet` alias resolves to on the Anthropic API since v2.1.284), and the Fable models, thinking can't be turned off: the toggle, `alwaysThinkingEnabled` and `MAX_THINKING_TOKENS=0` have no effect there. For one-off deep reasoning, include "ultrathink" in your prompt; for session-level control, use the `/effort` command.
 - **Review**: Extended Thinking section
 
 ### Q5
@@ -821,9 +821,9 @@
 ### Q8
 - **Category**: practical
 - **Question**: How do you fork an existing session to try a different approach without losing the original?
-- **Options**: A) Use `/fork` command | B) Use `--resume session-name --fork-session "branch name"` | C) Use `--clone session-name` | D) Use `/branch session-name`
+- **Options**: A) Use `/fork` command | B) Use `--resume session-name --fork-session` | C) Use `--clone session-name` | D) Use `/branch session-name`
 - **Correct**: B
-- **Explanation**: `--resume` with `--fork-session` creates a new independent branch from the resumed session, preserving the original conversation.
+- **Explanation**: `--fork-session` (used with `--resume` or `--continue`) creates a new session ID instead of reusing the original, so the original conversation is preserved.
 - **Review**: Session management section
 
 ### Q9
@@ -844,8 +844,8 @@
 
 ---
 
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/skills
@@ -857,3 +857,4 @@
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config#extended-thinking
+- https://code.claude.com/docs/en/plugins/install

@@ -356,10 +356,11 @@ Auto Mode — це режим дозволів, який використову�
 ### Увімкнення Auto Mode
 
 ```bash
-# Розблокування auto mode за допомогою прапорця CLI
-claude --enable-auto-mode
+# Інтерактивні сесії запускаються в auto mode, якщо режим дозволів не налаштовано (v2.1.284+)
+# Щоб вибрати його явно, наприклад коли ваші налаштування задають інший режим за замовчуванням:
+claude --permission-mode auto
 
-# Потім перемикайте через Shift+Tab у REPL
+# Або перемикайтеся на нього через Shift+Tab у REPL
 ```
 
 Або встановіть як режим дозволів за замовчуванням:
@@ -674,7 +675,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 | `bypassPermissions` | Усі дії, без перевірки дозволів (небезпечно) |
 | `dontAsk` | Виконуються лише попередньо затверджені інструменти; всі інші відхиляються |
 
-Перемикайте режими через `Shift+Tab` у CLI. Встановіть режим за замовчуванням через прапорець `--permission-mode` або налаштування `permissions.defaultMode`. Починаючи з v2.1.283, інтерактивна сесія у стороннього провайдера (Bedrock, Agent Platform від Google Cloud, Foundry) або з вимкненою телеметрією запускається в режимі auto, якщо режим дозволів не налаштовано; `permissions.defaultMode` і далі має пріоритет.
+Перемикайте режими через `Shift+Tab` у CLI. Встановіть режим за замовчуванням через прапорець `--permission-mode` або налаштування `permissions.defaultMode`. Якщо режим дозволів не налаштовано, інтерактивні сесії в терміналі та VS Code починаючи з v2.1.284 запускаються в режимі auto на будь-якому плані та в будь-якого провайдера (у v2.1.283 так було лише у сторонніх провайдерів, як-от Bedrock, Agent Platform від Google Cloud і Foundry, або з вимкненою телеметрією); `permissions.defaultMode` і далі має пріоритет, а сесія, де режим auto недоступний, натомість запускається в режимі `default` (Manual). `claude -p` та Agent SDK запускаються в `default`, якщо нічого не налаштовано, за винятком того, що починаючи з v2.1.285 сесії `claude -p` і Python Agent SDK у сторонніх провайдерів або з вимкненою телеметрією також запускаються в режимі auto; `--permission-mode` і далі має пріоритет.
 
 ### Методи активації
 
@@ -1932,8 +1933,8 @@ claude --teammate-mode in-process
 - [Офіційна документація Agent Teams](https://code.claude.com/docs/en/agent-teams)
 
 ---
-**Останнє оновлення**: 26 вересня 2026
-**Версія Claude Code**: 2.1.283
+**Останнє оновлення**: 30 вересня 2026
+**Версія Claude Code**: 2.1.285
 **Джерела**:
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
@@ -1941,4 +1942,7 @@ claude --teammate-mode in-process
 - https://code.claude.com/docs/en/keybindings#modifiers
 - https://code.claude.com/docs/en/permission-modes
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.283
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-session-starts-in
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.284
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

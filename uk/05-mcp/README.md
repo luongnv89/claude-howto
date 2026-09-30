@@ -127,7 +127,7 @@ WebSocket-сервери тримають постійне двонаправл�
 
 Запис `type: "ws"` приймає ті самі поля `url`, `headers`, `headersHelper`, `timeout` і `alwaysLoad`, що й `http`. Автентифікація **лише через заголовки** — потоку OAuth для WebSocket-серверів немає.
 
-> **Примітка**: WebSocket-сервери не зʼявляються у виводі `claude mcp list`. Для перевірки використовуйте `claude mcp get <назва>` або панель `/mcp`.
+> **Примітка**: Починаючи з v2.1.285, `claude mcp list` показує WebSocket-сервери (`ws`) з їхньою URL-адресою та станом справності (попередні версії їх пропускали). Також їх можна перевірити через `claude mcp get <назва>` або панель `/mcp`.
 
 Як і HTTP та SSE, WebSocket-зʼєднання використовує 5-хвилинне вікно простою; stdio і WebSocket не мають таймера на окремий запит. Запис `url` без `type` призводить до помилки, яка називає `"http"`, `"sse"`, `"ws"` як допустимі значення.
 
@@ -1139,10 +1139,11 @@ export GITHUB_TOKEN="your_token"
 - [Документація Claude API](https://docs.anthropic.com)
 
 ---
-**Останнє оновлення**: 26 вересня 2026
-**Версія Claude Code**: 2.1.283
+**Останнє оновлення**: 30 вересня 2026
+**Версія Claude Code**: 2.1.285
 **Джерела**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/mcp#configure-tool-search
 - https://code.claude.com/docs/en/managed-mcp
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

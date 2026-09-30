@@ -640,7 +640,9 @@ claude --plugin-dir ./plugin-a --plugin-dir ./plugin-b
 
 ### З Git-репозиторію
 ```bash
-/plugin install github:username/repo
+/plugin marketplace add username/repo                    # Додайте GitHub-репозиторій як маркетплейс
+/plugin install plugin-name@marketplace-name             # Потім встановіть із нього плагін
+/plugin install plugin-name --marketplace username/repo  # Або обидва кроки за один раз (v2.1.275+)
 ```
 
 ## Коли створювати плагін
@@ -859,7 +861,9 @@ Complete PR review workflow with security, testing, and documentation checks.
 ### Встановлення з GitHub
 
 ```bash
-/plugin install github:username/repo
+/plugin marketplace add username/repo                    # Додайте GitHub-репозиторій як маркетплейс
+/plugin install plugin-name@marketplace-name             # Потім встановіть із нього плагін
+/plugin install plugin-name --marketplace username/repo  # Або обидва кроки за один раз (v2.1.275+)
 ```
 
 ### Список встановлених плагінів
@@ -969,10 +973,12 @@ claude plugin update plugin-name
 - [Довідник системи хуків](../06-hooks/README.md)
 
 ---
-**Останнє оновлення**: 2 вересня 2026
-**Версія Claude Code**: 2.1.257
+**Останнє оновлення**: 30 вересня 2026
+**Версія Claude Code**: 2.1.285
 **Джерела**:
 - https://code.claude.com/docs/en/discover-plugins
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/settings
+- https://code.claude.com/docs/en/plugins/install
+- https://code.claude.com/docs/en/plugins/cli-reference
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -631,7 +631,9 @@ claude --plugin-dir ./plugin-a --plugin-dir ./plugin-b
 
 ### 从 Git 仓库安装
 ```bash
-/plugin install github:username/repo
+/plugin marketplace add username/repo                    # 将 GitHub 仓库添加为市场
+/plugin install plugin-name@marketplace-name             # 然后从该市场安装插件
+/plugin install plugin-name --marketplace username/repo  # 或一步完成两者（v2.1.275+）
 ```
 
 ## 何时创建插件
@@ -841,7 +843,9 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 ### 从 GitHub 安装
 
 ```bash
-/plugin install github:username/repo
+/plugin marketplace add username/repo                    # 将 GitHub 仓库添加为市场
+/plugin install plugin-name@marketplace-name             # 然后从该市场安装插件
+/plugin install plugin-name --marketplace username/repo  # 或一步完成两者（v2.1.275+）
 ```
 
 ### 列出已安装插件
@@ -952,9 +956,11 @@ claude plugin update plugin-name
 
 ---
 
-**最后更新**: 2026 年 9 月 2 日
-**Claude Code 版本**: 2.1.257
+**最后更新**: 2026 年 9 月 30 日
+**Claude Code 版本**: 2.1.285
 **来源**:
 - https://code.claude.com/docs/en/discover-plugins
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/settings
+- https://code.claude.com/docs/en/plugins/install
+- https://code.claude.com/docs/en/plugins/cli-reference

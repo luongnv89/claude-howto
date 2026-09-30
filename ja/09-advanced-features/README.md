@@ -365,10 +365,11 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh
 ### オートモードの有効化
 
 ```bash
-# Unlock auto mode with CLI flag (no longer required for Max subscribers on Opus 4.7 — access it directly)
-claude --enable-auto-mode
+# Interactive sessions start in auto mode when no permission mode is configured (v2.1.284+)
+# To pick it explicitly, for example when your settings default to another mode:
+claude --permission-mode auto
 
-# Then cycle to it with Shift+Tab in the REPL
+# Or cycle to it with Shift+Tab in the REPL
 ```
 
 > **v2.1.112 アップデート：** オートモードに `--enable-auto-mode` フラグは不要になった。Max サブスクライバは Opus 4.7 で直接アクセスできる。
@@ -750,7 +751,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 | `bypassPermissions` | 全操作、権限チェックなし（危険） |
 | `dontAsk` | 事前承認済みツールのみ実行、その他はすべて拒否 |
 
-CLI では `Shift+Tab` でモードを切り替える。デフォルトは `--permission-mode` フラグまたは `permissions.defaultMode` 設定で指定する。v2.1.283 以降、サードパーティプロバイダー（Bedrock、Google Cloud の Agent Platform、Foundry）上またはテレメトリをオフにした対話セッションは、パーミッションモードが未設定の場合 auto モードで開始する。`permissions.defaultMode` は引き続きこれより優先される。
+CLI では `Shift+Tab` でモードを切り替える。デフォルトは `--permission-mode` フラグまたは `permissions.defaultMode` 設定で指定する。パーミッションモードが未設定の場合、v2.1.284 以降は対話型のターミナルセッションと VS Code セッションがすべてのプランとプロバイダーで auto モードで開始する（v2.1.283 では Bedrock、Google Cloud の Agent Platform、Foundry などのサードパーティプロバイダー上、またはテレメトリをオフにした場合に限られていた）。`permissions.defaultMode` は引き続きこれより優先され、auto モードを利用できないセッションは代わりに `default`（Manual）で開始する。`claude -p` と Agent SDK は何も設定されていない場合 `default` で開始するが、v2.1.285 以降はサードパーティプロバイダー上またはテレメトリをオフにした `claude -p` と Python Agent SDK のセッションも auto モードで開始する。`--permission-mode` は引き続きこれより優先される。
 
 ### 起動方法
 
@@ -2107,8 +2108,8 @@ Claude Code および関連機能の詳細：
 
 ---
 
-**最終更新：** 2026 年 9 月 26 日
-**Claude Code バージョン：** 2.1.283
+**最終更新：** 2026 年 9 月 30 日
+**Claude Code バージョン：** 2.1.285
 **情報源：**
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
@@ -2122,5 +2123,8 @@ Claude Code および関連機能の詳細：
 - https://code.claude.com/docs/en/keybindings#modifiers
 - https://code.claude.com/docs/en/permission-modes
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.283
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-session-starts-in
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.284
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
 
 **互換モデル：** Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

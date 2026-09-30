@@ -49,7 +49,7 @@ Options:
 Options:
 1. "Used checkpoints for safe experimentation" — Created checkpoints, used Esc+Esc or /rewind, restored code and/or conversation, or used either Summarize option (summarize from here / summarize up to here)
 2. "Used planning mode or extended thinking" — Activated planning via /plan, Shift+Tab, or --permission-mode plan; toggled extended thinking with Alt+T/Option+T
-3. "Configured permission modes" — Used any of the six modes — manual (renamed from default in v2.1.200), acceptEdits, plan, auto, dontAsk, or bypassPermissions — via CLI flags, keyboard shortcuts, or settings
+3. "Configured permission modes" — Used any of the six modes — manual (renamed from default in v2.1.200), acceptEdits, plan, auto, dontAsk, or bypassPermissions — via CLI flags, keyboard shortcuts, or settings (just starting in the built-in auto default doesn't count)
 4. "Used remote/desktop/web features" — Used `claude --remote-control`, `claude --cloud`, `/teleport`, `/desktop`, or worktrees with `claude -w`
 
 **Scoring:** Option 1 → **Checkpoints** (0-1); Options 2-4 → **Advanced Features** (0-3)
@@ -69,11 +69,12 @@ Options:
 
 ---
 
-**Last Updated**: September 2, 2026
-**Claude Code Version**: 2.1.257
+**Last Updated**: September 30, 2026
+**Claude Code Version**: 2.1.285
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/permission-modes
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/plugins-reference
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-session-starts-in
