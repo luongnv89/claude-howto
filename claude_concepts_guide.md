@@ -1462,7 +1462,7 @@ Claude Code supports the following models with adaptive reasoning effort:
 | Claude Sonnet 4.6 | 1M tokens | `low`, `medium`, `high`, `max` | `high` for Pro/Max subscribers (raised from `medium` in v2.1.117) |
 | Claude Haiku 4.5 | 200K tokens | — (no effort support) | — |
 
-> **Note**: `xhigh` is available on Opus 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7; `max` works on Opus 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 does not support effort levels.
+> **Note**: `xhigh` is available on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7; `max` works on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 does not support effort levels.
 
 > **Note**: v2.1.117 fixed a bug where Opus 4.7 sessions computed `/context` against 200K instead of the native 1M window — upgrade to v2.1.117 or later to actually get the 1M context on Opus 4.7. Opus 5 and Opus 4.8 also have a native 1M-token window.
 

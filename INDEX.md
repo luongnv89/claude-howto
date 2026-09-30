@@ -482,7 +482,7 @@ Command-line interface usage patterns and reference.
 - `claude` - Start interactive session
 - `claude -p "prompt"` - Headless/non-interactive mode
 - `claude web` - Launch web session
-- `claude --model` - Select model (Opus 5.5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 4.5)
+- `claude --model` - Select model (Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 4.5)
 - `claude --permission-mode` - Set permission mode
 - `claude --remote` - Enable remote control via WebSocket
 
