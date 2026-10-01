@@ -887,4 +887,5 @@ MIT License - see [LICENSE](LICENSE). Free to use, modify, and distribute. The o
 - https://code.claude.com/docs/en/model-config
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.285
+- https://github.com/Continuum-AI-Corp/OrcaPromptVault/tree/main/Claude-Code — wire captures of the system prompt and tool schema Claude Code sends, per model and per entry point, dated (the docs above describe behaviour; these are the bytes as sent)
 **Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
