@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Claude Code Documentation
+    url: https://code.claude.com/docs/en/overview
+    about: Official Claude Code documentation
+  - name: Discussions
+    url: https://github.com/luongnv89/claude-howto/discussions
+    about: Ask questions and share ideas with the community
+  - name: Anthropic Cookbook
+    url: https://github.com/anthropics/anthropic-cookbook
+    about: Official examples and guides from Anthropic

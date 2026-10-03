@@ -1,0 +1,9 @@
+{
+  "name": "documentation",
+  "version": "1.0.0",
+  "description": "Comprehensive documentation generation and maintenance",
+  "author": {
+    "name": "Community"
+  },
+  "license": "MIT"
+}
