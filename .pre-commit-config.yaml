@@ -84,19 +84,25 @@ repos:
         pass_filenames: false
         types: [markdown]
 
+      # Checks only the staged files (all languages, including vi/ and ja/).
+      # require_serial keeps it to one process, so one pool of mmdc workers.
       - id: mermaid
         name: mermaid-syntax
         language: system
         entry: python scripts/check_mermaid.py
-        pass_filenames: false
+        pass_filenames: true
+        require_serial: true
         types: [markdown]
         verbose: true
 
+      # Checks only URLs in the staged files (all languages, including vi/
+      # and ja/). require_serial keeps it to one process, so one cache writer.
       - id: link-check
         name: link-check
         language: system
         entry: python scripts/check_links.py
-        pass_filenames: false
+        pass_filenames: true
+        require_serial: true
         types: [markdown]
         verbose: true
 
@@ -130,22 +136,6 @@ repos:
         pass_filenames: false
         files: ^vi/.*\.md$
 
-      - id: vietnamese-mermaid
-        name: vietnamese-mermaid-syntax
-        language: system
-        entry: python scripts/check_mermaid.py
-        pass_filenames: false
-        files: ^vi/.*\.md$
-        verbose: true
-
-      - id: vietnamese-link-check
-        name: vietnamese-link-check
-        language: system
-        entry: python scripts/check_links.py
-        pass_filenames: false
-        files: ^vi/.*\.md$
-        verbose: true
-
   # Japanese documentation checks
   - repo: local
     hooks:
@@ -163,19 +153,3 @@ repos:
         entry: python scripts/check_cross_references.py
         pass_filenames: false
         files: ^ja/.*\.md$
-
-      - id: japanese-mermaid
-        name: japanese-mermaid-syntax
-        language: system
-        entry: python scripts/check_mermaid.py
-        pass_filenames: false
-        files: ^ja/.*\.md$
-        verbose: true
-
-      - id: japanese-link-check
-        name: japanese-link-check
-        language: system
-        entry: python scripts/check_links.py
-        pass_filenames: false
-        files: ^ja/.*\.md$
-        verbose: true
