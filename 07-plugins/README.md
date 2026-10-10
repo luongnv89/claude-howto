@@ -331,6 +331,22 @@ Plugins can be defined inline in settings files as marketplace entries using the
 }
 ```
 
+## Mods (v2.1.287+)
+
+A mod is a plugin that changes how Claude Code looks and behaves. Its code is a JavaScript or TypeScript hooks module: event handlers that Claude Code calls when something happens, such as a tool call, a submitted prompt, or part of the interface being drawn. Each handler can observe the event, rewrite it, or answer it itself. A mod installs like any other plugin (`/plugin install <plugin>@<marketplace>`), can ship in the same plugin as skills and MCP servers, and runs with your permissions, so install mods only from authors and marketplaces you trust. Mods work in the Claude Code CLI (v2.1.287+) and in the Code tab of the Claude Desktop app.
+
+| What a mod can do | Example |
+|-------------------|---------|
+| Draw panes and a band above the prompt | A pane beside the transcript or a band above the prompt, with tabs, buttons, and text fields |
+| Add commands | A `/command` that runs your function at once, with no Claude turn, even while Claude is working |
+| Guard or change tool calls | Hold a tool call while you ask the user a question, refuse it, or answer it without running the tool |
+| React to events | Follow tool calls, prompts, and turns; a mod's hooks share variables, so one can count tool calls while another shows the count beside the spinner |
+| Call the mods API | Call a model, read and write files, start processes, or make network requests (a hook can do these only through the mods API) |
+
+To create a mod, describe what you want in a Claude Code session: Claude works from the built-in `plugin-authoring` skill (or run `/plugin-authoring` yourself), writes the mod, and, once you enable hot reloading for the session, reloads it at the end of each turn that changes it; `claude plugin validate` checks a mod without running it. Administrators decide whether mods run, and which ones, through managed settings — for example, `allowManagedModsOnly` lets only your organization's mods and the mods built into Claude Code run their hooks.
+
+> **Note**: See the official [Mods overview](https://code.claude.com/docs/en/plugins/mods/overview), [Create a mod](https://code.claude.com/docs/en/plugins/mods/create), and [Mods reference](https://code.claude.com/docs/en/plugins/mods/reference).
+
 ## Plugin Settings
 
 Plugins can ship a `settings.json` file to provide default configuration. This currently supports the `agent` key, which sets the main thread agent for the plugin:
@@ -875,10 +891,11 @@ claude plugin install my-plugin@my-marketplace --accept-command <sha256>
 
 ### Installing from a marketplace you haven't added (v2.1.275+)
 
-In a session, `/plugin install <plugin> --marketplace <source>` names the marketplace inline and offers to add it before installing, so discovering and adding a marketplace is no longer a separate step. This is the in-session slash-command form, not a `claude plugin` CLI flag.
+In a session, `/plugin install <plugin> --marketplace <source>` names the marketplace inline and offers to add it before installing, so discovering and adding a marketplace is no longer a separate step. From your shell, `claude plugin install <plugin> --marketplace <source>` does the same (v2.1.292+): it adds the marketplace if needed, under the same policy checks as `claude plugin marketplace add`, then installs the plugin.
 
 ```bash
 /plugin install code-reviewer --marketplace anthropics/claude-code-plugins
+claude plugin install code-reviewer --marketplace anthropics/claude-code-plugins   # same, from your shell (v2.1.292+)
 ```
 
 ## Installation Methods
@@ -1310,8 +1327,8 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: September 30, 2026
-**Claude Code Version**: 2.1.285
+**Last Updated**: October 10, 2026
+**Claude Code Version**: 2.1.296
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1337,4 +1354,9 @@ The following Claude Code features work together with plugins:
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.283
 - https://code.claude.com/docs/en/plugins/install
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.285
+- https://code.claude.com/docs/en/plugins/mods/overview
+- https://code.claude.com/docs/en/plugins/mods/create
+- https://code.claude.com/docs/en/plugins/mods/reference
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.287
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.292
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -143,7 +143,7 @@ Claude Code 提供 6 种权限模式，用来控制工具调用如何被授权�
 | **Explore** | 代码库探索 | Read、Glob、Grep | 继承（上限为 Opus） | 快速搜索、理解代码 |
 | **claude** | 不适合更专门 agent 的任务的通用兜底 agent | 所有工具 | 继承当前模型 | 没有专门 agent 的任务；被调度的后台会话的默认 agent |
 | **statusline-setup** | 状态栏配置 | Bash、Read、Write | Sonnet 4.6 | 配置状态栏显示 |
-| **claude-code-guide** | 帮助与文档 | Read、Glob、Grep | Haiku 4.5 | 获取帮助、学习功能 |
+| **claude-code-guide** | 帮助与文档 | Read、Glob、Grep | Haiku | 获取帮助、学习功能 |
 
 ### Subagent 配置字段
 
@@ -531,11 +531,12 @@ claude mcp add github -- npx -y @modelcontextprotocol/server-github
 
 ---
 
-**最后更新**: 2026 年 9 月 26 日
-**Claude Code 版本**: 2.1.283
+**最后更新**: 2026 年 10 月 10 日
+**Claude Code 版本**: 2.1.296
 **来源**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/sub-agents

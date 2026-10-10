@@ -119,7 +119,7 @@ claude -p "列出待办事项" | grep "URGENT"
 # 复杂任务使用 Opus 4.6
 claude --model opus "设计一个缓存策略"
 
-# 快速任务使用 Haiku 4.5
+# 快速任务使用 Haiku（自 v2.1.293 起在 Anthropic API 上为 Haiku 5.5；在 Bedrock、Vertex 和 Foundry 上为 Haiku 4.5）
 claude --model haiku -p "格式化这个 JSON"
 
 # 使用完整模型名
@@ -642,7 +642,8 @@ claude --working-directory ./backend --mcp-config ./mcp.json
 
 ---
 
-**最后更新**: 2026 年 9 月 26 日
-**Claude Code 版本**: 2.1.283
+**最后更新**: 2026 年 10 月 10 日
+**Claude Code 版本**: 2.1.296
 **来源**:
 - https://code.claude.com/docs/en/cli-reference
+- https://code.claude.com/docs/en/model-config

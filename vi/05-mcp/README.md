@@ -238,7 +238,7 @@ Các MCP server có thể yêu cầu đầu vào có cấu trúc từ người d
 
 ## Giới Hạn Mô Tả Và Hướng Dẫn Công Cụ / Tool Description and Instruction Cap
 
-Kể từ v2.1.84, Claude Code thực thi **giới hạn 2 KB** trên mô tả và hướng dẫn công cụ cho mỗi MCP server. Điều này ngăn các server riêng lẻ tiêu thụ quá nhiều ngữ cảnh với các định nghĩa công cụ quá dài dòng, giảm bloat ngữ cảnh và giữ các tương tác hiệu quả.
+Kể từ v2.1.84, Claude Code thực thi **giới hạn 2 KB** trên mô tả và hướng dẫn công cụ cho mỗi MCP server. Điều này ngăn các server riêng lẻ tiêu thụ quá nhiều ngữ cảnh với các định nghĩa công cụ quá dài dòng, giảm bloat ngữ cảnh và giữ các tương tác hiệu quả. Kể từ v2.1.296, mặc định là **4.096 ký tự** cho các mô tả được gửi ngay từ đầu và cho hướng dẫn của server (v2.1.296), còn các mô tả mà Claude tải qua tool search bị cắt ở **16.384 ký tự** (v2.1.295).
 
 ## MCP Prompts Như Lệnh Slash / MCP Prompts as Slash Commands
 
@@ -1158,11 +1158,12 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 30 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.285
+**Cập Nhật Lần Cuối**: Ngày 10 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.296
 **Nguồn**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
 - https://code.claude.com/docs/en/mcp#configure-tool-search
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.285
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.296
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

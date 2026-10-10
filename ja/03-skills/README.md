@@ -733,7 +733,7 @@ Claude が期待通りにスキルを使わない場合:
 
 ### Claude が一部のスキルを認識しない場合
 
-スキルの description は **コンテキストウィンドウの 1 %** を上限としてロードされる（フォールバック: **8,000 文字**）。各エントリはバジェットに関係なく 250 文字に制限される。`/context` を実行して除外されたスキルに関する警告を確認する。バジェットは環境変数 `SLASH_COMMAND_TOOL_CHAR_BUDGET` で上書きできる。
+スキルの description は **コンテキストウィンドウの 1 %** を上限としてロードされる（フォールバック: **8,000 文字**）。各エントリの `description` + `when_to_use` は、デフォルトで 1,536 文字に制限される（`skillListingMaxDescChars`）。`/context` を実行して除外されたスキルに関する警告を確認する。バジェットは環境変数 `SLASH_COMMAND_TOOL_CHAR_BUDGET` で上書きできる。
 
 ## セキュリティ上の考慮事項
 
@@ -826,10 +826,11 @@ chmod +x ~/.claude/skills/my-skill/scripts/*.py
 - [フックガイド](../06-hooks/) - イベント駆動の自動化
 
 ---
-**最終更新**: 2026 年 9 月 26 日
-**Claude Code バージョン**: 2.1.283
+**最終更新**: 2026 年 10 月 10 日
+**Claude Code バージョン**: 2.1.296
 **情報源**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/changelog
+- https://code.claude.com/docs/en/settings-reference
 **対応モデル**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

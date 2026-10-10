@@ -29,7 +29,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - Done when: A skill automatically activates based on conversation context
 
 **Skills (score 1 — review)**:
-- Focus on: `context: fork` with `agent` field for subagent execution, `disable-model-invocation` vs `user-invocable`, the skill-listing budget (1% of the context window, fallback 8,000 characters, 250 characters per entry), bundled resources (scripts/, references/, assets/)
+- Focus on: `context: fork` with `agent` field for subagent execution, `disable-model-invocation` vs `user-invocable`, the skill-listing budget (1% of the context window, fallback 8,000 characters; each entry's `description` + `when_to_use` capped at 1,536 characters by default via `skillListingMaxDescChars`), bundled resources (scripts/, references/, assets/)
 - Done when: You can create a skill that runs in a subagent with forked context
 
 **Hooks (score 0)**:
@@ -39,7 +39,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - Done when: A hook blocks dangerous commands before execution
 
 **Hooks (score 1 — review)**:
-- Focus on: All 33 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult, Setup, UserPromptExpansion, MessageDisplay, PreModelSwitch, PostModelSwitch — the last two added in v2.1.251), 5 hook types (command, http, mcp_tool, prompt, agent — agent hooks are experimental and may change), component-scoped hooks in SKILL.md frontmatter, HTTP hooks with allowedEnvVars, `CLAUDE_ENV_FILE` for SessionStart/CwdChanged/FileChanged
+- Focus on: All 33 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult, Setup, UserPromptExpansion, MessageDisplay, PreModelSwitch, PostModelSwitch — the last two added in v2.1.251), 5 hook types (command, http, mcp_tool, prompt, agent — agent hooks are experimental and may change), component-scoped hooks in SKILL.md frontmatter, HTTP hooks with allowedEnvVars, `onFailure: "block"` to block the action when a command or HTTP hook fails (v2.1.295+), `CLAUDE_ENV_FILE` for SessionStart/CwdChanged/FileChanged
 - Done when: You can create a prompt-based Stop hook and a component-scoped hook in a skill
 
 **MCP (score 0)**:
@@ -70,7 +70,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 
 **Advanced Features (score 0)**:
 - Tutorial: [09-advanced-features/](../../../../09-advanced-features/)
-- Focus on: Planning mode (/plan or Shift+Tab), permission modes (6 types: manual — renamed from default in v2.1.200 — acceptEdits, plan, auto, dontAsk, bypassPermissions), extended thinking (Alt+T/Option+T toggle — no effect on Opus 5.5 (the default model), Sonnet 5.5, or the Fable models, where thinking stays on)
+- Focus on: Planning mode (/plan or Shift+Tab), permission modes (6 types: manual — renamed from default in v2.1.200 — acceptEdits, plan, auto, dontAsk, bypassPermissions), extended thinking (Alt+T/Option+T toggle — no effect on Opus 5.5 (the default model), Sonnet 5.5, Haiku 5.5, or the Fable models, where thinking stays on)
 - Key exercise: Use planning mode to design a feature, then implement it
 - Done when: You can switch between planning and implementation modes fluently
 
@@ -80,12 +80,12 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 
 **Plugins (score 0)**:
 - Tutorial: [07-plugins/](../../../../07-plugins/)
-- Focus on: Plugin structure (.claude-plugin/plugin.json), what plugins bundle (skills, agents, MCP, hooks, settings — plus the legacy `commands/` directory, which still works but `skills/` is preferred for new plugins), installation from marketplace
+- Focus on: Plugin structure (.claude-plugin/plugin.json), what plugins bundle (skills, agents, MCP, hooks, settings — plus the legacy `commands/` directory, which still works but `skills/` is preferred for new plugins), installation from marketplace (`/plugin install`, or `claude plugin install <plugin> --marketplace <source>` from the shell)
 - Key exercise: Install a plugin and explore its components
 - Done when: You understand when to use a plugin vs standalone components
 
 **Plugins (score 1 — review)**:
-- Focus on: Creating plugin.json manifest, plugin hooks (hooks/hooks.json), LSP configuration (.lsp.json), `${CLAUDE_PLUGIN_ROOT}` variable, --plugin-dir for testing, marketplace publishing
+- Focus on: Creating plugin.json manifest, plugin hooks (hooks/hooks.json), LSP configuration (.lsp.json), `${CLAUDE_PLUGIN_ROOT}` variable, --plugin-dir for testing, marketplace publishing, mods (hooks modules shipped in a plugin that add panes, commands, and tool-call rules — v2.1.287+)
 - Done when: You can create and test a plugin for your team
 
 **CLI (score 0)**:
@@ -100,8 +100,8 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 
 ---
 
-**Last Updated**: September 30, 2026
-**Claude Code Version**: 2.1.285
+**Last Updated**: October 10, 2026
+**Claude Code Version**: 2.1.296
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/memory
@@ -113,3 +113,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/model-config#extended-thinking
+- https://code.claude.com/docs/en/settings-reference
+- https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/plugins/mods/overview
+- https://code.claude.com/docs/en/plugins/cli-reference

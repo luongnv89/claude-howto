@@ -154,7 +154,7 @@ Claude Code はツール使用の許可を制御する 6 つの権限モード�
 | **Explore** | コードベース探索 | Read、Glob、Grep | 継承（上限は Opus） | 高速検索、コード理解 |
 | **claude** | より専門的なエージェントに当てはまらないタスク向けの汎用エージェント | 全ツール | モデル継承 | 専用エージェントがないタスク、ディスパッチされたバックグラウンドセッションのデフォルト |
 | **statusline-setup** | ステータスライン設定 | Bash、Read、Write | Sonnet 4.6 | ステータスライン表示の設定 |
-| **claude-code-guide** | ヘルプとドキュメント | Read、Glob、Grep | Haiku 4.5 | ヘルプ、機能学習 |
+| **claude-code-guide** | ヘルプとドキュメント | Read、Glob、Grep | Haiku | ヘルプ、機能学習 |
 
 ### サブエージェント設定フィールド
 
@@ -540,8 +540,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新**：2026 年 9 月 26 日
-**Claude Code バージョン**：2.1.283
+**最終更新**：2026 年 10 月 10 日
+**Claude Code バージョン**：2.1.296
 **情報源**：
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/overview
@@ -550,4 +550,5 @@ chmod +x ~/.claude/hooks/*.sh
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.118
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/sub-agents
 **互換モデル**：Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

@@ -165,9 +165,9 @@
 ### Q10
 - **Category**: practical
 - **Question**: You work across two repositories and want Claude to load CLAUDE.md from both. What flag do you use?
-- **Options**: A) `--multi-repo` | B) `--add-dir /path/to/other` | C) `--include /path/to/other` | D) `--merge-context /path/to/other`
+- **Options**: A) `claude --multi-repo /path/to/other` | B) `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1 claude --add-dir /path/to/other` | C) `claude --add-dir /path/to/other` on its own | D) `claude --include /path/to/other`
 - **Correct**: B
-- **Explanation**: The `--add-dir` flag loads CLAUDE.md from additional directories, allowing multi-repo context.
+- **Explanation**: `--add-dir` on its own only grants file access to the extra directory — its CLAUDE.md is not loaded by default. Setting `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1` makes Claude Code also load CLAUDE.md from directories added with `--add-dir`.
 - **Review**: Additional directories section
 
 ---
@@ -439,7 +439,7 @@
 - **Question**: A hook script exits with code 2. What happens?
 - **Options**: A) Non-blocking warning shown | B) Blocking error — stderr is shown as an error to Claude, tool use is prevented | C) Hook is retried | D) Session ends
 - **Correct**: B
-- **Explanation**: Exit code 0 = success/continue, exit code 2 = blocking error (stderr shown as error), any other non-zero = non-blocking (stderr in verbose only).
+- **Explanation**: Exit code 0 = success/continue, exit code 2 = blocking error (stderr shown as error), any other non-zero = non-blocking error (a `<hook name> hook error` notice with the first line of stderr appears in the transcript, and the action goes ahead). Since v2.1.295, setting `"onFailure": "block"` on a command or HTTP hook makes such failures block like exit 2.
 - **Review**: Exit codes section
 
 ### Q3
@@ -463,7 +463,7 @@
 - **Question**: Which hook event supports `CLAUDE_ENV_FILE` for persisting environment variables into the session?
 - **Options**: A) PreToolUse | B) UserPromptSubmit | C) SessionStart | D) All events
 - **Correct**: C
-- **Explanation**: `CLAUDE_ENV_FILE` is available to SessionStart, CwdChanged, and FileChanged hooks, which use it to persist environment variables into the session. Of the options listed, SessionStart is the one that supports it — PreToolUse and UserPromptSubmit do not, and it is not available to all events.
+- **Explanation**: `CLAUDE_ENV_FILE` is available to SessionStart, Setup, CwdChanged, and FileChanged hooks, which use it to persist environment variables into the session. Of the options listed, SessionStart is the one that supports it — PreToolUse and UserPromptSubmit do not, and it is not available to all events.
 - **Review**: SessionStart section
 
 ### Q6
@@ -532,7 +532,7 @@
 - **Options**: A) `$PLUGIN_HOME` | B) `${CLAUDE_PLUGIN_ROOT}` | C) `$PLUGIN_DIR` | D) `${CLAUDE_PLUGIN_PATH}`
 - **Correct**: B
 - **Explanation**: `${CLAUDE_PLUGIN_ROOT}` resolves to the plugin's installed directory, enabling portable path references in hooks and MCP configs.
-- **Review**: Plugin Structure Example section
+- **Review**: Plugin-Provided MCP Servers section in Lesson 05 (MCP)
 
 ### Q4
 - **Category**: practical
@@ -555,7 +555,7 @@
 - **Question**: How do you install a plugin from GitHub?
 - **Options**: A) `claude plugin add github:username/repo` | B) `/plugin marketplace add username/repo`, then `/plugin install plugin-name@marketplace-name` | C) `npm install @claude/username-repo` | D) `git clone` then `claude plugin register`
 - **Correct**: B
-- **Explanation**: Add the GitHub repo as a marketplace with `/plugin marketplace add username/repo`, then install with `/plugin install plugin-name@marketplace-name`. Since v2.1.275 you can do both in one step inside a session: `/plugin install plugin-name --marketplace username/repo`. There is no `github:` install form.
+- **Explanation**: Add the GitHub repo as a marketplace with `/plugin marketplace add username/repo`, then install with `/plugin install plugin-name@marketplace-name`. You can also do both in one step: `/plugin install plugin-name --marketplace username/repo` inside a session (v2.1.275+), or `claude plugin install plugin-name --marketplace username/repo` from your shell (v2.1.292+). There is no `github:` install form.
 - **Review**: Installation methods section
 
 ### Q7
@@ -707,7 +707,7 @@
 - **Question**: On a model where thinking can be turned off (for example Sonnet 5), how do you toggle extended thinking on or off during a session?
 - **Options**: A) Type `/effort max` | B) Press `Option+T` (macOS) or `Alt+T` | C) Include "ultrathink" in prompt | D) It's always enabled and cannot be toggled
 - **Correct**: B
-- **Explanation**: Option+T (macOS) or Alt+T toggles extended thinking on/off for the session. (`Ctrl+O` toggles verbose mode to show/hide the reasoning text.) On Opus 5.5 (the default model since v2.1.280), Sonnet 5.5 (what the `sonnet` alias resolves to on the Anthropic API since v2.1.284), and the Fable models, thinking can't be turned off: the toggle, `alwaysThinkingEnabled` and `MAX_THINKING_TOKENS=0` have no effect there. For one-off deep reasoning, include "ultrathink" in your prompt; for session-level control, use the `/effort` command.
+- **Explanation**: Option+T (macOS) or Alt+T toggles extended thinking on/off for the session. (`Ctrl+O` toggles verbose mode to show/hide the reasoning text.) On Opus 5.5 (the default model since v2.1.280), Sonnet 5.5 (what the `sonnet` alias resolves to on the Anthropic API since v2.1.284), Haiku 5.5 (what the `haiku` alias resolves to on the Anthropic API since v2.1.293), and the Fable models, thinking can't be turned off: the toggle, `alwaysThinkingEnabled` and `MAX_THINKING_TOKENS=0` have no effect there. For one-off deep reasoning, include "ultrathink" in your prompt; for session-level control, use the `/effort` command.
 - **Review**: Extended Thinking section
 
 ### Q5
@@ -820,11 +820,11 @@
 
 ### Q8
 - **Category**: practical
-- **Question**: How do you fork an existing session to try a different approach without losing the original?
-- **Options**: A) Use `/fork` command | B) Use `--resume session-name --fork-session` | C) Use `--clone session-name` | D) Use `/branch session-name`
+- **Question**: From your shell, how do you start a new session from the saved session `feature-auth` so the original session stays unchanged?
+- **Options**: A) `claude --clone feature-auth` | B) `claude --resume feature-auth --fork-session` | C) `claude --branch feature-auth` | D) `claude --resume feature-auth`
 - **Correct**: B
-- **Explanation**: `--fork-session` (used with `--resume` or `--continue`) creates a new session ID instead of reusing the original, so the original conversation is preserved.
-- **Review**: Session management section
+- **Explanation**: `--fork-session` (used with `--resume` or `--continue`) creates a new session ID instead of reusing the original, so the original conversation is preserved. Plain `--resume` reopens the same session and adds to it. Inside a running session, `/branch` does the equivalent and switches you into the copy; `/fork` copies the conversation into a new background session.
+- **Review**: Session Fork section
 
 ### Q9
 - **Category**: conceptual
@@ -844,8 +844,8 @@
 
 ---
 
-**Last Updated**: September 30, 2026
-**Claude Code Version**: 2.1.285
+**Last Updated**: October 10, 2026
+**Claude Code Version**: 2.1.296
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/skills
@@ -858,3 +858,6 @@
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config#extended-thinking
 - https://code.claude.com/docs/en/plugins/install
+- https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/plugins/cli-reference
+- https://code.claude.com/docs/en/plugins

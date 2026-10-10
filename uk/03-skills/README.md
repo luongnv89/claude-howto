@@ -733,7 +733,7 @@ description: Analyze Excel spreadsheets, generate pivot tables, create charts. U
 
 ### Claude не бачить усі навички
 
-Описи навичок завантажуються з лімітом **1% контекстного вікна** (резерв: **8 000 символів**). Кожен запис обмежений 250 символами незалежно від бюджету. Запустіть `/context`, щоб перевірити попередження про виключені навички. Перевизначте бюджет змінною оточення `SLASH_COMMAND_TOOL_CHAR_BUDGET`.
+Описи навичок завантажуються з лімітом **1% контекстного вікна** (резерв: **8 000 символів**). Для кожного запису `description` + `when_to_use` обмежені 1 536 символами за замовчуванням (`skillListingMaxDescChars`). Запустіть `/context`, щоб перевірити попередження про виключені навички. Перевизначте бюджет змінною оточення `SLASH_COMMAND_TOOL_CHAR_BUDGET`.
 
 ## Питання безпеки
 
@@ -813,8 +813,9 @@ chmod +x ~/.claude/skills/my-skill/scripts/*.py
 - [Посібник хуків](../06-hooks/) — автоматизація за подіями
 
 ---
-**Останнє оновлення**: 26 вересня 2026
-**Версія Claude Code**: 2.1.283
+**Останнє оновлення**: 10 жовтня 2026
+**Версія Claude Code**: 2.1.296
 **Джерела**:
 - https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/settings-reference
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

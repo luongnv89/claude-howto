@@ -139,7 +139,7 @@ claude -p "list todos" | grep "URGENT"
 # 複雑なタスクには Opus 4.7
 claude --model opus "design a caching strategy"
 
-# 速いタスクには Haiku 4.5
+# 速いタスクには Haiku（Anthropic API では v2.1.293 以降 Haiku 5.5、Bedrock・Vertex・Foundry では Haiku 4.5）
 claude --model haiku -p "format this JSON"
 
 # モデル名のフルネーム指定
@@ -873,10 +873,11 @@ claude -p --output-format json "query"
 
 ---
 
-**最終更新**: 2026 年 9 月 26 日
-**Claude Code バージョン**: 2.1.283
+**最終更新**: 2026 年 10 月 10 日
+**Claude Code バージョン**: 2.1.296
 **出典**:
 - https://code.claude.com/docs/en/cli-reference
+- https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/changelog
 - https://www.anthropic.com/news/claude-opus-4-7

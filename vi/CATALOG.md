@@ -144,7 +144,7 @@ Các trợ lý AI chuyên biệt với context bị cô lập cho các tasks c�
 | **Explore** | Khám phá codebase | Read, Glob, Grep | Kế thừa (giới hạn ở Opus) | Tìm kiếm nhanh, hiểu code |
 | **claude** | Tác nhân dự phòng cho các tác vụ không khớp tác nhân chuyên biệt nào | All tools | Kế thừa model | Tác vụ không có tác nhân chuyên biệt; tác nhân mặc định cho phiên nền được điều phối |
 | **statusline-setup** | Cấu hình status line | Bash, Read, Write | Sonnet 4.6 | Cấu hình hiển thị status line |
-| **claude-code-guide** | Trợ giúp và tài liệu | Read, Glob, Grep | Haiku 4.5 | Nhận trợ giúp, học tính năng |
+| **claude-code-guide** | Trợ giúp và tài liệu | Read, Glob, Grep | Haiku | Nhận trợ giúp, học tính năng |
 
 ### Subagent Configuration Fields
 
@@ -522,11 +522,12 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.283
+**Cập Nhật Lần Cuối**: Ngày 10 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.296
 **Nguồn**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/sub-agents

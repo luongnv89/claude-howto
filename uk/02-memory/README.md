@@ -640,7 +640,7 @@ Claude завантажить CLAUDE.md із зазначеного додатк
 
 This file supplements root CLAUDE.md for everything in /src/api/. Memory files are
 concatenated, not overridden — the root CLAUDE.md still applies, and Claude Code
-loads this file on demand when it reads files in this subtree.
+loads this file on demand when it reads, writes, or edits files in this subtree.
 
 ## API-Specific Standards
 
@@ -1084,7 +1084,7 @@ Claude запропонує обрати, який файл пам'яті оно
 
    This file supplements root CLAUDE.md for this directory. Memory files are
    concatenated, not overridden — Claude Code loads this file on demand when it
-   reads files in this directory.
+   reads, writes, or edits files in this directory.
 
    ## [Specific Standards]
    EOF
@@ -1159,9 +1159,11 @@ Claude запропонує обрати, який файл пам'яті оно
 - [Офіційна документація пам'яті](https://code.claude.com/docs/en/memory) — документація Anthropic
 
 ---
-**Останнє оновлення**: 19 вересня 2026
-**Версія Claude Code**: 2.1.278
+**Останнє оновлення**: 10 жовтня 2026
+**Версія Claude Code**: 2.1.296
 **Джерела**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.288
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.293
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

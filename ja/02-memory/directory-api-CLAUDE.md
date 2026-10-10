@@ -6,7 +6,7 @@
 
 このファイルは /src/api/ 配下のすべてに対し、ルートの CLAUDE.md を補完する。メモリファイルは
 連結されるものであり、上書きされるわけではない。ルートの CLAUDE.md は引き続き適用され、
-Claude Code はこのサブツリー内のファイルを読むときに本ファイルをオンデマンドで読み込む。
+Claude Code はこのサブツリー内のファイルを読む、書く、または編集するときに本ファイルをオンデマンドで読み込む。
 
 ## API 固有の標準
 
@@ -67,4 +67,9 @@ Claude Code はこのサブツリー内のファイルを読むときに本フ�
 - キャッシュキーにリソース種別のタグを付ける
 
 ---
-**Last Updated**: April 9, 2026
+**最終更新**: 2026 年 10 月 10 日
+**Claude Code バージョン**: 2.1.296
+**Sources**:
+- https://code.claude.com/docs/en/memory
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.288
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.293

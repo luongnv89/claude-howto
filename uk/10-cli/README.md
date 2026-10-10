@@ -123,7 +123,7 @@ claude -p "list todos" | grep "URGENT"
 # Opus 4.6 для складних завдань
 claude --model opus "design a caching strategy"
 
-# Haiku 4.5 для швидких завдань
+# Haiku для швидких завдань (Haiku 5.5 в Anthropic API з v2.1.293; Haiku 4.5 у Bedrock, Vertex і Foundry)
 claude --model haiku -p "format this JSON"
 
 # Повна назва моделі
@@ -837,8 +837,9 @@ claude -p --output-format json "query"
 *Частина серії посібників [Claude How To](../)*
 
 ---
-**Останнє оновлення**: 26 вересня 2026
-**Версія Claude Code**: 2.1.283
+**Останнє оновлення**: 10 жовтня 2026
+**Версія Claude Code**: 2.1.296
 **Джерела**:
 - https://code.claude.com/docs/en/cli-reference
+- https://code.claude.com/docs/en/model-config
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

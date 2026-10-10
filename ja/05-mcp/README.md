@@ -248,7 +248,7 @@ MCP サーバーはインタラクティブダイアログを介してユーザ�
 
 ## ツール説明と指示の上限
 
-v2.1.84 以降、Claude Code は MCP サーバーごとのツール説明と指示に **2 KB の上限** を強制する。これは個々のサーバーが冗長すぎるツール定義でコンテキストを過剰に消費するのを防ぎ、コンテキストの肥大化を抑え、対話を効率的に保つ。
+v2.1.84 以降、Claude Code は MCP サーバーごとのツール説明と指示に **2 KB の上限** を強制する。これは個々のサーバーが冗長すぎるツール定義でコンテキストを過剰に消費するのを防ぎ、コンテキストの肥大化を抑え、対話を効率的に保つ。v2.1.296 以降、最初から送信される説明とサーバーの指示のデフォルト上限は **4,096 文字** になり (v2.1.296)、Claude が tool search 経由で読み込む説明は **16,384 文字** で切り詰められる (v2.1.295)。
 
 ## MCP プロンプトをスラッシュコマンドとして利用
 
@@ -1168,8 +1168,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**最終更新：** 2026 年 9 月 30 日
-**Claude Code バージョン：** 2.1.285
+**最終更新：** 2026 年 10 月 10 日
+**Claude Code バージョン：** 2.1.296
 **情報源：**
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/mcp#configure-tool-search
@@ -1177,4 +1177,5 @@ export GITHUB_TOKEN="your_token"
 - https://code.claude.com/docs/en/changelog
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.285
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.296
 **対応モデル：** Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

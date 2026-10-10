@@ -1,6 +1,6 @@
 # API 模块规范
 
-本文件是对根目录 `CLAUDE.md` 的补充，作用于 `/src/api/` 下的所有内容。memory 文件是拼接（concatenate）而不是覆盖 — 根目录 `CLAUDE.md` 依然生效，Claude Code 会在读取该子目录下的文件时按需加载本文件。
+本文件是对根目录 `CLAUDE.md` 的补充，作用于 `/src/api/` 下的所有内容。memory 文件是拼接（concatenate）而不是覆盖 — 根目录 `CLAUDE.md` 依然生效，Claude Code 会在读取、写入或编辑该子目录下的文件时按需加载本文件。
 
 ## API 专属规范
 
@@ -60,3 +60,12 @@
 - 缓存时长默认 5 分钟
 - 写操作时失效缓存
 - 用资源类型给缓存键打标签
+
+---
+
+**最后更新**: 2026 年 10 月 10 日
+**Claude Code 版本**: 2.1.296
+**来源**:
+- https://code.claude.com/docs/en/memory
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.288
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.293

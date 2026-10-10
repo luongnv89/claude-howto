@@ -225,11 +225,11 @@ Extended thinking is a deliberate, step-by-step reasoning process where Claude:
 ### Activating Extended Thinking
 
 **Keyboard shortcut**:
-- `Option + T` (macOS) / `Alt + T` (Windows/Linux) - Toggle extended thinking. On Opus 5.5 (the default model since v2.1.280), Sonnet 5.5, and the Fable models, thinking can't be turned off — the toggle, `alwaysThinkingEnabled`, and `MAX_THINKING_TOKENS=0` have no effect there.
+- `Option + T` (macOS) / `Alt + T` (Windows/Linux) - Toggle extended thinking. On Opus 5.5 (the default model since v2.1.280), Sonnet 5.5, Haiku 5.5, and the Fable models, thinking can't be turned off — the toggle, `alwaysThinkingEnabled`, and `MAX_THINKING_TOKENS=0` have no effect there.
 
 **Automatic activation**:
 - Enabled by default for all models (Opus 5, Opus 4.8, Opus 4.7, Sonnet 4.6, Haiku 4.5)
-- Opus 5 / Opus 4.8: Adaptive reasoning with effort levels: `low` (○), `medium` (◐), `high` (●), `xhigh`, `max`. The default is `medium` on Opus 5.5 (the default model since v2.1.280) and Sonnet 5.5, `high` on Opus 5 (v2.1.219), Sonnet 5, Opus 4.8 (v2.1.154), Opus 4.6, and Sonnet 4.6, and `xhigh` on Opus 4.7. `xhigh` is available on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7 (it falls back to `high` on Opus 4.6 / Sonnet 4.6). `max` works on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, and Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 has no effort levels. Opus 5, Opus 4.8, and Opus 4.7 have a 1M-token native context window (1M context fix landed in v2.1.117 — before that, `/context` miscounted Opus 4.7 against a 200K window and triggered premature autocompact). Since v2.1.129, `/context` shows its visualization in-UI only; the ASCII viz no longer leaks into the conversation context (~1.6k tokens saved per call), so `/context` is safe to invoke freely.
+- Opus 5 / Opus 4.8: Adaptive reasoning with effort levels: `low` (○), `medium` (◐), `high` (●), `xhigh`, `max`. The default is `medium` on Opus 5.5 (the default model since v2.1.280), Sonnet 5.5, and Haiku 5.5, `high` on Opus 5 (v2.1.219), Sonnet 5, Opus 4.8 (v2.1.154), Opus 4.6, and Sonnet 4.6, and `xhigh` on Opus 4.7. `xhigh` is available on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7 (it falls back to `high` on Opus 4.6 / Sonnet 4.6). `max` works on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, and Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 has no effort levels. Opus 5, Opus 4.8, and Opus 4.7 have a 1M-token native context window (1M context fix landed in v2.1.117 — before that, `/context` miscounted Opus 4.7 against a 200K window and triggered premature autocompact). Since v2.1.129, `/context` shows its visualization in-UI only; the ASCII viz no longer leaks into the conversation context (~1.6k tokens saved per call), so `/context` is safe to invoke freely.
 - Pro/Max subscribers on Opus 4.6 / Sonnet 4.6: default effort was raised from `medium` to `high` in v2.1.117.
 - Other models: Fixed budget up to 31,999 tokens
 
@@ -243,9 +243,9 @@ Extended thinking is a deliberate, step-by-step reasoning process where Claude:
 export MAX_THINKING_TOKENS=1024
 ```
 
-**Effort level** (supported on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 — not Haiku 4.5):
+**Effort level** (supported on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 — not Haiku 4.5):
 ```bash
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), xhigh (Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
 ```
 
 **CLI flag**:
@@ -258,7 +258,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **Note:** The keyword "ultrathink" in prompts activates deep reasoning mode. Effort levels `low`, `medium`, `high`, and `max` are supported on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 (Haiku 4.5 has none). `xhigh` is available on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `medium` on Opus 5.5 and Sonnet 5.5, `high` on Opus 5, Sonnet 5, Opus 4.8 (and Opus 4.6 / Sonnet 4.6) and `xhigh` on Opus 4.7. Unlike Opus 4.8 and Opus 4.7, which pin their default effort on first run, Opus 5 has no such hold — a level you previously set carries over. The `/effort` slider also has an **Ultracode** toggle (Tab, or `/effort ultracode [on|off]`), which is **not** a model effort level — it has Claude orchestrate dynamic workflows at whichever effort level the session runs at. Since v2.1.284 it no longer forces `xhigh` and stays on when you change the level; `--effort ultracode` and the Agent SDK's `effortLevel: "ultracode"` still set `xhigh`.
+> **Note:** The keyword "ultrathink" in prompts activates deep reasoning mode. Effort levels `low`, `medium`, `high`, and `max` are supported on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 (Haiku 4.5 has none). `xhigh` is available on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `medium` on Opus 5.5, Sonnet 5.5, and Haiku 5.5, `high` on Opus 5, Sonnet 5, Opus 4.8 (and Opus 4.6 / Sonnet 4.6) and `xhigh` on Opus 4.7. Unlike Opus 4.8 and Opus 4.7, which pin their default effort on first run, Opus 5 has no such hold — a level you previously set carries over. The `/effort` slider also has an **Ultracode** toggle (Tab, or `/effort ultracode [on|off]`), which is **not** a model effort level — it has Claude orchestrate dynamic workflows at whichever effort level the session runs at. Since v2.1.284 it no longer forces `xhigh` and stays on when you change the level; `--effort ultracode` and the Agent SDK's `effortLevel: "ultracode"` still set `xhigh`.
 
 ### Safety-Classifier Fallback on Opus 5
 
@@ -363,19 +363,19 @@ Extended thinking is controlled via environment variables, keyboard shortcuts, a
 # Set thinking token budget
 export MAX_THINKING_TOKENS=16000
 
-# Set effort level (Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6): low (○), medium (◐), high (●), xhigh (Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
+# Set effort level (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6): low (○), medium (◐), high (●), xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
 export CLAUDE_CODE_EFFORT_LEVEL=high
 ```
 
 Toggle during a session with `Alt+T` / `Option+T`, set effort with `/effort`, or configure via `/config`.
 
-> **Lean system prompt (v2.1.154):** The lean system prompt is now the **default** for all models except Haiku, Sonnet, and Opus 4.7-and-earlier, reducing baseline token overhead on Opus 5 and Opus 4.8.
+> **Lean system prompt (v2.1.154):** The lean system prompt is now the **default** for all models except Haiku 4.5, Sonnet 5, Opus 4.7, and earlier models in those families (Haiku 5.5 and Sonnet 5.5 use it too), reducing baseline token overhead on Opus 5 and Opus 4.8.
 
 ---
 
 ## Auto Mode
 
-Auto Mode is a permission mode that uses a background safety classifier to review each action before execution. It allows Claude to work autonomously while blocking dangerous operations. It's available on all plans, but requires an eligible model (Claude Opus 4.6 or later, Sonnet 4.6 or later, or a Fable model on the Anthropic API and Claude Platform on AWS; Sonnet 5 or later, Opus 4.7 or later, or a Fable model on Bedrock, Vertex, Foundry, and signed-in Claude apps gateway sessions). On Team and Enterprise it is on by default — administrators can turn it off for the organization in managed settings.
+Auto Mode is a permission mode that uses a background safety classifier to review each action before execution. It allows Claude to work autonomously while blocking dangerous operations. It's available on all plans, but requires an eligible model (Claude Opus 4.6 or later, Sonnet 4.6 or later, Haiku 5.5, or a Fable model on the Anthropic API and Claude Platform on AWS; Sonnet 5 or later, Opus 4.7 or later, Haiku 5.5, or a Fable model on Bedrock, Vertex, Foundry, and signed-in Claude apps gateway sessions). On Team and Enterprise it is on by default — administrators can turn it off for the organization in managed settings.
 
 ### Requirements
 
@@ -383,7 +383,7 @@ Auto mode is available only when your account meets all of these requirements:
 
 - **Plan**: all plans.
 - **Organization**: on Team and Enterprise, auto mode is available by default. Administrators can turn it off for the organization by setting `permissions.disableAutoMode` to `"disable"` in managed settings.
-- **Model**: on the Anthropic API and Claude Platform on AWS — Claude Opus 4.6 or later, Sonnet 4.6 or later, or a Fable model. On Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions — only Claude Sonnet 5 or later, Opus 4.7 or later, and the Fable models. Older models — Sonnet 4.5, Opus 4.5, Haiku, and claude-3 models — are not supported on any provider.
+- **Model**: on the Anthropic API and Claude Platform on AWS — Claude Opus 4.6 or later, Sonnet 4.6 or later, Haiku 5.5, or a Fable model. On Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions — only Claude Sonnet 5 or later, Opus 4.7 or later, Haiku 5.5 (v2.1.293+), and the Fable models. Older models — Sonnet 4.5, Opus 4.5, Haiku 4.5, and claude-3 models — are not supported on any provider.
 - **Provider**: available by default on the Anthropic API, Claude Platform on AWS, Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions. In v2.1.158 through v2.1.206, auto mode was off on all of these except the Anthropic API and Claude Platform on AWS until you set `CLAUDE_CODE_ENABLE_AUTO_MODE=1`; v2.1.207 removed the requirement. The variable is still accepted for compatibility and has no effect from v2.1.207 onward.
 - **Classifier**: adds extra token cost, except on Enterprise plans and Claude API accounts, where v2.1.278+ runs the check server-side at no charge
 
@@ -694,7 +694,7 @@ export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=true
 
 Concurrency is not a background-task setting either — how many agents run at once is governed by `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (default `20`).
 
-Background Bash and PowerShell commands have a time limit (v2.1.285): a command started with `run_in_background` stops after its `timeout` — 30 minutes by default, at most 2 hours — and Claude is notified when one is stopped.
+Background Bash and PowerShell commands have a time limit only in unattended sessions (v2.1.288): in a `-p` run, an Agent SDK session, CI, or a cloud session, a command started with `run_in_background` stops after its `timeout` — 30 minutes by default, at most 2 hours — and Claude is notified when one is stopped. Background commands in a terminal, desktop app, or VS Code session have no time limit (in v2.1.285–v2.1.287 the limit applied to every session).
 
 ---
 
@@ -854,7 +854,7 @@ Permission modes control what actions Claude can take without explicit approval.
 | `manual` | Read files only; prompts for all other actions. Renamed from `default` in v2.1.200 — `default` is still accepted as an alias |
 | `acceptEdits` | Read and edit files; prompts for commands |
 | `plan` | Read files only (research mode, no edits) |
-| `auto` | All actions with background safety classifier checks. Requires an eligible model (Sonnet 5 or later, Opus 4.7 or later, or a Fable model on every provider; Opus 4.6 and Sonnet 4.6 also qualify on the Anthropic API and Claude Platform on AWS) and provider — available on all plans, see [Auto Mode](#auto-mode) |
+| `auto` | All actions with background safety classifier checks. Requires an eligible model (Sonnet 5 or later, Opus 4.7 or later, Haiku 5.5, or a Fable model on every provider; Opus 4.6 and Sonnet 4.6 also qualify on the Anthropic API and Claude Platform on AWS) and provider — available on all plans, see [Auto Mode](#auto-mode) |
 | `bypassPermissions` | All actions, no permission checks (dangerous) |
 | `dontAsk` | Only pre-approved tools execute; all others denied |
 
@@ -1772,6 +1772,8 @@ claude --no-chrome   # Disable Chrome connection
 
 Select "Enabled by default" to activate Chrome Integration for all future sessions. Claude Code shares your browser's login state, so it can interact with authenticated web apps.
 
+> **Note**: Since v2.1.290, a project's settings files can't turn Chrome integration on — use `--chrome`, `/chrome`, or your user settings.
+
 ### Capabilities
 
 | Capability | Description |
@@ -2463,7 +2465,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 # Thinking configuration
 export MAX_THINKING_TOKENS=16000
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8 (supported on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6)
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8 (supported on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6)
 
 # Feature toggles
 export CLAUDE_CODE_DISABLE_AUTO_MEMORY=true
@@ -2519,6 +2521,7 @@ export CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=8                    # Max consecutive St
 
 # Session-wide spawn caps (v2.1.212)
 export CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION=200         # Cap on WebSearch tool calls per session, to stop runaway search loops. Default 200.
+export CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR=100       # (v2.1.290) Refill rate for that budget, in calls/hour. Default 100 interactive, 0 (no refill) with -p.
 
 # Accessibility (v2.1.208)
 export CLAUDE_AX_SCREEN_READER=1                            # Enable plain-text screen reader rendering mode. Same effect as --ax-screen-reader or "axScreenReader": true in settings.
@@ -2741,8 +2744,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: September 30, 2026
-**Claude Code Version**: 2.1.285
+**Last Updated**: October 10, 2026
+**Claude Code Version**: 2.1.296
 **Sources**:
 - https://code.claude.com/docs/en/output-styles
 - https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
@@ -2773,4 +2776,9 @@ For more information about Claude Code and related features:
 - https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.284
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.285
+- https://code.claude.com/docs/en/tools-reference
+- https://code.claude.com/docs/en/chrome
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.288
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.290
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.293
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
