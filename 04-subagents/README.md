@@ -134,17 +134,18 @@ to solving problems.
 | `model` | No | Model to use: `sonnet`, `opus`, `haiku`, full model ID, or `inherit`. Defaults to configured subagent model |
 | `permissionMode` | No | `manual` (renamed from `default` in v2.1.200 — `default` is still accepted as the older name), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. As of v2.1.212, the Task tool's `mode` invocation parameter is deprecated and ignored — subagents inherit the parent session's permission mode by default unless overridden here |
 | `maxTurns` | No | Maximum number of agentic turns the subagent can take |
-| `skills` | No | Comma-separated list of skills to preload. Injects full skill content into the subagent's context at startup. **v2.1.133+:** subagents also discover project, user, and plugin skills via the Skill tool — same catalog as the main session, no longer limited to their own embedded set. |
+| `skills` | No | Comma-separated list of skills to preload. Injects full skill content into the subagent's context at startup. **v2.1.133+:** subagents also discover project, user, and plugin skills via the Skill tool — same catalog as the main session, no longer limited to their own embedded set. At most 32 skills are preloaded, each once; a subagent with the Skill tool can still invoke the rest (v2.1.295). |
 | `mcpServers` | No | MCP servers to make available to the subagent |
 | `hooks` | No | Component-scoped hooks (PreToolUse, PostToolUse, Stop) |
 | `memory` | No | Persistent memory directory scope: `user`, `project`, or `local` |
 | `background` | No | Subagents already run in the background by default (v2.1.198). Set to `true` to *force* background always and prevent inline execution |
-| `effort` | No | Reasoning effort level: `low`, `medium`, `high`, `xhigh`, or `max`. Overrides the session effort level; available levels depend on the model |
+| `effort` | No | Reasoning effort level: `low`, `medium`, `high`, `xhigh`, or `max`. Overrides the session effort level; available levels depend on the model. Claude can also pass an `effort` value when it calls the Agent tool (v2.1.292). |
 | `isolation` | No | Set to `worktree` to give the subagent its own git worktree |
 | `initialPrompt` | No | Auto-submitted first turn when the subagent runs as the main agent |
 | `color` | No | Display color for the subagent in the task list and transcript. Accepts `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink`, or `cyan` |
 | `experimental` | No | Experimental settings block (v2.1.248+). `experimental.cacheTtl` sets the cache TTL for this subagent — `"5m"` or `"1h"` |
 | `omitClaudeMd` | No | Set to `true` to launch the subagent without the user, project, and local CLAUDE.md files (v2.1.271+). Managed policy files still load, except for managed subagents. Ignored when the agent runs as the main session agent via `--agent` or the `agent` setting. Also accepted in `--agents` JSON |
+| `autoCompactWindow` | No | Auto-compact this subagent's context earlier than the main conversation's window (v2.1.296+; also accepted in `--agents` JSON) |
 
 #### Subagent Model Environment Variables
 
@@ -1332,8 +1333,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: September 26, 2026
-**Claude Code Version**: 2.1.283
+**Last Updated**: October 10, 2026
+**Claude Code Version**: 2.1.296
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1348,4 +1349,5 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.140
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/interactive-mode
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.296
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

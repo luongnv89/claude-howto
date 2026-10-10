@@ -147,7 +147,7 @@ Claude Code підтримує 6 режимів дозволів, що конт�
 | **Explore** | Дослідження кодової бази | Read, Glob, Grep | Успадковує (максимум Opus) | Швидкий пошук, розуміння коду |
 | **claude** | Універсальний агент для задач, які не підходять спеціалізованим агентам | Усі інструменти | Успадкована | Задачі без спеціалізованого агента; типовий агент для диспетчеризованої фонової сесії |
 | **statusline-setup** | Налаштування рядка стану | Bash, Read, Write | Sonnet 4.6 | Конфігурація рядка стану |
-| **claude-code-guide** | Довідка та документація | Read, Glob, Grep | Haiku 4.5 | Отримання допомоги, вивчення функцій |
+| **claude-code-guide** | Довідка та документація | Read, Glob, Grep | Haiku | Отримання допомоги, вивчення функцій |
 
 ### Поля конфігурації субагентів
 
@@ -532,11 +532,12 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Останнє оновлення**: 26 вересня 2026
-**Версія Claude Code**: 2.1.283
+**Останнє оновлення**: 10 жовтня 2026
+**Версія Claude Code**: 2.1.296
 **Джерела**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/plugins-reference
 - https://code.claude.com/docs/en/discover-plugins
+- https://code.claude.com/docs/en/sub-agents

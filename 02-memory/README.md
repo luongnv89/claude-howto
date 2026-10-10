@@ -226,7 +226,7 @@ Within the directory tree, Claude Code walks up from your working directory: `fo
 
 Organizations can also put managed CLAUDE.md content directly inside `managed-settings.json` via the `claudeMd` key, instead of deploying a separate file. This is honored only in managed/policy settings — setting `claudeMd` in user or project settings has no effect.
 
-**`.claude/rules/*.md`** — modular, topic-specific instructions, optionally scoped to file paths via `paths` frontmatter. Rules without a `paths` field load unconditionally with the same priority as `.claude/CLAUDE.md`; path-scoped rules load on demand when Claude reads a matching file. User-level rules (`~/.claude/rules/`) load before project rules.
+**`.claude/rules/*.md`** — modular, topic-specific instructions, optionally scoped to file paths via `paths` frontmatter. Rules without a `paths` field load unconditionally with the same priority as `.claude/CLAUDE.md`; path-scoped rules load on demand when Claude reads, writes, or edits a matching file — including viewing it with a single-file Bash read such as `cat`, `head`, `tail`, `sed -n`, or `grep` (Write/Edit since v2.1.288, Bash reads since v2.1.293). User-level rules (`~/.claude/rules/`) load before project rules.
 
 **Auto memory** (`~/.claude/projects/<project>/memory/`) is a separate system: Claude's own notes, not CLAUDE.md content, and not part of the concatenation order above. See [Auto Memory](#auto-memory) below.
 
@@ -736,7 +736,7 @@ Claude will load CLAUDE.md from the specified additional directory alongside the
 
 This file supplements root CLAUDE.md for everything in /src/api/. Memory files are
 concatenated, not overridden — the root CLAUDE.md still applies, and Claude Code
-loads this file on demand when it reads files in this subtree.
+loads this file on demand when it reads, writes, or edits files in this subtree.
 
 ## API-Specific Standards
 
@@ -1168,7 +1168,7 @@ If you prefer manual setup:
 
    This file supplements root CLAUDE.md for this directory. Memory files are
    concatenated, not overridden — Claude Code loads this file on demand when it
-   reads files in this directory.
+   reads, writes, or edits files in this directory.
 
    ## [Specific Standards]
    EOF
@@ -1244,11 +1244,13 @@ Auto Memory is a separate mechanism (`~/.claude/projects/<project>/memory/`), no
 
 ---
 
-**Last Updated**: September 30, 2026
-**Claude Code Version**: 2.1.285
+**Last Updated**: October 10, 2026
+**Claude Code Version**: 2.1.296
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
 - https://code.claude.com/docs/en/memory#when-agents-md-support-is-unavailable
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.284
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.288
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.293
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -688,7 +688,7 @@ Claude は、現在の作業ディレクトリのメモリファイルに加え�
 
 This file supplements root CLAUDE.md for everything in /src/api/. Memory files are
 concatenated, not overridden — the root CLAUDE.md still applies, and Claude Code
-loads this file on demand when it reads files in this subtree.
+loads this file on demand when it reads, writes, or edits files in this subtree.
 
 ## API-Specific Standards
 
@@ -1132,7 +1132,7 @@ Claude はどのメモリファイルを更新するかを尋ねる。
 
    This file supplements root CLAUDE.md for this directory. Memory files are
    concatenated, not overridden — Claude Code loads this file on demand when it
-   reads files in this directory.
+   reads, writes, or edits files in this directory.
 
    ## [Specific Standards]
    EOF
@@ -1207,12 +1207,14 @@ Claude はどのメモリファイルを更新するかを尋ねる。
 - [公式メモリドキュメント](https://code.claude.com/docs/en/memory) — Anthropic ドキュメント
 
 ---
-**最終更新**: 2026 年 9 月 19 日
-**Claude Code バージョン**: 2.1.278
+**最終更新**: 2026 年 10 月 10 日
+**Claude Code バージョン**: 2.1.296
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
 - https://code.claude.com/docs/en/settings
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.117
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.119
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.288
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.293
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

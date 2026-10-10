@@ -2,7 +2,7 @@
 
 This file supplements root CLAUDE.md for everything in /src/api/. Memory files are
 concatenated, not overridden — the root CLAUDE.md still applies, and Claude Code
-loads this file on demand when it reads files in this subtree.
+loads this file on demand when it reads, writes, or edits files in this subtree.
 
 ## API-Specific Standards
 
@@ -61,3 +61,12 @@ Error responses:
 - Cache duration: 5 minutes default
 - Invalidate on write operations
 - Tag cache keys with resource type
+
+---
+
+**Cập Nhật Lần Cuối**: Ngày 10 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.296
+**Nguồn**:
+- https://code.claude.com/docs/en/memory
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.288
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.293

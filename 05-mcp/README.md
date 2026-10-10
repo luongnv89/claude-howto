@@ -292,6 +292,14 @@ keep its tools always available:
 Use sparingly — every always-loaded tool consumes context that could
 otherwise be used for tool search to surface a more relevant tool.
 
+To keep all of a server's tools behind tool search, set
+`"alwaysLoad": false` in that server's entry (v2.1.287+). That includes
+tools the server's author has marked to load up front; if you leave
+`alwaysLoad` out, those marked tools load up front. Server authors mark
+an individual tool by setting `"anthropic/alwaysLoad"` in that tool's
+`_meta` object, and the server-level `alwaysLoad` setting in your
+configuration can override it.
+
 ## Dynamic Tool Updates
 
 Claude Code supports MCP `list_changed` notifications. When an MCP server dynamically adds, removes, or modifies its available tools, Claude Code receives the update and adjusts its tool list automatically -- no reconnection or restart required.
@@ -306,7 +314,7 @@ MCP servers can request structured input from the user via interactive dialogs (
 
 ## Tool Description and Instruction Cap
 
-As of v2.1.84, Claude Code enforces a **2 KB cap** on tool descriptions and instructions per MCP server. This prevents individual servers from consuming excessive context with overly verbose tool definitions, reducing context bloat and keeping interactions efficient. Since v2.1.280, you can change this 2,048-character cap with the `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` environment variable.
+As of v2.1.84, Claude Code enforces a **2 KB cap** on tool descriptions and instructions per MCP server. This prevents individual servers from consuming excessive context with overly verbose tool definitions, reducing context bloat and keeping interactions efficient. Since v2.1.280, you can change this 2,048-character cap with the `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` environment variable. As of v2.1.296 the default is **4,096 characters** for descriptions sent up front and for server instructions (v2.1.296), and descriptions Claude loads through tool search are cut at **16,384 characters** (v2.1.295).
 
 ## MCP Prompts as Slash Commands
 
@@ -1300,8 +1308,8 @@ export GITHUB_TOKEN="your_token"
 
 ---
 
-**Last Updated**: September 30, 2026
-**Claude Code Version**: 2.1.285
+**Last Updated**: October 10, 2026
+**Claude Code Version**: 2.1.296
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
@@ -1313,4 +1321,5 @@ export GITHUB_TOKEN="your_token"
 - https://code.claude.com/docs/en/mcp#configure-tool-search
 - https://code.claude.com/docs/en/env-vars
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.285
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.296
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

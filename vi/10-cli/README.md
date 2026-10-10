@@ -119,7 +119,7 @@ claude -p "list todos" | grep "URGENT"
 # Sử dụng Opus 4.6 cho các tác vụ phức tạp
 claude --model opus "design a caching strategy"
 
-# Sử dụng Haiku 4.5 cho các tác vụ nhanh
+# Sử dụng Haiku cho các tác vụ nhanh (Haiku 5.5 trên Anthropic API từ v2.1.293; Haiku 4.5 trên Bedrock, Vertex và Foundry)
 claude --model haiku -p "format this JSON"
 
 # Tên mô hình đầy đủ
@@ -834,8 +834,9 @@ claude -p --output-format json "query"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 26 tháng 9 năm 2026
-**Phiên Bản Claude Code**: 2.1.283
+**Cập Nhật Lần Cuối**: Ngày 10 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.296
 **Nguồn**:
 - https://code.claude.com/docs/en/cli-reference
+- https://code.claude.com/docs/en/model-config
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

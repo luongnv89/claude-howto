@@ -1455,6 +1455,7 @@ Claude Code supports the following models with adaptive reasoning effort:
 |-------|----------------|---------------|------------------------------|
 | Claude Opus 5.5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — default model and default Opus model since v2.1.280 (requires Claude Code v2.1.280+) |
 | Claude Sonnet 5.5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — default Sonnet model on the Anthropic API since v2.1.284 (requires Claude Code v2.1.284+) |
+| Claude Haiku 5.5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — default Haiku model on the Anthropic API since v2.1.293 (requires Claude Code v2.1.293+) |
 | Claude Opus 5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `high` — default Opus model from v2.1.219 until v2.1.280 (requires Claude Code v2.1.219+) |
 | Claude Sonnet 5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `high` — default model for Pro/Team Standard from v2.1.197 until v2.1.280 (now Opus 5.5) |
 | Claude Opus 4.8 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `high` (since v2.1.154) |
@@ -1462,7 +1463,7 @@ Claude Code supports the following models with adaptive reasoning effort:
 | Claude Sonnet 4.6 | 1M tokens | `low`, `medium`, `high`, `max` | `high` for Pro/Max subscribers (raised from `medium` in v2.1.117) |
 | Claude Haiku 4.5 | 200K tokens | — (no effort support) | — |
 
-> **Note**: `xhigh` is available on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7; `max` works on Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 does not support effort levels.
+> **Note**: `xhigh` is available on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7; `max` works on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 does not support effort levels.
 
 > **Note**: v2.1.117 fixed a bug where Opus 4.7 sessions computed `/context` against 200K instead of the native 1M window — upgrade to v2.1.117 or later to actually get the 1M context on Opus 4.7. Opus 5 and Opus 4.8 also have a native 1M-token window.
 
@@ -1476,8 +1477,8 @@ Claude Code supports the following models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: September 30, 2026
-**Claude Code Version**: 2.1.285
+**Last Updated**: October 10, 2026
+**Claude Code Version**: 2.1.296
 **Sources**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://www.anthropic.com/news/claude-sonnet-5
@@ -1486,4 +1487,5 @@ Claude Code supports the following models with adaptive reasoning effort:
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/permission-modes
 **Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
