@@ -501,6 +501,7 @@ def get_chapter_order() -> list[tuple[str, str]]:
         ("07-plugins", "Plugins"),
         ("08-checkpoints", "Checkpoints"),
         ("09-advanced-features", "Advanced Features"),
+        ("10-cli", "CLI Reference"),
         ("resources.md", "Resources"),
     ]
 
