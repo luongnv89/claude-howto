@@ -1454,7 +1454,7 @@ Opus 4.7+、Sonnet 5+、Haiku 5.5 和 Fable 始终使用自适应推理，固定
 使用 `-p` 标志在无交互模式下运行 Claude Code，适合自动化和 CI/CD。
 
 ```bash
-claude -p "Run all tests"
+claude -p "Run all tests" --permission-mode auto
 cat error.log | claude -p "explain this error"
 claude -p --output-format json "list all functions in src/"
 ```
@@ -1518,8 +1518,8 @@ claude -r "Feature"
 *适用于 Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5*
 *现已覆盖：Hooks、Checkpoints、Planning Mode、Extended Thinking、Background Tasks、Permission Modes、Headless Mode、Session Management、Auto Memory、Agent Teams、Scheduled Tasks、Chrome Integration、Bundled Skills 等概念。*
 
-**最后更新**：2026 年 10 月 18 日
-**Claude Code 版本**：2.1.302
+**最后更新**：2026 年 10 月 26 日
+**Claude Code 版本**：2.1.310
 **来源**：
 - https://code.claude.com/docs/en/plugins/manifest-reference
 - https://code.claude.com/docs/en/plugins/install
@@ -1530,3 +1530,5 @@ claude -r "Feature"
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in

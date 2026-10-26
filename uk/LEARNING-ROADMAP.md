@@ -426,7 +426,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
 # Вправа 7: Заплановані завдання
 /loop 5m /check-status
-# Завдання живуть лише в межах сесії; для постійного планування використовуйте Routines або заплановані завдання Desktop
+# Завдання живуть лише в межах сесії; для постійного планування використовуйте хмарні заплановані завдання (раніше — routines, через /schedule) або заплановані завдання Desktop
 
 # Вправа 8: Канали (research preview)
 # Канал — це MCP-сервер, що надсилає події у вашу запущену сесію
@@ -478,7 +478,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 claude --plugin-dir ./07-plugins/pr-review  # з кореня репозиторію
 
 # Вправа 2: Print mode для CI/CD
-claude -p "Run all tests and generate report"
+claude -p "Run all tests and generate report" --permission-mode auto
 
 # Вправа 3: JSON-вивід для скриптів
 claude -p --output-format json "list all functions"
@@ -789,8 +789,8 @@ done
 
 ---
 
-**Останнє оновлення**: 18 жовтня 2026
-**Версія Claude Code**: 2.1.302
+**Останнє оновлення**: 26 жовтня 2026
+**Версія Claude Code**: 2.1.310
 **Джерела**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/agent-teams
@@ -800,6 +800,9 @@ done
 - https://code.claude.com/docs/en/remote-control
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 **Підтримується**: Контриб'ютори Claude How-To
 **Ліцензія**: Освітні цілі, вільне використання та адаптація
 

@@ -193,7 +193,7 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | `--disallowedTools` | コンテキストから除外するツール | `"Bash(rm:*)" "Edit"` |
 | `--dangerously-skip-permissions` | 全ての権限プロンプトをスキップ | `claude --dangerously-skip-permissions` |
 | `--permission-mode` | 指定した権限モードで開始 | `claude --permission-mode auto` |
-| `--permission-prompt-tool` | 権限処理用の MCP ツール | `claude -p --permission-prompt-tool mcp_auth "query"` |
+| `--permission-prompt-tool` | 権限処理用の MCP ツール | `claude -p --mcp-config ./mcp.json --permission-prompt-tool mcp__permissions__approve "query"` |
 | `--enable-auto-mode` | 自動権限モードを解禁 | `claude --enable-auto-mode` |
 
 > **Glob / Grep 注記（v2.1.113+）**: ネイティブな macOS／Linux ビルドでは、`Glob` と `Grep` は独立したファーストクラスツールではなく、Bash ツール経由で呼び出される組み込みの `bfs` および `ugrep` バイナリとして提供される。Windows 版および npm バンドル（JS）版では引き続きスタンドアロンツールとして公開される。サブエージェントの `allowedTools` ／ `disallowedTools` リストでは、バックエンド側の置換は透過的なため、どのプラットフォームでも設定では引き続き `Glob` ／ `Grep` を参照すればよい。
@@ -748,7 +748,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on O
 | `CLAUDE_CODE_SIMPLE` | 最小モード（`--bare` フラグで設定される） |
 | `CLAUDE_CODE_DISABLE_AUTO_MEMORY` | `1` を設定すると自動メモリを無効化する（自動メモリファイルを作成も読み込みもしない） |
 | `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS` | バックグラウンドタスク実行を無効化 |
-| `CLAUDE_CODE_DISABLE_CRON` | スケジュール／cron タスクを無効化 |
+| `CLAUDE_CODE_DISABLE_CRON` | セッションスコープのスケジュールタスク（`/loop`、cron ツール）を無効化。クラウドスケジュールタスクには影響しない |
 | `CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS` | git 関連の指示を無効化 |
 | `CLAUDE_CODE_DISABLE_TERMINAL_TITLE` | ターミナルタイトル更新を無効化 |
 | `CLAUDE_CODE_DISABLE_1M_CONTEXT` | 1M トークンコンテキストウィンドウを無効化 |
@@ -772,7 +772,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on O
 | `CLAUDE_CODE_FORK_SUBAGENT` | `0` を設定するとフォークサブエージェントを無効化する。v2.1.302 以降、ターミナル、`claude -p`、Agent SDK、デスクトップアプリ、VS Code でデフォルト有効。v2.1.302 より前は、`claude -p` と Agent SDK で有効にするには `1` を設定する。 |
 | `OTEL_LOG_TOOL_DETAILS` | `1` を設定すると OpenTelemetry イベント中のカスタムおよび MCP コマンド名のリダクションを解除する（v2.1.117+）。デフォルトはリダクション有効。 |
 
-> **Vertex AI 上の `ENABLE_TOOL_SEARCH`（v2.1.119+）**: ツール検索は **Google Cloud Vertex AI 上のデプロイではデフォルト無効** である。Vertex 上でツール検索機能を使いたい場合は `export ENABLE_TOOL_SEARCH=true` で明示的にオプトインする必要がある。Anthropic API 直結ではデフォルト有効のままである。
+> **Agent Platform（Vertex AI）とゲートウェイでの `ENABLE_TOOL_SEARCH`**: v2.1.221 より前は、`ENABLE_TOOL_SEARCH=true` を設定しない限り Google Cloud の Agent Platform ではツール検索がオフだった。現在は同プラットフォームで Claude Opus 4.5、Sonnet 4.5、Haiku 4.5 以降のモデルに対して有効である（それ以前のモデルはすべての MCP ツールを事前に読み込み、`true` を設定しても変わらない）。ツール検索はデフォルトで有効で、v2.1.304 以降はカスタムの `ANTHROPIC_BASE_URL` ゲートウェイ経由でも有効になる（v2.1.305 以降、ツール検索を 400 または 422 で拒否するゲートウェイに対してはツール検索なしで再試行される）。すべてのツールを事前に読み込むには `ENABLE_TOOL_SEARCH=false` を設定する。
 
 ---
 
@@ -878,8 +878,8 @@ claude -p --output-format json "query"
 
 ---
 
-**最終更新**: 2026 年 10 月 18 日
-**Claude Code バージョン**: 2.1.302
+**最終更新**: 2026 年 10 月 26 日
+**Claude Code バージョン**: 2.1.310
 **出典**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config
@@ -900,4 +900,10 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/changelog#2-1-302
 - https://github.com/anthropics/claude-code
 - https://platform.claude.com/docs/en/about-claude/models/overview
+- https://code.claude.com/docs/en/cli-reference#cli-flags
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/mcp#configure-tool-search
+- https://code.claude.com/docs/en/mcp#tool-search-through-a-gateway
+- https://code.claude.com/docs/en/env-vars#variables
+- https://code.claude.com/docs/en/scheduled-tasks
 **対応モデル**: Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

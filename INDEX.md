@@ -377,7 +377,7 @@ Advanced capabilities for complex workflows.
 | `planning-mode-examples.md` | Planning examples | REST API, database migration, refactoring |
 | `setup-auto-mode-permissions.py` | Seed `permissions.allow` for auto mode | Idempotent, `--dry-run` and opt-in flags |
 | Dynamic Workflows | Deterministic multi-agent orchestration via `/workflows` (v2.1.154) | Comprehensive audits, migrations, scale-out |
-| Scheduled Tasks | Recurring tasks with `/loop` and cron tools | Automated recurring workflows |
+| Scheduled Tasks | Recurring session-scoped tasks with `/loop` and cron tools | Automated recurring workflows |
 | Chrome Integration | Browser automation in your own Chrome via the Claude in Chrome extension | Web testing and scraping |
 | Remote Control (expanded) | Connection methods, security, comparison table, device cards | Remote session management (no longer a research preview) |
 | Cross-Session Messaging | `SendMessage` / `ListAgents`, including `notify_when_idle` (v2.1.236) | Coordinating sessions on the same machine |
@@ -438,7 +438,7 @@ Advanced capabilities for complex workflows.
 - Per-project customization
 
 ### Scheduled Tasks
-- Recurring tasks with `/loop` command
+- Recurring session-scoped tasks with `/loop` command
 - Cron tools: CronCreate, CronList, CronDelete
 - Automated recurring workflows
 
@@ -770,7 +770,7 @@ claude --permission-mode acceptEdits   # Auto-accept edits
 claude --permission-mode auto          # Auto-approve safe actions
 
 # Run in headless mode for CI/CD
-claude -p "Run tests and report results"
+claude -p "Run tests and report results" --permission-mode auto
 
 # Run background tasks
 Run tests in background
@@ -899,8 +899,8 @@ Want to add more examples? Follow the structure:
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
@@ -919,6 +919,9 @@ Want to add more examples? Follow the structure:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/remote-control
 - https://code.claude.com/docs/en/chrome
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
+- https://code.claude.com/docs/en/scheduled-tasks
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 **Total Examples**: 100+ files
 **Categories**: 10 features

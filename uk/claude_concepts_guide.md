@@ -2974,7 +2974,7 @@ claude --permission-mode dontAsk       # Pre-approved tools only; deny the rest
 **Використання:**
 ```bash
 # Run specific task
-claude -p "Run all tests"
+claude -p "Run all tests" --permission-mode auto
 
 # Pipe input for analysis
 cat error.log | claude -p "explain this error"
@@ -3061,8 +3061,8 @@ claude -r "Feature"    # Resume session by name/ID
 *Тепер включає: хуки, контрольні точки, режим планування, розширене мислення, фонові завдання, режими дозволів (6 режимів), headless-режим, управління сесіями, авто-пам'ять, команди агентів, заплановані завдання, інтеграцію з Chrome, канали, голосовий ввід та комплектні навички*
 
 ---
-**Останнє оновлення**: 18 жовтня 2026
-**Версія Claude Code**: 2.1.302
+**Останнє оновлення**: 26 жовтня 2026
+**Версія Claude Code**: 2.1.310
 **Джерела**:
 - https://code.claude.com/docs/en/plugins/manifest-reference
 - https://code.claude.com/docs/en/plugins/create
@@ -3078,3 +3078,5 @@ claude -r "Feature"    # Resume session by name/ID
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/permission-modes
 - https://code.claude.com/docs/en/hooks#userpromptexpansion
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in

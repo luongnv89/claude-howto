@@ -220,7 +220,7 @@ sequenceDiagram
 
 ## Пошук інструментів MCP
 
-Пошук інструментів увімкнено за замовчуванням: інструменти MCP відкладаються й знаходяться за потреби, тож їхні визначення не заповнюють контекст моделі. Claude Code вимикає його, коли `ANTHROPIC_BASE_URL` вказує на хост, що не належить Anthropic (не first-party), оскільки більшість проксі не пересилають потрібні йому блоки.
+Пошук інструментів увімкнено за замовчуванням: інструменти MCP відкладаються й знаходяться за потреби, тож їхні визначення не заповнюють контекст моделі. Починаючи з v2.1.304, він також залишається увімкненим за власним шлюзом `ANTHROPIC_BASE_URL`, який має пересилати поля інструментів `defer_loading` і блоки `tool_reference`; з v2.1.305 Claude Code повторює без пошуку інструментів запит, який шлюз відхиляє з кодом 400 або 422. Встановіть `ENABLE_TOOL_SEARCH=false`, щоб завантажувати всі інструменти одразу й уникнути таких відхилених запитів. До v2.1.304 пошук інструментів за шлюзом був вимкнений, якщо `ENABLE_TOOL_SEARCH` не мав значення `true`, `auto` або `auto:N`.
 
 | Налаштування | Значення | Опис |
 |-------------|----------|------|
@@ -1180,8 +1180,8 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 - [Документація Claude API](https://docs.anthropic.com)
 
 ---
-**Останнє оновлення**: 18 жовтня 2026
-**Версія Claude Code**: 2.1.302
+**Останнє оновлення**: 26 жовтня 2026
+**Версія Claude Code**: 2.1.310
 **Джерела**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/mcp#configure-tool-search
@@ -1191,4 +1191,7 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 - https://code.claude.com/docs/en/mcp#tool-search-for-mcp-server-authors
 - https://code.claude.com/docs/en/mcp#environment-variable-expansion-in-mcp-json
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/changelog#2-1-305
+- https://code.claude.com/docs/en/mcp#tool-search-through-an-llm-gateway
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

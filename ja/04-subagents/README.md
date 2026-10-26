@@ -126,7 +126,7 @@ hooks:  # オプション — コンポーネントスコープのフック
 | `tools` | いいえ | 特定ツールのカンマ区切りリスト。省略するとすべてのツールを継承。`Agent(agent_name)` 構文で生成可能なサブエージェントを制限できる（`claude --agent` でメインスレッドとして実行する場合のみ。サブエージェント内では型リストは無視される）。MCP：`mcp__<server>__*` でサーバー全体を許可（v2.1.299+：その正確なサーバー名のみに一致） |
 | `disallowedTools` | いいえ | サブエージェントが使用してはならないツールのカンマ区切りリスト |
 | `model` | いいえ | 使用モデル：`sonnet`、`opus`、`haiku`、フルモデル ID、または `inherit`。デフォルトは設定済みのサブエージェントモデル |
-| `permissionMode` | いいえ | `default`（Manual モード。v2.1.200 以降 `manual` もエイリアスとして有効）、`acceptEdits`、`dontAsk`、`bypassPermissions`、`plan`、`auto`。親が `bypassPermissions`、`acceptEdits`、`auto` で動作している場合、サブエージェントの `permissionMode` は無視される |
+| `permissionMode` | いいえ | `default`（Manual モード。v2.1.200 以降 `manual` もエイリアスとして有効）、`acceptEdits`、`dontAsk`、`bypassPermissions`、`plan`、`auto`。親が `bypassPermissions`、`acceptEdits`、`auto` で動作している場合、サブエージェントの `permissionMode` は無視される。親が `plan` モードの場合、サブエージェントは `permissionMode` の値にかかわらずプランモードのままになる（Agent Teams のチームメイトとして実行される場合を除く）。`dontAsk` を設定した場合、プランモードなら確認を求めるアクションは代わりに拒否される |
 | `maxTurns` | いいえ | サブエージェントが取れるエージェント的ターンの最大数 |
 | `skills` | いいえ | プリロードするスキルのカンマ区切りリスト。起動時にスキルの全内容をサブエージェントのコンテキストに注入する |
 | `mcpServers` | いいえ | サブエージェントから利用可能にする MCP サーバー |
@@ -581,7 +581,7 @@ graph TB
 
 フォークサブエージェントは、フォーク時点の親の会話全体（システムプロンプト、ツール、モデル、メッセージ履歴、プロンプトキャッシュ）を継承し、クリーンスレートではなくその状態から開始する。これは、これまでの作業を失わずに代替案を探索する場合に有用である。
 
-> **可用性**：v2.1.117 で GA。**v2.1.232 以降、フォークモードは対話セッションではデフォルトで有効**であり、これはファーストパーティかどうかを問わずすべてのビルドに当てはまる。v2.1.302 以降は、非対話モード（`claude -p`）、Agent SDK、デスクトップアプリ、VS Code でもデフォルトで有効である。`claude mcp serve` はフォークサブエージェントを提供しない。デフォルト無効の環境で有効化する場合、または v2.1.232 より古い Claude Code では、`CLAUDE_CODE_FORK_SUBAGENT=1` を設定する。
+> **可用性**：v2.1.117 で GA。**v2.1.232 以降、フォークモードは対話セッションではデフォルトで有効**であり、これはファーストパーティかどうかを問わずすべてのビルドに当てはまる。v2.1.302 以降は、非対話モード（`claude -p`）、Agent SDK、デスクトップアプリ、VS Code でもデフォルトで有効である。`claude mcp serve` はフォークサブエージェントを提供しない。v2.1.232 より古い Claude Code では、`CLAUDE_CODE_FORK_SUBAGENT=1` を設定して有効化する。
 
 ### 設定
 
@@ -787,7 +787,7 @@ graph TB
 
 ### プラン承認ワークフロー
 
-複雑なタスクでは、チームメイトが作業を始める前にチームリードが実行プランを作成する。ユーザーがプランをレビューして承認することで、コード変更が行われる前にチームのアプローチが期待と合致していることを確認する。
+複雑なタスクやリスクの高いタスクでは、チームメイトを依頼する前にチームリードをプランモードに切り替える。チームリードがプランモードのときに生成されたチームメイトは、プランが完成するまで読み取り専用で作業し、その後チームリードにプラン承認リクエストを送る。生成後にそのチームメイトの権限モードを変更していなければ、Claude Code はリクエストが届いた時点でプランを承認する（ユーザーには確認されない）。その場合も、チームメイトの編集やコマンドは通常の権限プロンプトを通る。実行中のインプロセスチームメイトを `Shift+Tab` でプランモードにした場合は、代わりにチームリードがそのプランをレビューする。
 
 ### チーム向けフックイベント
 
@@ -1273,8 +1273,8 @@ graph TD
 
 ---
 
-**最終更新**：2026 年 10 月 18 日
-**Claude Code バージョン**：2.1.302
+**最終更新**：2026 年 10 月 26 日
+**Claude Code バージョン**：2.1.310
 **ソース**：
 
 - https://code.claude.com/docs/en/sub-agents
@@ -1290,5 +1290,7 @@ graph TD
 - https://code.claude.com/docs/en/sub-agents#available-tools
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog#2-1-302
+- https://code.claude.com/docs/en/sub-agents#turn-fork-mode-on-or-off
+- https://code.claude.com/docs/en/agent-teams#have-teammates-plan-before-implementing
 
 **互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

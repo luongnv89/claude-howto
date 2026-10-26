@@ -123,7 +123,7 @@ của tác nhân con để giải quyết vấn đề.
 | `tools` | Không | Danh sách phân tách bằng dấu phẩy của các công cụ cụ thể. Bỏ qua để kế thừa tất cả công cụ. Hỗ trợ cú pháp `Agent(agent_name)` để hạn chế tác nhân con có thể tạo khi tác nhân chạy như luồng chính với `claude --agent`; bên trong một tác nhân con, danh sách loại bị bỏ qua. MCP: `mcp__<server>__*` cấp quyền cho toàn bộ một server (v2.1.299+: chỉ khớp đúng tên server đó). |
 | `disallowedTools` | Không | Danh sách phân tách bằng dấu phẩy của các công cụ mà tác nhân con không được sử dụng |
 | `model` | Không | Mô hình để sử dụng: `sonnet`, `opus`, `haiku`, ID mô hình đầy đủ, hoặc `inherit`. Mặc định là mô hình tác nhân con được cấu hình |
-| `permissionMode` | Không | `default` (chế độ Manual; `manual` được chấp nhận như bí danh từ v2.1.200), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. Khi tác nhân cha chạy ở `bypassPermissions`, `acceptEdits` hoặc `auto`, `permissionMode` của tác nhân con bị bỏ qua |
+| `permissionMode` | Không | `default` (chế độ Manual; `manual` được chấp nhận như bí danh từ v2.1.200), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. Khi tác nhân cha chạy ở `bypassPermissions`, `acceptEdits` hoặc `auto`, `permissionMode` của tác nhân con bị bỏ qua. Khi tác nhân cha ở chế độ `plan`, tác nhân con vẫn ở chế độ lập kế hoạch bất kể `permissionMode` là gì (trừ khi nó chạy như một đồng nghiệp trong Agent Teams); nếu bạn đặt `dontAsk`, những hành động mà chế độ lập kế hoạch lẽ ra sẽ hỏi sẽ bị từ chối |
 | `maxTurns` | Không | Số lượng lượt tác nhân tối đa mà tác nhân con có thể thực hiện |
 | `skills` | Không | Danh sách phân tách bằng dấu phẩy của các skills để tải trước. Tiêm toàn bộ nội dung skill vào bối cảnh của tác nhân con khi khởi động |
 | `mcpServers` | Không | MCP servers để cung cấp cho tác nhân con |
@@ -689,7 +689,7 @@ graph TB
 
 ### Quy trình phê duyệt kế hoạch
 
-Đối với các tác vụ phức tạp, đội trưởng tạo một kế hoạch thực thi trước khi đồng nghiệp bắt đầu làm việc. Người dùng xem xét và phê duyệt kế hoạch, đảm bảo cách tiếp cận của đội phù hợp với kỳ vọng trước bất kỳ thay đổi code nào.
+Đối với các tác vụ phức tạp hoặc rủi ro, hãy chuyển đội trưởng sang chế độ lập kế hoạch trước khi yêu cầu một đồng nghiệp: đồng nghiệp được tạo khi đội trưởng đang ở chế độ lập kế hoạch sẽ làm việc ở chế độ chỉ đọc cho đến khi kế hoạch của nó sẵn sàng, rồi gửi yêu cầu phê duyệt kế hoạch tới đội trưởng. Nếu bạn chưa thay đổi chế độ quyền của đồng nghiệp đó kể từ khi nó được tạo, Claude Code phê duyệt kế hoạch ngay khi yêu cầu đến (bạn không được hỏi), và các chỉnh sửa cũng như lệnh của đồng nghiệp vẫn đi qua các lời nhắc cấp quyền thông thường. Nếu bạn chuyển một đồng nghiệp in-process đang chạy sang chế độ lập kế hoạch bằng `Shift+Tab`, thì thay vào đó đội trưởng sẽ xem xét kế hoạch.
 
 ### Sự kiện hook cho đội
 
@@ -1130,8 +1130,8 @@ graph TD
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 18 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.302
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.310
 **Nguồn**:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/commands
@@ -1144,4 +1144,5 @@ graph TD
 - https://code.claude.com/docs/en/agent-teams
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog#2-1-302
+- https://code.claude.com/docs/en/agent-teams#have-teammates-plan-before-implementing
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

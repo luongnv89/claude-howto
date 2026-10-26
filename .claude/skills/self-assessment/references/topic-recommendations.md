@@ -19,7 +19,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - Done when: Claude remembers your preferences across sessions
 
 **Memory (score 1 — review)**:
-- Focus on: the 7 memory locations and how they are concatenated into context (loaded root-down, not overridden), .claude/rules/ directory with path-specific rules, `@import` syntax (max depth 4), Auto Memory MEMORY.md (Claude loads its first 200 lines or 25 KB, whichever comes first — a load cap, not a file-size limit)
+- Focus on: the 7 memory locations and how they are concatenated into context (loaded root-down, not overridden), .claude/rules/ directory with path-specific rules, `@import` syntax (max depth 4), Auto Memory MEMORY.md (Claude loads its first 200 lines or 25 KB, whichever comes first — a load cap, not a file-size limit), on-demand files (subdirectory CLAUDE.md, path-scoped rules) truncated past a per-file size limit since v2.1.309
 - Done when: You have modular rules for different directories and understand how every memory file is concatenated into context
 
 **Skills (score 0)**:
@@ -49,7 +49,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - Done when: You can query live data from an external service via MCP
 
 **MCP (score 1 — review)**:
-- Focus on: Project-scope .mcp.json (each user approves it on first use; workspace trust applies), OAuth 2.0 auth, MCP resources with `@server:resource` mentions, Tool Search (ENABLE_TOOL_SEARCH), `claude mcp serve`, output limits (10,000 tokens warning; 25,000 tokens default max via `MAX_MCP_OUTPUT_TOKENS`; 50,000 characters disk-persistence threshold)
+- Focus on: Project-scope .mcp.json (each user approves it on first use; workspace trust applies), OAuth 2.0 auth, MCP resources with `@server:resource` mentions, Tool Search (ENABLE_TOOL_SEARCH; on by default, including behind a custom `ANTHROPIC_BASE_URL` gateway since v2.1.304), `claude mcp serve`, output limits (10,000 tokens warning; 25,000 tokens default max via `MAX_MCP_OUTPUT_TOKENS`; 50,000 characters disk-persistence threshold)
 - Done when: You have a project .mcp.json and understand how tool search defers MCP tools by default and what `ENABLE_TOOL_SEARCH=auto`/`false` change
 
 **Subagents (score 0)**:
@@ -64,7 +64,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 
 **Checkpoints (score 0)**:
 - Tutorial: [08-checkpoints/](../../../../08-checkpoints/)
-- Focus on: Esc+Esc and /rewind access, 6 rewind options (restore code and conversation, restore conversation, restore code, summarize from here, summarize up to here, never mind), limitations — bash filesystem ops, subagent edits (except a foreground `context: fork` skill), edits made outside Claude Code are untracked, and symlinked/hard-linked paths are skipped on restore
+- Focus on: Esc+Esc and /rewind access, 6 rewind options (restore code and conversation, restore conversation, restore code, summarize from here, summarize up to here, never mind), limitations — files changed only by Bash commands are untracked (once Claude has edited a file with its file editing tools, `/rewind` also undoes changes that Bash commands make to that file afterward; since v2.1.309, `sed -i` is treated like any other Bash edit), subagent edits (except a foreground `context: fork` skill), edits made outside Claude Code are untracked, and symlinked/hard-linked paths are skipped on restore
 - Key exercise: Make experimental changes, then rewind to restore
 - Done when: You can confidently experiment knowing you can rewind
 
@@ -95,13 +95,13 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - Done when: You can use Claude non-interactively in a script
 
 **CLI (score 1 — review)**:
-- Focus on: --agents flag with JSON config, --json-schema for structured output, --fallback-model, --from-pr, --strict-mcp-config, batch processing with for loops, `claude mcp serve`
+- Focus on: --agents flag with JSON config, --json-schema for structured output, --fallback-model, --from-pr, --strict-mcp-config, `--permission-mode`/`--allowedTools` for `claude -p` (a run with no mode set starts in Manual mode, config value `default`, and denies calls that need approval), batch processing with for loops, `claude mcp serve`
 - Done when: You have a CI/CD script that uses Claude with structured JSON output
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/memory
@@ -119,3 +119,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - https://code.claude.com/docs/en/plugins/cli-reference
 - https://code.claude.com/docs/en/mcp#configure-tool-search
 - https://code.claude.com/docs/en/mcp#project-server-approvals-and-workspace-trust
+- https://code.claude.com/docs/en/checkpointing#bash-command-changes-not-tracked
+- https://code.claude.com/docs/en/changelog#2-1-309
+- https://code.claude.com/docs/en/permission-modes#tool-calls-denied-in-claude-p-and-agent-sdk-runs
+- https://code.claude.com/docs/en/mcp#tool-search-through-an-llm-gateway

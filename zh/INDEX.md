@@ -753,7 +753,7 @@ claude --permission-mode acceptEdits   # 自动接受编辑
 claude --permission-mode auto          # 自动批准安全操作
 
 # 以 headless 模式运行 CI/CD
-claude -p "Run tests and report results"
+claude -p "Run tests and report results" --permission-mode auto
 
 # 运行后台任务
 在后台运行测试
@@ -896,8 +896,8 @@ claude -p "Run tests and report results"
 
 ---
 
-**最后更新**：2026 年 10 月 18 日
-**Claude Code 版本**：2.1.302
+**最后更新**：2026 年 10 月 26 日
+**Claude Code 版本**：2.1.310
 **总示例数**：100+ 文件
 **分类数**：10 个功能
 **Hooks**：8 个自动化脚本
@@ -912,3 +912,5 @@ claude -p "Run tests and report results"
 - https://code.claude.com/docs/en/plugins/install
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/permission-modes
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in

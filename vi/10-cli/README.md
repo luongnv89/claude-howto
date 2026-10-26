@@ -173,7 +173,7 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | `--disallowedTools` | Các công cụ bị xóa khỏi ngữ cảnh | `"Bash(rm:*)" "Edit"` |
 | `--dangerously-skip-permissions` | Bỏ qua tất cả các prompt quyền | `claude --dangerously-skip-permissions` |
 | `--permission-mode` | Bắt đầu trong chế độ quyền được chỉ định | `claude --permission-mode auto` |
-| `--permission-prompt-tool` | Công cụ MCP để xử lý quyền | `claude -p --permission-prompt-tool mcp_auth "query"` |
+| `--permission-prompt-tool` | Công cụ MCP để xử lý quyền | `claude -p --mcp-config ./mcp.json --permission-prompt-tool mcp__permissions__approve "query"` |
 | `--enable-auto-mode` | Mở khóa chế độ quyền tự động | `claude --enable-auto-mode` |
 
 ### Ví Dụ Quyền / Permission Examples
@@ -716,7 +716,7 @@ Từ khóa "ultrathink" trong prompts kích hoạt deep reasoning. Mức `max` e
 | `CLAUDE_CODE_SIMPLE` | Minimal mode, set by `--bare` flag |
 | `CLAUDE_CODE_DISABLE_AUTO_MEMORY` | Set to `1` to disable auto memory (no auto memory files are created or loaded) |
 | `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS` | Disable background task execution |
-| `CLAUDE_CODE_DISABLE_CRON` | Disable scheduled/cron tasks |
+| `CLAUDE_CODE_DISABLE_CRON` | Disable session-scoped scheduled tasks (`/loop`, cron tools); cloud scheduled tasks are unaffected |
 | `CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS` | Disable git-related instructions |
 | `CLAUDE_CODE_DISABLE_TERMINAL_TITLE` | Disable terminal title updates |
 | `CLAUDE_CODE_DISABLE_1M_CONTEXT` | Disable 1M token context window |
@@ -839,8 +839,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 18 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.302
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.310
 **Nguồn**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config
@@ -849,4 +849,7 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/troubleshoot-install#command-not-found-claude-after-installation
 - https://code.claude.com/docs/en/headless
 - https://code.claude.com/docs/en/env-vars
+- https://code.claude.com/docs/en/cli-reference#cli-flags
+- https://code.claude.com/docs/en/env-vars#variables
+- https://code.claude.com/docs/en/scheduled-tasks
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

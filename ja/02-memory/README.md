@@ -1173,7 +1173,7 @@ Claude はどのメモリファイルを更新するかを尋ねる。
 
 **メモリのロード:**
 
-- すべてのメモリファイルは Claude Code 起動時に自動でロードされる
+- 作業ディレクトリとその上位にある CLAUDE.md ファイル、パス指定のないルール、`MEMORY.md` の冒頭部分は Claude Code 起動時に自動でロードされる
 - Claude は現在の作業ディレクトリから上位へさかのぼって CLAUDE.md ファイルを発見する
 - サブツリー内のファイルはそのディレクトリにアクセスする際にコンテキスト的に発見・ロードされる
 
@@ -1209,8 +1209,8 @@ Claude はどのメモリファイルを更新するかを尋ねる。
 - [公式メモリドキュメント](https://code.claude.com/docs/en/memory) — Anthropic ドキュメント
 
 ---
-**最終更新**: 2026 年 10 月 18 日
-**Claude Code バージョン**: 2.1.302
+**最終更新**: 2026 年 10 月 26 日
+**Claude Code バージョン**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
@@ -1222,4 +1222,5 @@ Claude はどのメモリファイルを更新するかを尋ねる。
 - https://code.claude.com/docs/en/sub-agents#enable-persistent-memory
 - https://code.claude.com/docs/en/settings-reference
 - https://code.claude.com/docs/en/claude-directory
+- https://code.claude.com/docs/en/memory#how-claude-md-files-load
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5

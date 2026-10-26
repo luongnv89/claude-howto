@@ -247,7 +247,7 @@ Chạy sau khi Claude tạo tham số công cụ và trước khi xử lý. Sử
   - `"allow"` bỏ qua prompt quyền (trừ các công cụ yêu cầu tương tác người dùng, và các công cụ connector mà tổ chức của bạn đặt thành `ask`)
   - `"deny"` ngăn lệnh gọi công cụ
   - `"ask"` nhắc người dùng xác nhận
-  - `"defer"` thoát êm để công cụ có thể được tiếp tục sau; `permissionDecisionReason`, `updatedInput` và `additionalContext` đều bị bỏ qua với giá trị này
+  - `"defer"` kết thúc turn để công cụ có thể được tiếp tục sau, và chỉ hoạt động ở chế độ không tương tác với `-p` (phiên tương tác ghi một cảnh báo vào log và bỏ qua nó); kết quả mang `stop_reason: "tool_deferred"`. `permissionDecisionReason`, `updatedInput` và `additionalContext` đều bị bỏ qua với giá trị này
   - Các quy tắc deny và ask vẫn được đánh giá bất kể hook trả về gì. Khi nhiều hook `PreToolUse` bất đồng, thứ tự ưu tiên là `deny` > `defer` > `ask` > `allow`
 - `permissionDecisionReason`: Giải thích cho quyết định. Hiển thị cho người dùng (không phải Claude) với `"ask"`; hiển thị cho Claude với `"deny"`; với `"allow"` và `"defer"`, chỉ được ghi vào debug log
 - `updatedInput`: Đầu vào công cụ thay thế (thay toàn bộ đối tượng đầu vào). Từ v2.1.300, nó được xác thực như đầu vào của chính Claude — các khóa không xác định bị loại bỏ, và đầu vào bị công cụ từ chối sẽ khiến lệnh gọi bị từ chối.
@@ -882,8 +882,8 @@ Chỉnh sửa `~/.claude/settings.json` hoặc `.claude/settings.json` với c�
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 18 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.302
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.310
 **Nguồn**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
@@ -894,4 +894,5 @@ Chỉnh sửa `~/.claude/settings.json` hoặc `.claude/settings.json` với c�
 - https://code.claude.com/docs/en/hooks#userpromptsubmit-input
 - https://code.claude.com/docs/en/changelog#2-1-299
 - https://code.claude.com/docs/en/changelog#2-1-300
+- https://code.claude.com/docs/en/hooks#defer-a-tool-call-for-later
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

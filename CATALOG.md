@@ -67,20 +67,22 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/sandbox` | Toggle sandbox mode | Safe command execution |
 | `/doctor` | Run diagnostics | Troubleshoot issues |
 | `/reload-plugins` | Reload installed plugins. Since v2.1.221 most installs activate immediately; only needed when the install summary says `Run /reload-plugins to activate.` Available in headless sessions since v2.1.260+, so it appears in the Claude Code Desktop and SDK command lists | Plugin management |
-| `/reload-skills` | Re-scan skill directories without restarting (v2.1.152) | Skill management |
+| `/reload-skills` | Re-scan skill directories without restarting (v2.1.152); since v2.1.304 it sends Claude only new or changed skills, and compaction re-sends the skill list on its own | Skill management |
 | `/workflows` | View running and completed dynamic workflow runs (v2.1.154) | Multi-agent orchestration |
 | `/release-notes` | Show release notes | Check new features |
 | `/remote-control` | Enable remote control | Remote access |
 | `/permissions` | Manage permissions | Control access |
+| `/auto-mode-setup` | Draft `autoMode.environment` entries from your project and recent sessions, review them, and save to your user settings. Pro/Max/Team v2.1.228+ (v2.1.233+ on native Windows); Enterprise or Console API key v2.1.283+; on Bedrock, Vertex, Foundry and telemetry-off sessions v2.1.304+; not in cloud sessions | Teach auto mode about your environment |
 | `/rename` | Rename current session | Organize sessions |
 | `/resume` | Resume previous session | Continue work |
 | `/tui [default\|fullscreen]` | Set the terminal UI renderer (`fullscreen` = flicker-free alt-screen); bare `/tui` prints the active one | Flicker-free rendering in fullscreen/tmux |
 | `/tasks` | View background tasks | Monitor async operations |
+| `/schedule [description]` | Create, update, list, or run cloud scheduled tasks (formerly routines) that run on Anthropic's cloud on a schedule, API call, or GitHub event. Alias: `/routines` | Recurring automation that runs without your machine |
 | `/copy` | Copy last response to clipboard | Share output quickly |
 | `/teleport` (alias `/tp`) | Resume a Claude Code on the web session in this terminal; opens a picker. Requires a claude.ai subscription | Continue work remotely |
 | `/desktop` | Open Claude Desktop app | Switch to desktop interface |
 | `/theme` | Change color theme; v2.1.118 added custom named themes via `~/.claude/themes/<name>.json` (plugins can ship a `themes/` dir) | Customize appearance |
-| `/usage` | Canonical command for usage/cost/stats — merged `/cost` and `/stats` into a single tabbed view (v2.1.118); as of v2.1.149 the cost view breaks spending down by category (skills, subagents, plugins, per-MCP-server). In the **VSCode extension** (v2.1.174), the `/usage` (Account & usage) dialog adds an attribution breakdown — cache misses, long-context cost, subagents, and per-skill / per-agent / per-plugin / per-MCP usage over 24h and 7d windows | Monitor quota and costs |
+| `/usage` | Canonical command for usage/cost/stats — merged `/cost` and `/stats` into a single tabbed view (v2.1.118); as of v2.1.149 the cost view breaks spending down by category (skills, subagents, plugins, per-MCP-server). In the **VSCode extension** (v2.1.174), the `/usage` (Account & usage) dialog adds an attribution breakdown — cache misses, long-context cost, subagents, and per-skill / per-agent / per-plugin / per-MCP usage over 24h and 7d windows. Since v2.1.305 each `/usage` recommendation is a one-line fix and pressing `f` applies the ones it can (the same fixes appear in `/doctor` and the VS Code dialog) | Monitor quota and costs |
 | `/focus` | Toggle focus view (distraction-free output display) | Reduce visual noise during long tasks |
 | `/fork` | Copy the conversation into a new independent background session (v2.1.212+) | Explore alternatives in parallel |
 | `/subtask` | Spawn a forked subagent that inherits the conversation and reports back (v2.1.212+) | Delegate a side task without losing your place |
@@ -126,7 +128,7 @@ Claude Code supports 6 permission modes that control how tool use is authorized.
 
 | Mode | Description | When to Use |
 |------|-------------|-------------|
-| `manual` | Prompt for each tool call | Reviewing every action yourself (shown as Manual since v2.1.200; config value is still `default`, `manual` is an alias). Since v2.1.283, auto is the built-in starting mode for interactive terminal and VS Code sessions |
+| `manual` | Prompt for each tool call | Reviewing every action yourself (shown as Manual since v2.1.200; config value is still `default`, `manual` is an alias). Since v2.1.283, auto is the built-in starting mode for interactive terminal and VS Code sessions; `claude -p` and Agent SDK runs start in Manual since v2.1.302, so calls needing approval are denied unless something approves them |
 | `acceptEdits` | Auto-accept file edits, prompt for others | Trusted editing workflows |
 | `plan` | Research and propose a plan; no source edits until you approve it | Planning and exploration |
 | `auto` | All actions, with background safety classifier checks | Long tasks, reducing prompt fatigue |
@@ -245,13 +247,14 @@ cp -r 03-skills/* ~/.claude/skills/
 | `/artifact-capabilities` | Load the reference for the runtime capabilities a published artifact can use (connectors, file downloads) | Before building an artifact page that uses one |
 | `/artifact-diagramming` *(v2.1.221+)* | Load diagramming guidance for artifacts: when a diagram helps, what to draw, inline SVG legible in light and dark themes | Drawing a diagram in an artifact |
 | `/batch` | Split a large change into 5–30 independent units, each run by a background subagent in its own worktree | Large parallel refactors |
-| `/claude-api` | Build apps with Claude API | API development |
+| `/claude-api [subcommand]` | Build apps with Claude API. Subcommands include `migrate`, `api-version` (update code to a newer API version such as `2026-10-21`, v2.1.307+) and `managed-agents-secure` (compare a Managed Agents agent's settings with Anthropic's security guide; needs the `ant` CLI, v2.1.304+) | API development |
 | `/claude-in-chrome [task]` | Carry out a task in your browser (test a page, fill a form, read console logs) via Claude in Chrome. Available when Chrome integration is enabled | Browser tasks |
 | `/dataviz [request]` | Design guidance for charts, graphs, and dashboards: chart form, color by role, palette validation for colorblind safety and contrast | Building a chart or dashboard |
 | `/debug [description]` | Turn on debug logging for the session and troubleshoot from the session debug log | Debugging Claude Code itself |
 | `/design` *(v2.1.265+)* | Create a multi-artboard design canvas — UI mockups, screen flows, landing pages, posters — refined visually instead of in code. Pro/Max/Team/Enterprise | Designing a screen or page you would rather tweak by hand than in HTML |
 | `/design-sync [hint]` | Convert your repo's React design system and upload it to Claude Design so its designs use your real components. Anthropic API only. Standalone Claude Design (claude.ai/design) closes December 14, 2026. | Syncing a design system to Claude Design |
-| `/design-login` | Authorize design-system access for `/design-sync` | Before running `/design-sync` |
+| `/design-login` | Authorize design-system access for `/design-sync` (signs in to the standalone claude.ai/design site, which closes by December 14, 2026) | Before running `/design-sync` |
+| `/design consent`, `/design revoke` | Grant Claude access to Claude Design, or withdraw it. When Claude asks you to run `/design consent`, type it at the prompt yourself | Giving or removing Claude Design access |
 | `/doctor [prompt-audit [path]]` | Setup checkup that diagnoses installation, settings, extension, and `CLAUDE.md` problems and proposes fixes. Alias: `/checkup` | Troubleshooting your setup |
 | `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist | Reduce repeat permission prompts |
 | `/loop` | Run prompts on interval | Recurring tasks |
@@ -505,7 +508,7 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **Sandboxing** | Isolated execution environments for safety | Use `/sandbox` to toggle; runs commands in restricted environments |
 | **MCP OAuth** | OAuth authentication for MCP servers | Configure OAuth credentials in MCP server settings for secure access |
 | **MCP Tool Search** | Search and discover MCP tools dynamically | Use tool search to find available MCP tools across connected servers |
-| **Scheduled Tasks** | Set up recurring tasks with `/loop` and cron tools | Use `/loop 5m /command` or CronCreate tool |
+| **Scheduled Tasks (session-scoped)** | Set up recurring tasks inside a session with `/loop` and cron tools; for cloud scheduled tasks (formerly routines) use `/schedule` | Use `/loop 5m /command` or CronCreate tool |
 | **Chrome Integration** | Drive your own Chrome/Edge (visible window, your logins) via the Claude in Chrome extension | Use `--chrome` flag or `/chrome` command |
 | **Keyboard Customization** | Customize keybindings including chord support | Use `/keybindings` or edit `~/.claude/keybindings.json` |
 | **Auto Mode** | Fully autonomous operation with background safety classifier checks | `Shift+Tab` to cycle to it, or `--permission-mode auto` |
@@ -588,8 +591,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -620,4 +623,15 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/env-vars
 - https://code.claude.com/docs/en/cross-session-messaging
 - https://support.claude.com/en/articles/17440474-migrate-from-standalone-claude-design-to-claude
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-session-starts-in
+- https://code.claude.com/docs/en/changelog#2-1-305
+- https://code.claude.com/docs/en/costs#apply-recommendations-with-the-fix-shortcut
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/commands#all-commands
+- https://code.claude.com/docs/en/context-window#what-survives-compaction
+- https://code.claude.com/docs/en/changelog#2-1-307
+- https://code.claude.com/docs/en/skills#work-on-claude-api-projects
+- https://code.claude.com/docs/en/routines
+- https://code.claude.com/docs/en/auto-mode-config#generate-environment-entries-with-auto-mode-setup
+- https://code.claude.com/docs/en/scheduled-tasks
 **Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -16,7 +16,7 @@
 | Anthropic Cookbook | Code examples and tutorials | [github.com/anthropics/anthropic-cookbook](https://github.com/anthropics/anthropic-cookbook) |
 | Claude Code Skills | Community skills repository | [github.com/anthropics/skills](https://github.com/anthropics/skills) |
 | Agent Teams | Multi-agent coordination and collaboration | [code.claude.com/docs/en/agent-teams](https://code.claude.com/docs/en/agent-teams) |
-| Scheduled Tasks | Recurring tasks with /loop and cron | [code.claude.com/docs/en/scheduled-tasks](https://code.claude.com/docs/en/scheduled-tasks) |
+| Scheduled Tasks | Session-scoped recurring tasks with /loop and cron | [code.claude.com/docs/en/scheduled-tasks](https://code.claude.com/docs/en/scheduled-tasks) |
 | Chrome Integration | Browser automation | [code.claude.com/docs/en/chrome](https://code.claude.com/docs/en/chrome) |
 | Keybindings | Keyboard shortcut customization | [code.claude.com/docs/en/keybindings](https://code.claude.com/docs/en/keybindings) |
 | Desktop App | Native desktop application | [code.claude.com/docs/en/desktop](https://code.claude.com/docs/en/desktop) |
@@ -240,11 +240,11 @@ These steps capture the core recommendations for smooth workflows with Claude Co
 | **Web Sessions** | Access Claude Code through browser-based interfaces for remote development | [CLI Reference](10-cli/) |
 | **Desktop App** | Native desktop application for Claude Code with enhanced UI | [Claude Code Docs](https://code.claude.com/docs/en/desktop) |
 | **Extended Thinking** | Deep reasoning toggle via `Alt+T`/`Option+T`; Opus 4.7+, Sonnet 5+, Haiku 5.5 and Fable always use adaptive reasoning, so a fixed `MAX_THINKING_TOKENS` budget does not apply (control depth with `/effort`) | [Advanced Features](09-advanced-features/) |
-| **Permission Modes** | Fine-grained control: manual (formerly default), acceptEdits, plan, auto, dontAsk, bypassPermissions | [Advanced Features](09-advanced-features/) |
+| **Permission Modes** | Fine-grained control: manual (config value `default`), acceptEdits, plan, auto, dontAsk, bypassPermissions | [Advanced Features](09-advanced-features/) |
 | **7-Tier Memory** | Managed Policy, Project, Project Rules, User, User Rules, Local, Auto Memory | [Memory Guide](02-memory/) |
 | **Hook Events** | 33 events: PreToolUse, PostToolUse, PostToolUseFailure, Stop, StopFailure, SubagentStart, SubagentStop, Notification, Elicitation, and more | [Hooks Guide](06-hooks/) |
 | **Agent Teams** | Coordinate multiple agents working together on complex tasks | [Subagents Guide](04-subagents/) |
-| **Scheduled Tasks** | Set up recurring tasks with `/loop` and cron tools | [Advanced Features](09-advanced-features/) |
+| **Scheduled Tasks** | Set up session-scoped recurring tasks with `/loop` and cron tools | [Advanced Features](09-advanced-features/) |
 | **Chrome Integration** | Browser automation in your own Chrome via the Claude in Chrome extension | [Advanced Features](09-advanced-features/) |
 | **Keyboard Customization** | Customize keybindings including chord sequences | [Advanced Features](09-advanced-features/) |
 | **Monitor Tool** | Watch a background command's stdout stream and react to events instead of polling (v2.1.98+) | [Advanced Features](09-advanced-features/) |
@@ -253,8 +253,8 @@ These steps capture the core recommendations for smooth workflows with Claude Co
 | **/run, /verify, /run-skill-generator** | Bundled skills to launch your project, confirm a fix works, and generate per-project run/verify skills (v2.1.145+) | [Skills Guide](03-skills/) |
 
 ---
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/changelog
@@ -266,4 +266,6 @@ These steps capture the core recommendations for smooth workflows with Claude Co
 - https://code.claude.com/docs/en/chrome
 - https://code.claude.com/docs/en/remote-control
 - https://code.claude.com/docs/en/code-review
+- https://code.claude.com/docs/en/scheduled-tasks
+- https://code.claude.com/docs/en/permission-modes#available-modes
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

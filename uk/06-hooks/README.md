@@ -259,7 +259,7 @@ Claude Code підтримує **33 події хуків**:
   - `"allow"` пропускає запит дозволу (крім інструментів, які потребують взаємодії з користувачем, та інструментів конекторів, для яких організація встановила `ask`)
   - `"deny"` блокує виклик інструмента
   - `"ask"` просить користувача підтвердити
-  - `"defer"` коректно завершує роботу, щоб інструмент можна було відновити пізніше; `permissionDecisionReason`, `updatedInput` та `additionalContext` для цього значення ігноруються
+  - `"defer"` завершує хід, щоб інструмент можна було відновити пізніше, і працює лише в неінтерактивному режимі з `-p` (інтерактивні сесії записують попередження в журнал і ігнорують його); результат містить `stop_reason: "tool_deferred"`. `permissionDecisionReason`, `updatedInput` та `additionalContext` для цього значення ігноруються
   - Правила deny та ask обчислюються незалежно від того, що повертає хук. Якщо кілька хуків `PreToolUse` дають різні рішення, пріоритет такий: `deny` > `defer` > `ask` > `allow`
 - `permissionDecisionReason`: Пояснення рішення. Показується користувачеві (не Claude) для `"ask"`; показується Claude для `"deny"`; для `"allow"` та `"defer"` записується лише в журнал налагодження (debug log)
 - `updatedInput`: Замінні вхідні дані інструмента (замінюють увесь вхідний об'єкт). З v2.1.300 вони перевіряються так само, як власні вхідні дані Claude — невідомі ключі відкидаються, а вхідні дані, які інструмент відхиляє, призводять до відмови у виклику.
@@ -1222,8 +1222,8 @@ chmod +x ~/.claude/hooks/*.sh
 - **[Посібник з памʼяті](../02-memory/)** — конфігурація постійного контексту
 
 ---
-**Останнє оновлення**: 18 жовтня 2026
-**Версія Claude Code**: 2.1.302
+**Останнє оновлення**: 26 жовтня 2026
+**Версія Claude Code**: 2.1.310
 **Джерела**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/plugins/manifest-reference#quoting-and-path-separators
@@ -1235,4 +1235,5 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/hooks#userpromptsubmit-input
 - https://code.claude.com/docs/en/changelog#2-1-299
 - https://code.claude.com/docs/en/changelog#2-1-300
+- https://code.claude.com/docs/en/hooks#defer-a-tool-call-for-later
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

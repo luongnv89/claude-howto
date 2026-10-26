@@ -405,7 +405,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
 # Exercise 7: Scheduled tasks
 /loop 5m /check-status
-# Tasks are session-scoped; for persistent scheduling use Routines or Desktop scheduled tasks
+# Tasks are session-scoped; for persistent scheduling use cloud scheduled tasks (formerly routines, via /schedule) or Desktop scheduled tasks
 
 # Exercise 8: Channels (research preview)
 # A channel is an MCP server that pushes events into your running session
@@ -455,7 +455,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 claude --plugin-dir ./07-plugins/pr-review  # from the repo root
 
 # Exercise 2: Print mode for CI/CD
-claude -p "Run all tests and generate report"
+claude -p "Run all tests and generate report" --permission-mode auto
 
 # Exercise 3: JSON output for scripts
 claude -p --output-format json "list all functions"
@@ -707,7 +707,7 @@ Once you've completed all milestones:
 9. **Set up Agent Teams** - Coordinate multiple agents on complex, multi-faceted tasks
 10. **Use Channels** - Connect an MCP server that pushes events (CI results, chat messages, webhooks) into your running session
 11. **Try Voice Dictation** - Use hands-free voice input for interaction with Claude Code
-12. **Use Scheduled Tasks** - Automate recurring checks with `/loop` and cron tools
+12. **Use Scheduled Tasks** - Automate recurring checks with `/loop` and cron tools (session-scoped), or cloud scheduled tasks with `/schedule`
 13. **Contribute examples** - Share with the community
 14. **Mentor others** - Help teammates learn
 15. **Optimize workflows** - Continuously improve based on usage
@@ -739,8 +739,8 @@ Once you've completed all milestones:
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
@@ -756,6 +756,9 @@ Once you've completed all milestones:
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 **Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 **Maintained by**: Claude How-To Contributors
 **License**: Educational purposes, free to use and adapt

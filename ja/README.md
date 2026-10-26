@@ -425,7 +425,7 @@ cp 04-subagents/*.md /path/to/project/.claude/agents/
 
 **例**：
 - `github-mcp.json` — GitHub 連携
-- `database-mcp.json` — データベースクエリ
+- `database-mcp.json` — データベースクエリ（`DATABASE_URL` には SELECT 専用ユーザーを指定する。[読み取り専用の設定](05-mcp/README.md#例-2database-mcp-のセットアップ) を参照）
 - `filesystem-mcp.json` — ファイル操作
 - `multi-mcp.json` — 複数の MCP サーバ
 
@@ -567,7 +567,7 @@ claude --plugin-dir ./07-plugins/documentation
 - **拡張思考（Extended Thinking）** — 複雑な問題に対する深い推論（`Alt+T` / `Option+T` で切り替え）
 - **バックグラウンドタスク** — ブロックなしに長時間処理を実行
 - **権限モード** — `default`、`acceptEdits`、`plan`、`dontAsk`、`bypassPermissions`
-- **ヘッドレスモード** — CI/CD で Claude Code を実行：`claude -p "Run tests and generate report"`
+- **ヘッドレスモード** — CI/CD で Claude Code を実行：`claude -p "Run tests and generate report" --permission-mode auto`
 - **セッション管理** — `/resume`、`/rename`、`/fork`、`claude -c`、`claude -r`
 - **設定** — `~/.claude/settings.json` で挙動をカスタマイズ
 
@@ -878,8 +878,8 @@ MIT License — [LICENSE](../LICENSE) を参照。利用、変更、再配布は
 
 ---
 
-**最終更新**：2026 年 10 月 18 日
-**Claude Code バージョン**：2.1.302
+**最終更新**：2026 年 10 月 26 日
+**Claude Code バージョン**：2.1.310
 **情報源**：
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/hooks
@@ -893,4 +893,7 @@ MIT License — [LICENSE](../LICENSE) を参照。利用、変更、再配布は
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/model-config
 - https://github.com/anthropics/claude-code
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
+- https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
 **互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

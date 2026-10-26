@@ -790,7 +790,7 @@ claude --permission-mode acceptEdits   # Автоматично приймати
 claude --permission-mode auto          # Автоматично схвалювати безпечні дії
 
 # Запустити в headless-режимі для CI/CD
-claude -p "Run tests and report results"
+claude -p "Run tests and report results" --permission-mode auto
 
 # Запустити фонові завдання
 Run tests in background
@@ -934,8 +934,8 @@ Run tests in background
 
 ---
 
-**Останнє оновлення**: 18 жовтня 2026
-**Версія Claude Code**: 2.1.302
+**Останнє оновлення**: 26 жовтня 2026
+**Версія Claude Code**: 2.1.310
 **Прикладів**: 100+ файлів
 **Категорій**: 10 функцій
 **Хуків**: 8 скриптів автоматизації
@@ -950,3 +950,5 @@ Run tests in background
 - https://code.claude.com/docs/en/plugins/install
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/permission-modes
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in

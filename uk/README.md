@@ -395,7 +395,7 @@ cp 04-subagents/*.md /path/to/project/.claude/agents/
 
 **Приклади**:
 - `github-mcp.json` — Інтеграція з GitHub
-- `database-mcp.json` — Запити до бази даних
+- `database-mcp.json` — Запити до бази даних (вкажіть у `DATABASE_URL` користувача з правом лише SELECT; див. [налаштування лише для читання](05-mcp/README.md#приклад-2-налаштування-database-mcp))
 - `filesystem-mcp.json` — Файлові операції
 - `multi-mcp.json` — Кілька MCP-серверів
 
@@ -511,7 +511,7 @@ claude --plugin-dir ./07-plugins/documentation
 - **Розширене мислення** — Глибоке міркування для складних проблем (перемикання через `Alt+T` / `Option+T`)
 - **Фонові завдання** — Тривалі операції без блокування
 - **Режими дозволів** — `default`, `acceptEdits`, `plan`, `dontAsk`, `bypassPermissions`
-- **Headless-режим** — Claude Code у CI/CD: `claude -p "Run tests and generate report"`
+- **Headless-режим** — Claude Code у CI/CD: `claude -p "Run tests and generate report" --permission-mode auto`
 - **Управління сесіями** — `/resume`, `/rename`, `/fork`, `claude -c`, `claude -r`
 - **Конфігурація** — Налаштування поведінки в `~/.claude/settings.json`
 
@@ -659,8 +659,8 @@ Claude:
 
 ---
 
-**Останнє оновлення**: 18 жовтня 2026
-**Версія Claude Code**: 2.1.302
+**Останнє оновлення**: 26 жовтня 2026
+**Версія Claude Code**: 2.1.310
 **Джерела**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/hooks
@@ -668,4 +668,7 @@ Claude:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/plugins/install
 - https://code.claude.com/docs/en/checkpointing
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
+- https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

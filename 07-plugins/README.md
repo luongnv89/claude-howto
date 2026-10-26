@@ -58,7 +58,7 @@ sequenceDiagram
     Tools-->>Claude: Plugin installed ✅
 ```
 
-> **No marketplace required (v2.1.157+)**: Plugins placed in `.claude/skills` directories now auto-load without a marketplace. Scaffold a new one with `claude plugin init <name>`, which creates it at `~/.claude/skills/<name>/` (user-global) and auto-loads it in the next session as `<name>@skills-dir`.
+> **No marketplace required (v2.1.157+)**: Plugins placed in `.claude/skills` directories now auto-load without a marketplace. Scaffold a new one with `claude plugin init <name>`, which creates it at `~/.claude/skills/<name>/` (user-global) and auto-loads it in the next session as `<name>@skills-dir`. Managed settings can block skills-directory plugins: `strictPluginOnlyCustomization` stops them even when an allowlist has a `{ "source": "skills-dir" }` entry, and a marketplace allowlist without that entry stops them too. A blocked folder shows no plugin and no error in `/plugin` or `claude plugin list`.
 
 ## Plugin Types & Distribution
 
@@ -124,7 +124,7 @@ my-plugin/
 │   └── hooks.json
 ├── .mcp.json             # MCP server configurations
 ├── .lsp.json             # LSP server configurations for code intelligence
-├── bin/                  # Executables added to Bash tool's PATH while plugin is enabled (the PowerShell tool finds them too, v2.1.302)
+├── bin/                  # Executables added to Bash tool's PATH while plugin is enabled (unsandboxed PowerShell commands find them too, v2.1.302)
 ├── settings.json         # Default settings applied when plugin is enabled (only the `agent` and `subagentStatusLine` keys take effect)
 ├── themes/               # Optional: ship custom Claude Code themes (v2.1.118+)
 ├── templates/
@@ -235,7 +235,7 @@ Once configured, LSP servers provide:
 
 ### `bin/` directory on `PATH`
 
-When a plugin is enabled, its `bin/` directory is added to the session's `PATH`, after your own `PATH` entries, so a plugin can't shadow `git`, `ls`, or another system command. Any executable shipped there can be invoked directly from the Bash tool by name — no qualified path required (the PowerShell tool finds them too, v2.1.302).
+When a plugin is enabled, its `bin/` directory is added to the session's `PATH`, after your own `PATH` entries, so a plugin can't shadow `git`, `ls`, or another system command. Any executable shipped there can be invoked directly from the Bash tool by name — no qualified path required (a PowerShell tool command outside the sandbox finds them too, v2.1.302; a sandboxed one doesn't).
 
 ```bash
 # In a plugin layout:
@@ -329,6 +329,8 @@ Unknown keys are rejected and the plugin doesn't load. A top-level `monitors` ke
 
 Monitors use the same Monitor tool under the hood, streaming stdout lines as events Claude can react to.
 
+Plugin monitors don't start in non-interactive `-p` runs. On Amazon Bedrock, Claude Platform on AWS, Google Cloud's Agent Platform, or Microsoft Foundry, or with `DISABLE_TELEMETRY` or `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` set, they need v2.1.310+ (earlier versions didn't start them there). When managed settings set `allowManagedHooksOnly`, only monitors from plugins your managed settings force-enable start (v2.1.310+).
+
 ## Inline Plugin via Settings (`source: 'settings'`) (v2.1.80+)
 
 Plugins can be defined inline in settings files as marketplace entries using the `source: 'settings'` field. This allows embedding a plugin definition directly without requiring a separate repository or marketplace. Declare it under `extraKnownMarketplaces.<name>.source`; the `name` must match the marketplace key, and its plugins must reference external sources such as GitHub or npm (relative paths are rejected):
@@ -367,9 +369,9 @@ A mod is a plugin that changes how Claude Code looks and behaves. Its code is a 
 | React to events | Follow tool calls, prompts, and turns; a mod's hooks share variables, so one can count tool calls while another shows the count beside the spinner |
 | Call the mods API | Call a model, read and write files, start processes, or make network requests (a hook can do these only through the mods API) |
 
-To create a mod, describe what you want in a Claude Code session: Claude works from the built-in `plugin-authoring` skill (or run `/plugin-authoring` yourself), writes the mod, and, once you enable hot reloading for the session, reloads it at the end of each turn that changes it; `claude plugin validate` checks a mod without running it. Administrators decide whether mods run, and which ones, through managed settings — for example, `allowManagedModsOnly` lets only your organization's mods and the mods built into Claude Code run their hooks.
+To create a mod, describe what you want in a Claude Code session: Claude works from the built-in `plugin-authoring` skill (or run `/plugin-authoring` yourself), writes the mod, and, once you enable hot reloading for the session, reloads it at the end of each turn that changes it; `claude plugin validate` checks a mod without running it. Administrators decide whether mods run, and which ones, through managed settings — for example, `allowManagedModsOnly` lets only your organization's mods and the mods built into Claude Code run their hooks. With managed settings, or a Team or Enterprise `/login` as the session's credential, a built-in guard stops a user's mod from approving a call that a `deny` or `ask` rule or any `PreToolUse` hook would stop; without either, a mod can approve such a call.
 
-> **Note**: v2.1.299–2.1.300 add `Text` props `size`, `weight`, `mono`, `tabular`, `dir` (RTL) — `bold` is deprecated in favor of `weight` — `Box` spacing steps `xs`–`xl`, prompt `virtualText`, `$.ui.view({ agentId })`, and the `prompt.change` hook; v2.1.301 adds `Input` `rows` for a multi-line field (Enter submits, Shift+Enter adds a line).
+> **Note**: v2.1.299–2.1.300 add `Text` props `size`, `weight`, `mono`, `tabular`, `dir` (RTL) — `bold` is deprecated in favor of `weight` — `Box` spacing steps `xs`–`xl`, prompt `virtualText`, `$.ui.view({ agentId })`, and the `prompt.change` hook; v2.1.301 adds `Input` `rows` for a multi-line field (Enter submits, Shift+Enter adds a line). v2.1.304 adds `e.isReadOnly` on `tool.check` (plus an `isReadOnly: true` matcher), `settings.read` hooks that see each settings layer (`e.layers`) on Claude Code's own reads — so a managed mod can cap an organization's setting — and a `key` argument for `$.settings.read()`; v2.1.305 keeps a docked pane within 45% of the terminal's width and draws `Image` in iTerm2 3.5+ (fullscreen rendering); v2.1.310 draws `Image` inside tmux 3.3+ with `allow-passthrough` and `focus-events` on.
 
 > **Note**: See the official [Mods overview](https://code.claude.com/docs/en/plugins/mods/overview), [Create a mod](https://code.claude.com/docs/en/plugins/mods/create), and [Mods reference](https://code.claude.com/docs/en/plugins/mods/reference).
 
@@ -609,6 +611,7 @@ A **catalog entry's** helper runs only on install or update, and only after its 
 - **Custom npm registries**: Plugins can specify custom npm registry URLs for dependency resolution
 - **Version pinning**: Lock plugins to specific versions for reproducible environments
 - **Projected context cost in the browse pane (v2.1.143)**: The `/plugin` marketplace browser shows each plugin's projected per-turn context-token cost — the sum of always-loaded skills, hooks, and MCP server descriptors. Use it to size plugin adoption before installing. The same projection is available post-install via [`claude plugin details <name>`](#claude-plugin-details-name-v21139).
+- **Only plugin submodules are cloned (v2.1.295)**: when Claude Code clones a marketplace repository, it fetches only the git submodules that hold plugin files (a root plugin with `"source": "./"` gets all or none, and `--sparse`/`sparsePaths` fetch none). Earlier versions fetched every submodule and could run past the clone timeout.
 
 Example browse row with the cost column:
 
@@ -749,7 +752,7 @@ the full `https://gitlab.com/company/plugins.git` form. v2.1.232 also added GitL
 token-family secret redaction and gave the `glab` CLI the same sandbox and credential-path
 protection `gh` already had.
 
-**Private repositories**: Supported via git credential helpers or environment tokens. Users must have read access to the repository.
+**Private repositories**: Supported via git credential helpers or environment tokens. Users must have read access to the repository. Over HTTPS, Claude Code turns off git's prompts and askpass programs (including `GIT_ASKPASS`), so the credential must already be stored, for example with `gh auth login` and `gh auth setup-git`.
 
 **Directory submission**: Submit plugins to Anthropic's directory for broader distribution from the developer portal at [claude.ai/directory/manage](https://claude.ai/directory/manage). Anthropic's official marketplace, `claude-plugins-official`, doesn't take submissions through the directory portal.
 
@@ -1111,7 +1114,7 @@ Plugin subagents **ignore** the following frontmatter keys (the agent still load
 - `permissionMode` -- Subagents cannot override the permission model
 - `initialPrompt` -- Plugin agents cannot auto-submit a first prompt
 
-An agent file can't add hooks or MCP servers on its own; ship those as plugin-level hooks and MCP servers instead.
+An agent file can't add hooks or MCP servers on its own; ship those as plugin-level hooks and MCP servers instead. A frontmatter `name` longer than 256 characters is ignored too, and the agent is named after its file.
 
 ## Publishing a Plugin
 
@@ -1331,6 +1334,10 @@ The following Claude Code features work together with plugins:
 - Check whether it's active yet — see the install summary guidance in [Installation Methods](#installation-methods): `Plugin is now active.` needs no action, `Run /reload-plugins to activate.` means run that command (a restart is not required)
 - Check for naming conflicts with existing commands
 
+### Plugin Shows Version `unknown`
+
+If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, update Claude Code to v2.1.302+ (`claude update`), then run `claude plugin marketplace update <marketplace>` and `claude plugin update <plugin>@<marketplace>`. `plugin update` rewrites one scope per run, so rerun it with `--scope project` (or the block's other `Scope:` value) for any block still showing `unknown`.
+
 ### Hook Execution Issues
 - Verify hook files have correct permissions
 - Check hook syntax and event names
@@ -1349,8 +1356,8 @@ The following Claude Code features work together with plugins:
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1392,4 +1399,22 @@ The following Claude Code features work together with plugins:
 - https://code.claude.com/docs/en/plugins/overview
 - https://code.claude.com/docs/en/changelog#2-1-301
 - https://code.claude.com/docs/en/changelog#2-1-302
+- https://code.claude.com/docs/en/plugins/components#executables
+- https://code.claude.com/docs/en/plugins/security
+- https://code.claude.com/docs/en/changelog#2-1-310
+- https://code.claude.com/docs/en/plugins/components#monitors
+- https://code.claude.com/docs/en/plugins/manifest-reference#monitors
+- https://code.claude.com/docs/en/settings-reference#what-runs-under-allowmanagedhooksonly
+- https://code.claude.com/docs/en/plugins/loading#skills-directory-plugins-blocked-by-managed-settings
+- https://code.claude.com/docs/en/plugins/org#keep-skills-directory-plugins-loading
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/plugins/mods/events#change-or-refuse-a-settings-read
+- https://code.claude.com/docs/en/plugins/mods/events#check-whether-a-tool-call-is-read-only
+- https://code.claude.com/docs/en/plugins/mods/gallery#draw-an-image-inside-tmux
+- https://code.claude.com/docs/en/plugins/mods/admin#know-what-happens-by-default
+- https://code.claude.com/docs/en/plugins/create-marketplace#keep-unused-submodules-out-of-the-clone
+- https://code.claude.com/docs/en/plugins/marketplace-reference#git-submodules-in-the-marketplace-repository
+- https://code.claude.com/docs/en/plugins/troubleshooting#a-plugin-installed-from-a-git-repository-shows-version-unknown
+- https://code.claude.com/docs/en/plugins/host-marketplace
+- https://code.claude.com/docs/en/plugins/components#frontmatter-fields-in-plugin-agents
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

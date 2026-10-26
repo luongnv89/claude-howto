@@ -1123,7 +1123,7 @@ Claude запропонує обрати, який файл пам'яті оно
 
 **Завантаження пам'яті:**
 
-- Усі файли пам'яті автоматично завантажуються при запуску Claude Code
+- Файли CLAUDE.md у робочому каталозі та вище, правила без прив'язки до шляхів і початок `MEMORY.md` автоматично завантажуються при запуску Claude Code
 - Claude проходить вгору від поточного робочого каталогу для виявлення файлів CLAUDE.md
 - Файли піддерев виявляються та завантажуються контекстно при доступі до цих каталогів
 
@@ -1159,8 +1159,8 @@ Claude запропонує обрати, який файл пам'яті оно
 - [Офіційна документація пам'яті](https://code.claude.com/docs/en/memory) — документація Anthropic
 
 ---
-**Останнє оновлення**: 18 жовтня 2026
-**Версія Claude Code**: 2.1.302
+**Останнє оновлення**: 26 жовтня 2026
+**Версія Claude Code**: 2.1.310
 **Джерела**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
@@ -1169,4 +1169,5 @@ Claude запропонує обрати, який файл пам'яті оно
 - https://code.claude.com/docs/en/sub-agents#enable-persistent-memory
 - https://code.claude.com/docs/en/settings-reference
 - https://code.claude.com/docs/en/claude-directory
+- https://code.claude.com/docs/en/memory#how-claude-md-files-load
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

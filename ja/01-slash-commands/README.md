@@ -89,7 +89,7 @@
 | `/status` | バージョン、モデル、アカウントを表示 |
 | `/statusline` | ステータスラインを設定 |
 | `/tasks` | バックグラウンドタスクを一覧／管理 |
-| `/team-onboarding` | 過去 30 日間の Claude Code のセッション、コマンド、MCP 利用状況からチームメイト向けランプアップガイドを生成し、共有リンクを返す（v2.1.101 で新規） |
+| `/team-onboarding` | 過去 30 日間の Claude Code のセッション、コマンド、MCP 利用状況からチームメイト向けランプアップガイドを生成する。Team / Enterprise プランでは共有リンクも返す（v2.1.101 で新規） |
 | `/terminal-setup` | ターミナルのキーバインドを設定 |
 | `/theme` | テーマピッカーを開く／カスタムテーマを管理（v2.1.118）。カスタムテーマは `~/.claude/themes/<name>.json` に JSON で定義 |
 | `/tui [default\|fullscreen]` | ターミナル UI のレンダラーを設定して再起動する（`fullscreen` でちらつきのない描画）。引数なしの `/tui` は現在のレンダラーを表示（v2.1.110 で追加） |
@@ -150,7 +150,7 @@
 
 > **v2.1.101 で新規追加**
 
-`/team-onboarding` を使うと、プロジェクトのローカルな Claude Code 利用状況からチームメイト向けランプアップガイドを生成できる。Claude は過去 30 日間のセッション、コマンド、MCP サーバーの利用状況を分析し、新しい開発者がすぐに生産的になれるオンボーディングガイドを作成して、その共有リンクを返す。
+`/team-onboarding` を使うと、プロジェクトのローカルな Claude Code 利用状況からチームメイト向けランプアップガイドを生成できる。Claude は過去 30 日間のセッション、コマンド、MCP サーバーの利用状況を分析し、新しい開発者がすぐに生産的になれるオンボーディングガイドを作成する。Team / Enterprise プランの claude.ai 契約者には、Claude Code で直接開ける共有リンクも返す。
 
 組み込みコマンドであり、インストール作業は不要である。
 
@@ -604,8 +604,8 @@ Deploy the application to production:
 
 ---
 
-**最終更新**: 2026 年 10 月 18 日
-**Claude Code バージョン**: 2.1.302
+**最終更新**: 2026 年 10 月 26 日
+**Claude Code バージョン**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/output-styles
@@ -621,6 +621,7 @@ Deploy the application to production:
 - https://code.claude.com/docs/en/fullscreen
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/commands#all-commands
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
 
 *[Claude How To](../) ガイドシリーズの一部*

@@ -173,7 +173,7 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | `--disallowedTools` | 从上下文中移除的工具 | `"Bash(rm:*)" "Edit"` |
 | `--dangerously-skip-permissions` | 跳过所有权限提示 | `claude --dangerously-skip-permissions` |
 | `--permission-mode` | 以指定权限模式启动 | `claude --permission-mode auto` |
-| `--permission-prompt-tool` | 用于权限处理的 MCP tool | `claude -p --permission-prompt-tool mcp_auth "query"` |
+| `--permission-prompt-tool` | 用于权限处理的 MCP tool | `claude -p --mcp-config ./mcp.json --permission-prompt-tool mcp__permissions__approve "query"` |
 | `--enable-auto-mode` | 解锁 auto permission mode | `claude --enable-auto-mode` |
 
 ### 权限示例
@@ -645,11 +645,12 @@ claude --working-directory ./backend --mcp-config ./mcp.json
 
 ---
 
-**最后更新**: 2026 年 10 月 18 日
-**Claude Code 版本**: 2.1.302
+**最后更新**: 2026 年 10 月 26 日
+**Claude Code 版本**: 2.1.310
 **来源**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/headless
 - https://platform.claude.com/docs/en/about-claude/models/overview
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/remote-control
+- https://code.claude.com/docs/en/cli-reference#cli-flags

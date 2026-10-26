@@ -177,7 +177,7 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | `--disallowedTools` | Інструменти, видалені з контексту | `"Bash(rm:*)" "Edit"` |
 | `--dangerously-skip-permissions` | Пропустити всі запити дозволів | `claude --dangerously-skip-permissions` |
 | `--permission-mode` | Починати у вказаному режимі дозволів | `claude --permission-mode auto` |
-| `--permission-prompt-tool` | MCP-інструмент для обробки дозволів | `claude -p --permission-prompt-tool mcp_auth "query"` |
+| `--permission-prompt-tool` | MCP-інструмент для обробки дозволів | `claude -p --mcp-config ./mcp.json --permission-prompt-tool mcp__permissions__approve "query"` |
 | `--enable-auto-mode` | Розблокувати auto permission mode | `claude --enable-auto-mode` |
 
 ### Приклади дозволів
@@ -720,7 +720,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high або max (лише 
 | `CLAUDE_CODE_SIMPLE` | Мінімальний режим, встановлюється прапорцем `--bare` |
 | `CLAUDE_CODE_DISABLE_AUTO_MEMORY` | Встановіть `1`, щоб вимкнути auto memory (файли auto memory не створюються і не завантажуються) |
 | `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS` | Вимкнути виконання фонових завдань |
-| `CLAUDE_CODE_DISABLE_CRON` | Вимкнути заплановані/cron-завдання |
+| `CLAUDE_CODE_DISABLE_CRON` | Вимкнути заплановані завдання в межах сесії (`/loop`, інструменти cron); хмарних запланованих завдань це не стосується |
 | `CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS` | Вимкнути git-інструкції |
 | `CLAUDE_CODE_DISABLE_TERMINAL_TITLE` | Вимкнути оновлення заголовка терміналу |
 | `CLAUDE_CODE_DISABLE_1M_CONTEXT` | Вимкнути контекстне вікно 1M токенів |
@@ -842,8 +842,8 @@ claude -p --output-format json "query"
 *Частина серії посібників [Claude How To](../)*
 
 ---
-**Останнє оновлення**: 18 жовтня 2026
-**Версія Claude Code**: 2.1.302
+**Останнє оновлення**: 26 жовтня 2026
+**Версія Claude Code**: 2.1.310
 **Джерела**:
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/headless
@@ -853,4 +853,7 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/remote-control
 - https://code.claude.com/docs/en/setup
 - https://code.claude.com/docs/en/troubleshoot-install#command-not-found-claude-after-installation
+- https://code.claude.com/docs/en/cli-reference#cli-flags
+- https://code.claude.com/docs/en/env-vars#variables
+- https://code.claude.com/docs/en/scheduled-tasks
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

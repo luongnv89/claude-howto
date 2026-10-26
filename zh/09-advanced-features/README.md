@@ -668,7 +668,7 @@ Web Sessions 允许你直接在浏览器里创建和恢复 Claude Code 会话。
 
 ```bash
 # 从 CLI 创建新的 web session
-claude --remote "implement API"
+claude --cloud "implement API"   # --remote 是已弃用的别名
 ```
 
 ### 在本地恢复 Web Session
@@ -957,8 +957,9 @@ worktree 场景下依然可以配合工具和 hooks 自动化流程。
 
 ---
 
-**最后更新**: 2026 年 10 月 18 日
-**Claude Code 版本**: 2.1.302
+**最后更新**: 2026 年 10 月 26 日
+**Claude Code 版本**: 2.1.310
 **来源**:
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-session-starts-in
+- https://code.claude.com/docs/en/cli-reference#cli-flags

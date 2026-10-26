@@ -409,7 +409,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
 # 练习 7：定时任务
 /loop 5m /check-status
-# 任务仅限当前会话；如需持久化调度，请使用 Routines 或 Desktop 定时任务
+# 任务仅限当前会话；如需持久化调度，请使用云端定时任务（原名 routines，通过 /schedule 创建）或 Desktop 定时任务
 
 # 练习 8：通道（Channels，研究预览）
 # 通道是一个把事件推送到你正在运行的会话中的 MCP server
@@ -458,7 +458,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 claude --plugin-dir ./07-plugins/pr-review  # 在仓库根目录运行
 
 # 练习 2：让 print mode 服务于 CI/CD
-claude -p "Run all tests and generate report"
+claude -p "Run all tests and generate report" --permission-mode auto
 
 # 练习 3：为脚本输出 JSON
 claude -p --output-format json "list all functions"
@@ -715,8 +715,8 @@ done
 
 ---
 
-**最后更新**：2026 年 10 月 18 日
-**Claude Code 版本**：2.1.302
+**最后更新**：2026 年 10 月 26 日
+**Claude Code 版本**：2.1.310
 **来源**：
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/agent-teams
@@ -727,6 +727,9 @@ done
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 **维护者**：Claude How-To Contributors
 **许可证**：仅供学习与参考，免费使用和改编
 

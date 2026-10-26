@@ -400,7 +400,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
 # Exercise 7: Tasks định kỳ
 /loop 5m /check-status
-# Tasks chỉ tồn tại trong session; để lên lịch lâu dài hãy dùng Routines hoặc Desktop scheduled tasks
+# Tasks chỉ tồn tại trong session; để lên lịch lâu dài hãy dùng cloud scheduled tasks (trước đây là routines, qua /schedule) hoặc Desktop scheduled tasks
 
 # Exercise 8: Channels (research preview)
 # Channel là một MCP server đẩy sự kiện vào session đang chạy của bạn
@@ -449,7 +449,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 claude --plugin-dir ./07-plugins/pr-review  # từ thư mục gốc của repo
 
 # Exercise 2: Print mode cho CI/CD
-claude -p "Chạy tất cả tests và tạo báo cáo"
+claude -p "Chạy tất cả tests và tạo báo cáo" --permission-mode auto
 
 # Exercise 3: Output JSON cho scripts
 claude -p --output-format json "liệt kê tất cả functions"
@@ -732,8 +732,8 @@ Khi bạn đã hoàn thành tất cả milestones:
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 18 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.302
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.310
 **Nguồn**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/agent-teams
@@ -744,6 +744,9 @@ Khi bạn đã hoàn thành tất cả milestones:
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 **Được Duy Trì Bởi**: Những người đóng góp Claude How-To
 **Giấy Phép**: Mục đích giáo dục, miễn phí sử dụng và điều chỉnh
 

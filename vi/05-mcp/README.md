@@ -216,7 +216,7 @@ sequenceDiagram
 
 ## Tìm Kiếm Công Cụ MCP / MCP Tool Search
 
-Tìm kiếm công cụ được bật theo mặc định: các công cụ MCP được hoãn lại và khám phá khi cần, nên định nghĩa của chúng không lấp đầy ngữ cảnh mô hình. Claude Code tắt tính năng này khi `ANTHROPIC_BASE_URL` trỏ tới một host không phải của bên thứ nhất, vì hầu hết các proxy không chuyển tiếp các khối mà nó cần.
+Tìm kiếm công cụ được bật theo mặc định: các công cụ MCP được hoãn lại và khám phá khi cần, nên định nghĩa của chúng không lấp đầy ngữ cảnh mô hình. Từ v2.1.304, tính năng này cũng vẫn bật khi đi qua một gateway `ANTHROPIC_BASE_URL` tùy chỉnh, và gateway đó phải chuyển tiếp các trường công cụ `defer_loading` và các khối `tool_reference`; từ v2.1.305, khi gateway từ chối một yêu cầu với mã 400 hoặc 422, Claude Code gửi lại yêu cầu đó mà không dùng tìm kiếm công cụ. Đặt `ENABLE_TOOL_SEARCH=false` để tải mọi công cụ ngay từ đầu và tránh các yêu cầu bị từ chối đó. Trước v2.1.304, tìm kiếm công cụ bị tắt khi đi qua gateway trừ khi `ENABLE_TOOL_SEARCH` là `true`, `auto` hoặc `auto:N`.
 
 | Cài Đặt | Giá Trị | Mô Tả |
 |---------|-------|-------------|
@@ -1200,8 +1200,8 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 18 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.302
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.310
 **Nguồn**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
@@ -1211,4 +1211,7 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 - https://code.claude.com/docs/en/mcp#tool-search-for-mcp-server-authors
 - https://code.claude.com/docs/en/mcp#environment-variable-expansion-in-mcp-json
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/changelog#2-1-305
+- https://code.claude.com/docs/en/mcp#tool-search-through-an-llm-gateway
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
