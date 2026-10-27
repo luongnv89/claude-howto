@@ -228,7 +228,7 @@ claude --permission-mode auto -p "Refactor and test the auth module"
 ```bash
 # Run in headless mode (non-interactive). With no permission mode, -p starts in Manual mode
 # (config value "default", v2.1.302+): tool calls that need approval are denied, so add
-# --allowedTools "Bash(npm test *)" or a --permission-mode such as the ones below
+# --allowedTools "Bash(npm test *)" or --permission-mode auto
 claude -p "Run all tests and generate report"
 
 # With permission mode for CI

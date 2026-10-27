@@ -230,7 +230,7 @@ claude --enable-auto-mode -p "Refactor and test the auth module"
 ```bash
 # ヘッドレスモードで実行 (非対話)。権限モードを指定しないと -p は Manual モード
 # (設定値 "default"、v2.1.302+) で開始し、承認が必要なツール呼び出しは拒否されるため、
-# --allowedTools "Bash(npm test *)" または以下のような --permission-mode を追加する
+# --allowedTools "Bash(npm test *)" または --permission-mode auto を追加する
 claude -p "Run all tests and generate report"
 
 # CI 用権限モードつき

@@ -427,7 +427,7 @@ Print mode 就是 `claude -p`：给一个任务，输出结果，然后退出。
 
 ```bash
 # 运行指定任务
-claude -p "run tests and summarize failures"
+claude -p "run tests and summarize failures" --permission-mode auto
 
 # 处理管道内容
 cat logs.txt | claude -p "find the root cause"

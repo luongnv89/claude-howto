@@ -247,7 +247,7 @@ claude --enable-auto-mode -p "Refactor and test the auth module"
 ```bash
 # Запуск у headless-режимі (неінтерактивно). Без режиму дозволів -p стартує в режимі Manual
 # (значення конфігурації "default", v2.1.302+): виклики інструментів, що потребують схвалення, відхиляються,
-# тож додайте --allowedTools "Bash(npm test *)" або --permission-mode, як у прикладах нижче
+# тож додайте --allowedTools "Bash(npm test *)" або --permission-mode auto
 claude -p "Run all tests and generate report"
 
 # З режимом дозволів для CI

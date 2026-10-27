@@ -139,7 +139,7 @@ to solving problems.
 | `mcpServers` | No | MCP servers to make available to the subagent |
 | `hooks` | No | Hooks that run only while this subagent is active. All hook events are supported; most common are `PreToolUse`, `PostToolUse`, `Stop` (runs as `SubagentStop`) |
 | `memory` | No | Persistent memory directory scope: `user`, `project`, or `local` |
-| `background` | No | Subagents already run in the background by default (v2.1.198). Since v2.1.302 the main conversation's subagents in the desktop app and VS Code also start in the background; while fork mode is on (the default), Claude can't wait for them; a subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Set to `true` to *force* background always and prevent inline execution |
+| `background` | No | Subagents already run in the background by default (v2.1.198). Since v2.1.302 the main conversation's subagents in the desktop app and VS Code also start in the background. While fork mode is on (the default), Claude can't wait for them. A subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Set to `true` to *force* background always and prevent inline execution |
 | `effort` | No | Reasoning effort level: `low`, `medium`, `high`, `xhigh`, or `max`. Overrides the session effort level; available levels depend on the model. Claude can also pass an `effort` value when it calls the Agent tool (v2.1.292). |
 | `isolation` | No | Set to `worktree` to give the subagent its own git worktree |
 | `initialPrompt` | No | Auto-submitted first turn when the subagent runs as the main agent |
@@ -530,7 +530,7 @@ graph LR
 
 ## Background Subagents
 
-Subagents run in the background by default (v2.1.198). Since v2.1.302 the main conversation's subagents in the desktop app and VS Code also start in the background; while fork mode is on (the default), Claude can't wait for them; a subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Claude keeps working on the main conversation while a subagent runs and is notified when it finishes, so you no longer wait on a subagent to return before continuing. In VS Code (v2.1.304+), a background subagent shows as one status line under its Agent card instead of streaming every step into the chat; open `/tasks` and click it to see its tool calls and transcript.
+Subagents run in the background by default (v2.1.198). Since v2.1.302 the main conversation's subagents in the desktop app and VS Code also start in the background. While fork mode is on (the default), Claude can't wait for them. A subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Claude keeps working on the main conversation while a subagent runs and is notified when it finishes, so you no longer wait on a subagent to return before continuing. In VS Code (v2.1.304+), a background subagent shows as one status line under its Agent card instead of streaming every step into the chat; open `/tasks` and click it to see its tool calls and transcript.
 
 ### Configuration
 

@@ -226,7 +226,7 @@ claude --enable-auto-mode -p "Refactor và test module auth"
 ```bash
 # Chạy ở chế độ headless (không tương tác). Khi không đặt chế độ quyền, -p khởi động ở chế độ Manual
 # (giá trị cấu hình "default", v2.1.302+): các lệnh gọi tool cần phê duyệt sẽ bị từ chối, vì vậy hãy thêm
-# --allowedTools "Bash(npm test *)" hoặc một --permission-mode như các ví dụ bên dưới
+# --allowedTools "Bash(npm test *)" hoặc --permission-mode auto
 claude -p "Chạy tất cả tests và tạo báo cáo"
 
 # Với chế độ quyền cho CI
