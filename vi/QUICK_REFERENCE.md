@@ -224,7 +224,9 @@ claude --enable-auto-mode -p "Refactor và test module auth"
 
 ### Tích Hợp CI/CD
 ```bash
-# Chạy ở chế độ headless (không tương tác)
+# Chạy ở chế độ headless (không tương tác). Khi không đặt chế độ quyền, -p khởi động ở chế độ Manual
+# (giá trị cấu hình "default", v2.1.302+): các lệnh gọi tool cần phê duyệt sẽ bị từ chối, vì vậy hãy thêm
+# --allowedTools "Bash(npm test *)" hoặc --permission-mode auto
 claude -p "Chạy tất cả tests và tạo báo cáo"
 
 # Với chế độ quyền cho CI
@@ -510,8 +512,8 @@ Checklist bắt đầu:
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 18 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.302
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.310
 **Nguồn**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands
@@ -523,3 +525,5 @@ Checklist bắt đầu:
 - https://code.claude.com/docs/en/managed-settings
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/headless
+- https://code.claude.com/docs/en/permission-modes#tool-calls-denied-in-claude-p-and-agent-sdk-runs

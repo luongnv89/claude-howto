@@ -27,6 +27,8 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/add-dir <path>` | Add working directory |
 | `/advisor [model\|off]` | Configure the advisor. Opens as an interactive dialog; in the desktop app, Remote Control, and headless (`-p` / Agent SDK) sessions it takes a text form instead — bare `/advisor`, `/advisor <model>`, or `/advisor off` (v2.1.260+) |
 | `/agents` | No longer a working command: the interactive wizard was removed in v2.1.198, and since v2.1.281 `/agents` no longer appears in the `/` menu or `/help` — typing it only explains where the wizard went. Ask Claude to create or manage subagents, or edit `.claude/agents/` files directly |
+| `/artifacts` | List artifacts you own or that are shared with you, then attach one to the session, open it in your browser, or copy its link (v2.1.208+). Deleting one with `d` asks to confirm: 1 or Enter keeps it, 2 deletes it, Esc cancels (v2.1.305) |
+| `/auto-mode-setup` | Draft `autoMode.environment` entries from your project and recent sessions, review the draft, and save it to your user settings. Pro/Max/Team: v2.1.228+ (v2.1.233+ on native Windows); Enterprise or Console API key: v2.1.283+. Also available on Bedrock, Vertex, Foundry, the Claude apps gateway and telemetry-off sessions since v2.1.304 |
 | `/branch [name]` | Switch into a copy of the conversation at this point, preserving the original (return to it with `/resume`) |
 | `/fork [prompt]` | Copy the current conversation into a new **background session** and keep working here; the two are independent from that point on and the copy gets its own row in `claude agents` (v2.1.212+). Except when the copy edits in place, Claude Code instructs it to create a worktree of its own before making code changes (isolation instruction requires v2.1.221+) |
 | `/subtask <task>` | Spawn a **forked subagent** that inherits the full conversation and works on the task while you keep going; its result returns to this conversation when it finishes (v2.1.212+) |
@@ -42,7 +44,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/cost` | Typing-shortcut alias for `/usage` — opens the cost tab (v2.1.118+) |
 | `/desktop` | Continue in Desktop app (alias: `/app`) |
 | `/diff` | Interactive diff viewer for uncommitted changes. In fullscreen rendering it instead opens a diff panel beside the conversation that stays open while you keep working — it lists changed files with added/removed line counts and refreshes every time Claude edits a file or runs a shell command; run `/diff` again or click `✕` to close it (v2.1.260+). The classic renderer opens the viewer in place of the prompt |
-| `/doctor` | Diagnose installation health — openable while Claude is responding; a bundled skill: Claude checks your setup and proposes fixes it applies after you confirm (`claude doctor` runs read-only diagnostics); `/doctor prompt-audit` (also `/checkup prompt-audit`) audits CLAUDE.md files, skills, agents, and commands for prompting patterns written for older models (v2.1.283) |
+| `/doctor` | Diagnose installation health — openable while Claude is responding; a bundled skill: Claude checks your setup and proposes fixes it applies after you confirm (`claude doctor` runs read-only diagnostics); on Pro, Max, Team, and Enterprise plans the checkup also proposes the changes `/usage` recommends (v2.1.305; skipped while Remote Control is connected); `/doctor prompt-audit` (also `/checkup prompt-audit`) audits CLAUDE.md files, skills, agents, and commands for prompting patterns written for older models (v2.1.283) |
 | `/effort [low\|medium\|high\|xhigh\|max\|auto\|ultracode [on\|off]]` | Set effort level via interactive arrow-key slider. Levels: `low` → `medium` → `high` → `xhigh` (new in v2.1.111) → `max`. Default is `medium` on Opus 5.5 (the default model since v2.1.280), Sonnet 5.5, and Haiku 5.5, `high` on Opus 5, Sonnet 5, and Opus 4.8, and `xhigh` on Opus 4.7; `xhigh` needs Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, or Opus 4.7; `max` works on Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6. A level saved before `/effort` became per-model doesn't apply to newly released models such as Opus 5.5 (v2.1.280). The slider also has an **Ultracode** toggle (Tab, or `/effort ultracode [on\|off]`) — not a model effort level: it has Claude orchestrate dynamic workflows at whichever effort level the session runs at. Since v2.1.284 it no longer forces `xhigh` and stays on when you change the level; `/effort ultracode` lasts for the session, and the `ultracode` setting makes it persist |
 | `/exit` | Exit the REPL (alias: `/quit`) |
 | `/export [filename]` | Export the current conversation to a file or clipboard |
@@ -77,7 +79,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/release-notes` | View changelog |
 | `/recap` | Show session recap / summary when returning to a session (added v2.1.108) |
 | `/reload-plugins` | Reload active plugins. Since v2.1.221 most installs activate immediately, so this is only needed when the install summary says `Run /reload-plugins to activate.` Available in headless sessions as of v2.1.260, so it also appears in the Claude Code Desktop and SDK command lists |
-| `/reload-skills` | Re-scan skill directories without restarting the session (added v2.1.152). Re-sends the full skill list to Claude, which restores skills after compaction (v2.1.299) |
+| `/reload-skills` | Re-scan skill directories without restarting the session (added v2.1.152). Since v2.1.304 it sends Claude only new or changed skills; compaction now re-sends the skill list by itself, so you don't need `/reload-skills` after compacting |
 | `/remote-control` | Remote control from claude.ai (alias: `/rc`) |
 | `/remote-env` | Configure default remote environment |
 | `/rename [name]` | Rename session |
@@ -85,7 +87,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` | Alias of `/code-review` (v2.1.223): reviews the current diff, or a PR number, branch, or path you pass — e.g. `/review 1234`. Takes the same effort levels and flags. With no level given, it reuses the last `low`–`max` level you typed |
 | `/rewind` | Rewind conversation and/or code (aliases: `/checkpoint`, `/undo`) |
 | `/sandbox` | Toggle sandbox mode |
-| `/schedule [description]` | Create/manage Cloud scheduled tasks |
+| `/schedule [description]` | Create, update, list, or run cloud scheduled tasks (formerly routines). Alias: `/routines` |
 | `/scroll-speed` | Open an interactive dialog to tune mouse-wheel scroll speed in fullscreen mode: press ←/→ to adjust, `r` to reset, Enter to save. Saved to `~/.claude/settings.json` (added v2.1.139). |
 | `/security-review` | Analyze branch for security vulnerabilities |
 | `/skill-doctor` | Show which loaded skills go unused and what each one costs in context, so you can decide which to turn off. The report opens in the `/plugin` manager's **Stats** tab; in non-interactive `-p` mode it prints as text. Over Remote Control it replies `Skill usage reports are not available on this connection.` — run it in the terminal on the machine hosting the session (requires v2.1.252+) |
@@ -95,14 +97,14 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/status` | Show version, model, account, and a `Session kind` row reading `background job · attached`, `background job · unattended`, or `interactive` (row added v2.1.221). Openable while Claude is responding |
 | `/statusline` | Configure status line |
 | `/tasks` | List/manage background tasks |
-| `/team-onboarding` | Generate a teammate ramp-up guide from your last 30 days of Claude Code sessions, commands, and MCP usage, and return a share link (new in v2.1.101) |
+| `/team-onboarding` | Generate a teammate ramp-up guide from your last 30 days of Claude Code sessions, commands, and MCP usage; on Team and Enterprise plans it also returns a share link (new in v2.1.101) |
 | `/teleport` | Resume a Claude Code on the web session in this terminal; opens a picker of your web sessions (alias: `/tp`). Requires a claude.ai subscription |
 | `/terminal-setup` | Configure terminal keybindings |
 | `/theme` | Open theme picker / manage custom themes (v2.1.118). Define custom themes via JSON in `~/.claude/themes/<name>.json` |
 | `/tui [default\|fullscreen]` | Set the terminal UI renderer (`fullscreen` gives flicker-free rendering) and relaunch into it; a bare `/tui` prints the current renderer (added v2.1.110) |
 | `/ultrareview` | Comprehensive cloud-based multi-agent code review (added v2.1.111). The preferred invocation is now `/code-review ultra`; `/ultrareview` remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits |
 | `/upgrade` | Open upgrade page for higher plan tier |
-| `/usage` | Canonical usage dashboard (v2.1.118) — combines plan usage limits, rate limits, cost, and daily session stats. `/cost` and `/stats` are typing-shortcut aliases that open specific tabs. Warns about max effort, workflows, always-on context and large tool results (v2.1.299) |
+| `/usage` | Canonical usage dashboard (v2.1.118) — combines plan usage limits, rate limits, cost, and daily session stats. `/cost` and `/stats` are typing-shortcut aliases that open specific tabs. Warns about max effort, workflows, always-on context and large tool results (v2.1.299); since v2.1.305 each warning is a one-line fix and pressing `f` applies the ones Claude Code can make |
 | `/voice` | Toggle push-to-talk voice dictation |
 | `/workflows` | View running and completed dynamic workflow runs (added v2.1.154). See [Dynamic Workflows](../09-advanced-features/README.md#dynamic-workflows) |
 
@@ -115,10 +117,10 @@ These skills ship with Claude Code and are invoked like slash commands:
 | Skill | Purpose |
 |-------|---------|
 | `/batch <instruction>` | Orchestrate large-scale parallel changes using worktrees |
-| `/claude-api` | Load Claude API reference for project language |
+| `/claude-api` | Load Claude API reference for project language. Subcommands include `api-version` (move code to a newer API version, v2.1.307+) and `managed-agents-secure` (audit a Managed Agent's settings, v2.1.304+) |
 | `/dataviz` | Chart and dashboard design guidance with a runnable color-palette validator (v2.1.198) |
 | `/debug [description]` | Enable debug logging |
-| `/design [description]` | Create a **design canvas** — a multi-artboard visual design (UI mockups, screen flows, landing pages, posters) published as an artifact and refined visually rather than in code. Use it instead of hand-writing HTML when the layout is what you want to iterate on. Requires v2.1.265+, a session where artifacts are available, and an account with the Design template; not available on Bedrock, Vertex, Foundry, or Claude Platform on AWS. Standalone Claude Design (claude.ai/design) closes December 14, 2026. |
+| `/design [description]` | Create a **design canvas** — a multi-artboard visual design (UI mockups, screen flows, landing pages, posters) published as an artifact and refined visually rather than in code. Use it instead of hand-writing HTML when the layout is what you want to iterate on. Requires v2.1.265+, a session where artifacts are available, and an account with the Design template; not available on Bedrock, Vertex, Foundry, or Claude Platform on AWS. Standalone Claude Design (claude.ai/design) closes by December 14, 2026. `/design consent` and `/design revoke` grant or withdraw Claude's access to Claude Design; when Claude asks you to run `/design consent`, type it at the prompt yourself. |
 | `/loop [interval] [prompt]` | Run prompt repeatedly on interval |
 | `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [pr#\|branch\|path]` | Review the current diff — or a PR number, branch, or path you pass — for correctness bugs. Pass `--fix` to apply findings, `--comment` to post them as inline GitHub PR comments, or `ultra` to run a deep cloud review; with `ultra` on a `github.com` PR target, `--post` preselects posting the findings to the PR. With no effort level given, the review reuses the last level you typed (v2.1.223). Originally absorbed `/simplify` in v2.1.147, but `/simplify` returned as a distinct command in v2.1.154. Pass `--max-findings <n>\|all` to report more or fewer findings than the usual limit; the choice is reused until you pass `--max-findings default` (v2.1.288) |
 | `/simplify` | Run a cleanup-only review (reuse / simplification / efficiency / altitude) and apply the fixes; does **not** hunt for bugs — use `/code-review` for that. Briefly an alias of `/code-review --fix` (v2.1.152), it became cleanup-only in v2.1.154 |
@@ -196,7 +198,7 @@ Claude: [does the work, panel updates]
 
 > **New in v2.1.101**
 
-Use `/team-onboarding` to generate a teammate ramp-up guide from your project's local Claude Code usage. Claude analyzes your sessions, commands, and MCP server usage from the past 30 days, then produces an onboarding guide that helps new developers become productive quickly and returns a share link to it.
+Use `/team-onboarding` to generate a teammate ramp-up guide from your project's local Claude Code usage. Claude analyzes your sessions, commands, and MCP server usage from the past 30 days, then produces an onboarding guide that helps new developers become productive quickly. For claude.ai subscribers on Team and Enterprise plans, it also returns a share link teammates can open directly in Claude Code.
 
 It's a built-in command — nothing to install.
 
@@ -652,8 +654,8 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills
@@ -681,6 +683,17 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 - https://code.claude.com/docs/en/hooks#hook-lifecycle
 - https://code.claude.com/docs/en/fullscreen
 - https://support.claude.com/en/articles/17440474-migrate-from-standalone-claude-design-to-claude
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/commands#all-commands
+- https://code.claude.com/docs/en/context-window#what-survives-compaction
+- https://code.claude.com/docs/en/changelog#2-1-305
+- https://code.claude.com/docs/en/changelog#2-1-307
+- https://code.claude.com/docs/en/skills#work-on-claude-api-projects
+- https://code.claude.com/docs/en/costs#apply-recommendations-with-the-fix-shortcut
+- https://code.claude.com/docs/en/skills#check-your-setup-with-/doctor
+- https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
+- https://code.claude.com/docs/en/artifacts#find-an-artifact-again
+- https://code.claude.com/docs/en/auto-mode-config#generate-environment-entries-with-auto-mode-setup
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Part of the [Claude How To](../) guide series*

@@ -265,7 +265,7 @@ Claude がツールパラメータを生成した後、処理開始前に動作�
   - `"allow"` は権限プロンプトをスキップする（ユーザー操作が必須のツール、および組織が `ask` に設定したコネクタツールを除く）
   - `"deny"` はツール呼び出しを阻止する
   - `"ask"` はユーザーに確認を求める
-  - `"defer"` は正常終了して後でツールを再開できるようにする。この値では `permissionDecisionReason`、`updatedInput`、`additionalContext` はいずれも無視される
+  - `"defer"` はターンを終了して後でツールを再開できるようにする。`-p` を使った非対話モードでのみ機能する（対話セッションでは警告をログに記録して無視する）。結果には `stop_reason: "tool_deferred"` が含まれる。この値では `permissionDecisionReason`、`updatedInput`、`additionalContext` はいずれも無視される
   - フックが何を返しても deny／ask のルールは引き続き評価される。複数の `PreToolUse` フックの判定が食い違う場合、優先順位は `deny` > `defer` > `ask` > `allow` となる
 - `permissionDecisionReason`: 判定の理由。`"ask"` では（Claude ではなく）ユーザーに表示され、`"deny"` では Claude に表示される。`"allow"` と `"defer"` ではデバッグログにのみ記録される
 - `updatedInput`: 置き換え用のツール入力（入力オブジェクト全体を置き換える）。v2.1.300 以降は Claude 自身の入力と同様に検証され、未知のキーは破棄され、ツールが拒否する入力では呼び出しが拒否される。
@@ -1390,8 +1390,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新：** 2026 年 10 月 18 日
-**Claude Code バージョン：** 2.1.302
+**最終更新：** 2026 年 10 月 26 日
+**Claude Code バージョン：** 2.1.310
 **情報源：**
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/plugins/manifest-reference#quoting-and-path-separators
@@ -1406,4 +1406,5 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/hooks#userpromptsubmit-input
 - https://code.claude.com/docs/en/changelog#2-1-299
 - https://code.claude.com/docs/en/changelog#2-1-300
+- https://code.claude.com/docs/en/hooks#defer-a-tool-call-for-later
 **対応モデル：** Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

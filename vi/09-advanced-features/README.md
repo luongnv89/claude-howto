@@ -646,7 +646,7 @@ Permission modes control what actions Claude can take without explicit approval.
 | `bypassPermissions` | All actions, no permission checks (dangerous) |
 | `dontAsk` | Only pre-approved tools execute; all others denied |
 
-Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting. When no permission mode is configured, interactive terminal and VS Code sessions start in auto mode on every plan and provider since v2.1.284 (v2.1.283 did this only on third-party providers such as Bedrock, Google Cloud's Agent Platform, and Foundry, or with telemetry off); `permissions.defaultMode` still overrides it, and a session where auto mode isn't available starts in Manual instead. Since v2.1.302, `claude -p` and Agent SDK sessions that set no permission mode start in `default` mode on third-party providers, with telemetry off, or on a fresh install; pass `--permission-mode auto` to keep auto mode.
+Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting. When no permission mode is configured, interactive terminal and VS Code sessions start in auto mode on every plan and provider since v2.1.284 (v2.1.283 did this only on third-party providers such as Bedrock, Google Cloud's Agent Platform, and Foundry, or with telemetry off); `permissions.defaultMode` still overrides it, and a session where auto mode isn't available starts in Manual instead. Since v2.1.302, a `claude -p` or Agent SDK run with no permission mode set starts in Manual mode (config value `default`) and denies tool calls that need approval; pass `--permission-mode` (for example `auto` or `acceptEdits`) or `--allowedTools`.
 
 ### Activation Methods
 
@@ -757,7 +757,7 @@ Print mode enables:
 
 ```bash
 # Run specific task
-claude -p "Run all tests"
+claude -p "Run all tests" --permission-mode auto
 
 # Process piped content
 cat error.log | claude -p "Analyze these errors"
@@ -771,7 +771,7 @@ cat error.log | claude -p "Analyze these errors"
 
 ```bash
 # Run a specific task with output capture
-claude -p "Run all tests and generate coverage report"
+claude -p "Run all tests and generate coverage report" --permission-mode auto
 
 # With structured output
 claude -p --output-format json "Analyze code quality"
@@ -1305,7 +1305,7 @@ Web Sessions allow you to run Claude Code directly in the browser at claude.ai/c
 
 ```bash
 # Create a new web session from the CLI
-claude --remote "implement the new API endpoints"
+claude --cloud "implement the new API endpoints"   # --remote is a deprecated alias
 ```
 
 This starts a Claude Code session on claude.ai that you can access from any browser.
@@ -1358,7 +1358,7 @@ Transfer your current CLI session to the Desktop App:
 |---------|-------------|
 | **Diff view** | File-by-file visual review with inline comments; Claude reads comments and revises |
 | **App preview** | Auto-starts dev servers with an embedded browser for live verification |
-| **PR monitoring** | GitHub CLI integration with auto-fix CI failures and auto-merge when checks pass |
+| **PR monitoring** | **Auto-fix** has Claude fix failing CI checks and review comments; **Merge when ready** turns on GitHub auto-merge (squash in local sessions unless the base branch uses a merge queue). Both are in the **⋮** menu of the pull request in the session's **Changes** card |
 | **Parallel sessions** | Multiple sessions in the sidebar with automatic Git worktree isolation |
 | **Scheduled tasks** | Recurring tasks (hourly, daily, weekdays, weekly) that run while the app is open |
 | **Rich rendering** | Code, markdown, and diagram rendering with syntax highlighting |
@@ -1797,6 +1797,8 @@ Put the project's MCP servers in `.mcp.json` at the project root:
 }
 ```
 
+Use a read-only database user for `PROJECT_DB_URL`; see the read-only setup in [MCP → Database example](../05-mcp/README.md).
+
 ---
 
 ## Best Practices
@@ -1858,8 +1860,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 18 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.302
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.310
 **Nguồn**:
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
@@ -1883,4 +1885,8 @@ For more information about Claude Code and related features:
 - https://code.claude.com/docs/en/chrome
 - https://code.claude.com/docs/en/env-vars
 - https://code.claude.com/docs/en/changelog#2-1-302
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
+- https://code.claude.com/docs/en/desktop#monitor-pull-request-status
+- https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
+- https://code.claude.com/docs/en/cli-reference#cli-flags
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

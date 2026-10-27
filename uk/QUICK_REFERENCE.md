@@ -245,7 +245,9 @@ claude --enable-auto-mode -p "Refactor and test the auth module"
 ### Інтеграція з CI/CD
 
 ```bash
-# Запуск у headless-режимі (неінтерактивно)
+# Запуск у headless-режимі (неінтерактивно). Без режиму дозволів -p стартує в режимі Manual
+# (значення конфігурації "default", v2.1.302+): виклики інструментів, що потребують схвалення, відхиляються,
+# тож додайте --allowedTools "Bash(npm test *)" або --permission-mode auto
 claude -p "Run all tests and generate report"
 
 # З режимом дозволів для CI
@@ -544,8 +546,8 @@ echo $GITHUB_PERSONAL_ACCESS_TOKEN
 
 ---
 
-**Останнє оновлення**: 18 жовтня 2026
-**Версія Claude Code**: 2.1.302
+**Останнє оновлення**: 26 жовтня 2026
+**Версія Claude Code**: 2.1.310
 **Джерела**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands
@@ -557,3 +559,5 @@ echo $GITHUB_PERSONAL_ACCESS_TOKEN
 - https://code.claude.com/docs/en/managed-settings
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/headless
+- https://code.claude.com/docs/en/permission-modes#tool-calls-denied-in-claude-p-and-agent-sdk-runs

@@ -559,7 +559,7 @@ claude --plugin-dir ./07-plugins/documentation
 - **Extended Thinking**：用于复杂问题的深度推理（用 `Alt+T` / `Option+T` 切换）
 - **Background Tasks**：运行长时间操作且不阻塞当前会话
 - **Permission Modes**：`default`、`acceptEdits`、`plan`、`dontAsk`、`bypassPermissions`
-- **Headless Mode**：在 CI/CD 中运行 Claude Code：`claude -p "Run tests and generate report"`
+- **Headless Mode**：在 CI/CD 中运行 Claude Code：`claude -p "Run tests and generate report" --permission-mode auto`
 - **Session Management**：`/resume`、`/rename`、`/fork`、`claude -c`、`claude -r`
 - **Configuration**：在 `~/.claude/settings.json` 中自定义行为
 
@@ -879,8 +879,8 @@ MIT 许可证，详见 [LICENSE](LICENSE)。你可以自由使用、修改和分
 
 ---
 
-**最后更新**：2026 年 10 月 18 日
-**Claude Code 版本**：2.1.302
+**最后更新**：2026 年 10 月 26 日
+**Claude Code 版本**：2.1.310
 **来源**：
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/hooks
@@ -888,4 +888,6 @@ MIT 许可证，详见 [LICENSE](LICENSE)。你可以自由使用、修改和分
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/plugins/install
 - https://code.claude.com/docs/en/checkpointing
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 **兼容模型**：Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

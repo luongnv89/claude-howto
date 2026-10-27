@@ -749,7 +749,7 @@ claude --permission-mode acceptEdits   # Tự động chấp nhận edits
 claude --permission-mode auto          # Tự động phê duyệt hành động an toàn
 
 # Chạy trong mode headless cho CI/CD
-claude -p "Chạy test và báo cáo kết quả"
+claude -p "Chạy test và báo cáo kết quả" --permission-mode auto
 
 # Chạy background tasks
 Chạy test trong background
@@ -878,8 +878,8 @@ Muốn thêm ví dụ nữa? Theo cấu trúc:
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 18 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.302
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.310
 **Tổng Số Ví Dụ**: 100+ files
 **Danh Mục**: 10 tính năng
 **Hooks**: 8 scripts tự động hóa
@@ -894,3 +894,5 @@ Muốn thêm ví dụ nữa? Theo cấu trúc:
 - https://code.claude.com/docs/en/plugins/install
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/permission-modes
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in

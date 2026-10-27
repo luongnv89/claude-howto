@@ -227,7 +227,7 @@ Claude Code giữ snapshot cho **100 checkpoint gần nhất**; các checkpoint 
 
 Checkpoints có các hạn chế sau:
 
-- **Các thay đổi lệnh Bash KHÔNG được theo dõi** - Các thao tác như `rm`, `mv`, `cp` trên hệ thống file không được ghi lại trong checkpoints
+- **Các thay đổi file chỉ do lệnh Bash KHÔNG được theo dõi** - Một khi Claude đã chỉnh sửa một file bằng các công cụ chỉnh sửa file của nó, `/rewind` cũng hoàn tác các thay đổi mà lệnh Bash thực hiện sau đó trên file này; file chỉ bị thay đổi bởi lệnh Bash thì không được theo dõi. Từ v2.1.309, `sed -i` được xử lý như mọi chỉnh sửa bằng Bash khác
 - **Các thay đổi bên ngoài KHÔNG được theo dõi** - Các thay đổi được thực hiện bên ngoài Claude Code (trong editor của bạn, terminal, v.v.) không được ghi lại
 - **Không phải thay thế cho kiểm soát phiên bản** - Sử dụng git cho các thay đổi vĩnh viễn, có thể kiểm tra trong codebase của bạn
 
@@ -306,9 +306,11 @@ Checkpoints cho phép bạn quay lại — nhưng làm thế nào bạn biết *
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 15 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.300
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.310
 **Nguồn**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/changelog#2-1-309
+- https://code.claude.com/docs/en/checkpointing#bash-command-changes-not-tracked
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

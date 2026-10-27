@@ -61,7 +61,7 @@ Hooks are configured in settings files with a specific structure:
 | `once` | If `true`, the hook is removed after its first successful run (failed/blocked/timed-out runs keep it). Skill frontmatter only; ignored in settings and agent frontmatter | `true` |
 | `async` | If `true`, runs in the background without blocking | `true` |
 | `asyncRewake` | If `true`, runs in the background and wakes Claude on exit code 2. Implies `async`. | `true` |
-| `shell` | Accepts `"bash"` or `"powershell"`. Defaults to `"bash"`, or to `"powershell"` on Windows when Git Bash isn't installed. | `"bash"` |
+| `shell` | Accepts `"bash"` or `"powershell"`. Defaults to `"bash"`, or to `"powershell"` on Windows when Git Bash isn't installed. A PowerShell hook's exit code 2 blocks only from v2.1.309; upgrade before relying on a PowerShell guard hook. | `"bash"` |
 | `statusMessage` | Custom spinner message displayed while the hook runs | `"Formatting…"` |
 | `onFailure` | What happens to the action when a command or HTTP hook fails (can't start, times out, exits with an unexpected code): `"continue"` (default) or `"block"` (v2.1.295+) | `"block"` |
 
@@ -330,10 +330,10 @@ Runs after Claude creates tool parameters and before processing. Use this to val
   - `"allow"` skips the permission prompt (except for tools that require user interaction, and connector tools your organization set to `ask`)
   - `"deny"` prevents the tool call
   - `"ask"` prompts the user to confirm; the prompt names the plugin or skill the hook comes from (v2.1.301)
-  - `"defer"` exits gracefully so the tool can be resumed later; `permissionDecisionReason`, `updatedInput` and `additionalContext` are all ignored for this value
+  - `"defer"` ends the turn so the tool can be resumed later, and works only in non-interactive mode with `-p` (interactive sessions log a warning and ignore it); the result carries `stop_reason: "tool_deferred"`. `permissionDecisionReason`, `updatedInput` and `additionalContext` are all ignored for this value
   - Deny and ask rules are still evaluated regardless of what the hook returns. When multiple `PreToolUse` hooks disagree, precedence is `deny` > `defer` > `ask` > `allow`
 - `permissionDecisionReason`: Explanation for decision. Shown to the user (not Claude) for `"ask"`; shown to Claude for `"deny"`; for `"allow"` and `"defer"`, written to the debug log only
-- `updatedInput`: Replacement tool input (replaces the whole input object). Since v2.1.300 it is validated like Claude's own input — unknown keys are dropped, and input the tool rejects denies the call.
+- `updatedInput`: Replacement tool input (replaces the whole input object). Since v2.1.300 it is validated like Claude's own input — unknown keys are dropped, and input the tool rejects denies the call. When several `PreToolUse` hooks return `updatedInput` for the same call, Claude Code doesn't merge the rewrites or guarantee which one the tool runs with, so let only one hook rewrite a given tool's input.
 
 ### PostToolUse
 
@@ -554,6 +554,7 @@ Updated matchers for notification events:
 - `agent_needs_input` - Background agent needs input (v2.1.198)
 - `agent_completed` - Background agent finished (v2.1.198)
 - `quota_auto_resume_fired` / `quota_auto_resume_stale` / `quota_auto_resume_disabled` - Usage-limit auto-resume outcomes (v2.1.234)
+- `plugin_notification` - A mod raised a notification with `$.ui.notify`; the hook's `title` is the mod's name unless the mod set one
 
 ### PreModelSwitch
 
@@ -661,7 +662,7 @@ hooks:
 ---
 ```
 
-**Supported events:** all hook events. Subagent hooks run only while the subagent is active (`Stop` → `SubagentStop`); skill hooks register when the skill is invoked and stay active for the rest of the session.
+**Supported events:** all hook events. Subagent hooks run only while the subagent is active (`Stop` → `SubagentStop`); skill hooks register when the skill is invoked and stay active for the rest of the session. Since v2.1.304, the skills of one source (your project, your personal skills folder, or one plugin) can register at most 1,024 hooks and 16,384 matcher characters per session; a skill past the limit registers none of its hooks (search the `claude --debug` log for `registers none of its hooks`).
 
 This allows defining hooks directly in the component that uses them, keeping related code together.
 
@@ -1648,8 +1649,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1666,4 +1667,11 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 - https://code.claude.com/docs/en/changelog#2-1-300
 - https://code.claude.com/docs/en/changelog#2-1-301
 - https://code.claude.com/docs/en/changelog#2-1-302
+- https://code.claude.com/docs/en/hooks#defer-a-tool-call-for-later
+- https://code.claude.com/docs/en/hooks-guide#limitations
+- https://code.claude.com/docs/en/hooks#notification
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/hooks#limits-on-skill-hooks
+- https://code.claude.com/docs/en/changelog#2-1-309
+- https://code.claude.com/docs/en/hooks#failed-hooks-on-windows-without-git-bash
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -560,7 +560,7 @@ Claude Code includes bundled skills available out of the box, including:
 | Skill | Command | Purpose |
 |-------|---------|---------|
 | **Batch** | `/batch` | Run operations across multiple files or items |
-| **Claude API** | `/claude-api` | Load Claude API and Managed Agents reference material for your project's language; activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk` |
+| **Claude API** | `/claude-api` | Load Claude API and Managed Agents reference material for your project's language; activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`. Subcommands include `api-version` (v2.1.307) and `managed-agents-secure` (v2.1.304) |
 | **Code Review** | `/code-review` | Review the current diff for correctness bugs at a chosen effort level. A distinct skill from `/simplify` (quality/reuse cleanups), which was split back out in v2.1.154. Claude can also start it on its own, everywhere since v2.1.246 |
 | **Simplify** | `/simplify` | Quality, reuse, and cleanup review — distinct from `/code-review` again since v2.1.154 |
 | **Debug** | `/debug` | Turn on debug logging for the current session and troubleshoot by reading the session debug log |
@@ -1336,8 +1336,8 @@ Run Claude Code without interactive input for automation and CI/CD using the `-p
 
 **Usage:**
 ```bash
-# Run specific task
-claude -p "Run all tests"
+# Run specific task (-p starts in Manual mode since v2.1.302, so pass a permission mode or --allowedTools)
+claude -p "Run all tests" --permission-mode auto
 
 # Pipe input for analysis
 cat error.log | claude -p "explain this error"
@@ -1352,7 +1352,7 @@ claude -p --output-format json "list all functions in src/"
 
 ### Scheduled Tasks
 
-Run tasks on a repeating schedule using the `/loop` command.
+Run session-scoped tasks on a repeating schedule using the `/loop` command. For schedules that outlive the session, use cloud scheduled tasks (formerly routines) with `/schedule`, or Desktop scheduled tasks.
 
 **Usage:**
 ```bash
@@ -1440,8 +1440,8 @@ Claude Code supports the following models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/plugins/manifest-reference
 - https://code.claude.com/docs/en/plugins/create
@@ -1462,4 +1462,10 @@ Claude Code supports the following models with adaptive reasoning effort:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/remote-control
 - https://code.claude.com/docs/en/hooks#userpromptexpansion
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
+- https://code.claude.com/docs/en/routines
+- https://code.claude.com/docs/en/scheduled-tasks
+- https://code.claude.com/docs/en/changelog#2-1-307
+- https://code.claude.com/docs/en/skills#work-on-claude-api-projects
 **Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

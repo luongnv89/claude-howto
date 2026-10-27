@@ -755,7 +755,7 @@ claude --permission-mode acceptEdits   # 編集を自動承認
 claude --permission-mode auto          # 安全な操作を自動承認
 
 # CI/CD のためのヘッドレスモードで実行
-claude -p "Run tests and report results"
+claude -p "Run tests and report results" --permission-mode auto
 
 # バックグラウンドタスクを実行
 Run tests in background
@@ -884,8 +884,8 @@ Run tests in background
 
 ---
 
-**最終更新**：2026 年 10 月 18 日
-**Claude Code バージョン**：2.1.302
+**最終更新**：2026 年 10 月 26 日
+**Claude Code バージョン**：2.1.310
 **互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5
 **例題総数**：100 ファイル超
 **カテゴリ**：10 機能
@@ -904,3 +904,5 @@ Run tests in background
 - https://code.claude.com/docs/en/plugins/install
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/permission-modes
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in

@@ -33,12 +33,12 @@ graph TD
 
 ## Usage
 
-```
+```text
 /lesson-quiz [lesson-name-or-number]
 ```
 
 Examples:
-```
+```text
 /lesson-quiz hooks
 /lesson-quiz 03
 /lesson-quiz advanced-features
@@ -67,3 +67,12 @@ For each incorrect answer:
 | Path | Description |
 |---|---|
 | `references/question-bank.md` | 100 pre-written questions (10 per lesson) with answers, explanations, and review pointers |
+
+---
+
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
+**Sources**:
+- https://code.claude.com/docs/en/mcp#tool-search-through-an-llm-gateway
+- https://code.claude.com/docs/en/sub-agents#resume-subagents
+- https://code.claude.com/docs/en/permission-modes

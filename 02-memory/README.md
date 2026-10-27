@@ -217,16 +217,16 @@ Claude Code has two complementary memory systems, both loaded at the start of ev
 
 | Scope | Location | Purpose |
 |-------|----------|---------|
-| Managed policy | macOS: `/Library/Application Support/ClaudeCode/CLAUDE.md`<br>Linux/WSL: `/etc/claude-code/CLAUDE.md`<br>Windows: `C:\Program Files\ClaudeCode\CLAUDE.md` | Organization-wide instructions managed by IT/DevOps. Cannot be excluded by individual settings. |
+| Managed policy | macOS: `/Library/Application Support/ClaudeCode/CLAUDE.md`<br>Linux/WSL: `/etc/claude-code/CLAUDE.md`<br>Windows: `C:\Program Files\ClaudeCode\CLAUDE.md` | Organization-wide instructions managed by IT/DevOps. Managed CLAUDE.md loads first and can't be skipped with `claudeMdExcludes`, but a session started with CLAUDE.md loading turned off doesn't load it either — enforce hard rules with managed `permissions.deny`. |
 | User instructions | `~/.claude/CLAUDE.md` | Personal preferences for all projects |
 | Project instructions | `./CLAUDE.md` or `./.claude/CLAUDE.md` | Team-shared instructions, version controlled. Since v2.1.277, `./AGENTS.md` loads at this same tier instead, when no `CLAUDE.md` or `CLAUDE.local.md` exists at or above the working directory — controlled by **Project instructions** in `/config` |
 | Local instructions | `./CLAUDE.local.md` | Personal project-specific preferences; add to `.gitignore` |
 
-Within the directory tree, Claude Code walks up from your working directory: `foo/CLAUDE.md` loads before `foo/bar/CLAUDE.md` if you launch from `foo/bar/`, so instructions closer to where you launched are read *last* — not "highest priority" in an override sense, just most recent in context. Within each directory, `CLAUDE.local.md` is appended after `CLAUDE.md`. CLAUDE.md and CLAUDE.local.md files in subdirectories *under* your working directory load on demand, when Claude reads files in those subdirectories, rather than at launch.
+Within the directory tree, Claude Code walks up from your working directory: `foo/CLAUDE.md` loads before `foo/bar/CLAUDE.md` if you launch from `foo/bar/`, so instructions closer to where you launched are read *last* — not "highest priority" in an override sense, just most recent in context. Within each directory, `CLAUDE.local.md` is appended after `CLAUDE.md`. CLAUDE.md and CLAUDE.local.md files in subdirectories *under* your working directory load on demand, when Claude reads files in those subdirectories, rather than at launch. Since v2.1.309, an on-demand file over a per-file size limit loads only its start, ending with a note telling Claude to Read the rest. This covers subdirectory `CLAUDE.md`/`CLAUDE.local.md` and their `@` imports, rules in a subdirectory's `.claude/rules/`, and path-scoped rules in `.claude/rules/` or `~/.claude/rules/`. The limit is 40,000 characters with a 200K context window. With a 1M window it is 200,000 characters on Opus 4.6 and Sonnet 4.6, and 150,000 on later models. Check a file with `wc -m path/to/CLAUDE.md`.
 
 Organizations can also put managed CLAUDE.md content directly inside `managed-settings.json` via the `claudeMd` key, instead of deploying a separate file. This is honored only in managed/policy settings — setting `claudeMd` in user or project settings has no effect.
 
-**`.claude/rules/*.md`** — modular, topic-specific instructions, optionally scoped to file paths via `paths` frontmatter. Rules without a `paths` field load unconditionally with the same priority as `.claude/CLAUDE.md`; path-scoped rules load on demand when Claude reads, writes, or edits a matching file — including viewing it with a single-file Bash read such as `cat`, `head`, `tail`, `sed -n`, or `grep` (Write/Edit since v2.1.288, Bash reads since v2.1.293). User-level rules (`~/.claude/rules/`) load before project rules.
+**`.claude/rules/*.md`** — modular, topic-specific instructions, optionally scoped to file paths via `paths` frontmatter. Rules without a `paths` field load unconditionally with the same priority as `.claude/CLAUDE.md`; path-scoped rules load on demand when Claude reads, writes, or edits a matching file — including viewing it with a single-file Bash read such as `cat`, `head`, `tail`, `sed -n`, or `grep` (Write/Edit since v2.1.288, Bash reads since v2.1.293). User-level rules (`~/.claude/rules/`) load before project rules. Each `paths` pattern is relative to the rule's base directory: for project rules, the directory that contains the rule's `.claude` folder; for user-level rules, the session's primary working directory. To have path-scoped rules load for files in a sibling git worktree, start Claude Code in that worktree or move the session there with `/cd`.
 
 **Auto memory** (`~/.claude/projects/<project>/memory/`) is a separate system: Claude's own notes, not CLAUDE.md content, and not part of the concatenation order above. See [Auto Memory](#auto-memory) below.
 
@@ -1003,7 +1003,7 @@ graph LR
 
 - **Don't be vague**: Avoid generic statements like "follow best practices" or "write good code"
 
-- **Don't make it too long**: Target **under 200 lines** per CLAUDE.md. Longer files still load in full, but adherence drops — see [Keeping CLAUDE.md small](#keeping-claudemd-small) below
+- **Don't make it too long**: Target **under 200 lines** per CLAUDE.md. Longer files at launch still load in full, but adherence drops — see [Keeping CLAUDE.md small](#keeping-claudemd-small) below
 
 - **Don't over-organize**: Use hierarchy strategically; don't create excessive subdirectory overrides
 
@@ -1015,7 +1015,7 @@ graph LR
 
 Anthropic's current guidance is the opposite of "put everything in CLAUDE.md". The file loads into **every** session, so every line you add is a line that competes for attention on tasks it has nothing to do with.
 
-**Rule of thumb: keep CLAUDE.md under 200 lines.** Longer files still load in full, but instruction adherence degrades as the file grows.
+**Rule of thumb: keep CLAUDE.md under 200 lines.** A CLAUDE.md that loads at launch still loads in full (up to 4 MiB; Claude Code skips a larger file), but instruction adherence degrades as the file grows. Subdirectory CLAUDE.md files and path-scoped rules, which load on demand, are cut at a per-file limit (v2.1.309): see [Memory Hierarchy in Claude Code](#memory-hierarchy-in-claude-code).
 
 When it starts growing, move content out rather than trimming prose:
 
@@ -1209,7 +1209,7 @@ For the most up-to-date information, refer to the official Claude Code documenta
 
 **Memory Loading:**
 
-- All memory files are automatically loaded when Claude Code launches
+- CLAUDE.md files at and above the working directory, unscoped rules, and the start of `MEMORY.md` load automatically when Claude Code launches
 - Claude traverses upward from the current working directory to discover CLAUDE.md files
 - Subtree files are discovered and loaded contextually when accessing those directories
 
@@ -1246,8 +1246,8 @@ Auto Memory is a separate mechanism (`~/.claude/projects/<project>/memory/`), no
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
@@ -1258,4 +1258,11 @@ Auto Memory is a separate mechanism (`~/.claude/projects/<project>/memory/`), no
 - https://code.claude.com/docs/en/sub-agents#enable-persistent-memory
 - https://code.claude.com/docs/en/settings-reference
 - https://code.claude.com/docs/en/claude-directory
+- https://code.claude.com/docs/en/memory#deploy-organization-wide-claude-md
+- https://code.claude.com/docs/en/memory#exclude-specific-claude-md-files
+- https://code.claude.com/docs/en/changelog#2-1-309
+- https://code.claude.com/docs/en/memory#claude-ignores-the-end-of-my-subdirectory-claude-md
+- https://code.claude.com/docs/en/memory#how-it-works
+- https://code.claude.com/docs/en/memory#path-specific-rules
+- https://code.claude.com/docs/en/memory#how-claude-md-files-load
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

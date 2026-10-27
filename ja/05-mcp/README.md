@@ -222,7 +222,7 @@ sequenceDiagram
 
 ## MCP ツール検索
 
-ツール検索はデフォルトで有効。MCP ツールは遅延され、必要に応じて検出されるため、その定義がモデルコンテキストを埋めることはない。`ANTHROPIC_BASE_URL` がファーストパーティ以外のホストを指している場合、ほとんどのプロキシは必要なブロックを転送しないため、Claude Code はツール検索を無効にする。
+ツール検索はデフォルトで有効。MCP ツールは遅延され、必要に応じて検出されるため、その定義がモデルコンテキストを埋めることはない。v2.1.304 以降は、カスタムの `ANTHROPIC_BASE_URL` ゲートウェイ経由でも有効のままである。ゲートウェイは `defer_loading` ツールフィールドと `tool_reference` ブロックを転送する必要がある。v2.1.305 以降、ゲートウェイが 400 または 422 で拒否したリクエストを、Claude Code はツール検索なしで再試行する。`ENABLE_TOOL_SEARCH=false` を設定すると、すべてのツールを最初から読み込み、こうした拒否されるリクエストを回避できる。v2.1.304 より前は、`ENABLE_TOOL_SEARCH` が `true`、`auto`、`auto:N` のいずれかでない限り、ゲートウェイ経由ではツール検索が無効だった。
 
 | 設定 | 値 | 説明 |
 |------|-----|------|
@@ -1210,8 +1210,8 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 
 ---
 
-**最終更新：** 2026 年 10 月 18 日
-**Claude Code バージョン：** 2.1.302
+**最終更新：** 2026 年 10 月 26 日
+**Claude Code バージョン：** 2.1.310
 **情報源：**
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/mcp#configure-tool-search
@@ -1223,4 +1223,7 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 - https://code.claude.com/docs/en/mcp#tool-search-for-mcp-server-authors
 - https://code.claude.com/docs/en/mcp#environment-variable-expansion-in-mcp-json
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/changelog#2-1-305
+- https://code.claude.com/docs/en/mcp#tool-search-through-an-llm-gateway
 **対応モデル：** Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

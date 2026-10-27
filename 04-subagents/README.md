@@ -131,15 +131,15 @@ to solving problems.
 | `name` | Yes | Unique identifier (lowercase letters and hyphens). Lookup is normalized (case- and separator-insensitive — see below), but a name containing `:` is **rejected** as of v2.1.218: `:` is reserved for plugin namespacing |
 | `description` | Yes | Natural language description of purpose. Include "use PROACTIVELY" to encourage automatic invocation |
 | `tools` | No | Comma-separated list of specific tools. Omit to inherit all tools. Supports `Agent(agent_name)` syntax to restrict spawnable subagents when the agent runs as the main thread with `claude --agent`; inside a subagent the type list is ignored. MCP: `mcp__<server>__*` grants a whole server (v2.1.299+: matches only that exact server name). |
-| `disallowedTools` | No | Comma-separated list of tools the subagent must not use |
+| `disallowedTools` | No | Comma-separated list of tools the subagent must not use. For MCP servers whose names contain `__`: `mcp__reports__*` here also withholds every `reports__v2` tool, so list `reports` tools one by one instead; in `tools`, grant such a server as `mcp__reports__v2__*` |
 | `model` | No | Model to use: `sonnet`, `opus`, `haiku`, full model ID, or `inherit`. Defaults to configured subagent model |
-| `permissionMode` | No | `default` (Manual mode; `manual` accepted as an alias since v2.1.200), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. As of v2.1.212, the Task tool's `mode` invocation parameter is deprecated and ignored — subagents inherit the parent session's permission mode by default unless overridden here. When the parent runs in `bypassPermissions`, `acceptEdits` or `auto`, the subagent's `permissionMode` is ignored |
+| `permissionMode` | No | `default` (Manual mode; `manual` accepted as an alias since v2.1.200), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. As of v2.1.212, the Task tool's `mode` invocation parameter is deprecated and ignored — subagents inherit the parent session's permission mode by default unless overridden here. When the parent runs in `bypassPermissions`, `acceptEdits` or `auto`, the subagent's `permissionMode` is ignored. When the parent is in `plan` mode, the subagent stays in plan mode whatever `permissionMode` says (unless it runs as an agent-team teammate); if you set `dontAsk`, actions plan mode would ask about are denied instead |
 | `maxTurns` | No | Maximum number of agentic turns the subagent can take |
 | `skills` | No | Comma-separated list of skills to preload. Injects full skill content into the subagent's context at startup. **v2.1.133+:** subagents also discover project, user, and plugin skills via the Skill tool — same catalog as the main session, no longer limited to their own embedded set. At most 32 skills are preloaded, each once; a subagent with the Skill tool can still invoke the rest (v2.1.295). |
 | `mcpServers` | No | MCP servers to make available to the subagent |
 | `hooks` | No | Hooks that run only while this subagent is active. All hook events are supported; most common are `PreToolUse`, `PostToolUse`, `Stop` (runs as `SubagentStop`) |
 | `memory` | No | Persistent memory directory scope: `user`, `project`, or `local` |
-| `background` | No | Subagents already run in the background by default (v2.1.198). Since v2.1.302 the desktop app and VS Code also always run the main conversation's subagents in the background; a subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Set to `true` to *force* background always and prevent inline execution |
+| `background` | No | Subagents already run in the background by default (v2.1.198). Since v2.1.302 the main conversation's subagents in the desktop app and VS Code also start in the background. While fork mode is on (the default), Claude can't wait for them. A subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Set to `true` to *force* background always and prevent inline execution |
 | `effort` | No | Reasoning effort level: `low`, `medium`, `high`, `xhigh`, or `max`. Overrides the session effort level; available levels depend on the model. Claude can also pass an `effort` value when it calls the Agent tool (v2.1.292). |
 | `isolation` | No | Set to `worktree` to give the subagent its own git worktree |
 | `initialPrompt` | No | Auto-submitted first turn when the subagent runs as the main agent |
@@ -530,7 +530,7 @@ graph LR
 
 ## Background Subagents
 
-Subagents run in the background by default (v2.1.198). Since v2.1.302 the desktop app and VS Code also always run the main conversation's subagents in the background; a subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Claude keeps working on the main conversation while a subagent runs and is notified when it finishes, so you no longer wait on a subagent to return before continuing.
+Subagents run in the background by default (v2.1.198). Since v2.1.302 the main conversation's subagents in the desktop app and VS Code also start in the background. While fork mode is on (the default), Claude can't wait for them. A subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Claude keeps working on the main conversation while a subagent runs and is notified when it finishes, so you no longer wait on a subagent to return before continuing. In VS Code (v2.1.304+), a background subagent shows as one status line under its Agent card instead of streaming every step into the chat; open `/tasks` and click it to see its tool calls and transcript.
 
 ### Configuration
 
@@ -558,6 +558,20 @@ Set the environment variable to disable background task support entirely:
 ```bash
 export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1
 ```
+
+### Let Claude Wait for a Subagent
+
+With nothing configured, a subagent Claude spawns from the main conversation starts in the background. In `claude -p` and the Agent SDK, Claude can still wait for one on its own judgment or when you ask. In an interactive terminal, VS Code or desktop session, Claude can wait only after you turn fork mode off (v2.1.302+):
+
+```json
+{
+  "env": {
+    "CLAUDE_CODE_FORK_SUBAGENT": "0"
+  }
+}
+```
+
+Start `claude` again (or open a new VS Code conversation), then ask, for example "run the reviewer subagent and wait for its report". `Ctrl+B` still moves a wait to the background. Setting `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1` instead makes Claude wait for every subagent, and also turns off background commands.
 
 ---
 
@@ -602,9 +616,9 @@ graph TB
 
 A forked subagent inherits the parent's whole conversation at the moment of forking — system prompt, tools, model, message history and prompt cache — rather than starting with a clean slate. This is useful for exploring alternative paths without losing the work done so far.
 
-> **Availability**: GA in v2.1.117. **Since v2.1.232, fork mode is on by default in interactive sessions** — on every build, first-party or not. Since v2.1.302 it is also on by default in non-interactive mode (`claude -p`), the Agent SDK, the desktop app and VS Code; `claude mcp serve` never offers fork subagents. On Claude Code older than v2.1.232, or to turn it on where it is off by default, set `CLAUDE_CODE_FORK_SUBAGENT=1`.
+> **Availability**: GA in v2.1.117. **Since v2.1.232, fork mode is on by default in interactive sessions** — on every build, first-party or not. Since v2.1.302 it is also on by default in non-interactive mode (`claude -p`), the Agent SDK, the desktop app and VS Code; `claude mcp serve` never offers fork subagents. On Claude Code older than v2.1.232, set `CLAUDE_CODE_FORK_SUBAGENT=1` to turn it on.
 
-> **Fork-mode subagents run in the background.** Where fork mode is on — as it is by default in an interactive session — Claude Code runs the subagent in the background, forked and non-forked subagents alike.
+> **Fork-mode subagents run in the background.** Where fork mode is on — as it is by default everywhere since v2.1.302 — Claude Code runs the subagent in the background, forked and non-forked subagents alike. In an interactive terminal, VS Code or desktop session Claude then can't wait for a subagent; to let it wait, turn fork mode off (see [Let Claude Wait for a Subagent](#let-claude-wait-for-a-subagent)).
 
 ### Configuration
 
@@ -815,7 +829,7 @@ The team lead breaks work into tasks and assigns them to teammates. The shared t
 
 ### Plan approval workflow
 
-For complex tasks, the team lead creates an execution plan before teammates begin work. The user reviews and approves the plan, ensuring the team's approach aligns with expectations before any code changes are made.
+For complex or risky tasks, switch the lead into plan mode before asking for a teammate: a teammate spawned while the lead is in plan mode works read-only until its plan is ready, then sends a plan approval request to the lead. If you haven't changed that teammate's permission mode since it was spawned, Claude Code approves the plan as soon as the request arrives (you aren't asked), and the teammate's edits and commands still go through the normal permission prompts. If you put a running in-process teammate in plan mode with `Shift+Tab`, the lead reviews that plan instead.
 
 ### Hook events for teams
 
@@ -841,6 +855,7 @@ Agent Teams introduce two additional [hook events](../06-hooks/):
 - **One team per session**: Cannot create nested teams or multiple teams in a single session
 - **Fixed leadership**: The team lead role cannot be transferred to a teammate
 - **Split-pane restrictions**: tmux/iTerm2 required; not available in VS Code terminal, Windows Terminal, or Ghostty
+- **Split-pane permissions**: a split-pane teammate starts with the lead's `--disallowedTools` and `--tools` (v2.1.309+) but not `--allowedTools`; to pre-approve actions there, start the lead with `claude --settings '{"permissions":{"allow":["Bash(npm *)"]}}'`. In-process teammates use the lead's live rules
 - **No cross-session teams**: Teammates exist only within the current session
 
 > **Warning**: Agent Teams is experimental. Test with non-critical work first and monitor teammate coordination for unexpected behavior.
@@ -1336,8 +1351,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1359,4 +1374,13 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 - https://code.claude.com/docs/en/sub-agents#available-tools
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog#2-1-302
+- https://code.claude.com/docs/en/sub-agents#turn-fork-mode-on-or-off
+- https://code.claude.com/docs/en/sub-agents#which-subagents-run-in-the-background
+- https://code.claude.com/docs/en/agent-teams#have-teammates-plan-before-implementing
+- https://code.claude.com/docs/en/sub-agents#let-claude-wait-for-a-subagent
+- https://code.claude.com/docs/en/sub-agents#mcp-server-names-that-contain-a-double-underscore
+- https://code.claude.com/docs/en/agent-teams#permissions
+- https://code.claude.com/docs/en/changelog#2-1-309
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/vs-code#see-a-background-subagents-tool-calls
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

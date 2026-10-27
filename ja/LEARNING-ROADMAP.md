@@ -409,7 +409,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
 # 演習 7: スケジュールタスク
 /loop 5m /check-status
-# タスクはセッション単位。永続的なスケジュールには Routines または Desktop のスケジュールタスクを使う
+# タスクはセッション単位。永続的なスケジュールにはクラウドのスケジュールタスク（旧称 routines、/schedule で作成）または Desktop のスケジュールタスクを使う
 
 # 演習 8: チャンネル（リサーチプレビュー）
 # チャンネルは実行中のセッションにイベントをプッシュする MCP サーバである
@@ -458,7 +458,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 claude --plugin-dir ./07-plugins/pr-review  # リポジトリのルートから
 
 # 演習 2: CI/CD のための印字モード
-claude -p "Run all tests and generate report"
+claude -p "Run all tests and generate report" --permission-mode auto
 
 # 演習 3: スクリプト用 JSON 出力
 claude -p --output-format json "list all functions"
@@ -741,8 +741,8 @@ done
 
 ---
 
-**最終更新**：2026 年 10 月 18 日
-**Claude Code バージョン**：2.1.302
+**最終更新**：2026 年 10 月 26 日
+**Claude Code バージョン**：2.1.310
 **情報源**：
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
@@ -755,6 +755,9 @@ done
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 **互換モデル**：Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5
 **メンテナンス**：Claude How-To Contributors
 **ライセンス**：教育目的、自由に使用・改変可能

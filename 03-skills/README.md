@@ -101,7 +101,7 @@ When skills share the same name across levels, higher-priority locations win: **
 
 **Nested directories**: When you work with files in subdirectories, Claude Code automatically discovers skills from nested `.claude/skills/` directories. For example, if you're editing a file in `packages/frontend/`, Claude Code also looks for skills in `packages/frontend/.claude/skills/`. This supports monorepo setups where packages have their own skills. When a nested skill has the same name as a repo-root skill, **both load**: for a `deploy` skill at the root and in `apps/web/.claude/skills/`, `/deploy` runs the root one and `/apps/web:deploy` runs the nested one.
 
-**`--add-dir` directories**: Skills from directories added via `--add-dir` are loaded automatically with live change detection. Any edits to skill files in those directories take effect immediately without restarting Claude Code.
+**`--add-dir` directories**: Skills from directories added via `--add-dir` are loaded automatically with live change detection. Any edits to skill files in those directories take effect immediately without restarting Claude Code. If an added directory's skill has the same name as an enterprise, personal, or project skill, or one from a directory added earlier, it runs under a prefixed name instead. For example, with `--add-dir ../cli` and a `verify` skill in both places, `/verify` runs your project's skill and `/cli:verify` runs the one from `../cli` (v2.1.309+).
 
 **Reloading skills**: The `/reload-skills` command (added v2.1.152) re-scans all skill directories without restarting the session — useful after adding or editing a skill that isn't picked up by live detection. A `SessionStart` hook can trigger the same re-scan by returning `reloadSkills: true` (see [Hooks](../06-hooks/README.md)).
 
@@ -180,7 +180,7 @@ paths: "src/api/**/*.ts"               # Glob patterns limiting when skill activ
 | `argument-hint` | Hint shown in the `/` autocomplete menu (e.g., `"[filename] [format]"`). |
 | `disable-model-invocation` | `true` = only the user can invoke via `/name`. Claude will never auto-invoke. |
 | `user-invocable` | `false` = hidden from the `/` menu. Only Claude can invoke it automatically. |
-| `allowed-tools` | Comma-separated list of tools the skill may use without permission prompts. |
+| `allowed-tools` | Comma-separated list of tools the skill may use without permission prompts. When managed settings list `hooks` in `strictPluginOnlyCustomization`, a personal or project skill whose frontmatter declares `hooks` loses this pre-approval (v2.1.304); remove its `hooks` or move it into a plugin. |
 | `disallowed-tools` | Comma-separated list of tools to remove while the skill is active (complements `allowed-tools`). Added v2.1.152. |
 | `model` | Model override while the skill is active (e.g., `opus`, `sonnet`). |
 | `effort` | Effort level override while the skill is active: `low`, `medium`, `high`, `xhigh`, or `max` — all five are supported on Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `high` on every model that supports effort, except Opus 5.5, Sonnet 5.5, and Haiku 5.5, which default to `medium`, and Opus 4.7, which defaults to `xhigh`. |
@@ -188,8 +188,8 @@ paths: "src/api/**/*.ts"               # Glob patterns limiting when skill activ
 | `agent` | Subagent type when `context: fork` (e.g., `Explore`, `Plan`, `general-purpose`). |
 | `background` | Only meaningful with `context: fork`. Defaults to `true` for `context: fork` skills, so they run in the background; set `false` to run them in the foreground. Added v2.1.218. |
 | `shell` | Shell used for `` !`command` `` substitutions and scripts: `bash` (default) or `powershell`. |
-| `hooks` | Hooks registered when the skill is invoked (same format as settings hooks; any event). They stay active for the rest of the session. |
-| `paths` | Glob patterns that limit when the skill is auto-activated. Comma-separated string or YAML list. Same format as path-specific rules. |
+| `hooks` | Hooks registered when the skill is invoked (same format as settings hooks; any event). They stay active for the rest of the session. Since v2.1.304 the skills of one source (your project, your personal skills folder, or a plugin) can register at most 1,024 hooks and 16,384 matcher characters per session; past that, a skill runs without its frontmatter hooks (check with `/hooks`). |
+| `paths` | Glob patterns that limit when the skill is auto-activated. Comma-separated string or YAML list. Patterns are relative to Claude's current working directory, and files outside it, such as a sibling worktree added with `/add-dir`, don't match (start Claude Code there or use `/cd`). Same format as path-specific rules. |
 | `arguments` | Declares the arguments the skill accepts, for autocomplete and argument substitution. Only the first 64 names, each up to 64 characters, are filled in (v2.1.301). |
 | `metadata` | Free-form key/value map for your own bookkeeping (e.g. `version`, `author`). Claude Code passes it through. |
 | `license` | License identifier for the skill (e.g. `MIT`). |
@@ -845,7 +845,7 @@ Claude Code ships with a set of built-in skills that are always available withou
 | Skill | Description |
 |-------|-------------|
 | `/batch <instruction>` | Orchestrate large-scale parallel changes across codebase using git worktrees |
-| `/claude-api` | Load Claude API/SDK reference; auto-activates on `anthropic`/`@anthropic-ai/sdk` imports |
+| `/claude-api` | Load Claude API/SDK reference; auto-activates on `anthropic`/`@anthropic-ai/sdk` imports. `/claude-api api-version` updates your code to a newer API version such as `2026-10-21` (v2.1.307+); `/claude-api managed-agents-secure [<agent-id>]` checks a Managed Agent's settings against Anthropic's security guide, without changing anything (needs the `ant` CLI, v2.1.304+) |
 | `/dataviz` | Chart and dashboard design guidance with a runnable color-palette validator (v2.1.198) |
 | `/debug [description]` | Troubleshoot current session by reading debug log |
 | `/deep-research <question>` | A bundled **workflow**, not a skill: fans out web searches and synthesizes a cited report (explicit invocation only since v2.1.218 — Claude won't trigger this on its own) |
@@ -906,8 +906,8 @@ Once you start building skills seriously, two things become essential: a library
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/slash-commands
@@ -926,4 +926,15 @@ Once you start building skills seriously, two things become essential: a library
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/changelog#2-1-301
 - https://code.claude.com/docs/en/code-review
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/changelog#2-1-307
+- https://code.claude.com/docs/en/changelog#2-1-309
+- https://code.claude.com/docs/en/commands#all-commands
+- https://code.claude.com/docs/en/hooks#limits-on-skill-hooks
+- https://code.claude.com/docs/en/skills#how-a-skill-gets-its-command-name
+- https://code.claude.com/docs/en/skills#run-a-same-named-skill-from-an-added-directory
+- https://code.claude.com/docs/en/skills#when-managed-settings-lock-hooks-to-plugins
+- https://code.claude.com/docs/en/skills#frontmatter-reference
+- https://code.claude.com/docs/en/skills#skill-not-triggering
+- https://code.claude.com/docs/en/skills#work-on-claude-api-projects
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

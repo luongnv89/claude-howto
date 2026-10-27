@@ -261,7 +261,7 @@ Type `/mcp` inside a session to list connected servers, trigger OAuth flows, and
 
 ## MCP Tool Search
 
-Tool search is on by default: MCP tools are deferred and discovered on demand, so their definitions don't fill the model context. Claude Code turns it off when `ANTHROPIC_BASE_URL` points to a non-first-party host, since most proxies don't forward the blocks it needs.
+Tool search is on by default: MCP tools are deferred and discovered on demand, so their definitions don't fill the model context. Since v2.1.304 it also stays on behind a custom `ANTHROPIC_BASE_URL` gateway, which must forward `defer_loading` tool fields and `tool_reference` blocks; from v2.1.305 Claude Code retries a request the gateway rejects with a 400 or 422 without tool search. Set `ENABLE_TOOL_SEARCH=false` to load every tool upfront and skip those rejected requests. Before v2.1.304, tool search was off behind a gateway unless `ENABLE_TOOL_SEARCH` was `true`, `auto`, or `auto:N`.
 
 | Setting | Value | Description |
 |---------|-------|-------------|
@@ -301,6 +301,8 @@ tools the server's author has marked to load up front; if you leave
 an individual tool by setting `"anthropic/alwaysLoad"` in that tool's
 `_meta` object, and the server-level `alwaysLoad` setting in your
 configuration can override it.
+
+Server authors: mark tools that are safe to call twice with the `idempotentHint` or `readOnlyHint` annotation in their `tools/list` entry. Since v2.1.307, Claude Code repeats a call that was pending when an HTTP or claude.ai connector connection closed only for those tools; other calls fail with `connection closed before the tool call was answered`.
 
 ## Dynamic Tool Updates
 
@@ -824,6 +826,8 @@ For enterprise deployments, IT administrators enforce MCP server policy through 
 
 Any user on the machine can read this file, so never put credentials in an `env` block. Use `${VAR}` expansion, OAuth, or `headersHelper` instead.
 
+> **Note (v2.1.305):** Servers in `managed-mcp.json` need no `allowedMcpServers` entry. The allowlist checks a managed server only when it uses `${VAR}` expansion outside `env`; before v2.1.305 it also checked servers that used `${VAR}` only in `env`. If you relied on `allowedMcpServers` to keep such a server off, it now loads on upgrade with no prompt; add a `deniedMcpServers` entry for it instead.
+
 **Filtering: allowlists and denylists**
 
 `allowedMcpServers`, `deniedMcpServers`, and `allowAllClaudeAiMcps` are **settings keys, not fields of `managed-mcp.json`**. Put them in a managed settings source — server-managed settings, `managed-settings.json`, an MDM profile, or the registry — for them to be enforceable:
@@ -927,6 +931,12 @@ MCP tool calls that run longer than 2 minutes now move to the background automat
 # Change the auto-background threshold to 5 minutes (300,000ms)
 export CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS=300000
 ```
+
+Set it to `0` to turn automatic backgrounding off; `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1` turns it off together with background commands and background subagents. To cap how long a call may run, add a per-server `timeout` in milliseconds (a hard wall-clock limit) or set `MCP_TOOL_TIMEOUT` across servers (default about 28 hours).
+
+### MCP Tasks (public beta, v2.1.304+)
+
+A server that supports the MCP tasks extension can run a long job itself: Claude's tool call returns as soon as the server accepts the job, the footer shows a count such as `1 MCP task`, and Claude gets the result when the job ends. Stop one in `/tasks` with `x`. A task on a remote server keeps running after you exit; resume the same session to follow it again. Tasks need protocol revision 2026-07-28, feature-flag fetching (so not Bedrock, Vertex, Foundry or telemetry off) and a terminal CLI, Agent SDK or GitHub Actions session. A non-interactive run gets them only from the Agent SDK or `claude -p --input-format stream-json`, and either needs `CLAUDE_AUTO_BACKGROUND_TASKS=1` (a plain `claude -p "<prompt>"` doesn't get them). VS Code and the desktop app don't get them, and calls from subagents never become tasks. To make Claude wait for a task's result, set `CLAUDE_CODE_DISABLE_MCP_TASK_BACKGROUND=1` (or `CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS=0` to wait for every MCP call).
 
 ## Solving Context Bloat with Code Execution
 
@@ -1314,7 +1324,7 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 - Check network connectivity: `ping api.github.com`
 - Verify API endpoint is accessible
 - Check rate limits on API
-- Try increasing timeout in config
+- Raise the server's `timeout` (milliseconds) in its config entry, or `MCP_TOOL_TIMEOUT` for all servers
 - Check for firewall or proxy issues
 
 ### MCP Server Crashes
@@ -1352,8 +1362,8 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
@@ -1369,4 +1379,15 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 - https://code.claude.com/docs/en/mcp#tool-search-for-mcp-server-authors
 - https://code.claude.com/docs/en/mcp#environment-variable-expansion-in-mcp-json
 - https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/changelog#2-1-305
+- https://code.claude.com/docs/en/mcp#tool-search-through-an-llm-gateway
+- https://code.claude.com/docs/en/managed-mcp#how-allowlists-and-denylists-apply-to-the-managed-set
+- https://code.claude.com/docs/en/mcp#mcp-tasks-that-run-on-the-server
+- https://code.claude.com/docs/en/mcp#what-a-call-needs-to-become-an-mcp-task
+- https://code.claude.com/docs/en/mcp#make-claude-wait-for-the-result-of-an-mcp-task
+- https://code.claude.com/docs/en/mcp#automatic-backgrounding-of-long-tool-calls
+- https://code.claude.com/docs/en/mcp#time-limits-on-mcp-tool-calls
+- https://code.claude.com/docs/en/changelog#2-1-307
+- https://code.claude.com/docs/en/mcp#mark-tools-that-are-safe-to-call-twice
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -56,6 +56,8 @@ When you rewind, you are presented with a menu of six options:
 
 > **Note**: After restoring the conversation or choosing **Summarize from here**, the original prompt from the selected message is restored into the input field so you can re-send or edit it. Choosing **Summarize up to here** leaves you at the end of the conversation with the input empty.
 
+> **Tip**: Send Claude a prompt before you exit after a rewind. Claude Code saves the rewound conversation together with that prompt, so if you exit first, the rewound messages can come back. To remove them again, run `/rewind`, select the same prompt, and choose **Restore conversation**. Restored files stay as the rewind left them.
+
 > **`/clear` is no longer a hard boundary (v2.1.191+)**: `/rewind` can resume from a checkpoint taken *before* you ran `/clear`. Clearing the conversation no longer permanently discards the state that preceded it — you can rewind back across the clear if you need that earlier code or context again.
 
 ## Automatic Checkpoints
@@ -243,10 +245,10 @@ Claude Code keeps snapshots for the **100 most recent checkpoints**; older ones 
 
 Checkpoints have the following limitations:
 
-- **Bash command changes NOT tracked** - Operations like `rm`, `mv`, `cp` on the filesystem are not captured in checkpoints
+- **Bash-only file changes NOT tracked** - Once Claude has edited a file with its file editing tools, `/rewind` also undoes changes that Bash commands make to that file afterward; a file that only Bash commands changed isn't tracked. Since v2.1.309, `sed -i` is treated like any other Bash edit
 - **External changes NOT tracked** - Changes made outside Claude Code (in your editor, terminal, etc.) are not captured
 - **Not a replacement for version control** - Use git for permanent, auditable changes to your codebase
-- **Subagent edits NOT restored** - Files edited by a subagent are untracked, so `/rewind` leaves them as they are; the exception is a foreground `context: fork` skill, whose edits are restored like the main session's
+- **Subagent edits NOT restored** - A subagent's edits to files Claude hadn't already edited in your conversation are untracked, so `/rewind` leaves them as they are (revert them with git); the exception is a foreground `context: fork` skill, whose edits are restored like the main session's
 
 > **v2.1.216 update**: `/rewind` no longer restores or deletes files through symlinks or hard links at tracked paths. If a tracked path resolves through a symlink or hard link, rewind skips it rather than following the link, and it reports how many paths it skipped for this reason.
 
@@ -337,8 +339,8 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 
 ---
 
-**Last Updated**: October 18, 2026
-**Claude Code Version**: 2.1.302
+**Last Updated**: October 26, 2026
+**Claude Code Version**: 2.1.310
 **Sources**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/settings
@@ -346,4 +348,8 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/claude-directory
+- https://code.claude.com/docs/en/changelog#2-1-309
+- https://code.claude.com/docs/en/checkpointing#bash-command-changes-not-tracked
+- https://code.claude.com/docs/en/checkpointing#subagent-edits-not-restored
+- https://code.claude.com/docs/en/checkpointing#rewound-messages-can-return-if-you-exit-before-your-next-prompt
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

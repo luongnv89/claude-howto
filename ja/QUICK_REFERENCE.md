@@ -228,7 +228,9 @@ claude --enable-auto-mode -p "Refactor and test the auth module"
 
 ### CI/CD 統合
 ```bash
-# ヘッドレスモードで実行 (非対話)
+# ヘッドレスモードで実行 (非対話)。権限モードを指定しないと -p は Manual モード
+# (設定値 "default"、v2.1.302+) で開始し、承認が必要なツール呼び出しは拒否されるため、
+# --allowedTools "Bash(npm test *)" または --permission-mode auto を追加する
 claude -p "Run all tests and generate report"
 
 # CI 用権限モードつき
@@ -512,8 +514,8 @@ A：もちろん。カスタマイズ用のテンプレートである。
 **このカード**：手元に置いてクイックリファレンスとして！
 
 ---
-**最終更新**：2026 年 10 月 18 日
-**Claude Code バージョン**：2.1.302
+**最終更新**：2026 年 10 月 26 日
+**Claude Code バージョン**：2.1.310
 **情報源**：
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
@@ -527,4 +529,6 @@ A：もちろん。カスタマイズ用のテンプレートである。
 - https://code.claude.com/docs/en/managed-settings
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/headless
+- https://code.claude.com/docs/en/permission-modes#tool-calls-denied-in-claude-p-and-agent-sdk-runs
 **互換モデル**：Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

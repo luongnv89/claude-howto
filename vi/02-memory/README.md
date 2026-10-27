@@ -1122,7 +1122,7 @@ Claude sẽ nhắc bạn chọn file bộ nhớ nào để cập nhật.
 
 **Tải Bộ Nhớ:**
 
-- Tất cả các file bộ nhớ được tự động tải khi Claude Code khởi động
+- Các file CLAUDE.md tại thư mục làm việc và các thư mục cấp trên, các quy tắc không có phạm vi đường dẫn, và phần đầu của `MEMORY.md` được tự động tải khi Claude Code khởi động
 - Claude duyệt lên từ thư mục làm việc hiện tại để khám phá các file CLAUDE.md
 - Các file subtree được khám phá và tải theo bối cảnh khi truy cập các thư mục đó
 
@@ -1159,8 +1159,8 @@ Claude sẽ nhắc bạn chọn file bộ nhớ nào để cập nhật.
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 18 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.302
+**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
+**Phiên Bản Claude Code**: 2.1.310
 **Nguồn**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
@@ -1169,4 +1169,5 @@ Claude sẽ nhắc bạn chọn file bộ nhớ nào để cập nhật.
 - https://code.claude.com/docs/en/sub-agents#enable-persistent-memory
 - https://code.claude.com/docs/en/settings-reference
 - https://code.claude.com/docs/en/claude-directory
+- https://code.claude.com/docs/en/memory#how-claude-md-files-load
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

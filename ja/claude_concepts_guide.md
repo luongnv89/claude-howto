@@ -2979,7 +2979,7 @@ claude --permission-mode dontAsk       # 事前承認済みツールのみ。そ
 **使い方：**
 ```bash
 # 特定タスクを実行
-claude -p "Run all tests"
+claude -p "Run all tests" --permission-mode auto
 
 # 入力をパイプして解析
 cat error.log | claude -p "explain this error"
@@ -3080,8 +3080,8 @@ Claude Code は推論努力を調整可能な 3 モデルをサポートする�
 *収録機能：フック、チェックポイント、プラニングモード、拡張思考、バックグラウンドタスク、権限モード（6 種）、ヘッドレスモード、セッション管理、Auto Memory、Agent Teams、定期タスク、Chrome 連携、Channels、音声入力、同梱スキル*
 
 ---
-**最終更新：** 2026 年 10 月 18 日
-**Claude Code バージョン：** 2.1.302
+**最終更新：** 2026 年 10 月 26 日
+**Claude Code バージョン：** 2.1.310
 **出典：**
 - https://code.claude.com/docs/en/plugins/manifest-reference
 - https://code.claude.com/docs/en/plugins/create
@@ -3100,5 +3100,7 @@ Claude Code は推論努力を調整可能な 3 モデルをサポートする�
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/permission-modes
 - https://code.claude.com/docs/en/hooks#userpromptexpansion
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 
 **対応モデル：** Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

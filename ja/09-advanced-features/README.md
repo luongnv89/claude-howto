@@ -724,7 +724,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 | `bypassPermissions` | 全操作、権限チェックなし（危険） |
 | `dontAsk` | 事前承認済みツールのみ実行、その他はすべて拒否 |
 
-CLI では `Shift+Tab` でモードを切り替える。デフォルトは `--permission-mode` フラグまたは `permissions.defaultMode` 設定で指定する。パーミッションモードが未設定の場合、v2.1.284 以降は対話型のターミナルセッションと VS Code セッションがすべてのプランとプロバイダーで auto モードで開始する（v2.1.283 では Bedrock、Google Cloud の Agent Platform、Foundry などのサードパーティプロバイダー上、またはテレメトリをオフにした場合に限られていた）。`permissions.defaultMode` は引き続きこれより優先され、auto モードを利用できないセッションは代わりに `default`（Manual）で開始する。v2.1.302 以降、パーミッションモードを設定していない `claude -p` と Agent SDK のセッションは、サードパーティプロバイダー上、テレメトリをオフにした場合、または新規インストール直後には `default` モードで開始する。auto モードを維持するには `--permission-mode auto` を渡す。
+CLI では `Shift+Tab` でモードを切り替える。デフォルトは `--permission-mode` フラグまたは `permissions.defaultMode` 設定で指定する。パーミッションモードが未設定の場合、v2.1.284 以降は対話型のターミナルセッションと VS Code セッションがすべてのプランとプロバイダーで auto モードで開始する（v2.1.283 では Bedrock、Google Cloud の Agent Platform、Foundry などのサードパーティプロバイダー上、またはテレメトリをオフにした場合に限られていた）。`permissions.defaultMode` は引き続きこれより優先され、auto モードを利用できないセッションは代わりに `default`（Manual）で開始する。v2.1.302 以降、パーミッションモードを設定していない `claude -p` または Agent SDK の実行は Manual モード（設定値は `default`）で開始し、承認が必要なツール呼び出しを拒否する。`--permission-mode`（たとえば `auto` や `acceptEdits`）または `--allowedTools` を渡す。
 
 ### 起動方法
 
@@ -835,7 +835,7 @@ Claude: [Auto-accepts file edits without asking]
 
 ```bash
 # Run specific task
-claude -p "Run all tests"
+claude -p "Run all tests" --permission-mode auto
 
 # Process piped content
 cat error.log | claude -p "Analyze these errors"
@@ -849,7 +849,7 @@ cat error.log | claude -p "Analyze these errors"
 
 ```bash
 # Run a specific task with output capture
-claude -p "Run all tests and generate coverage report"
+claude -p "Run all tests and generate coverage report" --permission-mode auto
 
 # With structured output
 claude -p --output-format json "Analyze code quality"
@@ -1465,7 +1465,7 @@ Web セッションでは、claude.ai/code 上のブラウザで直接 Claude Co
 
 ```bash
 # Create a new web session from the CLI
-claude --remote "implement the new API endpoints"
+claude --cloud "implement the new API endpoints"   # --remote is a deprecated alias
 ```
 
 これにより claude.ai 上で Claude Code セッションが開始され、任意のブラウザからアクセスできる。
@@ -1980,6 +1980,8 @@ User: /config
 }
 ```
 
+`PROJECT_DB_URL` には読み取り専用のデータベースユーザーを使う。読み取り専用のセットアップは [MCP → データベースの例](../05-mcp/README.md) を参照のこと。
+
 ---
 
 ## エージェントチーム
@@ -2099,8 +2101,8 @@ Claude Code および関連機能の詳細：
 
 ---
 
-**最終更新：** 2026 年 10 月 18 日
-**Claude Code バージョン：** 2.1.302
+**最終更新：** 2026 年 10 月 26 日
+**Claude Code バージョン：** 2.1.310
 **情報源：**
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
@@ -2131,5 +2133,8 @@ Claude Code および関連機能の詳細：
 - https://code.claude.com/docs/en/chrome
 - https://code.claude.com/docs/en/env-vars
 - https://code.claude.com/docs/en/changelog#2-1-302
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
+- https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
+- https://code.claude.com/docs/en/cli-reference#cli-flags
 
 **互換モデル：** Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

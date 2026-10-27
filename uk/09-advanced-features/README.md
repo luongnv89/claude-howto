@@ -648,7 +648,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 | `bypassPermissions` | Усі дії, без перевірки дозволів (небезпечно) |
 | `dontAsk` | Виконуються лише попередньо затверджені інструменти; всі інші відхиляються |
 
-Перемикайте режими через `Shift+Tab` у CLI. Встановіть режим за замовчуванням через прапорець `--permission-mode` або налаштування `permissions.defaultMode`. Якщо режим дозволів не налаштовано, інтерактивні сесії в терміналі та VS Code починаючи з v2.1.284 запускаються в режимі auto на будь-якому плані та в будь-якого провайдера (у v2.1.283 так було лише у сторонніх провайдерів, як-от Bedrock, Agent Platform від Google Cloud і Foundry, або з вимкненою телеметрією); `permissions.defaultMode` і далі має пріоритет, а сесія, де режим auto недоступний, натомість запускається в режимі `default` (Manual). Починаючи з v2.1.302, сесії `claude -p` та Agent SDK, у яких не задано режим дозволів, запускаються в режимі `default` у сторонніх провайдерів, з вимкненою телеметрією або на свіжій інсталяції; передайте `--permission-mode auto`, щоб зберегти режим auto.
+Перемикайте режими через `Shift+Tab` у CLI. Встановіть режим за замовчуванням через прапорець `--permission-mode` або налаштування `permissions.defaultMode`. Якщо режим дозволів не налаштовано, інтерактивні сесії в терміналі та VS Code починаючи з v2.1.284 запускаються в режимі auto на будь-якому плані та в будь-якого провайдера (у v2.1.283 так було лише у сторонніх провайдерів, як-от Bedrock, Agent Platform від Google Cloud і Foundry, або з вимкненою телеметрією); `permissions.defaultMode` і далі має пріоритет, а сесія, де режим auto недоступний, натомість запускається в режимі `default` (Manual). Починаючи з v2.1.302, запуск `claude -p` або Agent SDK, у якому не задано режим дозволів, стартує в режимі Manual (значення конфігурації `default`) і відхиляє виклики інструментів, які потребують схвалення; передайте `--permission-mode` (наприклад, `auto` або `acceptEdits`) або `--allowedTools`.
 
 ### Методи активації
 
@@ -759,7 +759,7 @@ Claude: [Auto-accepts file edits without asking]
 
 ```bash
 # Запуск конкретного завдання
-claude -p "Run all tests"
+claude -p "Run all tests" --permission-mode auto
 
 # Обробка переданого вмісту
 cat error.log | claude -p "Analyze these errors"
@@ -773,7 +773,7 @@ cat error.log | claude -p "Analyze these errors"
 
 ```bash
 # Запуск завдання з захопленням виводу
-claude -p "Run all tests and generate coverage report"
+claude -p "Run all tests and generate coverage report" --permission-mode auto
 
 # Зі структурованим виводом
 claude -p --output-format json "Analyze code quality"
@@ -1313,7 +1313,7 @@ claude remote-control --name "Auth Refactor"
 
 ```bash
 # Створення нової веб-сесії з CLI
-claude --remote "implement the new API endpoints"
+claude --cloud "implement the new API endpoints"   # --remote — застарілий псевдонім
 ```
 
 Це запускає сесію Claude Code на claude.ai, до якої можна отримати доступ з будь-якого браузера.
@@ -1805,6 +1805,8 @@ MCP-сервери проєкту розмістіть у `.mcp.json` у кор�
 }
 ```
 
+Для `PROJECT_DB_URL` використовуйте користувача бази даних лише для читання; налаштування лише для читання див. у [MCP → приклад із базою даних](../05-mcp/README.md).
+
 ---
 
 ## Agent Teams
@@ -1923,8 +1925,8 @@ claude --teammate-mode in-process
 - [Офіційна документація Agent Teams](https://code.claude.com/docs/en/agent-teams)
 
 ---
-**Останнє оновлення**: 18 жовтня 2026
-**Версія Claude Code**: 2.1.302
+**Останнє оновлення**: 26 жовтня 2026
+**Версія Claude Code**: 2.1.310
 **Джерела**:
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
@@ -1949,4 +1951,7 @@ claude --teammate-mode in-process
 - https://code.claude.com/docs/en/chrome
 - https://code.claude.com/docs/en/env-vars
 - https://code.claude.com/docs/en/changelog#2-1-302
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
+- https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
+- https://code.claude.com/docs/en/cli-reference#cli-flags
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

@@ -224,7 +224,9 @@ claude --enable-auto-mode -p "重构并测试 auth 模块"
 
 ### CI/CD 集成
 ```bash
-# 以 headless 模式运行（非交互）
+# 以 headless 模式运行（非交互）。未指定权限模式时，-p 以 Manual 模式启动
+# （配置值 "default"，v2.1.302+）：需要审批的工具调用会被拒绝，因此请添加
+# --allowedTools "Bash(npm test *)" 或 --permission-mode auto
 claude -p "运行所有测试并生成报告"
 
 # 在 CI 中搭配权限模式
@@ -510,8 +512,8 @@ echo $GITHUB_PERSONAL_ACCESS_TOKEN
 
 ---
 
-**最后更新**：2026 年 10 月 18 日
-**Claude Code 版本**：2.1.302
+**最后更新**：2026 年 10 月 26 日
+**Claude Code 版本**：2.1.310
 **来源**：
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands
@@ -523,3 +525,5 @@ echo $GITHUB_PERSONAL_ACCESS_TOKEN
 - https://code.claude.com/docs/en/managed-settings
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/headless
+- https://code.claude.com/docs/en/permission-modes#tool-calls-denied-in-claude-p-and-agent-sdk-runs
