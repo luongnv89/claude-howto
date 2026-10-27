@@ -759,7 +759,7 @@ Claude: [Auto-accepts file edits without asking]
 
 ```bash
 # Запуск конкретного завдання
-claude -p "Run all tests"
+claude -p "Run all tests" --permission-mode auto
 
 # Обробка переданого вмісту
 cat error.log | claude -p "Analyze these errors"
@@ -773,7 +773,7 @@ cat error.log | claude -p "Analyze these errors"
 
 ```bash
 # Запуск завдання з захопленням виводу
-claude -p "Run all tests and generate coverage report"
+claude -p "Run all tests and generate coverage report" --permission-mode auto
 
 # Зі структурованим виводом
 claude -p --output-format json "Analyze code quality"
