@@ -100,3 +100,4 @@ scripts/.vendor-cache/
 # Local agent/tooling state
 .asm-improver/
 .gitissue/
+.idd/
