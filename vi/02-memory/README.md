@@ -249,7 +249,7 @@ Claude Code sử dụng một hệ thống bộ nhớ phân cấp đa tầng. C�
 7. **Local Project Memory** - Tùy thích cụ thể dự án cá nhân
    - `./CLAUDE.local.md`
 
-> **Lưu ý**: `CLAUDE.local.md` không được đề cập trong [tài liệu chính thức](https://code.claude.com/docs/en/memory) tính đến tháng 3 năm 2026. Nó vẫn có thể hoạt động như một tính năng legacy. Đối với dự án mới, hãy cân nhắc sử dụng `~/.claude/CLAUDE.md` (cấp người dùng) hoặc `.claude/rules/` (cấp dự án, phạm vi đường dẫn) thay thế.
+> **Lưu ý**: `CLAUDE.local.md` được hỗ trợ đầy đủ và có trong [tài liệu chính thức](https://code.claude.com/docs/en/memory). Đặt ở thư mục gốc dự án, file này được tải cùng với `CLAUDE.md` và chứa các tùy thích cá nhân theo dự án không được commit vào version control. Hãy thêm `CLAUDE.local.md` vào `.gitignore`.
 
 8. **Auto Memory** - Các ghi chú và bài học tự động của Claude
    - `~/.claude/projects/<project>/memory/`
