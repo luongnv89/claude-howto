@@ -431,7 +431,7 @@ mkdir -p ~/.claude/hooks && cp 06-hooks/*.sh ~/.claude/hooks/ && chmod +x ~/.cla
 | **Project Rules** | `.claude/rules/` | Project（团队） | 模块化项目规则 |
 | **User** | `~/.claude/CLAUDE.md` | User（个人） | 个人偏好 |
 | **User Rules** | `~/.claude/rules/` | User（个人） | 模块化个人规则 |
-| **Local** | `./CLAUDE.local.md` | Local（git 忽略） | 机器特定覆盖（截至 2026 年 3 月不在官方文档中，可能是历史遗留） |
+| **Local** | `./CLAUDE.local.md` | Local（git 忽略） | 个人的项目专属偏好，与 `CLAUDE.md` 一起加载；官方支持（[官方文档](https://code.claude.com/docs/en/memory)），需加入 `.gitignore` |
 | **Auto Memory** | 自动 | Session | 自动捕捉的洞察和修正 |
 
 > **作用域**: `Organization` = 管理员管理，`Project` = 通过 git 与团队共享，`User` = 个人偏好，`Local` = 不提交，`Session` = 自动管理

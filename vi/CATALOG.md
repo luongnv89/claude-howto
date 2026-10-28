@@ -427,7 +427,7 @@ Ngữ cảnh lưu trữ được tải tự động qua sessions.
 | **Project Rules** | `.claude/rules/` | Project (team) | Rules dự án modular |
 | **User** | `~/.claude/CLAUDE.md` | User (cá nhân) | Sở thích cá nhân |
 | **User Rules** | `~/.claude/rules/` | User (cá nhân) | Rules cá nhân modular |
-| **Local** | `./CLAUDE.local.md` | Local (git-ignored) | Ghi đè cụ thể theo máy (không trong tài liệu chính thức tính đến tháng 3/2026; có thể là legacy) |
+| **Local** | `./CLAUDE.local.md` | Local (git-ignored) | Tùy thích cá nhân theo dự án, tải cùng với `CLAUDE.md`; được hỗ trợ chính thức ([tài liệu chính thức](https://code.claude.com/docs/en/memory)), thêm vào `.gitignore` |
 | **Auto Memory** | Tự động | Session | Insights và chỉnh sửa được tự động nắm bắt |
 
 > **Phạm Vi**: `Organization` = được quản lý bởi admins, `Project` = chia sẻ với team qua git, `User` = sở thích cá nhân, `Local` = không được commit, `Session` = được tự động quản lý
