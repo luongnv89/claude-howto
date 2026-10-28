@@ -2,11 +2,11 @@
 
 Tutorial repo. Output is markdown in numbered modules `01-` through `10-`, not an app. Scripts in `scripts/` exist only to validate docs and build the EPUB.
 
-See also `.claude/CLAUDE.md` for stack/commands and `STYLE_GUIDE.md` for lesson structure.
+See also [CONTRIBUTING.md](CONTRIBUTING.md#3-set-up-your-environment) for stack and setup (uv, Node.js >= 20, pre-commit) and [STYLE_GUIDE.md](STYLE_GUIDE.md) for lesson structure.
 
 ## If the user is learning
 
-Many people clone this repo to learn, not to contribute. Unless the user asks for a change to the repo, treat the rules below as maintainer conventions, not their preferences: don't edit lessons, propose repo fixes, or set up hooks for them. Point them to `CLAUDE.local.md` at the repo root (gitignored, loaded alongside this file) for their own context. When they do ask for a change, commit, or PR, every rule below applies in full.
+Many people clone this repo to learn, not to contribute. Unless the user asks for a change to the repo, treat the rules below as maintainer conventions, not their preferences: don't edit lessons, propose repo fixes, or set up hooks for them. Point them to a `CLAUDE.local.md` they create at the repo root (gitignored, loaded alongside this file) for their own context. When they do ask for a change, commit, or PR, every rule below applies in full.
 
 ## Critical commands
 
@@ -34,7 +34,6 @@ Pre-commit runs 5 doc checks on `.md` changes: markdown-lint, cross-references, 
 - Each module: `README.md` + copy-paste templates (`.md`, `.json`, `.sh`).
 - `scripts/` — utilities (EPUB builder, link/mermaid/cross-ref validators). Not the product.
 - `02-memory/*.md` — CLAUDE.md templates users copy into their own projects. Don't confuse with this file.
-- `openspec/` — spec-driven change proposals.
 
 ## Hard rules
 
