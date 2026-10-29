@@ -463,7 +463,7 @@ Persistent context loaded automatically across sessions.
 | **Project Rules** | `.claude/rules/` | Project (team) | Modular project rules |
 | **User** | `~/.claude/CLAUDE.md` | User (personal) | Personal preferences |
 | **User Rules** | `~/.claude/rules/` | User (personal) | Modular personal rules |
-| **Local** | `./CLAUDE.local.md` | Local (git-ignored) | Machine-specific local overrides (gitignored). Documented at https://code.claude.com/docs/en/memory as a supported per-developer override file. |
+| **Local** | `./CLAUDE.local.md` | Local (git-ignored) | Personal project-specific preferences, loaded alongside `CLAUDE.md`; add to `.gitignore`. Supported in the [official documentation](https://code.claude.com/docs/en/memory). |
 | **Auto Memory** | Automatic | Session | Auto-captured insights and corrections |
 
 > **Scope**: `Organization` = managed by admins, `Project` = shared with team via git, `User` = personal preferences, `Local` = not committed, `Session` = auto-managed

@@ -284,7 +284,7 @@ graph TD
 | 3. Project Rules | `.claude/rules/*.md` | Project | High | Team (Git) | Modular project conventions |
 | 4. User | `~/.claude/CLAUDE.md` | Personal | Medium | Individual | Personal preferences |
 | 5. User Rules | `~/.claude/rules/*.md` | Personal | Medium | Individual | Personal rule modules |
-| 6. Local | `./CLAUDE.local.md` | Local | Low | Not shared | Machine-specific settings |
+| 6. Local | `./CLAUDE.local.md` | Local | Low | Not shared | Personal project-specific preferences |
 | 7. Auto Memory | Automatic | Per repository | Lowest | Individual | Learned preferences, patterns |
 
 ### Auto Memory
