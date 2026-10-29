@@ -80,6 +80,39 @@ def test_heading_anchor_still_strips_em_dash_and_zero_width_joiner() -> None:
         == "v21245--2026-08-25"
     )
     assert check_cross_references.heading_to_anchor(f"A{ZWJ}B test") == "ab-test"
+    # U+FE0F is a combining mark, but it sits in the emoji ranges stripped
+    # before the mark check, so emoji-prefixed ids are unchanged.
+    assert (
+        check_cross_references.heading_to_anchor("Rocket \u2764\ufe0f launch")
+        == "rocket--launch"
+    )
+
+
+# U+0654 ARABIC HAMZA ABOVE is a combining mark (category Mn): GitHub keeps it
+# in heading ids, but Python's \w does not match it. Spelled as an escape so
+# editors can't normalize it away.
+HAMZA_ABOVE = "\u0654"
+ARABIC_HEADING = f"مجموعه{HAMZA_ABOVE} استاندارد ایموجی"
+ARABIC_ANCHOR = f"مجموعه{HAMZA_ABOVE}-استاندارد-ایموجی"
+
+
+def test_heading_anchor_keeps_combining_marks() -> None:
+    assert check_cross_references.heading_to_anchor(ARABIC_HEADING) == ARABIC_ANCHOR
+
+
+@pytest.mark.parametrize(
+    ("heading", "anchor"),
+    [
+        # Decomposed Latin: "cafe" + U+0301 COMBINING ACUTE ACCENT.
+        ("cafe\u0301", "cafe\u0301"),
+        # Arabic harakat (U+064B-U+0652) and other marks stay put too.
+        ("مُقَدِّمة", "مُقَدِّمة"),
+        # Devanagari vowel signs (Mc) and virama (Mn).
+        ("हिन्दी", "हिन्दी"),
+    ],
+)
+def test_heading_anchor_keeps_other_combining_marks(heading: str, anchor: str) -> None:
+    assert check_cross_references.heading_to_anchor(heading) == anchor
 
 
 @pytest.mark.parametrize(
@@ -114,6 +147,29 @@ def test_in_page_link_missing_zwnj_is_reported(
     anchor_without_zwnj = PERSIAN_ANCHOR.replace(ZWNJ, "")
     (repo / "README.md").write_text(
         f"# {PERSIAN_HEADING}\n\n[link](#{anchor_without_zwnj})\n", encoding="utf-8"
+    )
+
+    assert check_cross_references.main() == 1
+    assert "broken anchor" in capsys.readouterr().out
+
+
+def test_in_page_link_keeping_combining_marks_passes(
+    repo: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    (repo / "README.md").write_text(
+        f"# {ARABIC_HEADING}\n\n[link](#{ARABIC_ANCHOR})\n", encoding="utf-8"
+    )
+
+    assert check_cross_references.main() == 0
+    assert "broken anchor" not in capsys.readouterr().out
+
+
+def test_in_page_link_missing_combining_mark_is_reported(
+    repo: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    anchor_without_mark = ARABIC_ANCHOR.replace(HAMZA_ABOVE, "")
+    (repo / "README.md").write_text(
+        f"# {ARABIC_HEADING}\n\n[link](#{anchor_without_mark})\n", encoding="utf-8"
     )
 
     assert check_cross_references.main() == 1

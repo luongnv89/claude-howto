@@ -47,6 +47,7 @@ import logging
 import re
 import shutil
 import sys
+import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -191,6 +192,10 @@ def setup_logging(verbose: bool = False) -> logging.Logger:
 # Anchor algorithm (mirrors check_cross_references.heading_to_anchor)
 # =============================================================================
 
+# Combining marks (accents, Arabic hamza, Indic vowel signs, ...). Python's \w
+# does not match them, but GitHub keeps them in heading ids.
+COMBINING_MARK_CATEGORIES = frozenset({"Mn", "Mc", "Me"})
+
 
 def heading_to_anchor(heading: str) -> str:
     """Convert a heading to a GitHub-style anchor.
@@ -210,7 +215,16 @@ def heading_to_anchor(heading: str) -> str:
         "",
         heading,
     )
-    anchor = re.sub(r"[^\w\s\U0000200C-]", "", heading.lower(), flags=re.UNICODE)
+    anchor = re.sub(
+        r"[^\w\s\U0000200C-]",
+        lambda match: (
+            match.group()
+            if unicodedata.category(match.group()) in COMBINING_MARK_CATEGORIES
+            else ""
+        ),
+        heading.lower(),
+        flags=re.UNICODE,
+    )
     anchor = anchor.replace(" ", "-")
     return anchor.rstrip("-")
 

@@ -39,6 +39,7 @@ from build_website import (
 # Invisible characters, spelled as escapes so editors can't strip them silently.
 ZWNJ = "\u200c"  # zero-width non-joiner (Persian, kept in GitHub heading ids)
 ZWJ = "\u200d"  # zero-width joiner (stripped)
+HAMZA_ABOVE = "\u0654"  # Arabic hamza above (combining mark, kept)
 
 # =============================================================================
 # Fixtures
@@ -117,6 +118,13 @@ class TestHeadingToAnchor:
             == f"نام{ZWNJ}گذاری-فایل-و-پوشه"
         )
 
+    def test_combining_mark_preserved(self) -> None:
+        # U+0654 is a combining mark, not a \w character; GitHub keeps it.
+        assert (
+            heading_to_anchor(f"مجموعه{HAMZA_ABOVE} استاندارد ایموجی")
+            == f"مجموعه{HAMZA_ABOVE}-استاندارد-ایموجی"
+        )
+
     @pytest.mark.parametrize(
         "heading",
         [
@@ -124,6 +132,9 @@ class TestHeadingToAnchor:
             "[v2.1.245] — 2026-08-25",
             f"A{ZWJ}B test",
             "Hướng dẫn bắt đầu nhanh",
+            f"مجموعه{HAMZA_ABOVE} استاندارد ایموجی",
+            "cafe\u0301",
+            "हिन्दी",
         ],
     )
     def test_matches_validator(self, heading: str) -> None:
