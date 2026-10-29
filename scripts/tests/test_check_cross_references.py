@@ -62,8 +62,10 @@ def test_numbered_lesson_dir_missing_readme_is_reported(
 
 
 # U+200C ZERO WIDTH NON-JOINER: Persian uses it inside words, and GitHub keeps
-# it in heading ids (e.g. fa/STYLE_GUIDE.md renders `نام‌گذاری-فایل-و-پوشه`).
-ZWNJ = "‌"
+# it in heading ids (e.g. the rendered fa/STYLE_GUIDE.md in PR #208). Spelled as
+# escapes so editors can't strip them silently.
+ZWNJ = "\u200c"
+ZWJ = "\u200d"
 PERSIAN_HEADING = f"نام{ZWNJ}گذاری فایل و پوشه"
 PERSIAN_ANCHOR = f"نام{ZWNJ}گذاری-فایل-و-پوشه"
 
@@ -77,7 +79,7 @@ def test_heading_anchor_still_strips_em_dash_and_zero_width_joiner() -> None:
         check_cross_references.heading_to_anchor("[v2.1.245] — 2026-08-25")
         == "v21245--2026-08-25"
     )
-    assert check_cross_references.heading_to_anchor("A‍B test") == "ab-test"
+    assert check_cross_references.heading_to_anchor(f"A{ZWJ}B test") == "ab-test"
 
 
 @pytest.mark.parametrize(

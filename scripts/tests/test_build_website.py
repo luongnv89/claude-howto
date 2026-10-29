@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import check_cross_references
 from build_website import (
     BuildState,
     PageInfo,
@@ -34,6 +35,10 @@ from build_website import (
     rewrite_links,
     source_to_site_url,
 )
+
+# Invisible characters, spelled as escapes so editors can't strip them silently.
+ZWNJ = "\u200c"  # zero-width non-joiner (Persian, kept in GitHub heading ids)
+ZWJ = "\u200d"  # zero-width joiner (stripped)
 
 # =============================================================================
 # Fixtures
@@ -107,20 +112,21 @@ class TestHeadingToAnchor:
 
     def test_zero_width_non_joiner_preserved(self) -> None:
         # Persian uses U+200C inside words; GitHub keeps it in heading ids.
-        assert heading_to_anchor("نام‌گذاری فایل و پوشه") == "نام‌گذاری-فایل-و-پوشه"
+        assert (
+            heading_to_anchor(f"نام{ZWNJ}گذاری فایل و پوشه")
+            == f"نام{ZWNJ}گذاری-فایل-و-پوشه"
+        )
 
     @pytest.mark.parametrize(
         "heading",
         [
-            "نام‌گذاری فایل و پوشه",
+            f"نام{ZWNJ}گذاری فایل و پوشه",
             "[v2.1.245] — 2026-08-25",
-            "A‍B test",
+            f"A{ZWJ}B test",
             "Hướng dẫn bắt đầu nhanh",
         ],
     )
     def test_matches_validator(self, heading: str) -> None:
-        import check_cross_references
-
         assert heading_to_anchor(heading) == check_cross_references.heading_to_anchor(
             heading
         )
