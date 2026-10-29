@@ -43,7 +43,7 @@ Pre-commit runs 5 doc checks on `.md` changes: markdown-lint, cross-references, 
 - Internal links use **relative paths** (e.g. `01-slash-commands/README.md`); anchors use `#heading-name`.
 - Code fences **must** declare a language (`bash`, `python`, `json`, …) — the cross-reference check fails otherwise.
 - External URLs must be reachable and stable. No ephemeral links.
-- Mermaid diagrams must render with Pele. The pre-commit mermaid hooks get Node.js 22 from pre-commit and run strict, so they fail instead of skipping; the first run needs network to download Node.js and the pinned Pele bundle (offline: `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid`). Run by hand, `scripts/check_mermaid.py` only warns without Node.js >= 20, and fails under `--strict` or in CI. A broken EPUB build is usually invalid Mermaid, a missing Node.js >= 20, or a failed bundle download.
+- Mermaid diagrams must render with Pele. The pre-commit mermaid hooks run with `language: system` (Node.js >= 20 from your PATH) and run strict, so they fail instead of skipping; the first run needs network to download the pinned Pele bundle (offline: `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid`). Run by hand, `scripts/check_mermaid.py` only warns without Node.js >= 20, and fails under `--strict` or in CI. A broken EPUB build is usually invalid Mermaid, a missing Node.js >= 20, or a failed bundle download.
 - Commit format: `type(scope): subject` where `scope` matches the module folder (e.g. `feat(slash-commands):`, `docs(memory):`, `fix(README):`).
 - Do not reorganize the `01-`–`10-` numbering. The order is the curriculum.
 

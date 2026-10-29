@@ -2,8 +2,12 @@
 # Run `pre-commit install` to set up hooks
 # Run `pre-commit run --all-files` to check all files
 
-default_language_version:
-  python: python3.11
+# Do not pin the interpreter for the hooks that need a Python environment
+# (ruff, bandit, mypy, pre-commit-hooks). A minor-version pin such as
+# `python3.11` makes pre-commit abort while creating that environment on every
+# machine without that exact interpreter, before any hook has run. Without the
+# pin, pre-commit uses the interpreter it finds for the current host; CI still
+# covers Python 3.10-3.12 (matrix in .github/workflows/test.yml).
 
 repos:
   # Ruff - Fast Python linter and formatter
@@ -85,15 +89,17 @@ repos:
         types: [markdown]
 
       # The three *mermaid hooks render every diagram with the pinned Pele
-      # bundle. `language: node` makes pre-commit provision Node.js 22 for the
-      # hook (nodeenv), so no system Node is needed, and `--strict` makes a
-      # failed bundle download fail the hook instead of skipping it. The first
-      # run needs network access; offline, skip them with
+      # bundle. The entry is a Python script, so these hooks use
+      # `language: system` like the other script hooks below: pre-commit's
+      # `language: node` needs a package.json or additional_dependencies and
+      # cannot run a Python entry at all. The script needs Node.js >= 20 on
+      # PATH, and `--strict` makes a missing Node or a failed bundle download
+      # fail the hook instead of skipping it. The first run needs network
+      # access; offline, skip them with
       # SKIP=mermaid,vietnamese-mermaid,japanese-mermaid.
       - id: mermaid
         name: mermaid-syntax
-        language: node
-        language_version: 22.12.0
+        language: system
         entry: python scripts/check_mermaid.py --strict
         pass_filenames: false
         types: [markdown]
@@ -139,8 +145,7 @@ repos:
 
       - id: vietnamese-mermaid
         name: vietnamese-mermaid-syntax
-        language: node
-        language_version: 22.12.0
+        language: system
         entry: python scripts/check_mermaid.py --strict
         pass_filenames: false
         files: ^vi/.*\.md$
@@ -174,8 +179,7 @@ repos:
 
       - id: japanese-mermaid
         name: japanese-mermaid-syntax
-        language: node
-        language_version: 22.12.0
+        language: system
         entry: python scripts/check_mermaid.py --strict
         pass_filenames: false
         files: ^ja/.*\.md$
