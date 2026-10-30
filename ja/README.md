@@ -109,7 +109,7 @@ Claude Code の力の 90% を眠らせたままで、しかも自分が何を知
 - **積極的にメンテナンス**：Claude Code のリリースに同期（最新は v2.1.119、2026 年 4 月）
 - **コミュニティ駆動**：実際の運用設定を共有する開発者からのコントリビュート
 
-[![Star History Chart](https://api.star-history.com/svg?repos=luongnv89/claude-howto&type=Date)](https://star-history.com/#luongnv89/claude-howto&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=luongnv89/claude-howto&type=date)](https://star-history.dera.page/#luongnv89/claude-howto&type=date)
 
 ---
 
