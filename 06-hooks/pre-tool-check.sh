@@ -46,7 +46,7 @@
 INPUT=$(cat)
 
 # Extract the command using portable sed (compatible with macOS and Linux)
-COMMAND=$(echo "$INPUT" | sed -n 's/.*"command"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+COMMAND=$(echo "$INPUT" | sed -nE 's/.*"command"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p' | head -1)
 
 # Fall back to the raw input if extraction fails
 if [ -z "$COMMAND" ]; then
