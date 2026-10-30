@@ -1,10 +1,11 @@
-<!-- i18n-source: 03-skills/claude-md/SKILL.md -->
-<!-- i18n-source-sha: f78c094 -->
-<!-- i18n-date: 2026-04-27 -->
 ---
 name: claude-md
 description: Create or update CLAUDE.md files following best practices for optimal AI agent onboarding
 ---
+
+<!-- i18n-source: 03-skills/claude-md/SKILL.md -->
+<!-- i18n-source-sha: f78c094 -->
+<!-- i18n-date: 2026-04-27 -->
 
 ## ユーザー入力
 
