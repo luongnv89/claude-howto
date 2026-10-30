@@ -1,3 +1,7 @@
+<!-- i18n-source: 03-skills/refactor/templates/refactoring-plan.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # 리팩터링 계획 템플릿
 
 이 템플릿을 사용하여 리팩터링 작업을 문서화하고 추적하세요.

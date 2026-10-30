@@ -1,3 +1,7 @@
+<!-- i18n-source: 03-skills/code-review-specialist/templates/finding-template.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # Code Review Finding Template
 
 코드 리뷰 중 발견된 각 문제를 기록할 때 이 템플릿을 사용하세요.

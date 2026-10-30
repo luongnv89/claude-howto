@@ -2,6 +2,9 @@
 name: claude-md
 description: 최적의 AI 에이전트 온보딩을 위한 베스트 프랙티스에 따라 CLAUDE.md 파일을 생성하거나 업데이트합니다.
 ---
+<!-- i18n-source: 03-skills/claude-md/SKILL.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 ## 사용자 입력
 

@@ -1,3 +1,7 @@
+<!-- i18n-source: 03-skills/blog-draft/templates/outline-template.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # 블로그 게시물 개요: [Title]
 
 ## 메타 정보

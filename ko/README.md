@@ -1,3 +1,7 @@
+<!-- i18n-source: README.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
@@ -216,7 +220,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 물론입니다. 자세한 내용은 [CONTRIBUTING.md](CONTRIBUTING.md)를 참고하세요. 새로운 예제, 버그 수정, 문서 개선, 커뮤니티 템플릿 기여를 환영합니다.
 
 **오프라인에서도 읽을 수 있나요?**
-네. 모든 콘텐츠와 렌더링된 다이어그램이 포함된 EPUB 전자책을 생성하려면 다음 명령을 실행하세요.
+네. `uv run scripts/build_epub.py`를 실행하면 모든 콘텐츠와 렌더링된 다이어그램이 포함된 EPUB 전자책을 생성할 수 있습니다.
 
 ---
 
@@ -243,8 +247,8 @@ MIT 라이선스로 제공됩니다. 영구적으로 무료입니다. 자유롭�
 | **MCP 프로토콜** | 외부 도구 접근 기능 | [05-mcp/](05-mcp/) |
 | **훅** | 이벤트 기반 자동화 | [06-hooks/](06-hooks/) |
 | **플러그인** | 기능 패키지 번들 | [07-plugins/](07-plugins/) |
-| **체크포인트** | 세션 스냅샷 및 되돌리기 | [08-checkpoints/](08-checkpoints/) |
-| **고급 기능** | 계획 모드, 심층 사고, 백그라운드 작업 | [09-advanced-features/](09-advanced-features/) |
+| **체크포인트** | 세션 스냅샷 및 되감기 | [08-checkpoints/](08-checkpoints/) |
+| **고급 기능** | 계획 모드, 확장 사고, 백그라운드 작업 | [09-advanced-features/](09-advanced-features/) |
 | **CLI 참조** | 명령어, 플래그 및 옵션 | [10-cli/](10-cli/) |
 | **블로그 게시물** | 실전 활용 사례 | [Blog Posts](https://medium.com/@luongnv89) |
 
@@ -518,7 +522,7 @@ claude --plugin-dir ./07-plugins/documentation
 </details>
 
 <details>
-<summary>08. 체크포인트와 되돌리기(Rewind)</summary>
+<summary>08. 체크포인트와 되감기(Rewind)</summary>
 
 **위치**: [08-checkpoints/](08-checkpoints/)
 

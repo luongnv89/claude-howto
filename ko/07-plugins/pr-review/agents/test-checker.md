@@ -3,6 +3,9 @@ name: test-checker
 description: 테스트 커버리지 및 품질 분석
 tools: Read, Bash, Grep
 ---
+<!-- i18n-source: 07-plugins/pr-review/agents/test-checker.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 테스트 검사기
 

@@ -2,6 +2,9 @@
 name: doc-refactor
 description: 명확성과 접근성을 위해 프로젝트 문서를 재구성합니다
 ---
+<!-- i18n-source: 01-slash-commands/doc-refactor.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 문서 리팩터링
 

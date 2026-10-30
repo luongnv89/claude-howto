@@ -1,3 +1,7 @@
+<!-- i18n-source: resources/QUICK-START.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # 빠른 시작 - 브랜드 에셋
 
 ## 프로젝트에 에셋 복사하기

@@ -1,6 +1,9 @@
 ---
 description: 애플리케이션을 운영 또는 스테이징 환경에 배포합니다.
 ---
+<!-- i18n-source: 07-plugins/devops-automation/commands/deploy.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 애플리케이션 배포
 

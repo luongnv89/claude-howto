@@ -1,6 +1,9 @@
 ---
 description: 이전 배포 버전으로 롤백합니다.
 ---
+<!-- i18n-source: 07-plugins/devops-automation/commands/rollback.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 배포 롤백
 

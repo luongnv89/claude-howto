@@ -4,6 +4,9 @@ description: 클린 코드 원칙 적용 전문 리뷰어입니다. 클린 코�
 tools: Read, Grep, Glob, Bash
 model: inherit
 ---
+<!-- i18n-source: 04-subagents/clean-code-reviewer.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 클린 코드 리뷰어 에이전트
 

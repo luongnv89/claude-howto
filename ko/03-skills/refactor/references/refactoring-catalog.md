@@ -1,3 +1,7 @@
+<!-- i18n-source: 03-skills/refactor/references/refactoring-catalog.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # 리팩터링 카탈로그
 
 Martin Fowler의 *Refactoring* (2nd Edition)에서 엄선된 리팩터링 기법 카탈로그입니다. 각 리팩터링에는 동기, 단계별 메커니즘 및 예제가 포함됩니다.

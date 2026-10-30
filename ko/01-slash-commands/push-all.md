@@ -2,6 +2,9 @@
 description: 모든 변경 사항을 스테이징하고, 커밋을 생성하며, 원격 저장소로 푸시합니다 (주의해서 사용하십시오).
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*), Bash(git push:*), Bash(git diff:*), Bash(git log:*), Bash(git pull:*)
 ---
+<!-- i18n-source: 01-slash-commands/push-all.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 모든 것을 커밋하고 푸시하기
 

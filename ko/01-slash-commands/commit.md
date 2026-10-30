@@ -3,6 +3,9 @@ allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*), Bash(git
 argument-hint: [message]
 description: 컨텍스트를 사용하여 git 커밋 생성
 ---
+<!-- i18n-source: 01-slash-commands/commit.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 ## 컨텍스트
 

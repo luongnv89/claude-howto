@@ -2,6 +2,9 @@
 name: setup-ci-cd
 description: 품질 보증을 위한 pre-commit 훅 및 GitHub Actions 구현
 ---
+<!-- i18n-source: 01-slash-commands/setup-ci-cd.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # CI/CD 파이프라인 설정
 

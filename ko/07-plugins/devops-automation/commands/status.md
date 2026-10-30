@@ -1,6 +1,9 @@
 ---
 description: 전체 시스템 상태 및 정상 동작 여부를 확인합니다.
 ---
+<!-- i18n-source: 07-plugins/devops-automation/commands/status.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 시스템 상태 점검
 

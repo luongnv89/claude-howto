@@ -4,6 +4,9 @@ description: API 문서, 사용자 가이드 및 아키텍처 문서를 작성�
 tools: Read, Write, Grep
 model: inherit
 ---
+<!-- i18n-source: 04-subagents/documentation-writer.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 문서 작성 에이전트
 

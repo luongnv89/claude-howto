@@ -1,3 +1,7 @@
+<!-- i18n-source: 03-skills/blog-draft/templates/draft-template.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # [블로그 게시물 제목]
 
 *[부제목 또는 태그라인 - 선택 사항]*

@@ -2,6 +2,9 @@
 name: unit-test-expand
 description: 테스트되지 않은 분기 및 엣지 케이스를 대상으로 하여 테스트 커버리지 늘리기
 ---
+<!-- i18n-source: 01-slash-commands/unit-test-expand.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 단위 테스트 확장
 

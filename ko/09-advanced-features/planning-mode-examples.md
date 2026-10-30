@@ -1,3 +1,7 @@
+<!-- i18n-source: 09-advanced-features/planning-mode-examples.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # 계획 모드 예제(Planning Mode Examples)
 
 Claude Code에서 계획 모드를 효과적으로 사용하는 실제 예제입니다.

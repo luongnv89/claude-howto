@@ -4,6 +4,9 @@ description: 성능 분석 및 최적화 전문 에이전트입니다. 병목 �
 tools: Read, Edit, Bash, Grep, Glob
 model: inherit
 ---
+<!-- i18n-source: 04-subagents/performance-optimizer.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 성능 최적화 에이전트
 

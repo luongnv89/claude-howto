@@ -1,3 +1,7 @@
+<!-- i18n-source: SECURITY.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # 보안 정책
 
 ## 개요

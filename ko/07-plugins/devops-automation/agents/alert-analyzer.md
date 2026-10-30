@@ -3,6 +3,9 @@ name: alert-analyzer
 description: 모니터링 알림 및 시스템 메트릭을 분석합니다.
 tools: Read, Grep, Bash
 ---
+<!-- i18n-source: 07-plugins/devops-automation/agents/alert-analyzer.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 알림 분석기
 

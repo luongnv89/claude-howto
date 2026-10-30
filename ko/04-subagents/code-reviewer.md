@@ -4,6 +4,9 @@ description: 품질, 보안성, 유지보수성을 보장하는 전문 코드 �
 tools: Read, Grep, Glob, Bash
 model: inherit
 ---
+<!-- i18n-source: 04-subagents/code-reviewer.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 코드 리뷰어 에이전트
 

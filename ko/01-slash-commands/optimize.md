@@ -1,6 +1,9 @@
 ---
 description: 코드 성능 문제를 분석하고 최적화 방안을 제안합니다.
 ---
+<!-- i18n-source: 01-slash-commands/optimize.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 코드 최적화
 

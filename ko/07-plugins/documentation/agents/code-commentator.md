@@ -3,6 +3,9 @@ name: code-commentator
 description: 코드 주석 및 인라인 문서화 전문 에이전트
 tools: Read, Write, Edit
 ---
+<!-- i18n-source: 07-plugins/documentation/agents/code-commentator.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # Code Commentator
 

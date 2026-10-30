@@ -2,6 +2,9 @@
 name: code-review-specialist
 description: 보안, 성능 및 품질 분석을 포함하는 포괄적인 코드 검토. 사용자가 코드 검토, 코드 품질 분석, 풀 리퀘스트 평가를 요청하거나 코드 검토, 보안 분석, 성능 최적화를 언급할 때 사용합니다.
 ---
+<!-- i18n-source: 03-skills/code-review-specialist/SKILL.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 코드 검토 스킬
 

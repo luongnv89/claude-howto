@@ -4,6 +4,9 @@ description: 기능 개발을 위한 풀스택 구현 전문 에이전트입니�
 tools: Read, Write, Edit, Bash, Grep, Glob
 model: inherit
 ---
+<!-- i18n-source: 04-subagents/implementation-agent.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 구현 에이전트
 

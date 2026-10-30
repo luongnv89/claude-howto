@@ -1,3 +1,7 @@
+<!-- i18n-source: CLAUDE.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # CLAUDE.md
 
 튜토리얼 저장소입니다. 결과물은 앱이 아니라 `01-`부터 `10-`까지 번호가 매겨진 모듈의 Markdown입니다. `scripts/`의 스크립트는 문서 검증과 EPUB 빌드를 위해서만 존재합니다.

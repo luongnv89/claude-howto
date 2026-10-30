@@ -1,3 +1,7 @@
+<!-- i18n-source: 03-skills/refactor/references/code-smells.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # 코드 스멜 카탈로그
 
 Martin Fowler의 *Refactoring* (2판)을 기반으로 한 코드 스멜에 대한 포괄적인 참고 자료입니다. 코드 스멜은 더 깊은 문제의 증상이며, 코드 설계에 문제가 있을 수 있음을 나타냅니다.

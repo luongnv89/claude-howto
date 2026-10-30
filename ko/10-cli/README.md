@@ -1,3 +1,7 @@
+<!-- i18n-source: 10-cli/README.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../../resources/logos/claude-howto-logo.svg">
@@ -508,7 +512,7 @@ claude -p --agents "$(cat agents.json)" --model sonnet "analyze performance"
 2. **프로젝트 수준** (`.claude/agents/`) - 현재 프로젝트
 3. **사용자 수준** (`~/.claude/agents/`) - 모든 프로젝트
 
-CLI 정의 에이전트는 세션에 대해 프로젝트 및 사용자 에이전트 모두를 재정의합니다. 프로젝트 수준 에이전트는 이름이 충돌할 때 사용자 수준 에이전트를 재정의합니다. 플러그인 수준 에이전트를 포함한 전체 우선순위 표는 [레슨 04 — 서브에이전트](../04-subagents/README.md#file-locations)를 참조하십시오.
+CLI 정의 에이전트는 세션에 대해 프로젝트 및 사용자 에이전트 모두를 재정의합니다. 프로젝트 수준 에이전트는 이름이 충돌할 때 사용자 수준 에이전트를 재정의합니다. 플러그인 수준 에이전트를 포함한 전체 우선순위 표는 [레슨 04 — 서브에이전트](../04-subagents/README.md#파일-위치)를 참조하십시오.
 
 ### 에이전트 뷰 (`claude agents`, v2.1.139+)
 
@@ -867,7 +871,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Son
 | `ANTHROPIC_DEFAULT_OPUS_MODEL` | 기본 Opus 모델 ID 재정의 |
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | 기본 Sonnet 모델 ID 재정의 |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | 기본 Haiku 모델 ID 재정의 |
-| `MAX_THINKING_TOKENS` | 확장된 사고 토큰 예산 설정 |
+| `MAX_THINKING_TOKENS` | 확장 사고 토큰 예산 설정 |
 | `CLAUDE_CODE_EFFORT_LEVEL` | 노력 수준 설정 (`low`/`medium`/`high`/`xhigh`/`max`) — 기본값은 Opus 5.5, Sonnet 5.5, Haiku 5.5에서 `medium`, Opus 5, Sonnet 5, Opus 4.8에서 `high` (Opus 4.7에서 `xhigh`); `xhigh`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5 또는 Opus 4.8/4.7 필요; `max`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 및 Sonnet 4.6에서 작동 |
 | `CLAUDE_CODE_SIMPLE` | `--bare` 플래그로 설정되는 최소 모드 |
 | `CLAUDE_CODE_SAFE_MODE` | 모든 사용자 정의를 비활성화한 상태로 시작하려면 `1`로 설정합니다 (CLAUDE.md, 플러그인, 스킬, 훅, MCP) — 구성 문제 격리를 위한 `--safe-mode`의 환경 변수 형식 (v2.1.169) |
@@ -968,18 +972,18 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Son
 
 ## Settings.json 키
 
-이러한 키는 플래그나 환경 변수로 전달되는 대신 `settings.json` 파일 (사용자 범위의 경우 `~/.claude/settings.json`, 프로젝트 범위의 경우 `.claude/settings.json`)에 있습니다. 아래 표는 최근 추가된 몇 가지 UI/UX 키를 다루며, 관리되는 `enforceAvailableModels` 키에 대해서는 [고급 기능 → 관리되는 설정](../09-advanced-features/README.md#available-managed-settings)을 참조하십시오.
+이러한 키는 플래그나 환경 변수로 전달되는 대신 `settings.json` 파일 (사용자 범위의 경우 `~/.claude/settings.json`, 프로젝트 범위의 경우 `.claude/settings.json`)에 있습니다. 아래 표는 최근 추가된 몇 가지 UI/UX 키를 다루며, 관리되는 `enforceAvailableModels` 키에 대해서는 [고급 기능 → 관리되는 설정](../09-advanced-features/README.md#사용-가능한-관리형-설정)을 참조하십시오.
 
 | Key | Description |
 |-----|-------------|
-| `respondToBashCommands` | (v2.1.186) `!` bash 명령의 출력에 자동으로 응답합니다. 기본값은 `true`입니다. 컨텍스트 전용 (v2.1.186 이전) 동작을 위해서는 `false`로 설정하십시오. [고급 기능 → Bash 모드](../09-advanced-features/README.md#bash-mode)를 참조하십시오. |
+| `respondToBashCommands` | (v2.1.186) `!` bash 명령의 출력에 자동으로 응답합니다. 기본값은 `true`입니다. 컨텍스트 전용 (v2.1.186 이전) 동작을 위해서는 `false`로 설정하십시오. [고급 기능 → Bash 모드](../09-advanced-features/README.md#bash-모드)를 참조하십시오. |
 | `wheelScrollAccelerationEnabled` | (v2.1.174) 전체 화면 렌더러에서 마우스 휠 스크롤 가속을 비활성화하려면 `false`로 설정하십시오. 빠른 휠 움직임이 너무 많이 지나칠 때 유용합니다. |
 | `footerLinksRegexes` | (v2.1.176) 일치하는 링크를 바닥글 행에 배지로 렌더링하는 정규식 배열입니다. 사용자 또는 관리 설정에서 구성 가능합니다. |
 | `language` | Claude의 선호 응답 언어와 음성 받아쓰기 언어를 설정합니다 (예: `"french"`, `"japanese"`). **v2.1.176**부터 자동 생성되는 세션 제목에 사용되는 언어도 고정합니다. |
 | `sandbox.filesystem.disabled` | (v2.1.216) 네트워크 egress 제어는 유지하면서 파일 시스템 샌드박싱을 건너뜁니다. 파일 샌드박싱이 도구를 깨뜨리지만 네트워크 정책은 계속 적용해야 하는 워크플로용입니다. |
 | `emojiCompletionEnabled` | (v2.1.217) 프롬프트 입력에서 이모지 단축 코드 자동 완성을 활성화합니다 (예: `:heart:`를 입력하면 ❤️ 삽입). 비활성화하려면 `false`로 설정합니다. |
 | `workflowSizeGuideline` | (v2.1.219) 어느 설정 파일에서든 권장 Dynamic workflow 크기 가이드라인을 설정합니다. 이 가이드라인은 강제 상한이 아니라 Claude가 목표로 삼는 지침입니다. 기본값은 medium(에이전트 10개 미만 목표)이며, Pro 플랜으로 로그인한 경우 small입니다 (v2.1.271+). 다른 크기나 무제한을 선택할 수도 있습니다. 이 키가 설정되어 있으면 `/config`에서 "Dynamic workflow size" 행이 숨겨집니다. 강제 동시성 한도인 `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`와는 다릅니다. |
-| `spellcheck` | (v2.1.235) `PATH`에 있는 `aspell`, `hunspell`, `ispell` 중 하나(이 순서로 시도)를 사용해 프롬프트 입력의 철자 오류에 밑줄을 표시합니다. 객체 값 — `{"enabled": true, "language": "en_GB"}` — 이며 기본적으로 꺼져 있습니다. **사용자 설정, `--settings` 플래그, 관리형 설정에서만 읽습니다**: 프로젝트 `.claude/settings.json` 또는 `.claude/settings.local.json`의 `spellcheck` 블록은 무시됩니다. [고급 기능 → 추가 사용자별 설정](../09-advanced-features/README.md#additional-per-user-settings)도 참조하십시오. |
+| `spellcheck` | (v2.1.235) `PATH`에 있는 `aspell`, `hunspell`, `ispell` 중 하나(이 순서로 시도)를 사용해 프롬프트 입력의 철자 오류에 밑줄을 표시합니다. 객체 값 — `{"enabled": true, "language": "en_GB"}` — 이며 기본적으로 꺼져 있습니다. **사용자 설정, `--settings` 플래그, 관리형 설정에서만 읽습니다**: 프로젝트 `.claude/settings.json` 또는 `.claude/settings.local.json`의 `spellcheck` 블록은 무시됩니다. [고급 기능 → 추가 사용자별 설정](../09-advanced-features/README.md#추가-사용자별-설정)도 참조하십시오. |
 | `modelPicker` | (v2.1.243) `/model` 선택기에 표시할 모델을 원하는 순서와 레이블로 고릅니다. 설정 계층 간에 **병합되지 않고 대체되는** 몇 안 되는 설정 중 하나입니다. |
 | `promptCacheTtl` | (v2.1.243) 메인 대화의 프롬프트 캐시 수명을 선택합니다. |
 | `subagentPromptCacheTtl` | (v2.1.243) 서브에이전트 및 메인 대화 외부의 다른 요청에 대해 같은 선택을 합니다. |
@@ -1100,12 +1104,12 @@ claude -p --output-format json "query"
 - **[슬래시 명령어](../01-slash-commands/)** - Claude 내의 사용자 정의 단축키
 - **[메모리 가이드](../02-memory/)** - CLAUDE.md를 통한 영구 컨텍스트
 - **[MCP 프로토콜](../05-mcp/)** - 외부 도구 통합
-- **[고급 기능](../09-advanced-features/)** - 계획 모드, 확장된 사고
+- **[고급 기능](../09-advanced-features/)** - 계획 모드, 확장 사고
 - **[서브에이전트 가이드](../04-subagents/)** - 위임된 작업 실행
 
 ---
 
-* [Claude 사용법](../) 가이드 시리즈의 일부입니다 *
+*[Claude How To](../) 가이드 시리즈의 일부입니다*
 
 ---
 

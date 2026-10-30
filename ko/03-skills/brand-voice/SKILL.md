@@ -3,6 +3,9 @@ name: brand-voice
 description: 모든 커뮤니케이션이 브랜드 보이스 및 톤 가이드라인과 일치하도록 합니다. 마케팅 문구, 고객 커뮤니케이션, 대외 공개 콘텐츠를 제작할 때 또는 사용자가 브랜드 보이스, 톤, 글쓰기 스타일을 언급할 때 사용하세요.
 user-invocable: false
 ---
+<!-- i18n-source: 03-skills/brand-voice/SKILL.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 브랜드 보이스 스킬
 

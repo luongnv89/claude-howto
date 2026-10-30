@@ -3,6 +3,9 @@ name: api-documenter
 description: API 문서화 전문 에이전트
 tools: Read, Write, Grep
 ---
+<!-- i18n-source: 07-plugins/documentation/agents/api-documenter.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # API Documenter
 

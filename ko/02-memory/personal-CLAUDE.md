@@ -1,3 +1,7 @@
+<!-- i18n-source: 02-memory/personal-CLAUDE.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # 저의 개발 선호 사항
 
 ## 저에 대하여

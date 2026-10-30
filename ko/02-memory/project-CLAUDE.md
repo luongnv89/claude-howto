@@ -1,3 +1,7 @@
+<!-- i18n-source: 02-memory/project-CLAUDE.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # 프로젝트 구성
 
 ## 프로젝트 개요

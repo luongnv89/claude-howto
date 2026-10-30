@@ -3,6 +3,9 @@ name: example-generator
 description: 코드 예제 및 튜토리얼 전문 에이전트
 tools: Read, Write
 ---
+<!-- i18n-source: 07-plugins/documentation/agents/example-generator.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # Example Generator
 

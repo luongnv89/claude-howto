@@ -1,3 +1,7 @@
+<!-- i18n-source: 08-checkpoints/checkpoint-examples.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # 체크포인트 예제(Checkpoints and Rewind Examples)
 
 Claude Code에서 체크포인트를 효과적으로 사용하는 실제 예제입니다.

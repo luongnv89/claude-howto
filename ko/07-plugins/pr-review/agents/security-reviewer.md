@@ -3,6 +3,9 @@ name: security-reviewer
 description: 보안 중심 코드 리뷰
 tools: Read, Grep, Bash
 ---
+<!-- i18n-source: 07-plugins/pr-review/agents/security-reviewer.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 보안 리뷰어
 

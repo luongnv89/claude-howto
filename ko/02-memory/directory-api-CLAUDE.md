@@ -1,3 +1,7 @@
+<!-- i18n-source: 02-memory/directory-api-CLAUDE.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # API 모듈 표준
 
 이 파일은 /src/api/ 내의 모든 항목에 대해 루트 CLAUDE.md를 보완합니다. 메모리 파일은

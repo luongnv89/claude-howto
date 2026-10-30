@@ -1,6 +1,9 @@
 ---
 description: 프로젝트 README를 생성하거나 업데이트합니다
 ---
+<!-- i18n-source: 07-plugins/documentation/commands/generate-readme.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # README 생성기
 

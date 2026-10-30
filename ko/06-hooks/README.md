@@ -1,3 +1,7 @@
+<!-- i18n-source: 06-hooks/README.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../../resources/logos/claude-howto-logo.svg">
@@ -91,7 +95,7 @@
 
 `matcher` 필드는 **도구 이름**(`"Write"`, `"Edit|Write"`, `"*"`)으로 훅을 선택합니다. 도구의 **인수**로 더 좁게 필터링하려면(예: 편집이 `src/`에 영향을 줄 때만 훅을 실행하거나, 비밀 파일 읽기를 막으려는 경우) 개별 훅 핸들러에 `if` 조건을 추가합니다. 이는 도구 이름 매처와 다릅니다. `matcher`는 *어떤 도구*인지를, `if`는 *어떤 호출*인지를 결정합니다.
 
-`if`는 [권한 규칙 구문](https://code.claude.com/docs/en/permissions)(`ToolName(pattern)`)을 사용하며, 도구 이름과 **그 인수를 함께** 평가합니다. `Read`/`Edit`/`Write`의 경로 패턴은 gitignore 의미 체계를 따르며 권한 규칙과 같은 기준점을 사용합니다. `.env` 같은 단순 이름은 모든 깊이에서 매칭되고, `src/**`는 현재 디렉터리 기준, `/src/**`는 프로젝트 루트 기준, `~/...`는 홈 디렉터리 기준이며, `//...`는 파일 시스템 절대 경로입니다.
+`if`는 [권한 규칙 구문](https://code.claude.com/docs/en/permissions) (`ToolName(pattern)`)을 사용하며, 도구 이름과 **그 인수를 함께** 평가합니다. `Read`/`Edit`/`Write`의 경로 패턴은 gitignore 의미 체계를 따르며 권한 규칙과 같은 기준점을 사용합니다. `.env` 같은 단순 이름은 모든 깊이에서 매칭되고, `src/**`는 현재 디렉터리 기준, `/src/**`는 프로젝트 루트 기준, `~/...`는 홈 디렉터리 기준이며, `//...`는 파일 시스템 절대 경로입니다.
 
 `if` 필드는 `matcher`가 아니라 **훅 핸들러 수준**, 즉 `hooks` 배열 안에서 `type`, `command`와 같은 수준에 둡니다.
 
@@ -554,7 +558,7 @@ exit 0
 - `agent_needs_input` - 백그라운드 에이전트가 입력을 필요로 함(v2.1.198)
 - `agent_completed` - 백그라운드 에이전트가 완료됨(v2.1.198)
 - `quota_auto_resume_fired` / `quota_auto_resume_stale` / `quota_auto_resume_disabled` - 사용량 한도 자동 재개 결과(v2.1.234)
-- `plugin_notification` - 모드가 `$.ui.notify`로 알림을 발생시킴. 모드가 직접 설정하지 않으면 훅의 `title`은 모드 이름입니다
+- `plugin_notification` - 모드(mod)가 `$.ui.notify`로 알림을 발생시킴. 모드가 직접 설정하지 않으면 훅의 `title`은 모드 이름입니다
 
 ### PreModelSwitch
 

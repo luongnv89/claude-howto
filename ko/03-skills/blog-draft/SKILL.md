@@ -273,6 +273,9 @@ blog-posts/
 - 대상 독자 (기술적, 일반적, 비즈니스 등)에 따라 어조를 조정합니다.
 
 ---
+<!-- i18n-source: 03-skills/blog-draft/SKILL.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 **최종 업데이트**: 2026년 8월 4일
 **Claude Code 버전**: 2.1.220

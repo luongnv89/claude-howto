@@ -1,6 +1,9 @@
 ---
 description: 보안 중심 코드 리뷰 실행
 ---
+<!-- i18n-source: 07-plugins/pr-review/commands/check-security.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 보안 점검
 

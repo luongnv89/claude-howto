@@ -1,3 +1,7 @@
+<!-- i18n-source: 02-memory/README.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../../resources/logos/claude-howto-logo.svg">
@@ -370,7 +374,7 @@ Claude Code 설정(`autoMemoryDirectory`, `claudeMdExcludes` 및 기타 구성 �
 | `attribution.commit` | 문자열 | Claude가 생성한 커밋에 추가되는 텍스트입니다(기본값은 `Co-Authored-By: Claude` 트레일러). `""`로 설정하면 숨겨집니다. 지원 중단된 `includeCoAuthoredBy` 플래그를 대체합니다. |
 | `attribution.pr` | 문자열 | Claude가 생성한 풀 리퀘스트 설명에 추가되는 텍스트입니다. `""`로 설정하면 숨겨집니다. PR에 대해 지원 중단된 `includeCoAuthoredBy` 플래그를 대체합니다. |
 | `attribution.sessionUrl` | 부울 | 웹 및 원격 제어 세션에서 생성된 커밋 및 PR에서 claude.ai 세션 링크를 생략합니다 (v2.1.183+). |
-| `voice.enabled` | 부울 | 푸시 투 토크 음성 받아쓰기 (`/voice`)를 활성화합니다. 더 이상 사용되지 않는 `voiceEnabled` 플래그를 대체합니다. |
+| `voice.enabled` | 부울 | 푸시 투 토크 음성 받아쓰기 (`/voice`)를 활성화합니다. 지원 중단된 `voiceEnabled` 플래그를 대체합니다. |
 | `prUrlTemplate` | 문자열 | **v2.1.119에 새로 추가됨.** 푸터 PR 배지를 위한 사용자 지정 URL 템플릿; GitLab, Bitbucket 또는 내부 코드 검토 플랫폼에 유용합니다. `{host}`, `{owner}`, `{repo}`, `{number}`, `{url}` 플레이스홀더를 지원하며, GitLab 병합 요청 링크는 변경되지 않습니다. |
 
 ```jsonc
@@ -389,11 +393,11 @@ Claude Code 설정(`autoMemoryDirectory`, `claudeMdExcludes` 및 기타 구성 �
 
 빈 문자열(`""`)은 해당 속성 표시를 숨기고, `"attribution": false`는 모두 숨깁니다 (v2.1.281+).
 
-#### 더 이상 사용되지 않는 설정 이름
+#### 지원 중단된 설정 이름
 
 다음 레거시 설정 키는 여전히 작동하지만 더 이상 사용되지 않습니다. 위 대체 키를 선호하세요.
 
-| 사용 중단된 키 | 대체 키 | 참고 |
+| 지원 중단된 키 | 대체 키 | 참고 |
 |----------------|-------------|-------|
 | `includeCoAuthoredBy` | `attribution.commit` / `attribution.pr` | 기존의 단일 플래그가 별도의 커밋 및 PR 스위치로 분할되었습니다. 이전 설치 사용자는 레거시 키를 유지할 수 있지만, 새 프로젝트는 중첩된 형태를 사용해야 합니다. |
 | `voiceEnabled` | `voice.enabled` | 향후 음성 관련 옵션과 함께 `voice` 네임스페이스 아래에 그룹화되었습니다. |
@@ -914,7 +918,7 @@ Added to ./CLAUDE.md:
 | 기능 | Claude 웹/데스크톱 | Claude Code (CLAUDE.md) |
 |---------|-------------------|------------------------|
 | 자동 합성 | ✅ 24시간마다 | ✅ 자동 메모리 |
-| 교차 프로젝트 | ✅ 공유 프로젝트 | ❌ 프로젝트별 |
+| 교차 프로젝트 | ✅ 공유됨 | ❌ 프로젝트별 |
 | 팀 접근 | ✅ 공유 프로젝트 | ✅ Git 추적 |
 | 검색 가능 | ✅ 내장 | ✅ `/memory`를 통해 |
 | 편집 가능 | ✅ 채팅 내 | ✅ 직접 파일 편집 |

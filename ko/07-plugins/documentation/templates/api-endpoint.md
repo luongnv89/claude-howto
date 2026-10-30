@@ -1,3 +1,7 @@
+<!-- i18n-source: 07-plugins/documentation/templates/api-endpoint.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # [METHOD] /api/v1/[endpoint]
 
 ## 설명

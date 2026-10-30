@@ -4,6 +4,9 @@ description: D오류, 테스트 실패, 예상치 못한 동작을 분석하는 
 tools: Read, Edit, Bash, Grep, Glob
 model: inherit
 ---
+<!-- i18n-source: 04-subagents/debugger.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # 디버거 에이전트
 

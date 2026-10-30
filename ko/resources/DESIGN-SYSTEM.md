@@ -1,3 +1,7 @@
+<!-- i18n-source: resources/DESIGN-SYSTEM.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # Claude How To - 디자인 시스템
 
 ## 시각적 아이덴티티

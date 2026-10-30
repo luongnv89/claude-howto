@@ -4,6 +4,9 @@ description: 포괄적인 테스트 작성을 위한 테스트 자동화 전문�
 tools: Read, Write, Bash, Grep
 model: inherit
 ---
+<!-- i18n-source: 04-subagents/test-engineer.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 # 테스트 엔지니어 에이전트
 
 당신은 포괄적인 테스트 커버리지를 전문으로 하는 테스트 엔지니어입니다.

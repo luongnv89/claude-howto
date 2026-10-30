@@ -1,6 +1,9 @@
 ---
 description: 보안 및 테스트 검증을 포함한 종합적인 PR 리뷰 시작
 ---
+<!-- i18n-source: 07-plugins/pr-review/commands/review-pr.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
 
 # PR 리뷰
 

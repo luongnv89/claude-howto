@@ -1,3 +1,7 @@
+<!-- i18n-source: CHANGELOG.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 # 변경 로그
 
 ## [v2.1.245] — 2026-08-25
@@ -442,7 +446,7 @@ v2.1.220(2026-07-25)이 여전히 현재 Claude Code 릴리스이므로, 이 항
 - Pro/Max 구독자의 Opus 4.6 / Sonnet 4.6 기본 노력 수준이 `medium`에서 `high`로 상향 조정되었습니다 (v2.1.117).
 - `STYLE_GUIDE.md`의 소스 URL이 Claude Apps 문서에서 `code.claude.com/docs/en/changelog`로 업데이트되었습니다.
 
-### 사용 중단됨 (추적 중, 제거되지 않음)
+### 지원 중단됨 (추적 중, 제거되지 않음)
 
 - `includeCoAuthoredBy` 설정 → `attribution.commit` / `attribution.pr` 사용
 - `voiceEnabled` 설정 → `voice.enabled` 사용
@@ -535,7 +539,7 @@ v2.1.220(2026-07-25)이 여전히 현재 Claude Code 릴리스이므로, 이 항
 ### 문서
 
 - 모든 튜토리얼 및 참조를 Claude Code v2.1.84와 동기화 (f78c094) @luongnv89
-  - 슬래시 명령을 55개 이상의 내장 + 5개의 번들 스킬로 업데이트하고, 3개는 사용 중단됨으로 표시
+  - 슬래시 명령을 55개 이상의 내장 + 5개의 번들 스킬로 업데이트하고, 3개는 지원 중단됨으로 표시
   - 훅 이벤트를 18개에서 25개로 확장하고, `agent` 훅 유형 추가 (현재 4개 유형)
   - 고급 기능에 자동 모드, 채널, 음성 받아쓰기 추가
   - `effort`, `shell` 스킬 프런트매터 필드 추가; `initialPrompt`, `disallowedTools` 에이전트 필드 추가
@@ -574,7 +578,7 @@ v2.1.220(2026-07-25)이 여전히 현재 Claude Code 릴리스이므로, 이 항
 
 ### 버그 수정
 
-- 깨진 URL, 사용 중단된 항목, 오래된 참조 업데이트 (8fe4520) @luongnv89
+- 깨진 URL, 지원 중단된 항목, 오래된 참조 업데이트 (8fe4520) @luongnv89
 - 리소스 및 자기 평가 스킬의 깨진 링크 수정 (7a05863) @luongnv89
 - 개념 가이드의 중첩 코드 블록에 물결표 펜스 사용 (5f82719) @VikalpP
 - cSpell 사전에 누락된 단어 추가 (8df7572) @luongnv89

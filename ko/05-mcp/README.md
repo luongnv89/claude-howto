@@ -1,3 +1,7 @@
+<!-- i18n-source: 05-mcp/README.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../../resources/logos/claude-howto-logo.svg">
@@ -122,7 +126,7 @@ Claude Code가 어디에서 실행되었는지에 관계없이 stdio 서버가 �
 
 stdio MCP 서버는 또한 `CLAUDE_CODE_SESSION_ID`를 수신합니다(훅 및 Bash에 전달된 값과 일치). 세션이 `--resume`으로 재개될 때도 마찬가지입니다(v2.1.163 이상).
 
-### SSE 전송 (사용 중단)
+### SSE 전송 (지원 중단)
 
 Server-Sent Events 전송은 `http` 방식에 비해 사용이 중단되었지만 여전히 지원됩니다.
 
