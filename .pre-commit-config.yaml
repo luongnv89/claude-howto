@@ -89,7 +89,7 @@ repos:
       # hook (nodeenv), so no system Node is needed, and `--strict` makes a
       # failed bundle download fail the hook instead of skipping it. The first
       # run needs network access; offline, skip them with
-      # SKIP=mermaid,vietnamese-mermaid,japanese-mermaid.
+      # SKIP=mermaid,vietnamese-mermaid,japanese-mermaid,korean-mermaid.
       - id: mermaid
         name: mermaid-syntax
         language: node
@@ -187,4 +187,39 @@ repos:
         entry: python scripts/check_links.py
         pass_filenames: false
         files: ^ja/.*\.md$
+        verbose: true
+
+  # Korean documentation checks
+  - repo: local
+    hooks:
+      - id: korean-markdown-lint
+        name: korean-markdown-lint
+        language: node
+        entry: markdownlint
+        args: ['--ignore', 'node_modules', '--ignore', '.venv', '--config', '.markdownlint.json']
+        files: ^ko/.*\.md$
+        additional_dependencies: ['markdownlint-cli']
+
+      - id: korean-cross-references
+        name: korean-cross-references
+        language: system
+        entry: python scripts/check_cross_references.py
+        pass_filenames: false
+        files: ^ko/.*\.md$
+
+      - id: korean-mermaid
+        name: korean-mermaid-syntax
+        language: node
+        language_version: 22.12.0
+        entry: python scripts/check_mermaid.py --strict
+        pass_filenames: false
+        files: ^ko/.*\.md$
+        verbose: true
+
+      - id: korean-link-check
+        name: korean-link-check
+        language: system
+        entry: python scripts/check_links.py
+        pass_filenames: false
+        files: ^ko/.*\.md$
         verbose: true
