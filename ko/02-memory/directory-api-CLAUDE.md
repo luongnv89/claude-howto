@@ -1,0 +1,76 @@
+<!-- i18n-source: 02-memory/directory-api-CLAUDE.md -->
+<!-- i18n-source-sha: b968f42 -->
+<!-- i18n-date: 2026-10-31 -->
+
+# API 모듈 표준
+
+이 파일은 /src/api/ 내의 모든 항목에 대해 루트 CLAUDE.md를 보완합니다. 메모리 파일은
+재정의되지 않고 연결(concatenate)됩니다. 루트 CLAUDE.md는 여전히 적용되며, Claude Code는
+이 하위 트리의 파일을 읽거나 쓰거나 편집할 때 이 파일을 필요에 따라 로드합니다.
+
+## API 특정 표준
+
+### 요청 유효성 검사
+- 스키마 유효성 검사에 Zod 사용
+- 항상 입력 유효성 검사
+- 유효성 검사 오류와 함께 400 반환
+- 필드 수준 오류 세부 정보 포함
+
+### 인증
+- 모든 엔드포인트는 JWT 토큰 필요
+- Authorization 헤더에 토큰 포함
+- 토큰은 24시간 후 만료
+- 리프레시 토큰 메커니즘 구현
+
+### 응답 형식
+
+모든 응답은 다음 구조를 따라야 합니다:
+
+```json
+{
+  "success": true,
+  "data": { /* actual data */ },
+  "timestamp": "2025-11-06T10:30:00Z",
+  "version": "1.0"
+}
+```
+
+오류 응답:
+```json
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "User message",
+    "details": { /* field errors */ }
+  },
+  "timestamp": "2025-11-06T10:30:00Z"
+}
+```
+
+### 페이지네이션
+- 커서 기반 페이지네이션 사용 (오프셋 방식 아님)
+- `hasMore` 불리언 포함
+- 최대 페이지 크기를 100으로 제한
+- 기본 페이지 크기: 20
+
+### 속도 제한
+- 인증된 사용자는 시간당 1000 요청
+- 공개 엔드포인트는 시간당 100 요청
+- 초과 시 429 반환
+- retry-after 헤더 포함
+
+### 캐싱
+- 세션 캐싱에 Redis 사용
+- 캐시 지속 시간: 기본 5분
+- 쓰기 작업 시 무효화
+- 리소스 유형으로 캐시 키 태그 지정
+
+---
+**최종 업데이트**: 2026년 10월 10일
+**Claude Code 버전**: 2.1.296
+**출처**:
+- https://code.claude.com/docs/en/memory
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.288
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.293
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
