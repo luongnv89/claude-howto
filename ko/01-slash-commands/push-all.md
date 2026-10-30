@@ -7,7 +7,7 @@ allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*), Bash(git
 
 ⚠️ **주의**: 모든 변경 사항을 스테이징하고, 커밋하며, 원격 저장소로 푸시합니다. 모든 변경 사항이 함께 속한다고 확신할 때만 사용하십시오.
 
-## 워크플로우
+## 워크플로
 
 ### 1. 변경 사항 분석
 다음 명령어를 병렬로 실행합니다:
@@ -123,7 +123,7 @@ Files changed: X (+insertions, -deletions)
 - **git push 실패**:
   - 논-패스트포워드(Non-fast-forward): `git pull --rebase && git push`
   - 원격 브랜치 없음: `git push -u origin [branch]`
-  - 보호된 브랜치: 대신 PR 워크플로우를 사용하십시오.
+  - 보호된 브랜치: 대신 PR 워크플로를 사용하십시오.
 
 ## 사용 시기
 
@@ -131,7 +131,7 @@ Files changed: X (+insertions, -deletions)
 - 여러 파일에 걸친 문서 업데이트
 - 테스트와 문서가 포함된 기능
 - 여러 파일에 걸친 버그 수정
-- 프로젝트 전반의 형식 지정/리팩토링
+- 프로젝트 전반의 형식 지정/리팩터링
 - 구성 변경
 
 ❌ **피해야 할 경우:**
@@ -147,9 +147,13 @@ Files changed: X (+insertions, -deletions)
 사용자가 더 많은 제어를 원할 경우, 다음을 제안합니다:
 1. **선택적 스테이징**: 특정 파일을 검토/스테이징
 2. **대화형 스테이징**: 패치 선택을 위한 `git add -p`
-3. **PR 워크플로우**: 브랜치 생성 → 푸시 → PR (`/pr` 명령 사용)
+3. **PR 워크플로**: 브랜치 생성 → 푸시 → PR (`/pr` 명령 사용)
 
 **⚠️ 기억하십시오**: 푸시하기 전에 항상 변경 사항을 검토하십시오. 확신이 서지 않을 때는 개별 git 명령을 사용하여 더 많은 제어를 확보하십시오.
 
 ---
-**최종 업데이트**: 2026년 4월 9일
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/commands
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

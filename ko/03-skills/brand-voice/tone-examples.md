@@ -10,4 +10,12 @@
 "Claude는 단순히 코드를 제안하는 것을 넘어섭니다. 아키텍처를 이해하고 일관성을 유지합니다."
 
 ## 교육용 블로그 게시물
-"에이전트가 코드 검토 워크플로우를 어떻게 개선하는지 알아봅시다. 다음은 우리가 배운 내용입니다..."
+"에이전트가 코드 검토 워크플로를 어떻게 개선하는지 알아봅시다. 다음은 우리가 배운 내용입니다..."
+
+---
+
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/skills
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

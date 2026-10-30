@@ -21,9 +21,13 @@ description: 컨텍스트를 사용하여 git 커밋 생성
 - `feat:` 새로운 기능용
 - `fix:` 버그 수정용
 - `docs:` 문서 변경용
-- `refactor:` 코드 리팩토링용
+- `refactor:` 코드 리팩터링용
 - `test:` 테스트 추가용
 - `chore:` 유지보수 작업용
 
 ---
-**최종 업데이트**: April 9, 2026
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/commands
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

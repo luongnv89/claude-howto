@@ -9,7 +9,6 @@ Claude How To 프로젝트의 보안은 매우 중요합니다. 이 문서는 �
 | Version | Status | Support Until |
 |---------|--------|---------------|
 | Latest (main) | ✅ Active | Current + 6 months |
-| 1.x releases | ✅ Active | Until next major version |
 
 **참고**: 이 프로젝트는 교육용 가이드 프로젝트이므로, 일반적인 버전 지원보다는 최신 모범 사례와 문서 보안을 유지하는 데 중점을 둡니다. 업데이트는 메인 브랜치에 직접 적용됩니다.
 
@@ -326,7 +325,11 @@ Past security advisories are available in the [GitHub Security Advisories](https
 - 프로젝트 범위가 변경될 때
 - 최소 연 1회 정기 검토 시
 
-**최종 업데이트**: 2026년 4월 27일
+**최종 업데이트**: 2026년 8월 25일
+**Claude Code 버전**: 2.1.245
+**출처**:
+- https://code.claude.com/docs/en/overview
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 **다음 검토 예정**: 2027년 4월
 
 ---

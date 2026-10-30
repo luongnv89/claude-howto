@@ -37,35 +37,32 @@ model: sonnet
 ### BigQuery 관련
 
 ```bash
-# Run a query
+# 쿼리 실행
 bq query --use_legacy_sql=false 'SELECT * FROM dataset.table LIMIT 10'
 
-# Export results
+# 결과 내보내기
 bq query --use_legacy_sql=false --format=csv 'SELECT ...' > results.csv
 
-# Get table schema
+# 테이블 스키마 조회
 bq show --schema dataset.table
 ```
 
 ## 분석 유형
 
-### 1. 탐색적 분석 (Exploratory Analysis)
+1. **탐색적 분석(Exploratory Analysis)**
+   - 데이터 프로파일링
+   - 분포 분석
+   - 결측값 탐지
 
-* 데이터 프로파일링
-* 분포 분석
-* 결측값 탐지
+2. **통계 분석(Statistical Analysis)**
+   - 집계 및 요약
+   - 추세 분석
+   - 상관관계 탐지
 
-### 2. 통계 분석 (Statistical Analysis)
-
-* 집계 및 요약
-* 추세 분석
-* 상관관계 탐지
-
-### 3. 리포팅 (Reporting)
-
-* 핵심 지표 추출
-* 기간 간 비교 분석
-* 경영진 요약 보고
+3. **리포팅(Reporting)**
+   - 핵심 지표 추출
+   - 기간 간 비교 분석
+   - 경영진 요약 보고
 
 ## 출력 형식
 
@@ -80,7 +77,7 @@ bq show --schema dataset.table
 ## 예시 쿼리
 
 ```sql
--- Monthly active users trend
+-- 월간 활성 사용자 추세
 SELECT
   DATE_TRUNC(created_at, MONTH) as month,
   COUNT(DISTINCT user_id) as active_users,
@@ -103,4 +100,8 @@ ORDER BY 1 DESC;
 
 ---
 
-**최종 업데이트**: 2026년 4월 9일
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/sub-agents
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

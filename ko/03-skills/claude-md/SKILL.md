@@ -13,11 +13,11 @@ $ARGUMENTS
 - `create` - 처음부터 새로운 CLAUDE.md 생성
 - `update` - 기존 CLAUDE.md 개선
 - `audit` - 현재 CLAUDE.md의 품질 분석 및 보고
-- 생성/업데이트할 특정 경로 (예: 디렉토리별 지침을 위한 `src/api/CLAUDE.md`)
+- 생성/업데이트할 특정 경로 (예: 디렉터리별 지침을 위한 `src/api/CLAUDE.md`)
 
 ## 핵심 원칙
 
-**LLM은 상태를 기억하지 못합니다(Stateless)**: CLAUDE.md는 모든 대화에 자동으로 포함되는 유일한 파일입니다. 이는 AI 에이전트가 여러분의 코드베이스에 투입될 때 가장 먼저 읽는 핵심 온보딩 문서 역할을 합니다.
+**LLM은 상태를 기억하지 못합니다(Stateless)**: CLAUDE.md는 모든 대화에 로드되는 핵심 프로젝트 파일입니다(자동 메모리 및 범위가 지정되지 않은 규칙과 함께 로드됩니다). 이는 AI 에이전트가 여러분의 코드베이스에 투입될 때 가장 먼저 읽는 핵심 온보딩 문서 역할을 합니다.
 
 ### 황금률
 
@@ -37,7 +37,7 @@ $ARGUMENTS
 
 1. 기존 CLAUDE.md 파일이 있는지 확인합니다:
    - 루트 레벨: `./CLAUDE.md` or `.claude/CLAUDE.md`
-   - 디렉토리 특정: `**/CLAUDE.md`
+   - 디렉터리 특정: `**/CLAUDE.md`
    - 글로벌 사용자 설정: `~/.claude/CLAUDE.md`
 
 2. 프로젝트 구조를 파악합니다:
@@ -57,7 +57,7 @@ CLAUDE.md를 다음 세 가지 차원을 중심으로 구성하세요:
 #### WHAT - 기술 및 구조
 - 기술 스택 개요
 - 프로젝트 구조 (특히 모노레포에서 중요)
-- 핵심 디렉토리 및 각각의 목적
+- 핵심 디렉터리 및 각각의 목적
 
 
 #### WHY - 목적 및 맥락
@@ -65,8 +65,8 @@ CLAUDE.md를 다음 세 가지 차원을 중심으로 구성하세요:
 - 특정 아키텍처 결정을 내린 이유
 - 각 주요 컴포넌트의 역할
 
-#### HOW - 워크플로우 및 관례
-- 개발 워크플로우 (bun vs node, pip vs uv 등)
+#### HOW - 워크플로 및 관례
+- 개발 워크플로 (bun vs node, pip vs uv 등)
 - 테스트 절차 및 명령어
 - 검증 및 빌드 방법
 - 치명적인 '주의 사항(gotchas)' 또는 직관적이지 않은 요구사항
@@ -94,7 +94,7 @@ For detailed build instructions, refer to `agent_docs/building_the_project.md`
 
 CLAUDE.md를 생성하거나 업데이트할 때:
 
-1. **목표 길이**: 300줄 미만 (이상적으로는 100줄 미만)
+1. **목표 길이**: 200줄 미만으로 유지합니다. 짧을수록 좋습니다.
 2. **스타일 규칙 배제**: 린팅/포맷팅 지침은 모두 제거
 3. **작업 특정 지침 배제**: 별도의 파일로 이동
 4. **코드 스니펫 배제**: 대신 파일 참조를 사용
@@ -150,7 +150,7 @@ CLAUDE.md를 생성하거나 업데이트할 때:
 ### 7. 검증 체크리스트
 
 최종 확정하기 전에 확인하세요:
-- [ ] 300줄 미만인가? (100줄 미만 권장)
+- [ ] 200줄 미만으로 유지했는가? (짧을수록 좋음)
 - [ ] 모든 줄이 모든 세션에 보편적으로 적용되는가?
 - [ ] 스타일/포맷팅 규칙이 없는가?
 - [ ] 코드 스니펫이 없는가? (파일 참조 사용)
@@ -192,10 +192,14 @@ CLAUDE.md를 생성하거나 업데이트할 때:
 
 사용자가 AGENTS.md 생성/업데이트를 요청하는 경우:
 
-AGENTS.md는 특화된 에이전트의 행동을 정의하는 데 사용됩니다. 프로젝트의 전반적인 맥락을 다루는 CLAUDE.md와 달리, AGENTS.md는 다음을 정의합니다:
-- 커스텀 에이전트의 역할 및 기능
-- 에이전트 전용 지침 및 제약 조건
-- 멀티 에이전트 시나리오를 위한 워크플로우 정의
+**v2.1.277부터 Claude Code는 `AGENTS.md`를 프로젝트 지침으로 직접 읽습니다.** 단, 작업 디렉터리와 그 상위의 모든 디렉터리에 `CLAUDE.md`, `.claude/CLAUDE.md`, `CLAUDE.local.md`가 하나도 없을 때만 해당합니다. `~/.claude/CLAUDE.md`, 관리형(managed) CLAUDE.md, `.claude/rules/`는 이 확인에 포함되지 않으며 계속 함께 로드됩니다. 어떤 파일을 읽을지는 `/config`의 **Project instructions** 항목으로 제어합니다: `claude-md-or-agents-md`(기본값), `claude-md-and-agents-md`, `claude-md`, `managed-only`. 직접 읽기를 사용할 수 없는 경우(v2.1.277 이전 버전(Bedrock/Vertex/Foundry, LLM 게이트웨이, 텔레메트리 비활성화 환경에서는 v2.1.281 이전), 또는 업그레이드 후 첫 세션)에는 CLAUDE.md에서 `@AGENTS.md`로 가져오거나 `CLAUDE.md`를 해당 파일에 대한 심볼릭 링크로 만드는 방식으로 대체합니다.
+
+AGENTS.md는 여러 도구가 공용으로 쓰는 프로젝트 컨텍스트 파일로, 에이전트 정의 형식이 아니라 CLAUDE.md와 같은 *종류*의 문서입니다. 여러 코딩 에이전트가 하나의 프로젝트 규칙 세트를 공유할 수 있도록 존재합니다:
+- 빌드, 테스트, 린트 명령어
+- 코드 스타일 및 아키텍처 규칙
+- 저장소 구조와 각 항목의 위치
+
+서브에이전트는 AGENTS.md가 아니라 `.claude/agents/*.md`에 별도로 정의합니다.
 
 유사한 원칙을 적용합니다:
 - 핵심에 집중하고 간결하게 유지할 것
@@ -208,4 +212,15 @@ AGENTS.md는 특화된 에이전트의 행동을 정의하는 데 사용됩니�
 - 확실하지 않을 때는 제외하세요. 적을수록 좋습니다.
 - 시스템 리마인더는 Claude에게 CLAUDE.md가 "관련이 있을 수도 있고 없을 수도 있다"고 알려줍니다. 노이즈(불필요한 정보)가 많아질수록 AI가 이를 무시할 확률이 높아집니다.
 - 모노레포는 명확한 WHAT/WHY/HOW 구조를 가질 때 가장 큰 이점을 얻습니다.
-- 디렉토리 특정 CLAUDE.md 파일은 훨씬 더 핵심에만 집중해야 합니다.
+- 디렉터리 특정 CLAUDE.md 파일은 훨씬 더 핵심에만 집중해야 합니다.
+
+---
+
+**최종 업데이트**: 2026년 10월 18일
+**Claude Code 버전**: 2.1.302
+**출처**:
+- https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/memory#agents-md
+- https://code.claude.com/docs/en/memory#when-agents-md-support-is-unavailable
+- https://code.claude.com/docs/en/memory
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

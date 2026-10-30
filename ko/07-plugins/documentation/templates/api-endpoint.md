@@ -34,7 +34,7 @@
   "success": true,
   "data": {
     "id": "123",
-    "name": "예시"
+    "name": "Example"
   }
 }
 ```
@@ -99,3 +99,11 @@ data = response.json()
 ## 관련 엔드포인트
 - [GET /api/v1/related](#)
 - [POST /api/v1/related](#)
+
+---
+
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/plugins
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

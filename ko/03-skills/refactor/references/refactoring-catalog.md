@@ -1021,3 +1021,11 @@ class TelephoneNumber {
 
 - Fowler, M. (2018). *Refactoring: Improving the Design of Existing Code* (2nd ed.)
 - 온라인 카탈로그: https://refactoring.com/catalog/
+
+---
+
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/skills
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

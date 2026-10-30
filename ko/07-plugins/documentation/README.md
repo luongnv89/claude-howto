@@ -1,75 +1,75 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="../../resources/logos/claude-howto-logo-dark.svg">
-  <img alt="Claude How To" src="../../resources/logos/claude-howto-logo.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="../../../resources/logos/claude-howto-logo-dark.svg">
+  <img alt="Claude How To" src="../../../resources/logos/claude-howto-logo.svg">
 </picture>
 
-# Documentation Plugin
+# 문서화 플러그인
 
-Comprehensive documentation generation and maintenance for your project.
+프로젝트 문서를 포괄적으로 생성하고 유지 관리합니다.
 
-## Features
+## 기능
 
-✅ API documentation generation
-✅ README creation and updates
-✅ Documentation synchronization
-✅ Code comment improvements
-✅ Example generation
+✅ API 문서 생성
+✅ README 작성 및 업데이트
+✅ 문서 동기화
+✅ 코드 주석 개선
+✅ 예제 생성
 
-## Installation
+## 설치
 
 ```bash
-/plugin install documentation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
-## What's Included
+## 포함 항목
 
-### Slash Commands
-- `/generate-api-docs` - Generate API documentation
-- `/generate-readme` - Create or update README
-- `/sync-docs` - Sync docs with code changes
-- `/validate-docs` - Validate documentation
+### 슬래시 명령어
+- `/generate-api-docs` - API 문서 생성
+- `/generate-readme` - README 작성 또는 업데이트
+- `/sync-docs` - 코드 변경 사항과 문서 동기화
+- `/validate-docs` - 문서 검증
 
-### Subagents
-- `api-documenter` - API documentation specialist
-- `code-commentator` - Code comment improvements
-- `example-generator` - Code example creation
+### 서브에이전트
+- `api-documenter` - API 문서화 전문
+- `code-commentator` - 코드 주석 개선
+- `example-generator` - 코드 예제 작성
 
-### Templates
-- `api-endpoint.md` - API endpoint documentation template
-- `function-docs.md` - Function documentation template
-- `adr-template.md` - Architecture Decision Record template
+### 템플릿
+- `api-endpoint.md` - API 엔드포인트 문서 템플릿
+- `function-docs.md` - 함수 문서 템플릿
+- `adr-template.md` - 아키텍처 결정 기록(ADR) 템플릿
 
-### MCP Servers
-- GitHub integration for documentation syncing
+### MCP 서버
+- 문서 동기화를 위한 GitHub 통합
 
-## Usage
+## 사용 방법
 
-### Generate API Documentation
+### API 문서 생성
 ```
 /generate-api-docs
 ```
 
-### Create README
+### README 작성
 ```
 /generate-readme
 ```
 
-### Sync Documentation
+### 문서 동기화
 ```
 /sync-docs
 ```
 
-### Validate Documentation
+### 문서 검증
 ```
 /validate-docs
 ```
 
-## Requirements
+## 요구 사항
 
-- Claude Code 1.0+
-- GitHub access (optional)
+- Claude Code 2.1+
+- GitHub 접근 권한(선택 사항)
 
-## Example Workflow
+## 워크플로 예시
 
 ```
 User: /generate-api-docs
@@ -92,38 +92,41 @@ Result:
 📊 Coverage: 23/23 endpoints documented
 ```
 
-## Templates Usage
+## 템플릿 사용법
 
-### API Endpoint Template
-Use for documenting REST API endpoints with full examples.
+### API 엔드포인트 템플릿
+전체 예제를 포함해 REST API 엔드포인트를 문서화할 때 사용합니다.
 
-### Function Documentation Template
-Use for documenting individual functions/methods.
+### 함수 문서 템플릿
+개별 함수·메서드를 문서화할 때 사용합니다.
 
-### ADR Template
-Use for documenting architectural decisions.
+### ADR 템플릿
+아키텍처 결정을 문서화할 때 사용합니다.
 
-## Configuration
+## 설정
 
-Set up GitHub token for documentation syncing:
+문서 동기화를 위해 GitHub 토큰을 설정합니다.
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
 
-## Best Practices
+## 모범 사례
 
-- Keep documentation close to code
-- Update docs with code changes
-- Include practical examples
-- Validate regularly
-- Use templates for consistency
+- 문서를 코드 가까이에 둡니다
+- 코드를 변경할 때 문서도 함께 업데이트합니다
+- 실용적인 예제를 포함합니다
+- 정기적으로 검증합니다
+- 일관성을 위해 템플릿을 사용합니다
 
 ---
 
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
-**Sources**:
+**최종 업데이트**: 2026년 10월 18일
+**Claude Code 버전**: 2.1.302
+**출처**:
 - https://code.claude.com/docs/en/plugins
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.131
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.138
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+- https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/plugins/cli-reference
+- https://code.claude.com/docs/en/plugins/install
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

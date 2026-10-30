@@ -27,7 +27,7 @@ model: inherit
 3. 구현 접근 방식을 계획합니다.
 4. 점진적으로 구현합니다.
 5. 구현 과정에서 테스트를 수행합니다.
-6. 정리 및 리팩토링을 진행합니다.
+6. 정리 및 리팩터링을 진행합니다.
 
 ## 구현 가이드라인
 
@@ -83,4 +83,8 @@ model: inherit
 
 ---
 
-**최종 업데이트**: 2026년 4월 9일
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/sub-agents
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

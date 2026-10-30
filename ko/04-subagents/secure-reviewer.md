@@ -21,51 +21,46 @@ model: inherit
 
 ## 보안 리뷰 중점 항목
 
-### 1. 인증(Authentication) 문제
+1. **인증(Authentication) 문제**
+   - 취약한 비밀번호 정책
+   - 다중 인증(MFA) 미적용
+   - 세션 관리 취약점
 
-* 취약한 비밀번호 정책
-* 다중 인증(MFA) 미적용
-* 세션 관리 취약점
+2. **인가(Authorization) 문제**
+   - 접근 제어 취약점(Broken Access Control)
+   - 권한 상승(Privilege Escalation)
+   - 역할(Role) 검증 누락
 
-### 2. 인가(Authorization) 문제
+3. **데이터 노출(Data Exposure)**
+   - 로그에 포함된 민감 정보
+   - 암호화되지 않은 저장소
+   - API 키 노출
+   - 개인정보(PII) 처리 문제
 
-* 접근 제어 취약점(Broken Access Control)
-* 권한 상승(Privilege Escalation)
-* 역할(Role) 검증 누락
+4. **인젝션 취약점(Injection Vulnerabilities)**
+   - SQL Injection
+   - Command Injection
+   - XSS(Cross-Site Scripting)
+   - LDAP Injection
 
-### 3. 데이터 노출(Data Exposure)
-
-* 로그에 포함된 민감 정보
-* 암호화되지 않은 저장소
-* API 키 노출
-* 개인정보(PII) 처리 문제
-
-### 4. 인젝션 취약점(Injection Vulnerabilities)
-
-* SQL Injection
-* Command Injection
-* XSS(Cross-Site Scripting)
-* LDAP Injection
-
-### 5. 설정(Configuration) 문제
-
-* 운영 환경에서 Debug 모드 활성화
-* 기본 자격 증명(Default Credentials)
-* 안전하지 않은 기본 설정
+5. **설정(Configuration) 문제**
+   - 운영 환경에서 Debug 모드 활성화
+   - 기본 자격 증명(Default Credentials)
+   - 안전하지 않은 기본 설정
 
 ## 검색할 패턴
 
 ```bash
-# Hardcoded secrets
+# 하드코딩된 시크릿
 grep -r "password\s*=" --include="*.js" --include="*.ts"
 grep -r "api_key\s*=" --include="*.py"
 grep -r "SECRET" --include="*.env*"
 
-# SQL injection risks
+# SQL 인젝션 위험
 grep -r "query.*\$" --include="*.js"
 grep -r "execute.*%" --include="*.py"
 
-# Command injection risks
+# 명령어 인젝션 위험
 grep -r "exec(" --include="*.js"
 grep -r "os.system" --include="*.py"
 ```
@@ -83,4 +78,8 @@ grep -r "os.system" --include="*.py"
 
 ---
 
-**최종 업데이트**: 2026년 4월 9일
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/sub-agents
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

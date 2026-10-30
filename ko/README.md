@@ -11,9 +11,11 @@
 
 [![GitHub Stars](https://img.shields.io/github/stars/luongnv89/claude-howto?style=flat&color=gold)](https://github.com/luongnv89/claude-howto/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/luongnv89/claude-howto?style=flat)](https://github.com/luongnv89/claude-howto/network/members)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.1.160-brightgreen)](CHANGELOG.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../LICENSE)
+[![Version](https://img.shields.io/badge/version-2.1.310-brightgreen)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-2.1+-purple)](https://code.claude.com)
+
+🌐 **Language / Ngôn ngữ / 语言 / Мова / 언어:** [English](../README.md) | [Tiếng Việt](../vi/README.md) | [中文](../zh/README.md) | [Українська](../uk/README.md) | [日本語](../ja/README.md) | [한국어](README.md)
 
 # 주말 동안 Claude Code 마스터하기
 
@@ -78,7 +80,7 @@ Claude Code의 강력한 기능 중 90%를 활용하지 못하고 있으며, 무
 
 ### 1. 내 수준 찾기
 
-[자기 평가 퀴즈](LEARNING-ROADMAP.md#-find-your-level)를 진행하거나 Claude Code에서 `/self-assessment`를 실행하세요. 현재 수준에 맞는 개인화된 학습 로드맵을 제공합니다.
+[자기 평가 퀴즈](LEARNING-ROADMAP.md#-수준-확인하기)를 진행하거나 Claude Code에서 `/self-assessment`를 실행하세요. 현재 수준에 맞는 개인화된 학습 로드맵을 제공합니다.
 
 ### 2. 가이드 학습 경로 따라가기
 
@@ -100,7 +102,7 @@ Claude Code의 진정한 강점은 기능 조합에 있습니다. 슬래시 명�
 
 - Claude Code를 매일 사용하는 개발자들의 **GitHub Star**
 - 팀 워크플로에 맞게 가이드를 확장하기 위한 **Fork**
-- **지속적인 유지보수** — Claude Code의 모든 릴리스에 맞춰 업데이트 (최신 버전: v2.1.160, 2026년 6월)
+- **지속적인 유지보수** — Claude Code의 모든 릴리스에 맞춰 업데이트 (최신 버전: v2.1.310, 2026년 10월)
 - **커뮤니티 중심 운영** — 실전 설정을 공유하는 개발자들의 기여
 
 [![Star History Chart](https://api.star-history.com/svg?repos=luongnv89/claude-howto&type=Date)](https://star-history.com/#luongnv89/claude-howto&Date)
@@ -138,7 +140,7 @@ Claude Code의 진정한 강점은 기능 조합에 있습니다. 슬래시 명�
 
 ## 15분 안에 시작하기
 
-> **설치 참고 사항**: v2.1.113부터 Claude Code는 macOS, Linux, Windows용 네이티브 바이너리로 제공됩니다. `npm install -g @anthropic-ai/claude-code` 명령도 계속 사용할 수 있으며, 첫 실행 시 네이티브 바이너리가 선택적 의존성으로 다운로드됩니다. v2.1.116부터는 다운로드가 `https://downloads.claude.ai/claude-code-releases`에서 제공되므로, 기업 환경의 프록시에서는 해당 호스트를 허용 목록에 추가해야 합니다.
+> **설치 참고 사항**: v2.1.113부터 Claude Code는 macOS, Linux, Windows용 네이티브 바이너리로 제공됩니다. 권장 설치 방법은 네이티브 설치 프로그램(`curl -fsSL https://claude.ai/install.sh | bash`)입니다. 공식 README에서 npm 설치는 지원 중단(deprecated)되었으므로 네이티브 설치 프로그램, Homebrew(`brew install --cask claude-code`) 또는 WinGet(`winget install Anthropic.ClaudeCode`)을 사용하세요. 참고로 `npm install -g @anthropic-ai/claude-code`는 설치 시 플랫폼별 선택적 의존성을 통해 같은 네이티브 바이너리를 가져옵니다. v2.1.116부터는 다운로드가 `https://downloads.claude.ai/claude-code-releases`에서 제공되므로, 기업 환경의 프록시에서는 해당 호스트를 허용 목록에 추가해야 합니다.
 
 ```bash
 # 1. Clone the guide
@@ -199,7 +201,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 네. MIT 라이선스로 제공되며 영구적으로 무료입니다. 라이선스 고지만 유지하면 개인 프로젝트, 회사 업무, 팀 프로젝트 등 어디에서나 사용할 수 있습니다.
 
 **계속 유지보수되나요?**
-네. Claude Code의 모든 릴리스에 맞춰 지속적으로 업데이트됩니다. 현재 버전은 v2.1.160(2026년 6월)이며 Claude Code 2.1+와 호환됩니다.
+네. Claude Code의 모든 릴리스에 맞춰 지속적으로 업데이트됩니다. 현재 버전은 v2.1.310(2026년 10월)이며 Claude Code 2.1+와 호환됩니다.
 
 **공식 문서와 어떤 차이가 있나요?**
 공식 문서는 기능 참조용 문서입니다. 이 가이드는 다이어그램, 실전 템플릿, 단계별 학습 경로를 제공하는 튜토리얼입니다. 두 자료는 상호 보완적입니다. 학습은 이 가이드로 시작하고, 세부 사항이 필요할 때 공식 문서를 참고하세요.
@@ -208,7 +210,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 전체 경로를 완료하는 데 약 11~13시간이 소요됩니다. 하지만 슬래시 명령어 템플릿 하나를 복사해 실행하는 것만으로도 15분 안에 즉각적인 효과를 얻을 수 있습니다.
 
 **Claude Sonnet / Haiku / Opus에서도 사용할 수 있나요?**
-네. 모든 템플릿은 Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5에서 사용할 수 있습니다.
+네. 모든 템플릿은 Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5에서 사용할 수 있습니다.
 
 **기여할 수 있나요?**
 물론입니다. 자세한 내용은 [CONTRIBUTING.md](CONTRIBUTING.md)를 참고하세요. 새로운 예제, 버그 수정, 문서 개선, 커뮤니티 템플릿 기여를 환영합니다.
@@ -285,16 +287,15 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 cp 04-subagents/*.md .claude/agents/
 
 # MCP
-export GITHUB_TOKEN="token"
-claude mcp add github -- npx -y @modelcontextprotocol/server-github
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/ --header "Authorization: Bearer YOUR_GITHUB_PAT"
 
 # Hooks
 mkdir -p ~/.claude/hooks
 cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
 
-# Plugins
-/plugin install pr-review
+# Plugins (load a local plugin from the repo root)
+claude --plugin-dir ./07-plugins/pr-review
 
 # Checkpoints (auto-enabled, configure in settings)
 # See 08-checkpoints/README.md
@@ -421,7 +422,7 @@ cp 04-subagents/*.md /path/to/project/.claude/agents/
 
 **예시**:
 - `github-mcp.json` - GitHub 연동
-- `database-mcp.json` - 데이터베이스 조회
+- `database-mcp.json` - 데이터베이스 조회 (`DATABASE_URL`은 SELECT 전용 사용자를 가리키도록 설정. [읽기 전용 설정](05-mcp/README.md#예시-2-데이터베이스-mcp-설정) 참고)
 - `filesystem-mcp.json` - 파일 작업
 - `multi-mcp.json` - 다중 MCP 서버 구성
 
@@ -429,11 +430,10 @@ cp 04-subagents/*.md /path/to/project/.claude/agents/
 
 ```bash
 # Set environment variables
-export GITHUB_TOKEN="your_token"
 export DATABASE_URL="postgresql://..."
 
 # Add MCP server via CLI
-claude mcp add github -- npx -y @modelcontextprotocol/server-github
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/ --header "Authorization: Bearer YOUR_GITHUB_PAT"
 
 # Or add to project .mcp.json manually (see 05-mcp/ for examples)
 ```
@@ -450,7 +450,7 @@ claude mcp add github -- npx -y @modelcontextprotocol/server-github
 **설명**: Claude Code 이벤트에 반응하여 자동 실행되는 이벤트 기반 셸 명령어
 
 **예시**:
-- `format-code.sh` - 코드 작성 전 자동 포맷팅
+- `format-code.sh` - 코드 작성 후 자동 포맷팅
 - `pre-commit.sh` - 커밋 전 테스트 실행
 - `security-scan.sh` - 보안 취약점 검사
 - `log-bash.sh` - 모든 Bash 명령 기록
@@ -468,26 +468,28 @@ chmod +x ~/.claude/hooks/*.sh
 ```json
 {
   "hooks": {
-    "PreToolUse": [{
-      "matcher": "Write",
-      "hooks": ["~/.claude/hooks/format-code.sh"]
-    }],
-    "PostToolUse": [{
-      "matcher": "Write",
-      "hooks": ["~/.claude/hooks/security-scan.sh"]
-    }]
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          { "type": "command", "command": "~/.claude/hooks/format-code.sh" },
+          { "type": "command", "command": "~/.claude/hooks/security-scan.sh" }
+        ]
+      }
+    ]
   }
 }
 ```
 
 **사용 방법**: 이벤트가 발생하면 훅이 자동으로 실행됩니다.
 
-**훅 종류** (5개 유형, 총 29개 이벤트)
+**훅 유형** (5개): `command`, `http`, `prompt`, `mcp_tool`, `agent` — 훅이 실행되는 방식입니다.
 
-- **도구 훅(Tool Hooks)**: `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PermissionRequest`
-- **세션 훅(Session Hooks)**: `SessionStart`, `SessionEnd`, `Stop`, `StopFailure`, `SubagentStart`, `SubagentStop`
-- **작업 훅(Task Hooks)**: `UserPromptSubmit`, `TaskCompleted`, `TaskCreated`, `TeammateIdle`
-- **라이프사이클 훅(Lifecycle Hooks)**: `ConfigChange`, `CwdChanged`, `FileChanged`, `PreCompact`, `PostCompact`, `WorktreeCreate`, `WorktreeRemove`, `Notification`, `InstructionsLoaded`, `Elicitation`, `ElicitationResult`
+**훅 이벤트** (33개, 4개 범주) — 훅이 실행되는 시점입니다.
+- **도구 훅(Tool Hooks)**: `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `PermissionRequest`, `PermissionDenied`
+- **세션 훅(Session Hooks)**: `SessionStart`, `Setup`, `SessionEnd`, `Stop`, `StopFailure`, `SubagentStart`, `SubagentStop`
+- **작업 훅(Task Hooks)**: `UserPromptSubmit`, `UserPromptExpansion`, `MessageDisplay`, `TaskCompleted`, `TaskCreated`, `TeammateIdle` — `TaskCompleted`와 `TaskCreated`는 todo 도구가 활성화된 경우에만 발생하며, todo 도구는 Claude 3.x 모델, Opus 4~4.7, Sonnet 4~4.6, Haiku 4.5에서만 기본으로 제공됩니다(`CLAUDE_CODE_ENABLE_TODO_TOOLS=1`로 복원 가능)
+- **라이프사이클 훅(Lifecycle Hooks)**: `ConfigChange`, `CwdChanged`, `DirectoryAdded`, `FileChanged`, `PreCompact`, `PostCompact`, `PreModelSwitch`, `PostModelSwitch`, `WorktreeCreate`, `WorktreeRemove`, `Notification`, `InstructionsLoaded`, `Elicitation`, `ElicitationResult`
 
 </details>
 
@@ -505,9 +507,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 **설치**:
 ```bash
-/plugin install pr-review
-/plugin install devops-automation
-/plugin install documentation
+# From the repo root (this repo ships no marketplace, so /plugin install does not apply)
+claude --plugin-dir ./07-plugins/pr-review
+claude --plugin-dir ./07-plugins/devops-automation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 **사용 방법**: 플러그인에 포함된 슬래시 명령어와 기능을 사용합니다.
@@ -533,12 +536,13 @@ chmod +x ~/.claude/hooks/*.sh
 # To rewind, press Esc twice or use:
 /rewind
 
-# Then choose from five options:
+# Then choose from six options:
 # 1. Restore code and conversation
 # 2. Restore conversation
 # 3. Restore code
 # 4. Summarize from here
-# 5. Never mind
+# 5. Summarize up to here
+# 6. Never mind
 ```
 
 **활용 사례**:
@@ -562,12 +566,12 @@ chmod +x ~/.claude/hooks/*.sh
 - **Planning Mode** — 코딩 전에 상세한 구현 계획 수립
 - **Extended Thinking** — 복잡한 문제 해결을 위한 심층 추론 (`Alt+T` / `Option+T`로 전환)
 - **Background Tasks** — 작업을 차단하지 않고 장시간 작업 실행
-- **Permission Modes** — `default`, `acceptEdits`, `plan`, `dontAsk`, `bypassPermissions`
-- **Headless Mode** — CI/CD 환경에서 Claude Code 실행: `claude -p "Run tests and generate report"`
-- **Session Management** — `/resume`, `/rename`, `/fork`, `claude -c`, `claude -r`
+- **Permission Modes** — `manual`(설정 값 `default`), `acceptEdits`, `plan`, `auto`, `dontAsk`, `bypassPermissions`
+- **Headless Mode** — CI/CD 환경에서 Claude Code 실행: `claude -p "Run tests and generate report" --permission-mode auto`
+- **Session Management** — `/resume`, `/rename`, `/fork`, `/branch`, `claude -c`, `claude -r`
 - **Configuration** — `~/.claude/settings.json`을 통한 동작 사용자 정의
 
-전체 설정 예시는 [config-examples.json](09-advanced-features/config-examples.json)을 참고하세요.
+전체 설정 예시는 [config-examples.json](../09-advanced-features/config-examples.json)을 참고하세요.
 
 </details>
 
@@ -778,7 +782,7 @@ Claude:
 
 ```bash
 # Install development dependencies
-uv pip install -r requirements-dev.txt
+uv pip install -r scripts/requirements-dev.txt
 
 # Run all unit tests
 pytest scripts/tests/ -v
@@ -791,7 +795,7 @@ ruff check scripts/
 ruff format --check scripts/
 
 # Run security scan
-bandit -c pyproject.toml -r scripts/ --exclude scripts/tests/
+bandit -c scripts/pyproject.toml -r scripts/ --exclude scripts/tests/
 
 # Run type checking
 mypy scripts/ --ignore-missing-imports
@@ -873,17 +877,33 @@ uv run scripts/build_epub.py
 
 ## 라이선스
 
-MIT License - 자세한 내용은 [LICENSE](LICENSE)를 참고하세요. 자유롭게 사용, 수정, 배포할 수 있으며, 유일한 요구 사항은 라이선스 고지를 포함하는 것입니다.
+MIT License - 자세한 내용은 [LICENSE](../LICENSE)를 참고하세요. 자유롭게 사용, 수정, 배포할 수 있으며, 유일한 요구 사항은 라이선스 고지를 포함하는 것입니다.
 
 
 ---
 
-**최종 업데이트**: 2026년 6월 2일
-**Claude Code 버전**: 2.1.160
+**최종 업데이트**: 2026년 10월 26일
+**Claude Code 버전**: 2.1.310
 **출처**:
+- https://code.claude.com/docs/en/tools-reference#task-tool-availability
+- https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/changelog
+- https://code.claude.com/docs/en/permission-modes
 - https://platform.claude.com/docs/en/about-claude/models/overview
 - https://github.com/anthropics/claude-code/releases
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
-**호환 모델**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+- https://code.claude.com/docs/en/model-config
+- https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.296
+- https://code.claude.com/docs/en/setup
+- https://code.claude.com/docs/en/mcp
+- https://code.claude.com/docs/en/plugins/install
+- https://code.claude.com/docs/en/checkpointing
+- https://github.com/anthropics/claude-code
+- https://code.claude.com/docs/en/changelog#2-1-302
+- https://code.claude.com/docs/en/changelog#2-1-310
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
+- https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
+**호환 모델**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

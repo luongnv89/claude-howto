@@ -1,5 +1,5 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="resources/logos/claude-howto-logo-dark.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
 </picture>
 
@@ -300,7 +300,7 @@
 | YAML       | `yaml`       | 프런트매터, 설정      |
 | Markdown   | `markdown`   | Markdown 예제    |
 | SQL        | `sql`        | 데이터베이스 쿼리      |
-
+| 일반 텍스트 | (태그 없음) | 예상 출력, 디렉터리 트리 |
 
 ### 규칙
 
@@ -323,7 +323,7 @@ claude mcp add notion --transport http https://mcp.notion.com/mcp
 cp 01-slash-commands/*.md .claude/commands/
 ```
 
-### 다단계 워크플로우
+### 다단계 워크플로
 
 ```bash
 # Step 1: Create the directory
@@ -401,6 +401,8 @@ ls .claude/commands/
 - `sequenceDiagram` — 상호작용 흐름
 - `timeline` — 시간 순서 흐름
 
+GitHub는 Mermaid를 기본으로 렌더링합니다. 웹사이트와 EPUB은 `scripts/vendor_assets.py`에 버전이 고정된 [Pele](https://github.com/obsidianmd/pele)로 같은 소스를 렌더링하며, `mermaid-syntax` pre-commit 훅이 같은 번들로 모든 블록을 검증하므로 훅을 통과한 블록은 어디서나 렌더링됩니다.
+
 ### 스타일 규칙
 
 스타일 블록을 사용하여 일관된 색상을 적용합니다.
@@ -429,9 +431,11 @@ graph TB
 
 - 노드 레이블에는 `["Label text"]` 형식을 사용합니다(특수 문자 사용 가능).
 - 레이블 내 줄바꿈에는 `<br/>`를 사용합니다.
+- 레이블은 일반 텍스트로 유지하고, 번호가 있는 레이블은 그대로 씁니다(`["1. Load file"]`, 마침표 앞에 백슬래시 없음).
+- `%%{init}%%` 지시문이나 Mermaid 테마에 의존하지 않습니다. 웹사이트가 자체 라이트/다크 팔레트를 적용합니다.
 - 다이어그램은 단순하게 유지합니다(최대 10~12개 노드).
 - 접근성을 위해 다이어그램 아래에 간단한 설명을 추가합니다.
-- 계층 구조에는 위에서 아래 방향(`TB`), 워크플로우에는 왼쪽에서 오른쪽 방향(`LR`)을 사용합니다.
+- 계층 구조에는 위에서 아래 방향(`TB`), 워크플로에는 왼쪽에서 오른쪽 방향(`LR`)을 사용합니다.
 
 ---
 
@@ -609,11 +613,12 @@ docs(skills): Add comprehensive code review skill
 
 ```markdown
 ---
-**Last Updated**: May 29, 2026
-**Claude Code Version**: 2.1.156
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**최종 업데이트**: August 25, 2026
+**Claude Code 버전**: 2.1.245
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 ```
 
+- 여기 표시된 값이 아니라 현재 동기화 실행에서 확인한 버전을 사용합니다.
 - 날짜는 월 + 일 + 연도 형식을 사용합니다(예: "May 20, 2026").
 - 기능이 변경되면 버전을 업데이트합니다.
 - 모든 호환 모델을 나열합니다.
@@ -645,11 +650,11 @@ docs(skills): Add comprehensive code review skill
 
 ---
 
-**최종 업데이트**: 2026년 5월 29일
-**Claude Code 버전**: 2.1.156
+**최종 업데이트**: 2026년 8월 25일
+**Claude Code 버전**: 2.1.245
 **출처**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/changelog
-- https://www.anthropic.com/news/claude-opus-4-8
+- https://code.claude.com/docs/en/model-config
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.154
-**호환 모델**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

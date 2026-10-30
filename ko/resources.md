@@ -1,5 +1,5 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="resources/logos/claude-howto-logo-dark.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
 </picture>
 
@@ -16,7 +16,7 @@
 | Anthropic Cookbook | 코드 예제 및 튜토리얼 | [github.com/anthropics/anthropic-cookbook](https://github.com/anthropics/anthropic-cookbook) |
 | Claude Code Skills | 커뮤니티 스킬 저장소 | [github.com/anthropics/skills](https://github.com/anthropics/skills) |
 | Agent Teams | 멀티 에이전트 조정 및 협업 | [code.claude.com/docs/en/agent-teams](https://code.claude.com/docs/en/agent-teams) |
-| Scheduled Tasks | /loop 및 cron을 활용한 반복 작업 | [code.claude.com/docs/en/scheduled-tasks](https://code.claude.com/docs/en/scheduled-tasks) |
+| Scheduled Tasks | /loop 및 cron을 활용한 세션 범위 반복 작업 | [code.claude.com/docs/en/scheduled-tasks](https://code.claude.com/docs/en/scheduled-tasks) |
 | Chrome Integration | 브라우저 자동화 | [code.claude.com/docs/en/chrome](https://code.claude.com/docs/en/chrome) |
 | Keybindings | 키보드 단축키 사용자 정의 | [code.claude.com/docs/en/keybindings](https://code.claude.com/docs/en/keybindings) |
 | Desktop App | 네이티브 데스크톱 애플리케이션 | [code.claude.com/docs/en/desktop](https://code.claude.com/docs/en/desktop) |
@@ -24,6 +24,7 @@
 | Auto Mode | 자동 권한 관리 | [code.claude.com/docs/en/permissions](https://code.claude.com/docs/en/permissions) |
 | Channels | 멀티 채널 통신 | [code.claude.com/docs/en/channels](https://code.claude.com/docs/en/channels) |
 | Voice Dictation | Claude Code를 위한 음성 입력 | [code.claude.com/docs/en/voice-dictation](https://code.claude.com/docs/en/voice-dictation) |
+| Code Review | Claude GitHub App을 통한 관리형 풀 리퀘스트 리뷰 (Team 및 Enterprise) | [code.claude.com/docs/en/code-review](https://code.claude.com/docs/en/code-review) |
 
 ## Anthropic 엔지니어링 블로그
 
@@ -145,11 +146,11 @@ graph TD
     S --> T[Test Automation]
     T --> U[Repository Ready]
 
-    style A fill:#e1f5ff
-    style G fill:#fff4e1
-    style K fill:#f0ffe1
-    style Q fill:#ffe1f5
-    style U fill:#90EE90
+    style A fill:#e1f5fe,stroke:#333,color:#333
+    style G fill:#fff9c4,stroke:#333,color:#333
+    style K fill:#e8f5e9,stroke:#333,color:#333
+    style Q fill:#f3e5f5,stroke:#333,color:#333
+    style U fill:#e8f5e9,stroke:#333,color:#333
 ```
 
 #### 기존 저장소의 경우
@@ -211,15 +212,15 @@ graph TD
     Y -->|Yes| H
     Y -->|No| Z[Workflow Complete]
 
-    style A fill:#e1f5ff
-    style C fill:#ffecec
-    style D fill:#fff4e1
-    style P fill:#f0ffe1
-    style T fill:#ffe1f5
-    style Z fill:#90EE90
+    style A fill:#e1f5fe,stroke:#333,color:#333
+    style C fill:#fce4ec,stroke:#333,color:#333
+    style D fill:#fff9c4,stroke:#333,color:#333
+    style P fill:#e8f5e9,stroke:#333,color:#333
+    style T fill:#f3e5f5,stroke:#333,color:#333
+    style Z fill:#e8f5e9,stroke:#333,color:#333
 ```
 
-**Tips**:**팁**:- Start each new feature or fix with a spec and plan mode prompt.
+**팁**:
 - 새로운 기능 개발이나 버그 수정은 항상 명세(Spec)와 계획 모드 프롬프트로 시작하세요.
 - 레거시 저장소나 복잡한 저장소의 경우 상세한 가이드를 `CLAUDE.md` 또는 `CLAUDE_LEGACY.md`에 기록해 두세요.
 - 명확하고 집중된 지시를 제공하고, 복잡한 작업은 여러 단계의 계획으로 나누어 진행하세요.
@@ -229,24 +230,23 @@ graph TD
 
 ---
 
-## 새로운 기능 및 기능 향상 (2026년 5월)
+## 새로운 기능 및 기능 향상
 
 ### 주요 기능 리소스
-
 
 | Feature | Description | Learn More |
 |---------|-------------|------------|
 | **Auto Memory** | Claude가 세션 간 사용자 선호도를 자동으로 학습하고 기억 | [Memory Guide](02-memory/) |
-| **Remote Control** | 외부 도구 및 스크립트에서 Claude Code 세션을 프로그래밍 방식으로 제어 | [Advanced Features](09-advanced-features/) |
+| **Remote Control** | 휴대폰, 브라우저 또는 Claude 앱에서 로컬 Claude Code 세션을 이어서 사용 | [Advanced Features](09-advanced-features/) |
 | **Web Sessions** | 브라우저 기반 인터페이스를 통해 원격 개발 환경에서 Claude Code 사용 | [CLI Reference](10-cli/) |
 | **Desktop App** | 향상된 UI를 제공하는 Claude Code 네이티브 데스크톱 애플리케이션 | [Claude Code Docs](https://code.claude.com/docs/en/desktop) |
-| **Extended Thinking** | `Alt+T`/`Option+T` 또는 `MAX_THINKING_TOKENS` 환경 변수를 통한 심층 추론 모드 | [Advanced Features](09-advanced-features/) |
-| **Permission Modes** | default, acceptEdits, plan, auto, dontAsk, bypassPermissions 등 세밀한 권한 제어 | [Advanced Features](09-advanced-features/) |
+| **Extended Thinking** | `Alt+T`/`Option+T`로 심층 추론 전환. Opus 4.7+, Sonnet 5+, Haiku 5.5, Fable은 항상 적응형 추론을 사용하므로 고정 `MAX_THINKING_TOKENS` 예산이 적용되지 않음(`/effort`로 깊이 조절) | [Advanced Features](09-advanced-features/) |
+| **Permission Modes** | manual(설정 값 `default`), acceptEdits, plan, auto, dontAsk, bypassPermissions 등 세밀한 권한 제어 | [Advanced Features](09-advanced-features/) |
 | **7-Tier Memory** | Managed Policy, Project, Project Rules, User, User Rules, Local, Auto Memory로 구성된 7단계 메모리 구조 | [Memory Guide](02-memory/) |
-| **Hook Events** | PreToolUse, PostToolUse, PostToolUseFailure, Stop, StopFailure, SubagentStart, SubagentStop, Notification, Elicitation 등 29개 이벤트 지원 | [Hooks Guide](06-hooks/) |
+| **Hook Events** | PreToolUse, PostToolUse, PostToolUseFailure, Stop, StopFailure, SubagentStart, SubagentStop, Notification, Elicitation 등 33개 이벤트 지원 | [Hooks Guide](06-hooks/) |
 | **Agent Teams** | 복잡한 작업을 위해 여러 에이전트를 조정하고 협업 | [Subagents Guide](04-subagents/) |
-| **Scheduled Tasks** | `/loop` 및 cron 도구를 사용한 반복 작업 설정 | [Advanced Features](09-advanced-features/) |
-| **Chrome Integration** | Headless Chromium을 활용한 브라우저 자동화 | [Advanced Features](09-advanced-features/) |
+| **Scheduled Tasks** | `/loop` 및 cron 도구를 사용한 세션 범위 반복 작업 설정 | [Advanced Features](09-advanced-features/) |
+| **Chrome Integration** | Claude in Chrome 확장 프로그램을 통해 사용자의 Chrome에서 브라우저 자동화 | [Advanced Features](09-advanced-features/) |
 | **Keyboard Customization** | 키 조합(Chord Sequence)을 포함한 단축키 사용자 정의 | [Advanced Features](09-advanced-features/) |
 | **Monitor Tool** | 폴링 대신 백그라운드 명령의 stdout 스트림을 모니터링하고 이벤트에 반응 (v2.1.98+) | [Advanced Features](09-advanced-features/) |
 | **/goal mode** | 세션 단위 완료 조건을 등록하면 달성될 때까지 Claude가 작업을 계속 수행 (v2.1.139+) | [Slash Commands](01-slash-commands/) |
@@ -254,12 +254,19 @@ graph TD
 | **/run, /verify, /run-skill-generator** | 프로젝트 실행, 수정 사항 검증, 프로젝트별 run/verify 스킬 생성 기능 제공 (v2.1.145+) | [Skills Guide](03-skills/) |
 
 ---
-**최종 업데이트**: 2026년 6월 2일
-**Claude Code 버전**: 2.1.160
+**최종 업데이트**: 2026년 10월 26일
+**Claude Code 버전**: 2.1.310
 **출처**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/agent-view
+- https://code.claude.com/docs/en/permission-modes
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.144
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-**호환 모델**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+- https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/chrome
+- https://code.claude.com/docs/en/remote-control
+- https://code.claude.com/docs/en/code-review
+- https://code.claude.com/docs/en/scheduled-tasks
+- https://code.claude.com/docs/en/permission-modes#available-modes
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

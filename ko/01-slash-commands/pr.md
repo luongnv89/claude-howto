@@ -15,7 +15,7 @@ PR을 생성하기 전에 다음 단계를 수행하십시오:
    - `fix:` 버그 수정
    - `feat:` 새로운 기능 추가
    - `docs:` 문서 업데이트
-   - `refactor:` 코드 리팩토링
+   - `refactor:` 코드 리팩터링
    - `test:` 테스트 추가
    - `chore:` 유지보수 작업
 
@@ -26,4 +26,8 @@ PR을 생성하기 전에 다음 단계를 수행하십시오:
    - 잠재적 영향
 
 ---
-**최종 업데이트**: 2026년 4월 9일
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/commands
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -26,7 +26,7 @@
 - **상수**: UPPER_SNAKE_CASE (API_BASE_URL)
 - **데이터베이스 테이블**: snake_case (user_accounts)
 
-### Git 워크플로우
+### Git 워크플로
 - 브랜치 이름: `feature/description` 또는 `fix/description`
 - 커밋 메시지: 컨벤셔널 커밋 규칙 준수
 - 병합 전 PR(Pull Request) 필수
@@ -88,4 +88,8 @@
 - 관리자 패널: `/projects/admin`
 
 ---
-**마지막 업데이트**: April 9, 2026
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/memory
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

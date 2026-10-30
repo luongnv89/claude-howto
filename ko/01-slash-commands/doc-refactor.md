@@ -1,7 +1,6 @@
 ---
-name: 문서 리팩터링
+name: doc-refactor
 description: 명확성과 접근성을 위해 프로젝트 문서를 재구성합니다
-tags: 문서화, 리팩터링, 조직화
 ---
 
 # 문서 리팩터링
@@ -24,4 +23,8 @@ tags: 문서화, 리팩터링, 조직화
 문서는 간결하고, 쉽게 훑어볼 수 있으며, 프로젝트 유형에 따라 상황에 맞는 내용을 유지합니다.
 
 ---
-**최종 업데이트**: 2026년 4월 9일
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/commands
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

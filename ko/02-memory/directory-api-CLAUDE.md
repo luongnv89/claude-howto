@@ -1,6 +1,8 @@
 # API 모듈 표준
 
-이 파일은 /src/api/ 내의 모든 항목에 대해 루트 CLAUDE.md를 재정의합니다.
+이 파일은 /src/api/ 내의 모든 항목에 대해 루트 CLAUDE.md를 보완합니다. 메모리 파일은
+재정의되지 않고 연결(concatenate)됩니다. 루트 CLAUDE.md는 여전히 적용되며, Claude Code는
+이 하위 트리의 파일을 읽거나 쓰거나 편집할 때 이 파일을 필요에 따라 로드합니다.
 
 ## API 특정 표준
 
@@ -61,4 +63,10 @@
 - 리소스 유형으로 캐시 키 태그 지정
 
 ---
-**최종 업데이트**: 2026년 4월 9일
+**최종 업데이트**: 2026년 10월 10일
+**Claude Code 버전**: 2.1.296
+**출처**:
+- https://code.claude.com/docs/en/memory
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.288
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.293
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

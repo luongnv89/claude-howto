@@ -1,5 +1,5 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="resources/logos/claude-howto-logo-dark.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
 </picture>
 
@@ -20,7 +20,7 @@ Claude How To는 Claude Code를 위한 시각적이고 예제 중심의 가이�
 
 ### 1. 새로운 예제 또는 템플릿
 
-기존 기능(Slash Commands, Skills, Hooks 등)에 대한 예제를 추가합니다.
+기존 기능(슬래시 명령어, 스킬, 훅 등)에 대한 예제를 추가합니다.
 
 - 바로 복사해서 사용할 수 있는 코드
 - 동작 방식을 명확하게 설명
@@ -72,7 +72,7 @@ git checkout -b docs/improvement-area
 
 ### 3. 개발 환경 설정
 
-Pre-commit Hook은 모든 커밋 전에 CI와 동일한 검사를 로컬에서 실행합니다. PR이 승인되려면 네 가지 검사를 모두 통과해야 합니다.
+Pre-commit 훅은 모든 커밋 전에 CI와 동일한 검사를 로컬에서 실행합니다. PR이 승인되려면 다섯 가지 검사를 모두 통과해야 합니다.
 
 **필수 의존성:**
 
@@ -86,10 +86,11 @@ uv pip install -r scripts/requirements-dev.txt
 # Markdown 린터 (Node.js)
 npm install -g markdownlint-cli
 
-# Mermaid 다이어그램 검증 도구 (Node.js)
-npm install -g @mermaid-js/mermaid-cli
+# Mermaid 다이어그램은 Pele로 렌더링하며, Node.js >= 20이 필요합니다(전역으로
+# 설치할 것은 없습니다). 버전을 확인하세요.
+node --version
 
-# pre-commit 설치 및 Hook 활성화
+# pre-commit 설치 및 훅 활성화
 uv pip install pre-commit
 pre-commit install
 ```
@@ -100,9 +101,11 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-모든 커밋에서 실행되는 Hook은 다음과 같습니다.
+첫 실행 시 Mermaid 훅용 Node.js 22(pre-commit이 직접 준비하므로 시스템에 Node.js가 없어도 동작합니다)와 버전이 고정된 Pele 번들을 `scripts/.vendor-cache/pele/`에 내려받으며, 이후 실행은 오프라인에서도 동작합니다. Mermaid 훅은 strict 모드로 실행되며 Pele를 실행할 수 없으면 실패합니다. 첫 다운로드 전에 오프라인으로 커밋해야 한다면 `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid,korean-mermaid`로 이 훅들을 건너뛰세요.
 
-| Hook | 검사 내용 |
+모든 커밋에서 실행되는 훅은 다음과 같습니다.
+
+| 훅 | 검사 내용 |
 |------|----------|
 | `markdown-lint` | Markdown 형식 및 구조 검사 |
 | `cross-references` | 상대 링크, 앵커, 코드 펜스 검사 |
@@ -166,7 +169,7 @@ pre-commit run --all-files
    - 사용 예제
 3. `05-mcp/README.md`를 업데이트합니다.
 
-### Hook 추가
+### 훅 추가
 1. `06-hooks/`에 `.sh` 파일을 생성합니다.
 2. 다음 내용을 포함합니다.
    - Shebang 및 설명
@@ -372,7 +375,7 @@ git diff
 
 ## 라이선스
 
-이 프로젝트에 기여하면 기여한 내용이 MIT 라이선스로 배포되는 것에 동의하는 것으로 간주됩니다. 자세한 내용은 [LICENSE](LICENSE)를 참고하세요.
+이 프로젝트에 기여하면 기여한 내용이 MIT 라이선스로 배포되는 것에 동의하는 것으로 간주됩니다. 자세한 내용은 [LICENSE](../LICENSE)를 참고하세요.
 
 ## 질문이 있으신가요?
 
@@ -384,4 +387,8 @@ git diff
 기여해 주셔서 감사합니다! 🙏
 
 ---
-**마지막 업데이트**: 2026년 4월 9일
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/overview
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

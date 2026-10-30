@@ -219,4 +219,8 @@ hear your thoughts on this."
 **환영받고, 포용적이며, 서로를 존중하는 커뮤니티를 만드는 데 함께해 주셔서 감사합니다!** 🌟
 
 ---
-**최종 업데이트**: 2026년 4월 9일
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/overview
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

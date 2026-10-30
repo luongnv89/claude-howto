@@ -1,3 +1,4 @@
+---
 name: code-review-specialist
 description: 보안, 성능 및 품질 분석을 포함하는 포괄적인 코드 검토. 사용자가 코드 검토, 코드 품질 분석, 풀 리퀘스트 평가를 요청하거나 코드 검토, 보안 분석, 성능 최적화를 언급할 때 사용합니다.
 ---
@@ -76,3 +77,11 @@ description: 보안, 성능 및 품질 분석을 포함하는 포괄적인 코�
 ## 버전 히스토리
 
 -   v1.0.0 (2024-12-10): 보안, 성능, 품질 및 유지보수성 분석을 포함한 초기 릴리스
+
+---
+
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/skills
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

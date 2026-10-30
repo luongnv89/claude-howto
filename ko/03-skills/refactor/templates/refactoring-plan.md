@@ -1,6 +1,6 @@
-# 리팩토링 계획 템플릿
+# 리팩터링 계획 템플릿
 
-이 템플릿을 사용하여 리팩토링 작업을 문서화하고 추적하세요.
+이 템플릿을 사용하여 리팩터링 작업을 문서화하고 추적하세요.
 
 
 ---
@@ -10,7 +10,7 @@
 | Field              | Value                                                  |
 | ------------------ | ------------------------------------------------------ |
 | **Project/Module** | [프로젝트 이름]                                              |
-| **Target Files**   | [리팩토링할 파일 목록]                                          |
+| **Target Files**   | [리팩터링할 파일 목록]                                          |
 | **Date Created**   | [생성 날짜]                                                |
 | **Author**         | [작성자]                                                  |
 | **Status**         | Draft / In Review / Approved / In Progress / Completed |
@@ -38,7 +38,7 @@
 
 ---
 
-## 리팩토링 전 체크리스트
+## 리팩터링 전 체크리스트
 
 ### 테스트 커버리지 평가
 
@@ -83,7 +83,7 @@
 
 ---
 
-## 리팩토링 단계
+## 리팩터링 단계
 
 ### Phase A: 빠른 개선 사항 (낮은 위험도)
 
@@ -145,14 +145,14 @@
 
 ---
 
-## 상세 리팩토링 절차
+## 상세 리팩터링 절차
 
 ### 작업 [ID]: [작업 이름]
 
 
 **Smell Addressed**: [코드 스멜 이름]
 
-**Refactoring Technique**: [리팩토링 기법 이름]
+**Refactoring Technique**: [리팩터링 기법 이름]
 
 **Risk Level**: Low / Medium / High
 
@@ -222,7 +222,7 @@ refactor: [Describe the refactoring]
 
 ## 지표 비교
 
-### 리팩토링 전
+### 리팩터링 전
 
 
 | Metric | File 1 | File 2 | Total |
@@ -245,7 +245,7 @@ refactor: [Describe the refactoring]
 
 ---
 
-## 리팩토링 후 체크리스트
+## 리팩터링 후 체크리스트
 
 - [ ] 모든 테스트 통과
 - [ ] 새로운 경고 또는 오류 없음
@@ -297,10 +297,18 @@ refactor: [Describe the refactoring]
 ### B. 참고 자료
 
 - [코드 스멜 카탈로그 링크]
-- [리팩토링 카탈로그 링크]
+- [리팩터링 카탈로그 링크]
 
 ### C. 사용 도구
 
 - [테스트 프레임워크]
 - [린팅 도구]
 - [복잡도 분석 도구]
+
+---
+
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/skills
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

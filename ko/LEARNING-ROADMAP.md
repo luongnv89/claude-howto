@@ -1,5 +1,5 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="resources/logos/claude-howto-logo-dark.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
 </picture>
 
@@ -29,7 +29,7 @@
 | Checks | Level | Start At | Time to Complete |
 |--------|-------|----------|------------------|
 | 0-2 | **레벨 1: 초급** — 시작하기 | [마일스톤 1A: 첫 명령어 및 메모리](#마일스톤-1a-첫-명령어-및-메모리) | ~3 hours |
-| 3-5 | **레벨 2: 중급** — 워크플로우 구축 | [마일스톤 2A: 자동화 (기술 + 훅)](#마일스톤-2a-자동화-기술--훅) | ~5 hours |
+| 3-5 | **레벨 2: 중급** — 워크플로 구축 | [마일스톤 2A: 자동화 (스킬 + 훅)](#마일스톤-2a-자동화-스킬--훅) | ~5 hours |
 | 6-8 | **레벨 3: 고급** — 파워 유저 및 팀 리더 | [마일스톤 3A: 고급 기능](#마일스톤-3a-고급-기능) | ~5 hours |
 
 > **팁**: 확실하지 않다면 한 단계 낮게 시작하세요. 기초 개념을 놓치는 것보다 익숙한 내용을 빠르게 복습하는 것이 낫습니다.
@@ -97,14 +97,14 @@ graph TD
 
 | Step | Feature | Complexity | Time | Level | Dependencies | Why Learn This | Key Benefits |
 |------|---------|-----------|------|-------|--------------|----------------|--------------|
-| **1** | [슬래시 명령어](01-slash-commands/) | ⭐ 초급 | 30 min | 레벨 1 | None | 빠른 생산성 향상 (60개 이상의 내장 명령어 + 5개 번들 기술) | 즉각적인 자동화, 팀 표준 |
+| **1** | [슬래시 명령어](01-slash-commands/) | ⭐ 초급 | 30 min | 레벨 1 | None | 빠른 생산성 향상 (60개 이상의 내장 명령어 + 번들 스킬) | 즉각적인 자동화, 팀 표준 |
 | **2** | [메모리](02-memory/) | ⭐⭐ 초급+ | 45 min | 레벨 1 | None | 모든 기능에 필수적 | 지속적인 컨텍스트, 환경 설정 |
 | **3** | [체크포인트](08-checkpoints/) | ⭐⭐ 중급 | 45 min | 레벨 1 | 세션 관리 | 안전한 탐색 | 실험, 복구 |
 | **4** | [CLI 기본 사항](10-cli/) | ⭐⭐ 초급+ | 30 min | 레벨 1 | None | 핵심 CLI 사용법 | 대화형 및 인쇄 모드 |
-| **5** | [기술](03-skills/) | ⭐⭐ 중급 | 1 hour | 레벨 2 | 슬래시 명령어 | 자동화된 전문성 | 재사용 가능한 기능, 일관성 |
-| **6** | [훅](06-hooks/) | ⭐⭐ 중급 | 1 hour | 레벨 2 | 도구, 명령어 | 워크플로우 자동화 (29개 이벤트, 5가지 유형) | 유효성 검사, 품질 게이트 |
+| **5** | [스킬](03-skills/) | ⭐⭐ 중급 | 1 hour | 레벨 2 | 슬래시 명령어 | 자동화된 전문성 | 재사용 가능한 기능, 일관성 |
+| **6** | [훅](06-hooks/) | ⭐⭐ 중급 | 1 hour | 레벨 2 | 도구, 명령어 | 워크플로 자동화 (33개 이벤트, 5가지 유형) | 유효성 검사, 품질 게이트 |
 | **7** | [MCP](05-mcp/) | ⭐⭐⭐ 중급+ | 1 hour | 레벨 2 | 구성 | 실시간 데이터 접근 | 실시간 통합, API |
-| **8** | [서브 에이전트](04-subagents/) | ⭐⭐⭐ 중급+ | 1.5 hours | 레벨 2 | 메모리, 명령어 | 복잡한 작업 처리 (Bash 포함 6개 내장) | 위임, 전문화된 전문성 |
+| **8** | [서브에이전트](04-subagents/) | ⭐⭐⭐ 중급+ | 1.5 hours | 레벨 2 | 메모리, 명령어 | 복잡한 작업 처리 (Explore, Plan 포함 6개 내장) | 위임, 전문화된 전문성 |
 | **9** | [고급 기능](09-advanced-features/) | ⭐⭐⭐⭐⭐ 고급 | 2-3 hours | 레벨 3 | 모든 이전 내용 | 파워 유저 도구 | 계획, 자동 모드, 채널, 음성 받아쓰기, 권한 |
 | **10** | [플러그인](07-plugins/) | ⭐⭐⭐⭐ 고급 | 2 hours | 레벨 3 | 모든 이전 내용 | 완벽한 솔루션 | 팀 온보딩, 배포 |
 | **11** | [CLI 마스터리](10-cli/) | ⭐⭐⭐ 고급 | 1 hour | 레벨 3 | 권장: 모든 내용 | 명령줄 사용 마스터 | 스크립팅, CI/CD, 자동화 |
@@ -200,18 +200,18 @@ cat error.log | claude -p "explain this error"
 #### 다음 단계
 - 읽기: [08-checkpoints/README.md](08-checkpoints/README.md)
 - 읽기: [10-cli/README.md](10-cli/README.md)
-- **레벨 2 준비 완료!** [마일스톤 2A: 자동화 (기술 + 훅)](#마일스톤-2a-자동화-기술--훅)로 진행하세요.
+- **레벨 2 준비 완료!** [마일스톤 2A: 자동화 (스킬 + 훅)](#마일스톤-2a-자동화-스킬--훅)로 진행하세요.
 
 > **이해 확인**: `/lesson-quiz checkpoints` 또는 `/lesson-quiz cli`를 실행하여 레벨 2 준비가 되었는지 확인하세요.
 
 ---
 
-## 🔵 레벨 2: 중급 — 워크플로우 구축
+## 🔵 레벨 2: 중급 — 워크플로 구축
 
 **대상**: 퀴즈 체크 3-5개인 사용자
 **시간**: ~5시간
 **초점**: 자동화, 통합, 작업 위임
-**결과**: 자동화된 워크플로우, 외부 통합, 레벨 3 준비 완료
+**결과**: 자동화된 워크플로, 외부 통합, 레벨 3 준비 완료
 
 ### 필수 전제 조건 확인
 
@@ -226,19 +226,19 @@ cat error.log | claude -p "explain this error"
 
 ---
 
-### 마일스톤 2A: 자동화 (기술 + 훅)
+### 마일스톤 2A: 자동화 (스킬 + 훅)
 
-**주제**: 기술 + 훅
+**주제**: 스킬 + 훅
 **시간**: 2-3시간
 **복잡성**: ⭐⭐ 중급
-**목표**: 일반적인 워크플로우 및 품질 검사 자동화
+**목표**: 일반적인 워크플로 및 품질 검사 자동화
 
 #### 달성할 내용
 ✅ YAML 프런트매터( `effort` 및 `shell` 필드 포함)를 사용하여 특수 기능 자동 호출
-✅ 29개 훅 이벤트 전반에 걸쳐 이벤트 기반 자동화 설정
+✅ 33개 훅 이벤트 전반에 걸쳐 이벤트 기반 자동화 설정
 ✅ 5가지 훅 유형(command, http, mcp_tool, prompt, agent) 모두 사용
 ✅ 코드 품질 표준 시행
-✅ 워크플로우를 위한 사용자 지정 훅 생성
+✅ 워크플로를 위한 사용자 지정 훅 생성
 
 #### 실습 과제
 
@@ -271,13 +271,13 @@ chmod +x ~/.claude/hooks/pre-tool-check.sh
 ```
 
 #### 성공 기준
-- [ ] 관련성이 있을 때 코드 검토 기술이 자동으로 호출됨
+- [ ] 관련성이 있을 때 코드 검토 스킬이 자동으로 호출됨
 - [ ] PreToolUse 훅이 도구 실행 전에 실행됨
-- [ ] 기술 자동 호출과 훅 이벤트 트리거의 차이를 이해함
+- [ ] 스킬 자동 호출과 훅 이벤트 트리거의 차이를 이해함
 
 #### 다음 단계
-- 자신만의 사용자 지정 기술 생성
-- 워크플로우를 위한 추가 훅 설정
+- 자신만의 사용자 지정 스킬 생성
+- 워크플로를 위한 추가 훅 설정
 - 읽기: [03-skills/README.md](03-skills/README.md)
 - 읽기: [06-hooks/README.md](06-hooks/README.md)
 
@@ -285,9 +285,9 @@ chmod +x ~/.claude/hooks/pre-tool-check.sh
 
 ---
 
-### 마일스톤 2B: 통합 (MCP + 서브 에이전트)
+### 마일스톤 2B: 통합 (MCP + 서브에이전트)
 
-**주제**: MCP + 서브 에이전트
+**주제**: MCP + 서브에이전트
 **시간**: 2-3시간
 **복잡성**: ⭐⭐⭐ 중급+
 **목표**: 외부 서비스 통합 및 복잡한 작업 위임
@@ -295,15 +295,14 @@ chmod +x ~/.claude/hooks/pre-tool-check.sh
 #### 달성할 내용
 ✅ GitHub, 데이터베이스 등에서 실시간 데이터에 액세스
 ✅ 특수 AI 에이전트에게 작업 위임
-✅ MCP와 서브 에이전트를 언제 사용해야 하는지 이해
-✅ 통합 워크플로우 구축
+✅ MCP와 서브에이전트를 언제 사용해야 하는지 이해
+✅ 통합 워크플로 구축
 
 #### 실습 과제
 
 ```bash
 # Exercise 1: Set up GitHub MCP
-export GITHUB_TOKEN="your_github_token"
-claude mcp add github -- npx -y @modelcontextprotocol/server-github
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/ --header "Authorization: Bearer YOUR_GITHUB_PAT"
 
 # Exercise 2: Test MCP integration
 # In Claude Code: /mcp__github__list_prs
@@ -314,20 +313,20 @@ cp 04-subagents/*.md .claude/agents/
 ```
 
 #### 통합 과제
-이 완전한 워크플로우를 시도해 보세요:
+이 완전한 워크플로를 시도해 보세요:
 1. MCP를 사용하여 GitHub PR 가져오기
-2. Claude가 코드 검토 서브 에이전트에 검토를 위임하도록 하기
+2. Claude가 코드 검토 서브에이전트에 검토를 위임하도록 하기
 3. 훅을 사용하여 자동으로 테스트 실행
 
 #### 성공 기준
 - [ ] MCP를 통해 GitHub 데이터를 성공적으로 쿼리함
-- [ ] Claude가 복잡한 작업을 서브 에이전트에 위임함
-- [ ] MCP와 서브 에이전트의 차이를 이해함
-- [ ] 워크플로우에서 MCP + 서브 에이전트 + 훅을 결합함
+- [ ] Claude가 복잡한 작업을 서브에이전트에 위임함
+- [ ] MCP와 서브에이전트의 차이를 이해함
+- [ ] 워크플로에서 MCP + 서브에이전트 + 훅을 결합함
 
 #### 다음 단계
 - 추가 MCP 서버 설정 (데이터베이스, Slack 등)
-- 도메인에 맞는 사용자 지정 서브 에이전트 생성
+- 도메인에 맞는 사용자 지정 서브에이전트 생성
 - 읽기: [05-mcp/README.md](05-mcp/README.md)
 - 읽기: [04-subagents/README.md](04-subagents/README.md)
 - **레벨 3 준비 완료!** [마일스톤 3A: 고급 기능](#마일스톤-3a-고급-기능)로 진행하세요.
@@ -341,16 +340,16 @@ cp 04-subagents/*.md .claude/agents/
 **대상**: 퀴즈 체크 6-8개인 사용자
 **시간**: ~5시간
 **초점**: 팀 도구, CI/CD, 엔터프라이즈 기능, 플러그인 개발
-**결과**: 파워 유저, 팀 워크플로우 및 CI/CD 설정 가능
+**결과**: 파워 유저, 팀 워크플로 및 CI/CD 설정 가능
 
 ### 필수 전제 조건 확인
 
 레벨 3을 시작하기 전에 다음 레벨 2 개념에 익숙한지 확인하세요:
 
-- [ ] 자동 호출을 사용하여 기술을 생성하고 사용할 수 있음 ([03-skills/](03-skills/))
+- [ ] 자동 호출을 사용하여 스킬을 생성하고 사용할 수 있음 ([03-skills/](03-skills/))
 - [ ] 이벤트 기반 자동화를 위한 훅을 설정했음 ([06-hooks/](06-hooks/))
 - [ ] 외부 데이터를 위한 MCP 서버를 구성할 수 있음 ([05-mcp/](05-mcp/))
-- [ ] 작업 위임을 위해 서브 에이전트를 사용하는 방법을 알고 있음 ([04-subagents/](04-subagents/))
+- [ ] 작업 위임을 위해 서브에이전트를 사용하는 방법을 알고 있음 ([04-subagents/](04-subagents/))
 
 > **누락된 부분?** 계속하기 전에 위에 연결된 튜토리얼을 검토하세요.
 
@@ -358,21 +357,21 @@ cp 04-subagents/*.md .claude/agents/
 
 ### 마일스톤 3A: 고급 기능
 
-**주제**: 고급 기능 (계획, 권한, 확장된 사고, 자동 모드, 채널, 음성 받아쓰기, 원격/데스크톱/웹)
+**주제**: 고급 기능 (계획, 권한, 확장 사고, 자동 모드, 채널, 음성 받아쓰기, 원격/데스크톱/웹)
 **시간**: 2-3시간
 **복잡성**: ⭐⭐⭐⭐⭐ 고급
-**목표**: 고급 워크플로우 및 파워 유저 도구 마스터
+**목표**: 고급 워크플로 및 파워 유저 도구 마스터
 
 #### 달성할 내용
 ✅ 복잡한 기능을 위한 계획 모드
-✅ 6가지 모드(default, acceptEdits, plan, auto, dontAsk, bypassPermissions)를 통한 세분화된 권한 제어
-✅ Alt+T / Option+T 토글을 통한 확장된 사고
+✅ 6가지 모드(manual — 이전 명칭 default, acceptEdits, plan, auto, dontAsk, bypassPermissions)를 통한 세분화된 권한 제어
+✅ Alt+T / Option+T 토글을 통한 확장 사고
 ✅ 백그라운드 작업 관리
 ✅ 학습된 환경 설정을 위한 자동 메모리
 ✅ 백그라운드 안전 분류기가 있는 자동 모드
-✅ 구조화된 다중 세션 워크플로우를 위한 채널
+✅ 실행 중인 세션에 이벤트(CI 결과, 채팅 메시지, 웹훅)를 푸시하는 채널
 ✅ 핸즈프리 상호 작용을 위한 음성 받아쓰기
-✅ 원격 제어, 데스크톱 앱 및 웹 세션
+✅ 원격 제어(정식 출시 — Claude 앱에서 내 컴퓨터가 기기 카드로 표시됨), 데스크톱 앱 및 웹 세션
 ✅ 다중 에이전트 협업을 위한 에이전트 팀
 
 #### 실습 과제
@@ -381,7 +380,7 @@ cp 04-subagents/*.md .claude/agents/
 # Exercise 1: Use planning mode
 /plan Implement user authentication system
 
-# Exercise 2: Try permission modes (6 available: default, acceptEdits, plan, auto, dontAsk, bypassPermissions)
+# Exercise 2: Try permission modes (6 available: manual [formerly default], acceptEdits, plan, auto, dontAsk, bypassPermissions)
 claude --permission-mode plan "analyze this codebase"
 claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
@@ -401,15 +400,15 @@ claude --permission-mode auto "implement the feature"
 claude --permission-mode auto "implement user settings page"
 
 # Exercise 6: Enable agent teams
-export CLAUDE_AGENT_TEAMS=1
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 # Ask Claude: "Implement feature X using a team approach"
 
 # Exercise 7: Scheduled tasks
 /loop 5m /check-status
-# Or use CronCreate for persistent scheduled tasks
+# Tasks are session-scoped; for persistent scheduling use cloud scheduled tasks (formerly routines, via /schedule) or Desktop scheduled tasks
 
-# Exercise 8: Channels for multi-session workflows
-# Use channels to organize work across sessions
+# Exercise 8: Channels (research preview)
+# A channel is an MCP server that pushes events into your running session
 
 # Exercise 9: Voice Dictation
 # Use voice input for hands-free interaction with Claude Code
@@ -418,12 +417,13 @@ export CLAUDE_AGENT_TEAMS=1
 #### 성공 기준
 - [ ] 복잡한 기능을 위해 계획 모드를 사용함
 - [ ] 권한 모드(plan, acceptEdits, auto, dontAsk)를 구성함
-- [ ] Alt+T / Option+T로 확장된 사고를 토글함
+- [ ] Alt+T / Option+T로 확장 사고를 토글함
 - [ ] 백그라운드 안전 분류기가 있는 자동 모드를 사용함
 - [ ] 긴 작업을 위해 백그라운드 작업을 사용함
-- [ ] 다중 세션 워크플로우를 위해 채널을 탐색함
+- [ ] 외부 이벤트를 세션에 푸시하는 채널을 탐색함
 - [ ] 핸즈프리 입력을 위해 음성 받아쓰기를 시도함
 - [ ] 원격 제어, 데스크톱 앱 및 웹 세션을 이해함
+- [ ] 세션 간 `SendMessage`에 `notify_when_idle`을 사용하여 다른 세션이 유휴 상태가 되면 알림을 받음
 - [ ] 협업 작업을 위해 에이전트 팀을 활성화하고 사용함
 - [ ] 반복 작업 또는 예약된 모니터링을 위해 `/loop`를 사용함
 
@@ -452,10 +452,10 @@ export CLAUDE_AGENT_TEAMS=1
 
 ```bash
 # Exercise 1: Install a complete plugin
-# In Claude Code: /plugin install pr-review
+claude --plugin-dir ./07-plugins/pr-review  # from the repo root
 
 # Exercise 2: Print mode for CI/CD
-claude -p "Run all tests and generate report"
+claude -p "Run all tests and generate report" --permission-mode auto
 
 # Exercise 3: JSON output for scripts
 claude -p --output-format json "list all functions"
@@ -477,7 +477,7 @@ done
 1. `claude -p`를 사용하여 변경된 파일 검토
 2. 결과를 JSON으로 출력
 3. `jq`로 특정 문제 처리
-4. GitHub Actions 워크플로우에 통합
+4. GitHub Actions 워크플로에 통합
 
 #### 성공 기준
 - [ ] 플러그인을 설치하고 사용함
@@ -486,7 +486,7 @@ done
 - [ ] 스크립팅을 위해 JSON 출력을 생성함
 - [ ] 이전 세션을 성공적으로 재개함
 - [ ] 일괄 처리 스크립트를 생성함
-- [ ] Claude를 CI/CD 워크플로우에 통합함
+- [ ] Claude를 CI/CD 워크플로에 통합함
 
 #### CLI의 실제 사용 사례
 - **코드 검토 자동화**: CI/CD 파이프라인에서 코드 검토 실행
@@ -508,11 +508,11 @@ done
 
 ## 🧪 지식 테스트하기
 
-이 저장소에는 Claude Code에서 언제든지 사용하여 이해도를 평가할 수 있는 두 가지 대화형 기술이 포함되어 있습니다.
+이 저장소에는 Claude Code에서 언제든지 사용하여 이해도를 평가할 수 있는 두 가지 대화형 스킬이 포함되어 있습니다.
 
 | Skill | Command | Purpose |
 |-------|---------|---------|
-| **자기 평가** | `/self-assessment` | 10가지 기능 전반에 걸친 전반적인 숙련도를 평가합니다. Quick (2분) 또는 Deep (5분) 모드를 선택하여 개인화된 기술 프로필 및 학습 경로를 얻으세요. |
+| **자기 평가** | `/self-assessment` | 10가지 기능 전반에 걸친 전반적인 숙련도를 평가합니다. Quick (2분) 또는 Deep (5분) 모드를 선택하여 개인화된 스킬 프로필 및 학습 경로를 얻으세요. |
 | **레슨 퀴즈** | `/lesson-quiz [lesson]` | 10가지 질문으로 특정 레슨에 대한 이해도를 테스트합니다. 레슨 전(사전 테스트), 도중(진행 상황 확인) 또는 후(숙련도 확인)에 사용하세요. |
 
 **예시:**
@@ -543,10 +543,10 @@ done
 
 1. **슬래시 명령어** (15분): `/optimize` 및 `/pr` 복사 및 테스트
 2. **프로젝트 메모리** (15분): 프로젝트 표준으로 CLAUDE.md 생성
-3. **기술 설치** (15분): 코드 검토 전문가 기술 설정
+3. **스킬 설치** (15분): 코드 검토 전문가 스킬 설정
 4. **함께 시도** (15분): 이들이 어떻게 조화롭게 작동하는지 확인
 
-**결과**: 명령어, 메모리 및 자동 기술을 통한 기본 생산성 향상
+**결과**: 명령어, 메모리 및 자동 스킬을 통한 기본 생산성 향상
 
 ---
 
@@ -558,15 +558,15 @@ done
 - 마일스톤 1B 완료: 체크포인트 + CLI 기본 사항
 
 **토요일 오후** (3시간):
-- 마일스톤 2A 완료: 기술 + 훅
-- 마일스톤 2B 완료: MCP + 서브 에이전트
+- 마일스톤 2A 완료: 스킬 + 훅
+- 마일스톤 2B 완료: MCP + 서브에이전트
 
 **일요일** (4시간):
 - 마일스톤 3A 완료: 고급 기능
 - 마일스톤 3B 완료: 플러그인 + CLI 마스터리 + CI/CD
 - 팀을 위한 사용자 지정 플러그인 구축
 
-**결과**: Claude Code 파워 유저가 되어 다른 사람을 교육하고 복잡한 워크플로우를 자동화할 준비가 됩니다.
+**결과**: Claude Code 파워 유저가 되어 다른 사람을 교육하고 복잡한 워크플로를 자동화할 준비가 됩니다.
 
 ---
 
@@ -578,7 +578,7 @@ done
 - 각 마일스톤에 대한 **실습 과제를 완료하세요**
 - **간단하게 시작**하고 점진적으로 복잡성을 추가하세요
 - 다음으로 넘어가기 전에 **각 기능을 테스트하세요**
-- 워크플로우에 작동하는 내용에 대해 **메모를 작성하세요**
+- 워크플로에 작동하는 내용에 대해 **메모를 작성하세요**
 - 고급 주제를 학습할 때 **이전 개념을 다시 참조하세요**
 - 체크포인트를 사용하여 **안전하게 실험하세요**
 - 팀과 **지식을 공유하세요**
@@ -600,7 +600,7 @@ done
 ### 시각 학습자
 - 각 README의 머메이드 다이어그램을 연구하세요
 - 명령어 실행 흐름을 관찰하세요
-- 자신만의 워크플로우 다이어그램을 그리세요
+- 자신만의 워크플로 다이어그램을 그리세요
 - 위 시각 학습 경로를 사용하세요
 
 ### 실습 학습자
@@ -625,7 +625,7 @@ done
 
 ## 📈 진행 상황 추적
 
-이 체크리스트를 사용하여 레벨별 진행 상황을 추적하세요. 언제든지 `/self-assessment`를 실행하여 업데이트된 기술 프로필을 얻거나, 각 튜토리얼 후에 `/lesson-quiz [lesson]`을 실행하여 이해도를 확인하세요.
+이 체크리스트를 사용하여 레벨별 진행 상황을 추적하세요. 언제든지 `/self-assessment`를 실행하여 업데이트된 스킬 프로필을 얻거나, 각 튜토리얼 후에 `/lesson-quiz [lesson]`을 실행하여 이해도를 확인하세요.
 
 ### 🟢 레벨 1: 초급
 - [ ] [01-slash-commands](01-slash-commands/) 완료
@@ -642,14 +642,14 @@ done
 ### 🔵 레벨 2: 중급
 - [ ] [03-skills](03-skills/) 완료
 - [ ] [06-hooks](06-hooks/) 완료
-- [ ] 첫 번째 기술 설치
+- [ ] 첫 번째 스킬 설치
 - [ ] PreToolUse 훅 설정
 - [ ] **마일스톤 2A 달성**
 - [ ] [05-mcp](05-mcp/) 완료
 - [ ] [04-subagents](04-subagents/) 완료
 - [ ] GitHub MCP 연결
-- [ ] 사용자 지정 서브 에이전트 생성
-- [ ] 워크플로우에 통합을 결합함
+- [ ] 사용자 지정 서브에이전트 생성
+- [ ] 워크플로에 통합을 결합함
 - [ ] **마일스톤 2B 달성**
 
 ### 🔴 레벨 3: 고급
@@ -657,7 +657,7 @@ done
 - [ ] 계획 모드를 성공적으로 사용함
 - [ ] 권한 모드(자동 포함 6가지 모드)를 구성함
 - [ ] 안전 분류기가 있는 자동 모드를 사용함
-- [ ] 확장된 사고 토글을 사용함
+- [ ] 확장 사고 토글을 사용함
 - [ ] 채널 및 음성 받아쓰기를 탐색함
 - [ ] **마일스톤 3A 달성**
 - [ ] [07-plugins](07-plugins/) 완료
@@ -697,20 +697,21 @@ done
 모든 마일스톤을 완료한 후:
 
 1. **팀 문서 생성** - 팀의 Claude Code 설정 문서화
-2. **사용자 지정 플러그인 구축** - 팀의 워크플로우 패키징
-3. **원격 제어 탐색** - 외부 도구에서 Claude Code 세션을 프로그래밍 방식으로 제어
-4. **웹 세션 시도** - 브라우저 기반 인터페이스를 통해 Claude Code를 사용하여 원격 개발
-5. **데스크톱 앱 사용** - 네이티브 데스크톱 애플리케이션을 통해 Claude Code 기능에 액세스
-6. **자동 모드 사용** - 백그라운드 안전 분류기로 Claude가 자율적으로 작업하도록 허용
-7. **자동 메모리 활용** - Claude가 시간이 지남에 따라 환경 설정을 자동으로 학습하도록 허용
-8. **에이전트 팀 설정** - 복잡하고 다면적인 작업에서 여러 에이전트 조정
-9. **채널 사용** - 구조화된 다중 세션 워크플로우 전반에 걸쳐 작업 구성
-10. **음성 받아쓰기 시도** - Claude Code와 핸즈프리 상호 작용을 위해 음성 입력 사용
-11. **예약된 작업 사용** - `/loop` 및 cron 도구를 사용하여 반복 확인 자동화
-12. **예시 기여** - 커뮤니티와 공유
-13. **다른 사람 멘토링** - 팀원의 학습 지원
-14. **워크플로우 최적화** - 사용량에 따라 지속적으로 개선
-15. **최신 정보 유지** - Claude Code 릴리스 및 새로운 기능 팔로우
+2. **사용자 지정 플러그인 구축** - 새 매니페스트 필드(`workflows`, `channels`, `dependencies`)를 포함해 팀의 워크플로 패키징
+3. **`/design` 사용해 보기** - HTML을 직접 작성하는 대신 디자인 캔버스에서 UI 목업, 화면 흐름, 랜딩 페이지 스케치 (v2.1.265+)
+4. **원격 제어 탐색** - 휴대폰, 브라우저 또는 Claude 앱에서 로컬 Claude Code 세션을 이어서 사용하거나, Claude 앱의 기기 카드를 통해 휴대폰에서 세션 시작
+5. **웹 세션 시도** - 브라우저 기반 인터페이스를 통해 Claude Code를 사용하여 원격 개발
+6. **데스크톱 앱 사용** - 네이티브 데스크톱 애플리케이션을 통해 Claude Code 기능에 액세스
+7. **자동 모드 사용** - 백그라운드 안전 분류기로 Claude가 자율적으로 작업하도록 허용
+8. **자동 메모리 활용** - Claude가 시간이 지남에 따라 환경 설정을 자동으로 학습하도록 허용
+9. **에이전트 팀 설정** - 복잡하고 다면적인 작업에서 여러 에이전트 조정
+10. **채널 사용** - 실행 중인 세션에 이벤트(CI 결과, 채팅 메시지, 웹훅)를 푸시하는 MCP 서버 연결
+11. **음성 받아쓰기 시도** - Claude Code와 핸즈프리 상호 작용을 위해 음성 입력 사용
+12. **예약된 작업 사용** - `/loop` 및 cron 도구(세션 범위)로 반복 확인을 자동화하거나, `/schedule`로 클라우드 예약 작업 사용
+13. **예시 기여** - 커뮤니티와 공유
+14. **다른 사람 멘토링** - 팀원의 학습 지원
+15. **워크플로 최적화** - 사용량에 따라 지속적으로 개선
+16. **최신 정보 유지** - Claude Code 릴리스 및 새로운 기능 팔로우
 
 ---
 
@@ -738,14 +739,27 @@ done
 
 ---
 
-**최종 업데이트**: 2026년 6월 2일
-**Claude Code 버전**: 2.1.160
+**최종 업데이트**: 2026년 10월 26일
+**Claude Code 버전**: 2.1.310
 **출처**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/permission-modes
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.144
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.145
-**호환 모델**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+- https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/agent-teams
+- https://code.claude.com/docs/en/mcp
+- https://code.claude.com/docs/en/plugins/install
+- https://code.claude.com/docs/en/channels
+- https://code.claude.com/docs/en/remote-control
+- https://code.claude.com/docs/en/scheduled-tasks
+- https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/sub-agents
+- https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
+- https://code.claude.com/docs/en/headless#auto-approve-tools
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
+**호환 모델**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 **유지보수**: Claude How-To 기여자
 **라이선스**: 교육 목적, 자유롭게 사용 및 개작 가능
 

@@ -14,9 +14,9 @@
 
 ## 제안된 구성
 
-### 1. 서론 / 후크
+### 1. 서론 / 훅
 
-**시작 후크 옵션:**
+**시작 훅 옵션:**
 - [ ] 독자의 공감을 얻는 질문
 - [ ] 놀라운 통계 또는 사실
 - [ ] 짧은 이야기 또는 시나리오
@@ -95,3 +95,11 @@
 - [특정 요구 사항 또는 제약 사항]
 - [강조할 사항]
 - [피해야 할 사항]
+
+---
+
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/skills
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

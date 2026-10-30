@@ -9,7 +9,7 @@ Claude Code에서 체크포인트를 효과적으로 사용하는 실제 예제�
 ### 시나리오
 MySQL에서 PostgreSQL로 마이그레이션해야 하지만, 직접 마이그레이션 방식과 점진적인 dual-write 방식 두 가지를 모두 실험해보고 싶다.
 
-### 워크플로우
+### 워크플로
 
 ```
 User: MySQL에서 PostgreSQL로 직접 마이그레이션을 구현해줘
@@ -45,7 +45,7 @@ User: dual-write 방식이 더 안전하네. 이걸 커밋하자
 ### 시나리오
 여러 가지 성능 최적화 전략을 비교해야 하는 상황
 
-### 워크플로우
+### 워크플로
 
 ```
 User: API 응답 속도를 최적화해줘. 현재: 450ms
@@ -95,7 +95,7 @@ Claude: Redis 캐싱 추가...
 ### 시나리오
 대시보드 레이아웃을 여러 방식으로 실험
 
-### 워크플로우
+### 워크플로
 
 ```
 User: 사이드바 레이아웃으로 대시보드를 다시 설계해줘
@@ -138,7 +138,7 @@ Claude: 상단 네비게이션 + 카드 그리드 결합
 ### 시나리오
 복잡한 메모리 누수 버그 해결
 
-### 워크플로우
+### 워크플로
 
 ```
 User: 애플리케이션에 메모리 누수가 있어
@@ -185,7 +185,7 @@ User: 좋다. 이거 커밋하자
 ### 시나리오
 REST API 설계를 여러 방식으로 발전시키는 과정
 
-### 워크플로우
+### 워크플로
 
 ```
 User: 블로그 플랫폼용 REST API를 만들어줘
@@ -219,7 +219,7 @@ User: REST API로 최종 확정하자
 ### 시나리오
 여러 가지 설정 방식(config approach)을 실험하는 상황
 
-### 워크플로우
+### 워크플로
 
 ```
 User: 설정을 환경 변수로 옮겨줘
@@ -259,7 +259,7 @@ User: 이 방식이 프로덕션에 적합하네
 ### 시나리오
 포괄적인 테스트 구조를 구축하는 과정
 
-### 워크플로우
+### 워크플로
 
 ```
 User: auth 모듈에 유닛 테스트 추가해줘
@@ -303,7 +303,7 @@ User: 균형 잘 맞았네
 ### 시나리오
 긴 디버깅 세션 이후 컨텍스트를 압축하면서 핵심만 유지
 
-### 워크플로우
+### 워크플로
 
 ```
 User: [20개 이상의 메시지로 디버깅 진행 후]
@@ -328,9 +328,10 @@ User: 이제 성공한 접근 방식으로 계속 진행하자
 6. **긴 세션은 요약 활용**: "여기서부터 요약"으로 컨텍스트 관리
 
 ---
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
-**Sources**:
+**최종 업데이트**: 2026년 7월 29일
+**Claude Code 버전**: 2.1.220
+**출처**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/changelog
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+- https://code.claude.com/docs/en/model-config
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

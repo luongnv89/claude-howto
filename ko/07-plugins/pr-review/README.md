@@ -1,11 +1,11 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="../../resources/logos/claude-howto-logo-dark.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="../../../resources/logos/claude-howto-logo-dark.svg">
   <img alt="Claude How To" src="../../../resources/logos/claude-howto-logo.svg">
 </picture>
 
 # PR 리뷰 플러그인
 
-보안, 테스트, 문서 검증을 포함한 완전한 PR 리뷰 워크플로우를 제공합니다.
+보안, 테스트, 문서 검증을 포함한 완전한 PR 리뷰 워크플로를 제공합니다.
 
 ## 기능
 
@@ -18,7 +18,7 @@
 ## 설치
 
 ```bash
-/plugin install pr-review
+claude --plugin-dir ./07-plugins/pr-review
 ```
 
 ## 포함 항목
@@ -58,9 +58,9 @@
 
 ## 요구 사항
 
-* Claude Code 1.0+
-* GitHub 접근 권한
-* Git 저장소
+- Claude Code 2.1+
+- GitHub 접근 권한
+- Git 저장소
 
 ## 설정
 
@@ -69,7 +69,7 @@ GitHub 토큰을 설정합니다.
 export GITHUB_TOKEN="your_github_token"
 ```
 
-## 워크플로우 예시
+## 워크플로 예시
 
 ```
 User: /review-pr
@@ -92,10 +92,13 @@ Result:
 
 ---
 
-**최종 업데이트**: 2026년 6월 2일
-**Claude Code 버전**: 2.1.160
+**최종 업데이트**: 2026년 10월 18일
+**Claude Code 버전**: 2.1.302
 **출처**:
 - https://code.claude.com/docs/en/plugins
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.131
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.138
-**호환 모델**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+- https://code.claude.com/docs/en/model-config
+- https://code.claude.com/docs/en/plugins/cli-reference
+- https://code.claude.com/docs/en/plugins/install
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

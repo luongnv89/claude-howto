@@ -1,5 +1,4 @@
 ---
-name: System Status
 description: 전체 시스템 상태 및 정상 동작 여부를 확인합니다.
 ---
 
@@ -13,3 +12,12 @@ description: 전체 시스템 상태 및 정상 동작 여부를 확인합니다
 4. 오류율 검토
 5. 리소스 사용량 확인
 6. 전체 시스템 상태 보고
+
+---
+
+**최종 업데이트**: 2026년 10월 15일
+**Claude Code 버전**: 2.1.300
+**출처**:
+- https://code.claude.com/docs/en/plugins
+- https://code.claude.com/docs/en/skills#frontmatter-reference
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

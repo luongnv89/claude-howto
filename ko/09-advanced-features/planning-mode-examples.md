@@ -1,10 +1,10 @@
-# 플래닝 모드 예제(Planning Mode Examples)
+# 계획 모드 예제(Planning Mode Examples)
 
-Claude Code에서 플래닝 모드를 효과적으로 사용하는 실제 예제입니다.
+Claude Code에서 계획 모드를 효과적으로 사용하는 실제 예제입니다.
 
 ## 예제 1: REST API 구축
 
-### 플래닝 모드 없이
+### 계획 모드 없이
 
 ```
 User: 블로그용 REST API 만들어줘
@@ -13,9 +13,7 @@ Claude: API를 생성하겠습니다...
 [즉시 코딩 시작, 요구사항 일부 누락 가능]
 ```
 
----
-
-### 플래닝 모드 사용 (/plan)
+### 계획 모드 사용
 
 ```
 User: /plan 블로그용 REST API 만들어줘
@@ -99,6 +97,8 @@ Claude: Phase 1부터 순차적으로 진행합니다...
 
 ## 예제 2: 데이터베이스 마이그레이션
 
+### 계획 모드 사용
+
 ```
 User: /plan MongoDB에서 PostgreSQL로 마이그레이션
 
@@ -157,6 +157,10 @@ Claude: 복잡한 작업이므로 상세 계획을 수립하겠습니다.
 **예상 기간**: 10일
 **위험도**: 높음
 **롤백 전략**: MongoDB 유지 + dual-write 유지
+**성공 기준**:
+- 데이터 손실 0건
+- 성능 저하 5% 미만
+- 모든 테스트 통과
 
 **주요 리스크**
 - 데이터 불일치
@@ -177,12 +181,12 @@ User: modify - 각 단계별 롤백 추가
 Claude: 각 단계별 롤백 포함하여 계획을 업데이트하겠습니다...
 ```
 
-## 예제 3: 프론트엔드 리팩토링
+## 예제 3: 프론트엔드 리팩터링
 
 ```
-User: /plan React 앱을 class component에서 hooks로 리팩토링해줘
+User: /plan React 앱을 class component에서 hooks로 리팩터링해줘
 
-Claude: 체계적인 리팩토링 계획을 수립하겠습니다.
+Claude: 체계적인 리팩터링 계획을 수립하겠습니다.
 
 ## React Class → Hooks 마이그레이션 계획
 
@@ -231,7 +235,7 @@ Claude: 체계적인 리팩토링 계획을 수립하겠습니다.
    - useFetch
    - useLocalStorage
    - useDebounce
-28. 컴포넌트 리팩토링
+28. 컴포넌트 리팩터링
 29. hook 단위 테스트
 
 ### 7단계: 성능 최적화 (4시간)
@@ -530,9 +534,10 @@ Claude: 종합적인 성능 최적화 계획을 수립하겠습니다.
 7. 각 단계마다 **테스트 계획**을 포함하세요.
 
 ---
-**Last Updated**: June 2, 2026
-**Claude Code Version**: 2.1.160
-**Sources**:
+**최종 업데이트**: 2026년 7월 29일
+**Claude Code 버전**: 2.1.220
+**출처**:
 - https://code.claude.com/docs/en/changelog
 - https://code.claude.com/docs/en/best-practices
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+- https://code.claude.com/docs/en/model-config
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

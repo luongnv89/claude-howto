@@ -1,7 +1,6 @@
 ---
-name: CI/CD 파이프라인 설정
-description: 품질 보증을 위한 pre-commit hooks 및 GitHub Actions 구현
-tags: ci-cd, devops, automation
+name: setup-ci-cd
+description: 품질 보증을 위한 pre-commit 훅 및 GitHub Actions 구현
 ---
 
 # CI/CD 파이프라인 설정
@@ -25,4 +24,8 @@ tags: ci-cd, devops, automation
 무료/오픈 소스 도구를 사용합니다. 기존 구성을 존중합니다. 빠른 실행 속도를 유지합니다.
 
 ---
-**최종 업데이트**: 2026년 4월 9일
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/commands
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

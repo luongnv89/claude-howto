@@ -19,7 +19,7 @@ model: inherit
 
 1. **단위 테스트(Unit Tests)** - 개별 함수/메서드를 독립적으로 검증
 2. **통합 테스트(Integration Tests)** - 컴포넌트 간 상호작용 검증
-3. **종단 간 테스트(End-to-End Tests)** - 전체 워크플로우 검증
+3. **종단 간 테스트(End-to-End Tests)** - 전체 워크플로 검증
 4. **엣지 케이스(Edge Cases)** - 경계 조건, null 값, 빈 컬렉션 검증
 5. **오류 시나리오(Error Scenarios)** - 실패 처리 및 잘못된 입력 검증
 
@@ -76,4 +76,8 @@ describe('Feature: User Authentication', () => {
 
 ---
 
-**최종 업데이트**: 2026년 4월 9일
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/sub-agents
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

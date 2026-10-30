@@ -1,6 +1,7 @@
 ---
-name: brand-voice-consistency
+name: brand-voice
 description: 모든 커뮤니케이션이 브랜드 보이스 및 톤 가이드라인과 일치하도록 합니다. 마케팅 문구, 고객 커뮤니케이션, 대외 공개 콘텐츠를 제작할 때 또는 사용자가 브랜드 보이스, 톤, 글쓰기 스타일을 언급할 때 사용하세요.
+user-invocable: false
 ---
 
 # 브랜드 보이스 스킬
@@ -11,7 +12,7 @@ description: 모든 커뮤니케이션이 브랜드 보이스 및 톤 가이드�
 ## 브랜드 아이덴티티
 
 ### 미션
-AI를 활용하여 팀의 개발 워크플로우 자동화를 돕습니다.
+AI를 활용하여 팀의 개발 워크플로 자동화를 돕습니다.
 
 ### 가치
 - **간결성**: 복잡한 것을 간단하게 만듭니다.
@@ -70,3 +71,11 @@ AI를 활용하여 팀의 개발 워크플로우 자동화를 돕습니다.
 "Claude leverages cutting-edge AI to provide comprehensive software development solutions."
 
 효과적이지 않은 이유: 모호함, 기업 전문 용어, 구체적인 가치 없음
+
+---
+
+**최종 업데이트**: 2026년 8월 4일
+**Claude Code 버전**: 2.1.220
+**출처**:
+- https://code.claude.com/docs/en/skills
+**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
