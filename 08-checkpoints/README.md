@@ -45,7 +45,7 @@ Use the `/rewind` command (aliases: `/checkpoint`, `/undo`) for quick access:
 
 ## Rewind Options
 
-When you rewind, you are presented with a menu of six options:
+When you rewind, you are presented with a menu of up to six options:
 
 1. **Restore code and conversation** -- Revert both files and messages to that checkpoint
 2. **Restore conversation** -- Rewind messages only, keep your current code as-is
@@ -53,6 +53,8 @@ When you rewind, you are presented with a menu of six options:
 4. **Summarize from here** -- Compress the conversation from this point forward into an AI-generated summary, freeing context window space. Messages before the selected point stay intact. No files on disk are changed. The original messages are preserved in the session transcript. You can optionally provide instructions to focus the summary on specific topics.
 5. **Summarize up to here** -- The backward counterpart: compress everything *before* the selected point into an AI-generated summary, keeping the messages from this point forward intact. Together with "Summarize from here" this gives you bidirectional, targeted compaction of your context window. No files on disk are changed, and the original messages are preserved in the session transcript.
 6. **Never mind** -- Cancel and return to the current state
+
+The two code restore options appear only when the selected checkpoint has file changes to revert, and the two Summarize options are hidden when `DISABLE_COMPACT` is set (v2.1.311+).
 
 > **Note**: After restoring the conversation or choosing **Summarize from here**, the original prompt from the selected message is restored into the input field so you can re-send or edit it. Choosing **Summarize up to here** leaves you at the end of the conversation with the input empty.
 
@@ -246,7 +248,7 @@ Claude Code keeps snapshots for the **100 most recent checkpoints**; older ones 
 Checkpoints have the following limitations:
 
 - **Bash-only file changes NOT tracked** - Once Claude has edited a file with its file editing tools, `/rewind` also undoes changes that Bash commands make to that file afterward; a file that only Bash commands changed isn't tracked. Since v2.1.309, `sed -i` is treated like any other Bash edit
-- **External changes NOT tracked** - Changes made outside Claude Code (in your editor, terminal, etc.) are not captured
+- **External changes NOT tracked** - Changes made outside Claude Code (in your editor, terminal, another session, etc.) are normally not captured, unless they touch files Claude edited in this session — then a code restore can overwrite them (the /rewind warning says so since v2.1.311)
 - **Not a replacement for version control** - Use git for permanent, auditable changes to your codebase
 - **Subagent edits NOT restored** - A subagent's edits to files Claude hadn't already edited in your conversation are untracked, so `/rewind` leaves them as they are (revert them with git); the exception is a foreground `context: fork` skill, whose edits are restored like the main session's
 
@@ -339,8 +341,8 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/settings
@@ -352,4 +354,7 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 - https://code.claude.com/docs/en/checkpointing#bash-command-changes-not-tracked
 - https://code.claude.com/docs/en/checkpointing#subagent-edits-not-restored
 - https://code.claude.com/docs/en/checkpointing#rewound-messages-can-return-if-you-exit-before-your-next-prompt
+- https://code.claude.com/docs/en/checkpointing#external-changes-not-tracked
+- https://code.claude.com/docs/en/changelog#2-1-311
+- https://code.claude.com/docs/en/checkpointing#rewind-and-summarize
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

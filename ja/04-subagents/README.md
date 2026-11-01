@@ -781,7 +781,7 @@ graph TB
 
 チームリードは作業をタスクに分解してチームメイトに割り当てる。共有タスクリストが扱うのは：
 
-- **自動依存関係管理** — タスクは依存関係の完了を待つ
+- **自動依存関係管理** — 他のタスクに依存するタスクは、それらが完了するまでブロック済み（blocked）と表示される。チームメイトはブロック済みのタスクを自分から引き受けないが、あなたやリードは引き続き割り当てられる
 - **ステータス追跡** — チームメイトは作業中にタスクのステータスを更新する
 - **エージェント間メッセージング** — コーディネーションのためチームメイトがメールボックス経由でメッセージを送る（例：「データベーススキーマが準備できた、クエリを書き始めてよい」）
 
@@ -1273,8 +1273,8 @@ graph TD
 
 ---
 
-**最終更新**：2026 年 10 月 26 日
-**Claude Code バージョン**：2.1.310
+**最終更新**：2026 年 11 月 1 日
+**Claude Code バージョン**：2.1.316
 **ソース**：
 
 - https://code.claude.com/docs/en/sub-agents
@@ -1292,5 +1292,6 @@ graph TD
 - https://code.claude.com/docs/en/changelog#2-1-302
 - https://code.claude.com/docs/en/sub-agents#turn-fork-mode-on-or-off
 - https://code.claude.com/docs/en/agent-teams#have-teammates-plan-before-implementing
+- https://code.claude.com/docs/en/agent-teams#assign-and-claim-tasks
 
 **互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

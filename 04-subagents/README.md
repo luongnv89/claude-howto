@@ -132,7 +132,7 @@ to solving problems.
 | `description` | Yes | Natural language description of purpose. Include "use PROACTIVELY" to encourage automatic invocation |
 | `tools` | No | Comma-separated list of specific tools. Omit to inherit all tools. Supports `Agent(agent_name)` syntax to restrict spawnable subagents when the agent runs as the main thread with `claude --agent`; inside a subagent the type list is ignored. MCP: `mcp__<server>__*` grants a whole server (v2.1.299+: matches only that exact server name). |
 | `disallowedTools` | No | Comma-separated list of tools the subagent must not use. For MCP servers whose names contain `__`: `mcp__reports__*` here also withholds every `reports__v2` tool, so list `reports` tools one by one instead; in `tools`, grant such a server as `mcp__reports__v2__*` |
-| `model` | No | Model to use: `sonnet`, `opus`, `haiku`, full model ID, or `inherit`. Defaults to configured subagent model |
+| `model` | No | Model to use: `sonnet`, `opus`, `haiku`, full model ID, or `inherit`. Defaults to configured subagent model. Claude can also pass a `model` when it calls the Agent tool, but only as an alias (`sonnet`, `opus`, `haiku`, or `fable`), not a full model ID or `inherit` |
 | `permissionMode` | No | `default` (Manual mode; `manual` accepted as an alias since v2.1.200), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. As of v2.1.212, the Task tool's `mode` invocation parameter is deprecated and ignored — subagents inherit the parent session's permission mode by default unless overridden here. When the parent runs in `bypassPermissions`, `acceptEdits` or `auto`, the subagent's `permissionMode` is ignored. When the parent is in `plan` mode, the subagent stays in plan mode whatever `permissionMode` says (unless it runs as an agent-team teammate); if you set `dontAsk`, actions plan mode would ask about are denied instead |
 | `maxTurns` | No | Maximum number of agentic turns the subagent can take |
 | `skills` | No | Comma-separated list of skills to preload. Injects full skill content into the subagent's context at startup. **v2.1.133+:** subagents also discover project, user, and plugin skills via the Skill tool — same catalog as the main session, no longer limited to their own embedded set. At most 32 skills are preloaded, each once; a subagent with the Skill tool can still invoke the rest (v2.1.295). |
@@ -140,13 +140,13 @@ to solving problems.
 | `hooks` | No | Hooks that run only while this subagent is active. All hook events are supported; most common are `PreToolUse`, `PostToolUse`, `Stop` (runs as `SubagentStop`) |
 | `memory` | No | Persistent memory directory scope: `user`, `project`, or `local` |
 | `background` | No | Subagents already run in the background by default (v2.1.198). Since v2.1.302 the main conversation's subagents in the desktop app and VS Code also start in the background. While fork mode is on (the default), Claude can't wait for them. A subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Set to `true` to *force* background always and prevent inline execution |
-| `effort` | No | Reasoning effort level: `low`, `medium`, `high`, `xhigh`, or `max`. Overrides the session effort level; available levels depend on the model. Claude can also pass an `effort` value when it calls the Agent tool (v2.1.292). |
+| `effort` | No | Reasoning effort level: `low`, `medium`, `high`, `xhigh`, or `max`. Overrides the session effort level; available levels depend on the model. Claude can also pass an `effort` value when it calls the Agent tool (v2.1.292). When nothing names a level, `CLAUDE_CODE_SUBAGENT_EFFORT` sets the one subagents run at instead of the session's (v2.1.316). |
 | `isolation` | No | Set to `worktree` to give the subagent its own git worktree |
 | `initialPrompt` | No | Auto-submitted first turn when the subagent runs as the main agent |
 | `color` | No | Display color for the subagent in the task list and transcript. Accepts `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink`, or `cyan` |
 | `experimental` | No | Experimental settings block (v2.1.248+). `experimental.cacheTtl` sets the cache TTL for this subagent — `"5m"` or `"1h"` |
 | `omitClaudeMd` | No | Set to `true` to launch the subagent without the user, project, and local CLAUDE.md files (v2.1.271+). Managed policy files still load, except for managed subagents. Ignored when the agent runs as the main session agent via `--agent` or the `agent` setting. Also accepted in `--agents` JSON |
-| `autoCompactWindow` | No | Auto-compact this subagent's context earlier than the main conversation's window (v2.1.296+; also accepted in `--agents` JSON) |
+| `autoCompactWindow` | No | Auto-compact this subagent's context earlier than the main conversation's window (v2.1.296+; also accepted in `--agents` JSON). Since v2.1.312 it also lowers a window set by `CLAUDE_CODE_AUTO_COMPACT_WINDOW`, which it previously couldn't override; it never raises that window |
 
 #### Subagent Model Environment Variables
 
@@ -823,7 +823,7 @@ graph TB
 
 The team lead breaks work into tasks and assigns them to teammates. The shared task list handles:
 
-- **Automatic dependency management** — tasks wait for their dependencies to complete
+- **Automatic dependency management** — a task that depends on others shows as blocked until they complete; teammates don't self-claim a blocked task, but you or the lead can still assign it
 - **Status tracking** — teammates update task status as they work
 - **Inter-agent messaging** — teammates send messages via the mailbox for coordination (e.g., "Database schema is ready, you can start writing queries")
 
@@ -855,7 +855,7 @@ Agent Teams introduce two additional [hook events](../06-hooks/):
 - **One team per session**: Cannot create nested teams or multiple teams in a single session
 - **Fixed leadership**: The team lead role cannot be transferred to a teammate
 - **Split-pane restrictions**: tmux/iTerm2 required; not available in VS Code terminal, Windows Terminal, or Ghostty
-- **Split-pane permissions**: a split-pane teammate starts with the lead's `--disallowedTools` and `--tools` (v2.1.309+) but not `--allowedTools`; to pre-approve actions there, start the lead with `claude --settings '{"permissions":{"allow":["Bash(npm *)"]}}'`. In-process teammates use the lead's live rules
+- **Split-pane permissions**: a split-pane teammate starts with the lead's `--disallowedTools` and `--tools` (v2.1.309+) but not `--allowedTools`; to pre-approve actions there, start the lead with `claude --settings '{"permissions":{"allow":["Bash(npm *)"]}}'`. In-process teammates use the lead's live rules. If a command-line deny rule can't be handed to the teammate intact, the spawn aborts ("cannot be handed to a teammate intact"); set **Teammate mode** to `in-process` in `/config`
 - **No cross-session teams**: Teammates exist only within the current session
 
 > **Warning**: Agent Teams is experimental. Test with non-critical work first and monitor teammate coordination for unexpected behavior.
@@ -972,6 +972,7 @@ graph TB
 
 - **Context efficiency** - Agents preserve main context, enabling longer sessions
 - **Latency** - Subagents start with clean slate and may add latency gathering initial context
+- **Token cost** - Every subagent sends its own requests, which count against the same usage as your main conversation. Delegating buys parallelism, a reviewer with fresh eyes, or noisy output kept out of your context — not a smarter answer. Use `model: haiku` for simple jobs and ask for short summaries back
 
 ### Key Behaviors
 
@@ -1351,8 +1352,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1383,4 +1384,10 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 - https://code.claude.com/docs/en/changelog#2-1-309
 - https://code.claude.com/docs/en/changelog#2-1-304
 - https://code.claude.com/docs/en/vs-code#see-a-background-subagents-tool-calls
+- https://code.claude.com/docs/en/changelog#2-1-312
+- https://code.claude.com/docs/en/agent-teams#assign-and-claim-tasks
+- https://code.claude.com/docs/en/best-practices#know-what-subagents-cost
+- https://code.claude.com/docs/en/changelog#2-1-316
+- https://code.claude.com/docs/en/sub-agents#choose-a-model
+- https://code.claude.com/docs/en/errors#a-command-line-deny-rule-cannot-be-handed-to-a-teammate-intact
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

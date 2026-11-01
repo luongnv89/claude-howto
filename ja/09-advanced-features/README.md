@@ -255,7 +255,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **注：** プロンプトに「ultrathink」というキーワードを含めると深い推論モードが起動する。努力度レベル `low`、`medium`、`high`、`max` は Opus 4.7、Opus 4.6、Sonnet 4.6 でサポートされる。`xhigh`（Opus 4.7 でのデフォルト）は Opus 4.7 専用である。
+> **注：** プロンプトに「ultrathink」というキーワードを含めると深い推論モードが起動する。v2.1.311 以降、対話型ターミナルで入力すると、Anthropic の API 経由の Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.1 ではそのターンを `xhigh` の努力度で実行する（可能な場合はキーワードが虹色で表示される。Claude の作業中に入力すると、そのターンの残りの努力度を引き上げる。VS Code は v2.1.316 以降）。Bedrock やその他のモデルでは、代わりに努力度レベルを設定すること。`CLAUDE_CODE_DISABLE_ULTRATHINK=1`（v2.1.316）でこのキーワードを無効化できる。努力度レベル `low`、`medium`、`high`、`max` は Opus 4.7、Opus 4.6、Sonnet 4.6 でサポートされる。`xhigh`（Opus 4.7 でのデフォルト）は Opus 4.7 専用である。
 
 ### 拡張思考のメリット
 
@@ -357,7 +357,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh
 
 ### 必要要件
 
-- **プラン：** Team、Enterprise、または API（Pro や Max プランでは利用不可）
+- **プラン：** すべてのプラン
 - **モデル：** Claude Sonnet 4.6 または Opus 4.7
 - **プロバイダ：** Anthropic API のみ（Bedrock、Vertex、Foundry では非対応）
 - **分類器：** 追加のトークンコストが発生する。ただし Enterprise プランと Claude API アカウントでは、v2.1.278 以降サーバー側でチェックが実行され、課金されない
@@ -1380,7 +1380,7 @@ Claude Code は表示されたウィンドウ内でブラウザを操作する �
 
 ## リモートコントロール
 
-リモートコントロールにより、ローカルで動作中の Claude Code セッションをスマートフォン、タブレット、任意のブラウザから継続できる。ローカルセッションはマシン上で動き続ける — クラウドへ移動するものは何もない。Pro、Max、Team、Enterprise プランで利用可能（v2.1.51 以降）。
+リモートコントロールにより、ローカルで動作中の Claude Code セッションをスマートフォン、タブレット、任意のブラウザから継続できる。ローカルセッションはマシン上で動き続ける — クラウドへ移動するものは何もない。Pro、Max、Ultra、Team、Enterprise プランで利用可能（v2.1.51 以降）。
 
 ### リモートコントロールの開始
 
@@ -1494,7 +1494,7 @@ claude --teleport
 
 ## デスクトップアプリ
 
-Claude Code デスクトップアプリは、視覚的な diff レビュー、並列セッション、統合コネクタを備えたスタンドアロンアプリケーションである。macOS と Windows で利用可能（Pro、Max、Team、Enterprise プラン）。
+Claude Code デスクトップアプリは、視覚的な diff レビュー、並列セッション、統合コネクタを備えたスタンドアロンアプリケーションである。macOS と Windows で利用可能（Pro、Max、Ultra、Team、Enterprise プラン）。
 
 ### インストール
 
@@ -1519,7 +1519,7 @@ Claude Code デスクトップアプリは、視覚的な diff レビュー、�
 | **Diff ビュー** | ファイルごとの視覚的レビューとインラインコメント。Claude はコメントを読んで修正する |
 | **アプリプレビュー** | dev サーバを自動起動し、組み込みブラウザでライブ検証 |
 | **PR 監視** | GitHub CLI 連携。CI 失敗の自動修正、チェック完了時の自動マージ |
-| **並列セッション** | サイドバーで複数セッションを管理。Git ワークツリーで自動的に隔離 |
+| **並列セッション** | サイドバーで複数セッションを管理。プロンプトボックス下の **Worktree** ボタンをオンにすると、セッションごとに専用の Git ワークツリーを使える（デフォルトはオフ） |
 | **スケジュールタスク** | 定期タスク（時次、日次、平日、週次）。アプリが開いている間に実行 |
 | **リッチレンダリング** | コード、Markdown、図表のレンダリングとシンタックスハイライト |
 
@@ -1652,10 +1652,12 @@ claude -w
 ```json
 {
   "worktree": {
-    "sparsePaths": ["packages/my-package", "shared/"]
+    "sparsePaths": [".claude", "packages/my-package", "shared/"]
   }
 }
 ```
+
+`.claude` を含めておくと、各ワークツリーにもリポジトリの `.claude/settings.json` と `.claude/rules/` が入る。
 
 ### ワークツリーのツールとフック
 
@@ -2101,9 +2103,14 @@ Claude Code および関連機能の詳細：
 
 ---
 
-**最終更新：** 2026 年 10 月 26 日
-**Claude Code バージョン：** 2.1.310
+**最終更新：** 2026 年 11 月 1 日
+**Claude Code バージョン：** 2.1.316
 **情報源：**
+- https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
+- https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
+- https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
+- https://code.claude.com/docs/en/feature-availability#ultra-plan
+- https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
 - https://code.claude.com/docs/en/permission-modes

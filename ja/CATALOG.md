@@ -93,7 +93,7 @@
 | `/undo` | `/rewind` のエイリアス（v2.1.108） | `/rewind` と同じ |
 | `/upgrade` | アップグレードページを開いて上位プランに切り替え | プランのアップグレード |
 | `/team-onboarding` | このプロジェクトの Claude Code 利用状況からオンボーディングガイドを生成 | 新メンバーのオンボーディング（v2.1.101） |
-| `/code-review ultra` | 現在の変更に対するクラウドのマルチエージェントコードレビューを実行。`/ultrareview` はエイリアスとして残っており、`/code-review ultra` が推奨の呼び出し。Pro と Max では 3 回まで無料、以降は使用クレジットが必要 | マージ前の深いマルチエージェントレビュー（v2.1.112） |
+| `/code-review ultra` | 現在の変更に対するクラウドのマルチエージェントコードレビューを実行。`/ultrareview` はエイリアスとして残っており、`/code-review ultra` が推奨の呼び出し。Pro、Max、Ultra では 3 回まで無料、以降は使用クレジットが必要 | マージ前の深いマルチエージェントレビュー（v2.1.112） |
 | `/fewer-permission-prompts` | トランスクリプトをスキャンし、よく使う読取専用ツールの優先許可リストを提案 | プロジェクトでの権限プロンプト繰り返しを削減（v2.1.112） |
 
 ### カスタムコマンド（例）
@@ -545,8 +545,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新**：2026 年 10 月 18 日
-**Claude Code バージョン**：2.1.302
+**最終更新**：2026 年 11 月 1 日
+**Claude Code バージョン**：2.1.316
 **情報源**：
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/overview
@@ -563,4 +563,6 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/chrome
 - https://code.claude.com/docs/en/plugins/manifest-reference
 - https://code.claude.com/docs/en/plugins/cli-reference
+- https://code.claude.com/docs/en/ultrareview#pricing-and-free-runs
+- https://code.claude.com/docs/en/feature-availability#ultra-plan
 **互換モデル**：Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

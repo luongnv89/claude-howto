@@ -213,6 +213,7 @@ The URL must use `https://`. This option requires Claude Code v2.1.64 or later.
 
 - **Startup auth notice (v2.1.193+)**: At startup, Claude Code surfaces a notice listing any MCP servers that still need authentication, so a server that needs a login isn't left silently non-working.
 - **`headersHelper` auto-refresh (v2.1.193+)**: If you supply custom auth via a `headersHelper`, the helper is re-invoked automatically when a server returns HTTP 401 or 403. Credentials refresh on the fly without a manual reconnect. See [Use dynamic headers for custom authentication](https://code.claude.com/docs/en/mcp).
+- **OAuth behind an authenticating proxy (v2.1.299+)**: pass the proxy's own header with `--header`, `headers`, or a `headersHelper`, keep `Authorization` out of those headers, and sign in with `claude mcp login <name>`. A configured `Authorization` header is used as the credential, with no fallback to OAuth.
 
 > **Warning** (v2.1.238): A `headersHelper` in a project `.mcp.json`, and inline MCP servers in project or `--add-dir` agent files, now require that folder's trust dialog to have been accepted — including under `claude -p`. Such helpers also run **without inherited credential environment variables**; user-, managed-, and claude.ai-scope helpers run from the Claude config directory instead. A project config that relied on inherited credentials or on running untrusted will stop working until you accept the trust dialog and supply credentials another way.
 
@@ -315,6 +316,8 @@ MCP Apps is the first official MCP extension, enabling MCP tool calls to return 
 ## MCP Elicitation
 
 MCP servers can request structured input from the user via interactive dialogs (v2.1.49+). This allows an MCP server to ask for additional information mid-workflow -- for example, prompting for a confirmation, selecting from a list of options, or filling in required fields -- adding interactivity to MCP server interactions.
+
+If a server built on Java MCP SDK 0.17.0 or older refuses to connect with "rejected Claude Code's elicitation capability", upgrade it to Java MCP SDK 0.17.1+ or add `"bareElicitationCapability": true` to its entry (stdio, `sse`, `http` and `ws`; v2.1.281+), which limits it to form-mode elicitation.
 
 ## Tool Description and Instruction Cap
 
@@ -436,9 +439,9 @@ claude mcp add-json events-server '{"type":"stdio","command":"npx","args":["@mod
 
 > **Note**: In JSON configs — `.mcp.json`, `~/.claude.json`, or `claude mcp add-json` — the `type` field accepts `streamable-http` as an alias for `http`. The MCP specification uses the name `streamable-http` for this transport, so configurations copied from a server's own documentation work unmodified.
 
-Since v2.1.238, `claude mcp list` and `claude mcp get` show disabled servers as `⊘ Disabled` without connecting to them for a health check.
+Since v2.1.238, `claude mcp list` and `claude mcp get` show disabled servers as `⊘ Disabled` without connecting to them for a health check. A server one of your organization's policies refuses shows as `✘ Blocked by enterprise managed policy` in both commands; one filtered out by an allowlist, denylist, or other managed MCP restriction is hidden rather than listed.
 
-`claude mcp login <name>` / `claude mcp logout <name>` are the non-interactive equivalent of the OAuth flow in the `/mcp` menu — authenticate or sign out without opening it. Add `--no-browser` to `login` to complete OAuth over SSH or in a headless session (it redirects the flow through stdin).
+`claude mcp login <name>` / `claude mcp logout <name>` are the non-interactive equivalent of the OAuth flow in the `/mcp` menu — authenticate or sign out without opening it. Add `--no-browser` to `login` to complete OAuth over SSH or in a headless session (it redirects the flow through stdin). `claude mcp remove` deletes the stored OAuth tokens but doesn't revoke them; to revoke them where the authorization server supports it, run `claude mcp logout <name>` before `claude mcp remove <name>`.
 
 ## Available MCP Servers Table
 
@@ -548,7 +551,7 @@ MCP configurations support environment variable expansion with fallback defaults
 
 Variables are expanded at runtime:
 - `${VAR}` - Uses environment variable; if it is unset (and has no default), the server still loads with the literal `${VAR}`, and `claude mcp list` and `/mcp` warn about the missing variable
-- `${VAR:-default}` - Uses environment variable, falls back to default if not set
+- `${VAR:-default}` - Uses environment variable, falls back to default if not set. A variable set to an empty string counts as set and expands to empty (e.g. `url` becomes `/mcp`); unset it to get the default
 
 ### Example 2: Database MCP Setup
 
@@ -1362,8 +1365,8 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
@@ -1390,4 +1393,10 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 - https://code.claude.com/docs/en/mcp#time-limits-on-mcp-tool-calls
 - https://code.claude.com/docs/en/changelog#2-1-307
 - https://code.claude.com/docs/en/mcp#mark-tools-that-are-safe-to-call-twice
+- https://code.claude.com/docs/en/mcp#variables-set-to-an-empty-string
+- https://code.claude.com/docs/en/mcp#managing-your-servers
+- https://code.claude.com/docs/en/mcp#server-status
+- https://code.claude.com/docs/en/errors#mcp-server-rejected-the-elicitation-capability
+- https://code.claude.com/docs/en/mcp#elicitation-modes-claude-code-declares
+- https://code.claude.com/docs/en/mcp#use-oauth-with-a-server-behind-an-authenticating-proxy
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

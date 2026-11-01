@@ -65,7 +65,7 @@ Claude Code 目前提供 55+ 个内置命令和约 20 个内置 Skills。你可�
 | `/plan [description]` | 进入规划模式 |
 | `/plugin` | 管理插件 |
 | `/pr-comments [PR]` | 获取 GitHub PR 评论 |
-| `/privacy-settings` | 隐私设置（仅 Pro/Max） |
+| `/privacy-settings` | 隐私设置（仅 Pro/Max/Ultra） |
 | `/release-notes` | 查看更新日志 |
 | `/reload-plugins` | 重新加载当前插件。自 v2.1.221 起，大多数安装会立即生效，只有当安装摘要提示 `Run /reload-plugins to activate.` 时才需要执行 |
 | `/remote-control` | 从 claude.ai 进行远程控制（别名：`/rc`） |
@@ -552,8 +552,8 @@ allowed-tools: Bash(npm *), Bash(git *)
 
 ---
 
-**最后更新**: 2026 年 10 月 18 日
-**Claude Code 版本**: 2.1.302
+**最后更新**: 2026 年 11 月 1 日
+**Claude Code 版本**: 2.1.316
 **来源**:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/output-styles
@@ -563,6 +563,7 @@ allowed-tools: Bash(npm *), Bash(git *)
 - https://code.claude.com/docs/en/changelog#2-1-299
 - https://code.claude.com/docs/en/hooks#hook-lifecycle
 - https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/feature-availability#ultra-plan
 **兼容模型**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 ---
