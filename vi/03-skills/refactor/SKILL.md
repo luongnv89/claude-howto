@@ -1,11 +1,11 @@
 ---
 name: refactor
-description: Refactor code có hệ thống dựa trên phương pháp luận của Martin Fowler. Sử dụng khi người dùng yêu cầu refactor code, cải thiện cấu trúc code, giảm nợ kỹ thuật, dọn code legacy, loại bỏ code smells, hoặc cải thiện khả năng duy trì code. Skill này hướng dẫn qua cách tiếp theo từng giai đoạn với nghiên cứu, lập kế hoạch, và triển khai tăng dần an toàn.
+description: Refactor code có hệ thống dựa trên phương pháp luận của Martin Fowler. Sử dụng khi người dùng yêu cầu refactor code, cải thiện cấu trúc code, giảm nợ kỹ thuật, dọn code legacy, loại bỏ code smells, hoặc cải thiện khả năng duy trì code. Skill này hướng dẫn qua cách tiếp cận theo từng giai đoạn với nghiên cứu, lập kế hoạch, và triển khai tăng dần an toàn.
 ---
 
 # Code Refactoring Skill
 
-Một cách tiếp có hệ thống để refactor code dựa trên *Refactoring: Improving the Design of Existing Code* (ấn bản 2) của Martin Fowler. Skill này nhấn mạnh các thay đổi tăng dần, an toàn được hỗ trợ bởi tests.
+Một cách tiếp cận có hệ thống để refactor code dựa trên *Refactoring: Improving the Design of Existing Code* (ấn bản 2) của Martin Fowler. Skill này nhấn mạnh các thay đổi tăng dần, an toàn được hỗ trợ bởi tests.
 
 > "Refactoring là quá trình thay đổi một hệ thống phần mềm theo cách mà nó không làm thay đổi hành vi bên ngoài của code nhưng cải thiện cấu trúc nội bộ của nó." — Martin Fowler
 
@@ -46,7 +46,7 @@ Giai Đoạn 6: Review & Lặp Lại
 Trước khi bắt đầu, làm rõ:
 
 1. **Phạm Vi**: Những file/module/hàm nào cần refactor?
-2. **Mục Tiêu**: Bạn đang cố gắng giải quyết vấn đề gì? (khả đọc, hiệu suất, khả năng duy trì)
+2. **Mục Tiêu**: Bạn đang cố gắng giải quyết vấn đề gì? (khả năng đọc, hiệu suất, khả năng duy trì)
 3. **Ràng Buộc**: Có những khu vực nào KHÔNG NÊN thay đổi không?
 4. **Áp Lực Thời Gian**: Điều này có chặn công việc khác không?
 5. **Trạng Thái Test**: Tests có tồn tại không? Chúng có pass không?
@@ -218,7 +218,7 @@ Sử dụng mẫu tại [templates/refactoring-plan.md](../../../03-skills/refac
 5. **Rủi Ro**: Điều gì có thể sai
 6. **Hoàn Tác**: Cách hoàn tác nếu cần
 
-### Cách Tiếp Theo Giai Đoạn
+### Cách Tiếp Cận Theo Giai Đoạn
 
 **QUAN TRỌNG**: Introduce refactoring tăng dần theo các giai đoạn.
 
@@ -423,4 +423,4 @@ function processOrder(order) {
 
 ## Lịch Sử Phiên Bản
 
-- v1.0.0 (2025-01-15): Phiên bản phát hành ban đầu với phương pháp luận Fowler, cách tiếp theo từng giai đoạn, các điểm tham khảo người dùng
+- v1.0.0 (2025-01-15): Phiên bản phát hành ban đầu với phương pháp luận Fowler, cách tiếp cận theo từng giai đoạn, các điểm tham khảo người dùng

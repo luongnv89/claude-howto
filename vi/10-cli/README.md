@@ -198,7 +198,7 @@ claude --disallowedTools "Bash(rm -rf:*)" "Bash(git push --force:*)"
 |------|-------------|---------|---------|
 | `--output-format` | Chỉ định định dạng đầu ra (chế độ in) | `text`, `json`, `stream-json` | `claude -p --output-format json "query"` |
 | `--input-format` | Chỉ định định dạng đầu vào (chế độ in) | `text`, `stream-json` | `claude -p --input-format stream-json` |
-| `--verbose` | Bật ghi nhật chi tiết | | `claude --verbose` |
+| `--verbose` | Bật ghi nhật ký chi tiết | | `claude --verbose` |
 | `--include-partial-messages` | Bao gồm các sự kiện streaming | Yêu cầu `stream-json` | `claude -p --output-format stream-json --include-partial-messages "query"` |
 | `--json-schema` | Nhận JSON được validate theo schema | | `claude -p --json-schema '{"type":"object"}' "query"` |
 | `--max-budget-usd` | Giới hạn chi phí tối đa cho chế độ in. Kể từ v2.1.217, khi đạt giới hạn, các subagent chạy nền cũng bị dừng và các subagent mới bị từ chối khởi chạy (trước đây các subagent chạy nền vẫn tiếp tục chạy sau khi vượt giới hạn) | | `claude -p --max-budget-usd 5.00 "query"` |

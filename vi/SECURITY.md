@@ -2,7 +2,7 @@
 
 ## Tổng Quan / Overview
 
-Bảo mật của dự án Claude How To là quan trọng đối với chúng tôi. Tài liệu này phác thảo các thực hành bảo mật của chúng và mô tả cách báo cáo các lỗ hổng bảo mật một cách có trách nhiệm.
+Bảo mật của dự án Claude How To là quan trọng đối với chúng tôi. Tài liệu này phác thảo các thực hành bảo mật của chúng tôi và mô tả cách báo cáo các lỗ hổng bảo mật một cách có trách nhiệm.
 
 ## Các Phiên Bản Được Hỗ Trợ / Supported Versions
 
@@ -63,7 +63,7 @@ Chúng tôi đánh giá cao các báo cáo về:
 - **Lỗ hổng code** trong scripts hoặc ví dụ
 - **Lỗ hổng dependency** trong các gói Python
 - **Vấn đề mật mã** trong bất kỳ ví dụ code nào
-- **Lỗi Xác Thực/Ủy Quy** trong tài liệu
+- **Lỗi Xác Thực/Ủy Quyền** trong tài liệu
 - **Rủi ro lộ dữ liệu** trong ví dụ cấu hình
 - **Lỗ hổng tiêm nhiễm** (SQL, command, v.v.)
 

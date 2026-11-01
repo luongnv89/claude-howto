@@ -399,7 +399,7 @@ Nếu bạn gặp khó khăn khi dịch:
 
 ### Reporting Issues
 
-Nếu bạn发现 lỗi trong bản dịch hoặc có đề xuất cải thiện:
+Nếu bạn phát hiện lỗi trong bản dịch hoặc có đề xuất cải thiện:
 
 1. Fork repository
 2. Create branch với tên: `fix/vi-translation-issue`
