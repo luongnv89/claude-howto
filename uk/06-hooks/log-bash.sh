@@ -24,6 +24,11 @@ LOGFILE="$HOME/.claude/bash-commands.log"
 
 # Create log directory if it doesn't exist
 mkdir -p "$(dirname "$LOGFILE")"
+# The log records every command verbatim, including any secrets passed as
+# arguments (tokens, passwords, API keys in curl headers). Keep it readable
+# only by the owner, and prune it like any other credential-bearing log.
+touch "$LOGFILE"
+chmod 600 "$LOGFILE"
 
 # Log the command
 echo "[$TIMESTAMP] $COMMAND" >> "$LOGFILE"
