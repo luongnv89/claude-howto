@@ -24,6 +24,14 @@ from typing import Iterable
 SETTINGS_PATH = Path.home() / ".claude" / "settings.json"
 
 # Core baseline: read-only inspection and low-risk local shell commands.
+# Deliberately NOT in the baseline, even though they look read-only:
+# - find: -exec/-delete/-fprintf turn it into arbitrary command
+#   execution and file deletion, far beyond a path-prefix rule.
+# - sort: -o overwrites an arbitrary file with sorted output.
+# - env / printenv: print every environment variable, including
+#   API keys and tokens, into the transcript.
+# A Bash(<tool>:*) prefix rule cannot constrain the arguments, so
+# these tools stay out until Claude Code supports argument rules.
 CORE_PERMISSIONS = [
     "Read(*)",
     "Grep(*)",
@@ -39,9 +47,7 @@ CORE_PERMISSIONS = [
     "Bash(head:*)",
     "Bash(tail:*)",
     "Bash(wc:*)",
-    "Bash(sort:*)",
     "Bash(uniq:*)",
-    "Bash(find:*)",
     "Bash(dirname:*)",
     "Bash(basename:*)",
     "Bash(realpath:*)",
@@ -51,8 +57,6 @@ CORE_PERMISSIONS = [
     "Bash(md5sum:*)",
     "Bash(sha256sum:*)",
     "Bash(date:*)",
-    "Bash(env:*)",
-    "Bash(printenv:*)",
     "Bash(git status:*)",
     "Bash(git log:*)",
     "Bash(git diff:*)",
