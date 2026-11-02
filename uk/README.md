@@ -7,7 +7,7 @@
   <img alt="Claude How To" src="../resources/logos/claude-howto-logo.svg">
 </picture>
 
-🌐 **Language / Мова:** [English](../README.md) | [Tiếng Việt](../vi/README.md) | [中文](../zh/README.md) | [Українська](README.md)
+🌐 **Language / Мова:** [English](../README.md) | [Tiếng Việt](../vi/README.md) | [中文](../zh/README.md) | [Українська](README.md) | [日本語](../ja/README.md) | [한국어](../ko/README.md)
 
 # Опануй Claude Code за вихідні
 
