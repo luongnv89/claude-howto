@@ -1,0 +1,9 @@
+{
+  "name": "pr-review",
+  "version": "1.0.0",
+  "description": "Complete PR review workflow with security, testing, and docs",
+  "author": {
+    "name": "Anthropic"
+  },
+  "license": "MIT"
+}
