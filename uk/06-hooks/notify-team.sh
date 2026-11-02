@@ -11,6 +11,19 @@ COMMAND=$(echo "$INPUT" | sed -nE 's/.*"command"[[:space:]]*:[[:space:]]*"(([^"\
 printf '%s\n' "$COMMAND" | grep -qE '(^|[^[:alnum:]_-]|\\n)git[[:space:]]+push([^[:alnum:]_-]|$)' || exit 0
 
 REPO_NAME=$(basename $(git rev-parse --show-toplevel 2>/dev/null) 2>/dev/null)
+# Escape values before interpolating them into the JSON payloads below.
+# A commit message is attacker-influenceable in shared repos (anyone whose
+# commit gets pushed), and a raw quote or backslash in it would break out of
+# its JSON string and inject new fields into the payload. Raw newlines would
+# make the payload invalid JSON outright (commit messages are multi-line),
+# so flatten them to spaces.
+json_escape() {
+  printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' | tr '\n' ' '
+}
+REPO_NAME=$(json_escape "$REPO_NAME")
+COMMIT_MSG=$(json_escape "$COMMIT_MSG")
+AUTHOR=$(json_escape "$AUTHOR")
+BRANCH=$(json_escape "$BRANCH")
 COMMIT_MSG=$(git log -1 --pretty=%B 2>/dev/null)
 AUTHOR=$(git log -1 --pretty=%an 2>/dev/null)
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)

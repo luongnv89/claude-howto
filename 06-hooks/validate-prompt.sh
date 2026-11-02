@@ -11,7 +11,7 @@ INPUT=$(cat)
 
 # Extract the prompt text from JSON input
 # Claude Code sends the UserPromptSubmit text in the "prompt" field
-PROMPT=$(echo "$INPUT" | sed -n 's/.*"prompt"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+PROMPT=$(echo "$INPUT" | sed -nE 's/.*"prompt"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p' | head -1)
 
 if [ -z "$PROMPT" ]; then
   exit 0
