@@ -443,7 +443,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           claude -p --output-format json \
-            --max-turns 1 \
+            --max-turns 5 \
             "Review the changes in this PR for:
             - Security vulnerabilities
             - Performance issues
@@ -697,7 +697,7 @@ claude --effort high "complex review"
 export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, or max (Opus 4.6 only)
 ```
 
-Từ khóa "ultrathink" trong prompts kích hoạt deep reasoning. Mức `max` effort chỉ dành cho Opus 4.6.
+Từ khóa "ultrathink" trong prompts kích hoạt deep reasoning. Từ v2.1.311, khi gõ trong terminal tương tác, từ khóa này còn chạy lượt đó ở mức `xhigh` trên Opus 5.5, Sonnet 5.5, Haiku 5.5 và Fable 5.1 qua API của Anthropic (hiển thị màu cầu vồng khi có thể; VS Code từ v2.1.316), và `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) tắt nó. Mức `max` effort chỉ dành cho Opus 4.6.
 
 ---
 
@@ -839,9 +839,12 @@ claude -p --output-format json "query"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.310
+**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.316
 **Nguồn**:
+- https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
+- https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
+- https://code.claude.com/docs/en/changelog#2-1-316
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/remote-control

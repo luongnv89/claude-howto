@@ -179,7 +179,7 @@ paths: "src/api/**/*.ts"               # スキルの発火を制限する glob 
 | `user-invocable` | `false` = `/` メニューから非表示。Claude のみが自動呼び出し可能。 |
 | `allowed-tools` | 許可プロンプトなしでスキルが利用可能なツールのカンマ区切りリスト。 |
 | `model` | スキルが有効な間のモデルの上書き（例: `opus`, `sonnet`）。 |
-| `effort` | スキルが有効な間の努力レベルの上書き: `low`, `medium`, `high`, `max`。 |
+| `effort` | 現在のターンの残りに適用される努力レベル（`CLAUDE_CODE_EFFORT_LEVEL` は上書きしない）: `low`, `medium`, `high`, `max`。 |
 | `context` | `fork` を指定するとスキルを独自のコンテキストウィンドウを持つフォーク済みサブエージェントコンテキストで実行する。 |
 | `agent` | `context: fork` の際のサブエージェントタイプ（例: `Explore`, `Plan`, `general-purpose`）。 |
 | `shell` | `` !`command` `` 置換とスクリプトに使うシェル: `bash`（既定）または `powershell`。 |
@@ -828,8 +828,8 @@ chmod +x ~/.claude/skills/my-skill/scripts/*.py
 - [フックガイド](../06-hooks/) - イベント駆動の自動化
 
 ---
-**最終更新**: 2026 年 10 月 18 日
-**Claude Code バージョン**: 2.1.302
+**最終更新**: 2026 年 11 月 1 日
+**Claude Code バージョン**: 2.1.316
 **情報源**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/settings
@@ -843,4 +843,6 @@ chmod +x ~/.claude/skills/my-skill/scripts/*.py
 - https://code.claude.com/docs/en/memory#write-effective-instructions
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/skills#frontmatter-reference
+- https://code.claude.com/docs/en/model-config#set-the-effort-level
 **対応モデル**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

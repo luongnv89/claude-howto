@@ -246,7 +246,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **Примітка:** Ключове слово "ultrathink" у промптах активує режим глибокого міркування. Рівні зусиль `low`, `medium`, `high` та `max` (тільки Opus 4.6) контролюють обсяг міркувань Claude.
+> **Примітка:** Ключове слово "ultrathink" у промптах активує режим глибокого міркування. Починаючи з v2.1.311, якщо ввести його в інтерактивному терміналі, воно також запускає цей хід із рівнем зусиль `xhigh` на Opus 5.5, Sonnet 5.5, Haiku 5.5 та Fable 5.1 через API Anthropic (слово підсвічується веселкою, коли це можливо; введене під час роботи Claude, воно підвищує рівень для решти цього ходу; у VS Code — з v2.1.316). На Bedrock або інших моделях натомість задайте рівень зусиль. `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) вимикає це ключове слово. Рівні зусиль `low`, `medium`, `high` та `max` (тільки Opus 4.6) контролюють обсяг міркувань Claude.
 
 ### Переваги розширеного мислення
 
@@ -348,7 +348,7 @@ Auto Mode — це режим дозволів, який використову�
 
 ### Вимоги
 
-- **План**: Team, Enterprise або API (недоступно на планах Pro або Max)
+- **План**: усі плани
 - **Модель**: Claude Sonnet 4.6 або Opus 4.6
 - **Провайдер**: Тільки Anthropic API (не підтримується на Bedrock, Vertex або Foundry)
 - **Класифікатор**: Додаткова вартість токенів, окрім планів Enterprise та акаунтів Claude API, де v2.1.278+ виконує перевірку на боці сервера без оплати
@@ -1238,7 +1238,7 @@ Claude Code керує браузером у видимому вікні — в�
 
 ## Remote Control
 
-Remote Control дозволяє продовжити локально запущену сесію Claude Code з телефону, планшета або будь-якого браузера. Ваша локальна сесія продовжує працювати на вашому компʼютері — нічого не переміщується у хмару. Доступно на планах Pro, Max, Team та Enterprise (v2.1.51+).
+Remote Control дозволяє продовжити локально запущену сесію Claude Code з телефону, планшета або будь-якого браузера. Ваша локальна сесія продовжує працювати на вашому компʼютері — нічого не переміщується у хмару. Доступно на планах Pro, Max, Ultra, Team та Enterprise (v2.1.51+).
 
 ### Запуск Remote Control
 
@@ -1342,7 +1342,7 @@ claude --teleport
 
 ## Десктопний додаток
 
-Десктопний додаток Claude Code надає автономний додаток з візуальним переглядом diff, паралельними сесіями та інтегрованими конекторами. Доступний для macOS та Windows (плани Pro, Max, Team та Enterprise).
+Десктопний додаток Claude Code надає автономний додаток з візуальним переглядом diff, паралельними сесіями та інтегрованими конекторами. Доступний для macOS та Windows (плани Pro, Max, Ultra, Team та Enterprise).
 
 ### Встановлення
 
@@ -1367,7 +1367,7 @@ claude --teleport
 | **Перегляд diff** | Візуальний перегляд файл за файлом з inline-коментарями; Claude читає коментарі та вносить виправлення |
 | **Попередній перегляд додатку** | Автозапуск dev-серверів з вбудованим браузером для живої перевірки |
 | **Моніторинг PR** | Інтеграція GitHub CLI з автовиправленням помилок CI та автозлиттям при проходженні перевірок |
-| **Паралельні сесії** | Кілька сесій у бічній панелі з автоматичною ізоляцією Git worktree |
+| **Паралельні сесії** | Кілька сесій у бічній панелі; увімкніть кнопку **Worktree** під полем вводу, щоб дати сесії власний Git worktree (типово вимкнено) |
 | **Заплановані завдання** | Повторювані завдання (щогодини, щодня, у робочі дні, щотижня), що працюють при відкритому додатку |
 | **Багатий рендеринг** | Рендеринг коду, markdown та діаграм з підсвіткою синтаксису |
 
@@ -1500,10 +1500,12 @@ claude -w
 ```json
 {
   "worktree": {
-    "sparsePaths": ["packages/my-package", "shared/"]
+    "sparsePaths": [".claude", "packages/my-package", "shared/"]
   }
 }
 ```
+
+Додайте `.claude`, щоб кожен worktree також отримував `.claude/settings.json` і `.claude/rules/` репозиторію.
 
 ### Інструменти та хуки Worktree
 
@@ -1925,9 +1927,14 @@ claude --teammate-mode in-process
 - [Офіційна документація Agent Teams](https://code.claude.com/docs/en/agent-teams)
 
 ---
-**Останнє оновлення**: 26 жовтня 2026
-**Версія Claude Code**: 2.1.310
+**Останнє оновлення**: 1 листопада 2026
+**Версія Claude Code**: 2.1.316
 **Джерела**:
+- https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
+- https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
+- https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
+- https://code.claude.com/docs/en/feature-availability#ultra-plan
+- https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
 - https://code.claude.com/docs/en/commands

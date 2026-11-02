@@ -470,6 +470,8 @@ Auto memory yêu cầu **Claude Code v2.1.59 hoặc mới hơn**. Nếu bạn đ
 npm install -g @anthropic-ai/claude-code@latest
 ```
 
+> **Lưu ý**: Trên npm 12, vốn mặc định bỏ qua bước postinstall của Claude Code, lệnh này kết thúc với lỗi `Error: claude native binary not installed.` Hãy chuyển sang trình cài đặt native hoặc làm theo [Fix an npm 12 install](https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install).
+
 ### Thư Mục Auto Memory Tùy Chỉnh
 
 Theo mặc định, auto memory được lưu trữ trong `~/.claude/projects/<project>/memory/`. Bạn có thể thay đổi vị trí này sử dụng cài đặt `autoMemoryDirectory` (có sẵn kể từ **v2.1.74**):
@@ -1159,8 +1161,8 @@ Claude sẽ nhắc bạn chọn file bộ nhớ nào để cập nhật.
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.310
+**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.316
 **Nguồn**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
@@ -1170,4 +1172,5 @@ Claude sẽ nhắc bạn chọn file bộ nhớ nào để cập nhật.
 - https://code.claude.com/docs/en/settings-reference
 - https://code.claude.com/docs/en/claude-directory
 - https://code.claude.com/docs/en/memory#how-claude-md-files-load
+- https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

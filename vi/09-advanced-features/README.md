@@ -245,7 +245,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **Note:** The keyword "ultrathink" in prompts activates deep reasoning mode. Effort levels `low`, `medium`, `high`, and `max` (Opus 4.6 only) control how much reasoning Claude performs.
+> **Note:** The keyword "ultrathink" in prompts activates deep reasoning mode. Since v2.1.311, typed in the interactive terminal it also runs that turn at `xhigh` effort on Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 through Anthropic's API (the word turns rainbow when it can; typed while Claude works, it raises the rest of that turn; VS Code since v2.1.316). On Bedrock or other models, set the effort level instead. `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) turns the keyword off. Effort levels `low`, `medium`, `high`, and `max` (Opus 4.6 only) control how much reasoning Claude performs.
 
 ### Benefits of Extended Thinking
 
@@ -1230,7 +1230,7 @@ Claude Code controls the browser in a visible window — you can watch actions h
 
 ## Remote Control
 
-Remote Control lets you continue a locally running Claude Code session from your phone, tablet, or any browser. Your local session keeps running on your machine — nothing moves to the cloud. Available on Pro, Max, Team, and Enterprise plans (v2.1.51+).
+Remote Control lets you continue a locally running Claude Code session from your phone, tablet, or any browser. Your local session keeps running on your machine — nothing moves to the cloud. Available on Pro, Max, Ultra, Team, and Enterprise plans (v2.1.51+).
 
 ### Starting Remote Control
 
@@ -1334,7 +1334,7 @@ Or from within an interactive REPL:
 
 ## Desktop App
 
-The Claude Code Desktop App provides a standalone application with visual diff review, parallel sessions, and integrated connectors. Available for macOS and Windows (Pro, Max, Team, and Enterprise plans).
+The Claude Code Desktop App provides a standalone application with visual diff review, parallel sessions, and integrated connectors. Available for macOS and Windows (Pro, Max, Ultra, Team, and Enterprise plans).
 
 ### Installation
 
@@ -1359,7 +1359,7 @@ Transfer your current CLI session to the Desktop App:
 | **Diff view** | File-by-file visual review with inline comments; Claude reads comments and revises |
 | **App preview** | Auto-starts dev servers with an embedded browser for live verification |
 | **PR monitoring** | **Auto-fix** has Claude fix failing CI checks and review comments; **Merge when ready** turns on GitHub auto-merge (squash in local sessions unless the base branch uses a merge queue). Both are in the **⋮** menu of the pull request in the session's **Changes** card |
-| **Parallel sessions** | Multiple sessions in the sidebar with automatic Git worktree isolation |
+| **Parallel sessions** | Multiple sessions in the sidebar; turn on the **Worktree** button under the prompt box to give a session its own Git worktree (off by default) |
 | **Scheduled tasks** | Recurring tasks (hourly, daily, weekdays, weekly) that run while the app is open |
 | **Rich rendering** | Code, markdown, and diagram rendering with syntax highlighting |
 
@@ -1492,10 +1492,12 @@ Use the `worktree.sparsePaths` setting to perform sparse-checkout in monorepos, 
 ```json
 {
   "worktree": {
-    "sparsePaths": ["packages/my-package", "shared/"]
+    "sparsePaths": [".claude", "packages/my-package", "shared/"]
   }
 }
 ```
+
+Include `.claude` so each worktree also gets the repository's `.claude/settings.json` and `.claude/rules/`.
 
 ### Worktree Tools and Hooks
 
@@ -1860,9 +1862,13 @@ For more information about Claude Code and related features:
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.310
+**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.316
 **Nguồn**:
+- https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
+- https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
+- https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
+- https://code.claude.com/docs/en/feature-availability#ultra-plan
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/auto-mode-classifier-billing
 - https://code.claude.com/docs/en/keybindings#modifiers

@@ -683,7 +683,7 @@ graph TB
 
 Đội trưởng chia nhỏ công việc thành các tác vụ và chỉ định chúng cho đồng nghiệp. Danh sách việc chia sẻ xử lý:
 
-- **Quản lý dependency tự động** — các tác vụ chờ các dependency của chúng hoàn thành
+- **Quản lý dependency tự động** — một tác vụ phụ thuộc vào tác vụ khác được hiển thị là bị chặn (blocked) cho đến khi các tác vụ đó hoàn thành; đồng nghiệp không tự nhận tác vụ bị chặn, nhưng bạn hoặc trưởng nhóm vẫn có thể giao nó
 - **Theo dõi trạng thái** — đồng nghiệp cập nhật trạng thái tác vụ khi họ làm việc
 - **Nhắn tin liên-tác nhân** — đồng nghiệp gửi tin qua mailbox để điều phối (ví dụ: "Database schema is ready, you can start writing queries")
 
@@ -1130,8 +1130,8 @@ graph TD
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.310
+**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.316
 **Nguồn**:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/commands
@@ -1145,4 +1145,5 @@ graph TD
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog#2-1-302
 - https://code.claude.com/docs/en/agent-teams#have-teammates-plan-before-implementing
+- https://code.claude.com/docs/en/agent-teams#assign-and-claim-tasks
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
