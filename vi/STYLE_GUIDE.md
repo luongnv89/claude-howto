@@ -1,4 +1,4 @@
-# Hướng Dạng Phong Cách / Style Guide
+# Hướng Dẫn Phong Cách / Style Guide
 
 > Quy ước và quy tắc định dạng để đóng góp cho Claude How To. Theo dõi hướng dẫn này để giữ nội dung nhất quán, chuyên nghiệp, và dễ duy trì.
 

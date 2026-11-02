@@ -95,7 +95,7 @@ Khi tạo hoặc cập nhật CLAUDE.md:
 
 1. **Độ Dài Mục Tiêu**: Dưới 200 dòng
 2. **Không Quy Tắc Phong Cách**: Loại bỏ bất kỳ hướng dẫn linting/formatting nào
-3. **Không Hướng Dẫn Cụ Theo Tác Vụ**: Di chuyển sang các file riêng
+3. **Không Hướng Dẫn Cụ Thể Theo Tác Vụ**: Di chuyển sang các file riêng
 4. **Không Đoạn Code**: Sử dụng tham chiếu file thay thế
 5. **Không Thông Tin Dư Thừa**: Đừng lặp lại những gì trong package.json hoặc README
 
@@ -128,7 +128,7 @@ Mô tả ngắn một dòng.
 - Quy ước 1 với giải thích ngắn
 - Quy ước 2 với giải thích ngắn
 
-## Vấn Đế Đã Biết / Gotchas
+## Vấn Đề Đã Biết / Gotchas
 [Những gì luôn làm các nhà phát triển vấp phải]
 - Vấn đề 1
 - Vấn đề 2
@@ -175,7 +175,7 @@ Trước khi hoàn thành, xác minh:
 3. Xác định:
    - Nội dung để loại bỏ (quy tắc phong cách, đoạn code, cụ thể tác vụ)
    - Nội dung để cô đọng
-   - Thông tin thiết bị còn thiếu
+   - Thông tin thiết yếu còn thiếu
 4. Trình bày các thay đổi để xem xét
 5. Áp dụng các thay đổi sau khi được chấp thuận
 

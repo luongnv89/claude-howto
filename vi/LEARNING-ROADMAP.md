@@ -95,7 +95,7 @@ graph TD
 | **1** | [Lệnh Slash](01-slash-commands/) | ⭐ Người mới | 30 phút | Level 1 | None | Gains năng suất nhanh (55+ built-in + bundled skills) | Tự động hóa tức thì, tiêu chuẩn team |
 | **2** | [Bộ Nhớ](02-memory/) | ⭐⭐ Người mới+ | 45 phút | Level 1 | None | Thiết yếu cho tất cả tính năng | Ngữ cảnh lưu trữ, sở thích |
 | **3** | [Checkpoints](08-checkpoints/) | ⭐⭐ Trung cấp | 45 phút | Level 1 | Quản lý session | Khám phá an toàn | Thử nghiệm, phục hồi |
-| **4** | [CLI Cơ Bản](10-cli/) | ⭐⭐ Người mới+ | 30 phút | Level 1 | None | Sử dụng CLI cốt | Mode tương tác & print |
+| **4** | [CLI Cơ Bản](10-cli/) | ⭐⭐ Người mới+ | 30 phút | Level 1 | None | Sử dụng CLI cốt lõi | Mode tương tác & print |
 | **5** | [Skills](03-skills/) | ⭐⭐ Trung cấp | 1 giờ | Level 2 | Lệnh Slash | Chuyên môn tự động | Khả năng tái sử dụng, nhất quán |
 | **6** | [Hooks](06-hooks/) | ⭐⭐ Trung cấp | 1 giờ | Level 2 | Tools, Commands | Tự động hóa workflow (33 sự kiện, 5 types) | Xác thực, cổng chất lượng |
 | **7** | [MCP](05-mcp/) | ⭐⭐⭐ Trung cấp+ | 1 giờ | Level 2 | Cấu hình | Truy cập dữ liệu trực tiếp | Tích hợp thời gian thực, APIs |
@@ -161,7 +161,7 @@ Khi thoải mái, đọc:
 **Chủ Đề**: Checkpoints + CLI Cơ Bản
 **Thời Gian**: 1 giờ
 **Độ Phức Tạp**: ⭐⭐ Người mới+
-**Mục Tiêu**: Học thử nghiệm an toàn và sử dụng các commands CLI cốt
+**Mục Tiêu**: Học thử nghiệm an toàn và sử dụng các commands CLI cốt lõi
 
 #### Bạn Sẽ Đạt Được
 ✅ Tạo và khôi phục checkpoints để thử nghiệm an toàn
@@ -482,7 +482,7 @@ Tạo một script CI/CD đơn giản:
 - [ ] Đã tạo một script xử lý hàng loạt
 - [ ] Đã tích hợp Claude vào một workflow CI/CD
 
-#### Use Cases Thực Te Cho CLI
+#### Use Cases Thực Tế Cho CLI
 - **Tự Động Hóa Review Code**: Chạy code reviews trong pipelines CI/CD
 - **Phân Tích Log**: Phân tích error logs và outputs hệ thống
 - **Tạo Tài Liệu**: Tạo tài liệu hàng loạt
@@ -592,7 +592,7 @@ Repository này bao gồm hai skills tương tác bạn có thể sử dụng b�
 ## 🎓 Phong Cách Học
 
 ### Người Học Qua Hình Ảnh
-- Nghiên các mermaid diagrams trong mỗi README
+- Nghiên cứu các mermaid diagrams trong mỗi README
 - Theo dõi flow thực thi command
 - Vẽ workflow diagrams của riêng bạn
 - Sử dụng learning path hình ảnh ở trên
@@ -605,7 +605,7 @@ Repository này bao gồm hai skills tương tác bạn có thể sử dụng b�
 
 ### Người Học Đọc
 - Đọc mỗi README một cách kỹ lưỡng
-- Nghiên các ví dụ code
+- Nghiên cứu các ví dụ code
 - Review các bảng so sánh
 - Đọc các blog posts được liên kết trong resources
 

@@ -36,7 +36,7 @@ Tác nhân này có quyền hạn tối thiểu theo thiết kế:
    - Lộ API key
    - Xử lý PII (thông tin nhận dạng cá nhân)
 
-4. **Lỗ Hổng Tiêm Nhiễu**
+4. **Lỗ Hổng Tiêm Nhiễm**
    - SQL injection
    - Command injection
    - XSS (Cross-Site Scripting)

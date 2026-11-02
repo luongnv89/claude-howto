@@ -5,7 +5,7 @@
 
 # Hướng Dẫn Agent Skills
 
-Agent Skills là các khả năng dựa trên filesystem có thể tái sử dụng mở rộng chức năng của Claude. Chúng gói đóng kiến thức chuyên ngành, workflows, và thực hành tốt nhất thành các thành phần có thể khám phá mà Claude tự động sử dụng khi có liên quan.
+Agent Skills là các khả năng dựa trên filesystem có thể tái sử dụng mở rộng chức năng của Claude. Chúng đóng gói kiến thức chuyên ngành, workflows, và thực hành tốt nhất thành các thành phần có thể khám phá mà Claude tự động sử dụng khi có liên quan.
 
 ## Tổng Quan
 
@@ -661,7 +661,7 @@ Skill(deploy *)
 - ✅ "PDF form filling"
 - ❌ "Document processing" (quá rộng)
 
-### 3. Bao Gồm Các Thuật Ngọc Kích Hoạt
+### 3. Bao Gồm Các Thuật Ngữ Kích Hoạt
 
 Thêm các từ khóa trong các mô tả phù hợp với các yêu cầu của người dùng:
 ```yaml
@@ -686,7 +686,7 @@ Di chuyển tài liệu tham khảo chi tiết sang các file riêng mà Claude 
 - Sử dụng tên rõ ràng, mang tính mô tả
 - Bao gồm hướng dẫn toàn diện
 - Thêm các ví dụ cụ thể
-- Gói đóng các script và template liên quan
+- Đóng gói các script và template liên quan
 - Kiểm tra với các kịch bản thực
 - Tài liệu hóa các dependencies
 
