@@ -203,9 +203,9 @@ Plugins có cấu trúc nested với các subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `09-advanced-features/README.md` | ✅ Done | Claude | 2026-04-03 | Advanced features overview |
+| `09-advanced-features/README.md` | ✅ Done | Claude | 2026-11-03 | Advanced features overview |
 | `09-advanced-features/config-examples.json` | ✅ Done | Claude | 2026-04-03 | Configuration examples |
-| `09-advanced-features/planning-mode-examples.md` | ✅ Done | Claude | 2026-04-03 | Planning mode examples |
+| `09-advanced-features/planning-mode-examples.md` | ✅ Done | Claude | 2026-11-03 | Planning mode examples |
 
 **Progress:** 3/3 files (100%) ✅
 

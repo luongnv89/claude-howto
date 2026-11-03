@@ -1,533 +1,542 @@
-# Planning Mode Examples
+# Ví Dụ Về Chế Độ Lập Kế Hoạch
 
-Real-world examples demonstrating effective use of planning mode in Claude Code.
+Các ví dụ thực tế minh họa cách sử dụng hiệu quả chế độ lập kế hoạch (planning mode) trong Claude Code.
 
-## Example 1: Building a REST API
+## Ví Dụ 1: Xây Dựng REST API
 
-### Without Planning Mode
-
-```
-User: Build a REST API for a blog
-
-Claude: I'll create the API...
-[Starts coding immediately, may miss requirements]
-```
-
-### With Planning Mode
+### Không Dùng Chế Độ Lập Kế Hoạch
 
 ```
-User: /plan Build a REST API for a blog
+User: Xây dựng một REST API cho blog
 
-Claude: Let me create a comprehensive plan for the blog API.
+Claude: Tôi sẽ tạo API...
+[Bắt đầu viết code ngay lập tức, có thể bỏ sót yêu cầu]
+```
 
-## Blog REST API Implementation Plan
+### Dùng Chế Độ Lập Kế Hoạch
 
-### Phase 1: Project Setup (15 min)
-1. Initialize Node.js project with Express
-2. Set up TypeScript configuration
-3. Install dependencies (express, pg, jwt, joi)
-4. Configure environment variables
-5. Set up project structure
+```
+User: /plan Xây dựng một REST API cho blog
 
-### Phase 2: Database Layer (30 min)
-6. Design database schema
-   - users table (id, email, password_hash, created_at)
-   - posts table (id, user_id, title, content, published, created_at, updated_at)
-   - comments table (id, post_id, user_id, content, created_at)
-7. Create migration files
-8. Set up database connection pool
-9. Implement database models
+Claude: Để tôi tạo một kế hoạch toàn diện cho blog API.
 
-### Phase 3: Authentication (45 min)
-10. Implement user registration endpoint
-11. Implement login endpoint with JWT
-12. Create authentication middleware
-13. Add password hashing with bcrypt
-14. Implement token refresh logic
+## Kế Hoạch Triển Khai Blog REST API
 
-### Phase 4: Posts API (40 min)
-15. GET /api/posts - List all published posts (with pagination)
-16. GET /api/posts/:id - Get single post
-17. POST /api/posts - Create new post (auth required)
-18. PUT /api/posts/:id - Update post (auth required, ownership check)
-19. DELETE /api/posts/:id - Delete post (auth required, ownership check)
-20. GET /api/users/:id/posts - Get user's posts
+### Giai đoạn 1: Thiết lập dự án (15 phút)
+1. Khởi tạo dự án Node.js với Express
+2. Thiết lập cấu hình TypeScript
+3. Cài đặt dependencies (express, pg, jwt, joi)
+4. Cấu hình biến môi trường
+5. Thiết lập cấu trúc dự án
 
-### Phase 5: Comments API (30 min)
-21. GET /api/posts/:id/comments - Get post comments
-22. POST /api/posts/:id/comments - Add comment (auth required)
-23. DELETE /api/comments/:id - Delete comment (auth required, ownership check)
+### Giai đoạn 2: Tầng cơ sở dữ liệu (30 phút)
+6. Thiết kế schema cơ sở dữ liệu
+   - bảng users (id, email, password_hash, created_at)
+   - bảng posts (id, user_id, title, content, published, created_at, updated_at)
+   - bảng comments (id, post_id, user_id, content, created_at)
+7. Tạo các file migration
+8. Thiết lập connection pool cho cơ sở dữ liệu
+9. Triển khai các model cơ sở dữ liệu
 
-### Phase 6: Validation & Error Handling (30 min)
-24. Add request validation with Joi
-25. Implement global error handler
-26. Add input sanitization
-27. Implement rate limiting
+### Giai đoạn 3: Xác thực (45 phút)
+10. Triển khai endpoint đăng ký người dùng
+11. Triển khai endpoint đăng nhập với JWT
+12. Tạo middleware xác thực
+13. Thêm băm mật khẩu bằng bcrypt
+14. Triển khai logic làm mới token
 
-### Phase 7: Testing (60 min)
-28. Write unit tests for models
-29. Write integration tests for auth endpoints
-30. Write integration tests for posts endpoints
-31. Write integration tests for comments endpoints
-32. Achieve 80%+ code coverage
+### Giai đoạn 4: Posts API (40 phút)
+15. GET /api/posts - Liệt kê tất cả bài viết đã xuất bản (có phân trang)
+16. GET /api/posts/:id - Lấy một bài viết
+17. POST /api/posts - Tạo bài viết mới (yêu cầu xác thực)
+18. PUT /api/posts/:id - Cập nhật bài viết (yêu cầu xác thực, kiểm tra quyền sở hữu)
+19. DELETE /api/posts/:id - Xóa bài viết (yêu cầu xác thực, kiểm tra quyền sở hữu)
+20. GET /api/users/:id/posts - Lấy các bài viết của người dùng
 
-### Phase 8: Documentation & Deployment (30 min)
-33. Generate API documentation with Swagger
-34. Create README with setup instructions
-35. Add Docker configuration
-36. Set up CI/CD pipeline
+### Giai đoạn 5: Comments API (30 phút)
+21. GET /api/posts/:id/comments - Lấy bình luận của bài viết
+22. POST /api/posts/:id/comments - Thêm bình luận (yêu cầu xác thực)
+23. DELETE /api/comments/:id - Xóa bình luận (yêu cầu xác thực, kiểm tra quyền sở hữu)
 
-**Estimated Time**: 4.5 hours
-**Files to Create**: ~25
-**Key Technologies**: Express, PostgreSQL, JWT, TypeScript
+### Giai đoạn 6: Validation & xử lý lỗi (30 phút)
+24. Thêm validation cho request bằng Joi
+25. Triển khai trình xử lý lỗi toàn cục
+26. Thêm làm sạch (sanitization) dữ liệu đầu vào
+27. Triển khai giới hạn tần suất (rate limiting)
 
-**API Endpoints Summary**:
-- Authentication: 2 endpoints
-- Posts: 6 endpoints
-- Comments: 3 endpoints
-- Total: 11 endpoints
+### Giai đoạn 7: Kiểm thử (60 phút)
+28. Viết unit test cho các model
+29. Viết integration test cho các endpoint xác thực
+30. Viết integration test cho các endpoint posts
+31. Viết integration test cho các endpoint comments
+32. Đạt độ bao phủ code từ 80% trở lên
 
-Ready to proceed? (yes/no/modify)
+### Giai đoạn 8: Tài liệu & triển khai (30 phút)
+33. Tạo tài liệu API bằng Swagger
+34. Tạo README kèm hướng dẫn thiết lập
+35. Thêm cấu hình Docker
+36. Thiết lập pipeline CI/CD
+
+**Thời gian ước tính**: 4,5 giờ
+**Số file cần tạo**: ~25
+**Công nghệ chính**: Express, PostgreSQL, JWT, TypeScript
+
+**Tóm tắt các API endpoint**:
+- Xác thực: 2 endpoint
+- Posts: 6 endpoint
+- Comments: 3 endpoint
+- Tổng cộng: 11 endpoint
+
+Sẵn sàng tiến hành? (yes/no/modify)
 
 User: yes
 
-Claude: Starting Phase 1: Project Setup...
-[Implements each phase systematically]
+Claude: Bắt đầu Giai đoạn 1: Thiết lập dự án...
+[Triển khai từng giai đoạn một cách có hệ thống]
 ```
 
-## Example 2: Database Migration
+## Ví Dụ 2: Di Chuyển Cơ Sở Dữ Liệu
 
-### With Planning Mode
-
-```
-User: /plan Migrate from MongoDB to PostgreSQL
-
-Claude: This is a complex migration. Let me create a detailed plan.
-
-## MongoDB to PostgreSQL Migration Plan
-
-### Phase 1: Analysis & Preparation (Day 1)
-1. Analyze current MongoDB schema
-2. Identify data relationships and constraints
-3. Document current data volume and growth rate
-4. Design equivalent PostgreSQL schema
-5. Plan data type mappings
-6. Identify potential migration challenges
-
-### Phase 2: PostgreSQL Setup (Day 1)
-7. Set up PostgreSQL database
-8. Create schema with tables, indexes, constraints
-9. Set up connection pooling
-10. Configure backup strategy
-
-### Phase 3: Dual-Write Implementation (Day 2-3)
-11. Create database abstraction layer
-12. Implement dual-write to both databases
-13. Add data consistency checks
-14. Deploy dual-write to staging
-15. Monitor for issues
-
-### Phase 4: Data Migration (Day 4)
-16. Create data export scripts for MongoDB
-17. Create data import scripts for PostgreSQL
-18. Implement data transformation logic
-19. Run initial migration on copy of production data
-20. Validate migrated data integrity
-
-### Phase 5: Gradual Cutover (Day 5-7)
-21. Enable dual-write in production
-22. Migrate historical data in batches
-23. Continuously validate data consistency
-24. Monitor both databases
-25. Fix any data synchronization issues
-
-### Phase 6: PostgreSQL Primary (Day 8)
-26. Switch read operations to PostgreSQL
-27. Monitor query performance
-28. Optimize slow queries
-29. Continue dual-write for safety
-
-### Phase 7: MongoDB Retirement (Day 9-10)
-30. Stop writing to MongoDB
-31. Keep MongoDB as backup for 2 weeks
-32. Remove MongoDB dependencies from code
-33. Archive MongoDB data
-34. Decommission MongoDB instance
-
-**Estimated Time**: 10 days
-**Risk Level**: High
-**Rollback Strategy**: Keep MongoDB running with dual-write
-**Success Criteria**:
-- Zero data loss
-- <5% performance regression
-- All tests passing
-
-**Key Risks**:
-1. Data inconsistency during migration
-2. Query performance degradation
-3. Application downtime
-4. Data loss
-
-**Mitigation**:
-- Dual-write pattern for safety
-- Gradual cutover
-- Continuous monitoring
-- Quick rollback capability
-
-Proceed with this plan? (yes/no/modify)
-
-User: Modify - let's add a rollback plan for each phase
-
-Claude: Updated plan with rollback procedures for each phase...
-```
-
-## Example 3: Frontend Refactoring
+### Dùng Chế Độ Lập Kế Hoạch
 
 ```
-User: /plan Refactor our React app from class components to hooks
+User: /plan Di chuyển từ MongoDB sang PostgreSQL
 
-Claude: I'll create a systematic refactoring plan.
+Claude: Đây là một cuộc di chuyển phức tạp. Để tôi tạo một kế hoạch chi tiết.
 
-## React Class to Hooks Migration Plan
+## Kế Hoạch Di Chuyển Từ MongoDB Sang PostgreSQL
 
-### Phase 1: Preparation & Analysis (2 hours)
-1. Audit all class components (find all .jsx/.tsx files)
-2. Categorize by complexity:
-   - Simple (state only): ~15 components
-   - Medium (lifecycle methods): ~23 components
-   - Complex (multiple lifecycle, refs): ~8 components
-3. Identify third-party libraries that need updates
-4. Create component dependency graph
-5. Plan migration order (leaf nodes first)
+### Giai đoạn 1: Phân tích & chuẩn bị (Ngày 1)
+1. Phân tích schema MongoDB hiện tại
+2. Xác định các mối quan hệ và ràng buộc dữ liệu
+3. Ghi lại khối lượng dữ liệu hiện tại và tốc độ tăng trưởng
+4. Thiết kế schema PostgreSQL tương đương
+5. Lên kế hoạch ánh xạ kiểu dữ liệu
+6. Xác định các thách thức tiềm ẩn khi di chuyển
 
-### Phase 2: Setup & Tooling (1 hour)
-6. Update React to v18+
-7. Set up ESLint rules for hooks
-8. Create conversion templates
-9. Set up automated tests
-10. Create checkpoint before starting
+### Giai đoạn 2: Thiết lập PostgreSQL (Ngày 1)
+7. Thiết lập cơ sở dữ liệu PostgreSQL
+8. Tạo schema với các bảng, index, ràng buộc
+9. Thiết lập connection pooling
+10. Cấu hình chiến lược sao lưu
 
-### Phase 3: Migrate Simple Components (4 hours)
-11. Convert simple stateful components (15 components)
-12. Replace this.state with useState
-13. Replace this.setState with state setters
-14. Test each component after conversion
-15. Update tests
+### Giai đoạn 3: Triển khai ghi kép (Ngày 2-3)
+11. Tạo tầng trừu tượng cho cơ sở dữ liệu
+12. Triển khai ghi kép vào cả hai cơ sở dữ liệu
+13. Thêm kiểm tra tính nhất quán dữ liệu
+14. Triển khai ghi kép lên staging
+15. Giám sát các vấn đề phát sinh
 
-### Phase 4: Migrate Medium Components (8 hours)
-16. Convert components with lifecycle methods (23 components)
-17. Replace componentDidMount with useEffect
-18. Replace componentDidUpdate with useEffect
-19. Replace componentWillUnmount with useEffect cleanup
-20. Test thoroughly
+### Giai đoạn 4: Di chuyển dữ liệu (Ngày 4)
+16. Tạo script xuất dữ liệu cho MongoDB
+17. Tạo script nhập dữ liệu cho PostgreSQL
+18. Triển khai logic chuyển đổi dữ liệu
+19. Chạy di chuyển lần đầu trên bản sao dữ liệu production
+20. Xác minh tính toàn vẹn của dữ liệu đã di chuyển
 
-### Phase 5: Migrate Complex Components (12 hours)
-21. Convert complex components (8 components)
-22. Replace refs with useRef
-23. Extract custom hooks for shared logic
-24. Handle edge cases (multiple useEffect)
-25. Extensive testing
+### Giai đoạn 5: Chuyển đổi dần dần (Ngày 5-7)
+21. Bật ghi kép trên production
+22. Di chuyển dữ liệu lịch sử theo từng lô
+23. Liên tục xác minh tính nhất quán dữ liệu
+24. Giám sát cả hai cơ sở dữ liệu
+25. Sửa mọi vấn đề đồng bộ dữ liệu
 
-### Phase 6: Shared Logic Extraction (6 hours)
-26. Identify duplicated logic across components
-27. Create custom hooks:
+### Giai đoạn 6: PostgreSQL làm chính (Ngày 8)
+26. Chuyển các thao tác đọc sang PostgreSQL
+27. Giám sát hiệu năng truy vấn
+28. Tối ưu các truy vấn chậm
+29. Tiếp tục ghi kép để đảm bảo an toàn
+
+### Giai đoạn 7: Ngừng sử dụng MongoDB (Ngày 9-10)
+30. Dừng ghi vào MongoDB
+31. Giữ MongoDB làm bản sao lưu trong 2 tuần
+32. Gỡ các dependency MongoDB khỏi code
+33. Lưu trữ dữ liệu MongoDB
+34. Ngừng hoạt động instance MongoDB
+
+**Thời gian ước tính**: 10 ngày
+**Mức độ rủi ro**: Cao
+**Chiến lược rollback**: Giữ MongoDB chạy cùng với ghi kép
+**Tiêu chí thành công**:
+- Không mất dữ liệu
+- Hiệu năng suy giảm <5%
+- Tất cả test đều pass
+
+**Rủi ro chính**:
+1. Dữ liệu không nhất quán trong quá trình di chuyển
+2. Suy giảm hiệu năng truy vấn
+3. Ứng dụng bị gián đoạn
+4. Mất dữ liệu
+
+**Biện pháp giảm thiểu**:
+- Mẫu ghi kép để đảm bảo an toàn
+- Chuyển đổi dần dần
+- Giám sát liên tục
+- Khả năng rollback nhanh
+
+Tiến hành theo kế hoạch này? (yes/no/modify)
+
+User: Modify - hãy thêm kế hoạch rollback cho từng giai đoạn
+
+Claude: Đã cập nhật kế hoạch với quy trình rollback cho từng giai đoạn...
+```
+
+## Ví Dụ 3: Refactor Frontend
+
+```
+User: /plan Refactor ứng dụng React của chúng ta từ class component sang hooks
+
+Claude: Tôi sẽ tạo một kế hoạch refactor có hệ thống.
+
+## Kế Hoạch Chuyển React Từ Class Sang Hooks
+
+### Giai đoạn 1: Chuẩn bị & phân tích (2 giờ)
+1. Rà soát tất cả class component (tìm tất cả file .jsx/.tsx)
+2. Phân loại theo độ phức tạp:
+   - Đơn giản (chỉ có state): ~15 component
+   - Trung bình (có lifecycle method): ~23 component
+   - Phức tạp (nhiều lifecycle, refs): ~8 component
+3. Xác định các thư viện bên thứ ba cần cập nhật
+4. Tạo đồ thị phụ thuộc giữa các component
+5. Lên kế hoạch thứ tự chuyển đổi (node lá trước)
+
+### Giai đoạn 2: Thiết lập & công cụ (1 giờ)
+6. Cập nhật React lên v18+
+7. Thiết lập quy tắc ESLint cho hooks
+8. Tạo các template chuyển đổi
+9. Thiết lập test tự động
+10. Tạo checkpoint trước khi bắt đầu
+
+### Giai đoạn 3: Chuyển các component đơn giản (4 giờ)
+11. Chuyển đổi các component có state đơn giản (15 component)
+12. Thay this.state bằng useState
+13. Thay this.setState bằng các hàm setter của state
+14. Kiểm thử từng component sau khi chuyển đổi
+15. Cập nhật test
+
+### Giai đoạn 4: Chuyển các component trung bình (8 giờ)
+16. Chuyển đổi các component có lifecycle method (23 component)
+17. Thay componentDidMount bằng useEffect
+18. Thay componentDidUpdate bằng useEffect
+19. Thay componentWillUnmount bằng phần cleanup của useEffect
+20. Kiểm thử kỹ lưỡng
+
+### Giai đoạn 5: Chuyển các component phức tạp (12 giờ)
+21. Chuyển đổi các component phức tạp (8 component)
+22. Thay refs bằng useRef
+23. Tách custom hook cho logic dùng chung
+24. Xử lý các trường hợp biên (nhiều useEffect)
+25. Kiểm thử toàn diện
+
+### Giai đoạn 6: Tách logic dùng chung (6 giờ)
+26. Xác định logic trùng lặp giữa các component
+27. Tạo custom hook:
     - useAuth
     - useFetch
     - useLocalStorage
     - useDebounce
-28. Refactor components to use custom hooks
-29. Test custom hooks independently
+28. Refactor các component để dùng custom hook
+29. Kiểm thử custom hook một cách độc lập
 
-### Phase 7: Performance Optimization (4 hours)
-30. Add React.memo where needed
-31. Optimize with useCallback
-32. Optimize with useMemo
-33. Profile and fix performance regressions
+### Giai đoạn 7: Tối ưu hiệu năng (4 giờ)
+30. Thêm React.memo ở những chỗ cần thiết
+31. Tối ưu bằng useCallback
+32. Tối ưu bằng useMemo
+33. Profile và sửa các suy giảm hiệu năng
 
-### Phase 8: Cleanup & Documentation (2 hours)
-34. Remove unused class component utilities
-35. Update documentation
-36. Update coding guidelines
-37. Create migration guide for team
+### Giai đoạn 8: Dọn dẹp & tài liệu (2 giờ)
+34. Gỡ các tiện ích class component không còn dùng
+35. Cập nhật tài liệu
+36. Cập nhật hướng dẫn viết code
+37. Tạo hướng dẫn chuyển đổi cho team
 
-**Estimated Time**: 5 days (39 hours)
-**Files to Modify**: 46 components
-**Risk Level**: Medium
+**Thời gian ước tính**: 5 ngày (39 giờ)
+**Số file cần sửa**: 46 component
+**Mức độ rủi ro**: Trung bình
 
-**Migration Order**:
-1. Leaf components (no dependencies)
-2. Mid-level components
-3. Top-level container components
-4. App.jsx (last)
+**Thứ tự chuyển đổi**:
+1. Component lá (không có phụ thuộc)
+2. Component tầng giữa
+3. Container component tầng trên cùng
+4. App.jsx (cuối cùng)
 
-**Testing Strategy**:
-- Unit tests for each component
-- Integration tests for user flows
-- Visual regression tests
-- Performance benchmarks
+**Chiến lược kiểm thử**:
+- Unit test cho từng component
+- Integration test cho các luồng người dùng
+- Visual regression test
+- Benchmark hiệu năng
 
-**Success Metrics**:
-- All tests passing
-- No visual regressions
-- Performance maintained or improved
-- Bundle size not significantly increased
+**Chỉ số thành công**:
+- Tất cả test đều pass
+- Không có lỗi hồi quy về giao diện
+- Hiệu năng được giữ nguyên hoặc cải thiện
+- Kích thước bundle không tăng đáng kể
 
-Proceed? (yes/no/modify)
+Tiến hành? (yes/no/modify)
 ```
 
-## Example 4: Security Implementation
+## Ví Dụ 4: Triển Khai Bảo Mật
 
 ```
-User: /plan Implement comprehensive security for our web app
+User: /plan Triển khai bảo mật toàn diện cho ứng dụng web của chúng ta
 
-Claude: Let me create a thorough security implementation plan.
+Claude: Để tôi tạo một kế hoạch triển khai bảo mật kỹ lưỡng.
 
-## Web Application Security Implementation Plan
+## Kế Hoạch Triển Khai Bảo Mật Ứng Dụng Web
 
-### Phase 1: Security Audit (Day 1)
-1. Run automated security scanners (npm audit, Snyk)
-2. Review dependencies for vulnerabilities
-3. Check OWASP Top 10 compliance
-4. Audit authentication flows
-5. Review data handling practices
-6. Document current security gaps
+### Giai đoạn 1: Kiểm toán bảo mật (Ngày 1)
+1. Chạy các công cụ quét bảo mật tự động (npm audit, Snyk)
+2. Rà soát dependencies để tìm lỗ hổng
+3. Kiểm tra tuân thủ OWASP Top 10
+4. Kiểm toán các luồng xác thực
+5. Rà soát cách xử lý dữ liệu
+6. Ghi lại các lỗ hổng bảo mật hiện tại
 
-### Phase 2: Authentication Hardening (Day 2-3)
-7. Implement strong password requirements
-8. Add password strength meter
-9. Implement rate limiting on login
-10. Add account lockout after failed attempts
-11. Implement 2FA (TOTP)
-12. Add session management improvements
-13. Implement secure password reset flow
+### Giai đoạn 2: Tăng cường xác thực (Ngày 2-3)
+7. Áp dụng yêu cầu mật khẩu mạnh
+8. Thêm thước đo độ mạnh mật khẩu
+9. Áp dụng rate limiting cho đăng nhập
+10. Khóa tài khoản sau nhiều lần đăng nhập thất bại
+11. Triển khai 2FA (TOTP)
+12. Cải thiện quản lý phiên
+13. Triển khai luồng đặt lại mật khẩu an toàn
 
-### Phase 3: Authorization & Access Control (Day 3-4)
-14. Implement RBAC (Role-Based Access Control)
-15. Add permission checks on all endpoints
-16. Implement principle of least privilege
-17. Add audit logging for sensitive operations
-18. Implement resource-level permissions
+### Giai đoạn 3: Phân quyền & kiểm soát truy cập (Ngày 3-4)
+14. Triển khai RBAC (Role-Based Access Control)
+15. Thêm kiểm tra quyền trên tất cả endpoint
+16. Áp dụng nguyên tắc đặc quyền tối thiểu
+17. Thêm ghi log kiểm toán cho các thao tác nhạy cảm
+18. Triển khai phân quyền ở cấp tài nguyên
 
-### Phase 4: Data Protection (Day 4-5)
-19. Implement encryption at rest (sensitive fields)
-20. Ensure TLS/SSL for all communications
-21. Implement secure session storage
-22. Add PII data masking in logs
-23. Implement data retention policies
-24. Add secure file upload handling
+### Giai đoạn 4: Bảo vệ dữ liệu (Ngày 4-5)
+19. Mã hóa dữ liệu lưu trữ (các trường nhạy cảm)
+20. Đảm bảo TLS/SSL cho mọi kết nối
+21. Triển khai lưu trữ phiên an toàn
+22. Che dữ liệu PII trong log
+23. Áp dụng chính sách lưu giữ dữ liệu
+24. Xử lý upload file an toàn
 
-### Phase 5: Input Validation & Sanitization (Day 5-6)
-25. Implement input validation on all endpoints
-26. Add XSS protection (Content Security Policy)
-27. Implement SQL injection prevention (parameterized queries)
-28. Add CSRF protection
-29. Implement request size limits
-30. Add file upload type validation
+### Giai đoạn 5: Validation & làm sạch đầu vào (Ngày 5-6)
+25. Validate đầu vào trên tất cả endpoint
+26. Thêm bảo vệ XSS (Content Security Policy)
+27. Ngăn chặn SQL injection (truy vấn tham số hóa)
+28. Thêm bảo vệ CSRF
+29. Giới hạn kích thước request
+30. Validate loại file khi upload
 
-### Phase 6: Security Headers & Configuration (Day 6)
-31. Add security headers:
+### Giai đoạn 6: Security header & cấu hình (Ngày 6)
+31. Thêm các security header:
     - Strict-Transport-Security
     - X-Content-Type-Options
     - X-Frame-Options
     - X-XSS-Protection
     - Content-Security-Policy
-32. Configure CORS properly
-33. Disable unnecessary HTTP methods
-34. Remove server version headers
+32. Cấu hình CORS đúng cách
+33. Tắt các HTTP method không cần thiết
+34. Gỡ các header tiết lộ phiên bản server
 
-### Phase 7: Monitoring & Logging (Day 7)
-35. Implement security event logging
-36. Add anomaly detection
-37. Set up intrusion detection
-38. Implement real-time alerting
-39. Create security dashboard
+### Giai đoạn 7: Giám sát & ghi log (Ngày 7)
+35. Ghi log các sự kiện bảo mật
+36. Thêm phát hiện bất thường
+37. Thiết lập phát hiện xâm nhập
+38. Triển khai cảnh báo thời gian thực
+39. Tạo dashboard bảo mật
 
-### Phase 8: Testing & Documentation (Day 8-9)
-40. Perform penetration testing
-41. Run security scanners
-42. Test all security features
-43. Create security documentation
-44. Train team on security practices
-45. Create incident response plan
+### Giai đoạn 8: Kiểm thử & tài liệu (Ngày 8-9)
+40. Thực hiện kiểm thử xâm nhập (penetration testing)
+41. Chạy các công cụ quét bảo mật
+42. Kiểm thử tất cả tính năng bảo mật
+43. Tạo tài liệu bảo mật
+44. Đào tạo team về các thực hành bảo mật
+45. Tạo kế hoạch ứng phó sự cố
 
-### Phase 9: Compliance & Policies (Day 10)
-46. GDPR compliance check
-47. Create privacy policy
-48. Implement data subject rights
-49. Add cookie consent
-50. Create security policies documentation
+### Giai đoạn 9: Tuân thủ & chính sách (Ngày 10)
+46. Kiểm tra tuân thủ GDPR
+47. Tạo chính sách quyền riêng tư
+48. Triển khai các quyền của chủ thể dữ liệu
+49. Thêm yêu cầu đồng ý cookie
+50. Tạo tài liệu chính sách bảo mật
 
-**Estimated Time**: 10 days
-**Risk Level**: Critical
-**Priority**: High
+**Thời gian ước tính**: 10 ngày
+**Mức độ rủi ro**: Nghiêm trọng
+**Độ ưu tiên**: Cao
 
-**Security Improvements Summary**:
-- Authentication: 7 enhancements
-- Authorization: 5 enhancements
-- Data Protection: 6 enhancements
-- Input Validation: 6 enhancements
-- Infrastructure: 9 enhancements
-- Monitoring: 5 enhancements
+**Tóm tắt các cải tiến bảo mật**:
+- Xác thực: 7 cải tiến
+- Phân quyền: 5 cải tiến
+- Bảo vệ dữ liệu: 6 cải tiến
+- Validation đầu vào: 6 cải tiến
+- Hạ tầng: 9 cải tiến
+- Giám sát: 5 cải tiến
 
-**Compliance**: OWASP Top 10, GDPR
+**Tuân thủ**: OWASP Top 10, GDPR
 
-**Success Criteria**:
-- Zero critical vulnerabilities
-- All OWASP Top 10 mitigated
-- Security score >90/100
-- All pen test issues resolved
+**Tiêu chí thành công**:
+- Không có lỗ hổng nghiêm trọng
+- Đã giảm thiểu toàn bộ OWASP Top 10
+- Điểm bảo mật >90/100
+- Đã xử lý mọi vấn đề từ pen test
 
-Proceed? (yes/no/modify)
+Tiến hành? (yes/no/modify)
 ```
 
-## Example 5: Performance Optimization
+## Ví Dụ 5: Tối Ưu Hiệu Năng
 
 ```
-User: /plan Optimize our slow e-commerce website
+User: /plan Tối ưu website thương mại điện tử đang chạy chậm của chúng ta
 
-Claude: Let me create a comprehensive performance optimization plan.
+Claude: Để tôi tạo một kế hoạch tối ưu hiệu năng toàn diện.
 
-## E-commerce Performance Optimization Plan
+## Kế Hoạch Tối Ưu Hiệu Năng Thương Mại Điện Tử
 
-### Phase 1: Performance Audit (4 hours)
-1. Run Lighthouse audit
-2. Analyze Chrome DevTools performance profile
-3. Measure Core Web Vitals:
+### Giai đoạn 1: Kiểm toán hiệu năng (4 giờ)
+1. Chạy kiểm toán Lighthouse
+2. Phân tích performance profile trong Chrome DevTools
+3. Đo các chỉ số Core Web Vitals:
    - LCP (Largest Contentful Paint)
    - FID (First Input Delay)
    - CLS (Cumulative Layout Shift)
-4. Identify performance bottlenecks
-5. Create baseline performance metrics
+4. Xác định các điểm nghẽn hiệu năng
+5. Tạo bộ chỉ số hiệu năng nền (baseline)
 
-**Current Metrics**:
-- LCP: 4.2s (target: <2.5s)
-- FID: 280ms (target: <100ms)
-- CLS: 0.25 (target: <0.1)
-- Page Load: 8.3s (target: <3s)
+**Chỉ số hiện tại**:
+- LCP: 4.2s (mục tiêu: <2.5s)
+- FID: 280ms (mục tiêu: <100ms)
+- CLS: 0.25 (mục tiêu: <0.1)
+- Thời gian tải trang: 8.3s (mục tiêu: <3s)
 
-### Phase 2: Image Optimization (6 hours)
-6. Convert images to WebP format
-7. Implement responsive images
-8. Add lazy loading for images
-9. Optimize image sizes (compression)
-10. Implement CDN for images
-11. Add image placeholders
+### Giai đoạn 2: Tối ưu hình ảnh (6 giờ)
+6. Chuyển hình ảnh sang định dạng WebP
+7. Triển khai responsive image
+8. Thêm lazy loading cho hình ảnh
+9. Tối ưu kích thước hình ảnh (nén)
+10. Dùng CDN cho hình ảnh
+11. Thêm placeholder cho hình ảnh
 
-**Expected Impact**: -40% load time
+**Tác động dự kiến**: -40% thời gian tải
 
-### Phase 3: Code Splitting & Lazy Loading (8 hours)
-12. Implement route-based code splitting
-13. Lazy load non-critical components
-14. Split vendor bundles
-15. Optimize chunk sizes
-16. Implement dynamic imports
-17. Add preloading for critical resources
+### Giai đoạn 3: Code splitting & lazy loading (8 giờ)
+12. Triển khai code splitting theo route
+13. Lazy load các component không quan trọng
+14. Tách các vendor bundle
+15. Tối ưu kích thước chunk
+16. Triển khai dynamic import
+17. Thêm preload cho các tài nguyên quan trọng
 
-**Expected Impact**: -30% initial bundle size
+**Tác động dự kiến**: -30% kích thước bundle ban đầu
 
-### Phase 4: Caching Strategy (6 hours)
-18. Implement browser caching (Cache-Control)
-19. Add service worker for offline support
-20. Implement API response caching
-21. Add Redis cache for database queries
-22. Implement stale-while-revalidate
-23. Configure CDN caching
+### Giai đoạn 4: Chiến lược caching (6 giờ)
+18. Triển khai browser caching (Cache-Control)
+19. Thêm service worker để hỗ trợ offline
+20. Cache response của API
+21. Thêm Redis cache cho truy vấn cơ sở dữ liệu
+22. Triển khai stale-while-revalidate
+23. Cấu hình caching trên CDN
 
-**Expected Impact**: -50% API response time
+**Tác động dự kiến**: -50% thời gian phản hồi API
 
-### Phase 5: Database Optimization (8 hours)
-24. Add database indexes
-25. Optimize slow queries (>100ms)
-26. Implement query result caching
-27. Add connection pooling
-28. Denormalize where appropriate
-29. Implement database read replicas
+### Giai đoạn 5: Tối ưu cơ sở dữ liệu (8 giờ)
+24. Thêm index cho cơ sở dữ liệu
+25. Tối ưu các truy vấn chậm (>100ms)
+26. Cache kết quả truy vấn
+27. Thêm connection pooling
+28. Phi chuẩn hóa (denormalize) ở những chỗ phù hợp
+29. Triển khai read replica cho cơ sở dữ liệu
 
-**Expected Impact**: -60% database query time
+**Tác động dự kiến**: -60% thời gian truy vấn cơ sở dữ liệu
 
-### Phase 6: Frontend Optimization (10 hours)
-30. Minimize and compress JavaScript
-31. Minimize and compress CSS
-32. Remove unused CSS (PurgeCSS)
-33. Implement critical CSS
-34. Defer non-critical JavaScript
-35. Reduce DOM size
-36. Optimize React rendering (memo, useMemo)
-37. Implement virtual scrolling for long lists
+### Giai đoạn 6: Tối ưu frontend (10 giờ)
+30. Minify và nén JavaScript
+31. Minify và nén CSS
+32. Gỡ CSS không dùng đến (PurgeCSS)
+33. Triển khai critical CSS
+34. Trì hoãn JavaScript không quan trọng
+35. Giảm kích thước DOM
+36. Tối ưu việc render React (memo, useMemo)
+37. Triển khai virtual scrolling cho danh sách dài
 
-**Expected Impact**: -35% JavaScript execution time
+**Tác động dự kiến**: -35% thời gian thực thi JavaScript
 
-### Phase 7: Network Optimization (4 hours)
-38. Enable HTTP/2
-39. Implement resource hints (preconnect, prefetch)
-40. Reduce number of HTTP requests
-41. Enable Brotli compression
-42. Optimize third-party scripts
+### Giai đoạn 7: Tối ưu mạng (4 giờ)
+38. Bật HTTP/2
+39. Thêm resource hint (preconnect, prefetch)
+40. Giảm số lượng HTTP request
+41. Bật nén Brotli
+42. Tối ưu các script bên thứ ba
 
-**Expected Impact**: -25% network time
+**Tác động dự kiến**: -25% thời gian mạng
 
-### Phase 8: Monitoring & Testing (4 hours)
-43. Set up performance monitoring (Datadog/New Relic)
-44. Add Real User Monitoring (RUM)
-45. Create performance budgets
-46. Set up automated Lighthouse CI
-47. Test on real devices
+### Giai đoạn 8: Giám sát & kiểm thử (4 giờ)
+43. Thiết lập giám sát hiệu năng (Datadog/New Relic)
+44. Thêm Real User Monitoring (RUM)
+45. Tạo ngân sách hiệu năng (performance budget)
+46. Thiết lập Lighthouse CI tự động
+47. Kiểm thử trên thiết bị thật
 
-**Estimated Time**: 50 hours (2 weeks)
+**Thời gian ước tính**: 50 giờ (2 tuần)
 
-**Target Metrics** (90th percentile):
-- LCP: <2.0s (from 4.2s) ✅
-- FID: <50ms (from 280ms) ✅
-- CLS: <0.05 (from 0.25) ✅
-- Page Load: <2.5s (from 8.3s) ✅
+**Chỉ số mục tiêu** (bách phân vị thứ 90):
+- LCP: <2.0s (từ 4.2s) ✅
+- FID: <50ms (từ 280ms) ✅
+- CLS: <0.05 (từ 0.25) ✅
+- Thời gian tải trang: <2.5s (từ 8.3s) ✅
 
-**Expected Revenue Impact**:
-- 100ms faster = 1% conversion increase
-- Target: 5.8s improvement = ~58% conversion increase
-- Estimated additional revenue: Significant
+**Tác động dự kiến đến doanh thu**:
+- Nhanh hơn 100ms = tăng 1% tỷ lệ chuyển đổi
+- Mục tiêu: cải thiện 5.8s = tăng ~58% tỷ lệ chuyển đổi
+- Doanh thu tăng thêm ước tính: Đáng kể
 
-**Priority Order**:
-1. Image optimization (quick wins)
-2. Code splitting (high impact)
-3. Caching (high impact)
-4. Database optimization (critical)
-5. Frontend optimization (polish)
+**Thứ tự ưu tiên**:
+1. Tối ưu hình ảnh (thắng nhanh)
+2. Code splitting (tác động cao)
+3. Caching (tác động cao)
+4. Tối ưu cơ sở dữ liệu (quan trọng)
+5. Tối ưu frontend (hoàn thiện)
 
-Proceed with this plan? (yes/no/modify)
+Tiến hành theo kế hoạch này? (yes/no/modify)
 ```
 
-## Key Takeaways
+## Những Điểm Chính
 
-### Benefits of Planning Mode
+### Lợi Ích Của Chế Độ Lập Kế Hoạch
 
-1. **Clarity**: Clear roadmap before starting
-2. **Estimation**: Time and effort estimates
-3. **Risk Assessment**: Identify potential issues early
-4. **Prioritization**: Logical order of tasks
-5. **Approval**: Review and approve before execution
-6. **Modification**: Adjust plan based on feedback
+1. **Rõ ràng**: Có lộ trình rõ ràng trước khi bắt đầu
+2. **Ước lượng**: Ước tính thời gian và công sức
+3. **Đánh giá rủi ro**: Phát hiện sớm các vấn đề tiềm ẩn
+4. **Ưu tiên**: Sắp xếp công việc theo thứ tự hợp lý
+5. **Phê duyệt**: Xem xét và phê duyệt trước khi thực thi
+6. **Điều chỉnh**: Điều chỉnh kế hoạch dựa trên phản hồi
 
-### When to Use Planning Mode
+### Khi Nào Nên Dùng Chế Độ Lập Kế Hoạch
 
-✅ **Always use for**:
-- Multi-day projects
-- Team collaborations
-- Critical system changes
-- Learning new concepts
-- Complex refactoring
+✅ **Luôn dùng cho**:
+- Dự án kéo dài nhiều ngày
+- Cộng tác trong team
+- Thay đổi hệ thống quan trọng
+- Học các khái niệm mới
+- Refactor phức tạp
 
-❌ **Don't use for**:
-- Bug fixes
-- Small tweaks
-- Simple queries
-- Quick experiments
+❌ **Không nên dùng cho**:
+- Sửa lỗi
+- Chỉnh sửa nhỏ
+- Câu hỏi đơn giản
+- Thử nghiệm nhanh
 
-### Best Practices
+### Thực Hành Tốt Nhất
 
-1. **Review plans carefully** before approving
-2. **Modify plans** when you spot issues
-3. **Break down** complex tasks
-4. **Estimate realistic** timeframes
-5. **Include rollback** strategies
-6. **Add success** criteria
-7. **Plan for testing** at each phase
+1. **Xem xét kế hoạch cẩn thận** trước khi phê duyệt
+2. **Điều chỉnh kế hoạch** khi bạn phát hiện vấn đề
+3. **Chia nhỏ** các tác vụ phức tạp
+4. **Ước lượng thực tế** khung thời gian
+5. **Bao gồm chiến lược rollback**
+6. **Thêm tiêu chí** thành công
+7. **Lên kế hoạch kiểm thử** ở mỗi giai đoạn
+
+---
+**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.316
+**Nguồn**:
+- https://code.claude.com/docs/en/changelog
+- https://code.claude.com/docs/en/permission-modes#analyze-before-you-edit-with-plan-mode
+- https://code.claude.com/docs/en/model-config
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
