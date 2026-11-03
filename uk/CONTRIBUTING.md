@@ -101,7 +101,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-Перший запуск завантажує Node.js 22 для хуків Mermaid (його надає сам pre-commit, тож вони працюють навіть без системного Node.js) і закріплений бандл Pele у `scripts/.vendor-cache/pele/`; наступні запуски працюють офлайн. Хуки Mermaid працюють у суворому режимі й падають, якщо Pele не вдається запустити. Щоб зробити коміт офлайн до першого завантаження, пропустіть їх через `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid`.
+Перший запуск завантажує закріплений бандл Pele у `scripts/.vendor-cache/pele/`; наступні запуски працюють офлайн. Хуки Mermaid запускаються з `language: system`, тому використовують `python` і Node.js >= 20 із вашого середовища, а не ті, що надає pre-commit. Хуки Mermaid працюють у суворому режимі й падають, якщо Pele не вдається запустити. Щоб зробити коміт офлайн до першого завантаження, пропустіть їх через `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid,korean-mermaid`.
 
 Хуки, що запускаються при кожному коміті:
 

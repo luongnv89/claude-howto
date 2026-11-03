@@ -105,7 +105,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-첫 실행 시 Mermaid 훅용 Node.js 22(pre-commit이 직접 준비하므로 시스템에 Node.js가 없어도 동작합니다)와 버전이 고정된 Pele 번들을 `scripts/.vendor-cache/pele/`에 내려받으며, 이후 실행은 오프라인에서도 동작합니다. Mermaid 훅은 strict 모드로 실행되며 Pele를 실행할 수 없으면 실패합니다. 첫 다운로드 전에 오프라인으로 커밋해야 한다면 `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid,korean-mermaid`로 이 훅들을 건너뛰세요.
+첫 실행 시 버전이 고정된 Pele 번들을 `scripts/.vendor-cache/pele/`에 내려받으며, 이후 실행은 오프라인에서도 동작합니다. Mermaid 훅은 `language: system`으로 실행되어 pre-commit이 직접 준비하는 대신 환경의 `python`과 Node.js >= 20을 사용합니다. Mermaid 훅은 strict 모드로 실행되며 Pele를 실행할 수 없으면 실패합니다. 첫 다운로드 전에 오프라인으로 커밋해야 한다면 `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid,korean-mermaid`로 이 훅들을 건너뛰세요.
 
 모든 커밋에서 실행되는 훅은 다음과 같습니다.
 

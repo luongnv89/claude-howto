@@ -97,7 +97,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-首次运行时会为 Mermaid hooks 下载 Node.js 22（由 pre-commit 提供，因此即使系统没有 Node.js 也能运行），并把固定版本的 Pele 包下载到 `scripts/.vendor-cache/pele/`；之后的运行可以离线完成。Mermaid hooks 以严格模式运行，如果 Pele 无法运行就会失败。如需在首次下载之前离线提交，可以用 `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid` 跳过它们。
+首次运行会把固定版本的 Pele 包下载到 `scripts/.vendor-cache/pele/`；之后的运行可以离线完成。Mermaid hooks 以 `language: system` 运行，因此使用你环境中的 `python` 和 Node.js >= 20，而不是由 pre-commit 提供。Mermaid hooks 以严格模式运行，如果 Pele 无法运行就会失败。如需在首次下载之前离线提交，可以用 `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid,korean-mermaid` 跳过它们。
 
 每次提交都会运行这些 hooks：
 
