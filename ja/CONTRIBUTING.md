@@ -101,7 +101,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-初回の実行では、Mermaid フック用の Node.js 22（pre-commit が用意するため、システムに Node.js がなくても動作する）と、固定バージョンの Pele バンドルが `scripts/.vendor-cache/pele/` にダウンロードされる。以降の実行はオフラインで動作する。Mermaid フックは厳格モードで実行され、Pele を実行できない場合は失敗する。初回ダウンロード前にオフラインでコミットするには、`SKIP=mermaid,vietnamese-mermaid,japanese-mermaid` でスキップする。
+初回の実行では、固定バージョンの Pele バンドルが `scripts/.vendor-cache/pele/` にダウンロードされる。以降の実行はオフラインで動作する。Mermaid フックは `language: system` で実行されるため、pre-commit が用意するのではなく、環境にある `python` と Node.js >= 20 を使用する。Mermaid フックは厳格モードで実行され、Pele を実行できない場合は失敗する。初回ダウンロード前にオフラインでコミットするには、`SKIP=mermaid,vietnamese-mermaid,japanese-mermaid,korean-mermaid` でスキップする。
 
 各コミットで実行されるフックは以下のとおり：
 

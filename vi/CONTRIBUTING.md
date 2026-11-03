@@ -97,7 +97,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-Lần chạy đầu tiên sẽ tải Node.js 22 cho các hook Mermaid (do pre-commit cung cấp, nên chúng vẫn chạy được khi máy không có Node.js) và bundle Pele cố định vào `scripts/.vendor-cache/pele/`; các lần sau chạy offline. Các hook Mermaid chạy ở chế độ strict và báo lỗi nếu không chạy được Pele. Để commit offline trước lần tải đầu tiên, hãy bỏ qua chúng bằng `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid`.
+Lần chạy đầu tiên sẽ tải bundle Pele cố định vào `scripts/.vendor-cache/pele/`; các lần sau chạy offline. Các hook Mermaid chạy với `language: system`, nên chúng dùng `python` và Node.js >= 20 từ môi trường của bạn thay vì để pre-commit tự cung cấp. Các hook Mermaid chạy ở chế độ strict và báo lỗi nếu không chạy được Pele. Để commit offline trước lần tải đầu tiên, hãy bỏ qua chúng bằng `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid,korean-mermaid`.
 
 Các hooks chạy trên mỗi commit là:
 - Kiểm tra markdown-lint

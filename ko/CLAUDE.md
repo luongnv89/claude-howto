@@ -47,7 +47,7 @@ Pre-commit은 `.md` 변경 시 5가지 문서 검사(markdown-lint, cross-refere
 - 내부 링크는 **상대 경로**를 사용합니다(예: `01-slash-commands/README.md`). 앵커는 `#heading-name`을 사용합니다.
 - 코드 펜스에는 언어(`bash`, `python`, `json`, …)를 **반드시** 선언해야 합니다. 그렇지 않으면 cross-reference 검사가 실패합니다.
 - 외부 URL은 접근 가능하고 안정적이어야 합니다. 일시적인 링크는 사용하지 마세요.
-- Mermaid 다이어그램은 Pele로 렌더링되어야 합니다. pre-commit Mermaid 훅은 pre-commit에서 Node.js 22를 받아 strict 모드로 실행되므로 건너뛰지 않고 실패합니다. 첫 실행에는 Node.js와 고정된 Pele 번들을 내려받기 위한 네트워크가 필요합니다(오프라인: `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid,korean-mermaid`). `scripts/check_mermaid.py`를 직접 실행하면 Node.js >= 20이 없을 때 경고만 하고, `--strict`나 CI에서는 실패합니다. EPUB 빌드가 깨지는 원인은 대개 잘못된 Mermaid, Node.js >= 20 누락, 또는 번들 다운로드 실패입니다.
+- Mermaid 다이어그램은 Pele로 렌더링되어야 합니다. pre-commit Mermaid 훅은 `language: system`으로 실행되어 PATH의 Node.js >= 20을 사용하며 strict 모드로 실행되므로 건너뛰지 않고 실패합니다. 첫 실행에는 Node.js와 고정된 Pele 번들을 내려받기 위한 네트워크가 필요합니다(오프라인: `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid,korean-mermaid`). `scripts/check_mermaid.py`를 직접 실행하면 Node.js >= 20이 없을 때 경고만 하고, `--strict`나 CI에서는 실패합니다. EPUB 빌드가 깨지는 원인은 대개 잘못된 Mermaid, Node.js >= 20 누락, 또는 번들 다운로드 실패입니다.
 - 커밋 형식: `type(scope): subject`이며 `scope`는 모듈 폴더와 일치합니다(예: `feat(slash-commands):`, `docs(memory):`, `fix(README):`).
 - `01-`–`10-` 번호 체계를 재구성하지 마세요. 순서가 곧 커리큘럼입니다.
 

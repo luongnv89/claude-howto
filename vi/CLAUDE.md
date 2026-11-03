@@ -147,7 +147,7 @@ Mỗi thư mục đánh số tuân theo pattern:
 
 3. **Pre-commit là người gác cổng** — Tất cả năm kiểm tra chất lượng phải pass trước khi PR được chấp nhận. CI pipeline chạy các kiểm tra tương tự như lần thứ hai.
 
-4. **Mermaid rendering cần Node.js >= 20** — EPUB build chạy bundle Pele cố định bằng Node.js để render diagrams (bundle chỉ tải về trong lần chạy đầu tiên, được kiểm tra sha256 và lưu cache). Các lỗi build ở đây thường là do chưa cài Node.js >= 20, tải bundle thất bại, hoặc cú pháp Mermaid không hợp lệ. Các hook mermaid của pre-commit chạy ở chế độ strict với Node.js 22 do pre-commit cung cấp, nên chúng sẽ báo lỗi thay vì bỏ qua. Bản thân EPUB build không chạy trong pre-commit — nó chỉ chạy trong CI.
+4. **Mermaid rendering cần Node.js >= 20** — EPUB build chạy bundle Pele cố định bằng Node.js để render diagrams (bundle chỉ tải về trong lần chạy đầu tiên, được kiểm tra sha256 và lưu cache). Các lỗi build ở đây thường là do chưa cài Node.js >= 20, tải bundle thất bại, hoặc cú pháp Mermaid không hợp lệ. Các hook mermaid của pre-commit chạy với `language: system` nên dùng Node.js >= 20 từ PATH của bạn, và chạy ở chế độ strict để báo lỗi thay vì bỏ qua. Bản thân EPUB build không chạy trong pre-commit — nó chỉ chạy trong CI.
 
 5. **Đây là tutorial, không phải thư viện** — Khi thêm nội dung, tập trung vào giải thích rõ ràng, ví dụ copy-paste, và sơ đồ trực quan. Giá trị nằm ở việc dạy các khái niệm, không cung cấp code có thể tái sử dụng.
 
