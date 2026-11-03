@@ -1,11 +1,11 @@
-<!-- i18n-source: 03-skills/doc-generator/SKILL.md -->
-<!-- i18n-source-sha: a6380d8 -->
-<!-- i18n-date: 2026-04-27 -->
-
 ---
 name: doc-generator
 description: ソースコードから包括的かつ正確な API ドキュメントを生成する。API ドキュメントの作成・更新、OpenAPI 仕様の生成時、または API ドキュメント、エンドポイント、ドキュメントについて言及がある場合に使用する。
 ---
+
+<!-- i18n-source: 03-skills/doc-generator/SKILL.md -->
+<!-- i18n-source-sha: a6380d8 -->
+<!-- i18n-date: 2026-04-27 -->
 
 # API ドキュメント生成スキル
 

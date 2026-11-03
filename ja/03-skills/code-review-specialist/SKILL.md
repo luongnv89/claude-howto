@@ -1,11 +1,11 @@
-<!-- i18n-source: 03-skills/code-review-specialist/SKILL.md -->
-<!-- i18n-source-sha: e978c49 -->
-<!-- i18n-date: 2026-04-27 -->
-
 ---
 name: code-review-specialist
 description: セキュリティ、パフォーマンス、品質分析を含む包括的なコードレビュー。コードレビュー、コード品質分析、プルリクエスト評価の依頼があった場合、またはコードレビュー、セキュリティ分析、パフォーマンス最適化について言及がある場合に使用する。
 ---
+
+<!-- i18n-source: 03-skills/code-review-specialist/SKILL.md -->
+<!-- i18n-source-sha: e978c49 -->
+<!-- i18n-date: 2026-04-27 -->
 
 # コードレビュー・スキル
 
