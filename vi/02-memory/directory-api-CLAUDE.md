@@ -1,72 +1,72 @@
-# API Module Standards
+# Tiêu Chuẩn Cho Module API
 
-This file supplements root CLAUDE.md for everything in /src/api/. Memory files are
-concatenated, not overridden — the root CLAUDE.md still applies, and Claude Code
-loads this file on demand when it reads, writes, or edits files in this subtree.
+File này bổ sung cho CLAUDE.md gốc đối với mọi thứ trong /src/api/. Các file bộ nhớ được
+nối lại với nhau, không ghi đè lẫn nhau — CLAUDE.md gốc vẫn được áp dụng, và Claude Code
+tải file này theo yêu cầu khi nó đọc, ghi hoặc chỉnh sửa file trong cây thư mục con này.
 
-## API-Specific Standards
+## Tiêu Chuẩn Riêng Cho API
 
-### Request Validation
-- Use Zod for schema validation
-- Always validate input
-- Return 400 with validation errors
-- Include field-level error details
+### Xác Thực Request
+- Dùng Zod để xác thực schema
+- Luôn xác thực đầu vào
+- Trả về 400 kèm các lỗi xác thực
+- Bao gồm chi tiết lỗi theo từng trường
 
-### Authentication
-- All endpoints require JWT token
-- Token in Authorization header
-- Token expires after 24 hours
-- Implement refresh token mechanism
+### Xác Thực Danh Tính
+- Tất cả endpoint đều yêu cầu JWT token
+- Token nằm trong header Authorization
+- Token hết hạn sau 24 giờ
+- Triển khai cơ chế refresh token
 
-### Response Format
+### Định Dạng Response
 
-All responses must follow this structure:
+Tất cả response phải tuân theo cấu trúc này:
 
 ```json
 {
   "success": true,
-  "data": { /* actual data */ },
+  "data": { /* dữ liệu thực tế */ },
   "timestamp": "2025-11-06T10:30:00Z",
   "version": "1.0"
 }
 ```
 
-Error responses:
+Response lỗi:
 ```json
 {
   "success": false,
   "error": {
     "code": "VALIDATION_ERROR",
     "message": "User message",
-    "details": { /* field errors */ }
+    "details": { /* lỗi theo từng trường */ }
   },
   "timestamp": "2025-11-06T10:30:00Z"
 }
 ```
 
-### Pagination
-- Use cursor-based pagination (not offset)
-- Include `hasMore` boolean
-- Limit max page size to 100
-- Default page size: 20
+### Phân Trang
+- Dùng phân trang dựa trên cursor (không dùng offset)
+- Bao gồm boolean `hasMore`
+- Giới hạn kích thước trang tối đa là 100
+- Kích thước trang mặc định: 20
 
-### Rate Limiting
-- 1000 requests per hour for authenticated users
-- 100 requests per hour for public endpoints
-- Return 429 when exceeded
-- Include retry-after header
+### Giới Hạn Tần Suất
+- 1000 request mỗi giờ cho người dùng đã xác thực
+- 100 request mỗi giờ cho endpoint công khai
+- Trả về 429 khi vượt quá giới hạn
+- Bao gồm header retry-after
 
 ### Caching
-- Use Redis for session caching
-- Cache duration: 5 minutes default
-- Invalidate on write operations
-- Tag cache keys with resource type
+- Dùng Redis để cache session
+- Thời gian cache: mặc định 5 phút
+- Vô hiệu hóa cache khi có thao tác ghi
+- Gắn tag loại tài nguyên cho cache key
 
 ---
-
 **Cập Nhật Lần Cuối**: Ngày 10 tháng 10 năm 2026
 **Phiên Bản Claude Code**: 2.1.296
 **Nguồn**:
 - https://code.claude.com/docs/en/memory
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.288
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.293
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

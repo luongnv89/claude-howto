@@ -1,18 +1,18 @@
 ---
-description: Handle production incidents with structured response
+description: Xử lý sự cố production với quy trình ứng phó có cấu trúc
 ---
 
-# Incident Response
+# Ứng Phó Sự Cố
 
-Structured incident response workflow:
+Workflow ứng phó sự cố có cấu trúc:
 
-1. Create incident record
-2. Assess severity and impact
-3. Notify on-call team
-4. Gather diagnostic information
-5. Coordinate response efforts
-6. Document resolution
-7. Schedule post-mortem
+1. Tạo bản ghi sự cố
+2. Đánh giá mức độ nghiêm trọng và tác động
+3. Thông báo cho nhóm trực on-call
+4. Thu thập thông tin chẩn đoán
+5. Điều phối các nỗ lực ứng phó
+6. Ghi lại cách khắc phục
+7. Lên lịch post-mortem
 
 ---
 
@@ -21,3 +21,4 @@ Structured incident response workflow:
 **Nguồn**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/skills#frontmatter-reference
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

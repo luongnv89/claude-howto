@@ -1,339 +1,348 @@
-# Checkpoint Examples
+# Ví Dụ Về Checkpoint
 
-Real-world examples of using checkpoints effectively in Claude Code.
+Các ví dụ thực tế về cách sử dụng checkpoint hiệu quả trong Claude Code.
 
-Note: Checkpoints are created automatically with every user prompt. You do not need to manually save them. To rewind, press `Esc` twice (`Esc+Esc`) or use `/rewind` to open the checkpoint browser.
+Lưu ý: Checkpoint được tạo tự động với mỗi prompt của người dùng. Bạn không cần lưu chúng thủ công. Để quay lại (rewind), nhấn `Esc` hai lần (`Esc+Esc`) hoặc dùng `/rewind` để mở trình duyệt checkpoint.
 
-## Example 1: Database Migration
+## Ví Dụ 1: Di Chuyển Cơ Sở Dữ Liệu
 
-### Scenario
-You need to migrate from MySQL to PostgreSQL but want to explore both a direct migration and a gradual dual-write approach.
-
-### Workflow
-
-```
-User: Let's implement a direct migration from MySQL to PostgreSQL
-      [Checkpoint A created automatically]
-
-Claude: I'll implement the direct migration...
-[Changes database driver, updates queries, modifies schema]
-
-User: Run the tests
-      [Checkpoint B created automatically]
-
-Claude: Running tests...
-❌ 15 tests failing - connection pool issues
-
-User: This approach has issues. Let's try the dual-write pattern instead.
-[User presses Esc+Esc, selects Checkpoint A, chooses "Restore code and conversation"]
-
-User: Now implement a dual-write pattern where we write to both databases
-
-Claude: I'll implement dual-write migration...
-[Implements dual-write layer, gradual migration strategy]
-
-User: Run the tests
-
-Claude: Running tests...
-✅ All tests passing
-
-User: The dual-write approach is clearly safer. Let's commit this.
-```
-
-## Example 2: Performance Optimization
-
-### Scenario
-Multiple performance optimization strategies to try.
+### Tình Huống
+Bạn cần di chuyển từ MySQL sang PostgreSQL nhưng muốn thử cả hai cách: di chuyển trực tiếp và di chuyển dần dần với ghi kép (dual-write).
 
 ### Workflow
 
 ```
-User: Let's optimize the API response time. Current: 450ms
-      [Checkpoint "Baseline" created automatically]
+User: Hãy triển khai di chuyển trực tiếp từ MySQL sang PostgreSQL
+      [Checkpoint A được tạo tự động]
 
-Claude: I'll add database query caching...
-[Implements Redis caching]
+Claude: Tôi sẽ triển khai di chuyển trực tiếp...
+[Đổi database driver, cập nhật các truy vấn, sửa schema]
 
-User: Run performance tests
+User: Chạy test
+      [Checkpoint B được tạo tự động]
 
-Claude: Results: 280ms average response time (38% improvement)
+Claude: Đang chạy test...
+❌ 15 test thất bại - lỗi connection pool
 
-User: Let me try a different approach.
-[User presses Esc+Esc, selects "Baseline" checkpoint, chooses "Restore code and conversation"]
+User: Cách này có vấn đề. Hãy thử mẫu dual-write thay thế.
+[Người dùng nhấn Esc+Esc, chọn Checkpoint A, chọn "Restore code and conversation"]
 
-User: Try database query optimization instead
+User: Giờ hãy triển khai mẫu dual-write, ghi vào cả hai cơ sở dữ liệu
 
-Claude: I'll optimize database queries...
-[Adds indexes, optimizes N+1 queries]
+Claude: Tôi sẽ triển khai di chuyển dual-write...
+[Triển khai tầng dual-write, chiến lược di chuyển dần dần]
 
-User: Run performance tests
+User: Chạy test
 
-Claude: Results: 180ms average response time (60% improvement)
+Claude: Đang chạy test...
+✅ Tất cả test đều pass
 
-User: Let me also try a third approach.
-[User presses Esc+Esc, selects "Baseline" checkpoint, chooses "Restore code and conversation"]
-
-User: Try response compression and CDN
-
-Claude: I'll add compression and CDN...
-[Implements gzip, sets up CDN]
-
-User: Run performance tests
-
-Claude: Results: 320ms average response time (29% improvement)
-
-User: Query optimization was the best. Let me go back and combine it with caching.
-[User presses Esc+Esc, selects the checkpoint after query optimization, chooses "Restore code and conversation"]
-
-User: Now add Redis caching on top of these optimized queries
-
-Claude: [Adds Redis caching on top of optimized queries]
-
-User: Run performance tests
-
-Claude: Results: 95ms average response time (79% improvement) 🎉
-
-User: Perfect! This is the winner. Let's commit this.
+User: Cách dual-write rõ ràng an toàn hơn. Hãy commit cái này.
 ```
 
-## Example 3: UI/UX Iteration
+## Ví Dụ 2: Tối Ưu Hiệu Năng
 
-### Scenario
-Trying different layouts for a dashboard.
+### Tình Huống
+Có nhiều chiến lược tối ưu hiệu năng cần thử.
 
 ### Workflow
 
 ```
-User: Let's redesign the dashboard with a sidebar layout
-      [Checkpoint "Start" created automatically]
+User: Hãy tối ưu thời gian phản hồi API. Hiện tại: 450ms
+      [Checkpoint "Baseline" được tạo tự động]
 
-Claude: [Implements sidebar layout]
+Claude: Tôi sẽ thêm caching cho truy vấn cơ sở dữ liệu...
+[Triển khai caching bằng Redis]
 
-User: Show me a screenshot
+User: Chạy test hiệu năng
 
-Claude: [Shows screenshot]
+Claude: Kết quả: thời gian phản hồi trung bình 280ms (cải thiện 38%)
 
-User: The sidebar feels cramped. Let's try a top navigation instead.
-[User presses Esc+Esc, selects "Start" checkpoint, chooses "Restore code and conversation"]
+User: Để tôi thử một cách khác.
+[Người dùng nhấn Esc+Esc, chọn checkpoint "Baseline", chọn "Restore code and conversation"]
 
-User: Try a top navigation layout
+User: Thay vào đó hãy thử tối ưu truy vấn cơ sở dữ liệu
 
-Claude: [Implements top navigation]
+Claude: Tôi sẽ tối ưu các truy vấn cơ sở dữ liệu...
+[Thêm index, tối ưu các truy vấn N+1]
 
-User: Show me a screenshot
+User: Chạy test hiệu năng
 
-Claude: [Shows screenshot]
+Claude: Kết quả: thời gian phản hồi trung bình 180ms (cải thiện 60%)
 
-User: Better, but let's try a card-based grid layout
-[User presses Esc+Esc, selects "Start" checkpoint, chooses "Restore code and conversation"]
+User: Để tôi thử thêm cách thứ ba.
+[Người dùng nhấn Esc+Esc, chọn checkpoint "Baseline", chọn "Restore code and conversation"]
 
-User: Try a card-based grid layout
+User: Thử nén response và CDN
 
-Claude: [Implements card grid]
+Claude: Tôi sẽ thêm nén và CDN...
+[Triển khai gzip, thiết lập CDN]
 
-User: Show me a screenshot
+User: Chạy test hiệu năng
 
-Claude: [Shows screenshot]
+Claude: Kết quả: thời gian phản hồi trung bình 320ms (cải thiện 29%)
 
-User: This is great! But can we combine the top nav with the card grid?
-[User presses Esc+Esc, selects the checkpoint after the card grid, chooses "Restore code and conversation"]
+User: Tối ưu truy vấn là tốt nhất. Để tôi quay lại và kết hợp nó với caching.
+[Người dùng nhấn Esc+Esc, chọn checkpoint sau bước tối ưu truy vấn, chọn "Restore code and conversation"]
 
-User: Add top navigation to the card grid layout
+User: Giờ hãy thêm Redis caching lên trên các truy vấn đã tối ưu này
 
-Claude: [Adds top navigation to card grid]
+Claude: [Thêm Redis caching lên trên các truy vấn đã tối ưu]
 
-User: Perfect! This is the final design.
+User: Chạy test hiệu năng
+
+Claude: Kết quả: thời gian phản hồi trung bình 95ms (cải thiện 79%) 🎉
+
+User: Hoàn hảo! Đây là phương án thắng. Hãy commit cái này.
 ```
 
-## Example 4: Debugging Session
+## Ví Dụ 3: Lặp Lại Thiết Kế UI/UX
 
-### Scenario
-Hunting down a tricky bug with multiple hypotheses.
+### Tình Huống
+Thử các bố cục khác nhau cho một dashboard.
 
 ### Workflow
 
 ```
-User: There's a memory leak in the application
-      [Checkpoint "Before debugging" created automatically]
+User: Hãy thiết kế lại dashboard với bố cục sidebar
+      [Checkpoint "Start" được tạo tự động]
 
-Claude: Let me investigate...
-[Analyzes code]
+Claude: [Triển khai bố cục sidebar]
 
-User: I think it's in the event listeners. Let's fix those.
+User: Cho tôi xem ảnh chụp màn hình
 
-Claude: [Fixes event listener cleanup]
+Claude: [Hiển thị ảnh chụp màn hình]
 
-User: Run memory profiler
+User: Sidebar có vẻ chật chội. Hãy thử thanh điều hướng trên cùng thay thế.
+[Người dùng nhấn Esc+Esc, chọn checkpoint "Start", chọn "Restore code and conversation"]
 
-Claude: Still leaking memory - event listeners weren't the issue
+User: Thử bố cục điều hướng trên cùng
 
-User: Let me go back and try a different hypothesis.
-[User presses Esc+Esc, selects "Before debugging" checkpoint, chooses "Restore code and conversation"]
+Claude: [Triển khai điều hướng trên cùng]
 
-User: Maybe it's the database connections?
+User: Cho tôi xem ảnh chụp màn hình
 
-Claude: [Implements connection pooling fixes]
+Claude: [Hiển thị ảnh chụp màn hình]
 
-User: Run memory profiler
+User: Tốt hơn, nhưng hãy thử bố cục lưới dạng thẻ (card)
+[Người dùng nhấn Esc+Esc, chọn checkpoint "Start", chọn "Restore code and conversation"]
 
-Claude: Still leaking - not the connections either
+User: Thử bố cục lưới dạng thẻ
 
-User: Let me go back and try another angle.
-[User presses Esc+Esc, selects "Before debugging" checkpoint, chooses "Restore code and conversation"]
+Claude: [Triển khai lưới thẻ]
 
-User: Let's check for circular references
+User: Cho tôi xem ảnh chụp màn hình
 
-Claude: [Finds and fixes circular references in cache]
+Claude: [Hiển thị ảnh chụp màn hình]
 
-User: Run memory profiler
+User: Tuyệt vời! Nhưng ta có thể kết hợp điều hướng trên cùng với lưới thẻ không?
+[Người dùng nhấn Esc+Esc, chọn checkpoint sau bước lưới thẻ, chọn "Restore code and conversation"]
 
-Claude: ✅ Memory leak fixed! The circular references in the caching layer were the culprit.
+User: Thêm điều hướng trên cùng vào bố cục lưới thẻ
 
-User: Excellent! Let's commit this fix.
+Claude: [Thêm điều hướng trên cùng vào lưới thẻ]
+
+User: Hoàn hảo! Đây là thiết kế cuối cùng.
 ```
 
-## Example 5: API Design Evolution
+## Ví Dụ 4: Phiên Gỡ Lỗi
 
-### Scenario
-Designing a REST API with multiple iterations.
+### Tình Huống
+Truy tìm một lỗi khó với nhiều giả thuyết.
 
 ### Workflow
 
 ```
-User: Create a REST API for our blog platform
-      [Checkpoint "Before API design" created automatically]
+User: Ứng dụng đang bị rò rỉ bộ nhớ
+      [Checkpoint "Before debugging" được tạo tự động]
 
-Claude: [Creates basic CRUD API]
+Claude: Để tôi điều tra...
+[Phân tích code]
 
-User: This is too simple. Let's add pagination and filtering
+User: Tôi nghĩ lỗi nằm ở các event listener. Hãy sửa chúng.
 
-Claude: [Adds pagination and filtering]
+Claude: [Sửa phần dọn dẹp event listener]
 
-User: We need better resource relationships
+User: Chạy memory profiler
 
-Claude: [Implements HATEOAS links]
+Claude: Vẫn rò rỉ bộ nhớ - event listener không phải nguyên nhân
 
-User: Actually, let's try GraphQL instead of REST
-[User presses Esc+Esc, selects "Before API design" checkpoint, chooses "Restore code and conversation"]
+User: Để tôi quay lại và thử một giả thuyết khác.
+[Người dùng nhấn Esc+Esc, chọn checkpoint "Before debugging", chọn "Restore code and conversation"]
 
-User: Implement a GraphQL API for our blog platform instead
+User: Có thể là do kết nối cơ sở dữ liệu?
 
-Claude: [Implements GraphQL API]
+Claude: [Triển khai các bản sửa cho connection pooling]
 
-User: I think REST is better for our use case.
-[User presses Esc+Esc, selects the checkpoint after HATEOAS, chooses "Restore code and conversation"]
+User: Chạy memory profiler
 
-User: Let's finalize the REST approach.
+Claude: Vẫn rò rỉ - cũng không phải do kết nối
+
+User: Để tôi quay lại và thử một hướng khác.
+[Người dùng nhấn Esc+Esc, chọn checkpoint "Before debugging", chọn "Restore code and conversation"]
+
+User: Hãy kiểm tra tham chiếu vòng (circular reference)
+
+Claude: [Tìm và sửa tham chiếu vòng trong cache]
+
+User: Chạy memory profiler
+
+Claude: ✅ Đã sửa rò rỉ bộ nhớ! Thủ phạm là các tham chiếu vòng trong tầng caching.
+
+User: Xuất sắc! Hãy commit bản sửa này.
 ```
 
-## Example 6: Configuration Management
+## Ví Dụ 5: Tiến Hóa Thiết Kế API
 
-### Scenario
-Testing different configuration approaches.
+### Tình Huống
+Thiết kế một REST API qua nhiều vòng lặp.
 
 ### Workflow
 
 ```
-User: Move configuration to environment variables
-      [Checkpoint "Original config" created automatically]
+User: Tạo một REST API cho nền tảng blog của chúng ta
+      [Checkpoint "Before API design" được tạo tự động]
 
-Claude: [Implements env var configuration]
+Claude: [Tạo CRUD API cơ bản]
 
-User: Test in development
+User: Cái này quá đơn giản. Hãy thêm phân trang và lọc
 
-Claude: Works locally but deployment issues in production
+Claude: [Thêm phân trang và lọc]
 
-User: Let me try a different approach.
-[User presses Esc+Esc, selects "Original config" checkpoint, chooses "Restore code and conversation"]
+User: Chúng ta cần quan hệ tài nguyên tốt hơn
 
-User: Try a config file approach with validation
+Claude: [Triển khai link HATEOAS]
 
-Claude: [Implements YAML config with JSON schema validation]
+User: Thật ra, hãy thử GraphQL thay vì REST
+[Người dùng nhấn Esc+Esc, chọn checkpoint "Before API design", chọn "Restore code and conversation"]
 
-User: Test in development
+User: Thay vào đó hãy triển khai GraphQL API cho nền tảng blog của chúng ta
 
-Claude: ✅ Works well, good validation errors
+Claude: [Triển khai GraphQL API]
 
-User: Can we also support env vars for sensitive values?
+User: Tôi nghĩ REST phù hợp hơn với trường hợp của chúng ta.
+[Người dùng nhấn Esc+Esc, chọn checkpoint sau bước HATEOAS, chọn "Restore code and conversation"]
 
-Claude: [Adds env var override for secrets]
-
-User: Test deployment
-
-Claude: ✅ All environments working correctly
-
-User: Perfect! This is production-ready.
+User: Hãy hoàn thiện cách tiếp cận REST.
 ```
 
-## Example 7: Test Strategy
+## Ví Dụ 6: Quản Lý Cấu Hình
 
-### Scenario
-Implementing comprehensive testing.
+### Tình Huống
+Thử nghiệm các cách tiếp cận cấu hình khác nhau.
 
 ### Workflow
 
 ```
-User: Add unit tests for the auth module
-      [Checkpoint created automatically]
+User: Chuyển cấu hình sang biến môi trường
+      [Checkpoint "Original config" được tạo tự động]
 
-Claude: [Adds Jest unit tests]
+Claude: [Triển khai cấu hình bằng biến môi trường]
 
-User: Run tests
+User: Test trong môi trường development
 
-Claude: 45 tests passing, 78% coverage
+Claude: Chạy được ở local nhưng có vấn đề khi deploy lên production
 
-User: Add integration tests too
+User: Để tôi thử một cách khác.
+[Người dùng nhấn Esc+Esc, chọn checkpoint "Original config", chọn "Restore code and conversation"]
 
-Claude: [Adds integration tests]
+User: Thử cách dùng file cấu hình có validation
 
-User: Run tests
+Claude: [Triển khai cấu hình YAML với validation bằng JSON schema]
 
-Claude: 89 tests passing, 92% coverage, but tests are slow (3 minutes)
+User: Test trong môi trường development
 
-User: The tests are too slow. Let's optimize.
+Claude: ✅ Chạy tốt, thông báo lỗi validation rõ ràng
 
-Claude: [Optimizes test setup, adds parallel execution]
+User: Ta có thể hỗ trợ thêm biến môi trường cho các giá trị nhạy cảm không?
 
-User: Run tests
+Claude: [Thêm ghi đè bằng biến môi trường cho các secret]
 
-Claude: 89 tests passing, 92% coverage, 35 seconds ✅
+User: Test deploy
 
-User: Great! Now add E2E tests for critical paths
+Claude: ✅ Tất cả môi trường đều hoạt động đúng
 
-Claude: [Adds Playwright E2E tests]
-
-User: Run all tests
-
-Claude: 112 tests passing, 94% coverage, 2 minutes
-
-User: Perfect balance of coverage and speed!
+User: Hoàn hảo! Cái này đã sẵn sàng cho production.
 ```
 
-## Example 8: Using Summarize from Checkpoint
+## Ví Dụ 7: Chiến Lược Kiểm Thử
 
-### Scenario
-After a long debugging session, you want to condense the conversation while preserving context.
+### Tình Huống
+Triển khai kiểm thử toàn diện.
 
 ### Workflow
 
 ```
-User: [After 20+ messages of debugging and exploration]
+User: Thêm unit test cho module auth
+      [Checkpoint được tạo tự động]
 
-[User presses Esc+Esc, selects an early checkpoint, chooses "Summarize from here"]
-[Optionally provides instructions: "Focus on what we tried and what worked"]
+Claude: [Thêm unit test bằng Jest]
 
-Claude: [Generates a summary of the conversation from that point forward]
-[Original messages are preserved in the transcript]
-[The summary replaces the visible conversation, reducing context window usage]
+User: Chạy test
 
-User: Now let's continue with the approach that worked.
+Claude: 45 test pass, độ bao phủ 78%
+
+User: Thêm cả integration test nữa
+
+Claude: [Thêm integration test]
+
+User: Chạy test
+
+Claude: 89 test pass, độ bao phủ 92%, nhưng test chạy chậm (3 phút)
+
+User: Test chạy chậm quá. Hãy tối ưu.
+
+Claude: [Tối ưu phần thiết lập test, thêm chạy song song]
+
+User: Chạy test
+
+Claude: 89 test pass, độ bao phủ 92%, 35 giây ✅
+
+User: Tuyệt! Giờ thêm E2E test cho các luồng quan trọng
+
+Claude: [Thêm E2E test bằng Playwright]
+
+User: Chạy tất cả test
+
+Claude: 112 test pass, độ bao phủ 94%, 2 phút
+
+User: Cân bằng hoàn hảo giữa độ bao phủ và tốc độ!
 ```
 
-## Key Takeaways
+## Ví Dụ 8: Dùng Summarize Từ Checkpoint
 
-1. **Checkpoints are automatic**: Every user prompt creates a checkpoint -- no manual saving needed
-2. **Use Esc+Esc or /rewind**: These are the two ways to access the checkpoint browser
-3. **Choose the right restore option**: Restore code, conversation, both, or summarize depending on your needs
-4. **Don't fear experimentation**: Checkpoints make it safe to try radical changes
-5. **Combine with git**: Use checkpoints for exploration, git for finalized work
-6. **Summarize long sessions**: Use "Summarize from here" to keep conversations manageable
+### Tình Huống
+Sau một phiên gỡ lỗi dài, bạn muốn rút gọn cuộc hội thoại mà vẫn giữ được ngữ cảnh.
+
+### Workflow
+
+```
+User: [Sau hơn 20 tin nhắn gỡ lỗi và khám phá]
+
+[Người dùng nhấn Esc+Esc, chọn một checkpoint sớm, chọn "Summarize from here"]
+[Có thể kèm hướng dẫn: "Tập trung vào những gì ta đã thử và cái gì hiệu quả"]
+
+Claude: [Tạo bản tóm tắt cuộc hội thoại từ điểm đó trở đi]
+[Các tin nhắn gốc được giữ lại trong transcript]
+[Bản tóm tắt thay thế cuộc hội thoại hiển thị, giảm mức sử dụng context window]
+
+User: Giờ hãy tiếp tục với cách tiếp cận đã hiệu quả.
+```
+
+## Những Điểm Chính
+
+1. **Checkpoint là tự động**: Mỗi prompt của người dùng tạo một checkpoint -- không cần lưu thủ công
+2. **Dùng Esc+Esc hoặc /rewind**: Đây là hai cách để mở trình duyệt checkpoint
+3. **Chọn đúng tùy chọn khôi phục**: Khôi phục code, cuộc hội thoại, cả hai, hoặc tóm tắt tùy theo nhu cầu của bạn
+4. **Đừng ngại thử nghiệm**: Checkpoint giúp bạn an toàn khi thử những thay đổi lớn
+5. **Kết hợp với git**: Dùng checkpoint để khám phá, git cho công việc đã hoàn thiện
+6. **Tóm tắt các phiên dài**: Dùng "Summarize from here" để giữ cuộc hội thoại dễ quản lý
+
+---
+**Cập Nhật Lần Cuối**: Ngày 29 tháng 7 năm 2026
+**Phiên Bản Claude Code**: 2.1.220
+**Nguồn**:
+- https://code.claude.com/docs/en/checkpointing
+- https://code.claude.com/docs/en/changelog
+- https://code.claude.com/docs/en/model-config
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
