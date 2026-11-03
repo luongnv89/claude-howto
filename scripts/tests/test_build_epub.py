@@ -488,6 +488,46 @@ class TestChapterOrder:
         assert "02-memory" in chapter_names
         assert "resources.md" in chapter_names
 
+    def test_all_numbered_modules_are_in_learning_order(self) -> None:
+        """The default book includes all ten modules before the resources."""
+        chapter_names = [name for name, _ in get_chapter_order()]
+        modules = [name for name in chapter_names if name[:2].isdigit()]
+
+        assert [name[:2] for name in modules] == [
+            f"{number:02d}" for number in range(1, 11)
+        ]
+        assert modules[-1] == "10-cli"
+        assert chapter_names.index("10-cli") < chapter_names.index("resources.md")
+
+    def test_default_collector_includes_cli_and_maps_links(
+        self, tmp_path: Path, state: BuildState
+    ) -> None:
+        """CLI overview and nested examples use the normal chapter collector."""
+        for folder in ("09-advanced-features", "10-cli", "10-cli/examples"):
+            directory = tmp_path / folder
+            directory.mkdir(parents=True, exist_ok=True)
+            (directory / "README.md").write_text("# Overview\n", encoding="utf-8")
+        (tmp_path / "resources.md").write_text("# Resources\n", encoding="utf-8")
+
+        chapters = ChapterCollector(tmp_path, state).collect_all_chapters(
+            get_chapter_order()
+        )
+
+        collected_paths = [
+            chapter.file_path.relative_to(tmp_path).as_posix() for chapter in chapters
+        ]
+        assert collected_paths == [
+            "09-advanced-features/README.md",
+            "10-cli/README.md",
+            "10-cli/examples/README.md",
+            "resources.md",
+        ]
+        assert chapters[1].display_name == "CLI Reference"
+        assert state.path_to_chapter["10-cli"] == chapters[1].chapter_filename
+        for chapter in chapters:
+            relative_path = str(chapter.file_path.relative_to(tmp_path))
+            assert state.path_to_chapter[relative_path] == chapter.chapter_filename
+
 
 # =============================================================================
 # Logging Tests
@@ -729,6 +769,46 @@ class TestFlattenSvgVars:
 
 class TestIntegration:
     """Integration tests for the full build process."""
+
+    def test_default_build_contains_cli_in_spine_navigation_and_links(
+        self, tmp_project: Path, logger: logging.Logger
+    ) -> None:
+        """Build with the real chapter order so an omitted module cannot pass."""
+        from build_epub import build_epub_async
+
+        (tmp_project / "README.md").write_text(
+            "# Guide\n\n[CLI reference](10-cli/README.md)\n", encoding="utf-8"
+        )
+        cli = tmp_project / "10-cli"
+        cli.mkdir()
+        (cli / "README.md").write_text(
+            "# CLI Reference\n\nCLI chapter regression marker.\n", encoding="utf-8"
+        )
+        (tmp_project / "resources.md").write_text("# Resources\n", encoding="utf-8")
+        config = EPUBConfig(root_path=tmp_project, output_path=tmp_project / "cli.epub")
+
+        build_epub_async(config, logger)
+
+        with zipfile.ZipFile(config.output_path) as archive:
+            opf = ET.fromstring(archive.read("EPUB/content.opf"))
+            nav = archive.read("EPUB/nav.xhtml").decode("utf-8")
+            introduction = archive.read("EPUB/chap_01.xhtml").decode("utf-8")
+            chapter = archive.read("EPUB/chap_02_00.xhtml").decode("utf-8")
+
+        namespaces = {"opf": "http://www.idpf.org/2007/opf"}
+        items = {
+            item.attrib["id"]: item.attrib["href"]
+            for item in opf.findall("opf:manifest/opf:item", namespaces)
+        }
+        spine = [
+            items[item.attrib["idref"]]
+            for item in opf.findall("opf:spine/opf:itemref", namespaces)
+        ]
+        assert spine == ["nav.xhtml", "chap_01.xhtml", "chap_02_00.xhtml", "chap_03.xhtml"]
+        assert "CLI chapter regression marker." in chapter
+        assert 'href="chap_02_00.xhtml"' in nav
+        assert 'href="chap_02_00.xhtml"' in introduction
+        assert "10-cli/README.md" not in introduction
 
     def test_build_without_mermaid(
         self, tmp_project: Path, logger: logging.Logger
