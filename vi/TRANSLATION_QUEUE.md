@@ -106,7 +106,7 @@ Skills có cấu trúc nested directories với subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `04-subagents/README.md` | ✅ Done | Claude | 2026-04-03 | Subagents overview |
+| `04-subagents/README.md` | ✅ Done | Claude | 2026-11-03 | Subagents overview |
 | `04-subagents/code-reviewer.md` | ✅ Done | Claude | 2026-04-03 | Code review specialist |
 | `04-subagents/debugger.md` | ✅ Done | Claude | 2026-04-03 | Debugging specialist |
 | `04-subagents/documentation-writer.md` | ✅ Done | Claude | 2026-04-03 | Documentation specialist |
@@ -122,7 +122,7 @@ Skills có cấu trúc nested directories với subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `05-mcp/README.md` | ✅ Done | Claude | 2026-04-03 | MCP overview |
+| `05-mcp/README.md` | ✅ Done | Claude | 2026-11-03 | MCP overview |
 | `05-mcp/filesystem-mcp.json` | ✅ Done | Claude | 2026-04-03 | Filesystem MCP config |
 | `05-mcp/github-mcp.json` | ✅ Done | Claude | 2026-04-03 | GitHub MCP config |
 | `05-mcp/database-mcp.json` | ✅ Done | Claude | 2026-04-03 | Database MCP config |
