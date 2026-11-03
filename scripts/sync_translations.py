@@ -13,6 +13,7 @@ Usage:
 import argparse
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 
 def check_translation_status(
@@ -46,7 +47,7 @@ def check_translation_status(
     en_mtime = {f: f.stat().st_mtime for f in en_files}
     vi_mtime = {f: f.stat().st_mtime for f in vi_files}
 
-    outdated = []
+    outdated: list[dict[str, Any]] = []
     not_translated = []
 
     for en_file, en_time in sorted(en_mtime.items()):
