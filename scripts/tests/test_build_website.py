@@ -761,7 +761,7 @@ class TestPeleBundle:
 
 
 # =============================================================================
-# Diagram styles (site.css)
+# Code block and diagram styles (site.css)
 # =============================================================================
 
 SITE_CSS = Path(__file__).parent.parent / "website_templates" / "site.css"
@@ -792,6 +792,40 @@ def _contrast(first: str, second: str) -> float:
 
     high, low = sorted((luminance(first), luminance(second)), reverse=True)
     return (high + 0.05) / (low + 0.05)
+
+
+class TestCodeBlockStyles:
+    @pytest.mark.parametrize("use_pygments", [False, True])
+    def test_transparency_applies_only_to_highlighting_wrapper(
+        self, use_pygments: bool, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from markdown.extensions import codehilite
+
+        if use_pygments:
+            pytest.importorskip("pygments")
+        monkeypatch.setattr(codehilite, "pygments", use_pygments)
+        content = render_markdown("```bash\necho hello\n```\n")
+        soup = BeautifulSoup(
+            f'<article class="prose">{content}</article>', "html.parser"
+        )
+        pre = soup.select_one("pre")
+        assert pre is not None
+        assert soup.select_one("div.codehilite" if use_pygments else "pre.codehilite")
+
+        # A transparent wrapper is fine, but clearing the pre background leaves
+        # Tailwind's light code text on the light page when Pygments is absent.
+        css = re.sub(r"/\*.*?\*/", "", SITE_CSS.read_text("utf-8"), flags=re.S)
+        transparent_selectors = [
+            selectors.strip()
+            for selectors, rule in re.findall(r"([^{}]+)\{([^{}]*)\}", css)
+            if re.search(r"(?<![\w-])background(?:-color)?:\s*transparent\b", rule)
+        ]
+        assert transparent_selectors
+        for selector in transparent_selectors:
+            assert pre not in soup.select(selector), selector
+        if use_pygments:
+            wrapper = soup.select_one("div.codehilite")
+            assert any(wrapper in soup.select(s) for s in transparent_selectors)
 
 
 class TestDiagramStyles:
