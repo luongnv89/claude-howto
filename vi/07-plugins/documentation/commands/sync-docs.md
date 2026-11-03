@@ -1,16 +1,16 @@
 ---
-description: Sync documentation with code changes
+description: Đồng bộ tài liệu với các thay đổi code
 ---
 
-# Documentation Sync
+# Đồng Bộ Tài Liệu
 
-Synchronize documentation with codebase:
+Đồng bộ tài liệu với codebase:
 
-1. Detect code changes
-2. Identify outdated documentation
-3. Update affected docs
-4. Verify examples still work
-5. Update version numbers
+1. Phát hiện các thay đổi code
+2. Xác định tài liệu đã lỗi thời
+3. Cập nhật các tài liệu bị ảnh hưởng
+4. Xác minh các ví dụ vẫn hoạt động
+5. Cập nhật số phiên bản
 
 ---
 
@@ -19,3 +19,4 @@ Synchronize documentation with codebase:
 **Nguồn**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/skills#frontmatter-reference
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

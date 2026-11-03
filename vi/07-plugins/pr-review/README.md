@@ -3,91 +3,91 @@
   <img alt="Claude How To" src="../../../resources/logos/claude-howto-logo.svg">
 </picture>
 
-# PR Review Plugin
+# Plugin PR Review
 
-Complete PR review workflow with security, testing, and documentation checks.
+Workflow review PR hoàn chỉnh với các kiểm tra bảo mật, testing và tài liệu.
 
-## Features
+## Tính Năng
 
-✅ Security analysis
-✅ Test coverage checking
-✅ Documentation verification
-✅ Code quality assessment
-✅ Performance impact analysis
+✅ Phân tích bảo mật
+✅ Kiểm tra độ bao phủ test
+✅ Xác minh tài liệu
+✅ Đánh giá chất lượng code
+✅ Phân tích tác động đến hiệu năng
 
-## Installation
+## Cài Đặt
 
 ```bash
 claude --plugin-dir ./07-plugins/pr-review
 ```
 
-## What's Included
+## Những Gì Được Bao Gồm
 
-### Slash Commands
-- `/review-pr` - Comprehensive PR review
-- `/check-security` - Security-focused review
-- `/check-tests` - Test coverage analysis
+### Lệnh Slash
+- `/review-pr` - Review PR toàn diện
+- `/check-security` - Review tập trung vào bảo mật
+- `/check-tests` - Phân tích độ bao phủ test
 
-### Subagents
-- `security-reviewer` - Security vulnerability detection
-- `test-checker` - Test coverage analysis
-- `performance-analyzer` - Performance impact evaluation
+### Tác Nhân Con
+- `security-reviewer` - Phát hiện lỗ hổng bảo mật
+- `test-checker` - Phân tích độ bao phủ test
+- `performance-analyzer` - Đánh giá tác động đến hiệu năng
 
-### MCP Servers
-- GitHub integration for PR data
+### MCP Server
+- Tích hợp GitHub để lấy dữ liệu PR
 
-### Hooks
-- `pre-review.js` - Pre-review validation
+### Hook
+- `pre-review.js` - Xác thực trước khi review
 
-## Usage
+## Cách Sử Dụng
 
-### Basic PR Review
+### Review PR Cơ Bản
 ```
 /review-pr
 ```
 
-### Security Check Only
+### Chỉ Kiểm Tra Bảo Mật
 ```
 /check-security
 ```
 
-### Test Coverage Check
+### Kiểm Tra Độ Bao Phủ Test
 ```
 /check-tests
 ```
 
-## Requirements
+## Yêu Cầu
 
 - Claude Code 2.1+
-- GitHub access
-- Git repository
+- Quyền truy cập GitHub
+- Kho chứa Git
 
-## Configuration
+## Cấu Hình
 
-Set up your GitHub token:
+Thiết lập GitHub token của bạn:
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
 
-## Example Workflow
+## Ví Dụ Workflow
 
 ```
 User: /review-pr
 
 Claude:
-1. Runs pre-review hook (validates git repo)
-2. Fetches PR data via GitHub MCP
-3. Delegates security review to security-reviewer subagent
-4. Delegates testing to test-checker subagent
-5. Delegates performance to performance-analyzer subagent
-6. Synthesizes all findings
-7. Provides comprehensive review report
+1. Chạy hook pre-review (xác thực git repo)
+2. Lấy dữ liệu PR qua GitHub MCP
+3. Giao việc review bảo mật cho tác nhân con security-reviewer
+4. Giao việc testing cho tác nhân con test-checker
+5. Giao việc hiệu năng cho tác nhân con performance-analyzer
+6. Tổng hợp tất cả các phát hiện
+7. Cung cấp báo cáo review toàn diện
 
-Result:
-✅ Security: No critical issues found
-⚠️  Testing: Coverage is 65%, recommend 80%+
-✅ Performance: No significant impact
-📝 Recommendations: Add tests for edge cases
+Kết quả:
+✅ Bảo mật: Không phát hiện vấn đề nghiêm trọng
+⚠️  Testing: Coverage là 65%, khuyến nghị 80%+
+✅ Hiệu năng: Không có tác động đáng kể
+📝 Đề xuất: Bổ sung test cho các edge case
 ```
 
 ---
@@ -95,5 +95,10 @@ Result:
 **Cập Nhật Lần Cuối**: Ngày 18 tháng 10 năm 2026
 **Phiên Bản Claude Code**: 2.1.302
 **Nguồn**:
+- https://code.claude.com/docs/en/plugins
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.131
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.138
+- https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/plugins/cli-reference
 - https://code.claude.com/docs/en/plugins/install
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

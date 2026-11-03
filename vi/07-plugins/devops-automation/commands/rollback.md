@@ -1,16 +1,16 @@
 ---
-description: Rollback to previous deployment
+description: Rollback về bản triển khai trước đó
 ---
 
-# Rollback Deployment
+# Rollback Bản Triển Khai
 
-Rollback to previous stable version:
+Rollback về phiên bản ổn định trước đó:
 
-1. Identify previous deployment
-2. Verify rollback target is healthy
-3. Execute rollback procedure
-4. Run health checks
-5. Notify team
+1. Xác định bản triển khai trước đó
+2. Xác minh mục tiêu rollback đang hoạt động tốt
+3. Thực thi quy trình rollback
+4. Chạy kiểm tra sức khỏe hệ thống
+5. Thông báo cho nhóm
 
 ---
 
@@ -19,3 +19,4 @@ Rollback to previous stable version:
 **Nguồn**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/skills#frontmatter-reference
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

@@ -1,23 +1,23 @@
 # [METHOD] /api/v1/[endpoint]
 
-## Description
-Brief explanation of what this endpoint does.
+## Mô Tả
+Giải thích ngắn gọn endpoint này làm gì.
 
-## Authentication
-Required authentication method (e.g., Bearer token).
+## Xác Thực
+Phương thức xác thực bắt buộc (ví dụ: Bearer token).
 
-## Parameters
+## Tham Số
 
-### Path Parameters
-| Name | Type | Required | Description |
+### Tham Số Path
+| Tên | Kiểu | Bắt Buộc | Mô Tả |
 |------|------|----------|-------------|
-| id | string | Yes | Resource ID |
+| id | string | Có | ID tài nguyên |
 
-### Query Parameters
-| Name | Type | Required | Description |
+### Tham Số Query
+| Tên | Kiểu | Bắt Buộc | Mô Tả |
 |------|------|----------|-------------|
-| page | integer | No | Page number (default: 1) |
-| limit | integer | No | Items per page (default: 20) |
+| page | integer | Không | Số trang (mặc định: 1) |
+| limit | integer | Không | Số mục mỗi trang (mặc định: 20) |
 
 ### Request Body
 ```json
@@ -26,7 +26,7 @@ Required authentication method (e.g., Bearer token).
 }
 ```
 
-## Responses
+## Response
 
 ### 200 OK
 ```json
@@ -61,7 +61,7 @@ Required authentication method (e.g., Bearer token).
 }
 ```
 
-## Examples
+## Ví Dụ
 
 ### cURL
 ```bash
@@ -92,10 +92,18 @@ response = requests.get(
 data = response.json()
 ```
 
-## Rate Limits
-- 1000 requests per hour for authenticated users
-- 100 requests per hour for public endpoints
+## Giới Hạn Tần Suất
+- 1000 request mỗi giờ cho người dùng đã xác thực
+- 100 request mỗi giờ cho endpoint công khai
 
-## Related Endpoints
+## Endpoint Liên Quan
 - [GET /api/v1/related](#)
 - [POST /api/v1/related](#)
+
+---
+
+**Cập Nhật Lần Cuối**: Ngày 4 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.220
+**Nguồn**:
+- https://code.claude.com/docs/en/plugins
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
