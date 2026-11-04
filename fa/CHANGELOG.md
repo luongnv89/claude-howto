@@ -1089,7 +1089,7 @@ v2.1.120 در 24 آوریل منتشر شد، همان روز به‌دلیل ر
 - افزودن پیوند زبان چینی به تغییردهنده زبان (6cbaa4d) @Luong NGUYEN
 - افزودن تغییردهنده زبان بین انگلیسی و ویتنامی (100c45e) @Luong NGUYEN
 - افزودن نشان GitHub #1 Trending (0ca8c37) @Luong NGUYEN
-- معرفی cc-زمینه-stats برای پایش ناحیه زمینه (d41b335) @Luong NGUYEN
+- معرفی cc-context-stats برای پایش ناحیه زمینه (d41b335) @Luong NGUYEN
 - معرفی مجموعه luongnv89/skills و مدیر مهارت luongnv89/asm (7e3c0b6) @Luong NGUYEN
 - به‌روزرسانی آمار README برای بازتاب معیارهای کنونی GitHub (5,900+ ستاره، 690+ فورک) (5001525) @Luong NGUYEN
 - به‌روزرسانی آمار README برای بازتاب معیارهای کنونی GitHub (3,900+ ستاره، 460+ فورک) (9cb92d6) @Luong NGUYEN

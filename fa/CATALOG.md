@@ -135,7 +135,7 @@ Claude Code از ۶ حالت مجوز پشتیبانی می‌کند که نحو
 | `bypassPermissions` | نادیده گرفتن همه بررسی‌های مجوز | CI/CD، محیط‌های بدون رابط |
 | `dontAsk` | رد کردن ابزارهایی که نیازمند مجوز هستند | اسکریپت‌نویسی غیرتعاملی |
 
-> **توجه**: حالت `auto` نیازمند طرح، مدل و ارائه‌دهنده واجد شرایط است — به [09-advanced-features/](09-advanced-features/#auto-mode) مراجعه کنید. از `bypassPermissions` فقط در محیط‌های قابل اعتماد و سندباکس‌شده استفاده کنید.
+> **توجه**: حالت `auto` نیازمند طرح، مدل و ارائه‌دهنده واجد شرایط است — به [09-advanced-features/](09-advanced-features/#حالت-خودکار) مراجعه کنید. از `bypassPermissions` فقط در محیط‌های قابل اعتماد و سندباکس‌شده استفاده کنید.
 
 **مرجع**: [مستندات رسمی](https://code.claude.com/docs/en/permissions)
 
@@ -488,8 +488,8 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **/tui** | تعیین رندر‌کننده رابط ترمینال: `/tui fullscreen` برای رندر بدون سوسو، `/tui default` برای بازگشت؛ `/tui` بدون آرگومان رندر‌کننده فعال را چاپ می‌کند (نسخه 2.1.110) | در ترمینال‌های تمام‌صفحه یا tmux از `/tui fullscreen` استفاده کنید |
 | **/undo** | نام مستعار برای `/rewind` (نسخه 2.1.108) | از `/undo`، `/checkpoint` یا `/rewind` به‌جای هم استفاده کنید |
 | **ابزار Monitor** | مشاهده جریان stdout یک دستور پس‌زمینه و واکنش به رویدادها به‌جای نظرسنجی مکرر (نسخه 2.1.98 به بعد) | ابزار Monitor را از طریق [ویژگی‌های پیشرفته](09-advanced-features/) استفاده کنید |
-| **سبک‌های خروجی** | تغییر نقش، لحن و قالب پاسخ پیش‌فرض Claude از طریق پرامپت سیستم. موارد داخلی: Default، Proactive، Explanatory، Learning، Concise | `/config` → Output style، یا تعیین `outputStyle`، یا اجرای `/output-style` (در نسخه 2.1.269 پس از حذف در نسخه 2.1.91 دوباره اضافه شد). به [ویژگی‌های پیشرفته](09-advanced-features/#output-styles) مراجعه کنید |
-| **خط وضعیت** | رندر یک خط وضعیت سفارشی از دستوری که JSON نشست، مدل، هزینه و زمینه را روی stdin دریافت می‌کند | `/statusline` یا تنظیم `statusLine`. به [ویژگی‌های پیشرفته](09-advanced-features/#status-line) مراجعه کنید |
+| **سبک‌های خروجی** | تغییر نقش، لحن و قالب پاسخ پیش‌فرض Claude از طریق پرامپت سیستم. موارد داخلی: Default، Proactive، Explanatory، Learning، Concise | `/config` → Output style، یا تعیین `outputStyle`، یا اجرای `/output-style` (در نسخه 2.1.269 پس از حذف در نسخه 2.1.91 دوباره اضافه شد). به [ویژگی‌های پیشرفته](09-advanced-features/#سبک‌های-خروجی) مراجعه کنید |
+| **خط وضعیت** | رندر یک خط وضعیت سفارشی از دستوری که JSON نشست، مدل، هزینه و زمینه را روی stdin دریافت می‌کند | `/statusline` یا تنظیم `statusLine`. به [ویژگی‌های پیشرفته](09-advanced-features/#خط-وضعیت) مراجعه کنید |
 | **بازار انجمن** | پلاگین‌های شخص ثالث که اعتبارسنجی خودکار Anthropic را گذرانده‌اند، هر کدام به یک SHA کامیت پین شده | `/plugin marketplace add anthropics/claude-plugins-community`، سپس `/plugin install <name>@claude-community` |
 | **/team-onboarding** | تولید خودکار راهنمای شروع کار هم‌تیمی از راه‌اندازی Claude Code پروژه (نسخه 2.1.101) | `/team-onboarding` را در پروژه خود اجرا کنید |
 | **کنترل از راه دور** | کنترل نشست‌های Claude Code از راه دور از طریق API. **دیگر پیش‌نمایش پژوهشی نیست** — هر ماشینی که `claude remote-control` را اجرا کند، به‌عنوان کارت دستگاه در تب Code اپلیکیشن Claude ظاهر می‌شود، بنابراین می‌توان نشستی را از گوشی روی آن شروع کرد | `claude remote-control` را روی ماشین اجرا کنید، سپس کارت دستگاه آن را در اپلیکیشن Claude انتخاب کنید. به [ویژگی‌های پیشرفته](09-advanced-features/README.md) مراجعه کنید |
@@ -623,4 +623,15 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/env-vars
 - https://code.claude.com/docs/en/cross-session-messaging
 - https://support.claude.com/en/articles/17440474-migrate-from-standalone-claude-design-to-claude
+- https://code.claude.com/docs/en/permission-modes#which-mode-a-session-starts-in
+- https://code.claude.com/docs/en/changelog#2-1-305
+- https://code.claude.com/docs/en/costs#apply-recommendations-with-the-fix-shortcut
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/commands#all-commands
+- https://code.claude.com/docs/en/context-window#what-survives-compaction
+- https://code.claude.com/docs/en/changelog#2-1-307
+- https://code.claude.com/docs/en/skills#work-on-claude-api-projects
+- https://code.claude.com/docs/en/routines
+- https://code.claude.com/docs/en/auto-mode-config#generate-environment-entries-with-auto-mode-setup
+- https://code.claude.com/docs/en/scheduled-tasks
 **مدل‌های سازگار**: Claude Fable 5.1، Claude Fable 5، Claude Opus 5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 4.5

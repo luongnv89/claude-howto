@@ -229,7 +229,7 @@ claude --permission-mode auto -p "Refactor and test the auth module"
 # اجرا در حالت بدون رابط (غیرتعاملی). بدون حالت مجوز، ‏-p در Manual شروع می‌شود
 # (مقدار تنظیمات "default"، نسخه 2.1.302+): فراخوانی‌هایی که به تأیید نیاز دارند رد می‌شوند،
 # پس `--allowedTools "Bash(npm test *)"` یا `--permission-mode auto` را اضافه کنید
-claude -p "Run all tests and generate report" --permission-mode auto
+claude -p "Run all tests and generate report"
 
 # با حالت مجوز برای CI
 claude -p "Run tests" --permission-mode dontAsk

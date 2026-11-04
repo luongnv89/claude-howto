@@ -770,7 +770,7 @@ claude --permission-mode acceptEdits   # پذیرش خودکار ویرایش‌
 claude --permission-mode auto          # تأیید خودکار اقدامات ایمن
 
 # اجرا در حالت بدون رابط برای CI/CD
-claude -p "Run tests and report results"
+claude -p "Run tests and report results" --permission-mode auto
 
 # اجرای وظایف پس‌زمینه
 Run tests in background
