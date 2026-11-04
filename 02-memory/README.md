@@ -547,6 +547,8 @@ Auto memory requires **Claude Code v2.1.59 or later**. If you are on an older ve
 npm install -g @anthropic-ai/claude-code@latest
 ```
 
+> **Note**: On npm 12, which skips Claude Code's postinstall step by default, this command ends with `Error: claude native binary not installed.` Switch to the native installer or follow [Fix an npm 12 install](https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install).
+
 ### Turning Auto Memory On or Off
 
 Auto memory is **on by default**. The `autoMemoryEnabled` setting (default `true`) controls it; when `false`, Claude neither reads from nor writes to the auto memory directory. You can also toggle it with `/memory` during a session.
@@ -976,7 +978,7 @@ graph LR
 
 - **Use appropriate hierarchy levels**:
   - **Managed policy**: Company-wide policies, security standards, compliance requirements
-  - **Project memory**: Team standards, architecture, coding conventions (commit to git)
+  - **Project memory**: Team standards, coding conventions, and decisions Claude can't read from the code (commit to git)
   - **User memory**: Personal preferences, communication style, tooling choices
   - **Directory memory**: Module-specific rules and overrides
 
@@ -1000,6 +1002,8 @@ graph LR
 - **Don't include sensitive data**: No PII, private information, or proprietary secrets
 
 - **Don't duplicate content**: Use imports (`@path`) to reference existing documentation instead
+
+- **Don't describe what Claude can read itself**: Skip architecture overviews and file layouts, because Claude reads the repo. Don't add IMPORTANT or ALL CAPS to a line Claude keeps missing either: shorten the file, or turn a rule that can't bend into a hook or deny rule
 
 - **Don't be vague**: Avoid generic statements like "follow best practices" or "write good code"
 
@@ -1246,8 +1250,8 @@ Auto Memory is a separate mechanism (`~/.claude/projects/<project>/memory/`), no
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
@@ -1265,4 +1269,6 @@ Auto Memory is a separate mechanism (`~/.claude/projects/<project>/memory/`), no
 - https://code.claude.com/docs/en/memory#how-it-works
 - https://code.claude.com/docs/en/memory#path-specific-rules
 - https://code.claude.com/docs/en/memory#how-claude-md-files-load
+- https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install
+- https://code.claude.com/docs/en/best-practices
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

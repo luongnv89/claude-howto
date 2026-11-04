@@ -359,7 +359,7 @@ Lưu trạng thái conversation và khám phá các cách tiếp cận thay th�
 
 ---
 
-## 09. Tính Nâng Cao (3 files)
+## 09. Tính Năng Nâng Cao (3 files)
 
 Các khả năng nâng cao cho workflows phức tạp.
 
@@ -644,7 +644,7 @@ claude-howto/
 │   ├── checkpoint-examples.md
 │   └── README.md
 │
-├── 09-advanced-features/                        # Tính Nâng Cao
+├── 09-advanced-features/                        # Tính Năng Nâng Cao
 │   ├── config-examples.json
 │   ├── planning-mode-examples.md
 │   └── README.md
@@ -759,7 +759,7 @@ Chạy test trong background
 
 ---
 
-## Ma Trận Phủ Sở Tính Năng
+## Ma Trận Phủ Sóng Tính Năng
 
 | Danh Mục | Commands | Agents | MCP | Hooks | Scripts | Templates | Docs | Images | Tổng |
 |----------|----------|--------|-----|-------|---------|-----------|------|--------|-------|

@@ -47,6 +47,7 @@ import logging
 import re
 import shutil
 import sys
+import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -101,6 +102,7 @@ EXCLUDE_DIRS = {
     "zh",
     "ja",
     "uk",
+    "ko",
 }
 
 # Top-level markdown files that should not be rendered as standalone pages.
@@ -191,6 +193,10 @@ def setup_logging(verbose: bool = False) -> logging.Logger:
 # Anchor algorithm (mirrors check_cross_references.heading_to_anchor)
 # =============================================================================
 
+# Combining marks (accents, Arabic hamza, Indic vowel signs, ...). Python's \w
+# does not match them, but GitHub keeps them in heading ids.
+COMBINING_MARK_CATEGORIES = frozenset({"Mn", "Mc", "Me"})
+
 
 def heading_to_anchor(heading: str) -> str:
     """Convert a heading to a GitHub-style anchor.
@@ -210,7 +216,16 @@ def heading_to_anchor(heading: str) -> str:
         "",
         heading,
     )
-    anchor = re.sub(r"[^\w\s\U0000200C-]", "", heading.lower(), flags=re.UNICODE)
+    anchor = re.sub(
+        r"[^\w\s\U0000200C-]",
+        lambda match: (
+            match.group()
+            if unicodedata.category(match.group()) in COMBINING_MARK_CATEGORIES
+            else ""
+        ),
+        heading.lower(),
+        flags=re.UNICODE,
+    )
     anchor = anchor.replace(" ", "-")
     return anchor.rstrip("-")
 
@@ -1093,7 +1108,7 @@ def main() -> int:
         "--lang",
         type=str,
         default="en",
-        choices=["en", "vi", "zh", "ja", "uk"],
+        choices=["en", "vi", "zh", "ja", "uk", "ko"],
         help="Language code for the source tree (default: en — root markdown)",
     )
     parser.add_argument(
@@ -1122,6 +1137,7 @@ def main() -> int:
         "zh": repo_root / "zh",
         "ja": repo_root / "ja",
         "uk": repo_root / "uk",
+        "ko": repo_root / "ko",
     }
     source_root = lang_root_map[args.lang].resolve()
 

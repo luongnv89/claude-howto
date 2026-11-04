@@ -5,7 +5,7 @@
 
 # Hướng Dẫn Agent Skills
 
-Agent Skills là các khả năng dựa trên filesystem có thể tái sử dụng mở rộng chức năng của Claude. Chúng gói đóng kiến thức chuyên ngành, workflows, và thực hành tốt nhất thành các thành phần có thể khám phá mà Claude tự động sử dụng khi có liên quan.
+Agent Skills là các khả năng dựa trên filesystem có thể tái sử dụng mở rộng chức năng của Claude. Chúng đóng gói kiến thức chuyên ngành, workflows, và thực hành tốt nhất thành các thành phần có thể khám phá mà Claude tự động sử dụng khi có liên quan.
 
 ## Tổng Quan
 
@@ -174,7 +174,7 @@ hooks:                                      # Hooks được đăng ký khi skil
 | `user-invocable` | `false` = ẩn từ menu `/`. Chỉ Claude có thể gọi nó tự động. |
 | `allowed-tools` | Danh sách phân tách bằng dấu phẩy của các công cụ mà skill có thể sử dụng mà không cần nhắc quyền. |
 | `model` | Ghi đè mô hình trong khi skill hoạt động (ví dụ: `opus`, `sonnet`). |
-| `effort` | Ghi đè mức nỗ lực trong khi skill hoạt động: `low`, `medium`, `high`, hoặc `max`. |
+| `effort` | Mức nỗ lực cho phần còn lại của lượt hiện tại (không ghi đè `CLAUDE_CODE_EFFORT_LEVEL`): `low`, `medium`, `high`, hoặc `max`. |
 | `context` | `fork` để chạy skill trong bối cảnh tác nhân con được fork với cửa sổ bối cảnh riêng. |
 | `agent` | Loại tác nhân con khi `context: fork` (ví dụ: `Explore`, `Plan`, `general-purpose`). |
 | `shell` | Shell được sử dụng cho các thay thế `` !`command` `` và scripts: `bash` (mặc định) hoặc `powershell`. |
@@ -661,7 +661,7 @@ Skill(deploy *)
 - ✅ "PDF form filling"
 - ❌ "Document processing" (quá rộng)
 
-### 3. Bao Gồm Các Thuật Ngọc Kích Hoạt
+### 3. Bao Gồm Các Thuật Ngữ Kích Hoạt
 
 Thêm các từ khóa trong các mô tả phù hợp với các yêu cầu của người dùng:
 ```yaml
@@ -686,7 +686,7 @@ Di chuyển tài liệu tham khảo chi tiết sang các file riêng mà Claude 
 - Sử dụng tên rõ ràng, mang tính mô tả
 - Bao gồm hướng dẫn toàn diện
 - Thêm các ví dụ cụ thể
-- Gói đóng các script và template liên quan
+- Đóng gói các script và template liên quan
 - Kiểm tra với các kịch bản thực
 - Tài liệu hóa các dependencies
 
@@ -810,8 +810,8 @@ Khi bạn bắt đầu xây dựng skills một cách nghiêm túc, hai điều 
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 18 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.302
+**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.316
 **Nguồn**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/hooks#hooks-in-skills-and-agents
@@ -823,4 +823,6 @@ Khi bạn bắt đầu xây dựng skills một cách nghiêm túc, hai điều 
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/settings-reference
 - https://code.claude.com/docs/en/commands
+- https://code.claude.com/docs/en/skills#frontmatter-reference
+- https://code.claude.com/docs/en/model-config#set-the-effort-level
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

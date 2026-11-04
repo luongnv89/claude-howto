@@ -1284,6 +1284,7 @@ Deep reasoning for complex problems.
 **Activation:**
 - Toggle with `Alt+T` (or `Option+T` on macOS) during a session
 - Opus 4.7+, Sonnet 5+, Haiku 5.5 and Fable always use adaptive reasoning, so a fixed `MAX_THINKING_TOKENS` budget does not apply; control depth with `/effort`
+- Type `ultrathink` in a prompt to run that one turn at `xhigh` effort on Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.1 through the Anthropic API (terminal v2.1.311+, VS Code v2.1.316+); `CLAUDE_CODE_DISABLE_ULTRATHINK` turns the keyword off
 
 ```bash
 # Control reasoning depth with the effort level
@@ -1423,7 +1424,7 @@ Claude Code supports the following models with adaptive reasoning effort:
 | Claude Sonnet 5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `high` — default model for Pro/Team Standard from v2.1.197 until v2.1.280 (now Opus 5.5) |
 | Claude Opus 4.8 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `high` (since v2.1.154) |
 | Claude Opus 4.7 (legacy) | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `xhigh` (since Opus 4.7 launch, 2026-04-16) |
-| Claude Sonnet 4.6 | 1M tokens | `low`, `medium`, `high`, `max` | `high` for Pro/Max subscribers (raised from `medium` in v2.1.117) |
+| Claude Sonnet 4.6 | 1M tokens | `low`, `medium`, `high`, `max` | `high` (raised from `medium` for Pro/Max subscribers in v2.1.117) |
 | Claude Haiku 4.5 | 200K tokens | — (no effort support) | — |
 
 > **Note**: `xhigh` is available on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7; `max` works on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 does not support effort levels.
@@ -1440,8 +1441,8 @@ Claude Code supports the following models with adaptive reasoning effort:
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/plugins/manifest-reference
 - https://code.claude.com/docs/en/plugins/create
@@ -1468,4 +1469,6 @@ Claude Code supports the following models with adaptive reasoning effort:
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/changelog#2-1-307
 - https://code.claude.com/docs/en/skills#work-on-claude-api-projects
+- https://code.claude.com/docs/en/model-config#adjust-effort-level
+- https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
 **Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

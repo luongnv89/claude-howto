@@ -24,7 +24,7 @@ Thêm ví dụ cho các tính năng hiện có (slash commands, skills, hooks, v
 - Các trường hợp sử dụng và lợi ích
 - Mẹo xử lý sự cố
 
-### 2. Cải Tiện Tài Liệu
+### 2. Cải Tiến Tài Liệu
 - Làm rõ các phần nhầm hiểu
 - Sửa lỗi chính tả và ngữ pháp
 - Thêm thông tin còn thiếu

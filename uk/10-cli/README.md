@@ -447,7 +447,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           claude -p --output-format json \
-            --max-turns 1 \
+            --max-turns 5 \
             "Review the changes in this PR for:
             - Security vulnerabilities
             - Performance issues
@@ -701,7 +701,7 @@ claude --effort high "complex review"
 export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high або max (лише Opus 4.6)
 ```
 
-Ключове слово "ultrathink" у промптах активує глибоке міркування. Рівень `max` — ексклюзивний для Opus 4.6.
+Ключове слово "ultrathink" у промптах активує глибоке міркування. Починаючи з v2.1.311, якщо ввести його в інтерактивному терміналі, воно також запускає цей хід із рівнем `xhigh` на Opus 5.5, Sonnet 5.5, Haiku 5.5 та Fable 5.1 через API Anthropic (слово підсвічується веселкою, коли це можливо; у VS Code — з v2.1.316), а `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) вимикає його. Рівень `max` — ексклюзивний для Opus 4.6.
 
 ---
 
@@ -842,9 +842,12 @@ claude -p --output-format json "query"
 *Частина серії посібників [Claude How To](../)*
 
 ---
-**Останнє оновлення**: 26 жовтня 2026
-**Версія Claude Code**: 2.1.310
+**Останнє оновлення**: 1 листопада 2026
+**Версія Claude Code**: 2.1.316
 **Джерела**:
+- https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
+- https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
+- https://code.claude.com/docs/en/changelog#2-1-316
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/headless
 - https://code.claude.com/docs/en/env-vars

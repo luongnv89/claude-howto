@@ -97,7 +97,7 @@ claude --plugin-dir ./07-plugins/pr-review
 # plan           - Read-only analysis, no modifications
 # auto           - Background classifier decides permissions automatically
 # dontAsk        - Only pre-approved tools run; everything else is denied
-# bypassPermissions - Accept all actions (--permission-mode bypassPermissions; --dangerously-skip-permissions is equivalent)
+# bypassPermissions - Accept all actions except deny rules and the few no mode auto-approves (--permission-mode bypassPermissions; --dangerously-skip-permissions is equivalent)
 
 # Session management
 /resume                # Resume a previous conversation (no args = picker of past sessions)
@@ -526,8 +526,8 @@ Getting started checklist:
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
 - https://code.claude.com/docs/en/memory#agents-md

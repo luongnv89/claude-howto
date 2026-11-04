@@ -32,7 +32,7 @@ graph TD
 
 **v2.1.113** 以降、Claude Code CLI は npm のオプション依存を介して **プラットフォーム別のネイティブバイナリ**（macOS、Linux、Windows）を起動する。バイナリはインストール時に OS とアーキテクチャに合わせて選択される — 旧来のバンドル JavaScript ランタイムは macOS / Linux ではもはやデフォルトではない。
 
-**推奨インストール方法**はネイティブインストーラーである（`curl -fsSL https://claude.ai/install.sh | bash`、Windows では `irm https://claude.ai/install.ps1 | iex`）。公式 README では npm によるインストールは非推奨とされている。ネイティブインストーラー、Homebrew（`brew install --cask claude-code`）、または WinGet（`winget install Anthropic.ClaudeCode`）を推奨する。参考までに、`npm install -g @anthropic-ai/claude-code`（Node.js 22 以上）はプラットフォーム別のオプション依存関係を通じて同じネイティブバイナリをインストールする。
+**推奨インストール方法**はネイティブインストーラーである（`curl -fsSL https://claude.ai/install.sh | bash`、Windows では `irm https://claude.ai/install.ps1 | iex`）。公式 README では npm によるインストールは非推奨とされている。ネイティブインストーラー、Homebrew（`brew install --cask claude-code`）、または WinGet（`winget install Anthropic.ClaudeCode`）を推奨する。参考までに、`npm install -g @anthropic-ai/claude-code`（Node.js 22 以上）はプラットフォーム別のオプション依存関係を通じて同じネイティブバイナリをインストールする。npm 12 では Claude Code の postinstall ステップがデフォルトでスキップされるため、このインストールは `Error: claude native binary not installed.` で終わる。ネイティブインストーラーに切り替えるか、[Fix an npm 12 install](https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install) の手順に従うこと。
 
 **ダウンロードホスト**（v2.1.116+）: ネイティブバイナリ成果物は `https://downloads.claude.ai/claude-code-releases` から配信される。
 
@@ -475,7 +475,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           claude -p --output-format json \
-            --max-turns 1 \
+            --max-turns 5 \
             "Review the changes in this PR for:
             - Security vulnerabilities
             - Performance issues
@@ -729,7 +729,7 @@ claude --effort xhigh "complex review"
 export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on Opus 4.7), or max (Opus 4.7 only)
 ```
 
-プロンプト内のキーワード「ultrathink」は深い推論を有効化する。`max` の労力レベルは Opus 4.7 専用である。
+プロンプト内のキーワード「ultrathink」は深い推論を有効化する。v2.1.311 以降、対話型ターミナルで入力すると、Anthropic の API 経由の Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.1 ではそのターンを `xhigh` で実行する（可能な場合は虹色で表示される。VS Code は v2.1.316 以降）。`CLAUDE_CODE_DISABLE_ULTRATHINK=1`（v2.1.316）でこのキーワードを無効化できる。`max` の労力レベルは Opus 4.7 専用である。
 
 ---
 
@@ -878,9 +878,13 @@ claude -p --output-format json "query"
 
 ---
 
-**最終更新**: 2026 年 10 月 26 日
-**Claude Code バージョン**: 2.1.310
+**最終更新**: 2026 年 11 月 1 日
+**Claude Code バージョン**: 2.1.316
 **出典**:
+- https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
+- https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
+- https://code.claude.com/docs/en/changelog#2-1-316
+- https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install
 - https://code.claude.com/docs/en/cli-reference
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/settings

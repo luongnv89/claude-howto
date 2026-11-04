@@ -70,7 +70,7 @@
 | `/plugin` | プラグインを管理 |
 | `/proactive` | `/loop` のエイリアス（v2.1.105 で追加） |
 | `/powerup` | アニメーション付きデモのインタラクティブレッスンで機能を発見 |
-| `/privacy-settings` | プライバシー設定（Pro／Max のみ） |
+| `/privacy-settings` | プライバシー設定（Pro／Max／Ultra のみ） |
 | `/release-notes` | 変更履歴を表示 |
 | `/recap` | セッションへ戻ってきた際にセッションのおさらい／要約を表示（v2.1.108 で追加） |
 | `/reload-plugins` | アクティブなプラグインをリロード。v2.1.221 以降、ほとんどのインストールは即座に有効化されるため、インストール要約に `Run /reload-plugins to activate.` と表示された場合にのみ必要 |
@@ -93,7 +93,7 @@
 | `/terminal-setup` | ターミナルのキーバインドを設定 |
 | `/theme` | テーマピッカーを開く／カスタムテーマを管理（v2.1.118）。カスタムテーマは `~/.claude/themes/<name>.json` に JSON で定義 |
 | `/tui [default\|fullscreen]` | ターミナル UI のレンダラーを設定して再起動する（`fullscreen` でちらつきのない描画）。引数なしの `/tui` は現在のレンダラーを表示（v2.1.110 で追加） |
-| `/ultrareview` | マルチエージェント分析による包括的なクラウドベースのコードレビュー（v2.1.111 で追加）。現在の推奨呼び出しは `/code-review ultra` で、`/ultrareview` はそのエイリアスとして残っている。Pro と Max では 3 回まで無料、以降は使用クレジットが必要 |
+| `/ultrareview` | マルチエージェント分析による包括的なクラウドベースのコードレビュー（v2.1.111 で追加）。現在の推奨呼び出しは `/code-review ultra` で、`/ultrareview` はそのエイリアスとして残っている。Pro、Max、Ultra では 3 回まで無料、以降は使用クレジットが必要 |
 | `/upgrade` | 上位プランへのアップグレードページを開く |
 | `/usage` | 正式な使用状況ダッシュボード（v2.1.118）— プラン使用量制限、レート制限、コスト、日次セッション統計を統合。`/cost` と `/stats` は特定のタブを開くタイピング用エイリアス |
 | `/voice` | プッシュトゥトーク音声入力を切り替え |
@@ -604,8 +604,8 @@ Deploy the application to production:
 
 ---
 
-**最終更新**: 2026 年 10 月 26 日
-**Claude Code バージョン**: 2.1.310
+**最終更新**: 2026 年 11 月 1 日
+**Claude Code バージョン**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/output-styles
@@ -622,6 +622,7 @@ Deploy the application to production:
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/commands#all-commands
+- https://code.claude.com/docs/en/feature-availability#ultra-plan
 **Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
 
 *[Claude How To](../) ガイドシリーズの一部*

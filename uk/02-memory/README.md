@@ -461,6 +461,8 @@ Auto memory потребує **Claude Code v2.1.59 або новішої вер�
 npm install -g @anthropic-ai/claude-code@latest
 ```
 
+> **Примітка**: У npm 12, який за замовчуванням пропускає крок postinstall Claude Code, ця команда завершується помилкою `Error: claude native binary not installed.` Перейдіть на нативний інсталятор або скористайтеся інструкцією [Fix an npm 12 install](https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install).
+
 ### Власний каталог Auto Memory
 
 За замовчуванням auto memory зберігається в `~/.claude/projects/<project>/memory/`. Ви можете змінити це розташування за допомогою налаштування `autoMemoryDirectory` (доступне з **v2.1.74**):
@@ -1159,8 +1161,8 @@ Claude запропонує обрати, який файл пам'яті оно
 - [Офіційна документація пам'яті](https://code.claude.com/docs/en/memory) — документація Anthropic
 
 ---
-**Останнє оновлення**: 26 жовтня 2026
-**Версія Claude Code**: 2.1.310
+**Останнє оновлення**: 1 листопада 2026
+**Версія Claude Code**: 2.1.316
 **Джерела**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
@@ -1170,4 +1172,5 @@ Claude запропонує обрати, який файл пам'яті оно
 - https://code.claude.com/docs/en/settings-reference
 - https://code.claude.com/docs/en/claude-directory
 - https://code.claude.com/docs/en/memory#how-claude-md-files-load
+- https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

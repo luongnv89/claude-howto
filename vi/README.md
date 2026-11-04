@@ -1,6 +1,6 @@
 # Hướng Dẫn Claude Code
 
-🌐 **Language / Ngôn ngữ:** [English](../README.md) | [Tiếng Việt](README.md)
+🌐 **Language / Ngôn ngữ:** [English](../README.md) | [Tiếng Việt](README.md) | [日本語](../ja/README.md) | [한국어](../ko/README.md)
 
 > **Làm chủ Claude Code trong một cuối tuần**
 
@@ -45,7 +45,7 @@ Tài liệu được chia thành 10 modules theo trình tự học:
 6. **[06 - Hooks](06-hooks/)** - Tự động hóa dựa trên sự kiện
 7. **[07 - Plugins](07-plugins/)** - Các tính năng được đóng gói
 8. **[08 - Checkpoints](08-checkpoints/)** - Snapshot phiên làm việc
-9. **[09 - Tính Nâng Cao](09-advanced-features/)** - Planning, thinking, backgrounds
+9. **[09 - Tính Năng Nâng Cao](09-advanced-features/)** - Planning, thinking, backgrounds
 10. **[10 - CLI](10-cli/)** - Tham chiếu dòng lệnh
 
 ## 🔗 Liên Kết

@@ -533,10 +533,10 @@ Proceed with this plan? (yes/no/modify)
 7. **Plan for testing** at each phase
 
 ---
-**Last Updated**: July 29, 2026
-**Claude Code Version**: 2.1.220
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/changelog
-- https://code.claude.com/docs/en/best-practices
+- https://code.claude.com/docs/en/permission-modes#analyze-before-you-edit-with-plan-mode
 - https://code.claude.com/docs/en/model-config
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

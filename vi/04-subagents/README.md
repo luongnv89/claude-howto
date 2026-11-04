@@ -55,7 +55,7 @@ Mỗi tác nhân con hoạt động độc lập với một trang sạch, chỉ
 
 | Lợi Ích | Mô Tả |
 |---------|-------------|
-| **Bảo tồn bối cảnh** | Hoạt động trong bối cảnh riêng, ngăn ngắt ô nhiễm cuộc hội thoại chính |
+| **Bảo tồn bối cảnh** | Hoạt động trong bối cảnh riêng, ngăn chặn ô nhiễm cuộc hội thoại chính |
 | **Chuyên môn hóa** | Điều chỉnh tốt cho các lĩnh vực cụ thể với tỷ lệ thành công cao hơn |
 | **Khả năng tái sử dụng** | Sử dụng qua các dự án khác và chia sẻ với các đội |
 | **Quyền linh hoạt** | Các mức truy cập công cụ khác nhau cho các loại tác nhân con khác |
@@ -262,7 +262,7 @@ Claude Code bao gồm một số tác nhân con được tích hợp sẵn luôn
 
 **Khi sử dụng**: Khi tác vụ không khớp với một tác nhân dựng sẵn chuyên biệt hơn. Đây cũng là tác nhân mặc định cho một phiên nền được điều phối; chế độ quyền mà nó khởi động phụ thuộc vào cách phiên đó được bắt đầu.
 
-### Tác Nhân Cấu Trình Dòng Trạng Thái
+### Tác Nhân Cấu Hình Dòng Trạng Thái
 
 | Thuộc Tính | Giá Trị |
 |----------|-------|
@@ -320,7 +320,7 @@ mkdir -p ~/.claude/agents
 
 ## Sử Dụng Tác Nhân Con
 
-### Ủy Quy Tự Động
+### Ủy Quyền Tự Động
 
 Claude chủ động ủy quyền các tác vụ dựa trên:
 - Mô tả tác vụ trong yêu cầu của bạn
@@ -471,7 +471,7 @@ description: Performs long-running analysis tasks in the background
 ---
 ```
 
-### Phím Tắt Nhan
+### Phím Tắt Nhanh
 
 | Phím Tắt | Hành Động |
 |----------|--------|
@@ -571,12 +571,12 @@ Agent Teams điều phối nhiều phiên Claude Code hoạt động cùng nhau 
 
 ### Subagents vs Agent Teams
 
-| Khía Cát | Subagents | Agent Teams |
+| Khía Cạnh | Subagents | Agent Teams |
 |--------|-----------|-------------|
 | **Mô hình ủy quyền** | Cha ủy quyền subtask, đợi kết quả | Trưởng đội chỉ định công việc, đồng nghiệp thực thi độc lập |
 | **Bối cảnh** | Bối cảnh mới cho mỗi subtask, kết quả được chắt ngắn lại | Mỗi đồng nghiệp duy trì bối cảnh liên tục riêng |
 | **Sự điều phối** | Tuần tự hoặc song song, được quản lý bởi cha | Danh sách việc chia sẻ với quản lý dependency tự động |
-| **Giao tiếp** | Chỉ giá trị trả về | Nhắn tin liên-tác tác nhân qua mailbox |
+| **Giao tiếp** | Chỉ giá trị trả về | Nhắn tin liên-tác nhân qua mailbox |
 | **Tiếp tục phiên** | Được hỗ trợ | Không được hỗ trợ với đồng nghiệp trong quá trình |
 | **Tốt nhất cho** | Subtask được xác định rõ, tốt | Các dự án đa file lớn yêu cầu làm việc song song |
 
@@ -683,7 +683,7 @@ graph TB
 
 Đội trưởng chia nhỏ công việc thành các tác vụ và chỉ định chúng cho đồng nghiệp. Danh sách việc chia sẻ xử lý:
 
-- **Quản lý dependency tự động** — các tác vụ chờ các dependency của chúng hoàn thành
+- **Quản lý dependency tự động** — một tác vụ phụ thuộc vào tác vụ khác được hiển thị là bị chặn (blocked) cho đến khi các tác vụ đó hoàn thành; đồng nghiệp không tự nhận tác vụ bị chặn, nhưng bạn hoặc trưởng nhóm vẫn có thể giao nó
 - **Theo dõi trạng thái** — đồng nghiệp cập nhật trạng thái tác vụ khi họ làm việc
 - **Nhắn tin liên-tác nhân** — đồng nghiệp gửi tin qua mailbox để điều phối (ví dụ: "Database schema is ready, you can start writing queries")
 
@@ -862,13 +862,13 @@ graph TB
 
 2. **Xác Định Ưu Tiên Rõ Ràng**
    ```
-   Review ưu tiên (theo thứ):
+   Review ưu tiên (theo thứ tự):
    1. Vấn Đề Bảo Mật
    2. Vấn Đề Hiệu Suất
    3. Chất Lượng Code
    ```
 
-3. **Chỉnh Định Định Dạng Đầu Ra**
+3. **Chỉ Định Định Dạng Đầu Ra**
    ```
    Với mỗi vấn đề cung cấp: Mức Độ, Danh Mục, Vị Trí, Mô Tả, Sửa, Tác Động
    ```
@@ -1094,7 +1094,7 @@ project/
 
 ### So Sánh Với Tính Năng Khác
 
-| Tính Năng | Do Người Dùng Gọi | Tự Động Gọi | Liên Tục | Truy Cấp Bên Ngoài | Bối Cảnh Cô Lập |
+| Tính Năng | Do Người Dùng Gọi | Tự Động Gọi | Liên Tục | Truy Cập Bên Ngoài | Bối Cảnh Cô Lập |
 |---------|--------------|--------------|-----------|------------------|------------------|
 | **Lệnh Slash** | Có | Không | Không | Không | Không |
 | **Tác Nhân Con** | Có | Có | Không | Không | Có |
@@ -1124,14 +1124,14 @@ graph TD
 - [Tài Liệu Tác Nhân Con Chính Thức](https://code.claude.com/docs/en/sub-agents)
 - [Tham Khảo CLI](https://code.claude.com/docs/en/cli-reference) - Cờ `--agents` và các tùy chọn CLI khác
 - [Hướng Dẫn Plugins](../07-plugins/) - Để gói tác nhân với các tính năng khác
-- [Hướng Dẫn Skills](../03-skills/) - Đối các khả năng tự động gọi
-- [Hướng Dẫn Bộ Nhớ](../02-memory/) - Đối bối cảnh liên tục
-- [Hướng Dẫn Hooks](../06-hooks/) - Đối tự động hóa dựa trên sự kiện
+- [Hướng Dẫn Skills](../03-skills/) - Đối với các khả năng tự động gọi
+- [Hướng Dẫn Bộ Nhớ](../02-memory/) - Đối với bối cảnh liên tục
+- [Hướng Dẫn Hooks](../06-hooks/) - Đối với tự động hóa dựa trên sự kiện
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.310
+**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.316
 **Nguồn**:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/commands
@@ -1145,4 +1145,5 @@ graph TD
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/changelog#2-1-302
 - https://code.claude.com/docs/en/agent-teams#have-teammates-plan-before-implementing
+- https://code.claude.com/docs/en/agent-teams#assign-and-claim-tasks
 **Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

@@ -175,11 +175,11 @@ def test_main_scans_translation_dirs(
     repo: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
     (repo / "README.md").write_text("# Clean\n")
-    for lang in ("ja", "uk", "vi", "zh"):
+    for lang in ("ja", "ko", "uk", "vi", "zh"):
         d = repo / lang
         d.mkdir()
         (d / "README.md").write_text("Bad: `a`b` here.\n")
     assert cmr.main() == 1
     out = capsys.readouterr().out
-    for lang in ("ja", "uk", "vi", "zh"):
+    for lang in ("ja", "ko", "uk", "vi", "zh"):
         assert lang in out

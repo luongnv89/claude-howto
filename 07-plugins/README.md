@@ -533,6 +533,8 @@ There is also a **community marketplace**, `anthropics/claude-plugins-community`
 /plugin install <plugin-name>@claude-community
 ```
 
+> **Deprecated**: The older `claude-code-plugins` marketplace in `anthropics/claude-code` is deprecated. Install Anthropic's plugins with `claude plugin install <plugin>@claude-plugins-official`, and skip any tutorial step that runs `/plugin marketplace add anthropics/claude-code`. Plugins you already installed from it keep updating from `claude-plugins-official`, except `ralph-wiggum` (now `ralph-loop`, commands `/ralph-loop:`) and `claude-opus-4-5-migration` (retired; run `claude plugin uninstall claude-opus-4-5-migration@claude-code-plugins`).
+
 ```mermaid
 graph TB
     A["Plugin Marketplace"]
@@ -653,7 +655,7 @@ Plugin marketplaces are defined in `.claude-plugin/marketplace.json`:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `name` | Yes | Marketplace name in kebab-case |
+| `name` | Yes | Marketplace name in kebab-case; pick one other authors are unlikely to use, because a user can't add two marketplaces with the same name |
 | `owner` | Yes | Organization or user who maintains the marketplace: an object with a required `name` (`email`, `url` optional) |
 | `plugins` | Yes | Array of plugin entries |
 | `plugins[].name` | Yes | Plugin name (kebab-case) |
@@ -863,7 +865,7 @@ claude plugin init <name>                    # Scaffold a new plugin (alias: cla
 | `plugin validate` | `--strict` | Treat warnings as errors |
 | `plugin validate` | `--json` | Emit a machine-readable validation report (v2.1.259+) |
 
-`claude plugin validate` also checks `.mcp.json` entries (v2.1.281+) and fails when `outputStyles`, `themes`, `monitors`, or `lspServers` paths are missing or point outside the plugin directory (v2.1.283+).
+`claude plugin validate` also checks `.mcp.json` entries (v2.1.281+) and fails when `outputStyles`, `themes`, `monitors`, or `lspServers` paths are missing or point outside the plugin directory (v2.1.283+). It also prints an `Advice` block, with a line to paste, when a plugin's README has no line that installs it from a marketplace; advice doesn't change the verdict or the exit code, even with `--strict` (v2.1.295+).
 
 Example: `claude plugin tag ./my-plugin` takes a **path** to the plugin (not a version string). It creates a `{name}--v{version}` git tag derived from `plugin.json`, validating that `plugin.json` and any enclosing marketplace entry agree, and is the recommended way to cut plugin releases for distribution.
 
@@ -919,8 +921,8 @@ claude plugin install my-plugin@my-marketplace --accept-command <sha256>
 In a session, `/plugin install <plugin> --marketplace <source>` names the marketplace inline and offers to add it before installing, so discovering and adding a marketplace is no longer a separate step. From your shell, `claude plugin install <plugin> --marketplace <source>` does the same (v2.1.292+): it adds the marketplace if needed, under the same policy checks as `claude plugin marketplace add`, then installs the plugin.
 
 ```bash
-/plugin install code-review --marketplace anthropics/claude-code
-claude plugin install code-review --marketplace anthropics/claude-code   # same, from your shell (v2.1.292+)
+/plugin install deploy-helper --marketplace your-org/plugins
+claude plugin install deploy-helper --marketplace your-org/plugins   # same, from your shell (v2.1.292+)
 ```
 
 ## Installation Methods
@@ -1011,7 +1013,7 @@ export FORCE_AUTOUPDATE_PLUGINS=1
 
 # CI runner without SSH keys — force HTTPS for plugin installs
 export CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1
-claude plugin install code-review@claude-code-plugins
+claude plugin install code-review@claude-plugins-official
 ```
 
 > **Remote session plugin loading (v2.1.179)**: Plugin loading performance in remote sessions was improved in v2.1.179, so plugins become available faster when you connect to a remote session.
@@ -1356,8 +1358,8 @@ If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, updat
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1417,4 +1419,8 @@ If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, updat
 - https://code.claude.com/docs/en/plugins/troubleshooting#a-plugin-installed-from-a-git-repository-shows-version-unknown
 - https://code.claude.com/docs/en/plugins/host-marketplace
 - https://code.claude.com/docs/en/plugins/components#frontmatter-fields-in-plugin-agents
+- https://code.claude.com/docs/en/plugins/anthropic-marketplaces#deprecated-claude-code-plugins-marketplace
+- https://code.claude.com/docs/en/github-actions#run-a-skill
+- https://code.claude.com/docs/en/plugins/cli-reference#advice-on-the-readme
+- https://code.claude.com/docs/en/plugins/create-marketplace#host-your-marketplace
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
