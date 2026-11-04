@@ -371,7 +371,7 @@
 - **Question**: How do you use environment variable fallbacks in MCP config?
 - **Options**: A) `${VAR || "default"}` | B) `${VAR:-default}` | C) `${VAR:default}` | D) `${VAR ? "default"}`
 - **Correct**: B
-- **Explanation**: `${VAR:-default}` provides a fallback value if the environment variable is not set. If `VAR` is unset and has no default, the server still loads with the literal `${VAR}` text, and `claude mcp list` and `/mcp` warn about the missing variable.
+- **Explanation**: `${VAR:-default}` provides a fallback value if the environment variable is not set. A variable set to an empty string counts as set, so the reference expands to the empty string rather than to `default`; unset the variable to get the default. If `VAR` is unset and has no default, the server still loads with the literal `${VAR}` text, and `claude mcp list` and `/mcp` warn about the missing variable.
 - **Review**: Environment variable expansion section
 
 ### Q5
@@ -615,7 +615,7 @@
 - **Question**: How many rewind options are available, and what are they?
 - **Options**: A) 3: Undo, Redo, Reset | B) 6: Restore code+conversation, Restore conversation, Restore code, Summarize from here, Summarize up to here, Never mind | C) 2: Full restore, Partial restore | D) 4: Code, Messages, Both, Cancel
 - **Correct**: B
-- **Explanation**: The 6 options are: Restore code and conversation (full rollback), Restore conversation only, Restore code only, Summarize from here (compress forward), Summarize up to here (compress backward), Never mind (cancel). The two summary options give bidirectional context compaction.
+- **Explanation**: The 6 options are: Restore code and conversation (full rollback), Restore conversation only, Restore code only, Summarize from here (compress forward), Summarize up to here (compress backward), Never mind (cancel). The two summary options give bidirectional context compaction. The menu can show fewer: the two code-restore options appear only when the selected checkpoint has tracked file changes to revert, and both Summarize options are hidden when `DISABLE_COMPACT` is set (v2.1.311).
 - **Review**: Rewind options section
 
 ### Q4
@@ -715,7 +715,7 @@
 - **Question**: Does the "ultrathink" keyword trigger deep reasoning?
 - **Options**: A) Yes, it triggers deep reasoning for one response without changing session settings | B) No, it's treated as regular prompt text | C) Yes, but only on Opus 4.6 | D) Yes, and it permanently changes the effort level
 - **Correct**: A
-- **Explanation**: Including "ultrathink" in your prompt adds an in-context instruction for the model to reason more on that turn. It does not change the effort level sent to the API—use `/effort max` for session-level deep reasoning.
+- **Explanation**: Including "ultrathink" in your prompt adds an in-context instruction for the model to reason more on that turn, without changing your session effort setting. Since v2.1.311, typed in the interactive terminal on Opus 5.5, Sonnet 5.5, Haiku 5.5, or Fable 5.1 through Anthropic's API, it also runs that turn at `xhigh` effort, and the word shows in rainbow colors when it can (the VS Code extension does the same since v2.1.316). Typed while Claude is working, it raises the rest of that turn. `CLAUDE_CODE_DISABLE_ULTRATHINK` turns the keyword off (v2.1.316). Use `/effort max` for session-level deep reasoning.
 - **Review**: Extended Thinking section
 
 ### Q6
@@ -844,8 +844,8 @@
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/skills
@@ -875,3 +875,8 @@
 - https://code.claude.com/docs/en/sub-agents#which-subagents-run-in-the-background
 - https://code.claude.com/docs/en/mcp#tool-search-through-an-llm-gateway
 - https://code.claude.com/docs/en/sub-agents#resume-subagents
+- https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
+- https://code.claude.com/docs/en/changelog#2-1-311
+- https://code.claude.com/docs/en/changelog#2-1-316
+- https://code.claude.com/docs/en/checkpointing#rewind-and-summarize
+- https://code.claude.com/docs/en/mcp#variables-set-to-an-empty-string

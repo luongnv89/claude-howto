@@ -89,7 +89,7 @@
 
 ### Sửa Lỗi / Bug Fixes
 
-- Cập nhật các URL bị hỏ, các tính năng lỗi thời, và các tham khảo cũ (8fe4520) @luongnv89
+- Cập nhật các URL bị hỏng, các tính năng lỗi thời, và các tham khảo cũ (8fe4520) @luongnv89
 - Sửa các liên kết bị hỏng trong resources và kỹ năng self-assessment (7a05863) @luongnv89
 - Sử dụng hàng rào cho các khối code lồng nhau trong hướng dẫn khái niệm (5f82719) @VikalpP
 - Thêm các từ còn thiếu vào từ điển cSpell (8df7572) @luongnv89

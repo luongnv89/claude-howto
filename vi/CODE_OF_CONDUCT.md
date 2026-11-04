@@ -1,4 +1,4 @@
-# Quy Tắc Ứng Xuất / Contributor Code of Conduct
+# Quy Tắc Ứng Xử / Contributor Code of Conduct
 
 ## Cam Kết Của Chúng Tôi / Our Commitment
 
@@ -42,7 +42,7 @@ Các ví dụ về hành vi góp phần tạo ra một môi trường tích cự
 
 Các hành vi sau được coi là quấy rối và không thể chấp nhận trong cộng đồng của chúng tôi:
 
-### Quấy Rối và Phân Biệt Ức / Harassment and Discrimination
+### Quấy Rối và Phân Biệt Đối Xử / Harassment and Discrimination
 - Các bình luận phân biệt chủng tộc liên quan đến giới tính, bản dạng và biểu hiện giới tính, định hướng tình dục, khuyết tật, bệnh tâm thần, neuro(a)typicality, ngoại hình, kích thước cơ thể, độ tuổi, chủng tộc, hoặc tôn giáo
 - Các bình luận không chào đón liên quan đến lựa chọn phong cách và thực hành của một người
 - Đánh đồng giới tính hoặc sử dụng tên 'chết' hoặc bị từ chối một cách có chủ đích
@@ -62,19 +62,19 @@ Các hành vi sau được coi là quấy rối và không thể chấp nhận t
 - Công bố thông tin riêng tư của người khác (doxxing)
 - Sự chú ý tình dục không chào đón hoặc các tiến bộ
 - Trolling hoặc gây gián đoạn có chủ đích
-- Spam hoặc quảng cáo lặp đi lặp
+- Spam hoặc quảng cáo lặp đi lặp lại
 - Lan truyền thông tin sai lệch hoặc thông tin sai
 
 ## Phạm Vi / Scope
 
-Quy Tắc Ứng Xuất này áp dụng cho:
+Quy Tắc Ứng Xử này áp dụng cho:
 - Tất cả các không gian cộng đồng (GitHub issues, pull requests, thảo luận, v.v.)
 - Kho chứa dự án và tài liệu
 - Các sự kiện và cuộc họp được tổ chức bởi hoặc đại diện cho dự án
 - Các không gian công cộng nơi các cá nhân đang đại diện cho dự án hoặc cộng đồng
 - Các giao tiếp riêng tư khi chúng liên quan đến công việc dự án
 
-Quy Tắc Ứng Xuất này áp dụng cho tất cả các không gian của dự án, và nó cũng áp dụng khi một cá nhân đang đại diện cho dự án hoặc cộng đồng trong các không gian công cộng. Ví dụ về việc đại diện cho một dự án hoặc cộng đồng bao gồm sử dụng địa chỉ email chính thức của dự án, đăng qua tài khoản mạng xã hội chính thức, hoặc hành động như một đại diện được bổ nhiệm tại một sự kiện trực tuyến hoặc ngoại tuyến.
+Quy Tắc Ứng Xử này áp dụng cho tất cả các không gian của dự án, và nó cũng áp dụng khi một cá nhân đang đại diện cho dự án hoặc cộng đồng trong các không gian công cộng. Ví dụ về việc đại diện cho một dự án hoặc cộng đồng bao gồm sử dụng địa chỉ email chính thức của dự án, đăng qua tài khoản mạng xã hội chính thức, hoặc hành động như một đại diện được bổ nhiệm tại một sự kiện trực tuyến hoặc ngoại tuyến.
 
 ## Báo Cáo / Reporting
 

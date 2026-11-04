@@ -157,7 +157,7 @@ user-invocable: false                       # Hide from slash menu
 allowed-tools: Read, Grep, Glob             # Pre-approve these tools (no permission prompts) while the skill runs
 disallowed-tools: Write, Edit               # Remove specific tools while active (v2.1.152)
 model: opus                                 # Specific model to use
-effort: high                                # Effort level override (low, medium, high, xhigh, max)
+effort: high                                # Effort for the rest of the turn (low, medium, high, xhigh, max)
 context: fork                               # Run in isolated subagent
 agent: Explore                              # Which agent type (with context: fork)
 background: false                           # Fork skills run in background (default true); false = foreground
@@ -175,7 +175,7 @@ paths: "src/api/**/*.ts"               # Glob patterns limiting when skill activ
 | Field | Description |
 |-------|-------------|
 | `name` | Recommended (portable): lowercase letters, numbers, hyphens only (max 64 chars). `anthropic-skills` and `synced` are reserved in Claude Code. |
-| `description` | What the Skill does AND when to use it. The combined `description` + `when_to_use` text is truncated at 1,536 chars in the skill listing (configurable via `skillListingMaxDescChars`). Critical for auto-invocation matching. |
+| `description` | What the Skill does AND when to use it. The combined `description` + `when_to_use` text is truncated at 1,536 chars in the skill listing (configurable via `skillListingMaxDescChars`). Critical for auto-invocation matching. Angle brackets display as `&lt;` and `&gt;`, so write a placeholder as `[branch]` or put it in `argument-hint`. |
 | `when_to_use` | Additional context for when Claude should invoke the skill. Appended to `description` in the skill listing and counts toward the 1,536-character cap. |
 | `argument-hint` | Hint shown in the `/` autocomplete menu (e.g., `"[filename] [format]"`). |
 | `disable-model-invocation` | `true` = only the user can invoke via `/name`. Claude will never auto-invoke. |
@@ -183,7 +183,7 @@ paths: "src/api/**/*.ts"               # Glob patterns limiting when skill activ
 | `allowed-tools` | Comma-separated list of tools the skill may use without permission prompts. When managed settings list `hooks` in `strictPluginOnlyCustomization`, a personal or project skill whose frontmatter declares `hooks` loses this pre-approval (v2.1.304); remove its `hooks` or move it into a plugin. |
 | `disallowed-tools` | Comma-separated list of tools to remove while the skill is active (complements `allowed-tools`). Added v2.1.152. |
 | `model` | Model override while the skill is active (e.g., `opus`, `sonnet`). |
-| `effort` | Effort level override while the skill is active: `low`, `medium`, `high`, `xhigh`, or `max` — all five are supported on Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `high` on every model that supports effort, except Opus 5.5, Sonnet 5.5, and Haiku 5.5, which default to `medium`, and Opus 4.7, which defaults to `xhigh`. |
+| `effort` | Effort level for the rest of the current turn (with `context: fork`, the forked subagent's level instead). Overrides the session effort level but not the `CLAUDE_CODE_EFFORT_LEVEL` environment variable. Values: `low`, `medium`, `high`, `xhigh`, or `max` — all five are supported on Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `high` on every model that supports effort, except Opus 5.5, Sonnet 5.5, and Haiku 5.5, which default to `medium`, and Opus 4.7, which defaults to `xhigh`. |
 | `context` | `fork` to run the skill in a forked subagent context with its own context window. |
 | `agent` | Subagent type when `context: fork` (e.g., `Explore`, `Plan`, `general-purpose`). |
 | `background` | Only meaningful with `context: fork`. Defaults to `true` for `context: fork` skills, so they run in the background; set `false` to run them in the foreground. Added v2.1.218. |
@@ -906,8 +906,8 @@ Once you start building skills seriously, two things become essential: a library
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/slash-commands
@@ -937,4 +937,6 @@ Once you start building skills seriously, two things become essential: a library
 - https://code.claude.com/docs/en/skills#frontmatter-reference
 - https://code.claude.com/docs/en/skills#skill-not-triggering
 - https://code.claude.com/docs/en/skills#work-on-claude-api-projects
+- https://code.claude.com/docs/en/model-config#set-the-effort-level
+- https://code.claude.com/docs/en/skills#angle-brackets-in-a-skill-description
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

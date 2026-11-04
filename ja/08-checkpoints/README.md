@@ -246,7 +246,7 @@ Claude Code がスナップショットを保持するのは **直近 100 件の
 チェックポイントには次の制限がある：
 
 - **bash コマンドだけによるファイル変更は追跡されない** - Claude がファイル編集ツールで一度編集したファイルについては、その後に bash コマンドが加えた変更も `/rewind` で元に戻る。bash コマンドだけで変更したファイルは追跡されない。v2.1.309 以降、`sed -i` もほかの bash による編集と同じ扱いになる
-- **外部の変更は追跡されない** - エディタやターミナルなど Claude Code の外で行った変更は捕捉されない
+- **外部の変更は追跡されない** - エディタやターミナル、別のセッションなど Claude Code の外で行った変更は通常捕捉されない。ただし、このセッションで Claude が編集したファイルに触れる変更は、コードの復元で上書きされることがある（v2.1.311 以降、/rewind の警告にもそう表示される）
 - **バージョン管理の代わりにはならない** - 永続的で監査可能な変更には git を使う
 
 ## トラブルシューティング
@@ -336,8 +336,8 @@ Claude Code がスナップショットを保持するのは **直近 100 件の
 
 ---
 
-**最終更新**: 2026 年 10 月 26 日
-**Claude Code バージョン**: 2.1.310
+**最終更新**: 2026 年 11 月 1 日
+**Claude Code バージョン**: 2.1.316
 **出典**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/settings
@@ -346,4 +346,6 @@ Claude Code がスナップショットを保持するのは **直近 100 件の
 - https://code.claude.com/docs/en/claude-directory
 - https://code.claude.com/docs/en/changelog#2-1-309
 - https://code.claude.com/docs/en/checkpointing#bash-command-changes-not-tracked
+- https://code.claude.com/docs/en/checkpointing#external-changes-not-tracked
+- https://code.claude.com/docs/en/changelog#2-1-311
 **対応モデル**: Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

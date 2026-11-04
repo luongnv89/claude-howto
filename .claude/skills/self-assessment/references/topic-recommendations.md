@@ -64,13 +64,13 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 
 **Checkpoints (score 0)**:
 - Tutorial: [08-checkpoints/](../../../../08-checkpoints/)
-- Focus on: Esc+Esc and /rewind access, 6 rewind options (restore code and conversation, restore conversation, restore code, summarize from here, summarize up to here, never mind), limitations — files changed only by Bash commands are untracked (once Claude has edited a file with its file editing tools, `/rewind` also undoes changes that Bash commands make to that file afterward; since v2.1.309, `sed -i` is treated like any other Bash edit), subagent edits (except a foreground `context: fork` skill), edits made outside Claude Code are untracked, and symlinked/hard-linked paths are skipped on restore
+- Focus on: Esc+Esc and /rewind access, 6 rewind options (restore code and conversation, restore conversation, restore code, summarize from here, summarize up to here, never mind) — the two Summarize options are hidden when `DISABLE_COMPACT` is set, limitations — files changed only by Bash commands are untracked (once Claude has edited a file with its file editing tools, `/rewind` also undoes changes that Bash commands make to that file afterward; since v2.1.309, `sed -i` is treated like any other Bash edit), subagent edits (except a foreground `context: fork` skill), edits made outside Claude Code are normally untracked (unless they touch a file this session also edited, in which case a code restore can overwrite them), and symlinked/hard-linked paths are skipped on restore
 - Key exercise: Make experimental changes, then rewind to restore
 - Done when: You can confidently experiment knowing you can rewind
 
 **Advanced Features (score 0)**:
 - Tutorial: [09-advanced-features/](../../../../09-advanced-features/)
-- Focus on: Planning mode (/plan or Shift+Tab), permission modes (6 types: manual — config value `default`, shown as Manual since v2.1.200 — acceptEdits, plan, auto, dontAsk, bypassPermissions), extended thinking (Alt+T/Option+T toggle — no effect on Opus 5.5 (the default model), Sonnet 5.5, Haiku 5.5, or the Fable models, where thinking stays on)
+- Focus on: Planning mode (/plan or Shift+Tab), permission modes (6 types: manual — config value `default`, shown as Manual since v2.1.200 — acceptEdits, plan, auto, dontAsk, bypassPermissions), extended thinking (Alt+T/Option+T toggle — no effect on Opus 5.5 (the default model), Sonnet 5.5, Haiku 5.5, or the Fable models, where thinking stays on), and the `ultrathink` keyword, which runs that turn at `xhigh` effort on Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 (v2.1.311+)
 - Key exercise: Use planning mode to design a feature, then implement it
 - Done when: You can switch between planning and implementation modes fluently
 
@@ -81,7 +81,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 **Plugins (score 0)**:
 - Tutorial: [07-plugins/](../../../../07-plugins/)
 - Focus on: Plugin structure (.claude-plugin/plugin.json), what plugins bundle (skills, agents, MCP, hooks, settings — plus the legacy `commands/` directory, which still works but `skills/` is preferred for new plugins), installation from marketplace (`/plugin install`, or `claude plugin install <plugin> --marketplace <source>` from the shell)
-- Key exercise: Install a plugin and explore its components
+- Key exercise: Install a plugin from Anthropic's official marketplace (`claude plugin install <plugin>@claude-plugins-official`) and explore its components
 - Done when: You understand when to use a plugin vs standalone components
 
 **Plugins (score 1 — review)**:
@@ -100,8 +100,8 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/memory
@@ -123,3 +123,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - https://code.claude.com/docs/en/changelog#2-1-309
 - https://code.claude.com/docs/en/permission-modes#tool-calls-denied-in-claude-p-and-agent-sdk-runs
 - https://code.claude.com/docs/en/mcp#tool-search-through-an-llm-gateway
+- https://code.claude.com/docs/en/checkpointing#external-changes-not-tracked
+- https://code.claude.com/docs/en/changelog#2-1-311
+- https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
+- https://code.claude.com/docs/en/plugins/anthropic-marketplaces#deprecated-claude-code-plugins-marketplace

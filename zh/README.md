@@ -15,6 +15,8 @@
 [![Version](https://img.shields.io/badge/version-2.1.112-brightgreen)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-2.1+-purple)](https://code.claude.com)
 
+🌐 **Language / 语言:** [English](../README.md) | [Tiếng Việt](../vi/README.md) | [中文](README.md) | [Українська](../uk/README.md) | [日本語](../ja/README.md) | [한국어](../ko/README.md)
+
 # 用一个周末掌握 Claude Code
 
 从输入 `claude` 开始，到编排 agents、hooks、skills 和 MCP servers，全程配有可视化教程、可直接复制粘贴的模板，以及循序渐进的学习路径。

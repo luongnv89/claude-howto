@@ -262,7 +262,7 @@ blog-posts/
   - Sử dụng trích dẫn nội tuyến với định dạng: [Tên Nguồn] hoặc [Tác Giả, Năm]
 - **Giọng**: Duy trì giọng điệu nhất quán throughout
 - **Độ Dài**: Tôn trọng số lượng từ mục tiêu
-- **Khả Đọc**: Sử dụng các đoạn ngắn, gạch đầu dòng nơi phù hợp
+- **Khả Năng Đọc**: Sử dụng các đoạn ngắn, gạch đầu dòng nơi phù hợp
 - **CTA**: Kết thúc với một lời kêu gọi hành động rõ ràng hoặc câu hỏi đáng suy ngẫm
 
 ## Ghi Chú

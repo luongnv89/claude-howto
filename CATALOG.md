@@ -72,9 +72,10 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/release-notes` | Show release notes | Check new features |
 | `/remote-control` | Enable remote control | Remote access |
 | `/permissions` | Manage permissions | Control access |
-| `/auto-mode-setup` | Draft `autoMode.environment` entries from your project and recent sessions, review them, and save to your user settings. Pro/Max/Team v2.1.228+ (v2.1.233+ on native Windows); Enterprise or Console API key v2.1.283+; on Bedrock, Vertex, Foundry and telemetry-off sessions v2.1.304+; not in cloud sessions | Teach auto mode about your environment |
+| `/auto-mode-setup` | Draft `autoMode.environment` entries from your project and recent sessions, review them, and save to your user settings. Pro/Max/Ultra/Team v2.1.228+ (v2.1.233+ on native Windows); Enterprise or Console API key v2.1.283+; on Bedrock, Vertex, Foundry and telemetry-off sessions v2.1.304+; not in cloud sessions | Teach auto mode about your environment |
 | `/rename` | Rename current session | Organize sessions |
 | `/resume` | Resume previous session | Continue work |
+| `/restart` | Restart Claude Code and resume this session, applying an installed update (alias `/update`). Pro/Max/Ultra plans, native install on macOS or Linux (not WSL), v2.1.288+ | After the footer says an update has installed |
 | `/tui [default\|fullscreen]` | Set the terminal UI renderer (`fullscreen` = flicker-free alt-screen); bare `/tui` prints the active one | Flicker-free rendering in fullscreen/tmux |
 | `/tasks` | View background tasks | Monitor async operations |
 | `/schedule [description]` | Create, update, list, or run cloud scheduled tasks (formerly routines) that run on Anthropic's cloud on a schedule, API call, or GitHub event. Alias: `/routines` | Recurring automation that runs without your machine |
@@ -89,12 +90,12 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/stats` | Shortcut alias that opens the stats tab of `/usage` (v2.1.118+) | Review session metrics |
 | `/statusline` | Configure status line | Customize status display |
 | `/stickers` | Order Claude Code stickers | Fun rewards |
-| `/fast` | Toggle fast output mode; applies to **Opus 5.5** (the default since v2.1.280), **Opus 5, and Opus 4.8** | Speed up responses |
+| `/fast` | Toggle fast output mode; applies to **Opus 5.5** (the default since v2.1.280), **Opus 5, and Opus 4.8** (Opus 4.8 fast mode is deprecated as of October 30, 2026 and will be removed on November 30, 2026; migrate to Opus 5.5) | Speed up responses |
 | `/terminal-setup` | Configure terminal integration | Setup terminal features |
 | `/undo` | Alias for `/rewind` (v2.1.108) | Same as `/rewind` |
 | `/upgrade` | Open the upgrade page to switch to a higher plan | Plan upgrades |
 | `/team-onboarding` | Generate a teammate ramp-up guide from this project's Claude Code usage | Onboarding new teammates (v2.1.101) |
-| `/code-review ultra` | Run a cloud multi-agent code review over your current changes. `/ultrareview` remains as an alias; `/code-review ultra` is the preferred invocation. Includes 3 free runs on Pro and Max, then requires usage credits | Deep pre-merge review across multiple agents (v2.1.112) |
+| `/code-review ultra` | Run a cloud multi-agent code review over your current changes. `/ultrareview` remains as an alias; `/code-review ultra` is the preferred invocation. Includes 3 free runs on Pro, Max, and Ultra, then requires usage credits | Deep pre-merge review across multiple agents (v2.1.112) |
 | `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist for common read-only tools | Reduce repeat permission prompts in a project (v2.1.112) |
 | `/skill-doctor` | Show which loaded skills go unused and what they cost in context. Opens in the `/plugin` manager's **Stats** tab; prints as text under `-p` | Prune skills you no longer need (v2.1.252+) |
 
@@ -132,7 +133,7 @@ Claude Code supports 6 permission modes that control how tool use is authorized.
 | `acceptEdits` | Auto-accept file edits, prompt for others | Trusted editing workflows |
 | `plan` | Research and propose a plan; no source edits until you approve it | Planning and exploration |
 | `auto` | All actions, with background safety classifier checks | Long tasks, reducing prompt fatigue |
-| `bypassPermissions` | Skip all permission checks | CI/CD, headless environments |
+| `bypassPermissions` | Skip permission prompts; deny rules and the actions no mode auto-approves (such as critical-path `rm`) still prompt or deny | CI/CD, headless environments |
 | `dontAsk` | Skip tools that would require permission | Non-interactive scripting |
 
 > **Note**: `auto` mode requires an eligible plan, model, and provider — see [09-advanced-features/](09-advanced-features/#auto-mode). Use `bypassPermissions` only in trusted, sandboxed environments.
@@ -251,7 +252,7 @@ cp -r 03-skills/* ~/.claude/skills/
 | `/claude-in-chrome [task]` | Carry out a task in your browser (test a page, fill a form, read console logs) via Claude in Chrome. Available when Chrome integration is enabled | Browser tasks |
 | `/dataviz [request]` | Design guidance for charts, graphs, and dashboards: chart form, color by role, palette validation for colorblind safety and contrast | Building a chart or dashboard |
 | `/debug [description]` | Turn on debug logging for the session and troubleshoot from the session debug log | Debugging Claude Code itself |
-| `/design` *(v2.1.265+)* | Create a multi-artboard design canvas — UI mockups, screen flows, landing pages, posters — refined visually instead of in code. Pro/Max/Team/Enterprise | Designing a screen or page you would rather tweak by hand than in HTML |
+| `/design` *(v2.1.265+)* | Create a multi-artboard design canvas — UI mockups, screen flows, landing pages, posters — refined visually instead of in code. Pro/Max/Ultra/Team/Enterprise | Designing a screen or page you would rather tweak by hand than in HTML |
 | `/design-sync [hint]` | Convert your repo's React design system and upload it to Claude Design so its designs use your real components. Anthropic API only. Standalone Claude Design (claude.ai/design) closes December 14, 2026. | Syncing a design system to Claude Design |
 | `/design-login` | Authorize design-system access for `/design-sync` (signs in to the standalone claude.ai/design site, which closes by December 14, 2026) | Before running `/design-sync` |
 | `/design consent`, `/design revoke` | Grant Claude access to Claude Design, or withdraw it. When Claude asks you to run `/design consent`, type it at the prompt yourself | Giving or removing Claude Design access |
@@ -527,7 +528,7 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **Usage-Limit Auto-Continue** | Claude Code auto-continues a session when a claude.ai usage limit resets, if it was blocked on that limit (v2.1.234) | On by default; turn it off in `/config` → "Continue automatically at usage limit". See [Advanced Features](09-advanced-features/) |
 | **`spellcheck` setting** | Underlines misspelled words in the prompt input using whichever of aspell, hunspell, or ispell is on your `PATH`; off by default (v2.1.235) | Install a checker, then set `"spellcheck": { "enabled": true }` in `~/.claude/settings.json`. User, `--settings`, and managed settings only — ignored in project settings. See [Advanced Features](09-advanced-features/) |
 | **Agent Teams Default Model** | The "Default teammate model" `/config` setting was removed; teammates now inherit the team lead's model by default unless the spawn call specifies one explicitly (v2.1.234) | See [Subagents — Agent Teams](04-subagents/README.md#agent-teams-experimental) |
-| **`/design`** | Design canvas — a multi-artboard visual design (UI mockups, screen flows, landing pages, posters) built on artifacts and refined visually rather than in code. Requires v2.1.265+; Pro/Max/Team/Enterprise | Run `/design` in the CLI or the Desktop app. See [Slash Commands](01-slash-commands/README.md) |
+| **`/design`** | Design canvas — a multi-artboard visual design (UI mockups, screen flows, landing pages, posters) built on artifacts and refined visually rather than in code. Requires v2.1.265+; Pro/Max/Ultra/Team/Enterprise | Run `/design` in the CLI or the Desktop app. See [Slash Commands](01-slash-commands/README.md) |
 | **`notify_when_idle`** | Cross-session `SendMessage` input that asks another session on the same machine to send one notice when it next goes idle — opt-in, one-shot, no polling (v2.1.236). Related: `ListAgents` reports the session's own name and lists live teammates, and Windows gained cross-session messaging (v2.1.239) | Pass `notify_when_idle` to `SendMessage`. See [Advanced Features](09-advanced-features/README.md#cross-session-messaging) |
 | **Plugin manifest fields** | `plugin.json` accepts `workflows`, `channels`, `dependencies` (semver), `outputStyles`, `keywords`, `metadata`, `lspServers`, and `experimental.themes` / `experimental.monitors`. CLI gained `claude plugin new`, `remove`/`rm`, `prune`/`autoremove`, and the flags `--with`, `-f`/`--force`, `--available`, `--push`, `--dry-run` | See [Plugins](07-plugins/README.md) |
 | **Restricted Mode** | Removes the built-in tools that run commands or code (such as Bash and PowerShell) and WebFetch unless `--tools` names them individually (not via the `default` preset); ignores user, project, and local settings (managed settings and `--settings` still apply); confines file tools to the working directories; refuses `bypassPermissions`; and refuses to create cloud sessions (v2.1.248+) | `claude --restricted`, or `CLAUDE_CODE_RESTRICTED=1`. See [CLI](10-cli/README.md) |
@@ -591,8 +592,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 1, 2026
+**Claude Code Version**: 2.1.316
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -634,4 +635,7 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/routines
 - https://code.claude.com/docs/en/auto-mode-config#generate-environment-entries-with-auto-mode-setup
 - https://code.claude.com/docs/en/scheduled-tasks
+- https://code.claude.com/docs/en/feature-availability#ultra-plan
+- https://code.claude.com/docs/en/ultrareview#pricing-and-free-runs
+- https://code.claude.com/docs/en/changelog#2-1-316
 **Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

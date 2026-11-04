@@ -67,7 +67,7 @@
 | `/plan [description]` | Увійти в режим планування |
 | `/plugin` | Управління плагінами |
 | `/powerup` | Інтерактивні уроки з анімованими демо |
-| `/privacy-settings` | Налаштування приватності (Pro/Max) |
+| `/privacy-settings` | Налаштування приватності (Pro/Max/Ultra) |
 | `/release-notes` | Переглянути журнал змін |
 | `/reload-plugins` | Перезавантажити активні плагіни. Починаючи з v2.1.221 більшість установок активуються одразу, тож команда потрібна лише коли підсумок установки каже `Run /reload-plugins to activate.` |
 | `/remote-control` | Віддалене керування з claude.ai (аліас: `/rc`) |
@@ -580,8 +580,8 @@ Deploy the application to production:
 
 ---
 
-**Останнє оновлення**: 18 жовтня 2026
-**Версія Claude Code**: 2.1.302
+**Останнє оновлення**: 1 листопада 2026
+**Версія Claude Code**: 2.1.316
 **Джерела**:
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/output-styles
@@ -591,6 +591,7 @@ Deploy the application to production:
 - https://code.claude.com/docs/en/changelog#2-1-299
 - https://code.claude.com/docs/en/hooks#hook-lifecycle
 - https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/feature-availability#ultra-plan
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Частина серії посібників [Claude How To](../)*

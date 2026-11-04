@@ -5,7 +5,7 @@ Catches mechanical rendering bugs that look fine in a diff but render wrong
 on GitHub / in the EPUB build: inner backticks in inline code, unescaped
 pipes in table cells, stray $ARGUMENTS / $N outside code, mismatched fences.
 
-Scope: `**/README.md` across the repo (tutorial modules + ja/uk/vi/zh
+Scope: `**/README.md` across the repo (tutorial modules + ja/ko/uk/vi/zh
 translations). Excludes `.venv`, `node_modules`, `.git`, `blog-posts`,
 `.agents`, `.claude`, and `openspec` — these are not tutorial output.
 

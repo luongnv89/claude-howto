@@ -162,7 +162,7 @@ claude mcp add --transport http my-service https://my-service.example.com/mcp \
 
 #### Ghi Đè OAuth Metadata Discovery / Overriding OAuth Metadata Discovery
 
-Nếu MCP server của bạn trả về lỗi trên endpoint metadata OAuth chuẩn (`/.well-known/oauth-authorization-server`) nhưng lộct một endpoint OIDC hoạt động, bạn có thể bảo Claude Code fetch OAuth metadata từ một URL cụ thể. Đặt `authServerMetadataUrl` trong object `oauth` của cấu hình server:
+Nếu MCP server của bạn trả về lỗi trên endpoint metadata OAuth chuẩn (`/.well-known/oauth-authorization-server`) nhưng lộ một endpoint OIDC hoạt động, bạn có thể bảo Claude Code fetch OAuth metadata từ một URL cụ thể. Đặt `authServerMetadataUrl` trong object `oauth` của cấu hình server:
 
 ```json
 {
@@ -250,7 +250,7 @@ Các MCP server có thể lộ các prompts xuất hiện như các lệnh slash
 
 Ví dụ, nếu một server tên là `github` lộ một prompt gọi là `review`, bạn có thể gọi nó là `/mcp__github__review`.
 
-## Khử Trùng Server / Server Deduplication
+## Khử Trùng Lặp Server / Server Deduplication
 
 Khi cùng một MCP server được định nghĩa tại nhiều phạm vi (local, project, user), cấu hình local được ưu tiên. Điều này cho phép bạn ghi đè cài đặt MCP cấp project hoặc user với tùy biến local mà không có xung đột.
 
@@ -340,7 +340,7 @@ claude mcp add-from-claude-desktop
 
 ## Bảng MCP Servers Có Sẵn / Available MCP Servers Table
 
-| MCP Server | Mục Đích | Công Thụng Thường Gặp | Auth | Thời Gian Thực |
+| MCP Server | Mục Đích | Công Cụ Thường Gặp | Auth | Thời Gian Thực |
 |------------|---------|--------------|------|-----------|
 | **Filesystem** | Thao tác file | read, write, delete | Quyền OS | ✅ Có |
 | **GitHub** | Quản lý repository | list_prs, create_issue, push | OAuth | ✅ Có |
@@ -859,7 +859,7 @@ graph LR
     style C fill:#f3e5f5,stroke:#333,color:#333
 ```
 
-#### Nó Hoạt Động Như Thế Na / How It Works
+#### Nó Hoạt Động Như Thế Nào / How It Works
 
 Các công cụ MCP được trình bày như một cây file của các hàm được gõ:
 

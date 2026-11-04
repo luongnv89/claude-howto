@@ -1334,7 +1334,7 @@ echo $?
 | 項目 | 動作 |
 |------|------|
 | **タイムアウト** | command/http/mcp_tool はデフォルト 600 秒（prompt は 30 秒、agent は 60 秒）、フックごとに設定可能 |
-| **並列化** | マッチしたフックはすべて並列実行。v2.1.302 以降、1 つのイベントで同時に実行される prompt／agent フックは最大 12 個で、残りは順番を待つ |
+| **並列化** | マッチしたフックはすべて並列実行。v2.1.312 以降、同時に実行される prompt／agent フックはセッションあたり最大 24 個（サブエージェントを含む）に加え、イベントのタイムアウトより長く待機したものが最大 12 個で、残りは順番を待つ（v2.1.302〜v2.1.311 では 1 つのイベントにつき最大 12 個） |
 | **重複排除** | 同一のフックコマンドは重複排除される |
 | **環境** | カレントディレクトリで Claude Code の環境のもと実行 |
 
@@ -1390,8 +1390,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**最終更新：** 2026 年 10 月 26 日
-**Claude Code バージョン：** 2.1.310
+**最終更新：** 2026 年 11 月 1 日
+**Claude Code バージョン：** 2.1.316
 **情報源：**
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/plugins/manifest-reference#quoting-and-path-separators
@@ -1407,4 +1407,5 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/changelog#2-1-299
 - https://code.claude.com/docs/en/changelog#2-1-300
 - https://code.claude.com/docs/en/hooks#defer-a-tool-call-for-later
+- https://code.claude.com/docs/en/changelog#2-1-312
 **対応モデル：** Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5
