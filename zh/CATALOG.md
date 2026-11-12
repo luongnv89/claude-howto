@@ -235,9 +235,9 @@ cp -r 03-skills/* ~/.claude/skills/
 | `/claude-api` | 使用 Claude API 构建应用 | API 开发 |
 | `/code-review` | 按指定强度审查当前 diff 的正确性问题（例如 `/code-review high`）；加 `--comment` 可把结论发成 PR 行内评论。自 v2.1.218 起以**后台 subagent** 运行 | 写完代码后、合并 PR 前 |
 | `/fewer-permission-prompts` | 扫描历史记录并给出按优先级排序的允许列表建议 | 减少重复的权限提示 |
-| `/run` *(v2.1.145+)* | 启动当前项目的应用，直观看到改动效果 | 在真实应用里验证改动 |
-| `/run-skill-generator` *(v2.1.145+)* | 教会 `/run`、`/verify` 如何处理某个具体项目 | 首次为项目配置 `/run` |
-| `/verify` *(v2.1.145+)* | 构建、运行并观察应用，确认修复真的生效 | 端到端验证修复 |
+| `/run` | 启动当前项目的应用，直观看到改动效果 | 在真实应用里验证改动 |
+| `/run-skill-generator` | 教会 `/run`、`/verify` 如何处理某个具体项目 | 首次为项目配置 `/run` |
+| `/verify` | 构建、运行并观察应用，确认修复真的生效 | 端到端验证修复 |
 
 ---
 

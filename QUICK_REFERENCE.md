@@ -132,7 +132,7 @@ claude -r "session"    # Resume session by name/ID
 | **Git Worktrees** | Built-in | `claude -w <name>` |
 | **Auto Memory** | Built-in | Auto-saves to `~/.claude/projects/<project>/memory/` |
 | **Task List** | Built-in | `Ctrl+T` (checklist), `/tasks` (background work) |
-| **Bundled Skills** | Built-in | `/batch`, `/claude-api`, `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` *(Claude can also start it on its own, everywhere since v2.1.246; with no level given it reuses the last one you typed, v2.1.223)*, `/simplify` *(cleanup-only review; distinct from `/code-review` again since v2.1.154)*, `/debug`, `/fewer-permission-prompts`, `/loop`, `/run` *(v2.1.145+)*, `/run-skill-generator` *(v2.1.145+)*, `/verify` *(v2.1.145+; explicit invocation only since v2.1.215 — Claude won't trigger this on its own)* |
+| **Bundled Skills** | Built-in | `/batch`, `/claude-api`, `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` *(Claude can also start it on its own, everywhere since v2.1.246; with no level given it reuses the last one you typed, v2.1.223)*, `/simplify` *(cleanup-only review; distinct from `/code-review` again since v2.1.154)*, `/debug`, `/fewer-permission-prompts`, `/loop`, `/run`, `/run-skill-generator`, `/verify` *(explicit invocation only since v2.1.215 — Claude won't trigger this on its own)* |
 
 ---
 
@@ -415,9 +415,9 @@ claude --plugin-dir ./07-plugins/pr-review
 | **Chrome Integration** | Browser automation | `--chrome` flag or `/chrome` command |
 | **Keyboard Customization** | Custom keybindings | `/keybindings` command |
 | **/usage-credits** | Configure extra usage limits (renamed from `/extra-usage` in v2.1.144; old name still works as alias) | `/usage-credits` |
-| **/run** *(v2.1.145+)* | Launch this project's app to see a change running | `/run` |
-| **/verify** *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works (explicit invocation only since v2.1.215 — Claude won't trigger this on its own) | `/verify` |
-| **/run-skill-generator** *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project | `/run-skill-generator` |
+| **/run** | Launch this project's app to see a change running | `/run` |
+| **/verify** | Build, run, and observe the app to confirm a fix works (explicit invocation only since v2.1.215 — Claude won't trigger this on its own) | `/verify` |
+| **/run-skill-generator** | Teach `/run`/`/verify` how to handle a specific project | `/run-skill-generator` |
 | **Subagent Output Scanning** *(v2.1.210+)* | Scans subagent reports for prompt-injection patterns and neutralizes them | On by default, no opt-out |
 | **WebSearch Cap and Subagent Fan-Out Limits** *(v2.1.212, extended v2.1.219)* | 200 WebSearch calls per session (per turn in `-p` and the Agent SDK), refilling at 100 calls/hour in interactive sessions since v2.1.290; concurrent-subagent cap (default 20) added in v2.1.217; since v2.1.219 subagents can spawn nested subagents up to **depth 3 by default** (v2.1.217 had disabled nesting). The 200-subagent-per-session spawn cap was **removed in v2.1.224** — there is no longer any limit on total subagents per session | `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` (default 200; `/clear` resets), `CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR` (default 100 interactive, 0 with `-p`), `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (default 20), `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` (default 3; set 1 to disable) |
 | **Screen Reader Mode** *(v2.1.208)* | Plain-text rendering mode for screen readers | `--ax-screen-reader` flag, `CLAUDE_AX_SCREEN_READER=1` in your shell, or `"axScreenReader": true` in user settings (`~/.claude/settings.json`), managed settings, or a `--settings` file — ignored in project and local settings since v2.1.305 |

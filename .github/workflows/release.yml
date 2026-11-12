@@ -5,6 +5,11 @@ on:
     tags:
       - 'v*'
 
+env:
+  # Languages the release job expects an EPUB for. Keep in sync with the build
+  # matrix below, `test.yml` build-epub, and `scripts/build_epub.py` lang_map.
+  LANGUAGES: en vi zh ja ko fa
+
 jobs:
   build:
     name: Build EPUB (${{ matrix.lang }})
@@ -13,10 +18,12 @@ jobs:
       # Pin every uv command (uv venv and the PEP 723 env of `uv run`) to 3.11.
       UV_PYTHON: '3.11'
     strategy:
-      # Don't cancel other languages if one fails — we still want to release
-      # whichever languages built successfully.
+      # Don't cancel other languages if one fails — the release job still
+      # drafts a release with whichever languages built successfully.
       fail-fast: false
       matrix:
+        # Keep in sync with LANGUAGES above, `test.yml` build-epub, and
+        # `scripts/build_epub.py` lang_map.
         lang: [en, vi, zh, ja, ko, fa]
 
     steps:
@@ -56,9 +63,9 @@ jobs:
   release:
     name: Publish GitHub Release
     needs: build
-    # Release even if some language builds failed — we still publish the
-    # artifacts that did build. `needs.build.result != 'cancelled'` guards
-    # against manually cancelled runs.
+    # Run even if some language builds failed: the release is then a draft
+    # whose body names the missing languages. `needs.build.result !=
+    # 'cancelled'` guards against manually cancelled runs.
     if: ${{ always() && needs.build.result != 'cancelled' }}
     runs-on: ubuntu-latest
     permissions:
@@ -72,12 +79,85 @@ jobs:
           pattern: epub-*
           merge-multiple: true
 
-      - name: List built artifacts
-        run: ls -lh dist/
+      - name: Check for missing languages
+        id: check
+        env:
+          BUILD_RESULT: ${{ needs.build.result }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        # Explicit `shell: bash` adds `-o pipefail`; the default is `bash -e` only.
+        shell: bash
+        run: |
+          shopt -s nullglob
+          epubs=(dist/claude-howto-guide*.epub)
+          if [ "${#epubs[@]}" -eq 0 ]; then
+            echo "::error::no EPUBs built, nothing to release (build result: $BUILD_RESULT)"
+            exit 1
+          fi
+          ls -lh "${epubs[@]}"
 
+          missing=()
+          for lang in $LANGUAGES; do
+            if [ "$lang" = en ]; then
+              file=dist/claude-howto-guide.epub
+            else
+              file="dist/claude-howto-guide-$lang.epub"
+            fi
+            [ -f "$file" ] || missing+=("$lang")
+          done
+
+          if [ "$BUILD_RESULT" = success ] && [ "${#missing[@]}" -eq 0 ]; then
+            echo "draft=false" >> "$GITHUB_OUTPUT"
+            echo "note=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ "${#missing[@]}" -eq 0 ]; then
+            headline="**Draft release.** A build job failed although all expected EPUBs are present."
+            echo "::warning::build result is $BUILD_RESULT although all EPUBs are present, publishing a draft"
+          else
+            list="${missing[*]}"
+            headline="**Partial release.** Missing languages: ${list// /, }."
+            echo "::warning::partial build, publishing a draft (missing: $list)"
+          fi
+          {
+            echo "draft=true"
+            echo "note<<EOF_NOTE"
+            echo "> [!WARNING]"
+            echo "> $headline"
+            echo "> See the [workflow run]($RUN_URL). This release was saved as a draft;"
+            echo "> review it before publishing."
+            echo ""
+            echo "EOF_NOTE"
+          } >> "$GITHUB_OUTPUT"
+
+      # A draft left for this tag by an earlier partial run (e.g. before "Re-run
+      # failed jobs") would be reused by action-gh-release, which keeps the
+      # oldest draft and never rewrites its body on create, so its stale
+      # warning would survive. Delete such drafts first. Only releases with
+      # `draft == true` are deleted, by id: a published release is never
+      # touched, and the tag stays.
+      - name: Remove stale drafts for this tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        # Explicit `shell: bash` adds `-o pipefail`, so a failed list call fails
+        # the step before any delete; the default is `bash -e` only.
+        shell: bash
+        run: |
+          ids=$(gh api --paginate "repos/$GH_REPO/releases?per_page=100" |
+            jq -r --arg tag "$GITHUB_REF_NAME" '.[] | select(.draft and .tag_name == $tag) | .id')
+          for id in $ids; do
+            echo "Deleting stale draft release $id for $GITHUB_REF_NAME"
+            gh api -X DELETE "repos/$GH_REPO/releases/$id"
+          done
+
+      # softprops/action-gh-release v2: `body` is prepended to the generated
+      # notes; `draft: true` keeps the release unpublished.
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.epub
+          draft: ${{ steps.check.outputs.draft }}
+          body: ${{ steps.check.outputs.note }}
           generate_release_notes: true
           fail_on_unmatched_files: true
