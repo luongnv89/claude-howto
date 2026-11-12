@@ -17,7 +17,7 @@ jobs:
       # whichever languages built successfully.
       fail-fast: false
       matrix:
-        lang: [en, vi, zh]
+        lang: [en, vi, zh, ja, ko, fa]
 
     steps:
       - uses: actions/checkout@v4
