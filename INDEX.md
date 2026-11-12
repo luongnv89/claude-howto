@@ -922,7 +922,7 @@ Want to add more examples? Follow the structure:
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/scheduled-tasks
-**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 **Total Examples**: 100+ files
 **Categories**: 10 features
 **Hooks**: 11 automation scripts

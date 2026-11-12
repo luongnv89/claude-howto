@@ -900,4 +900,4 @@ uv run scripts/build_epub.py
 - https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
 - https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install
 - https://code.claude.com/docs/en/model-config#work-with-fable
-**مدل‌های سازگار**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**مدل‌های سازگار**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

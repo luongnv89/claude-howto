@@ -763,7 +763,7 @@ done
 - https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
-**호환 모델**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 **유지보수**: Claude How-To 기여자
 **라이선스**: 교육 목적, 자유롭게 사용 및 개작 가능
 

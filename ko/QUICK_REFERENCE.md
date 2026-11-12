@@ -560,4 +560,4 @@ A: 물론입니다! 예제는 자유롭게 사용자 환경에 맞게 수정할 
 - https://code.claude.com/docs/en/tools-reference#session-search-limit
 - https://code.claude.com/docs/en/routines
 - https://code.claude.com/docs/en/model-config#work-with-fable
-**호환 모델**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

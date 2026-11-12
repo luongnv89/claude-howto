@@ -759,7 +759,7 @@ done
 - https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
-**مدل‌های سازگار**: Claude Fable 5.1، Claude Fable 5، Claude Opus 5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 4.5
+**مدل‌های سازگار**: Claude Fable 5.2، Claude Fable 5.1، Claude Fable 5، Claude Opus 5.5، Claude Opus 5، Claude Sonnet 5.5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 5.5، Claude Haiku 4.5
 **نگهداری توسط**: مشارکت‌کنندگان Claude How-To
 **مجوز**: اهداف آموزشی، استفاده و اقتباس آزاد
 

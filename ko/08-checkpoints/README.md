@@ -363,4 +363,4 @@ Claude Code는 **최근 100개 체크포인트**의 스냅숏만 보관하며, �
 - https://code.claude.com/docs/en/checkpointing#bash-command-changes-not-tracked
 - https://code.claude.com/docs/en/checkpointing#subagent-edits-not-restored
 - https://code.claude.com/docs/en/checkpointing#rewound-messages-can-return-if-you-exit-before-your-next-prompt
-**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

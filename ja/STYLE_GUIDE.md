@@ -609,7 +609,7 @@ docs(skills): Add comprehensive code review skill
 ---
 **Last Updated**: August 2026
 **Claude Code Version**: 2.1.245
-**Compatible Models**: Claude Sonnet 4.6, Claude Opus 4.7, Claude Haiku 4.5
+**Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 ```
 
 - 月＋年の形式を使う（例：「August 2026」）
@@ -648,4 +648,4 @@ docs(skills): Add comprehensive code review skill
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/changelog
 - https://www.anthropic.com/news/claude-opus-4-7
-**互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5
+**互換モデル**：Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

@@ -226,4 +226,4 @@ AGENTS.md는 여러 도구가 공용으로 쓰는 프로젝트 컨텍스트 파�
 - https://code.claude.com/docs/en/memory#agents-md
 - https://code.claude.com/docs/en/memory#when-agents-md-support-is-unavailable
 - https://code.claude.com/docs/en/memory
-**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
