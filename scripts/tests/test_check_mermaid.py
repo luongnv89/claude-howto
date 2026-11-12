@@ -316,3 +316,78 @@ class TestStrictness:
         (project / "a.md").write_text("# No diagrams here\n", encoding="utf-8")
 
         assert check_mermaid.main([]) == 0
+
+
+def _indented_fence(indent: str, source: str) -> str:
+    lines = ["```mermaid", *source.splitlines(), "```"]
+    return "".join(f"{indent}{line}\n" for line in lines)
+
+
+class TestIndentedFenceWarning:
+    """A fence at 4+ columns is a diagram only inside a list item."""
+
+    @pytest.mark.parametrize(
+        "indent", ["    ", "\t", "  \t", "      "], ids=["4", "tab", "2+tab", "6"]
+    )
+    def test_warns_and_still_validates(
+        self,
+        project: Path,
+        fake_render: FakeRenderer,
+        capsys: pytest.CaptureFixture[str],
+        indent: str,
+    ) -> None:
+        (project / "a.md").write_text(
+            "# Title\n\n" + _indented_fence(indent, FLOW), encoding="utf-8"
+        )
+
+        assert check_mermaid.main(["--strict"]) == 0
+
+        out = capsys.readouterr().out
+        assert "⚠ a.md:3 (block 1): fence indented 4+ columns" in out
+        assert "only inside a list item" in out
+        assert "indented code block" in out
+        assert "✅ Pele 1.6.0 rendered 1 Mermaid block(s)" in out
+        assert len(fake_render.calls) == 1
+
+    @pytest.mark.parametrize("indent", ["", " ", "   "], ids=["0", "1", "3"])
+    def test_no_warning_below_four_columns(
+        self,
+        project: Path,
+        fake_render: FakeRenderer,
+        capsys: pytest.CaptureFixture[str],
+        indent: str,
+    ) -> None:
+        (project / "a.md").write_text(_indented_fence(indent, FLOW), encoding="utf-8")
+
+        assert check_mermaid.main(["--strict"]) == 0
+        assert "⚠" not in capsys.readouterr().out
+
+    def test_warning_does_not_change_failures(
+        self,
+        project: Path,
+        fake_render: FakeRenderer,
+        capsys: pytest.CaptureFixture[str],
+    ) -> None:
+        (project / "a.md").write_text(
+            _md(BROKEN) + "\n" + _indented_fence("    ", FLOW), encoding="utf-8"
+        )
+
+        assert check_mermaid.main(["--strict"]) == 1
+
+        out = capsys.readouterr().out
+        assert "fence indented 4+ columns" in out
+        assert "❌ Pele 1.6.0 rejected 1 Mermaid block(s)" in out
+
+    def test_warning_does_not_change_unavailable_strict_failure(
+        self,
+        project: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        capsys: pytest.CaptureFixture[str],
+    ) -> None:
+        (project / "a.md").write_text(_indented_fence("\t", FLOW), encoding="utf-8")
+        monkeypatch.setattr(check_mermaid, "render_diagrams", _unavailable)
+
+        assert check_mermaid.main(["--strict"]) == 1
+        out = capsys.readouterr().out
+        assert "fence indented 4+ columns" in out
+        assert "❌ Pele is unavailable" in out

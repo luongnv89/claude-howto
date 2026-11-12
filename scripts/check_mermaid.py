@@ -43,6 +43,9 @@ MERMAID_BLOCK_RE = re.compile(
     re.DOTALL | re.MULTILINE,
 )
 TRUTHY = {"1", "true", "yes"}
+# From this indent on, Markdown reads a fence outside a list item as an
+# indented code block. A tab advances to the next multiple of 4 columns.
+CODE_BLOCK_INDENT = 4
 
 
 @dataclass(frozen=True)
@@ -53,6 +56,7 @@ class MermaidBlock:
     line: int
     index: int
     source: str
+    indent_columns: int = 0
 
 
 def _env_truthy(name: str) -> bool:
@@ -82,6 +86,7 @@ def extract_blocks(path: Path) -> list[MermaidBlock]:
             line=content.count("\n", 0, match.start()) + 1,
             index=index,
             source=match.group("code"),
+            indent_columns=len(match.group("indent").expandtabs(CODE_BLOCK_INDENT)),
         )
         for index, match in enumerate(MERMAID_BLOCK_RE.finditer(content), start=1)
     ]
@@ -102,6 +107,7 @@ def main(argv: list[str] | None = None) -> int:
 
     md_files = find_markdown_files(Path())
     blocks = [block for path in md_files for block in extract_blocks(path)]
+    warn_indented_fences(blocks)
     if not blocks:
         if strict:
             print(
@@ -112,6 +118,22 @@ def main(argv: list[str] | None = None) -> int:
         print("✅ No Mermaid blocks found")
         return 0
     return validate_blocks(blocks, strict=strict)
+
+
+def warn_indented_fences(blocks: list[MermaidBlock]) -> None:
+    """Warn about fences indented 4+ columns. The warning never fails the run.
+
+    Such a fence is still validated, but the website and the EPUB render it as
+    a diagram only when it is nested in a list item.
+    """
+    for block in blocks:
+        if block.indent_columns >= CODE_BLOCK_INDENT:
+            print(
+                f"⚠ {block.path}:{block.line} (block {block.index}): fence indented "
+                f"{CODE_BLOCK_INDENT}+ columns ({block.indent_columns}) — it renders "
+                "as a diagram only inside a list item, and as an indented code "
+                "block elsewhere"
+            )
 
 
 def validate_blocks(blocks: list[MermaidBlock], *, strict: bool) -> int:
