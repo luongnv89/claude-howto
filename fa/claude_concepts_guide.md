@@ -1417,6 +1417,9 @@ Claude Code از مدل‌های زیر با تلاش استدلال تطبیق�
 
 | مدل | پنجره زمینه | سطوح تلاش | تلاش پیش‌فرض (Claude Code) |
 |-------|----------------|---------------|------------------------------|
+| Claude Fable 5.2 | ۱ میلیون توکن (بومی) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — مدل پیش‌فرض Fable از نسخه v2.1.321 (نیازمند Claude Code v2.1.321+) |
+| Claude Fable 5.1 | ۱ میلیون توکن (بومی) | `low`, `medium`, `high`, `xhigh`, `max` | `high` (نیازمند Claude Code v2.1.257+) |
+| Claude Fable 5 | ۱ میلیون توکن (بومی) | `low`, `medium`, `high`, `xhigh`, `max` | `high` |
 | Claude Opus 5.5 | ۱ میلیون توکن (بومی) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — مدل پیش‌فرض و مدل پیش‌فرض Opus از نسخه v2.1.280 (نیازمند Claude Code v2.1.280+) |
 | Claude Sonnet 5.5 | ۱ میلیون توکن (بومی) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — مدل پیش‌فرض Sonnet در API آنتروپیک از نسخه v2.1.284 (نیازمند Claude Code v2.1.284+) |
 | Claude Haiku 5.5 | ۱ میلیون توکن (بومی) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — مدل پیش‌فرض Haiku در API آنتروپیک از نسخه v2.1.293 (نیازمند Claude Code v2.1.293+) |
@@ -1427,7 +1430,7 @@ Claude Code از مدل‌های زیر با تلاش استدلال تطبیق�
 | Claude Sonnet 4.6 | ۱ میلیون توکن | `low`, `medium`, `high`, `max` | `high` (در v2.1.117 برای مشترکان Pro/Max از `medium` افزایش یافت) |
 | Claude Haiku 4.5 | ۲۰۰ هزار توکن | — (بدون پشتیبانی از سطح تلاش) | — |
 
-> **توجه**: `xhigh` روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 در دسترس است؛ `max` روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7/4.6 و Sonnet 4.6 کار می‌کند (فقط در محدوده نشست). Haiku 4.5 از سطوح تلاش پشتیبانی نمی‌کند.
+> **توجه**: `xhigh` روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 در دسترس است؛ `max` روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7/4.6 و Sonnet 4.6 کار می‌کند (فقط در محدوده نشست). Haiku 4.5 از سطوح تلاش پشتیبانی نمی‌کند.
 
 > **توجه**: نسخه v2.1.117 باگی را برطرف کرد که در آن نشست‌های Opus 4.7 مقدار `/context` را بر مبنای ۲۰۰ هزار توکن به‌جای پنجره بومی ۱ میلیون توکن محاسبه می‌کردند — برای اینکه واقعاً زمینه ۱ میلیونی را روی Opus 4.7 دریافت کنید، به v2.1.117 یا بالاتر ارتقا دهید. Opus 5 و Opus 4.8 نیز پنجره بومی ۱ میلیون توکنی دارند.
 

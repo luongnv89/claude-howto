@@ -255,7 +255,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **注：** プロンプトに「ultrathink」というキーワードを含めると深い推論モードが起動する。v2.1.311 以降、対話型ターミナルで入力すると、Anthropic の API 経由の Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.2（v2.1.321 以降）、Fable 5.1 ではそのターンを `xhigh` の努力度で実行する（可能な場合はキーワードが虹色で表示される。Claude の作業中に入力すると、そのターンの残りの努力度を引き上げる。VS Code は v2.1.316 以降）。Bedrock やその他のモデルでは、代わりに努力度レベルを設定すること。`CLAUDE_CODE_DISABLE_ULTRATHINK=1`（v2.1.316）でこのキーワードを無効化できる。努力度レベル `low`、`medium`、`high`、`max` は Opus 4.7、Opus 4.6、Sonnet 4.6 でサポートされる。`xhigh`（Opus 4.7 でのデフォルト）は Opus 4.7 専用である。
+> **注：** プロンプトに「ultrathink」というキーワードを含めると深い推論モードが起動する。v2.1.311 以降、対話型ターミナルで入力すると、Anthropic の API 経由の Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.2（v2.1.321 以降）、Fable 5.1 ではそのターンを `xhigh` の努力度で実行する（可能な場合はキーワードが虹色で表示される。Claude の作業中に入力すると、そのターンの残りの努力度を引き上げる。VS Code は v2.1.316 以降）。Bedrock やその他のモデルでは、代わりに努力度レベルを設定すること。`CLAUDE_CODE_DISABLE_ULTRATHINK=1`（v2.1.316）でこのキーワードを無効化できる。努力度レベル `low`、`medium`、`high`、`max` は Fable モデル、Opus 5.5、Sonnet 5.5、Haiku 5.5、Opus 5、Sonnet 5、Opus 4.8、Opus 4.7、Opus 4.6、Sonnet 4.6 でサポートされる（Haiku 4.5 は非対応）。`xhigh` は Fable モデル、Opus 5.5、Sonnet 5.5、Haiku 5.5、Opus 5、Sonnet 5、Opus 4.8、Opus 4.7 で使える。デフォルトの努力度は Fable 5.2、Opus 5.5、Sonnet 5.5、Haiku 5.5 では `medium`、Fable 5.1、Fable 5、Opus 5、Sonnet 5、Opus 4.8（および Opus 4.6 / Sonnet 4.6）では `high`、Opus 4.7 では `xhigh` である。
 
 ### 拡張思考のメリット
 

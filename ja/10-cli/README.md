@@ -729,7 +729,7 @@ claude --effort xhigh "complex review"
 export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on Opus 4.7), or max (Opus 4.7 only)
 ```
 
-プロンプト内のキーワード「ultrathink」は深い推論を有効化する。v2.1.311 以降、対話型ターミナルで入力すると、Anthropic の API 経由の Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.2（v2.1.321 以降）、Fable 5.1 ではそのターンを `xhigh` で実行する（可能な場合は虹色で表示される。VS Code は v2.1.316 以降）。`CLAUDE_CODE_DISABLE_ULTRATHINK=1`（v2.1.316）でこのキーワードを無効化できる。`max` の労力レベルは Opus 4.7 専用である。
+プロンプト内のキーワード「ultrathink」は深い推論を有効化する。v2.1.311 以降、対話型ターミナルで入力すると、Anthropic の API 経由の Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.2（v2.1.321 以降）、Fable 5.1 ではそのターンを `xhigh` で実行する（可能な場合は虹色で表示される。VS Code は v2.1.316 以降）。`CLAUDE_CODE_DISABLE_ULTRATHINK=1`（v2.1.316）でこのキーワードを無効化できる。
 
 ---
 

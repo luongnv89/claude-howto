@@ -1417,6 +1417,9 @@ Claude Code supports the following models with adaptive reasoning effort:
 
 | Model | Context Window | Effort Levels | Default Effort (Claude Code) |
 |-------|----------------|---------------|------------------------------|
+| Claude Fable 5.2 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — default Fable model since v2.1.321 (requires Claude Code v2.1.321+) |
+| Claude Fable 5.1 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `high` (requires Claude Code v2.1.257+) |
+| Claude Fable 5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `high` |
 | Claude Opus 5.5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — default model and default Opus model since v2.1.280 (requires Claude Code v2.1.280+) |
 | Claude Sonnet 5.5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — default Sonnet model on the Anthropic API since v2.1.284 (requires Claude Code v2.1.284+) |
 | Claude Haiku 5.5 | 1M tokens (native) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — default Haiku model on the Anthropic API since v2.1.293 (requires Claude Code v2.1.293+) |
@@ -1427,7 +1430,7 @@ Claude Code supports the following models with adaptive reasoning effort:
 | Claude Sonnet 4.6 | 1M tokens | `low`, `medium`, `high`, `max` | `high` (raised from `medium` for Pro/Max subscribers in v2.1.117) |
 | Claude Haiku 4.5 | 200K tokens | — (no effort support) | — |
 
-> **Note**: `xhigh` is available on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7; `max` works on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 does not support effort levels.
+> **Note**: `xhigh` is available on the Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7; `max` works on the Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 does not support effort levels.
 
 > **Note**: v2.1.117 fixed a bug where Opus 4.7 sessions computed `/context` against 200K instead of the native 1M window — upgrade to v2.1.117 or later to actually get the 1M context on Opus 4.7. Opus 5 and Opus 4.8 also have a native 1M-token window.
 

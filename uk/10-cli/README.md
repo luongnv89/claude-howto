@@ -701,7 +701,7 @@ claude --effort high "complex review"
 export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high або max (лише Opus 4.6)
 ```
 
-Ключове слово "ultrathink" у промптах активує глибоке міркування. Починаючи з v2.1.311, якщо ввести його в інтерактивному терміналі, воно також запускає цей хід із рівнем `xhigh` на Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2 (v2.1.321+) та Fable 5.1 через API Anthropic (слово підсвічується веселкою, коли це можливо; у VS Code — з v2.1.316), а `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) вимикає його. Рівень `max` — ексклюзивний для Opus 4.6.
+Ключове слово "ultrathink" у промптах активує глибоке міркування. Починаючи з v2.1.311, якщо ввести його в інтерактивному терміналі, воно також запускає цей хід із рівнем `xhigh` на Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2 (v2.1.321+) та Fable 5.1 через API Anthropic (слово підсвічується веселкою, коли це можливо; у VS Code — з v2.1.316), а `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) вимикає його.
 
 ---
 
