@@ -10,6 +10,8 @@ from typing import Any
 from unittest.mock import patch
 
 import pytest
+from bs4 import BeautifulSoup
+from ebooklib import epub
 
 # Fixtures are imported from conftest.py automatically by pytest
 # Import from parent directory (handled by conftest.py sys.path)
@@ -25,6 +27,8 @@ from build_epub import (
     extract_all_mermaid_blocks,
     flatten_svg_vars,
     get_chapter_order,
+    md_to_html,
+    process_mermaid_blocks,
     setup_logging,
     validate_inputs,
 )
@@ -396,6 +400,79 @@ graph TD
 
         # Should only have one diagram since they're identical
         assert len(diagrams) == 1
+
+    def test_extract_mermaid_blocks_with_space_before_language(
+        self, tmp_path: Path, logger: logging.Logger
+    ) -> None:
+        md_file = tmp_path / "test.md"
+        md_file.write_text("``` mermaid\ngraph LR\n    C --> D\n```\n")
+        diagrams = extract_all_mermaid_blocks([(md_file, "Test")], logger)
+        assert diagrams == [(1, "graph LR\n    C --> D")]
+
+    def test_process_mermaid_blocks_with_info_string(
+        self, state: BuildState, logger: logging.Logger
+    ) -> None:
+        """Replacement must match the same fences extraction did."""
+        state.mermaid_cache["graph LR\n    C --> D"] = (b"<svg/>", "mermaid_1.svg")
+        md = "Intro\n\n```mermaid title=Overview\ngraph LR\n    C --> D\n```\n"
+        book = epub.EpubBook()
+
+        out = process_mermaid_blocks(md, book, state, logger)
+
+        assert out == "Intro\n\n\n![Diagram](images/mermaid_1.svg)\n\n"
+        assert state.mermaid_added_to_book == {"mermaid_1.svg"}
+
+    @pytest.mark.parametrize("indent", ["   ", "    "])
+    def test_process_mermaid_blocks_keeps_nested_indentation(
+        self, indent: str, state: BuildState, logger: logging.Logger
+    ) -> None:
+        state.mermaid_cache[f"graph LR\n{indent}C --> D"] = (
+            b"<svg/>",
+            "mermaid_1.svg",
+        )
+        md = (
+            "1. Step one\n\n"
+            f"{indent}```mermaid\n"
+            f"{indent}graph LR\n"
+            f"{indent}C --> D\n"
+            f"{indent}```\n\n"
+            "2. Step two\n"
+        )
+
+        out = process_mermaid_blocks(md, epub.EpubBook(), state, logger)
+
+        assert out == (
+            f"1. Step one\n\n\n{indent}![Diagram](images/mermaid_1.svg)\n\n\n"
+            "2. Step two\n"
+        )
+
+    def test_nested_diagram_renders_inside_list_item(
+        self, tmp_path: Path, state: BuildState, logger: logging.Logger
+    ) -> None:
+        # Python-Markdown continues a list item at four spaces of indentation.
+        state.mermaid_cache["graph LR\n    C --> D"] = (b"<svg/>", "mermaid_1.svg")
+        md = (
+            "- Step one\n\n"
+            "    ```mermaid\n"
+            "    graph LR\n"
+            "    C --> D\n"
+            "    ```\n\n"
+            "- Step two\n"
+        )
+
+        html = md_to_html(
+            md, tmp_path / "README.md", tmp_path, epub.EpubBook(), state, logger
+        )
+
+        soup = BeautifulSoup(html, "html.parser")
+        assert soup.select_one('li img[src="images/mermaid_1.svg"]') is not None
+
+    def test_process_mermaid_blocks_ignores_hyphenated_language(
+        self, state: BuildState, logger: logging.Logger
+    ) -> None:
+        # The cache is empty: a match would raise MermaidRenderError.
+        md = "```mermaid-foo\ngraph LR\n    C --> D\n```\n"
+        assert process_mermaid_blocks(md, epub.EpubBook(), state, logger) == md
 
 
 # =============================================================================
