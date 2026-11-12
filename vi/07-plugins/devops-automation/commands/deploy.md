@@ -1,17 +1,17 @@
 ---
-description: Deploy application to production or staging
+description: Triển khai ứng dụng lên production hoặc staging
 ---
 
-# Deploy Application
+# Triển Khai Ứng Dụng
 
-Execute deployment workflow:
+Thực thi workflow triển khai:
 
-1. Run pre-deployment checks
-2. Build application
-3. Run tests
-4. Deploy to target environment
-5. Run health checks
-6. Notify team on Slack
+1. Chạy các kiểm tra trước khi triển khai
+2. Build ứng dụng
+3. Chạy test
+4. Triển khai lên môi trường đích
+5. Chạy kiểm tra sức khỏe hệ thống
+6. Thông báo cho nhóm trên Slack
 
 ---
 
@@ -20,3 +20,4 @@ Execute deployment workflow:
 **Nguồn**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/skills#frontmatter-reference
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

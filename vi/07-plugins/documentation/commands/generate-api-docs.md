@@ -1,17 +1,17 @@
 ---
-description: Generate comprehensive API documentation from source code
+description: Tạo tài liệu API toàn diện từ mã nguồn
 ---
 
-# API Documentation Generator
+# Trình Tạo Tài Liệu API
 
-Generate complete API documentation:
+Tạo tài liệu API hoàn chỉnh:
 
-1. Scan API endpoints
-2. Extract function signatures and JSDoc
-3. Organize by module/endpoint
-4. Create markdown with examples
-5. Include request/response schemas
-6. Add error documentation
+1. Quét các API endpoint
+2. Trích xuất chữ ký hàm và JSDoc
+3. Sắp xếp theo module/endpoint
+4. Tạo markdown kèm ví dụ
+5. Bao gồm schema request/response
+6. Thêm tài liệu về lỗi
 
 ---
 
@@ -20,3 +20,4 @@ Generate complete API documentation:
 **Nguồn**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/skills#frontmatter-reference
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

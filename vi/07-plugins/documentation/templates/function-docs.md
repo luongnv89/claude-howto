@@ -1,38 +1,38 @@
-# Function: `functionName`
+# Hàm: `functionName`
 
-## Description
-Brief description of what the function does.
+## Mô Tả
+Mô tả ngắn gọn hàm này làm gì.
 
-## Signature
+## Chữ Ký
 ```typescript
 function functionName(param1: Type1, param2: Type2): ReturnType
 ```
 
-## Parameters
+## Tham Số
 
-| Parameter | Type | Required | Description |
+| Tham Số | Kiểu | Bắt Buộc | Mô Tả |
 |-----------|------|----------|-------------|
-| param1 | Type1 | Yes | Description of param1 |
-| param2 | Type2 | No | Description of param2 |
+| param1 | Type1 | Có | Mô tả của param1 |
+| param2 | Type2 | Không | Mô tả của param2 |
 
-## Returns
-**Type**: `ReturnType`
+## Giá Trị Trả Về
+**Kiểu**: `ReturnType`
 
-Description of what is returned.
+Mô tả giá trị được trả về.
 
-## Throws
-- `Error`: When invalid input is provided
-- `TypeError`: When wrong type is passed
+## Ngoại Lệ
+- `Error`: Khi đầu vào không hợp lệ
+- `TypeError`: Khi truyền sai kiểu
 
-## Examples
+## Ví Dụ
 
-### Basic Usage
+### Cách Dùng Cơ Bản
 ```typescript
 const result = functionName('value1', 'value2');
 console.log(result);
 ```
 
-### Advanced Usage
+### Cách Dùng Nâng Cao
 ```typescript
 const result = functionName(
   complexParam1,
@@ -40,11 +40,19 @@ const result = functionName(
 );
 ```
 
-## Notes
-- Additional notes or warnings
-- Performance considerations
-- Best practices
+## Ghi Chú
+- Ghi chú hoặc cảnh báo bổ sung
+- Các lưu ý về hiệu năng
+- Best practice
 
-## See Also
-- [Related Function](#)
-- [API Documentation](#)
+## Xem Thêm
+- [Hàm Liên Quan](#)
+- [Tài Liệu API](#)
+
+---
+
+**Cập Nhật Lần Cuối**: Ngày 4 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.220
+**Nguồn**:
+- https://code.claude.com/docs/en/plugins
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

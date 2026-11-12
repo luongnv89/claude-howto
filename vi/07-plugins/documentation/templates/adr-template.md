@@ -1,39 +1,47 @@
-# ADR [Number]: [Title]
+# ADR [Số]: [Tiêu Đề]
 
-## Status
-[Proposed | Accepted | Deprecated | Superseded]
+## Trạng Thái
+[Đề xuất | Đã chấp nhận | Không còn dùng | Đã bị thay thế]
 
-## Context
-What is the issue that we're seeing that is motivating this decision or change?
+## Bối Cảnh
+Vấn đề chúng ta đang gặp phải là gì, điều gì thúc đẩy quyết định hoặc thay đổi này?
 
-## Decision
-What is the change that we're proposing and/or doing?
+## Quyết Định
+Thay đổi mà chúng ta đang đề xuất và/hoặc thực hiện là gì?
 
-## Consequences
-What becomes easier or more difficult to do because of this change?
+## Hệ Quả
+Điều gì trở nên dễ hơn hoặc khó hơn khi thực hiện do thay đổi này?
 
-### Positive
-- Benefit 1
-- Benefit 2
+### Tích Cực
+- Lợi ích 1
+- Lợi ích 2
 
-### Negative
-- Drawback 1
-- Drawback 2
+### Tiêu Cực
+- Hạn chế 1
+- Hạn chế 2
 
-### Neutral
-- Consideration 1
-- Consideration 2
+### Trung Lập
+- Điểm cần cân nhắc 1
+- Điểm cần cân nhắc 2
 
-## Alternatives Considered
-What other options were considered and why were they not chosen?
+## Các Phương Án Đã Cân Nhắc
+Những lựa chọn nào khác đã được cân nhắc và vì sao chúng không được chọn?
 
-### Alternative 1
-Description and reason for not choosing.
+### Phương Án 1
+Mô tả và lý do không chọn.
 
-### Alternative 2
-Description and reason for not choosing.
+### Phương Án 2
+Mô tả và lý do không chọn.
 
-## References
-- Related ADRs
-- External documentation
-- Discussion links
+## Tham Khảo
+- Các ADR liên quan
+- Tài liệu bên ngoài
+- Liên kết thảo luận
+
+---
+
+**Cập Nhật Lần Cuối**: Ngày 4 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.220
+**Nguồn**:
+- https://code.claude.com/docs/en/plugins
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

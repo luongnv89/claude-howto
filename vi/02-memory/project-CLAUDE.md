@@ -1,88 +1,95 @@
-# Project Configuration
+# Cấu Hình Dự Án
 
-## Project Overview
-- **Name**: E-commerce Platform
+## Tổng Quan Dự Án
+- **Tên**: Nền Tảng Thương Mại Điện Tử
 - **Tech Stack**: Node.js, PostgreSQL, React 18, Docker
-- **Team Size**: 5 developers
-- **Deadline**: Q4 2025
+- **Quy Mô Nhóm**: 5 lập trình viên
+- **Hạn Chót**: Q4 2025
 
-## Architecture
+## Kiến Trúc
 @docs/architecture.md
 @docs/api-standards.md
 @docs/database-schema.md
 
-## Development Standards
+## Tiêu Chuẩn Phát Triển
 
-### Code Style
-- Use Prettier for formatting
-- Use ESLint with airbnb config
-- Maximum line length: 100 characters
-- Use 2-space indentation
+### Phong Cách Code
+- Dùng Prettier để định dạng
+- Dùng ESLint với cấu hình airbnb
+- Độ dài dòng tối đa: 100 ký tự
+- Thụt lề 2 dấu cách
 
-### Naming Conventions
-- **Files**: kebab-case (user-controller.js)
-- **Classes**: PascalCase (UserService)
-- **Functions/Variables**: camelCase (getUserById)
-- **Constants**: UPPER_SNAKE_CASE (API_BASE_URL)
-- **Database Tables**: snake_case (user_accounts)
+### Quy Ước Đặt Tên
+- **File**: kebab-case (user-controller.js)
+- **Class**: PascalCase (UserService)
+- **Hàm/Biến**: camelCase (getUserById)
+- **Hằng số**: UPPER_SNAKE_CASE (API_BASE_URL)
+- **Bảng Database**: snake_case (user_accounts)
 
 ### Git Workflow
-- Branch names: `feature/description` hoặc `fix/description`
-- Commit messages: Follow conventional commits
-- PR required before merge
-- All CI/CD checks must pass
-- Minimum 1 approval required
+- Tên branch: `feature/description` hoặc `fix/description`
+- Commit message: Tuân theo conventional commits
+- Bắt buộc có PR trước khi merge
+- Tất cả các kiểm tra CI/CD phải pass
+- Cần tối thiểu 1 approval
 
-### Testing Requirements
-- Minimum 80% code coverage
-- All critical paths must have tests
-- Use Jest for unit tests
-- Use Cypress for E2E tests
-- Test filenames: `*.test.ts` hoặc `*.spec.ts`
+### Yêu Cầu Testing
+- Code coverage tối thiểu 80%
+- Tất cả các luồng quan trọng phải có test
+- Dùng Jest cho unit test
+- Dùng Cypress cho E2E test
+- Tên file test: `*.test.ts` hoặc `*.spec.ts`
 
-### API Standards
-- RESTful endpoints only
-- JSON request/response
-- Use HTTP status codes correctly
-- Version API endpoints: `/api/v1/`
-- Document all endpoints with examples
+### Tiêu Chuẩn API
+- Chỉ dùng endpoint RESTful
+- Request/response dạng JSON
+- Dùng HTTP status code đúng cách
+- Đánh phiên bản cho API endpoint: `/api/v1/`
+- Tài liệu hóa tất cả endpoint kèm ví dụ
 
 ### Database
-- Use migrations for schema changes
-- Never hardcode credentials
-- Use connection pooling
-- Enable query logging in development
-- Regular backups required
+- Dùng migration cho các thay đổi schema
+- Không bao giờ hardcode thông tin xác thực
+- Dùng connection pooling
+- Bật query logging trong môi trường development
+- Bắt buộc backup định kỳ
 
-### Deployment
-- Docker-based deployment
-- Kubernetes orchestration
-- Blue-green deployment strategy
-- Automatic rollback on failure
-- Database migrations run before deploy
+### Triển Khai
+- Triển khai dựa trên Docker
+- Điều phối bằng Kubernetes
+- Chiến lược triển khai blue-green
+- Tự động rollback khi thất bại
+- Database migration chạy trước khi deploy
 
-## Common Commands
+## Các Lệnh Thường Dùng
 
-| Command | Purpose |
+| Lệnh | Mục Đích |
 |---------|---------|
-| `npm run dev` | Start development server |
-| `npm test` | Run test suite |
-| `npm run lint` | Check code style |
-| `npm run build` | Build for production |
-| `npm run migrate` | Run database migrations |
+| `npm run dev` | Khởi động development server |
+| `npm test` | Chạy bộ test |
+| `npm run lint` | Kiểm tra phong cách code |
+| `npm run build` | Build cho production |
+| `npm run migrate` | Chạy database migration |
 
-## Team Contacts
+## Liên Hệ Trong Nhóm
 - Tech Lead: Sarah Chen (@sarah.chen)
 - Product Manager: Mike Johnson (@mike.j)
 - DevOps: Alex Kim (@alex.k)
 
-## Known Issues & Workarounds
-- PostgreSQL connection pooling limited to 20 during peak hours
-- Workaround: Implement query queuing
-- Safari 14 compatibility issues with async generators
-- Workaround: Use Babel transpiler
+## Vấn Đề Đã Biết & Cách Khắc Phục
+- Connection pooling của PostgreSQL bị giới hạn ở 20 trong giờ cao điểm
+- Cách khắc phục: Triển khai hàng đợi query
+- Safari 14 gặp vấn đề tương thích với async generator
+- Cách khắc phục: Dùng Babel transpiler
 
-## Related Projects
+## Dự Án Liên Quan
 - Analytics Dashboard: `/projects/analytics`
 - Mobile App: `/projects/mobile`
 - Admin Panel: `/projects/admin`
+
+---
+**Cập Nhật Lần Cuối**: Ngày 4 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.220
+**Nguồn**:
+- https://code.claude.com/docs/en/memory
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
