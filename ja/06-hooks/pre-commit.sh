@@ -10,7 +10,9 @@
 
 # 標準入力からフックの JSON を読み取り、git commit コマンドのときだけテストを実行する
 INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | sed -n 's/.*"command"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+# tool_input.command を抽出する。パターンはエスケープされた引用符（\"）を読み飛ばすため、
+# `cd "app" && git commit` のようなコマンドも最初の \" で止まらず全体を読み取れる
+COMMAND=$(echo "$INPUT" | sed -nE 's/.*"command"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p' | head -1)
 if ! echo "$COMMAND" | grep -q 'git commit'; then
   exit 0
 fi

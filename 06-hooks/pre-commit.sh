@@ -10,7 +10,9 @@
 
 # Read the hook JSON from stdin; only run the tests for git commit commands
 INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | sed -n 's/.*"command"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+# Extract tool_input.command. The pattern skips escaped quotes (\"), so a command
+# like `cd "app" && git commit` is read in full instead of stopping at the first \"
+COMMAND=$(echo "$INPUT" | sed -nE 's/.*"command"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p' | head -1)
 if ! echo "$COMMAND" | grep -q 'git commit'; then
   exit 0
 fi
