@@ -9,6 +9,9 @@ jobs:
   build:
     name: Build EPUB (${{ matrix.lang }})
     runs-on: ubuntu-latest
+    env:
+      # Pin every uv command (uv venv and the PEP 723 env of `uv run`) to 3.11.
+      UV_PYTHON: '3.11'
     strategy:
       # Don't cancel other languages if one fails — we still want to release
       # whichever languages built successfully.

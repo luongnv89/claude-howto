@@ -154,6 +154,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [pytest, lint, security, type-check]
     if: ${{ !failure() && !cancelled() }}
+    env:
+      # Pin every uv command (uv venv and the PEP 723 env of `uv run`) to 3.11.
+      UV_PYTHON: '3.11'
 
     # This job is the only gate on the full EPUB build, which stays out of
     # pre-commit because it is slow (the pre-commit mermaid hooks already
