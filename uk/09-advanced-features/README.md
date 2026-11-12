@@ -218,7 +218,7 @@ claude --model opusplan "design and implement the new API"
 
 **Автоматична активація**:
 - Увімкнено за замовчуванням для всіх моделей (Opus 4.6, Sonnet 4.6, Haiku 4.5)
-- Opus 4.6: Адаптивне міркування з рівнями зусиль: `low` (○), `medium` (◐), `high` (●), `max` (тільки Opus 4.6)
+- Opus 4.6: Адаптивне міркування з рівнями зусиль: `low` (○), `medium` (◐), `high` (●), `max`
 - Інші моделі: Фіксований бюджет до 31 999 токенів
 
 **Методи конфігурації**:
@@ -231,9 +231,9 @@ claude --model opusplan "design and implement the new API"
 export MAX_THINKING_TOKENS=1024
 ```
 
-**Рівень зусиль** (тільки Opus 4.6):
+**Рівень зусиль** (підтримується на моделях Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6 та Sonnet 4.6 — не на Haiku 4.5):
 ```bash
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), або max (тільки Opus 4.6)
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), xhigh (моделі Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7) або max
 ```
 
 **Прапорець CLI**:
@@ -334,7 +334,7 @@ This approach balances your current constraints (team size, timeline, DevOps res
 # Встановлення бюджету токенів мислення
 export MAX_THINKING_TOKENS=16000
 
-# Встановлення рівня зусиль (тільки Opus 4.6): low (○), medium (◐), high (●), або max (тільки Opus 4.6)
+# Встановлення рівня зусиль: low (○), medium (◐), high (●), xhigh (моделі Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7) або max
 export CLAUDE_CODE_EFFORT_LEVEL=high
 ```
 

@@ -841,7 +841,7 @@ claude --model opusplan "design and implement the API"
 
 ### Mức Effort / Effort Levels (Opus 5 / Sonnet 5 / Opus 4.8 / Opus 4.7)
 
-Opus 5, Sonnet 5, Opus 4.8, và Opus 4.7 hỗ trợ suy luận thích ứng với các mức effort, xếp từ nhẹ nhất đến nặng nhất: `low` (○), `medium` (◐), `high` (●), `xhigh`, và `max`. Opus 5.5, Sonnet 5.5, và Haiku 5.5 cũng hỗ trợ cả năm mức. Mức **mặc định** là `medium` trên Opus 5.5 (mô hình mặc định từ v2.1.280), Sonnet 5.5, và Haiku 5.5; `high` trên Opus 5, Sonnet 5, Opus 4.8 (từ v2.1.154), Opus 4.6, và Sonnet 4.6; và `xhigh` trên Opus 4.7. `xhigh` có trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, và Opus 4.7; `max` hoạt động trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 và Sonnet 4.6 (chỉ trong phiên). Haiku 4.5 không có mức effort. Trên Opus 4.6 / Sonnet 4.6, effort mặc định cho người dùng Pro/Max được nâng từ `medium` lên `high` ở v2.1.117.
+Các mô hình Fable, Opus 5, Sonnet 5, Opus 4.8, và Opus 4.7 hỗ trợ suy luận thích ứng với các mức effort, xếp từ nhẹ nhất đến nặng nhất: `low` (○), `medium` (◐), `high` (●), `xhigh`, và `max`. Opus 5.5, Sonnet 5.5, và Haiku 5.5 cũng hỗ trợ cả năm mức. Mức **mặc định** là `medium` trên Fable 5.2, Opus 5.5 (mô hình mặc định từ v2.1.280), Sonnet 5.5, và Haiku 5.5; `high` trên Fable 5.1, Fable 5, Opus 5, Sonnet 5, Opus 4.8 (từ v2.1.154), Opus 4.6, và Sonnet 4.6; và `xhigh` trên Opus 4.7. `xhigh` có trên các mô hình Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, và Opus 4.7; `max` hoạt động trên các mô hình Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 và Sonnet 4.6 (chỉ trong phiên). Haiku 4.5 không có mức effort. Trên Opus 4.6 / Sonnet 4.6, effort mặc định cho người dùng Pro/Max được nâng từ `medium` lên `high` ở v2.1.117.
 
 ```bash
 # Đặt mức effort qua cờ CLI
@@ -851,7 +851,7 @@ claude --effort high "complex review"
 /effort high
 
 # Đặt mức effort qua biến môi trường
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), hoặc max — mặc định là high trên Opus 5
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (các mô hình Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), hoặc max — mặc định là high trên Opus 5
 ```
 
 Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311, khi được gõ trong terminal tương tác, nó còn chạy lượt đó ở `xhigh` trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2 (v2.1.321+), và Fable 5.1 qua API của Anthropic (tô màu cầu vồng khi có thể; VS Code từ v2.1.316), và `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) tắt tính năng này. Thanh trượt `/effort` còn có nút bật/tắt **Ultracode** (Tab, hoặc `/effort ultracode [on|off]`), vốn **không phải** là một mức effort của mô hình — nó khiến Claude điều phối các workflow động ở bất kỳ mức effort nào mà phiên đang chạy. Từ v2.1.284, nó không còn ép dùng `xhigh` và vẫn bật khi bạn đổi mức; `--effort ultracode` và `effortLevel: "ultracode"` của Agent SDK vẫn đặt `xhigh`.
@@ -870,7 +870,7 @@ Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | Ghi đè ID mô hình Sonnet mặc định |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | Ghi đè ID mô hình Haiku mặc định |
 | `MAX_THINKING_TOKENS` | Đặt ngân sách token cho extended thinking |
-| `CLAUDE_CODE_EFFORT_LEVEL` | Đặt mức effort (`low`/`medium`/`high`/`xhigh`/`max`) — mặc định là `medium` trên Opus 5.5, Sonnet 5.5, và Haiku 5.5, `high` trên Opus 5, Sonnet 5, và Opus 4.8 (`xhigh` trên Opus 4.7); `xhigh` cần Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, hoặc Opus 4.8/4.7; `max` hoạt động trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 và Sonnet 4.6; đặt `auto` hoặc `unset` để không gửi mức effort nào, khi đó mặc định của API được áp dụng. Nó được ưu tiên hơn `--effort` và `/effort` |
+| `CLAUDE_CODE_EFFORT_LEVEL` | Đặt mức effort (`low`/`medium`/`high`/`xhigh`/`max`) — mặc định là `medium` trên Fable 5.2, Opus 5.5, Sonnet 5.5, và Haiku 5.5, `high` trên Fable 5.1, Fable 5, Opus 5, Sonnet 5, và Opus 4.8 (`xhigh` trên Opus 4.7); `xhigh` cần một mô hình Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, hoặc Opus 4.8/4.7; `max` hoạt động trên các mô hình Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 và Sonnet 4.6; đặt `auto` hoặc `unset` để không gửi mức effort nào, khi đó mặc định của API được áp dụng. Nó được ưu tiên hơn `--effort` và `/effort` |
 | `CLAUDE_CODE_SIMPLE` | Chế độ tối thiểu, được đặt bởi cờ `--bare` |
 | `CLAUDE_CODE_SAFE_MODE` | Đặt `1` để khởi động với mọi tùy chỉnh bị tắt (CLAUDE.md, plugins, skills, hooks, MCP) — dạng biến môi trường của `--safe-mode`, để cô lập lỗi cấu hình (v2.1.169) |
 | `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` | Đặt `1` để ẩn các skills, workflows, và commands đi kèm khỏi mô hình (v2.1.169) |

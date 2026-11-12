@@ -697,7 +697,7 @@ Claude Code は能力の異なる複数のモデルをサポートする：
 |-------|-----|----------------------|------|
 | Opus 4.7 | `claude-opus-4-7` | 1M トークン（1M コンテキスト対応は v2.1.117 で実装） | 最も能力が高く、適応的な労力レベルを備える。Claude Code では Opus 4.7 ローンチ（2026-04-16）以降 `xhigh` がデフォルトの労力レベル |
 | Sonnet 4.6 | `claude-sonnet-4-6` | 1M トークン | 速度と能力のバランスが良い。Pro／Max 加入者のデフォルト労力は v2.1.117 で `medium` から `high` に引き上げられた |
-| Haiku 4.5 | `claude-haiku-4-5` | 1M トークン | 最速で、軽いタスクに最適 |
+| Haiku 4.5 | `claude-haiku-4-5` | 200K トークン | 最速で、軽いタスクに最適 |
 
 ### モデルの選択
 
@@ -716,7 +716,7 @@ claude --model opusplan "design and implement the API"
 
 ### 労力レベル（Opus 4.7）
 
-Opus 4.7 は適応的推論をサポートし、軽い順から `low`（○）、`medium`（◐）、`high`（●）、`xhigh`（Claude Code では Opus 4.7 ローンチ以降のデフォルト、2026-04-16）、`max`（Opus 4.7 のみ）の労力レベルを持つ。Opus 4.6 ／ Sonnet 4.6 では、Pro／Max 加入者のデフォルト労力が v2.1.117 で `medium` から `high` に引き上げられた。
+Opus 4.7 は適応的推論をサポートし、軽い順から `low`（○）、`medium`（◐）、`high`（●）、`xhigh`（Claude Code では Opus 4.7 ローンチ以降のデフォルト、2026-04-16）、`max` の労力レベルを持つ。Opus 4.6 ／ Sonnet 4.6 では、Pro／Max 加入者のデフォルト労力が v2.1.117 で `medium` から `high` に引き上げられた。
 
 ```bash
 # CLI フラグで労力レベルを設定
@@ -726,7 +726,7 @@ claude --effort xhigh "complex review"
 /effort xhigh
 
 # 環境変数で労力レベルを設定
-export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on Opus 4.7), or max (Opus 4.7 only)
+export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on Opus 4.7), or max
 ```
 
 プロンプト内のキーワード「ultrathink」は深い推論を有効化する。v2.1.311 以降、対話型ターミナルで入力すると、Anthropic の API 経由の Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.2（v2.1.321 以降）、Fable 5.1 ではそのターンを `xhigh` で実行する（可能な場合は虹色で表示される。VS Code は v2.1.316 以降）。`CLAUDE_CODE_DISABLE_ULTRATHINK=1`（v2.1.316）でこのキーワードを無効化できる。
@@ -744,7 +744,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on O
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | デフォルトの Sonnet モデル ID を上書き |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | デフォルトの Haiku モデル ID を上書き |
 | `MAX_THINKING_TOKENS` | 拡張思考のトークン予算を設定 |
-| `CLAUDE_CODE_EFFORT_LEVEL` | 労力レベルを設定（`low`／`medium`／`high`／`xhigh`／`max`） — `xhigh` は Opus 4.7 のデフォルト、`max` は Opus 4.7 のみ |
+| `CLAUDE_CODE_EFFORT_LEVEL` | 労力レベルを設定（`low`／`medium`／`high`／`xhigh`／`max`） — デフォルトは Fable 5.2、Opus 5.5、Sonnet 5.5、Haiku 5.5 では `medium`、Fable 5.1、Fable 5、Opus 5、Sonnet 5、Opus 4.8 では `high`（Opus 4.7 では `xhigh`）。`xhigh` には Fable モデル、Opus 5.5、Sonnet 5.5、Haiku 5.5、Opus 5、Sonnet 5、Opus 4.8/4.7 が必要。`max` は Fable モデル、Opus 5.5、Sonnet 5.5、Haiku 5.5、Opus 5、Sonnet 5、Opus 4.8/4.7/4.6、Sonnet 4.6 で使える |
 | `CLAUDE_CODE_SIMPLE` | 最小モード（`--bare` フラグで設定される） |
 | `CLAUDE_CODE_DISABLE_AUTO_MEMORY` | `1` を設定すると自動メモリを無効化する（自動メモリファイルを作成も読み込みもしない） |
 | `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS` | バックグラウンドタスク実行を無効化 |

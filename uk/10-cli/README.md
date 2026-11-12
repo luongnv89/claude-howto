@@ -669,7 +669,7 @@ Claude Code підтримує кілька моделей з різними м�
 |--------|-----|-----------------|----------|
 | Opus 4.6 | `claude-opus-4-6` | 1M токенів | Найпотужніша, адаптивні рівні зусиль |
 | Sonnet 4.6 | `claude-sonnet-4-6` | 1M токенів | Баланс швидкості та можливостей |
-| Haiku 4.5 | `claude-haiku-4-5` | 1M токенів | Найшвидша, оптимальна для швидких завдань |
+| Haiku 4.5 | `claude-haiku-4-5` | 200K токенів | Найшвидша, оптимальна для швидких завдань |
 
 ### Вибір моделі
 
@@ -698,7 +698,7 @@ claude --effort high "complex review"
 /effort high
 
 # Через змінну оточення
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high або max (лише Opus 4.6)
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh або max (залежно від моделі)
 ```
 
 Ключове слово "ultrathink" у промптах активує глибоке міркування. Починаючи з v2.1.311, якщо ввести його в інтерактивному терміналі, воно також запускає цей хід із рівнем `xhigh` на Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2 (v2.1.321+) та Fable 5.1 через API Anthropic (слово підсвічується веселкою, коли це можливо; у VS Code — з v2.1.316), а `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) вимикає його.
@@ -716,7 +716,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high або max (лише 
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | Перевизначення стандартного ID моделі Sonnet |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | Перевизначення стандартного ID моделі Haiku |
 | `MAX_THINKING_TOKENS` | Бюджет токенів розширеного мислення |
-| `CLAUDE_CODE_EFFORT_LEVEL` | Рівень зусиль (`low`/`medium`/`high`/`max`) |
+| `CLAUDE_CODE_EFFORT_LEVEL` | Рівень зусиль (`low`/`medium`/`high`/`xhigh`/`max`) — за замовчуванням `medium` на Fable 5.2, Opus 5.5, Sonnet 5.5 та Haiku 5.5, `high` на Fable 5.1, Fable 5, Opus 5, Sonnet 5 та Opus 4.8 (`xhigh` на Opus 4.7); `xhigh` потребує моделі Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5 або Opus 4.8/4.7; `max` працює на моделях Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 та Sonnet 4.6 |
 | `CLAUDE_CODE_SIMPLE` | Мінімальний режим, встановлюється прапорцем `--bare` |
 | `CLAUDE_CODE_DISABLE_AUTO_MEMORY` | Встановіть `1`, щоб вимкнути auto memory (файли auto memory не створюються і не завантажуються) |
 | `CLAUDE_CODE_DISABLE_BACKGROUND_TASKS` | Вимкнути виконання фонових завдань |

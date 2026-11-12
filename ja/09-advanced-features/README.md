@@ -226,7 +226,7 @@ claude --model opusplan "design and implement the new API"
 
 **自動起動：**
 - 全モデル（Opus 4.7、Sonnet 4.6、Haiku 4.5）でデフォルト有効
-- Opus 4.7：適応的推論で努力度レベルを指定可能：`low`（○）、`medium`（◐）、`high`（●）、`xhigh`（Opus 4.7 限定、Opus 4.7 のローンチ以降 Claude Code でデフォルト、2026-04-16）、`max`。Opus 4.6 と Sonnet 4.6 も `low`、`medium`、`high`、`max` をサポートする（`xhigh` なし）。Opus 4.7 はネイティブで 1M トークンのコンテキストウィンドウを持つ（1M コンテキスト対応は v2.1.117 で導入された。それ以前は `/context` が Opus 4.7 を 200K ウィンドウとして誤計算し、早期の自動コンパクションを引き起こしていた）。
+- Opus 4.7：適応的推論で努力度レベルを指定可能：`low`（○）、`medium`（◐）、`high`（●）、`xhigh`（Opus 4.7 ではローンチ以降 Claude Code のデフォルト、2026-04-16）、`max`。Opus 4.6 と Sonnet 4.6 も `low`、`medium`、`high`、`max` をサポートする（`xhigh` なし）。Opus 4.7 はネイティブで 1M トークンのコンテキストウィンドウを持つ（1M コンテキスト対応は v2.1.117 で導入された。それ以前は `/context` が Opus 4.7 を 200K ウィンドウとして誤計算し、早期の自動コンパクションを引き起こしていた）。
 - Pro/Max サブスクライバの Opus 4.6 / Sonnet 4.6：v2.1.117 でデフォルト努力度が `medium` から `high` に引き上げられた。
 - その他のモデル：固定バジェット（最大 31,999 トークン）
 
@@ -240,9 +240,9 @@ claude --model opusplan "design and implement the new API"
 export MAX_THINKING_TOKENS=1024
 ```
 
-**努力度レベル**（Opus 4.7、Opus 4.6、Sonnet 4.6 でサポート）：
+**努力度レベル**（Fable モデル、Opus 5.5、Sonnet 5.5、Haiku 5.5、Opus 5、Sonnet 5、Opus 4.8、Opus 4.7、Opus 4.6、Sonnet 4.6 でサポート。Haiku 4.5 は非対応）：
 ```bash
-export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low (○), medium (◐), high (●), xhigh (Opus 4.7 only, default), or max
+export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low (○), medium (◐), high (●), xhigh (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7; default on Opus 4.7), or max
 ```
 
 **CLI フラグ：**
@@ -343,7 +343,7 @@ This approach balances your current constraints (team size, timeline, DevOps res
 # 思考トークンのバジェットを設定
 export MAX_THINKING_TOKENS=16000
 
-# 努力度レベルを設定 (Opus 4.7, Opus 4.6, Sonnet 4.6): low (○), medium (◐), high (●), xhigh (Opus 4.7 only, default), or max
+# 努力度レベルを設定 (Fable モデル、Opus 5.5、Sonnet 5.5、Haiku 5.5、Opus 5、Sonnet 5、Opus 4.8、Opus 4.7、Opus 4.6、Sonnet 4.6): low (○), medium (◐), high (●), xhigh (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7; default on Opus 4.7), or max
 export CLAUDE_CODE_EFFORT_LEVEL=xhigh
 ```
 
@@ -1897,7 +1897,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 # Thinking configuration
 export MAX_THINKING_TOKENS=16000
-export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (Opus 4.7 only, default), or max (supported on Opus 4.7, Opus 4.6, Sonnet 4.6)
+export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7; default on Opus 4.7), or max (supported on Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6)
 
 # Feature toggles
 export CLAUDE_CODE_DISABLE_AUTO_MEMORY=1    # Disable auto memory (no auto memory files are created or loaded)

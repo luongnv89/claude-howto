@@ -243,9 +243,9 @@ claude --model opusplan "طراحی و پیاده‌سازی API جدید"
 export MAX_THINKING_TOKENS=1024
 ```
 
-**سطح تلاش** (پشتیبانی‌شده روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6 و Sonnet 4.6 — نه Haiku 4.5):
+**سطح تلاش** (پشتیبانی‌شده روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6 و Sonnet 4.6 — نه Haiku 4.5):
 ```bash
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○)، medium (◐)، high (●)، xhigh (Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7)، یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○)، medium (◐)، high (●)، xhigh (مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7)، یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است
 ```
 
 **پرچم CLI**:
@@ -363,7 +363,7 @@ Claude: بگذارید این تصمیم معماری را با دقت بررس�
 # تنظیم بودجه توکن تفکر
 export MAX_THINKING_TOKENS=16000
 
-# تنظیم سطح تلاش (Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6، Sonnet 4.6): low (○)، medium (◐)، high (●)، xhigh (Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7)، یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است
+# تنظیم سطح تلاش (مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6، Sonnet 4.6): low (○)، medium (◐)، high (●)، xhigh (مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7)، یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است
 export CLAUDE_CODE_EFFORT_LEVEL=high
 ```
 
@@ -2470,7 +2470,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 # پیکربندی تفکر
 export MAX_THINKING_TOKENS=16000
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low، medium، high، xhigh (روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7) یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است (پشتیبانی‌شده روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6، Sonnet 4.6)
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low، medium، high، xhigh (روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7) یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است (پشتیبانی‌شده روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6، Sonnet 4.6)
 
 # کلیدهای فعال‌سازی قابلیت‌ها
 export CLAUDE_CODE_DISABLE_AUTO_MEMORY=1    # غیرفعال کردن حافظه خودکار (هیچ فایل حافظه خودکاری ساخته یا بارگذاری نمی‌شود)

@@ -841,7 +841,7 @@ claude --model opusplan "design and implement the API"
 
 ### سطوح تلاش (Opus 5 / Sonnet 5 / Opus 4.8 / Opus 4.7)
 
-Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 از استدلال تطبیقی با سطوح تلاش پشتیبانی می‌کنند، مرتب‌شده از سبک‌ترین به سنگین‌ترین: `low` (○)، `medium` (◐)، `high` (●)، `xhigh` و `max`. Opus 5.5، Sonnet 5.5 و Haiku 5.5 هم از هر پنج سطح پشتیبانی می‌کنند. **پیش‌فرض** `medium` است در Opus 5.5 (مدل پیش‌فرض از نسخه 2.1.280)، Sonnet 5.5 و Haiku 5.5، `high` در Opus 5، Sonnet 5، Opus 4.8 (از نسخه 2.1.154)، Opus 4.6 و Sonnet 4.6، و `xhigh` در Opus 4.7. `xhigh` در Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 در دسترس است؛ `max` در Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7/4.6 و Sonnet 4.6 کار می‌کند (فقط نشست). Haiku 4.5 هیچ سطح تلاشی ندارد. در Opus 4.6 / Sonnet 4.6، تلاش پیش‌فرض برای مشترکان Pro/Max در نسخه 2.1.117 از `medium` به `high` افزایش یافت.
+مدل‌های Fable، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 از استدلال تطبیقی با سطوح تلاش پشتیبانی می‌کنند، مرتب‌شده از سبک‌ترین به سنگین‌ترین: `low` (○)، `medium` (◐)، `high` (●)، `xhigh` و `max`. Opus 5.5، Sonnet 5.5 و Haiku 5.5 هم از هر پنج سطح پشتیبانی می‌کنند. **پیش‌فرض** `medium` است در Fable 5.2، Opus 5.5 (مدل پیش‌فرض از نسخه 2.1.280)، Sonnet 5.5 و Haiku 5.5، `high` در Fable 5.1، Fable 5، Opus 5، Sonnet 5، Opus 4.8 (از نسخه 2.1.154)، Opus 4.6 و Sonnet 4.6، و `xhigh` در Opus 4.7. `xhigh` در مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 در دسترس است؛ `max` در مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7/4.6 و Sonnet 4.6 کار می‌کند (فقط نشست). Haiku 4.5 هیچ سطح تلاشی ندارد. در Opus 4.6 / Sonnet 4.6، تلاش پیش‌فرض برای مشترکان Pro/Max در نسخه 2.1.117 از `medium` به `high` افزایش یافت.
 
 ```bash
 # تنظیم سطح تلاش با سوئیچ CLI
@@ -851,7 +851,7 @@ claude --effort high "complex review"
 /effort high
 
 # تنظیم سطح تلاش با متغیر محیطی
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5
 ```
 
 کلیدواژه «ultrathink» در پرامپت‌ها استدلال عمیق را فعال می‌کند؛ از نسخه 2.1.311، اگر در ترمینال تعاملی تایپ شود، آن نوبت را نیز روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Fable 5.2 (نسخه 2.1.321 به بعد) و Fable 5.1 از طریق Anthropic API با `xhigh` اجرا می‌کند (وقتی ممکن باشد رنگین‌کمانی می‌شود؛ در VS Code از نسخه 2.1.316)، و `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (نسخه 2.1.316) آن را خاموش می‌کند. اسلایدر `/effort` یک کلید **Ultracode** هم دارد (Tab، یا `/effort ultracode [on|off]`) که **سطح تلاش مدل نیست** — باعث می‌شود Claude جریان‌های کاری پویا را در همان سطح تلاشی که نشست اجرا می‌شود هماهنگ کند. از نسخه 2.1.284 دیگر `xhigh` را الزام نمی‌کند و هنگام تغییر سطح روشن می‌ماند؛ `--effort ultracode` و `effortLevel: "ultracode"` در Agent SDK هنوز `xhigh` را تعیین می‌کنند.
@@ -870,7 +870,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Son
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | بازنویسی شناسه مدل پیش‌فرض Sonnet |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | بازنویسی شناسه مدل پیش‌فرض Haiku |
 | `MAX_THINKING_TOKENS` | تعیین بودجه توکن تفکر گسترده |
-| `CLAUDE_CODE_EFFORT_LEVEL` | تعیین سطح تلاش (`low`/`medium`/`high`/`xhigh`/`max`) — پیش‌فرض `medium` در Opus 5.5، Sonnet 5.5 و Haiku 5.5، `high` در Opus 5، Sonnet 5 و Opus 4.8 (`xhigh` در Opus 4.7)؛ `xhigh` نیازمند Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5 یا Opus 4.8/4.7 است؛ `max` در Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7/4.6 و Sonnet 4.6 کار می‌کند؛ برای ارسال نکردن هیچ سطح تلاشی، تا پیش‌فرض API اعمال شود، `auto` یا `unset` بگذارید. این متغیر بر `--effort` و `/effort` اولویت دارد |
+| `CLAUDE_CODE_EFFORT_LEVEL` | تعیین سطح تلاش (`low`/`medium`/`high`/`xhigh`/`max`) — پیش‌فرض `medium` در Fable 5.2، Opus 5.5، Sonnet 5.5 و Haiku 5.5، `high` در Fable 5.1، Fable 5، Opus 5، Sonnet 5 و Opus 4.8 (`xhigh` در Opus 4.7)؛ `xhigh` نیازمند یک مدل Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5 یا Opus 4.8/4.7 است؛ `max` در مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7/4.6 و Sonnet 4.6 کار می‌کند؛ برای ارسال نکردن هیچ سطح تلاشی، تا پیش‌فرض API اعمال شود، `auto` یا `unset` بگذارید. این متغیر بر `--effort` و `/effort` اولویت دارد |
 | `CLAUDE_CODE_SIMPLE` | حالت کمینه، تعیین‌شده با پرچم `--bare` |
 | `CLAUDE_CODE_SAFE_MODE` | برای شروع با همه سفارشی‌سازی‌ها غیرفعال (CLAUDE.md، پلاگین‌ها، مهارت‌ها، هوک‌ها، MCP) آن را `1` بگذارید — شکل متغیر محیطی `--safe-mode`، برای جداسازی مشکلات پیکربندی (نسخه 2.1.169) |
 | `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` | برای پنهان کردن مهارت‌ها، جریان‌های کاری و دستورات بسته‌بندی‌شده از مدل آن را `1` بگذارید (نسخه 2.1.169) |
