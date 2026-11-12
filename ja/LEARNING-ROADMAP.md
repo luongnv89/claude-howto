@@ -369,7 +369,7 @@ cp 04-subagents/*.md .claude/agents/
 #### 達成事項
 ✅ 複雑な機能向けのプランニングモード
 ✅ 6 モード（default、acceptEdits、plan、auto、dontAsk、bypassPermissions）の詳細な権限制御
-✅ 拡張思考の制御：デフォルトモデルでは `/effort`、思考をオフにできるモデルでは Alt+T / Option+T
+✅ 拡張思考の制御：常に拡張思考を使うモデルでは `/effort`、思考をオフにできるモデルでは Alt+T / Option+T
 ✅ バックグラウンドタスク管理
 ✅ 学習済み設定のための Auto Memory
 ✅ バックグラウンド安全性分類器付きの Auto Mode
@@ -390,7 +390,7 @@ claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
 
 # 演習 3: 拡張思考を制御
-# /effort を実行してレベルを選ぶ。デフォルトモデル（Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable）は常に思考する
+# /effort を実行してレベルを選ぶ。Opus 5.5、Sonnet 5.5、Haiku 5.5 と Fable モデルは常に拡張思考を使う
 # Alt+T (macOS は Option+T) は claude-opus-5 など、思考をオフにできるモデルでのみ切り替わる
 
 # 演習 4: 高度なチェックポイントワークフロー

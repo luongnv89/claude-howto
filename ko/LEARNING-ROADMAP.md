@@ -369,7 +369,7 @@ cp 04-subagents/*.md .claude/agents/
 #### 달성할 내용
 ✅ 복잡한 기능을 위한 계획 모드
 ✅ 6가지 모드(manual — 이전 명칭 default, acceptEdits, plan, auto, dontAsk, bypassPermissions)를 통한 세분화된 권한 제어
-✅ 확장 사고 제어: 기본 모델에서는 `/effort`, 사고를 끌 수 있는 모델에서는 Alt+T / Option+T
+✅ 확장 사고 제어: 항상 확장 사고를 사용하는 모델에서는 `/effort`, 사고를 끌 수 있는 모델에서는 Alt+T / Option+T
 ✅ 백그라운드 작업 관리
 ✅ 학습된 환경 설정을 위한 자동 메모리
 ✅ 백그라운드 안전 분류기가 있는 자동 모드
@@ -390,7 +390,7 @@ claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
 
 # Exercise 3: Control extended thinking
-# Run /effort and pick a level; the default models (Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable) always think
+# Run /effort and pick a level; Opus 5.5, Sonnet 5.5, Haiku 5.5 and the Fable models always use extended thinking
 # Alt+T (Option+T on macOS) toggles thinking only on models that allow it, e.g. claude-opus-5
 
 # Exercise 4: Advanced checkpoint workflow

@@ -369,7 +369,7 @@ cp 04-subagents/*.md .claude/agents/
 #### 你将完成什么
 ✅ 为复杂功能使用 planning mode
 ✅ 用 6 种模式进行细粒度权限控制（default、acceptEdits、plan、auto、dontAsk、bypassPermissions）
-✅ 控制 extended thinking：默认模型用 `/effort`，可关闭思考的模型上用 Alt+T / Option+T
+✅ 控制 extended thinking：始终使用 extended thinking 的模型用 `/effort`，可关闭思考的模型上用 Alt+T / Option+T
 ✅ 管理后台任务
 ✅ 使用 Auto Memory 记住偏好
 ✅ 使用自动模式（Auto Mode）和后台安全分类器
@@ -390,7 +390,7 @@ claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
 
 # 练习 3：控制 extended thinking
-# 运行 /effort 选择级别；默认模型（Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable）始终会思考
+# 运行 /effort 选择级别；Opus 5.5、Sonnet 5.5、Haiku 5.5 和 Fable 系列模型始终使用 extended thinking
 # Alt+T（macOS 上是 Option+T）只在允许关闭思考的模型上切换，例如 claude-opus-5
 
 # 练习 4：高级 checkpoint 工作流

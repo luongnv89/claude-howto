@@ -365,7 +365,7 @@ Before starting Level 3, make sure you're comfortable with these Level 2 concept
 #### What You'll Achieve
 ✅ Planning mode for complex features
 ✅ Fine-grained permission control with 6 modes (manual — formerly default, acceptEdits, plan, auto, dontAsk, bypassPermissions)
-✅ Extended thinking control: `/effort` on the default models, Alt+T / Option+T on models where thinking can be turned off
+✅ Extended thinking control: `/effort` on models that always use extended thinking, Alt+T / Option+T on models where thinking can be turned off
 ✅ Background task management
 ✅ Auto Memory for learned preferences
 ✅ Auto Mode with background safety classifier
@@ -386,7 +386,7 @@ claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
 
 # Exercise 3: Control extended thinking
-# Run /effort and pick a level; the default models (Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable) always think
+# Run /effort and pick a level; Opus 5.5, Sonnet 5.5, Haiku 5.5 and the Fable models always use extended thinking
 # Alt+T (Option+T on macOS) toggles thinking only on models that allow it, e.g. claude-opus-5
 
 # Exercise 4: Advanced checkpoint workflow

@@ -417,7 +417,7 @@ documentation/
 - **acceptEdits**: 파일 편집 자동 승인, 다른 작업은 요청
 - **plan**: 변경하지 않고 조사해 변경안을 제시 — Claude가 파일을 읽고, 탐색용 셸 명령을 실행하고, 계획을 작성함. 계획을 승인할 때까지 편집은 차단됨(bypass permissions를 사용할 수 있는 대화형 터미널 세션 제외)
 - **auto**: 모든 작업을 백그라운드 안전 검사와 함께 수행 — 분류기가 명령어와 보호된 디렉터리 쓰기를 검토 (`autoMode` 설정 객체로 구성)
-- **dontAsk**: 사전 승인된 도구만 실행 — 프롬프트가 필요한 모든 호출을 자동 거부. Claude는 작업 디렉터리 안의 파일 읽기, 읽기 전용 Bash 명령어, `permissions.allow`에 일치하는 대부분의 항목, `PreToolUse` 훅이 승인한 호출은 계속 실행하며, 설치한 mod도 일부 호출을 승인할 수 있음
+- **dontAsk**: 사전 승인된 도구만 실행 — 프롬프트가 필요한 모든 호출을 자동 거부. Claude는 작업 디렉터리 안의 파일 읽기, 읽기 전용 Bash 명령어, `permissions.allow` 규칙이나 `PreToolUse` 훅이 승인한 호출의 대부분은 계속 실행하며, 설치한 mod도 일부 호출을 승인할 수 있음
 - **bypassPermissions**: 모든 작업 승인 (`--permission-mode bypassPermissions` 또는 동등한 `--dangerously-skip-permissions`로 활성화)
 
 ### 헤드리스 모드 (`claude -p`)

@@ -396,7 +396,7 @@ Các khả năng nâng cao cho workflows phức tạp.
 - **acceptEdits**: Tự động chấp nhận edits file, hỏi cho các khác
 - **plan**: Nghiên cứu và đề xuất thay đổi mà không thực hiện — Claude đọc file, chạy lệnh shell để khám phá và viết kế hoạch; việc chỉnh sửa bị chặn cho đến khi bạn duyệt kế hoạch (trừ phiên terminal tương tác có sẵn bypass permissions)
 - **auto**: Mọi thứ, với kiểm tra an toàn chạy nền — một classifier review các lệnh và thao tác ghi vào thư mục được bảo vệ (cấu hình qua đối tượng settings `autoMode`)
-- **dontAsk**: Chỉ các tool đã được phê duyệt trước — tự động từ chối mọi lệnh gọi lẽ ra sẽ hỏi. Claude vẫn chạy các thao tác đọc file trong thư mục làm việc, các lệnh Bash chỉ-đọc, phần lớn các mục khớp `permissions.allow`, và các lệnh gọi được hook `PreToolUse` phê duyệt; một mod bạn đã cài cũng có thể phê duyệt một số lệnh gọi
+- **dontAsk**: Chỉ các tool đã được phê duyệt trước — tự động từ chối mọi lệnh gọi lẽ ra sẽ hỏi. Claude vẫn chạy các thao tác đọc file trong thư mục làm việc, các lệnh Bash chỉ-đọc, và phần lớn các lệnh gọi được một rule `permissions.allow` hoặc hook `PreToolUse` phê duyệt; một mod bạn đã cài cũng có thể phê duyệt một số lệnh gọi
 - **bypassPermissions**: Chấp nhận tất cả (bật bằng `--permission-mode bypassPermissions` hoặc `--dangerously-skip-permissions` tương đương)
 
 ### Headless Mode (`claude -p`)

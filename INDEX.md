@@ -413,7 +413,7 @@ Advanced capabilities for complex workflows.
 - **acceptEdits**: Auto-accept file edits, ask for others
 - **plan**: Research and propose changes without making them — Claude reads files, runs shell commands to explore, and writes a plan; edits stay blocked until you approve the plan (except in interactive terminal sessions with bypass permissions available)
 - **auto**: Everything, with background safety checks — a classifier reviews commands and protected-directory writes (configured via the `autoMode` settings object)
-- **dontAsk**: Only pre-approved tools — auto-denies every call that would otherwise prompt. Claude still runs file reads inside the working directories, read-only Bash commands, most `permissions.allow` matches, and calls approved by a `PreToolUse` hook; a mod you installed can also approve some calls
+- **dontAsk**: Only pre-approved tools — auto-denies every call that would otherwise prompt. Claude still runs file reads inside the working directories, read-only Bash commands, and most calls that a `permissions.allow` rule or a `PreToolUse` hook approves; a mod you installed can also approve some calls
 - **bypassPermissions**: Accept all (enable with `--permission-mode bypassPermissions` or the equivalent `--dangerously-skip-permissions`)
 
 ### Headless Mode (`claude -p`)

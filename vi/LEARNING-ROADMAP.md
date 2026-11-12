@@ -360,7 +360,7 @@ Trước khi bắt đầu Level 3, đảm bảo bạn thoải mái với các kh
 #### Bạn Sẽ Đạt Được
 ✅ Planning mode cho các tính năng phức tạp
 ✅ Kiểm soát permission chi tiết với 6 modes (default, acceptEdits, plan, auto, dontAsk, bypassPermissions)
-✅ Điều khiển extended thinking: `/effort` trên các model mặc định, Alt+T / Option+T trên model cho phép tắt thinking
+✅ Điều khiển extended thinking: `/effort` trên các model luôn dùng extended thinking, Alt+T / Option+T trên model cho phép tắt thinking
 ✅ Quản lý background tasks
 ✅ Auto Memory cho các sở thích đã học
 ✅ Auto Mode với bộ phân loại an toàn nền
@@ -381,7 +381,7 @@ claude --permission-mode acceptEdits "refactor module auth"
 claude --permission-mode auto "triển khai tính năng"
 
 # Exercise 3: Điều khiển extended thinking
-# Chạy /effort và chọn mức; các model mặc định (Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable) luôn dùng thinking
+# Chạy /effort và chọn mức; Opus 5.5, Sonnet 5.5, Haiku 5.5 và các model Fable luôn dùng extended thinking
 # Alt+T (Option+T trên macOS) chỉ bật/tắt thinking trên model cho phép, ví dụ claude-opus-5
 
 # Exercise 4: Workflow checkpoint nâng cao
