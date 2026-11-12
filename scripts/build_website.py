@@ -562,9 +562,21 @@ def rewrite_links(
 # =============================================================================
 
 
+# A ```mermaid fence with an optional info string. The `indent` group is
+# re-emitted so a fence nested in a list item stays there. Keep in sync
+# with build_epub.py and check_mermaid.py.
 MERMAID_BLOCK_RE = re.compile(
-    r"^[ \t]*```[ \t]*mermaid(?:[ \t][^`\n]*)?\n(.*?)```", re.DOTALL | re.MULTILINE
+    r"^(?P<indent>[ \t]*)```[ \t]*mermaid(?:[ \t][^`\n]*)?\n(?P<code>.*?)```",
+    re.DOTALL | re.MULTILINE,
 )
+
+# Python-Markdown reads a line as raw HTML only up to this indent, in columns.
+# A tab advances to the next multiple of 4 columns.
+RAW_HTML_MAX_INDENT = 3
+# Characters Python-Markdown could act on inside an indented `<pre>`. Tabs
+# are included because Python-Markdown expands them to the next 4-column
+# stop, and on one line that stop no longer matches the source's.
+MARKDOWN_SIGNIFICANT_RE = re.compile(r"[\t\n*_`\[\]\\]")
 
 
 def replace_mermaid_blocks(md_content: str) -> str:
@@ -572,12 +584,23 @@ def replace_mermaid_blocks(md_content: str) -> str:
 
     The page script swaps each block for a Pele-rendered diagram; without
     JavaScript, or when Pele cannot render a diagram, the source stays as a
-    readable code block.
+    readable code block. The block keeps the fence's indentation, so a
+    diagram nested in a list item stays inside it.
+
+    At 4+ columns Python-Markdown no longer treats the `<pre>` as raw HTML: a
+    blank line would end it and `*`, `_`, `` ` ``, `[...]` and `\\` would be
+    read as Markdown. There, tabs, newlines and those characters are written
+    as numeric character references, which keeps the block on one line with
+    nothing to format. They decode back to the source in the parsed HTML and
+    in `textContent`. A block at 0-3 columns is raw HTML and stays as is.
     """
 
     def _replace(match: re.Match[str]) -> str:
-        code = match.group(1)
-        return f'<pre class="mermaid">{html.escape(code)}</pre>'
+        indent = match.group("indent")
+        code = html.escape(match.group("code"))
+        if len(indent.expandtabs(4)) > RAW_HTML_MAX_INDENT:
+            code = MARKDOWN_SIGNIFICANT_RE.sub(lambda c: f"&#{ord(c.group())};", code)
+        return f'{indent}<pre class="mermaid">{code}</pre>'
 
     return MERMAID_BLOCK_RE.sub(_replace, md_content)
 
@@ -635,6 +658,24 @@ def extract_toc(html_content: str) -> list[dict[str, str]]:
     return extract_toc_from_soup(BeautifulSoup(html_content, "html.parser"))
 
 
+def unwrap_mermaid_paragraphs(soup: BeautifulSoup) -> None:
+    """Drop the `<p>` Python-Markdown wraps around a nested mermaid `<pre>`.
+
+    A `<pre>` inside a `<p>` is invalid HTML. Only a `<p>` whose sole content
+    is one `<pre class="mermaid">` is unwrapped; a top-level diagram is raw
+    HTML with no `<p>`, so its output does not change.
+    """
+    for pre in soup.select("p > pre.mermaid"):
+        paragraph = pre.parent
+        others = [
+            child
+            for child in paragraph.contents
+            if child is not pre and not (isinstance(child, str) and not child.strip())
+        ]
+        if not others:
+            paragraph.unwrap()
+
+
 def render_markdown_to_soup(md_content: str) -> BeautifulSoup:
     """Render markdown to a parsed soup with GitHub-style heading ids applied.
 
@@ -648,6 +689,7 @@ def render_markdown_to_soup(md_content: str) -> BeautifulSoup:
         extension_configs={"codehilite": {"guess_lang": False}},
     )
     soup = BeautifulSoup(html_content, "html.parser")
+    unwrap_mermaid_paragraphs(soup)
     normalise_heading_ids_in_soup(soup)
     return soup
 

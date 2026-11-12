@@ -114,6 +114,34 @@ class TestExtractBlocks:
         blocks = check_mermaid.extract_blocks(md)
         assert [b.source for b in blocks] == [SEQ]
 
+    def test_extracts_fence_with_space_before_language(self, tmp_path: Path) -> None:
+        md = tmp_path / "diagram.md"
+        md.write_text("``` mermaid\n" + FLOW + "```\n", encoding="utf-8")
+        assert [b.source for b in check_mermaid.extract_blocks(md)] == [FLOW]
+
+    def test_nested_fence_reports_its_own_line(self, tmp_path: Path) -> None:
+        md = tmp_path / "list.md"
+        md.write_text(
+            "# Steps\n\n1. First\n\n   ```mermaid\n   graph TD\n   A --> B\n   ```\n\n"
+            "    ```mermaid\n    graph TD\n    C --> D\n    ```\n",
+            encoding="utf-8",
+        )
+        blocks = check_mermaid.extract_blocks(md)
+        assert [(b.line, b.source) for b in blocks] == [
+            (5, "   graph TD\n   A --> B\n   "),
+            (10, "    graph TD\n    C --> D\n    "),
+        ]
+
+    def test_fence_regex_matches_build_website_and_build_epub(self) -> None:
+        import build_epub
+        import build_website
+
+        for module in (build_website, build_epub):
+            assert module.MERMAID_BLOCK_RE.pattern == (
+                check_mermaid.MERMAID_BLOCK_RE.pattern
+            )
+            assert module.MERMAID_BLOCK_RE.flags == check_mermaid.MERMAID_BLOCK_RE.flags
+
 
 class TestValidBlocks:
     def test_valid_blocks_pass_with_count_line(
@@ -288,3 +316,78 @@ class TestStrictness:
         (project / "a.md").write_text("# No diagrams here\n", encoding="utf-8")
 
         assert check_mermaid.main([]) == 0
+
+
+def _indented_fence(indent: str, source: str) -> str:
+    lines = ["```mermaid", *source.splitlines(), "```"]
+    return "".join(f"{indent}{line}\n" for line in lines)
+
+
+class TestIndentedFenceWarning:
+    """A fence at 4+ columns is a diagram only inside a list item."""
+
+    @pytest.mark.parametrize(
+        "indent", ["    ", "\t", "  \t", "      "], ids=["4", "tab", "2+tab", "6"]
+    )
+    def test_warns_and_still_validates(
+        self,
+        project: Path,
+        fake_render: FakeRenderer,
+        capsys: pytest.CaptureFixture[str],
+        indent: str,
+    ) -> None:
+        (project / "a.md").write_text(
+            "# Title\n\n" + _indented_fence(indent, FLOW), encoding="utf-8"
+        )
+
+        assert check_mermaid.main(["--strict"]) == 0
+
+        out = capsys.readouterr().out
+        assert "⚠ a.md:3 (block 1): fence indented 4+ columns" in out
+        assert "only inside a list item" in out
+        assert "indented code block" in out
+        assert "✅ Pele 1.6.0 rendered 1 Mermaid block(s)" in out
+        assert len(fake_render.calls) == 1
+
+    @pytest.mark.parametrize("indent", ["", " ", "   "], ids=["0", "1", "3"])
+    def test_no_warning_below_four_columns(
+        self,
+        project: Path,
+        fake_render: FakeRenderer,
+        capsys: pytest.CaptureFixture[str],
+        indent: str,
+    ) -> None:
+        (project / "a.md").write_text(_indented_fence(indent, FLOW), encoding="utf-8")
+
+        assert check_mermaid.main(["--strict"]) == 0
+        assert "⚠" not in capsys.readouterr().out
+
+    def test_warning_does_not_change_failures(
+        self,
+        project: Path,
+        fake_render: FakeRenderer,
+        capsys: pytest.CaptureFixture[str],
+    ) -> None:
+        (project / "a.md").write_text(
+            _md(BROKEN) + "\n" + _indented_fence("    ", FLOW), encoding="utf-8"
+        )
+
+        assert check_mermaid.main(["--strict"]) == 1
+
+        out = capsys.readouterr().out
+        assert "fence indented 4+ columns" in out
+        assert "❌ Pele 1.6.0 rejected 1 Mermaid block(s)" in out
+
+    def test_warning_does_not_change_unavailable_strict_failure(
+        self,
+        project: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        capsys: pytest.CaptureFixture[str],
+    ) -> None:
+        (project / "a.md").write_text(_indented_fence("\t", FLOW), encoding="utf-8")
+        monkeypatch.setattr(check_mermaid, "render_diagrams", _unavailable)
+
+        assert check_mermaid.main(["--strict"]) == 1
+        out = capsys.readouterr().out
+        assert "fence indented 4+ columns" in out
+        assert "❌ Pele is unavailable" in out
