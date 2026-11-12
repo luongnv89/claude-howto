@@ -84,7 +84,9 @@ def _unavailable(*_a: Any, **_k: Any) -> list[PeleResult]:
 
 
 class TestExtractBlocks:
-    def test_extracts_fences_with_info_string_or_trailing_space(self, tmp_path: Path) -> None:
+    def test_extracts_fences_with_info_string_or_trailing_space(
+        self, tmp_path: Path
+    ) -> None:
         md = tmp_path / "diagram.md"
         md.write_text(
             "```mermaid \n"
@@ -97,6 +99,20 @@ class TestExtractBlocks:
         )
         blocks = check_mermaid.extract_blocks(md)
         assert [b.source for b in blocks] == [FLOW, SEQ]
+
+    def test_ignores_inline_code_and_other_languages(self, tmp_path: Path) -> None:
+        md = tmp_path / "table.md"
+        md.write_text(
+            "| Hook | Checks |\n"
+            "|------|--------|\n"
+            "| mermaid | Every ` ```mermaid ` block renders |\n\n"
+            "```mermaidjs\n" + FLOW + "```\n\n"
+            "```mermaid-foo\n" + FLOW + "```\n\n"
+            "```mermaid\n" + SEQ + "```\n",
+            encoding="utf-8",
+        )
+        blocks = check_mermaid.extract_blocks(md)
+        assert [b.source for b in blocks] == [SEQ]
 
 
 class TestValidBlocks:

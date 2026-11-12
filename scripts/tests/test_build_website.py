@@ -304,6 +304,17 @@ class TestReplaceMermaidBlocks:
         assert out.count('<pre class="mermaid">') == 2
         assert "```mermaid" not in out
 
+    def test_ignores_inline_code_and_other_languages(self) -> None:
+        md = (
+            "| mermaid | Every ` ```mermaid ` block |\n\n"
+            "```mermaidjs\nA-->B\n```\n\n"
+            "```mermaid\nflowchart LR\nA-->B\n```\n"
+        )
+        out = replace_mermaid_blocks(md)
+        assert out.count('<pre class="mermaid">') == 1
+        assert "` ```mermaid `" in out
+        assert "```mermaidjs" in out
+
 
 # =============================================================================
 # render_markdown

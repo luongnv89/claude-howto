@@ -461,7 +461,7 @@ def extract_all_mermaid_blocks(
     md_files: list[tuple[Path, str]], logger: logging.Logger
 ) -> list[tuple[int, str]]:
     """Extract all unique Mermaid code blocks from markdown files."""
-    pattern = r"```[ \t]*mermaid[^\n]*\n(.*?)```"
+    pattern = r"^[ \t]*```[ \t]*mermaid(?:[ \t][^`\n]*)?\n(.*?)```"
     seen: set[str] = set()
     diagrams: list[tuple[int, str]] = []
     counter = 0
@@ -469,7 +469,7 @@ def extract_all_mermaid_blocks(
     for file_path, _ in md_files:
         try:
             content = file_path.read_text(encoding="utf-8")
-            for match in re.finditer(pattern, content, flags=re.DOTALL):
+            for match in re.finditer(pattern, content, flags=re.DOTALL | re.MULTILINE):
                 code = match.group(1).strip()
                 if code not in seen:
                     seen.add(code)
@@ -828,7 +828,7 @@ def process_mermaid_blocks(
     md_content: str, book: epub.EpubBook, state: BuildState, logger: logging.Logger
 ) -> str:
     """Find mermaid code blocks and replace with image references."""
-    pattern = r"```[ \t]*mermaid[^\n]*\n(.*?)```"
+    pattern = r"^[ \t]*```[ \t]*mermaid(?:[ \t][^`\n]*)?\n(.*?)```"
 
     def replace_mermaid(match: re.Match[str]) -> str:
         cache_key = match.group(1).strip()
@@ -851,7 +851,7 @@ def process_mermaid_blocks(
             logger.error("Mermaid diagram not found in cache")
             raise MermaidRenderError("Mermaid diagram not found in cache")
 
-    return re.sub(pattern, replace_mermaid, md_content, flags=re.DOTALL)
+    return re.sub(pattern, replace_mermaid, md_content, flags=re.DOTALL | re.MULTILINE)
 
 
 def convert_internal_links(
