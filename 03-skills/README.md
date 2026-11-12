@@ -93,7 +93,7 @@ sequenceDiagram
 | **Project** | `.claude/skills/<skill-name>/SKILL.md` | Team | Yes (via git) | Team standards |
 | **Plugin** | `<plugin>/skills/<skill-name>/SKILL.md` | Where enabled | Depends | Bundled with plugins |
 
-When skills share the same name across levels, higher-priority locations win: **enterprise > personal > project**. With the same name in `~/.claude/skills/` and `.claude/skills/`, the personal one runs. To change a skill's visibility (not its precedence), use the `skillOverrides` setting (v2.1.129+) — see [Controlling Skill Override Behavior](#controlling-skill-override-behavior-skilloverrides). Plugin skills use a `plugin-name:skill-name` namespace, so they cannot conflict.
+When skills share the same name across levels, higher-priority locations win: **enterprise > personal > project**. With the same name in `~/.claude/skills/` and `.claude/skills/`, the personal one runs. To change a skill's visibility (not its precedence), use the `skillOverrides` setting (v2.1.129+) — see [Controlling Skill Visibility](#controlling-skill-visibility-skilloverrides). Plugin skills use a `plugin-name:skill-name` namespace, so they cannot conflict.
 
 > **Subagent skill discovery (v2.1.133+)**: Subagents now discover project, user, and plugin skills via the Skill tool the same way the main session does. Earlier versions limited subagents to their own embedded set, which meant skill+subagent workflows quietly degraded; from v2.1.133 the same skill catalog is visible to both.
 
@@ -679,7 +679,7 @@ Skill(deploy *)
 
 **Hide individual skills** by adding `disable-model-invocation: true` to their frontmatter.
 
-### Controlling Skill Override Behavior (`skillOverrides`)
+### Controlling Skill Visibility (`skillOverrides`)
 
 `skillOverrides` (v2.1.129+) is a per-skill visibility map, not a precedence switch: it sets how each skill is shown from settings, without editing its SKILL.md. Each key is a skill name; the `/skills` menu writes it for you (saved to `.claude/settings.local.json`). Precedence is unchanged — a personal skill still beats a project skill of the same name. Add it to `~/.claude/settings.json` or project `.claude/settings.json`:
 

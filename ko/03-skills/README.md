@@ -97,7 +97,7 @@ sequenceDiagram
 | **Project** | `.claude/skills/<skill-name>/SKILL.md` | 팀 | 예 (git을 통해) | 팀 표준 |
 | **Plugin** | `<plugin>/skills/<skill-name>/SKILL.md` | 활성화된 경우 | 다름 | 플러그인과 번들됨 |
 
-스킬이 여러 수준에서 동일한 이름을 공유하는 경우, 우선순위가 높은 위치가 이깁니다: **엔터프라이즈 > 개인 > 프로젝트**. `~/.claude/skills/`와 `.claude/skills/`에 같은 이름의 스킬이 있으면 개인 스킬이 실행됩니다. 스킬의 우선순위가 아니라 표시 여부를 바꾸려면 `skillOverrides` 설정(v2.1.129+)을 사용합니다. [스킬 재정의 동작 제어](#스킬-재정의-동작-제어-skilloverrides)를 참조하세요. 플러그인 스킬은 `plugin-name:skill-name` 네임스페이스를 사용하므로 충돌하지 않습니다.
+스킬이 여러 수준에서 동일한 이름을 공유하는 경우, 우선순위가 높은 위치가 이깁니다: **엔터프라이즈 > 개인 > 프로젝트**. `~/.claude/skills/`와 `.claude/skills/`에 같은 이름의 스킬이 있으면 개인 스킬이 실행됩니다. 스킬의 우선순위가 아니라 표시 여부를 바꾸려면 `skillOverrides` 설정(v2.1.129+)을 사용합니다. [스킬 표시 여부 제어](#스킬-표시-여부-제어-skilloverrides)를 참조하세요. 플러그인 스킬은 `plugin-name:skill-name` 네임스페이스를 사용하므로 충돌하지 않습니다.
 
 > **서브에이전트 스킬 검색 (v2.1.133+)**: 서브에이전트는 이제 주요 세션과 동일한 방식으로 Skill 도구를 통해 프로젝트, 사용자 및 플러그인 스킬을 검색합니다. 이전 버전은 서브에이전트를 자체 내장된 세트로 제한하여 스킬+서브에이전트 워크플로가 조용히 저하되었지만, v2.1.133부터는 동일한 스킬 카탈로그가 둘 다에게 표시됩니다.
 
@@ -683,7 +683,7 @@ Skill(deploy *)
 
 개별 스킬의 프런트매터에 `disable-model-invocation: true`를 추가하여 **개별 스킬 숨기기**.
 
-### 스킬 재정의 동작 제어 (`skillOverrides`)
+### 스킬 표시 여부 제어 (`skillOverrides`)
 
 `skillOverrides`(v2.1.129+)는 우선순위 스위치가 아니라 스킬별 표시 여부 맵입니다. SKILL.md를 편집하지 않고 설정에서 각 스킬이 어떻게 표시될지 지정합니다. 각 키는 스킬 이름이며, `/skills` 메뉴가 이 값을 대신 기록해 줍니다(`.claude/settings.local.json`에 저장). 우선순위는 바뀌지 않습니다. 같은 이름이면 여전히 개인 스킬이 프로젝트 스킬보다 우선합니다. `~/.claude/settings.json` 또는 프로젝트 `.claude/settings.json`에 추가하세요:
 

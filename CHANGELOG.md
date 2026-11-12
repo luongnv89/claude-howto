@@ -23,6 +23,9 @@ releases. This entry records that sync.
   per-event overrides documented.
 - **Skill precedence** corrected to **enterprise > personal > project**; the
   lesson had project and personal swapped, contradicting its own quiz.
+- **`skillOverrides` heading** retitled from "Controlling Skill Override
+  Behavior" to "Controlling Skill Visibility" (also in `fa/` and `ko/`), since the
+  setting is a per-skill visibility map, not a precedence control. Closes #176.
 - **Memory files are concatenated, not overridden** — the last two
   "overrides root CLAUDE.md" strings in `02-memory/README.md` were replaced.
 - **`SECURITY.md`** no longer advertises support for "1.x releases".
