@@ -298,6 +298,12 @@ class TestReplaceMermaidBlocks:
         out = replace_mermaid_blocks(md)
         assert "&lt;C&gt;" in out
 
+    def test_replaces_fence_with_info_string_or_trailing_space(self) -> None:
+        md = "```mermaid \nflowchart LR\nA-->B\n```\n\n```mermaid title=x\nA --> B\n```\n"
+        out = replace_mermaid_blocks(md)
+        assert out.count('<pre class="mermaid">') == 2
+        assert "```mermaid" not in out
+
 
 # =============================================================================
 # render_markdown

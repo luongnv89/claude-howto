@@ -461,7 +461,7 @@ def extract_all_mermaid_blocks(
     md_files: list[tuple[Path, str]], logger: logging.Logger
 ) -> list[tuple[int, str]]:
     """Extract all unique Mermaid code blocks from markdown files."""
-    pattern = r"```mermaid\n(.*?)```"
+    pattern = r"```[ \t]*mermaid[^\n]*\n(.*?)```"
     seen: set[str] = set()
     diagrams: list[tuple[int, str]] = []
     counter = 0
@@ -828,7 +828,7 @@ def process_mermaid_blocks(
     md_content: str, book: epub.EpubBook, state: BuildState, logger: logging.Logger
 ) -> str:
     """Find mermaid code blocks and replace with image references."""
-    pattern = r"```mermaid\n(.*?)```"
+    pattern = r"```[ \t]*mermaid[^\n]*\n(.*?)```"
 
     def replace_mermaid(match: re.Match[str]) -> str:
         cache_key = match.group(1).strip()

@@ -83,6 +83,22 @@ def _unavailable(*_a: Any, **_k: Any) -> list[PeleResult]:
     raise PeleUnavailableError("node not found on PATH")
 
 
+class TestExtractBlocks:
+    def test_extracts_fences_with_info_string_or_trailing_space(self, tmp_path: Path) -> None:
+        md = tmp_path / "diagram.md"
+        md.write_text(
+            "```mermaid \n"
+            + FLOW
+            + "```\n\n"
+            + "```mermaid title=Overview\n"
+            + SEQ
+            + "```\n",
+            encoding="utf-8",
+        )
+        blocks = check_mermaid.extract_blocks(md)
+        assert [b.source for b in blocks] == [FLOW, SEQ]
+
+
 class TestValidBlocks:
     def test_valid_blocks_pass_with_count_line(
         self,

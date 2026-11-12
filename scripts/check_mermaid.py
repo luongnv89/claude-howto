@@ -35,7 +35,7 @@ from pele_renderer import (
 from vendor_assets import PELE_VERSION
 
 IGNORE_DIRS = {".venv", "node_modules", ".git", "blog-posts", ".agents"}
-MERMAID_BLOCK_RE = re.compile(r"```mermaid\n(.*?)```", re.DOTALL)
+MERMAID_BLOCK_RE = re.compile(r"```[ \t]*mermaid[^\n]*\n(.*?)```", re.DOTALL)
 TRUTHY = {"1", "true", "yes"}
 
 
