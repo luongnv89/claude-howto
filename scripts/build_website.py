@@ -103,6 +103,7 @@ EXCLUDE_DIRS = {
     "ja",
     "uk",
     "ko",
+    "fa",
 }
 
 # Top-level markdown files that should not be rendered as standalone pages.
@@ -1108,7 +1109,7 @@ def main() -> int:
         "--lang",
         type=str,
         default="en",
-        choices=["en", "vi", "zh", "ja", "uk", "ko"],
+        choices=["en", "vi", "zh", "ja", "uk", "ko", "fa"],
         help="Language code for the source tree (default: en — root markdown)",
     )
     parser.add_argument(
@@ -1138,6 +1139,7 @@ def main() -> int:
         "ja": repo_root / "ja",
         "uk": repo_root / "uk",
         "ko": repo_root / "ko",
+        "fa": repo_root / "fa",
     }
     source_root = lang_root_map[args.lang].resolve()
 
