@@ -380,7 +380,7 @@ Advanced capabilities for complex workflows.
 | Scheduled Tasks | Recurring session-scoped tasks with `/loop` and cron tools | Automated recurring workflows |
 | Chrome Integration | Browser automation in your own Chrome via the Claude in Chrome extension | Web testing and scraping |
 | Remote Control (expanded) | Connection methods, security, comparison table, device cards | Remote session management (no longer a research preview) |
-| Cross-Session Messaging | `SendMessage` / `ListAgents`, including `notify_when_idle` (v2.1.236) | Coordinating sessions on the same machine |
+| Cross-Session Messaging | `SendMessage` / `ListAgents`, including `notify_when_idle` (v2.1.236) | Coordinating your sessions on this machine, or on other machines and in the cloud via Remote Control |
 | Keyboard Customization | Custom keybindings, chord support, contexts | Personalized shortcuts |
 | Desktop App (expanded) | Connectors, launch.json, enterprise features | Desktop integration |
 | | | |
@@ -411,9 +411,9 @@ Advanced capabilities for complex workflows.
 ### Permission Modes
 - **manual**: Ask before anything beyond reads (shown as Manual since v2.1.200; config value is still `default`)
 - **acceptEdits**: Auto-accept file edits, ask for others
-- **plan**: Read-only analysis, no modifications
+- **plan**: Research and propose changes without making them — Claude reads files, runs shell commands to explore, and writes a plan; edits stay blocked until you approve the plan (except in interactive terminal sessions with bypass permissions available)
 - **auto**: Everything, with background safety checks — a classifier reviews commands and protected-directory writes (configured via the `autoMode` settings object)
-- **dontAsk**: Only pre-approved tools — auto-denies every call that would otherwise prompt. Claude still runs file reads inside the working directories, read-only Bash commands, `permissions.allow` matches, and calls approved by a `PreToolUse` hook; a mod you installed can also approve some calls (v2.1.321)
+- **dontAsk**: Only pre-approved tools — auto-denies every call that would otherwise prompt. Claude still runs file reads inside the working directories, read-only Bash commands, most `permissions.allow` matches, and calls approved by a `PreToolUse` hook; a mod you installed can also approve some calls
 - **bypassPermissions**: Accept all (enable with `--permission-mode bypassPermissions` or the equivalent `--dangerously-skip-permissions`)
 
 ### Headless Mode (`claude -p`)
@@ -454,7 +454,7 @@ Advanced capabilities for complex workflows.
 - Out of research preview — a machine running `claude remote-control` appears as a device card in the Claude app's Code tab
 
 ### Cross-Session Messaging
-- `SendMessage` to your other sessions on this machine, and to your sessions on other machines or in the cloud
+- `SendMessage` to your other sessions on this machine, and, from a session connected to Remote Control with a claude.ai sign-in, to your sessions on other machines or in the cloud (a cloud session can't answer with `SendMessage`)
 - `notify_when_idle` — one opt-in notice when the other session next goes idle (v2.1.236)
 - `ListAgents` reports the session's own name and lists live teammates (v2.1.239)
 
@@ -925,7 +925,6 @@ Want to add more examples? Follow the structure:
 - https://code.claude.com/docs/en/permission-modes#allow-only-pre-approved-tools-with-dontask-mode
 - https://code.claude.com/docs/en/cross-session-messaging
 - https://code.claude.com/docs/en/whats-new/2026-w34
-- https://code.claude.com/docs/en/changelog#2-1-321
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 **Total Examples**: 100+ files
 **Categories**: 10 features

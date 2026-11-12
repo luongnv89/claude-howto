@@ -369,7 +369,7 @@ cp 04-subagents/*.md .claude/agents/
 #### 달성할 내용
 ✅ 복잡한 기능을 위한 계획 모드
 ✅ 6가지 모드(manual — 이전 명칭 default, acceptEdits, plan, auto, dontAsk, bypassPermissions)를 통한 세분화된 권한 제어
-✅ Alt+T / Option+T 토글을 통한 확장 사고
+✅ 확장 사고 제어: 기본 모델에서는 `/effort`, 사고를 끌 수 있는 모델에서는 Alt+T / Option+T
 ✅ 백그라운드 작업 관리
 ✅ 학습된 환경 설정을 위한 자동 메모리
 ✅ 백그라운드 안전 분류기가 있는 자동 모드
@@ -389,15 +389,16 @@ claude --permission-mode plan "analyze this codebase"
 claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
 
-# Exercise 3: Enable extended thinking
-# Press Alt+T (Option+T on macOS) during a session to toggle
+# Exercise 3: Control extended thinking
+# Run /effort and pick a level; the default models (Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable) always think
+# Alt+T (Option+T on macOS) toggles thinking only on models that allow it, e.g. claude-opus-5
 
 # Exercise 4: Advanced checkpoint workflow
-# 1. Create checkpoint "Clean state"
+# 1. Start from a clean state (Claude Code checkpoints every prompt automatically; checkpoints can't be named)
 # 2. Use planning mode to design a feature
 # 3. Implement with subagent delegation
 # 4. Run tests in background
-# 5. If tests fail, rewind to checkpoint
+# 5. If tests fail, /rewind to the checkpoint before step 2
 # 6. Try alternative approach
 
 # Exercise 5: Try auto mode (background safety classifier)
@@ -421,7 +422,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 #### 성공 기준
 - [ ] 복잡한 기능을 위해 계획 모드를 사용함
 - [ ] 권한 모드(plan, acceptEdits, auto, dontAsk)를 구성함
-- [ ] Alt+T / Option+T로 확장 사고를 토글함
+- [ ] `/effort`로 사고 수준을 설정함(사고를 끌 수 있는 모델에서는 Alt+T / Option+T로 토글함)
 - [ ] 백그라운드 안전 분류기가 있는 자동 모드를 사용함
 - [ ] 긴 작업을 위해 백그라운드 작업을 사용함
 - [ ] 외부 이벤트를 세션에 푸시하는 채널을 탐색함

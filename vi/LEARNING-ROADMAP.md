@@ -360,7 +360,7 @@ Trước khi bắt đầu Level 3, đảm bảo bạn thoải mái với các kh
 #### Bạn Sẽ Đạt Được
 ✅ Planning mode cho các tính năng phức tạp
 ✅ Kiểm soát permission chi tiết với 6 modes (default, acceptEdits, plan, auto, dontAsk, bypassPermissions)
-✅ Extended thinking qua Alt+T / Option+T toggle
+✅ Điều khiển extended thinking: `/effort` trên các model mặc định, Alt+T / Option+T trên model cho phép tắt thinking
 ✅ Quản lý background tasks
 ✅ Auto Memory cho các sở thích đã học
 ✅ Auto Mode với bộ phân loại an toàn nền
@@ -380,15 +380,16 @@ claude --permission-mode plan "phân tích codebase này"
 claude --permission-mode acceptEdits "refactor module auth"
 claude --permission-mode auto "triển khai tính năng"
 
-# Exercise 3: Bật extended thinking
-# Nhấn Alt+T (Option+T trên macOS) trong session để toggle
+# Exercise 3: Điều khiển extended thinking
+# Chạy /effort và chọn mức; các model mặc định (Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable) luôn dùng thinking
+# Alt+T (Option+T trên macOS) chỉ bật/tắt thinking trên model cho phép, ví dụ claude-opus-5
 
 # Exercise 4: Workflow checkpoint nâng cao
-# 1. Tạo checkpoint "Trạng thái sạch"
+# 1. Bắt đầu từ trạng thái sạch (Claude Code tự tạo checkpoint cho mỗi prompt; checkpoint không đặt tên được)
 # 2. Sử dụng planning mode để thiết kế một tính năng
 # 3. Triển khai với ủy quyền subagent
 # 4. Chạy tests trong background
-# 5. Nếu tests thất bại, rewind về checkpoint
+# 5. Nếu tests thất bại, /rewind về checkpoint trước bước 2
 # 6. Thử cách tiếp cận thay thế
 
 # Exercise 5: Thử auto mode (background safety classifier)
@@ -412,7 +413,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 #### Tiêu Chí Thành Công
 - [ ] Đã sử dụng planning mode cho một tính năng phức tạp
 - [ ] Đã cấu hình permission modes (plan, acceptEdits, auto, dontAsk)
-- [ ] Đã toggle extended thinking với Alt+T / Option+T
+- [ ] Đã đặt mức thinking bằng `/effort` (và toggle thinking bằng Alt+T / Option+T trên model cho phép)
 - [ ] Đã sử dụng auto mode với background safety classifier
 - [ ] Đã sử dụng background tasks cho operations dài
 - [ ] Đã khám phá Channels đẩy sự kiện bên ngoài vào session

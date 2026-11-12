@@ -365,7 +365,7 @@ Before starting Level 3, make sure you're comfortable with these Level 2 concept
 #### What You'll Achieve
 ✅ Planning mode for complex features
 ✅ Fine-grained permission control with 6 modes (manual — formerly default, acceptEdits, plan, auto, dontAsk, bypassPermissions)
-✅ Extended thinking via Alt+T / Option+T toggle
+✅ Extended thinking control: `/effort` on the default models, Alt+T / Option+T on models where thinking can be turned off
 ✅ Background task management
 ✅ Auto Memory for learned preferences
 ✅ Auto Mode with background safety classifier
@@ -385,15 +385,16 @@ claude --permission-mode plan "analyze this codebase"
 claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
 
-# Exercise 3: Enable extended thinking
-# Press Alt+T (Option+T on macOS) during a session to toggle
+# Exercise 3: Control extended thinking
+# Run /effort and pick a level; the default models (Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable) always think
+# Alt+T (Option+T on macOS) toggles thinking only on models that allow it, e.g. claude-opus-5
 
 # Exercise 4: Advanced checkpoint workflow
-# 1. Create checkpoint "Clean state"
+# 1. Start from a clean state (Claude Code checkpoints every prompt automatically; checkpoints can't be named)
 # 2. Use planning mode to design a feature
 # 3. Implement with subagent delegation
 # 4. Run tests in background
-# 5. If tests fail, rewind to checkpoint
+# 5. If tests fail, /rewind to the checkpoint before step 2
 # 6. Try alternative approach
 
 # Exercise 5: Try auto mode (background safety classifier)
@@ -417,7 +418,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 #### Success Criteria
 - [ ] Used planning mode for a complex feature
 - [ ] Configured permission modes (plan, acceptEdits, auto, dontAsk)
-- [ ] Toggled extended thinking with Alt+T / Option+T
+- [ ] Set the thinking depth with `/effort` (and, on a model that allows it, toggled thinking with Alt+T / Option+T)
 - [ ] Used auto mode with background safety classifier
 - [ ] Used background tasks for long operations
 - [ ] Explored Channels that push external events into a session
