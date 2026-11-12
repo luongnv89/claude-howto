@@ -84,6 +84,8 @@ jobs:
         env:
           BUILD_RESULT: ${{ needs.build.result }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        # Explicit `shell: bash` adds `-o pipefail`; the default is `bash -e` only.
+        shell: bash
         run: |
           shopt -s nullglob
           epubs=(dist/claude-howto-guide*.epub)
@@ -138,8 +140,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
+        # Explicit `shell: bash` adds `-o pipefail`, so a failed list call fails
+        # the step before any delete; the default is `bash -e` only.
+        shell: bash
         run: |
-          ids=$(gh api --paginate "repos/$GH_REPO/releases" |
+          ids=$(gh api --paginate "repos/$GH_REPO/releases?per_page=100" |
             jq -r --arg tag "$GITHUB_REF_NAME" '.[] | select(.draft and .tag_name == $tag) | .id')
           for id in $ids; do
             echo "Deleting stale draft release $id for $GITHUB_REF_NAME"
