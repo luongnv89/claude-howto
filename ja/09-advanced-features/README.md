@@ -494,7 +494,7 @@ python3 09-advanced-features/setup-auto-mode-permissions.py --include-git-write 
 | オプションの Git 書き込み | `Bash(git add:*)`、`Bash(git commit:*)`、`Bash(git checkout:*)`、`Bash(git switch:*)`、`Bash(git stash:*)`、`Bash(git tag:*)` |
 | パッケージマネージャ | `Bash(npm ci:*)`、`Bash(npm install:*)`、`Bash(pip install:*)`、`Bash(pip3 install:*)` |
 | ビルドとテスト | `Bash(make:*)`、`Bash(pytest:*)`、`Bash(go test:*)` |
-| よく使うシェル | `Bash(ls:*)`、`Bash(cat:*)`、`Bash(find:*)` |
+| よく使うシェル | `Bash(ls:*)`、`Bash(cat:*)`、`Bash(wc:*)` |
 | GitHub CLI | `Bash(gh pr view:*)`、`Bash(gh pr create:*)`、`Bash(gh issue list:*)` |
 
 危険な操作（`rm -rf`、`sudo`、強制プッシュ、`DROP TABLE`、`terraform destroy` など）は意図的に除外されている。スクリプトは冪等であり、2 回実行してもルールは重複しない。

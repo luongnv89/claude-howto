@@ -1228,7 +1228,7 @@ if __name__ == "__main__":
 
 ### 예시 7: auto 모드 권한 시드(일회성 설정 스크립트)
 
-Claude Code의 auto 모드 기준선과 동등한 안전한 권한 규칙(기본 37개, 모든 카테고리 플래그를 켜면 최대 63개)을 `~/.claude/settings.json`에 시드하는 일회성 설정 스크립트입니다. 훅을 사용하지 않으며 이후 선택을 기억하지도 않습니다. 한 번만 실행하면 되며, 다시 실행해도 안전합니다(이미 있는 규칙은 건너뜀).
+Claude Code의 auto 모드 기준선과 동등한 안전한 권한 규칙(기본 32개, 모든 카테고리 플래그를 켜면 최대 58개)을 `~/.claude/settings.json`에 시드하는 일회성 설정 스크립트입니다. 훅을 사용하지 않으며 이후 선택을 기억하지도 않습니다. 한 번만 실행하면 되며, 다시 실행해도 안전합니다(이미 있는 규칙은 건너뜀).
 
 **파일:** `09-advanced-features/setup-auto-mode-permissions.py`
 
@@ -1250,7 +1250,7 @@ python3 09-advanced-features/setup-auto-mode-permissions.py
 | Git 쓰기(로컬) | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git checkout:*)` |
 | 패키지 관리자 | `Bash(npm ci:*)`, `Bash(npm install:*)`, `Bash(pip install:*)`, `Bash(pip3 install:*)` |
 | 빌드 및 테스트 | `Bash(make:*)`, `Bash(pytest:*)`, `Bash(go test:*)` |
-| 일반 셸 | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(find:*)` |
+| 일반 셸 | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(wc:*)` |
 | GitHub CLI | `Bash(gh pr view:*)`, `Bash(gh pr create:*)`, `Bash(gh issue list:*)` |
 
 **의도적으로 제외되는 항목**(이 스크립트는 절대 추가하지 않음):

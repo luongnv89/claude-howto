@@ -1228,7 +1228,7 @@ if __name__ == "__main__":
 
 ### Example 7: Seed Auto-Mode Permissions (One-Time Setup Script)
 
-A one-time setup script that seeds `~/.claude/settings.json` with safe permission rules equivalent to Claude Code's auto-mode baseline — 37 by default, up to 63 with every category flag enabled — without any hook, without remembering future choices. Run it once; safe to re-run (skips rules already present).
+A one-time setup script that seeds `~/.claude/settings.json` with safe permission rules equivalent to Claude Code's auto-mode baseline — 32 by default, up to 58 with every category flag enabled — without any hook, without remembering future choices. Run it once; safe to re-run (skips rules already present).
 
 **File:** `09-advanced-features/setup-auto-mode-permissions.py`
 
@@ -1250,7 +1250,7 @@ python3 09-advanced-features/setup-auto-mode-permissions.py
 | Git write (local) | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git checkout:*)` |
 | Package managers | `Bash(npm ci:*)`, `Bash(npm install:*)`, `Bash(pip install:*)`, `Bash(pip3 install:*)` |
 | Build & test | `Bash(make:*)`, `Bash(pytest:*)`, `Bash(go test:*)` |
-| Common shell | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(find:*)` |
+| Common shell | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(wc:*)` |
 | GitHub CLI | `Bash(gh pr view:*)`, `Bash(gh pr create:*)`, `Bash(gh issue list:*)` |
 
 **What is intentionally excluded** (never added by this script):

@@ -569,7 +569,7 @@ python3 09-advanced-features/setup-auto-mode-permissions.py --include-git-write 
 | نوشتن‌های اختیاری git | `Bash(git add:*)`، `Bash(git commit:*)`، `Bash(git checkout:*)`، `Bash(git switch:*)`، `Bash(git stash:*)`، `Bash(git tag:*)` |
 | مدیران بسته | `Bash(npm ci:*)`، `Bash(npm install:*)`، `Bash(pip install:*)`، `Bash(pip3 install:*)` |
 | ساخت و تست | `Bash(make:*)`، `Bash(pytest:*)`، `Bash(go test:*)` |
-| شل رایج | `Bash(ls:*)`، `Bash(cat:*)`، `Bash(find:*)` |
+| شل رایج | `Bash(ls:*)`، `Bash(cat:*)`، `Bash(wc:*)` |
 | GitHub CLI | `Bash(gh pr view:*)`، `Bash(gh pr create:*)`، `Bash(gh issue list:*)` |
 
 عملیات خطرناک (`rm -rf`، `sudo`، فورس‌پوش، `DROP TABLE`، `terraform destroy` و غیره) عمداً حذف شده‌اند. اسکریپت idempotent است — اجرای دوباره آن قواعد را تکراری نمی‌کند.

@@ -968,7 +968,7 @@ if __name__ == "__main__":
 
 ### 例 7：自動モード権限のシード（一度限りのセットアップスクリプト）
 
-`~/.claude/settings.json` に Claude Code の自動モードベースラインに相当する安全な権限ルール（デフォルトで 37 個、すべてのカテゴリフラグを有効にすると最大 63 個）をシードする一度限りのセットアップスクリプト。フックなし、将来の選択を覚えることもなし。1 回実行すれば良く、再実行しても安全（既存ルールはスキップ）。
+`~/.claude/settings.json` に Claude Code の自動モードベースラインに相当する安全な権限ルール（デフォルトで 32 個、すべてのカテゴリフラグを有効にすると最大 58 個）をシードする一度限りのセットアップスクリプト。フックなし、将来の選択を覚えることもなし。1 回実行すれば良く、再実行しても安全（既存ルールはスキップ）。
 
 **ファイル：** `09-advanced-features/setup-auto-mode-permissions.py`
 
@@ -990,7 +990,7 @@ python3 09-advanced-features/setup-auto-mode-permissions.py
 | Git 書き込み（ローカル） | `Bash(git add:*)`、`Bash(git commit:*)`、`Bash(git checkout:*)` |
 | パッケージマネージャ | `Bash(npm ci:*)`、`Bash(npm install:*)`、`Bash(pip install:*)`、`Bash(pip3 install:*)` |
 | ビルド・テスト | `Bash(make:*)`、`Bash(pytest:*)`、`Bash(go test:*)` |
-| 一般的なシェル | `Bash(ls:*)`、`Bash(cat:*)`、`Bash(find:*)` |
+| 一般的なシェル | `Bash(ls:*)`、`Bash(cat:*)`、`Bash(wc:*)` |
 | GitHub CLI | `Bash(gh pr view:*)`、`Bash(gh pr create:*)`、`Bash(gh issue list:*)` |
 
 **意図的に除外される項目**（このスクリプトでは追加されない）：
