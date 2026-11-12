@@ -747,7 +747,7 @@ my-plugin/
 
 - **`pr-review/`** — 리뷰 명령어, 전문 에이전트 3개, GitHub MCP, 리뷰 전 훅
 - **`documentation/`** — 문서 생성 명령어, 에이전트 3개, 재사용 가능한 템플릿
-- **`devops-automation/`** — deploy/rollback/status/incident 명령어, 에이전트 3개, Kubernetes MCP, 셸 스크립트
+- **`devops-automation/`** — deploy/rollback/status/incident 명령어, 에이전트 3개, 배포 훅, 셸 스크립트
 
 각 플러그인에는 `.claude-plugin/plugin.json` 매니페스트와 디렉터리 구성이 포함되어 있습니다.
 

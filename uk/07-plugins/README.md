@@ -373,18 +373,19 @@ Specializes in finding security vulnerabilities:
 
 **Файл:** `hooks/hooks.json`
 
-Запускає `hooks/pre-review.js`, коли користувач вводить одну з команд плагіна. Скрипт блокує команду поза git-репозиторієм (код виходу 2):
+Запускає `hooks/pre-review.js`, коли користувач вводить одну з команд плагіна. Скрипт блокує команду поза git-репозиторієм (код виходу 2). Matcher перевіряється на `command_name`, яке для команди плагіна в Claude Code 2.1.322 мало вигляд `pr-review:review-pr`; він також приймає просту форму `review-pr`. `args` (exec-форма) передає шлях до скрипта одним аргументом, тож лапки не потрібні:
 
 ```json
 {
   "hooks": {
     "UserPromptExpansion": [
       {
-        "matcher": "^pr-review:(review-pr|check-security|check-tests)$",
+        "matcher": "^(pr-review:)?(review-pr|check-security|check-tests)$",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js\"",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js"],
             "timeout": 30
           }
         ]
@@ -396,7 +397,7 @@ Specializes in finding security vulnerabilities:
 
 **Файл:** `.mcp.json`
 
-Оголошує офіційний MCP-сервер GitHub у режимі лише для читання, з токеном із `GITHUB_TOKEN`:
+Оголошує офіційний MCP-сервер GitHub у режимі лише для читання, з токеном із `GITHUB_TOKEN`. Образ закріплено на [релізі v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0), тож оновлення upstream не може змінити плагін без перевірки:
 
 ```json
 {
@@ -407,7 +408,7 @@ Specializes in finding security vulnerabilities:
         "run", "-i", "--rm",
         "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
         "-e", "GITHUB_READ_ONLY",
-        "ghcr.io/github/github-mcp-server"
+        "ghcr.io/github/github-mcp-server:v2.1.0"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
@@ -450,14 +451,13 @@ devops-automation/
 │   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
-├── scripts/
-│   ├── deploy.sh
-│   ├── rollback.sh
-│   └── health-check.sh
-└── .mcp.json             # Kubernetes MCP server
+└── scripts/
+    ├── deploy.sh
+    ├── rollback.sh
+    └── health-check.sh
 ```
 
-`hooks/hooks.json` запускає `pre-deploy.js` перед кожним викликом Bash і `post-deploy.js` після нього. Скрипти читають команду з JSON-входу хука й діють лише на команди розгортання, як-от `kubectl apply` чи `deploy.sh`. `pre-deploy.js` завершується з кодом 2, щоб заблокувати розгортання, коли `kubectl` не може дістатися кластера.
+`hooks/hooks.json` запускає `pre-deploy.js` перед кожним викликом Bash і `post-deploy.js` після нього. Скрипти читають команду з JSON-входу хука й діють лише на команди розгортання, як-от `kubectl apply` чи `deploy.sh`. `pre-deploy.js` завершується з кодом 2, щоб заблокувати розгортання, коли `kubectl` не може дістатися кластера. Плагін не має MCP-сервера: хуки та скрипти викликають `kubectl` напряму.
 
 ### Приклад 3: Плагін документації
 

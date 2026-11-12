@@ -39,7 +39,7 @@ tags: plugins, documentation, automation
 
 ### MCP 服务器
 
-`.mcp.json` 声明了一个服务器 `github`：GitHub 官方 MCP 服务器（`ghcr.io/github/github-mcp-server`），通过 Docker 以只读模式运行。它在 `/mcp` 中显示为 `plugin:documentation:github`。
+`.mcp.json` 声明了一个服务器 `github`：GitHub 官方 MCP 服务器（`ghcr.io/github/github-mcp-server`），通过 Docker 以只读模式运行。镜像固定在 [v2.1.0 版本](https://github.com/github/github-mcp-server/releases/tag/v2.1.0)；如需升级，请修改 `.mcp.json` 中的标签。它在 `/mcp` 中显示为 `plugin:documentation:github`。
 
 ## 安装
 

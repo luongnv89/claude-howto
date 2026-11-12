@@ -585,14 +585,14 @@ Claude:
 ### DevOps-розгортання
 
 ```markdown
-# Використовує: Плагіни + MCP + Хуки
+# Використовує: Плагіни + Субагенти + Хуки
 
-User: /deploy production
+User: /devops-automation:deploy production
 
 Claude:
 1. Запускає pre-deploy хук (валідація середовища)
 2. Делегує субагенту deployment-specialist
-3. Виконує розгортання через Kubernetes MCP
+3. Запускає скрипт розгортання (kubectl)
 4. Моніторить прогрес
 5. Запускає post-deploy хук (перевірки стану)
 6. Звітує про статус

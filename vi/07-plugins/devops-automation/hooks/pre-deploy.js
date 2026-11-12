@@ -4,7 +4,7 @@
  * Pre-deployment hook (PreToolUse on Bash)
  *
  * Registered in hooks/hooks.json. Claude Code runs it before every Bash
- * command; it acts only on deploy-like commands (see DEPLOY_PATTERN) and
+ * command; it acts only on deploy commands (see isDeployCommand) and
  * exits 0 for everything else.
  *
  * Input:  hook JSON on stdin (uses `tool_input.command` and `cwd`).
@@ -15,9 +15,53 @@
  */
 
 const { execFileSync } = require('child_process');
+const path = require('path');
 
-const DEPLOY_PATTERN =
-  /(deploy|rollback)\.sh\b|\bkubectl\s+(apply|set\s+image|rollout\s+(restart|undo))\b|\bhelm\s+(install|upgrade|rollback)\b/;
+/**
+ * True when the Bash command runs a deploy: deploy.sh / rollback.sh,
+ * kubectl apply | set image | rollout restart | rollout undo,
+ * or helm install | upgrade | rollback.
+ *
+ * A simple heuristic, not a shell parser. It drops heredoc bodies and quoted
+ * strings, splits on newlines, &&, ||, ;, |, &, ( and ), and looks only at
+ * the first word of each piece, so `echo "kubectl apply"`, `cat deploy.sh`
+ * and `git commit -m "helm upgrade"` don't count. Global flags before the
+ * verb (`kubectl -n prod apply`) do count.
+ */
+function isDeployCommand(command) {
+  const text = command
+    .replace(/<<-?\s*['"]?(\w+)['"]?[^\n]*\n[\s\S]*?(\n\s*\1\s*(?=\n|$)|$)/g, '\n') // heredoc bodies
+    .replace(/'[^']*'|"(?:\\.|[^"\\])*"/g, "''"); // quoted strings
+
+  return text.split(/&&|\|\||[\n;|&()`]/).some((piece) => {
+    const words = piece.trim().split(/\s+/).filter(Boolean);
+    while (words.length && (/^\w+=/.test(words[0]) || ['sudo', 'env', 'time', 'nohup', 'exec', 'command'].includes(words[0]))) {
+      words.shift(); // VAR=value prefixes and simple wrappers
+    }
+    if (!words.length) return false;
+
+    const program = path.basename(words[0]);
+    if (/^(deploy|rollback)\.sh$/.test(program)) return true;
+    if (['bash', 'sh', 'zsh'].includes(program)) {
+      const script = words.slice(1).find((w) => !w.startsWith('-'));
+      return Boolean(script) && /^(deploy|rollback)\.sh$/.test(path.basename(script));
+    }
+
+    const verbs = { kubectl: ['apply', 'set', 'rollout'], helm: ['install', 'upgrade', 'rollback'] }[program];
+    if (!verbs) return false;
+    let i = 1;
+    while (i < words.length && words[i].startsWith('-')) {
+      // Skip global flags; `-n prod` style flags also skip their value.
+      const takesValue = !words[i].includes('=') && i + 1 < words.length
+        && !words[i + 1].startsWith('-') && !verbs.includes(words[i + 1]);
+      i += takesValue ? 2 : 1;
+    }
+    const [verb, sub] = [words[i], words[i + 1]];
+    if (program === 'helm') return verbs.includes(verb);
+    return verb === 'apply' || (verb === 'set' && sub === 'image')
+      || (verb === 'rollout' && ['restart', 'undo'].includes(sub));
+  });
+}
 
 function readStdin() {
   return new Promise((resolve) => {
@@ -38,7 +82,7 @@ async function main() {
   const input = JSON.parse((await readStdin()) || '{}');
   const command = (input.tool_input && input.tool_input.command) || '';
 
-  if (input.tool_name !== 'Bash' || !DEPLOY_PATTERN.test(command)) {
+  if (input.tool_name !== 'Bash' || typeof command !== 'string' || !isDeployCommand(command)) {
     process.exit(0); // Not a deployment: nothing to check.
   }
 

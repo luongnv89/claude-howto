@@ -60,14 +60,14 @@ pr-review/
 
 ### MCP 서버
 
-`.mcp.json`은 서버 하나, `github`를 선언합니다. GitHub의 공식 MCP 서버(`ghcr.io/github/github-mcp-server`)이며 Docker로 읽기 전용 모드로 실행됩니다. `/mcp`에서는 `plugin:pr-review:github`로 표시됩니다.
+`.mcp.json`은 서버 하나, `github`를 선언합니다. GitHub의 공식 MCP 서버(`ghcr.io/github/github-mcp-server`)이며 Docker로 읽기 전용 모드로 실행됩니다. 이미지는 [v2.1.0 릴리스](https://github.com/github/github-mcp-server/releases/tag/v2.1.0)로 고정되어 있으며, 업그레이드하려면 `.mcp.json`의 태그를 변경하세요. `/mcp`에서는 `plugin:pr-review:github`로 표시됩니다.
 
 ### 훅(Hooks)
 
-`hooks/hooks.json`은 `pre-review.js`를 `UserPromptExpansion` 이벤트에 등록하며, 위의 세 명령어에 대한 matcher를 사용합니다. 이 중 하나를 입력하면 훅은 다음을 수행합니다.
+`hooks/hooks.json`은 `pre-review.js`를 `UserPromptExpansion` 이벤트에 등록하며, 위의 세 명령어에 대한 matcher를 사용합니다. matcher는 `pr-review:review-pr`(Claude Code 2.1.322가 플러그인 명령어에 대해 보내는 `command_name`)와 접두사 없는 `review-pr`를 모두 허용합니다. 이 중 하나를 입력하면 훅은 다음을 수행합니다.
 
 - 현재 디렉터리가 git 저장소가 아니면 명령어를 차단합니다(종료 코드 2)
-- 그렇지 않으면 현재 브랜치와, 커밋되지 않은 변경 사항에 대한 안내를 Claude의 컨텍스트에 추가합니다
+- 그렇지 않으면 현재 브랜치(또는 HEAD가 분리된 상태이거나 저장소에 아직 커밋이 없다는 안내)와, 커밋되지 않은 변경 사항에 대한 안내를 Claude의 컨텍스트에 추가합니다
 
 ## 사용 방법
 

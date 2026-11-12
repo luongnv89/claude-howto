@@ -44,10 +44,6 @@ claude plugin validate ./07-plugins/devops-automation
 - `incident-commander` - 事故协调
 - `alert-analyzer` - 系统健康分析
 
-### MCP 服务器
-
-`.mcp.json` 声明了一个服务器 `kubernetes`：npm 包 `mcp-server-kubernetes`，通过 `npx` 运行并设置 `ALLOW_ONLY_NON_DESTRUCTIVE_TOOLS=true`，因此其删除类工具会被关闭。它在 `/mcp` 中显示为 `plugin:devops-automation:kubernetes`。
-
 ### 脚本
 - `deploy.sh` - 部署自动化
 - `rollback.sh` - 回滚自动化
@@ -58,9 +54,13 @@ claude plugin validate ./07-plugins/devops-automation
 `hooks/hooks.json` 把这两个脚本注册到 Bash 工具调用上。它们只对部署命令生效（`deploy.sh`、`rollback.sh`、`kubectl apply`、`kubectl set image`、`kubectl rollout restart|undo`、`helm install|upgrade|rollback`），对其他所有命令都以退出码 0 退出：
 
 - `pre-deploy.js`（`PreToolUse`）：当 `kubectl` 不存在或无法连接到集群时阻止该命令（退出码 2），并让 Claude 看到原因
-- `post-deploy.js`（`PostToolUse`）：最多等待 120 秒，直到带有 `DEPLOY_APP_LABEL` 标签的 pods 就绪；如果没有就绪，会告知 Claude。未设置 `DEPLOY_APP_LABEL` 时跳过等待
+- `post-deploy.js`（`PostToolUse`）：检查部署结果，如果失败会告知 Claude。设置了 `DEPLOY_DEPLOYMENT` 时，它运行 `kubectl rollout status`（最多 120 秒），等待新的 pods 就绪。否则，如果设置了 `DEPLOY_APP_LABEL`，它会退而使用 `kubectl wait` 等待带有该标签的 pods 变为 Ready；仍处于 Ready 状态的旧 pods 也会通过这项检查。两者都未设置时跳过检查。它给 Claude 的提示会说明运行了哪项检查
 
-两个 hooks 都只读取集群状态（`kubectl version`、`cluster-info`、`wait`）。
+两个 hooks 都只读取集群状态（`kubectl version`、`cluster-info`、`rollout status`、`wait`）。
+
+命令的识别方式：脚本会去掉 heredoc 正文和引号内的字符串，按换行符、`&&`、`||`、`;`、`|` 和 `&` 拆分命令，并查看每一段的第一个词（跳过 `VAR=value` 以及 `sudo`、`env` 等包装命令）。动词之前的全局参数也会被识别，所以 `kubectl -n prod apply` 和 `helm -n prod upgrade` 算作部署，而 `echo "kubectl apply"`、`cat scripts/deploy.sh` 和 `git commit -m "helm upgrade notes"` 不算。这是一种启发式方法，而不是 shell 解析器：它会漏掉藏在引号里的部署（`bash -c "kubectl apply …"`）、藏在其他包装命令后面的部署（`ssh`、`xargs`、`make deploy`），以及写在其他脚本里的部署。不要把它当作安全边界。
+
+如果你在部署命令运行期间按下 `Ctrl+Enter` 并因此结束了当前轮次，post-deploy hook 仍会在命令结束时运行，但无论其 `timeout` 设为多少，Claude Code 都会在 10 秒后终止它，因此检查可能无法完成。
 
 ## 使用
 
@@ -97,21 +97,18 @@ claude plugin validate ./07-plugins/devops-automation
 ## 要求
 
 - Claude Code 2.1+
-- Node.js（运行 hook 脚本和 MCP 服务器）
+- Node.js（运行 hook 脚本）
 - Kubernetes CLI（kubectl）
 - 已配置集群访问
 
 ## 配置
 
-设置 Kubernetes 配置（`.mcp.json` 会把 `KUBECONFIG` 传给 MCP 服务器）：
+hooks 和脚本使用你常规的 `kubectl` 配置（`~/.kube/config`，如果设置了 `KUBECONFIG` 则使用它）。
+
+可选，用于部署后的检查（设置 `DEPLOY_DEPLOYMENT`，或设置 `DEPLOY_APP_LABEL` 以使用 pod 就绪等待作为回退方案）：
 
 ```bash
-export KUBECONFIG=~/.kube/config
-```
-
-可选，用于部署后的就绪检查：
-
-```bash
+export DEPLOY_DEPLOYMENT="myapp"
 export DEPLOY_APP_LABEL="app=myapp"
 export DEPLOY_NAMESPACE="staging"
 ```
@@ -124,9 +121,8 @@ export DEPLOY_NAMESPACE="staging"
 Claude:
 1. 将部署委派给 deployment-specialist subagent
 2. 运行 deploy.sh 脚本；pre-deploy hook 会先检查 kubectl 和集群连接
-3. 通过 Kubernetes MCP 监控部署进度
-4. post-deploy hook 等待 pods 就绪
-5. 提供部署总结
+3. post-deploy hook 等待 pods 就绪
+4. 提供部署总结
 
 结果：
 ✅ 部署完成

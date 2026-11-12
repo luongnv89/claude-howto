@@ -43,10 +43,6 @@ Lệnh của plugin được đặt namespace theo `name` của plugin trong `pl
 - `incident-commander` - Điều phối sự cố
 - `alert-analyzer` - Phân tích sức khỏe hệ thống
 
-### MCP Server
-
-`.mcp.json` khai báo một server, `kubernetes`: npm package `mcp-server-kubernetes`, chạy bằng `npx` với `ALLOW_ONLY_NON_DESTRUCTIVE_TOOLS=true`, nên các tool xóa của nó bị tắt. Server này hiển thị là `plugin:devops-automation:kubernetes` trong `/mcp`.
-
 ### Script
 - `deploy.sh` - Tự động hóa triển khai
 - `rollback.sh` - Tự động hóa rollback
@@ -57,9 +53,13 @@ Lệnh của plugin được đặt namespace theo `name` của plugin trong `pl
 `hooks/hooks.json` đăng ký cả hai script cho các lần gọi tool Bash. Chúng chỉ tác động lên các lệnh triển khai (`deploy.sh`, `rollback.sh`, `kubectl apply`, `kubectl set image`, `kubectl rollout restart|undo`, `helm install|upgrade|rollback`) và exit 0 với mọi lệnh khác:
 
 - `pre-deploy.js` (`PreToolUse`): chặn lệnh (exit code 2) khi thiếu `kubectl` hoặc `kubectl` không kết nối được cluster, và Claude sẽ thấy lý do
-- `post-deploy.js` (`PostToolUse`): chờ tối đa 120s để các pod có nhãn `DEPLOY_APP_LABEL` sẵn sàng, và báo cho Claude nếu chúng chưa sẵn sàng. Bước chờ được bỏ qua khi chưa đặt `DEPLOY_APP_LABEL`
+- `post-deploy.js` (`PostToolUse`): kiểm tra lần triển khai và báo cho Claude nếu nó thất bại. Khi đã đặt `DEPLOY_DEPLOYMENT`, script chạy `kubectl rollout status` (tối đa 120s), lệnh này chờ các pod mới. Nếu không, khi đã đặt `DEPLOY_APP_LABEL`, script chuyển sang dùng `kubectl wait` để chờ các pod có nhãn đó ở trạng thái Ready; các pod cũ vẫn đang Ready cũng vượt qua bước kiểm tra này. Khi không đặt biến nào, bước kiểm tra được bỏ qua. Ghi chú gửi cho Claude cho biết bước kiểm tra nào đã chạy
 
-Cả hai hook chỉ đọc trạng thái cluster (`kubectl version`, `cluster-info`, `wait`).
+Cả hai hook chỉ đọc trạng thái cluster (`kubectl version`, `cluster-info`, `rollout status`, `wait`).
+
+Cách nhận diện một lệnh: các script bỏ phần thân heredoc và các chuỗi trong dấu nháy, tách lệnh theo dòng mới, `&&`, `||`, `;`, `|` và `&`, rồi xét từ đầu tiên của mỗi phần (sau `VAR=value` và các wrapper như `sudo` hoặc `env`). Các cờ toàn cục đứng trước động từ vẫn được tính, nên `kubectl -n prod apply` và `helm -n prod upgrade` là lệnh triển khai, còn `echo "kubectl apply"`, `cat scripts/deploy.sh` và `git commit -m "helm upgrade notes"` thì không. Đây là một heuristic, không phải trình phân tích cú pháp shell: nó bỏ sót các lệnh triển khai ẩn trong dấu nháy (`bash -c "kubectl apply …"`), nằm sau các wrapper khác (`ssh`, `xargs`, `make deploy`) hoặc bên trong các script khác. Đừng dựa vào nó như một ranh giới an toàn.
+
+Nếu bạn nhấn `Ctrl+Enter` trong khi một lệnh triển khai đang chạy và việc đó kết thúc lượt, hook post-deploy vẫn chạy khi lệnh hoàn tất, nhưng Claude Code sẽ dừng nó sau 10 giây, bất kể `timeout` của nó là bao nhiêu, nên bước kiểm tra có thể không hoàn tất.
 
 ## Cách Sử Dụng
 
@@ -91,19 +91,17 @@ Cả hai hook chỉ đọc trạng thái cluster (`kubectl version`, `cluster-in
 ## Yêu Cầu
 
 - Claude Code 2.1+
-- Node.js (chạy các script hook và MCP server)
+- Node.js (chạy các script hook)
 - Kubernetes CLI (kubectl)
 - Đã cấu hình quyền truy cập cluster
 
 ## Cấu Hình
 
-Thiết lập Kubernetes config của bạn (`.mcp.json` truyền `KUBECONFIG` cho MCP server):
-```bash
-export KUBECONFIG=~/.kube/config
-```
+Các hook và script dùng cấu hình `kubectl` thông thường của bạn (`~/.kube/config`, hoặc `KUBECONFIG` nếu bạn có đặt biến này).
 
-Tùy chọn, cho bước kiểm tra mức sẵn sàng sau triển khai:
+Tùy chọn, cho bước kiểm tra sau triển khai (đặt `DEPLOY_DEPLOYMENT`, hoặc `DEPLOY_APP_LABEL` để dùng phương án dự phòng chờ pod sẵn sàng):
 ```bash
+export DEPLOY_DEPLOYMENT="myapp"
 export DEPLOY_APP_LABEL="app=myapp"
 export DEPLOY_NAMESPACE="staging"
 ```
@@ -116,9 +114,8 @@ User: /devops-automation:deploy production
 Claude:
 1. Giao việc cho tác nhân con deployment-specialist
 2. Chạy script deploy.sh; hook pre-deploy kiểm tra kubectl và kết nối cluster trước
-3. Giám sát tiến trình triển khai qua Kubernetes MCP
-4. Hook post-deploy chờ các pod sẵn sàng
-5. Cung cấp bản tóm tắt triển khai
+3. Hook post-deploy chờ các pod sẵn sàng
+4. Cung cấp bản tóm tắt triển khai
 
 Kết quả:
 ✅ Triển khai hoàn tất

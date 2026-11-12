@@ -166,7 +166,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Спосіб 4: Плагін (найкращий)
 claude --plugin-dir ./07-plugins/pr-review
-# Використання: /review-pr
+# Використання: /pr-review:review-pr
 ```
 
 ### Документація
@@ -191,7 +191,7 @@ cp -r 03-skills/doc-generator ~/.claude/skills/
 # Повний плагін
 /plugin install devops-automation
 
-# Команди: /deploy, /rollback, /status, /incident
+# Команди: /devops-automation:deploy, /devops-automation:rollback, /devops-automation:status, /devops-automation:incident
 ```
 
 ### Командні стандарти
@@ -412,9 +412,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # Використати вбудовані функції
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

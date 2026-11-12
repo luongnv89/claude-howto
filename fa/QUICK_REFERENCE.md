@@ -154,7 +154,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # روش ۴: پلاگین (بهترین)
 claude --plugin-dir ./07-plugins/pr-review
-# استفاده: /review-pr
+# استفاده: /pr-review:review-pr
 ```
 
 ### مستندسازی
@@ -177,7 +177,7 @@ cp -r 03-skills/doc-generator ~/.claude/skills/
 # پلاگین کامل
 /plugin install devops-automation
 
-# دستورات: /deploy، /rollback، /status، /incident
+# دستورات: /devops-automation:deploy، /devops-automation:rollback، /devops-automation:status، /devops-automation:incident
 ```
 
 ### استانداردهای تیم
@@ -382,9 +382,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # استفاده از قابلیت‌های بسته‌بندی‌شده
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

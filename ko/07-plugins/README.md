@@ -467,18 +467,19 @@ Specializes in finding security vulnerabilities:
 
 **파일:** `hooks/hooks.json`
 
-사용자가 플러그인의 명령어 중 하나를 입력하면 `hooks/pre-review.js`를 실행합니다. 이 스크립트는 git 저장소 밖에서는 명령어를 차단합니다(종료 코드 2).
+사용자가 플러그인의 명령어 중 하나를 입력하면 `hooks/pre-review.js`를 실행합니다. 이 스크립트는 git 저장소 밖에서는 명령어를 차단합니다(종료 코드 2). 매처는 `command_name`과 비교되는데, Claude Code 2.1.322에서 플러그인 명령어의 `command_name`은 `pr-review:review-pr`였습니다. 매처는 접두사 없는 `review-pr` 형태도 허용합니다. `args`(exec 형식)는 스크립트 경로를 하나의 인수로 전달하므로 따옴표 처리가 필요 없습니다.
 
 ```json
 {
   "hooks": {
     "UserPromptExpansion": [
       {
-        "matcher": "^pr-review:(review-pr|check-security|check-tests)$",
+        "matcher": "^(pr-review:)?(review-pr|check-security|check-tests)$",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js\"",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js"],
             "timeout": 30
           }
         ]
@@ -490,7 +491,7 @@ Specializes in finding security vulnerabilities:
 
 **파일:** `.mcp.json`
 
-GitHub의 공식 MCP 서버를 읽기 전용으로 선언하며, 토큰은 `GITHUB_TOKEN`에서 가져옵니다.
+GitHub의 공식 MCP 서버를 읽기 전용으로 선언하며, 토큰은 `GITHUB_TOKEN`에서 가져옵니다. 이미지는 [v2.1.0 릴리스](https://github.com/github/github-mcp-server/releases/tag/v2.1.0)로 고정되어 있으므로, 업스트림 업데이트가 검토 없이 플러그인을 바꿀 수 없습니다.
 
 ```json
 {
@@ -501,7 +502,7 @@ GitHub의 공식 MCP 서버를 읽기 전용으로 선언하며, 토큰은 `GITH
         "run", "-i", "--rm",
         "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
         "-e", "GITHUB_READ_ONLY",
-        "ghcr.io/github/github-mcp-server"
+        "ghcr.io/github/github-mcp-server:v2.1.0"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
@@ -544,14 +545,13 @@ devops-automation/
 │   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
-├── scripts/
-│   ├── deploy.sh
-│   ├── rollback.sh
-│   └── health-check.sh
-└── .mcp.json             # Kubernetes MCP server
+└── scripts/
+    ├── deploy.sh
+    ├── rollback.sh
+    └── health-check.sh
 ```
 
-`hooks/hooks.json`은 각 Bash 호출 전에 `pre-deploy.js`를, 호출 후에 `post-deploy.js`를 실행합니다. 두 스크립트는 훅의 JSON 입력에서 명령어를 읽고, `kubectl apply`나 `deploy.sh` 같은 배포 명령어에만 동작합니다. `pre-deploy.js`는 `kubectl`이 클러스터에 연결할 수 없으면 종료 코드 2로 배포를 차단합니다.
+`hooks/hooks.json`은 각 Bash 호출 전에 `pre-deploy.js`를, 호출 후에 `post-deploy.js`를 실행합니다. 두 스크립트는 훅의 JSON 입력에서 명령어를 읽고, `kubectl apply`나 `deploy.sh` 같은 배포 명령어에만 동작합니다. `pre-deploy.js`는 `kubectl`이 클러스터에 연결할 수 없으면 종료 코드 2로 배포를 차단합니다. 이 플러그인에는 MCP 서버가 없습니다. 훅과 스크립트가 `kubectl`을 직접 호출합니다.
 
 ### 예제 3: Documentation 플러그인
 

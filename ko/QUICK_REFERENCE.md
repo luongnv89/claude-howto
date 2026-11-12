@@ -158,7 +158,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 방법 4: Plugin (권장)
 claude --plugin-dir ./07-plugins/pr-review
-# 사용: /review-pr
+# 사용: /pr-review:review-pr
 ```
 
 ### 문서 작성
@@ -181,7 +181,7 @@ cp -r 03-skills/doc-generator ~/.claude/skills/
 # 전체 Plugin 설치
 /plugin install devops-automation
 
-# 명령어: /deploy, /rollback, /status, /incident
+# 명령어: /devops-automation:deploy, /devops-automation:rollback, /devops-automation:status, /devops-automation:incident
 ```
 
 ### 팀 표준 관리
@@ -387,9 +387,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # 번들 기능 사용
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

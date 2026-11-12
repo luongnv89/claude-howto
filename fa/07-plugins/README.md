@@ -461,18 +461,19 @@ tools: Read, Grep, Bash
 
 **فایل:** `hooks/hooks.json`
 
-وقتی کاربر یکی از فرمان‌های پلاگین را تایپ می‌کند، `hooks/pre-review.js` را اجرا می‌کند. این اسکریپت فرمان را بیرون از مخزن git مسدود می‌کند (کد خروج 2):
+وقتی کاربر یکی از فرمان‌های پلاگین را تایپ می‌کند، `hooks/pre-review.js` را اجرا می‌کند. این اسکریپت فرمان را بیرون از مخزن git مسدود می‌کند (کد خروج 2). matcher روی `command_name` آزموده می‌شود که برای یک فرمان پلاگین در Claude Code 2.1.322 برابر `pr-review:review-pr` بود؛ شکل بدون پیشوند `review-pr` را هم می‌پذیرد. `args` (شکل exec) مسیر اسکریپت را به‌صورت یک آرگومان واحد می‌فرستد، پس نیازی به نقل‌قول‌گذاری نیست:
 
 ```json
 {
   "hooks": {
     "UserPromptExpansion": [
       {
-        "matcher": "^pr-review:(review-pr|check-security|check-tests)$",
+        "matcher": "^(pr-review:)?(review-pr|check-security|check-tests)$",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js\"",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js"],
             "timeout": 30
           }
         ]
@@ -484,7 +485,7 @@ tools: Read, Grep, Bash
 
 **فایل:** `.mcp.json`
 
-سرور MCP رسمی GitHub را به‌صورت فقط‌خواندنی تعریف می‌کند و توکن را از `GITHUB_TOKEN` می‌گیرد:
+سرور MCP رسمی GitHub را به‌صورت فقط‌خواندنی تعریف می‌کند و توکن را از `GITHUB_TOKEN` می‌گیرد. ایمیج روی [نسخه v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) ثابت شده است، تا یک به‌روزرسانی بالادستی نتواند بدون بازبینی پلاگین را تغییر دهد:
 
 ```json
 {
@@ -495,7 +496,7 @@ tools: Read, Grep, Bash
         "run", "-i", "--rm",
         "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
         "-e", "GITHUB_READ_ONLY",
-        "ghcr.io/github/github-mcp-server"
+        "ghcr.io/github/github-mcp-server:v2.1.0"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
@@ -538,14 +539,13 @@ devops-automation/
 │   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
-├── scripts/
-│   ├── deploy.sh
-│   ├── rollback.sh
-│   └── health-check.sh
-└── .mcp.json             # Kubernetes MCP server
+└── scripts/
+    ├── deploy.sh
+    ├── rollback.sh
+    └── health-check.sh
 ```
 
-`hooks/hooks.json` فایل `pre-deploy.js` را پیش از هر فراخوانی Bash و `post-deploy.js` را پس از آن اجرا می‌کند. اسکریپت‌ها فرمان را از ورودی JSON هوک می‌خوانند و فقط روی فرمان‌های استقرار مانند `kubectl apply` یا `deploy.sh` عمل می‌کنند. `pre-deploy.js` وقتی `kubectl` نتواند به کلاستر برسد، با کد خروج 2 استقرار را مسدود می‌کند.
+`hooks/hooks.json` فایل `pre-deploy.js` را پیش از هر فراخوانی Bash و `post-deploy.js` را پس از آن اجرا می‌کند. اسکریپت‌ها فرمان را از ورودی JSON هوک می‌خوانند و فقط روی فرمان‌های استقرار مانند `kubectl apply` یا `deploy.sh` عمل می‌کنند. `pre-deploy.js` وقتی `kubectl` نتواند به کلاستر برسد، با کد خروج 2 استقرار را مسدود می‌کند. این پلاگین سرور MCP ندارد: هوک‌ها و اسکریپت‌ها مستقیماً `kubectl` را فراخوانی می‌کنند.
 
 ### مثال ۳: پلاگین مستندسازی
 

@@ -56,14 +56,14 @@ Lệnh của plugin được đặt namespace theo `name` của plugin trong `pl
 
 ### MCP Server
 
-`.mcp.json` khai báo một server, `github`: MCP server chính thức của GitHub (`ghcr.io/github/github-mcp-server`), chạy bằng Docker ở chế độ chỉ đọc. Server này hiển thị là `plugin:pr-review:github` trong `/mcp`.
+`.mcp.json` khai báo một server, `github`: MCP server chính thức của GitHub (`ghcr.io/github/github-mcp-server`), chạy bằng Docker ở chế độ chỉ đọc. Image được ghim ở [bản phát hành v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0); đổi tag trong `.mcp.json` để nâng cấp. Server này hiển thị là `plugin:pr-review:github` trong `/mcp`.
 
 ### Hook
 
-`hooks/hooks.json` đăng ký `pre-review.js` cho sự kiện `UserPromptExpansion`, với matcher khớp ba lệnh ở trên. Khi bạn gõ một trong các lệnh đó, hook sẽ:
+`hooks/hooks.json` đăng ký `pre-review.js` cho sự kiện `UserPromptExpansion`, với matcher khớp ba lệnh ở trên. Matcher chấp nhận cả `pr-review:review-pr` (giá trị `command_name` mà Claude Code 2.1.322 gửi cho một lệnh plugin) lẫn dạng rút gọn `review-pr`. Khi bạn gõ một trong các lệnh đó, hook sẽ:
 
 - chặn lệnh (exit code 2) khi thư mục hiện tại không phải là git repository
-- nếu không, thêm nhánh hiện tại, kèm ghi chú về các thay đổi chưa commit, vào ngữ cảnh của Claude
+- nếu không, thêm nhánh hiện tại (hoặc ghi chú rằng HEAD đang ở trạng thái detached, hoặc rằng repository chưa có commit nào), kèm ghi chú về các thay đổi chưa commit, vào ngữ cảnh của Claude
 
 ## Cách Sử Dụng
 

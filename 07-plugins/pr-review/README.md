@@ -56,14 +56,14 @@ Plugin commands are namespaced with the plugin `name` from `plugin.json`:
 
 ### MCP Servers
 
-`.mcp.json` declares one server, `github`: GitHub's official MCP server (`ghcr.io/github/github-mcp-server`), run with Docker in read-only mode. It shows up as `plugin:pr-review:github` in `/mcp`.
+`.mcp.json` declares one server, `github`: GitHub's official MCP server (`ghcr.io/github/github-mcp-server`), run with Docker in read-only mode. The image is pinned to the [v2.1.0 release](https://github.com/github/github-mcp-server/releases/tag/v2.1.0); change the tag in `.mcp.json` to upgrade. It shows up as `plugin:pr-review:github` in `/mcp`.
 
 ### Hooks
 
-`hooks/hooks.json` registers `pre-review.js` on the `UserPromptExpansion` event, with a matcher for the three commands above. When you type one of them, the hook:
+`hooks/hooks.json` registers `pre-review.js` on the `UserPromptExpansion` event, with a matcher for the three commands above. The matcher accepts both `pr-review:review-pr` (the `command_name` Claude Code 2.1.322 sends for a plugin command) and the bare `review-pr`. When you type one of them, the hook:
 
 - blocks the command (exit code 2) when the current directory is not a git repository
-- otherwise adds the current branch, and a note about uncommitted changes, to Claude's context
+- otherwise adds the current branch (or a note that HEAD is detached, or that the repository has no commits yet), and a note about uncommitted changes, to Claude's context
 
 ## Usage
 

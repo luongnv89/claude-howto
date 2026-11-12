@@ -47,10 +47,6 @@ claude plugin validate ./07-plugins/devops-automation
 - `incident-commander` — インシデント統括
 - `alert-analyzer` — システム健全性の解析
 
-### MCP サーバー
-
-`.mcp.json` は `kubernetes` という 1 つのサーバーを宣言する。npm パッケージ `mcp-server-kubernetes` を `npx` で `ALLOW_ONLY_NON_DESTRUCTIVE_TOOLS=true` を付けて実行するため、削除系のツールは無効になる。`/mcp` では `plugin:devops-automation:kubernetes` として表示される。
-
 ### スクリプト
 - `deploy.sh` — デプロイ自動化
 - `rollback.sh` — ロールバック自動化
@@ -61,9 +57,13 @@ claude plugin validate ./07-plugins/devops-automation
 `hooks/hooks.json` は両方のスクリプトを Bash ツール呼び出しに登録する。スクリプトはデプロイ系のコマンド（`deploy.sh`、`rollback.sh`、`kubectl apply`、`kubectl set image`、`kubectl rollout restart|undo`、`helm install|upgrade|rollback`）にのみ反応し、それ以外のコマンドでは終了コード 0 で終了する：
 
 - `pre-deploy.js`（`PreToolUse`）：`kubectl` が見つからないかクラスタに到達できない場合、コマンドをブロックし（終了コード 2）、Claude にその理由が伝わる
-- `post-deploy.js`（`PostToolUse`）：`DEPLOY_APP_LABEL` のラベルが付いた Pod が ready になるまで最大 120 秒待機し、ready にならなければ Claude に伝える。`DEPLOY_APP_LABEL` が未設定の場合は待機をスキップする
+- `post-deploy.js`（`PostToolUse`）：デプロイを確認し、失敗していれば Claude に伝える。`DEPLOY_DEPLOYMENT` が設定されている場合は `kubectl rollout status` を実行し（最大 120 秒）、新しい Pod を待つ。そうでなく `DEPLOY_APP_LABEL` が設定されている場合は、そのラベルの Pod が Ready になるのを `kubectl wait` で待つ方式にフォールバックする。この場合、まだ Ready な古い Pod もチェックを通過してしまう。どちらも未設定の場合はチェックをスキップする。Claude への注記には、どのチェックを実行したかが示される
 
-どちらのフックもクラスタの状態を読み取るだけである（`kubectl version`、`cluster-info`、`wait`）。
+どちらのフックもクラスタの状態を読み取るだけである（`kubectl version`、`cluster-info`、`rollout status`、`wait`）。
+
+コマンドの判定方法：スクリプトはヒアドキュメントの本文とクォートされた文字列を取り除き、コマンドを改行、`&&`、`||`、`;`、`|`、`&` で分割し、各部分の最初の単語を見る（`VAR=value` や `sudo`、`env` などのラッパーの後）。動詞の前にあるグローバルフラグも考慮されるため、`kubectl -n prod apply` や `helm -n prod upgrade` はデプロイとみなされるが、`echo "kubectl apply"`、`cat scripts/deploy.sh`、`git commit -m "helm upgrade notes"` はみなされない。これはシェルパーサーではなくヒューリスティックであり、クォート内に隠れたデプロイ（`bash -c "kubectl apply …"`）、他のラッパー（`ssh`、`xargs`、`make deploy`）を介したデプロイ、他のスクリプト内のデプロイは検出できない。安全上の境界として頼らないこと。
+
+デプロイコマンドの実行中に `Ctrl+Enter` を押してターンが終了した場合でも、post-deploy フックはコマンドの完了時に実行される。ただし Claude Code は `timeout` の値にかかわらず 10 秒後にフックを強制終了するため、チェックが完了しない可能性がある。
 
 ## 使い方
 
@@ -95,19 +95,17 @@ claude plugin validate ./07-plugins/devops-automation
 ## 必要要件
 
 - Claude Code 1.0 以上
-- Node.js（フックスクリプトと MCP サーバーの実行用）
+- Node.js（フックスクリプトの実行用）
 - Kubernetes CLI（kubectl）
 - クラスタへのアクセス設定
 
 ## 設定
 
-Kubernetes 設定をセットアップする（`.mcp.json` は `KUBECONFIG` を MCP サーバーに渡す）：
-```bash
-export KUBECONFIG=~/.kube/config
-```
+フックとスクリプトは通常の `kubectl` 設定（`~/.kube/config`、または設定していれば `KUBECONFIG`）を使用する。
 
-任意（デプロイ後の readiness チェック用）：
+任意（デプロイ後のチェック用。`DEPLOY_DEPLOYMENT` を設定するか、Pod の ready 待機によるフォールバックには `DEPLOY_APP_LABEL` を設定する）：
 ```bash
+export DEPLOY_DEPLOYMENT="myapp"
 export DEPLOY_APP_LABEL="app=myapp"
 export DEPLOY_NAMESPACE="staging"
 ```
@@ -120,9 +118,8 @@ User: /devops-automation:deploy production
 Claude:
 1. Delegates to deployment-specialist subagent
 2. Runs deploy.sh script; the pre-deploy hook first checks kubectl and the cluster connection
-3. Monitors deployment progress via Kubernetes MCP
-4. post-deploy hook waits for pods to be ready
-5. Provides deployment summary
+3. post-deploy hook waits for pods to be ready
+4. Provides deployment summary
 
 Result:
 ✅ Deployment complete

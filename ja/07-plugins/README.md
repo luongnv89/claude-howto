@@ -403,18 +403,19 @@ Specializes in finding security vulnerabilities:
 
 **ファイル：** `hooks/hooks.json`
 
-ユーザーがプラグインのコマンドのいずれかを入力したときに `hooks/pre-review.js` を実行する。このスクリプトは git リポジトリの外ではコマンドをブロックする（終了コード 2）：
+ユーザーがプラグインのコマンドのいずれかを入力したときに `hooks/pre-review.js` を実行する。このスクリプトは git リポジトリの外ではコマンドをブロックする（終了コード 2）。matcher は `command_name` と照合される。プラグインコマンドの場合、Claude Code 2.1.322 ではこれが `pr-review:review-pr` だった。プレフィックスなしの `review-pr` 形式も受け付ける。`args`（exec 形式）はスクリプトのパスを 1 つの引数として渡すため、クォートは不要である：
 
 ```json
 {
   "hooks": {
     "UserPromptExpansion": [
       {
-        "matcher": "^pr-review:(review-pr|check-security|check-tests)$",
+        "matcher": "^(pr-review:)?(review-pr|check-security|check-tests)$",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js\"",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js"],
             "timeout": 30
           }
         ]
@@ -426,7 +427,7 @@ Specializes in finding security vulnerabilities:
 
 **ファイル：** `.mcp.json`
 
-GitHub 公式の MCP サーバーを読み取り専用で宣言し、トークンは `GITHUB_TOKEN` から取得する：
+GitHub 公式の MCP サーバーを読み取り専用で宣言し、トークンは `GITHUB_TOKEN` から取得する。イメージは [v2.1.0 リリース](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) に固定されているため、上流の更新によってレビューなしにプラグインが変わることはない：
 
 ```json
 {
@@ -437,7 +438,7 @@ GitHub 公式の MCP サーバーを読み取り専用で宣言し、トーク�
         "run", "-i", "--rm",
         "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
         "-e", "GITHUB_READ_ONLY",
-        "ghcr.io/github/github-mcp-server"
+        "ghcr.io/github/github-mcp-server:v2.1.0"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
@@ -480,14 +481,13 @@ devops-automation/
 │   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
-├── scripts/
-│   ├── deploy.sh
-│   ├── rollback.sh
-│   └── health-check.sh
-└── .mcp.json             # Kubernetes MCP server
+└── scripts/
+    ├── deploy.sh
+    ├── rollback.sh
+    └── health-check.sh
 ```
 
-`hooks/hooks.json` は各 Bash 呼び出しの前に `pre-deploy.js` を、後に `post-deploy.js` を実行する。スクリプトはフックの JSON 入力からコマンドを読み取り、`kubectl apply` や `deploy.sh` などのデプロイ系コマンドにのみ反応する。`kubectl` がクラスタに到達できない場合、`pre-deploy.js` は終了コード 2 で終了してデプロイをブロックする。
+`hooks/hooks.json` は各 Bash 呼び出しの前に `pre-deploy.js` を、後に `post-deploy.js` を実行する。スクリプトはフックの JSON 入力からコマンドを読み取り、`kubectl apply` や `deploy.sh` などのデプロイ系コマンドにのみ反応する。`kubectl` がクラスタに到達できない場合、`pre-deploy.js` は終了コード 2 で終了してデプロイをブロックする。このプラグインには MCP サーバーがない。フックとスクリプトは `kubectl` を直接呼び出す。
 
 ### 例 3：Documentation プラグイン
 

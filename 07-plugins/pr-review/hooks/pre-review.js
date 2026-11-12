@@ -10,7 +10,7 @@
  * Input:  hook JSON on stdin (uses `cwd` and `command_name`).
  * Output: exit 2 + stderr blocks the command (not a git repository);
  *         exit 0 + JSON adds context for Claude (e.g. uncommitted changes).
- * Read-only: runs `git rev-parse` and `git status` only.
+ * Read-only: runs `git rev-parse`, `git symbolic-ref` and `git status` only.
  */
 
 const { execFileSync } = require('child_process');
@@ -42,8 +42,26 @@ async function main() {
   }
 
   const notes = [];
-  const branch = git(['rev-parse', '--abbrev-ref', 'HEAD'], cwd).trim();
-  notes.push(`The current git branch is ${branch}.`);
+  let hasCommits = true;
+  try {
+    git(['rev-parse', '--verify', '--quiet', 'HEAD'], cwd);
+  } catch {
+    hasCommits = false; // A new repository with no commits yet.
+  }
+  let branch = '';
+  try {
+    branch = git(['symbolic-ref', '--short', '--quiet', 'HEAD'], cwd).trim();
+  } catch {
+    // Detached HEAD: there is no branch name.
+  }
+  if (!hasCommits) {
+    notes.push(`The repository has no commits yet${branch ? ` (branch ${branch})` : ''}, so there is no history to compare against.`);
+  } else if (branch) {
+    notes.push(`The current git branch is ${branch}.`);
+  } else {
+    const commit = git(['rev-parse', '--short', 'HEAD'], cwd).trim();
+    notes.push(`HEAD is detached at commit ${commit}, so there is no current branch.`);
+  }
 
   const status = git(['status', '--porcelain'], cwd);
   if (status.trim()) {

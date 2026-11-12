@@ -50,7 +50,7 @@ Plugin commands are namespaced with the plugin `name` from `plugin.json`:
 
 ### MCP Servers
 
-`.mcp.json` declares one server, `github`: GitHub's official MCP server (`ghcr.io/github/github-mcp-server`), run with Docker in read-only mode. It shows up as `plugin:documentation:github` in `/mcp`.
+`.mcp.json` declares one server, `github`: GitHub's official MCP server (`ghcr.io/github/github-mcp-server`), run with Docker in read-only mode. The image is pinned to the [v2.1.0 release](https://github.com/github/github-mcp-server/releases/tag/v2.1.0); change the tag in `.mcp.json` to upgrade. It shows up as `plugin:documentation:github` in `/mcp`.
 
 ## Usage
 

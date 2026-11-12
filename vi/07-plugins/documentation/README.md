@@ -50,7 +50,7 @@ Lệnh của plugin được đặt namespace theo `name` của plugin trong `pl
 
 ### MCP Server
 
-`.mcp.json` khai báo một server, `github`: MCP server chính thức của GitHub (`ghcr.io/github/github-mcp-server`), chạy bằng Docker ở chế độ chỉ đọc. Server này hiển thị là `plugin:documentation:github` trong `/mcp`.
+`.mcp.json` khai báo một server, `github`: MCP server chính thức của GitHub (`ghcr.io/github/github-mcp-server`), chạy bằng Docker ở chế độ chỉ đọc. Image được ghim ở [bản phát hành v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0); đổi tag trong `.mcp.json` để nâng cấp. Server này hiển thị là `plugin:documentation:github` trong `/mcp`.
 
 ## Cách Sử Dụng
 

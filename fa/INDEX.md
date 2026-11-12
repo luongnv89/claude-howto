@@ -238,7 +238,7 @@ blog-draft/
 
 مجموعه‌های بسته‌بندی‌شده از ویژگی‌ها.
 
-### پلاگین بازبینی PR (۱۰ فایل)
+### پلاگین بازبینی PR (۱۱ فایل)
 ```
 pr-review/
 ├── .claude-plugin/
@@ -251,16 +251,16 @@ pr-review/
 │   ├── security-reviewer.md          # متخصص امنیت
 │   ├── test-checker.md               # متخصص تست
 │   └── performance-analyzer.md       # متخصص کارایی
-├── mcp/
-│   └── github-config.json            # یکپارچه‌سازی GitHub
+├── .mcp.json                         # یکپارچه‌سازی GitHub
 ├── hooks/
+│   ├── hooks.json                    # ثبت هوک‌ها
 │   └── pre-review.js                 # اعتبارسنجی پیش از بازبینی
 └── README.md                         # مستندات پلاگین
 ```
 
 **ویژگی‌ها**: تحلیل امنیتی، پوشش تست، تأثیر بر کارایی
 
-**دستورات**: `/review-pr`، `/check-security`، `/check-tests`
+**دستورات**: `/pr-review:review-pr`، `/pr-review:check-security`، `/pr-review:check-tests`
 
 **نصب**: `claude --plugin-dir ./07-plugins/pr-review` (از ریشه مخزن)
 
@@ -280,9 +280,8 @@ devops-automation/
 │   ├── deployment-specialist.md      # متخصص استقرار
 │   ├── incident-commander.md         # هماهنگ‌کننده رخداد
 │   └── alert-analyzer.md             # تحلیل‌گر هشدار
-├── mcp/
-│   └── kubernetes-config.json        # یکپارچه‌سازی Kubernetes
 ├── hooks/
+│   ├── hooks.json                    # ثبت هوک‌ها
 │   ├── pre-deploy.js                 # بررسی‌های پیش از استقرار
 │   └── post-deploy.js                # وظایف پس از استقرار
 ├── scripts/
@@ -294,13 +293,13 @@ devops-automation/
 
 **ویژگی‌ها**: استقرار Kubernetes، بازگردانی، پایش، پاسخ به رخداد
 
-**دستورات**: `/deploy`، `/rollback`، `/status`، `/incident`
+**دستورات**: `/devops-automation:deploy`، `/devops-automation:rollback`، `/devops-automation:status`، `/devops-automation:incident`
 
 **نصب**: `claude --plugin-dir ./07-plugins/devops-automation` (از ریشه مخزن)
 
 ---
 
-### پلاگین مستندات (۱۴ فایل)
+### پلاگین مستندات (۱۳ فایل)
 ```
 documentation/
 ├── .claude-plugin/
@@ -314,8 +313,7 @@ documentation/
 │   ├── api-documenter.md             # متخصص مستندات API
 │   ├── code-commentator.md           # متخصص توضیحات کد
 │   └── example-generator.md          # سازنده مثال
-├── mcp/
-│   └── github-docs-config.json       # یکپارچه‌سازی GitHub
+├── .mcp.json                         # یکپارچه‌سازی GitHub
 ├── templates/
 │   ├── api-endpoint.md               # قالب نقطه پایانی API
 │   ├── function-docs.md              # قالب مستندات تابع
@@ -325,7 +323,7 @@ documentation/
 
 **ویژگی‌ها**: مستندات API، تولید README، همگام‌سازی مستندات، اعتبارسنجی
 
-**دستورات**: `/generate-api-docs`، `/generate-readme`، `/sync-docs`، `/validate-docs`
+**دستورات**: `/documentation:generate-api-docs`، `/documentation:generate-readme`، `/documentation:sync-docs`، `/documentation:validate-docs`
 
 **نصب**: `claude --plugin-dir ./07-plugins/documentation` (از ریشه مخزن)
 
@@ -615,9 +613,9 @@ claude-howto/
 │   │   │   ├── security-reviewer.md
 │   │   │   ├── test-checker.md
 │   │   │   └── performance-analyzer.md
-│   │   ├── mcp/
-│   │   │   └── github-config.json
+│   │   ├── .mcp.json
 │   │   ├── hooks/
+│   │   │   ├── hooks.json
 │   │   │   └── pre-review.js
 │   │   └── README.md
 │   ├── devops-automation/
@@ -632,9 +630,8 @@ claude-howto/
 │   │   │   ├── deployment-specialist.md
 │   │   │   ├── incident-commander.md
 │   │   │   └── alert-analyzer.md
-│   │   ├── mcp/
-│   │   │   └── kubernetes-config.json
 │   │   ├── hooks/
+│   │   │   ├── hooks.json
 │   │   │   ├── pre-deploy.js
 │   │   │   └── post-deploy.js
 │   │   ├── scripts/
@@ -654,8 +651,7 @@ claude-howto/
 │   │   │   ├── api-documenter.md
 │   │   │   ├── code-commentator.md
 │   │   │   └── example-generator.md
-│   │   ├── mcp/
-│   │   │   └── github-docs-config.json
+│   │   ├── .mcp.json
 │   │   ├── templates/
 │   │   │   ├── api-endpoint.md
 │   │   │   ├── function-docs.md

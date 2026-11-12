@@ -50,7 +50,7 @@ claude plugin validate ./07-plugins/documentation
 
 ### سرورهای MCP
 
-`.mcp.json` یک سرور به نام `github` تعریف می‌کند: سرور MCP رسمی GitHub (`ghcr.io/github/github-mcp-server`) که با Docker در حالت فقط‌خواندنی اجرا می‌شود. این سرور در `/mcp` با نام `plugin:documentation:github` نمایش داده می‌شود.
+`.mcp.json` یک سرور به نام `github` تعریف می‌کند: سرور MCP رسمی GitHub (`ghcr.io/github/github-mcp-server`) که با Docker در حالت فقط‌خواندنی اجرا می‌شود. ایمیج روی [نسخه v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) ثابت شده است؛ برای ارتقا، تگ را در `.mcp.json` تغییر دهید. این سرور در `/mcp` با نام `plugin:documentation:github` نمایش داده می‌شود.
 
 ## استفاده
 

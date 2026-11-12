@@ -461,18 +461,19 @@ Specializes in finding security vulnerabilities:
 
 **File:** `hooks/hooks.json`
 
-Runs `hooks/pre-review.js` when the user types one of the plugin's commands. The script blocks the command outside a git repository (exit code 2):
+Runs `hooks/pre-review.js` when the user types one of the plugin's commands. The script blocks the command outside a git repository (exit code 2). The matcher is tested against `command_name`, which for a plugin command was `pr-review:review-pr` on Claude Code 2.1.322; it also accepts the bare `review-pr` form. `args` (exec form) passes the script path as one argument, so no quoting is needed:
 
 ```json
 {
   "hooks": {
     "UserPromptExpansion": [
       {
-        "matcher": "^pr-review:(review-pr|check-security|check-tests)$",
+        "matcher": "^(pr-review:)?(review-pr|check-security|check-tests)$",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js\"",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js"],
             "timeout": 30
           }
         ]
@@ -484,7 +485,7 @@ Runs `hooks/pre-review.js` when the user types one of the plugin's commands. The
 
 **File:** `.mcp.json`
 
-Declares GitHub's official MCP server, read-only, with the token taken from `GITHUB_TOKEN`:
+Declares GitHub's official MCP server, read-only, with the token taken from `GITHUB_TOKEN`. The image is pinned to the [v2.1.0 release](https://github.com/github/github-mcp-server/releases/tag/v2.1.0), so an upstream update can't change the plugin without a review:
 
 ```json
 {
@@ -495,7 +496,7 @@ Declares GitHub's official MCP server, read-only, with the token taken from `GIT
         "run", "-i", "--rm",
         "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
         "-e", "GITHUB_READ_ONLY",
-        "ghcr.io/github/github-mcp-server"
+        "ghcr.io/github/github-mcp-server:v2.1.0"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
@@ -538,14 +539,13 @@ devops-automation/
 │   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
-├── scripts/
-│   ├── deploy.sh
-│   ├── rollback.sh
-│   └── health-check.sh
-└── .mcp.json             # Kubernetes MCP server
+└── scripts/
+    ├── deploy.sh
+    ├── rollback.sh
+    └── health-check.sh
 ```
 
-`hooks/hooks.json` runs `pre-deploy.js` before and `post-deploy.js` after each Bash call. The scripts read the command from the hook's JSON input and act only on deploy commands such as `kubectl apply` or `deploy.sh`. `pre-deploy.js` exits 2 to block a deploy when `kubectl` can't reach a cluster.
+`hooks/hooks.json` runs `pre-deploy.js` before and `post-deploy.js` after each Bash call. The scripts read the command from the hook's JSON input and act only on deploy commands such as `kubectl apply` or `deploy.sh`. `pre-deploy.js` exits 2 to block a deploy when `kubectl` can't reach a cluster. The plugin has no MCP server: the hooks and scripts call `kubectl` directly.
 
 ### Example 3: Documentation Plugin
 

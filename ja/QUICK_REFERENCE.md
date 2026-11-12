@@ -156,7 +156,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 方法 4: プラグイン (推奨)
 claude --plugin-dir ./07-plugins/pr-review
-# 利用: /review-pr
+# 利用: /pr-review:review-pr
 ```
 
 ### ドキュメント
@@ -179,7 +179,7 @@ cp -r 03-skills/doc-generator ~/.claude/skills/
 # 完全プラグイン
 /plugin install devops-automation
 
-# コマンド: /deploy、/rollback、/status、/incident
+# コマンド: /devops-automation:deploy、/devops-automation:rollback、/devops-automation:status、/devops-automation:incident
 ```
 
 ### チーム標準
@@ -384,9 +384,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # バンドル機能を使う
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

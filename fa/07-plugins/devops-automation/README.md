@@ -43,10 +43,6 @@ claude plugin validate ./07-plugins/devops-automation
 - `incident-commander` - هماهنگی حوادث
 - `alert-analyzer` - تحلیل سلامت سیستم
 
-### سرورهای MCP
-
-`.mcp.json` یک سرور به نام `kubernetes` تعریف می‌کند: بسته npm `mcp-server-kubernetes` که با `npx` و `ALLOW_ONLY_NON_DESTRUCTIVE_TOOLS=true` اجرا می‌شود، پس ابزارهای حذف آن خاموش هستند. این سرور در `/mcp` با نام `plugin:devops-automation:kubernetes` نمایش داده می‌شود.
-
 ### اسکریپت‌ها
 - `deploy.sh` - خودکارسازی استقرار
 - `rollback.sh` - خودکارسازی بازگشت
@@ -57,9 +53,13 @@ claude plugin validate ./07-plugins/devops-automation
 `hooks/hooks.json` هر دو اسکریپت را روی فراخوانی‌های ابزار Bash ثبت می‌کند. آن‌ها فقط روی فرمان‌های استقرار (`deploy.sh`، `rollback.sh`، `kubectl apply`، `kubectl set image`، `kubectl rollout restart|undo`، `helm install|upgrade|rollback`) عمل می‌کنند و برای هر فرمان دیگری با کد 0 خارج می‌شوند:
 
 - `pre-deploy.js` (`PreToolUse`): وقتی `kubectl` نصب نباشد یا نتواند به کلاستر برسد، فرمان را مسدود می‌کند (کد خروج 2) و Claude دلیل آن را می‌بیند
-- `post-deploy.js` (`PostToolUse`): تا 120 ثانیه منتظر می‌ماند تا podهایی با برچسب `DEPLOY_APP_LABEL` آماده شوند و اگر آماده نشوند به Claude اطلاع می‌دهد. اگر `DEPLOY_APP_LABEL` تنظیم نشده باشد، از انتظار صرف‌نظر می‌کند
+- `post-deploy.js` (`PostToolUse`): استقرار را بررسی می‌کند و اگر ناموفق بوده باشد به Claude اطلاع می‌دهد. اگر `DEPLOY_DEPLOYMENT` تنظیم شده باشد، `kubectl rollout status` را اجرا می‌کند (تا 120 ثانیه) که منتظر podهای جدید می‌ماند. در غیر این صورت، اگر `DEPLOY_APP_LABEL` تنظیم شده باشد، به `kubectl wait` برای Ready شدن podهایی با آن برچسب بسنده می‌کند؛ podهای قدیمی‌ای که هنوز Ready هستند هم از این بررسی رد می‌شوند. اگر هیچ‌کدام تنظیم نشده باشد، از بررسی صرف‌نظر می‌کند. یادداشت آن برای Claude می‌گوید کدام بررسی اجرا شد
 
-هر دو هوک فقط وضعیت کلاستر را می‌خوانند (`kubectl version`، `cluster-info`، `wait`).
+هر دو هوک فقط وضعیت کلاستر را می‌خوانند (`kubectl version`، `cluster-info`، `rollout status`، `wait`).
+
+یک فرمان چگونه تشخیص داده می‌شود: اسکریپت‌ها بدنه‌های heredoc و رشته‌های داخل نقل‌قول را حذف می‌کنند، فرمان را روی خط‌های جدید، `&&`، `||`، `;`، `|` و `&` تقسیم می‌کنند و به اولین کلمه هر بخش نگاه می‌کنند (پس از `VAR=value` و پوشش‌هایی مانند `sudo` یا `env`). پرچم‌های سراسری پیش از فعل هم به حساب می‌آیند، پس `kubectl -n prod apply` و `helm -n prod upgrade` فرمان استقرار هستند، اما `echo "kubectl apply"`، `cat scripts/deploy.sh` و `git commit -m "helm upgrade notes"` نیستند. این یک روش تقریبی است، نه یک تجزیه‌گر shell: استقرارهایی را که در نقل‌قول پنهان شده‌اند (`bash -c "kubectl apply …"`)، پشت پوشش‌های دیگر (`ssh`، `xargs`، `make deploy`) یا درون اسکریپت‌های دیگر هستند، تشخیص نمی‌دهد. به آن به‌عنوان یک مرز ایمنی تکیه نکنید.
+
+اگر هنگام اجرای یک فرمان استقرار `Ctrl+Enter` را بزنید و این کار نوبت را تمام کند، هوک post-deploy همچنان پس از پایان فرمان اجرا می‌شود، اما Claude Code آن را پس از 10 ثانیه، صرف‌نظر از `timeout` آن، متوقف می‌کند، پس ممکن است بررسی کامل نشود.
 
 ## استفاده
 
@@ -91,19 +91,17 @@ claude plugin validate ./07-plugins/devops-automation
 ## نیازمندی‌ها
 
 - Claude Code 2.1+
-- Node.js (برای اجرای اسکریپت‌های هوک و سرور MCP)
+- Node.js (برای اجرای اسکریپت‌های هوک)
 - Kubernetes CLI (kubectl)
 - دسترسی کلاستر پیکربندی‌شده
 
 ## پیکربندی
 
-پیکربندی Kubernetes خود را تنظیم کنید (`.mcp.json` متغیر `KUBECONFIG` را به سرور MCP می‌دهد):
-```bash
-export KUBECONFIG=~/.kube/config
-```
+هوک‌ها و اسکریپت‌ها از پیکربندی معمول `kubectl` شما استفاده می‌کنند (`~/.kube/config`، یا `KUBECONFIG` اگر آن را تنظیم کرده باشید).
 
-اختیاری، برای بررسی آمادگی پس از استقرار:
+اختیاری، برای بررسی پس از استقرار (`DEPLOY_DEPLOYMENT` را تنظیم کنید، یا `DEPLOY_APP_LABEL` را برای حالت جایگزین انتظار برای آمادگی podها):
 ```bash
+export DEPLOY_DEPLOYMENT="myapp"
 export DEPLOY_APP_LABEL="app=myapp"
 export DEPLOY_NAMESPACE="staging"
 ```
@@ -116,9 +114,8 @@ export DEPLOY_NAMESPACE="staging"
 Claude:
 ۱. واگذاری به subagent deployment-specialist
 ۲. اجرای اسکریپت deploy.sh؛ هوک pre-deploy ابتدا kubectl و اتصال کلاستر را بررسی می‌کند
-۳. مانیتورینگ پیشرفت استقرار از طریق Kubernetes MCP
-۴. هوک post-deploy منتظر آماده شدن podها می‌ماند
-۵. ارائه خلاصه استقرار
+۳. هوک post-deploy منتظر آماده شدن podها می‌ماند
+۴. ارائه خلاصه استقرار
 
 نتیجه:
 ✅ استقرار کامل شد

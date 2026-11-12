@@ -461,18 +461,19 @@ Chuyên tìm các lỗ hổng bảo mật:
 
 **File:** `hooks/hooks.json`
 
-Chạy `hooks/pre-review.js` khi người dùng gõ một trong các lệnh của plugin. Script chặn lệnh khi chạy bên ngoài một git repository (exit code 2):
+Chạy `hooks/pre-review.js` khi người dùng gõ một trong các lệnh của plugin. Script chặn lệnh khi chạy bên ngoài một git repository (exit code 2). Matcher được so với `command_name`, mà với một lệnh plugin là `pr-review:review-pr` trên Claude Code 2.1.322; matcher cũng chấp nhận dạng rút gọn `review-pr`. `args` (dạng exec) truyền đường dẫn script thành một đối số duy nhất, nên không cần đặt dấu nháy:
 
 ```json
 {
   "hooks": {
     "UserPromptExpansion": [
       {
-        "matcher": "^pr-review:(review-pr|check-security|check-tests)$",
+        "matcher": "^(pr-review:)?(review-pr|check-security|check-tests)$",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js\"",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js"],
             "timeout": 30
           }
         ]
@@ -484,7 +485,7 @@ Chạy `hooks/pre-review.js` khi người dùng gõ một trong các lệnh củ
 
 **File:** `.mcp.json`
 
-Khai báo MCP server chính thức của GitHub, ở chế độ chỉ đọc, với token lấy từ `GITHUB_TOKEN`:
+Khai báo MCP server chính thức của GitHub, ở chế độ chỉ đọc, với token lấy từ `GITHUB_TOKEN`. Image được ghim ở [bản phát hành v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0), nên một bản cập nhật từ upstream không thể thay đổi plugin khi chưa được review:
 
 ```json
 {
@@ -495,7 +496,7 @@ Khai báo MCP server chính thức của GitHub, ở chế độ chỉ đọc, v
         "run", "-i", "--rm",
         "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
         "-e", "GITHUB_READ_ONLY",
-        "ghcr.io/github/github-mcp-server"
+        "ghcr.io/github/github-mcp-server:v2.1.0"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
@@ -538,14 +539,13 @@ devops-automation/
 │   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
-├── scripts/
-│   ├── deploy.sh
-│   ├── rollback.sh
-│   └── health-check.sh
-└── .mcp.json             # Kubernetes MCP server
+└── scripts/
+    ├── deploy.sh
+    ├── rollback.sh
+    └── health-check.sh
 ```
 
-`hooks/hooks.json` chạy `pre-deploy.js` trước và `post-deploy.js` sau mỗi lần gọi Bash. Các script đọc lệnh từ JSON input của hook và chỉ tác động lên các lệnh triển khai như `kubectl apply` hoặc `deploy.sh`. `pre-deploy.js` exit 2 để chặn một lần triển khai khi `kubectl` không kết nối được cluster.
+`hooks/hooks.json` chạy `pre-deploy.js` trước và `post-deploy.js` sau mỗi lần gọi Bash. Các script đọc lệnh từ JSON input của hook và chỉ tác động lên các lệnh triển khai như `kubectl apply` hoặc `deploy.sh`. `pre-deploy.js` exit 2 để chặn một lần triển khai khi `kubectl` không kết nối được cluster. Plugin không có MCP server: các hook và script gọi trực tiếp `kubectl`.
 
 ### Ví Dụ 3: Plugin Tài Liệu / Example 3: Documentation Plugin
 

@@ -60,14 +60,14 @@ pr-review/
 
 ### MCP サーバー
 
-`.mcp.json` は `github` という 1 つのサーバーを宣言する。GitHub 公式の MCP サーバー（`ghcr.io/github/github-mcp-server`）を Docker で読み取り専用モードで実行する。`/mcp` では `plugin:pr-review:github` として表示される。
+`.mcp.json` は `github` という 1 つのサーバーを宣言する。GitHub 公式の MCP サーバー（`ghcr.io/github/github-mcp-server`）を Docker で読み取り専用モードで実行する。イメージは [v2.1.0 リリース](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) に固定されている。アップグレードするには `.mcp.json` のタグを変更する。`/mcp` では `plugin:pr-review:github` として表示される。
 
 ### フック
 
-`hooks/hooks.json` は `pre-review.js` を `UserPromptExpansion` イベントに登録し、上記 3 つのコマンドに一致する matcher を設定する。いずれかのコマンドを入力すると、フックは次のように動作する：
+`hooks/hooks.json` は `pre-review.js` を `UserPromptExpansion` イベントに登録し、上記 3 つのコマンドに一致する matcher を設定する。matcher は `pr-review:review-pr`（Claude Code 2.1.322 がプラグインコマンドに対して送る `command_name`）と、プレフィックスなしの `review-pr` の両方を受け付ける。いずれかのコマンドを入力すると、フックは次のように動作する：
 
 - カレントディレクトリが git リポジトリでない場合、コマンドをブロックする（終了コード 2）
-- それ以外の場合、現在のブランチと、未コミットの変更に関する注記を Claude のコンテキストに追加する
+- それ以外の場合、現在のブランチ（または HEAD が detached 状態であること、あるいはリポジトリにまだコミットがないことを示す注記）と、未コミットの変更に関する注記を Claude のコンテキストに追加する
 
 ## 使い方
 

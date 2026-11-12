@@ -238,7 +238,7 @@ blog-draft/
 
 機能のバンドル集。
 
-### PR レビュープラグイン（10 ファイル）
+### PR レビュープラグイン（11 ファイル）
 ```
 pr-review/
 ├── .claude-plugin/
@@ -251,16 +251,16 @@ pr-review/
 │   ├── security-reviewer.md          # セキュリティ専門家
 │   ├── test-checker.md               # テスト専門家
 │   └── performance-analyzer.md       # パフォーマンス専門家
-├── mcp/
-│   └── github-config.json            # GitHub 連携
+├── .mcp.json                         # GitHub 連携
 ├── hooks/
+│   ├── hooks.json                    # フック登録
 │   └── pre-review.js                 # レビュー前検証
 └── README.md                         # プラグインドキュメント
 ```
 
 **機能**：セキュリティ分析、テストカバレッジ、パフォーマンス影響
 
-**コマンド**：`/review-pr`、`/check-security`、`/check-tests`
+**コマンド**：`/pr-review:review-pr`、`/pr-review:check-security`、`/pr-review:check-tests`
 
 **インストール**：`claude --plugin-dir ./07-plugins/pr-review` （リポジトリのルートから）
 
@@ -280,9 +280,8 @@ devops-automation/
 │   ├── deployment-specialist.md      # デプロイ専門家
 │   ├── incident-commander.md         # インシデント指揮
 │   └── alert-analyzer.md             # アラート分析
-├── mcp/
-│   └── kubernetes-config.json        # Kubernetes 連携
 ├── hooks/
+│   ├── hooks.json                    # フック登録
 │   ├── pre-deploy.js                 # デプロイ前チェック
 │   └── post-deploy.js                # デプロイ後タスク
 ├── scripts/
@@ -294,13 +293,13 @@ devops-automation/
 
 **機能**：Kubernetes デプロイ、ロールバック、監視、インシデント対応
 
-**コマンド**：`/deploy`、`/rollback`、`/status`、`/incident`
+**コマンド**：`/devops-automation:deploy`、`/devops-automation:rollback`、`/devops-automation:status`、`/devops-automation:incident`
 
 **インストール**：`claude --plugin-dir ./07-plugins/devops-automation` （リポジトリのルートから）
 
 ---
 
-### ドキュメントプラグイン（14 ファイル）
+### ドキュメントプラグイン（13 ファイル）
 ```
 documentation/
 ├── .claude-plugin/
@@ -314,8 +313,7 @@ documentation/
 │   ├── api-documenter.md             # API ドキュメント専門家
 │   ├── code-commentator.md           # コードコメント専門家
 │   └── example-generator.md          # 例の作成
-├── mcp/
-│   └── github-docs-config.json       # GitHub 連携
+├── .mcp.json                         # GitHub 連携
 ├── templates/
 │   ├── api-endpoint.md               # API エンドポイントテンプレート
 │   ├── function-docs.md              # 関数ドキュメントテンプレート
@@ -325,7 +323,7 @@ documentation/
 
 **機能**：API ドキュメント、README 生成、ドキュメント同期、検証
 
-**コマンド**：`/generate-api-docs`、`/generate-readme`、`/sync-docs`、`/validate-docs`
+**コマンド**：`/documentation:generate-api-docs`、`/documentation:generate-readme`、`/documentation:sync-docs`、`/documentation:validate-docs`
 
 **インストール**：`claude --plugin-dir ./07-plugins/documentation` （リポジトリのルートから）
 
@@ -600,9 +598,9 @@ claude-howto/
 │   │   │   ├── security-reviewer.md
 │   │   │   ├── test-checker.md
 │   │   │   └── performance-analyzer.md
-│   │   ├── mcp/
-│   │   │   └── github-config.json
+│   │   ├── .mcp.json
 │   │   ├── hooks/
+│   │   │   ├── hooks.json
 │   │   │   └── pre-review.js
 │   │   └── README.md
 │   ├── devops-automation/
@@ -617,9 +615,8 @@ claude-howto/
 │   │   │   ├── deployment-specialist.md
 │   │   │   ├── incident-commander.md
 │   │   │   └── alert-analyzer.md
-│   │   ├── mcp/
-│   │   │   └── kubernetes-config.json
 │   │   ├── hooks/
+│   │   │   ├── hooks.json
 │   │   │   ├── pre-deploy.js
 │   │   │   └── post-deploy.js
 │   │   ├── scripts/
@@ -639,8 +636,7 @@ claude-howto/
 │   │   │   ├── api-documenter.md
 │   │   │   ├── code-commentator.md
 │   │   │   └── example-generator.md
-│   │   ├── mcp/
-│   │   │   └── github-docs-config.json
+│   │   ├── .mcp.json
 │   │   ├── templates/
 │   │   │   ├── api-endpoint.md
 │   │   │   ├── function-docs.md

@@ -2291,8 +2291,8 @@ claude --plugin-dir ./07-plugins/pr-review
 # Result:
 # ✅ 3 slash commands installed
 # ✅ 3 subagents configured
-# ✅ 2 MCP servers connected
-# ✅ 4 hooks registered
+# ✅ 1 MCP server connected
+# ✅ 1 hook registered
 # ✅ Ready to use!
 ```
 
@@ -2311,14 +2311,10 @@ devops-automation/
 │   ├── deployment-specialist.md
 │   ├── incident-commander.md
 │   └── alert-analyzer.md
-├── mcp/
-│   ├── github-config.json
-│   ├── kubernetes-config.json
-│   └── prometheus-config.json
 ├── hooks/
+│   ├── hooks.json
 │   ├── pre-deploy.js
-│   ├── post-deploy.js
-│   └── on-error.js
+│   └── post-deploy.js
 └── scripts/
     ├── deploy.sh
     ├── rollback.sh
@@ -2340,9 +2336,7 @@ documentation/
 │   ├── api-documenter.md
 │   ├── code-commentator.md
 │   └── example-generator.md
-├── mcp/
-│   ├── github-docs-config.json
-│   └── slack-announce-config.json
+├── .mcp.json
 └── templates/
     ├── api-endpoint.md
     ├── function-docs.md
@@ -2458,8 +2452,8 @@ Complete PR review workflow with security, testing, and documentation checks.
 ## What's Included
 - 3 slash commands for different review types
 - 3 specialized subagents
-- GitHub and CodeQL MCP integration
-- Automated security scanning hooks
+- GitHub MCP integration
+- A pre-review hook that checks the git repository
 
 ## Installation
 ```bash
@@ -2475,15 +2469,15 @@ claude --plugin-dir ./07-plugins/pr-review
 
 ## Usage
 ```bash
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ## Requirements
 - Claude Code 2.1+
-- GitHub access
-- CodeQL (optional)
+- Node.js and Docker
+- A GitHub personal access token in `GITHUB_TOKEN`
 ~~~~
 
 ### Плагін проти ручної конфігурації

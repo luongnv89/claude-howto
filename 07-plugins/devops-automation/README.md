@@ -43,10 +43,6 @@ Plugin commands are namespaced with the plugin `name` from `plugin.json`:
 - `incident-commander` - Incident coordination
 - `alert-analyzer` - System health analysis
 
-### MCP Servers
-
-`.mcp.json` declares one server, `kubernetes`: the `mcp-server-kubernetes` npm package, run with `npx` and `ALLOW_ONLY_NON_DESTRUCTIVE_TOOLS=true`, so its delete tools are turned off. It shows up as `plugin:devops-automation:kubernetes` in `/mcp`.
-
 ### Scripts
 - `deploy.sh` - Deployment automation
 - `rollback.sh` - Rollback automation
@@ -57,9 +53,13 @@ Plugin commands are namespaced with the plugin `name` from `plugin.json`:
 `hooks/hooks.json` registers both scripts on Bash tool calls. They act only on deploy commands (`deploy.sh`, `rollback.sh`, `kubectl apply`, `kubectl set image`, `kubectl rollout restart|undo`, `helm install|upgrade|rollback`) and exit 0 for every other command:
 
 - `pre-deploy.js` (`PreToolUse`): blocks the command (exit code 2) when `kubectl` is missing or can't reach a cluster, and Claude sees why
-- `post-deploy.js` (`PostToolUse`): waits up to 120s for pods labeled `DEPLOY_APP_LABEL` to be ready, and tells Claude if they aren't. It skips the wait when `DEPLOY_APP_LABEL` isn't set
+- `post-deploy.js` (`PostToolUse`): checks the deploy and tells Claude if it failed. With `DEPLOY_DEPLOYMENT` set, it runs `kubectl rollout status` (up to 120s), which waits for the new pods. Otherwise, with `DEPLOY_APP_LABEL` set, it falls back to `kubectl wait` for pods with that label to be Ready; old pods that are still Ready also pass this check. With neither set, it skips the check. Its note to Claude says which check ran
 
-Both hooks only read cluster state (`kubectl version`, `cluster-info`, `wait`).
+Both hooks only read cluster state (`kubectl version`, `cluster-info`, `rollout status`, `wait`).
+
+How a command is recognized: the scripts drop heredoc bodies and quoted strings, split the command on newlines, `&&`, `||`, `;`, `|` and `&`, and look at the first word of each part (after `VAR=value` and wrappers such as `sudo` or `env`). Global flags before the verb count, so `kubectl -n prod apply` and `helm -n prod upgrade` are deploys, while `echo "kubectl apply"`, `cat scripts/deploy.sh` and `git commit -m "helm upgrade notes"` are not. This is a heuristic, not a shell parser: it misses deploys hidden in quotes (`bash -c "kubectl apply …"`), behind other wrappers (`ssh`, `xargs`, `make deploy`) or inside other scripts. Don't rely on it as a safety boundary.
+
+If you press `Ctrl+Enter` while a deploy command runs and that ends the turn, the post-deploy hook still runs when the command finishes, but Claude Code kills it after 10 seconds, whatever its `timeout`, so the check may not finish.
 
 ## Usage
 
@@ -91,19 +91,17 @@ Both hooks only read cluster state (`kubectl version`, `cluster-info`, `wait`).
 ## Requirements
 
 - Claude Code 2.1+
-- Node.js (runs the hook scripts and the MCP server)
+- Node.js (runs the hook scripts)
 - Kubernetes CLI (kubectl)
 - Cluster access configured
 
 ## Configuration
 
-Set up your Kubernetes config (`.mcp.json` passes `KUBECONFIG` to the MCP server):
-```bash
-export KUBECONFIG=~/.kube/config
-```
+The hooks and scripts use your normal `kubectl` configuration (`~/.kube/config`, or `KUBECONFIG` if you set it).
 
-Optional, for the post-deploy readiness check:
+Optional, for the post-deploy check (set `DEPLOY_DEPLOYMENT`, or `DEPLOY_APP_LABEL` for the pod-ready fallback):
 ```bash
+export DEPLOY_DEPLOYMENT="myapp"
 export DEPLOY_APP_LABEL="app=myapp"
 export DEPLOY_NAMESPACE="staging"
 ```
@@ -116,9 +114,8 @@ User: /devops-automation:deploy production
 Claude:
 1. Delegates to deployment-specialist subagent
 2. Runs deploy.sh script; the pre-deploy hook first checks kubectl and the cluster connection
-3. Monitors deployment progress via Kubernetes MCP
-4. post-deploy hook waits for pods to be ready
-5. Provides deployment summary
+3. post-deploy hook waits for pods to be ready
+4. Provides deployment summary
 
 Result:
 ✅ Deployment complete

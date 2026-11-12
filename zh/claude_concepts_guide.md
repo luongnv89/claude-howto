@@ -1054,7 +1054,6 @@ my-plugin/
 devops-automation/
 ├── commands/
 ├── agents/
-├── mcp/
 ├── hooks/
 └── scripts/
 ```
@@ -1065,7 +1064,7 @@ devops-automation/
 documentation/
 ├── commands/
 ├── agents/
-├── mcp/
+├── .mcp.json
 └── templates/
 ```
 

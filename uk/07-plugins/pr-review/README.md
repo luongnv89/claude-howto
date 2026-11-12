@@ -56,14 +56,14 @@ pr-review/
 
 ### MCP-сервери
 
-`.mcp.json` оголошує один сервер, `github`: офіційний MCP-сервер GitHub (`ghcr.io/github/github-mcp-server`), що запускається через Docker у режимі лише для читання. У `/mcp` він відображається як `plugin:pr-review:github`.
+`.mcp.json` оголошує один сервер, `github`: офіційний MCP-сервер GitHub (`ghcr.io/github/github-mcp-server`), що запускається через Docker у режимі лише для читання. Образ закріплено на [релізі v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0); щоб оновити, змініть тег у `.mcp.json`. У `/mcp` він відображається як `plugin:pr-review:github`.
 
 ### Хуки
 
-`hooks/hooks.json` реєструє `pre-review.js` на подію `UserPromptExpansion` з matcher для трьох команд вище. Коли ви вводите одну з них, хук:
+`hooks/hooks.json` реєструє `pre-review.js` на подію `UserPromptExpansion` з matcher для трьох команд вище. Matcher приймає і `pr-review:review-pr` (`command_name`, яке Claude Code 2.1.322 надсилає для команди плагіна), і просте `review-pr`. Коли ви вводите одну з них, хук:
 
 - блокує команду (код виходу 2), якщо поточний каталог не є git-репозиторієм
-- інакше додає до контексту Claude поточну гілку та примітку про незакомічені зміни
+- інакше додає до контексту Claude поточну гілку (або примітку, що HEAD відокремлений чи що в репозиторії ще немає комітів) та примітку про незакомічені зміни
 
 ## Використання
 

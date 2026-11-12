@@ -43,10 +43,6 @@ claude plugin validate ./07-plugins/devops-automation
 - `incident-commander` — Координація інцидентів
 - `alert-analyzer` — Аналіз стану системи
 
-### MCP-сервери
-
-`.mcp.json` оголошує один сервер, `kubernetes`: npm-пакет `mcp-server-kubernetes`, що запускається через `npx` з `ALLOW_ONLY_NON_DESTRUCTIVE_TOOLS=true`, тож його інструменти видалення вимкнено. У `/mcp` він відображається як `plugin:devops-automation:kubernetes`.
-
 ### Скрипти
 - `deploy.sh` — Автоматизація розгортання
 - `rollback.sh` — Автоматизація відкату
@@ -57,9 +53,13 @@ claude plugin validate ./07-plugins/devops-automation
 `hooks/hooks.json` реєструє обидва скрипти на виклики інструмента Bash. Вони діють лише на команди розгортання (`deploy.sh`, `rollback.sh`, `kubectl apply`, `kubectl set image`, `kubectl rollout restart|undo`, `helm install|upgrade|rollback`) і завершуються з кодом 0 для будь-якої іншої команди:
 
 - `pre-deploy.js` (`PreToolUse`): блокує команду (код виходу 2), коли `kubectl` відсутній або не може дістатися кластера, і Claude бачить причину
-- `post-deploy.js` (`PostToolUse`): чекає до 120 с, поки поди з міткою `DEPLOY_APP_LABEL` стануть готовими, і повідомляє Claude, якщо вони не готові. Пропускає очікування, коли `DEPLOY_APP_LABEL` не задано
+- `post-deploy.js` (`PostToolUse`): перевіряє розгортання і повідомляє Claude, якщо воно не вдалося. Коли задано `DEPLOY_DEPLOYMENT`, запускає `kubectl rollout status` (до 120 с), що чекає на нові поди. Інакше, коли задано `DEPLOY_APP_LABEL`, як запасний варіант виконує `kubectl wait`, доки поди з цією міткою не стануть Ready; старі поди, що досі Ready, теж проходять цю перевірку. Коли не задано жодної з них, пропускає перевірку. У повідомленні для Claude зазначено, яку перевірку виконано
 
-Обидва хуки лише читають стан кластера (`kubectl version`, `cluster-info`, `wait`).
+Обидва хуки лише читають стан кластера (`kubectl version`, `cluster-info`, `rollout status`, `wait`).
+
+Як розпізнається команда: скрипти відкидають тіла heredoc і рядки в лапках, розбивають команду за переносами рядків, `&&`, `||`, `;`, `|` і `&` та дивляться на перше слово кожної частини (після `VAR=value` і обгорток на кшталт `sudo` чи `env`). Глобальні прапорці перед підкомандою враховуються, тож `kubectl -n prod apply` і `helm -n prod upgrade` вважаються розгортаннями, а `echo "kubectl apply"`, `cat scripts/deploy.sh` і `git commit -m "helm upgrade notes"` — ні. Це евристика, а не парсер shell: вона пропускає розгортання, сховані в лапках (`bash -c "kubectl apply …"`), за іншими обгортками (`ssh`, `xargs`, `make deploy`) або всередині інших скриптів. Не покладайтеся на неї як на межу безпеки.
+
+Якщо ви натиснете `Ctrl+Enter`, поки виконується команда розгортання, і це завершить хід, post-deploy хук однаково запуститься, коли команда завершиться, але Claude Code зупинить його через 10 секунд незалежно від його `timeout`, тож перевірка може не завершитися.
 
 ## Використання
 
@@ -91,19 +91,17 @@ claude plugin validate ./07-plugins/devops-automation
 ## Вимоги
 
 - Claude Code 2.1+
-- Node.js (запускає скрипти хуків і MCP-сервер)
+- Node.js (запускає скрипти хуків)
 - Kubernetes CLI (kubectl)
 - Налаштований доступ до кластера
 
 ## Конфігурація
 
-Налаштуйте конфіг Kubernetes (`.mcp.json` передає `KUBECONFIG` MCP-серверу):
-```bash
-export KUBECONFIG=~/.kube/config
-```
+Хуки та скрипти використовують вашу звичайну конфігурацію `kubectl` (`~/.kube/config` або `KUBECONFIG`, якщо ви його задали).
 
-Опціонально, для перевірки готовності після розгортання:
+Опціонально, для перевірки після розгортання (задайте `DEPLOY_DEPLOYMENT` або `DEPLOY_APP_LABEL` для запасної перевірки готовності подів):
 ```bash
+export DEPLOY_DEPLOYMENT="myapp"
 export DEPLOY_APP_LABEL="app=myapp"
 export DEPLOY_NAMESPACE="staging"
 ```
@@ -116,9 +114,8 @@ User: /devops-automation:deploy production
 Claude:
 1. Делегує субагенту deployment-specialist
 2. Запускає скрипт deploy.sh; pre-deploy хук спершу перевіряє kubectl і з'єднання з кластером
-3. Моніторить прогрес розгортання через Kubernetes MCP
-4. post-deploy хук чекає, поки поди стануть готовими
-5. Надає підсумок розгортання
+3. post-deploy хук чекає, поки поди стануть готовими
+4. Надає підсумок розгортання
 
 Результат:
 ✅ Розгортання завершено

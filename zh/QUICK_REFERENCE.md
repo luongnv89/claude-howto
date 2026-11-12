@@ -152,7 +152,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 方法 4：插件（推荐）
 claude --plugin-dir ./07-plugins/pr-review
-# 使用：/review-pr
+# 使用：/pr-review:review-pr
 ```
 
 ### 文档
@@ -175,7 +175,7 @@ cp -r 03-skills/doc-generator ~/.claude/skills/
 # 完整插件
 /plugin install devops-automation
 
-# 命令：/deploy、/rollback、/status、/incident
+# 命令：/devops-automation:deploy、/devops-automation:rollback、/devops-automation:status、/devops-automation:incident
 ```
 
 ### 团队规范
@@ -380,9 +380,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # 使用打包功能
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

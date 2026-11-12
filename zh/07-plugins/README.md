@@ -355,18 +355,19 @@ tools: Read, Grep, Bash
 
 **文件：** `hooks/hooks.json`
 
-当用户输入插件的某个命令时运行 `hooks/pre-review.js`。如果当前不在 git 仓库中，该脚本会阻止命令执行（退出码 2）：
+当用户输入插件的某个命令时运行 `hooks/pre-review.js`。如果当前不在 git 仓库中，该脚本会阻止命令执行（退出码 2）。matcher 匹配的是 `command_name`，在 Claude Code 2.1.322 上，插件命令的 `command_name` 是 `pr-review:review-pr`；matcher 也接受不带前缀的 `review-pr`。`args`（exec 形式）把脚本路径作为单个参数传入，因此无需加引号：
 
 ```json
 {
   "hooks": {
     "UserPromptExpansion": [
       {
-        "matcher": "^pr-review:(review-pr|check-security|check-tests)$",
+        "matcher": "^(pr-review:)?(review-pr|check-security|check-tests)$",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js\"",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js"],
             "timeout": 30
           }
         ]
@@ -378,7 +379,7 @@ tools: Read, Grep, Bash
 
 **文件：** `.mcp.json`
 
-声明 GitHub 官方 MCP 服务器，以只读模式运行，token 取自 `GITHUB_TOKEN`：
+声明 GitHub 官方 MCP 服务器，以只读模式运行，token 取自 `GITHUB_TOKEN`。镜像固定在 [v2.1.0 版本](https://github.com/github/github-mcp-server/releases/tag/v2.1.0)，因此上游更新无法在未经审查的情况下改变插件：
 
 ```json
 {
@@ -389,7 +390,7 @@ tools: Read, Grep, Bash
         "run", "-i", "--rm",
         "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
         "-e", "GITHUB_READ_ONLY",
-        "ghcr.io/github/github-mcp-server"
+        "ghcr.io/github/github-mcp-server:v2.1.0"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
@@ -432,14 +433,13 @@ devops-automation/
 │   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
-├── scripts/
-│   ├── deploy.sh
-│   ├── rollback.sh
-│   └── health-check.sh
-└── .mcp.json             # Kubernetes MCP server
+└── scripts/
+    ├── deploy.sh
+    ├── rollback.sh
+    └── health-check.sh
 ```
 
-`hooks/hooks.json` 会在每次 Bash 调用之前运行 `pre-deploy.js`，之后运行 `post-deploy.js`。这两个脚本从 hook 的 JSON 输入中读取命令，只对 `kubectl apply` 或 `deploy.sh` 这类部署命令生效。当 `kubectl` 无法连接到集群时，`pre-deploy.js` 以退出码 2 退出，阻止部署。
+`hooks/hooks.json` 会在每次 Bash 调用之前运行 `pre-deploy.js`，之后运行 `post-deploy.js`。这两个脚本从 hook 的 JSON 输入中读取命令，只对 `kubectl apply` 或 `deploy.sh` 这类部署命令生效。当 `kubectl` 无法连接到集群时，`pre-deploy.js` 以退出码 2 退出，阻止部署。该插件没有 MCP 服务器：hooks 和脚本直接调用 `kubectl`。
 
 ### 示例 3：文档插件
 

@@ -47,10 +47,6 @@ claude plugin validate ./07-plugins/devops-automation
 - `incident-commander` - 인시던트 조정 담당
 - `alert-analyzer` - 시스템 상태 분석 담당
 
-### MCP 서버
-
-`.mcp.json`은 서버 하나, `kubernetes`를 선언합니다. `mcp-server-kubernetes` npm 패키지를 `npx`와 `ALLOW_ONLY_NON_DESTRUCTIVE_TOOLS=true`로 실행하므로 삭제 도구는 꺼져 있습니다. `/mcp`에서는 `plugin:devops-automation:kubernetes`로 표시됩니다.
-
 ### 스크립트
 - `deploy.sh` - 배포 자동화
 - `rollback.sh` - 롤백 자동화
@@ -61,9 +57,13 @@ claude plugin validate ./07-plugins/devops-automation
 `hooks/hooks.json`은 두 스크립트를 Bash 도구 호출에 등록합니다. 두 스크립트는 배포 명령어(`deploy.sh`, `rollback.sh`, `kubectl apply`, `kubectl set image`, `kubectl rollout restart|undo`, `helm install|upgrade|rollback`)에만 동작하고, 그 밖의 모든 명령어에는 0으로 종료합니다.
 
 - `pre-deploy.js`(`PreToolUse`): `kubectl`이 없거나 클러스터에 연결할 수 없으면 명령어를 차단하며(종료 코드 2), Claude는 그 이유를 확인할 수 있습니다
-- `post-deploy.js`(`PostToolUse`): `DEPLOY_APP_LABEL` 레이블이 붙은 파드가 준비될 때까지 최대 120초 기다리고, 준비되지 않으면 Claude에게 알립니다. `DEPLOY_APP_LABEL`이 설정되지 않으면 대기를 건너뜁니다
+- `post-deploy.js`(`PostToolUse`): 배포를 점검하고, 실패하면 Claude에게 알립니다. `DEPLOY_DEPLOYMENT`가 설정되어 있으면 `kubectl rollout status`를 실행하며(최대 120초), 이 명령은 새 파드를 기다립니다. 그렇지 않고 `DEPLOY_APP_LABEL`이 설정되어 있으면 대체 방법으로 해당 레이블이 붙은 파드가 Ready 상태가 될 때까지 `kubectl wait`로 기다립니다. 이때 아직 Ready 상태인 이전 파드도 이 점검을 통과합니다. 둘 다 설정되지 않으면 점검을 건너뜁니다. Claude에게 보내는 메모에는 어떤 점검을 실행했는지 표시됩니다
 
-두 훅 모두 클러스터 상태를 읽기만 합니다(`kubectl version`, `cluster-info`, `wait`).
+두 훅 모두 클러스터 상태를 읽기만 합니다(`kubectl version`, `cluster-info`, `rollout status`, `wait`).
+
+명령어를 인식하는 방식: 스크립트는 heredoc 본문과 따옴표로 묶인 문자열을 제거하고, 명령어를 줄바꿈, `&&`, `||`, `;`, `|`, `&` 기준으로 나눈 뒤, 각 부분의 첫 단어를 확인합니다(`VAR=value`와 `sudo`, `env` 같은 래퍼는 건너뜀). 하위 명령어 앞에 전역 플래그가 있어도 인식되므로 `kubectl -n prod apply`와 `helm -n prod upgrade`는 배포로 간주되지만, `echo "kubectl apply"`, `cat scripts/deploy.sh`, `git commit -m "helm upgrade notes"`는 배포가 아닙니다. 이것은 셸 파서가 아니라 휴리스틱이므로, 따옴표 안에 숨은 배포(`bash -c "kubectl apply …"`), 다른 래퍼(`ssh`, `xargs`, `make deploy`) 뒤의 배포, 다른 스크립트 안의 배포는 놓칩니다. 이를 안전 경계로 삼지 마세요.
+
+배포 명령어가 실행되는 동안 `Ctrl+Enter`를 눌러 턴이 끝나면, 명령어가 끝날 때 post-deploy 훅은 여전히 실행되지만 Claude Code가 `timeout` 값과 관계없이 10초 후에 훅을 종료하므로 점검이 끝나지 않을 수 있습니다.
 
 ## 사용 방법
 
@@ -95,19 +95,17 @@ claude plugin validate ./07-plugins/devops-automation
 ## 요구 사항
 
 - Claude Code 2.1+
-- Node.js(훅 스크립트와 MCP 서버 실행)
+- Node.js(훅 스크립트 실행)
 - Kubernetes CLI (kubectl)
 - 구성된 클러스터 접근 권한
 
 ## 설정
 
-Kubernetes 설정을 구성합니다(`.mcp.json`이 `KUBECONFIG`를 MCP 서버에 전달합니다).
-```bash
-export KUBECONFIG=~/.kube/config
-```
+훅과 스크립트는 평소의 `kubectl` 설정(`~/.kube/config`, 또는 설정한 경우 `KUBECONFIG`)을 사용합니다.
 
-배포 후 준비 상태 점검용(선택 사항):
+배포 후 점검용(선택 사항, `DEPLOY_DEPLOYMENT`를 설정하거나, 파드 준비 상태 대체 점검을 위해 `DEPLOY_APP_LABEL`을 설정):
 ```bash
+export DEPLOY_DEPLOYMENT="myapp"
 export DEPLOY_APP_LABEL="app=myapp"
 export DEPLOY_NAMESPACE="staging"
 ```
@@ -120,9 +118,8 @@ User: /devops-automation:deploy production
 Claude:
 1. Delegates to deployment-specialist subagent
 2. Runs deploy.sh script; the pre-deploy hook first checks kubectl and the cluster connection
-3. Monitors deployment progress via Kubernetes MCP
-4. post-deploy hook waits for pods to be ready
-5. Provides deployment summary
+3. post-deploy hook waits for pods to be ready
+4. Provides deployment summary
 
 Result:
 ✅ Deployment complete

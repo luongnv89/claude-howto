@@ -57,14 +57,14 @@ pr-review/
 
 ### MCP 服务器
 
-`.mcp.json` 声明了一个服务器 `github`：GitHub 官方 MCP 服务器（`ghcr.io/github/github-mcp-server`），通过 Docker 以只读模式运行。它在 `/mcp` 中显示为 `plugin:pr-review:github`。
+`.mcp.json` 声明了一个服务器 `github`：GitHub 官方 MCP 服务器（`ghcr.io/github/github-mcp-server`），通过 Docker 以只读模式运行。镜像固定在 [v2.1.0 版本](https://github.com/github/github-mcp-server/releases/tag/v2.1.0)；如需升级，请修改 `.mcp.json` 中的标签。它在 `/mcp` 中显示为 `plugin:pr-review:github`。
 
 ### Hooks
 
-`hooks/hooks.json` 把 `pre-review.js` 注册到 `UserPromptExpansion` 事件上，matcher 匹配上面的三个命令。当你输入其中一个命令时，该 hook 会：
+`hooks/hooks.json` 把 `pre-review.js` 注册到 `UserPromptExpansion` 事件上，matcher 匹配上面的三个命令。matcher 同时接受 `pr-review:review-pr`（Claude Code 2.1.322 为插件命令发送的 `command_name`）和不带前缀的 `review-pr`。当你输入其中一个命令时，该 hook 会：
 
 - 如果当前目录不是 git 仓库，阻止该命令（退出码 2）
-- 否则把当前分支以及未提交更改的提示添加到 Claude 的上下文中
+- 否则把当前分支（或说明 HEAD 处于 detached 状态、或仓库还没有任何提交的提示）以及未提交更改的提示添加到 Claude 的上下文中
 
 ## 使用
 

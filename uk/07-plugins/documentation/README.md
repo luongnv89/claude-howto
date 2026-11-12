@@ -50,7 +50,7 @@ claude plugin validate ./07-plugins/documentation
 
 ### MCP-сервери
 
-`.mcp.json` оголошує один сервер, `github`: офіційний MCP-сервер GitHub (`ghcr.io/github/github-mcp-server`), що запускається через Docker у режимі лише для читання. У `/mcp` він відображається як `plugin:documentation:github`.
+`.mcp.json` оголошує один сервер, `github`: офіційний MCP-сервер GitHub (`ghcr.io/github/github-mcp-server`), що запускається через Docker у режимі лише для читання. Образ закріплено на [релізі v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0); щоб оновити, змініть тег у `.mcp.json`. У `/mcp` він відображається як `plugin:documentation:github`.
 
 ## Використання
 

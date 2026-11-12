@@ -56,14 +56,14 @@ pr-review/
 
 ### سرورهای MCP
 
-`.mcp.json` یک سرور به نام `github` تعریف می‌کند: سرور MCP رسمی GitHub (`ghcr.io/github/github-mcp-server`) که با Docker در حالت فقط‌خواندنی اجرا می‌شود. این سرور در `/mcp` با نام `plugin:pr-review:github` نمایش داده می‌شود.
+`.mcp.json` یک سرور به نام `github` تعریف می‌کند: سرور MCP رسمی GitHub (`ghcr.io/github/github-mcp-server`) که با Docker در حالت فقط‌خواندنی اجرا می‌شود. ایمیج روی [نسخه v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) ثابت شده است؛ برای ارتقا، تگ را در `.mcp.json` تغییر دهید. این سرور در `/mcp` با نام `plugin:pr-review:github` نمایش داده می‌شود.
 
 ### هوک‌ها
 
-`hooks/hooks.json` فایل `pre-review.js` را روی رویداد `UserPromptExpansion` و با یک matcher برای سه دستور بالا ثبت می‌کند. وقتی یکی از آن‌ها را تایپ می‌کنید، هوک:
+`hooks/hooks.json` فایل `pre-review.js` را روی رویداد `UserPromptExpansion` و با یک matcher برای سه دستور بالا ثبت می‌کند. matcher هم `pr-review:review-pr` (همان `command_name` که Claude Code 2.1.322 برای یک دستور پلاگین می‌فرستد) و هم شکل بدون پیشوند `review-pr` را می‌پذیرد. وقتی یکی از آن‌ها را تایپ می‌کنید، هوک:
 
 - اگر پوشه جاری مخزن git نباشد، دستور را مسدود می‌کند (کد خروج 2)
-- در غیر این صورت، شاخه جاری و یادداشتی درباره تغییرات کامیت‌نشده را به زمینه Claude اضافه می‌کند
+- در غیر این صورت، شاخه جاری (یا یادداشتی مبنی بر اینکه HEAD جدا (detached) است، یا اینکه مخزن هنوز هیچ کامیتی ندارد) و یادداشتی درباره تغییرات کامیت‌نشده را به زمینه Claude اضافه می‌کند
 
 ## استفاده
 

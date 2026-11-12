@@ -152,7 +152,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Cách 4: Plugin (tốt nhất)
 claude --plugin-dir ./07-plugins/pr-review
-# Sử dụng: /review-pr
+# Sử dụng: /pr-review:review-pr
 ```
 
 ### Tài Liệu
@@ -175,7 +175,7 @@ cp -r 03-skills/doc-generator ~/.claude/skills/
 # Plugin hoàn chỉnh
 /plugin install devops-automation
 
-# Lệnh: /deploy, /rollback, /status, /incident
+# Lệnh: /devops-automation:deploy, /devops-automation:rollback, /devops-automation:status, /devops-automation:incident
 ```
 
 ### Tiêu Chuẩn Đội
@@ -380,9 +380,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # Sử dụng tính năng được gói
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

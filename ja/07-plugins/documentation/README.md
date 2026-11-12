@@ -54,7 +54,7 @@ claude plugin validate ./07-plugins/documentation
 
 ### MCP サーバー
 
-`.mcp.json` は `github` という 1 つのサーバーを宣言する。GitHub 公式の MCP サーバー（`ghcr.io/github/github-mcp-server`）を Docker で読み取り専用モードで実行する。`/mcp` では `plugin:documentation:github` として表示される。
+`.mcp.json` は `github` という 1 つのサーバーを宣言する。GitHub 公式の MCP サーバー（`ghcr.io/github/github-mcp-server`）を Docker で読み取り専用モードで実行する。イメージは [v2.1.0 リリース](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) に固定されている。アップグレードするには `.mcp.json` のタグを変更する。`/mcp` では `plugin:documentation:github` として表示される。
 
 ## 使い方
 

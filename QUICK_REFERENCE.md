@@ -154,7 +154,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Method 4: Plugin (best)
 claude --plugin-dir ./07-plugins/pr-review
-# Use: /review-pr
+# Use: /pr-review:review-pr
 ```
 
 ### Documentation
@@ -177,7 +177,7 @@ cp -r 03-skills/doc-generator ~/.claude/skills/
 # Complete plugin
 /plugin install devops-automation
 
-# Commands: /deploy, /rollback, /status, /incident
+# Commands: /devops-automation:deploy, /devops-automation:rollback, /devops-automation:status, /devops-automation:incident
 ```
 
 ### Team Standards
@@ -382,9 +382,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # Use bundled features
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

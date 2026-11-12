@@ -54,7 +54,7 @@ claude plugin validate ./07-plugins/documentation
 
 ### MCP 서버
 
-`.mcp.json`은 서버 하나, `github`를 선언합니다. GitHub의 공식 MCP 서버(`ghcr.io/github/github-mcp-server`)이며 Docker로 읽기 전용 모드로 실행됩니다. `/mcp`에서는 `plugin:documentation:github`로 표시됩니다.
+`.mcp.json`은 서버 하나, `github`를 선언합니다. GitHub의 공식 MCP 서버(`ghcr.io/github/github-mcp-server`)이며 Docker로 읽기 전용 모드로 실행됩니다. 이미지는 [v2.1.0 릴리스](https://github.com/github/github-mcp-server/releases/tag/v2.1.0)로 고정되어 있으며, 업그레이드하려면 `.mcp.json`의 태그를 변경하세요. `/mcp`에서는 `plugin:documentation:github`로 표시됩니다.
 
 ## 사용 방법
 
