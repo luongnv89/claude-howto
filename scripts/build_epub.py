@@ -17,7 +17,7 @@ Usage:
         --root, -r      Root directory containing markdown files (default: repo root)
         --output, -o    Output EPUB file path (default: <root>/claude-howto-guide.epub)
         --verbose, -v   Enable verbose logging
-        --lang          Language tree to build: en, vi, zh, ja or ko (default: en)
+        --lang          Language tree to build: en, vi, zh, ja, ko or fa (default: en)
 
     The script uses inline script dependencies (PEP 723), so uv will
     automatically install required packages in an isolated environment.
@@ -130,6 +130,8 @@ class EPUBConfig:
     ja_subtitle: str = "週末で Claude Code をマスターする"
     ko_title: str = "Claude Code 사용 가이드"
     ko_subtitle: str = "주말 동안 Claude Code 마스터하기"
+    fa_title: str = "راهنمای Claude Code"
+    fa_subtitle: str = "Claude Code را در یک آخر هفته بیاموزید"
 
     # Cover Settings
     cover_width: int = 600
@@ -1164,10 +1166,11 @@ def main() -> int:
         "--lang",
         type=str,
         default="en",
-        choices=["en", "vi", "zh", "ja", "ko"],
+        choices=["en", "vi", "zh", "ja", "ko", "fa"],
         help=(
             "Language code: 'en' for English, 'vi' for Vietnamese, "
-            "'zh' for Chinese, 'ja' for Japanese, 'ko' for Korean (default: en)"
+            "'zh' for Chinese, 'ja' for Japanese, 'ko' for Korean, "
+            "'fa' for Persian (default: en)"
         ),
     )
 
@@ -1185,6 +1188,7 @@ def main() -> int:
         "zh": (repo_root / "zh", "claude-howto-guide-zh.epub", EPUBConfig.zh_title),
         "ja": (repo_root / "ja", "claude-howto-guide-ja.epub", EPUBConfig.ja_title),
         "ko": (repo_root / "ko", "claude-howto-guide-ko.epub", EPUBConfig.ko_title),
+        "fa": (repo_root / "fa", "claude-howto-guide-fa.epub", EPUBConfig.fa_title),
     }
     root, default_output_name, title = lang_map[args.lang]
     output = args.output or (repo_root / default_output_name)

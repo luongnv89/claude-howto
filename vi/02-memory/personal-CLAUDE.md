@@ -1,45 +1,45 @@
-# My Development Preferences
+# Tùy Chọn Phát Triển Của Tôi
 
-## About Me
-- **Experience Level**: 8 years full-stack development
-- **Preferred Languages**: TypeScript, Python
-- **Communication Style**: Direct, with examples
-- **Learning Style**: Visual diagrams with code
+## Về Tôi
+- **Mức Độ Kinh Nghiệm**: 8 năm phát triển full-stack
+- **Ngôn Ngữ Ưa Thích**: TypeScript, Python
+- **Phong Cách Giao Tiếp**: Trực tiếp, kèm ví dụ
+- **Phong Cách Học**: Sơ đồ trực quan kèm code
 
-## Code Preferences
+## Tùy Chọn Về Code
 
-### Error Handling
-I prefer explicit error handling with try-catch blocks and meaningful error messages.
-Avoid generic errors. Always log errors for debugging.
+### Xử Lý Lỗi
+Tôi ưu tiên xử lý lỗi tường minh với khối try-catch và thông báo lỗi có ý nghĩa.
+Tránh các lỗi chung chung. Luôn log lỗi để debug.
 
-### Comments
-Use comments for WHY, not WHAT. Code should be self-documenting.
-Comments should explain business logic or non-obvious decisions.
+### Comment
+Dùng comment để giải thích TẠI SAO, không phải CÁI GÌ. Code nên tự giải thích chính nó.
+Comment nên giải thích logic nghiệp vụ hoặc các quyết định không hiển nhiên.
 
 ### Testing
-I prefer TDD (test-driven development).
-Write tests first, then implementation.
-Focus on behavior, not implementation details.
+Tôi ưu tiên TDD (phát triển hướng kiểm thử).
+Viết test trước, sau đó mới implement.
+Tập trung vào hành vi, không phải chi tiết implementation.
 
-### Architecture
-I prefer modular, loosely-coupled design.
-Use dependency injection for testability.
-Separate concerns (Controllers, Services, Repositories).
+### Kiến Trúc
+Tôi ưu tiên thiết kế module hóa, liên kết lỏng.
+Dùng dependency injection để dễ kiểm thử.
+Tách biệt các mối quan tâm (Controllers, Services, Repositories).
 
-## Debugging Preferences
-- Use console.log with prefix: `[DEBUG]`
-- Include context: function name, relevant variables
-- Use stack traces when available
-- Always include timestamps in logs
+## Tùy Chọn Khi Debug
+- Dùng console.log với tiền tố: `[DEBUG]`
+- Bao gồm ngữ cảnh: tên hàm, các biến liên quan
+- Dùng stack trace khi có
+- Luôn bao gồm timestamp trong log
 
-## Communication
-- Explain complex concepts with diagrams
-- Show concrete examples before explaining theory
-- Include before/after code snippets
-- Summarize key points at the end
+## Giao Tiếp
+- Giải thích các khái niệm phức tạp bằng sơ đồ
+- Đưa ví dụ cụ thể trước khi giải thích lý thuyết
+- Bao gồm các đoạn code trước/sau
+- Tóm tắt các điểm chính ở cuối
 
-## Project Organization
-I organize my projects as:
+## Tổ Chức Dự Án
+Tôi tổ chức các dự án của mình như sau:
 ```
 project/
   ├── src/
@@ -52,9 +52,16 @@ project/
   └── docker/
 ```
 
-## Tooling
-- **IDE**: VS Code with vim keybindings
-- **Terminal**: Zsh with Oh-My-Zsh
-- **Format**: Prettier (100 char line length)
-- **Linter**: ESLint with airbnb config
-- **Test Framework**: Jest with React Testing Library
+## Công Cụ
+- **IDE**: VS Code với phím tắt vim
+- **Terminal**: Zsh với Oh-My-Zsh
+- **Định Dạng**: Prettier (độ dài dòng 100 ký tự)
+- **Linter**: ESLint với cấu hình airbnb
+- **Framework Test**: Jest với React Testing Library
+
+---
+**Cập Nhật Lần Cuối**: Ngày 4 tháng 8 năm 2026
+**Phiên Bản Claude Code**: 2.1.220
+**Nguồn**:
+- https://code.claude.com/docs/en/memory
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

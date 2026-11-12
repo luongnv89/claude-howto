@@ -1,17 +1,17 @@
 ---
-description: Check overall system health and status
+description: Kiểm tra tình trạng và trạng thái tổng thể của hệ thống
 ---
 
-# System Status Check
+# Kiểm Tra Trạng Thái Hệ Thống
 
-Check system health across all services:
+Kiểm tra tình trạng hệ thống trên tất cả các service:
 
-1. Query Kubernetes pod status
-2. Check database connections
-3. Monitor API response times
-4. Review error rates
-5. Check resource utilization
-6. Report overall health
+1. Truy vấn trạng thái pod Kubernetes
+2. Kiểm tra kết nối database
+3. Giám sát thời gian phản hồi API
+4. Xem xét tỷ lệ lỗi
+5. Kiểm tra mức sử dụng tài nguyên
+6. Báo cáo tình trạng tổng thể
 
 ---
 
@@ -20,3 +20,4 @@ Check system health across all services:
 **Nguồn**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/skills#frontmatter-reference
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

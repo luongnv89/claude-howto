@@ -1,16 +1,16 @@
 ---
-description: Start comprehensive PR review with security and testing checks
+description: Bắt đầu review PR toàn diện với các kiểm tra bảo mật và testing
 ---
 
-# PR Review
+# Review PR
 
-This command initiates a complete pull request review including:
+Lệnh này khởi động một quy trình review pull request hoàn chỉnh, bao gồm:
 
-1. Security analysis
-2. Test coverage verification
-3. Documentation updates
-4. Code quality checks
-5. Performance impact assessment
+1. Phân tích bảo mật
+2. Xác minh độ bao phủ test
+3. Cập nhật tài liệu
+4. Kiểm tra chất lượng code
+5. Đánh giá tác động đến hiệu năng
 
 ---
 
@@ -19,3 +19,4 @@ This command initiates a complete pull request review including:
 **Nguồn**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/skills#frontmatter-reference
+**Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
