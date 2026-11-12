@@ -562,7 +562,9 @@ def rewrite_links(
 # =============================================================================
 
 
-MERMAID_BLOCK_RE = re.compile(r"```mermaid\n(.*?)```", re.DOTALL)
+MERMAID_BLOCK_RE = re.compile(
+    r"^[ \t]*```[ \t]*mermaid(?:[ \t][^`\n]*)?\n(.*?)```", re.DOTALL | re.MULTILINE
+)
 
 
 def replace_mermaid_blocks(md_content: str) -> str:

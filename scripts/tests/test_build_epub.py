@@ -349,6 +349,32 @@ graph LR
         assert "A --> B" in diagrams[0][1]
         assert "C --> D" in diagrams[1][1]
 
+    def test_extract_mermaid_blocks_with_info_string(
+        self, tmp_path: Path, logger: logging.Logger
+    ) -> None:
+        md_file = tmp_path / "test.md"
+        md_file.write_text(
+            "```mermaid \ngraph TD\n    A --> B\n```\n\n"
+            "```mermaid title=Overview\ngraph LR\n    C --> D\n```\n"
+        )
+        diagrams = extract_all_mermaid_blocks([(md_file, "Test")], logger)
+        assert len(diagrams) == 2
+        assert "A --> B" in diagrams[0][1]
+        assert "C --> D" in diagrams[1][1]
+
+    def test_extract_mermaid_blocks_ignores_inline_code_and_other_languages(
+        self, tmp_path: Path, logger: logging.Logger
+    ) -> None:
+        md_file = tmp_path / "test.md"
+        md_file.write_text(
+            "| mermaid | Every ` ```mermaid ` block |\n\n"
+            "```mermaidjs\ngraph TD\n    X --> Y\n```\n\n"
+            "```mermaid\ngraph LR\n    C --> D\n```\n"
+        )
+        diagrams = extract_all_mermaid_blocks([(md_file, "Test")], logger)
+        assert len(diagrams) == 1
+        assert "C --> D" in diagrams[0][1]
+
     def test_extract_mermaid_blocks_deduplication(
         self, tmp_path: Path, logger: logging.Logger
     ) -> None:
