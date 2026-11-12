@@ -394,7 +394,7 @@ documentation/
 - **acceptEdits**：自动接受文件编辑，其他操作仍需审批
 - **plan**：只读分析，不做修改
 - **auto**：所有操作都执行，附带后台安全检查 — 由分类器审查命令和受保护目录的写入（通过 `autoMode` 设置对象配置）
-- **dontAsk**：只允许预先批准的工具 — 任何本来会弹出提示的调用都会被自动拒绝。Claude 只运行 `permissions.allow` 匹配项、只读 Bash 命令，以及被 `PreToolUse` hook 批准的调用
+- **dontAsk**：只允许预先批准的工具 — 任何本来会弹出提示的调用都会被自动拒绝。Claude 仍会运行工作目录内的文件读取、只读 Bash 命令、`permissions.allow` 匹配项，以及被 `PreToolUse` hook 批准的调用；你安装的 mod 也可以批准部分调用（v2.1.321）
 - **bypassPermissions**：全部接受（使用 `--permission-mode bypassPermissions` 或等效的 `--dangerously-skip-permissions` 启用）
 
 #### Headless Mode（`claude -p`）

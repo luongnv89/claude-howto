@@ -404,7 +404,7 @@ documentation/
 - **acceptEdits**：ファイル編集を自動承認、それ以外は確認
 - **plan**：読み取り専用分析、変更なし
 - **auto**：バックグラウンドの安全チェック付きで全操作を実行 — 分類器がコマンドと保護ディレクトリへの書き込みを審査する（`autoMode` 設定オブジェクトで構成）
-- **dontAsk**：事前承認済みのツールのみ — 本来プロンプトが出る呼び出しはすべて自動的に拒否される。Claude が実行できるのは `permissions.allow` に一致するもの、読み取り専用の Bash コマンド、`PreToolUse` フックが承認した呼び出しに限られる
+- **dontAsk**：事前承認済みのツールのみ — 本来プロンプトが出る呼び出しはすべて自動的に拒否される。Claude は引き続き、作業ディレクトリ内のファイル読み取り、読み取り専用の Bash コマンド、`permissions.allow` に一致するもの、`PreToolUse` フックが承認した呼び出しを実行する。インストールした mod も一部の呼び出しを承認できる（v2.1.321）
 - **bypassPermissions**：すべて承認（`--permission-mode bypassPermissions` または同等の `--dangerously-skip-permissions` で有効化）
 
 ### ヘッドレスモード（`claude -p`）

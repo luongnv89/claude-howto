@@ -410,14 +410,14 @@ documentation/
 - 수십에서 수백 개의 백그라운드 서브에이전트의 확정적 오케스트레이션
 - 포괄적인 커버리지를 위한 팬아웃 / 파이프라인 / 병렬 단계
 - `/workflows`로 실행을 확인합니다. `/effort`의 Ultracode 토글(`/effort ultracode [on|off]`)은 effort 수준을 바꾸지 않고 세션에서 이를 켜며(v2.1.284), `ultracode` 설정으로 지속시킬 수 있습니다.
-- v2.1.219부터 기본 크기 가이드라인은 중간(에이전트 10개 미만 목표)이며, `/config`의 **Dynamic workflow size**로 변경할 수 있습니다.
+- 기본 크기 가이드라인은 중간(v2.1.219)이고, Pro 플랜에서는 작음(v2.1.271+)입니다. 중간은 v2.1.271부터 에이전트 10개 미만을 목표로 합니다(이전에는 15개). `/config`의 **Dynamic workflow size**로 변경할 수 있습니다.
 
 ### 권한 모드
 - **manual**: 읽기 이외의 모든 작업 전에 확인 (v2.1.200부터 Manual로 표시되며, 구성 값은 여전히 `default`)
 - **acceptEdits**: 파일 편집 자동 승인, 다른 작업은 요청
 - **plan**: 읽기 전용 분석, 수정 없음
 - **auto**: 모든 작업을 백그라운드 안전 검사와 함께 수행 — 분류기가 명령어와 보호된 디렉터리 쓰기를 검토 (`autoMode` 설정 객체로 구성)
-- **dontAsk**: 사전 승인된 도구만 실행 — 프롬프트가 필요한 모든 호출을 자동 거부. Claude는 `permissions.allow`에 일치하는 항목, 읽기 전용 Bash 명령어, `PreToolUse` 훅이 승인한 호출만 실행
+- **dontAsk**: 사전 승인된 도구만 실행 — 프롬프트가 필요한 모든 호출을 자동 거부. Claude는 작업 디렉터리 안의 파일 읽기, 읽기 전용 Bash 명령어, `permissions.allow`에 일치하는 항목, `PreToolUse` 훅이 승인한 호출은 계속 실행하며, 설치한 mod도 일부 호출을 승인할 수 있음(v2.1.321)
 - **bypassPermissions**: 모든 작업 승인 (`--permission-mode bypassPermissions` 또는 동등한 `--dangerously-skip-permissions`로 활성화)
 
 ### 헤드리스 모드 (`claude -p`)
@@ -458,7 +458,7 @@ documentation/
 - 리서치 프리뷰 종료 — `claude remote-control`을 실행 중인 머신이 Claude 앱 Code 탭에 디바이스 카드로 표시됨
 
 ### 세션 간 메시징
-- 같은 머신의 세션 간 `SendMessage`
+- 같은 머신의 다른 세션, 그리고 다른 머신이나 클라우드에 있는 내 세션으로 보내는 `SendMessage`
 - `notify_when_idle` — 상대 세션이 다음에 유휴 상태가 될 때 한 번 알림(옵트인, v2.1.236)
 - `ListAgents`가 세션 자신의 이름을 보고하고 실행 중인 팀원 목록을 표시(v2.1.239)
 
@@ -486,7 +486,7 @@ documentation/
 - `claude` - 대화형 세션 시작
 - `claude -p "prompt"` - 헤드리스/비대화형 모드
 - `claude --cloud "task"` - 클라우드(웹) 세션 시작
-- `claude --model` - 모델 선택 (Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 5.5, Haiku 4.5)
+- `claude --model` - 모델 선택 (Fable 5.2, Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 5.5, Haiku 4.5)
 - `claude --permission-mode` - 권한 모드 설정
 - `claude --remote-control` - claude.ai 또는 Claude 앱에서도 조작할 수 있는 세션 시작
 

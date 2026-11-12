@@ -371,7 +371,7 @@ Before starting Level 3, make sure you're comfortable with these Level 2 concept
 ✅ Auto Mode with background safety classifier
 ✅ Channels that push events (CI results, chat messages, webhooks) into a running session
 ✅ Voice Dictation for hands-free interaction
-✅ Remote control (generally available — your machine appears as a device card in the Claude app), desktop app, and web sessions
+✅ Remote control (out of research preview — your machine appears as a device card in the Claude app), desktop app, and web sessions
 ✅ Agent Teams for multi-agent collaboration
 
 #### Hands-on Exercises
@@ -739,8 +739,8 @@ Once you've completed all milestones:
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
@@ -759,6 +759,7 @@ Once you've completed all milestones:
 - https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
+- https://code.claude.com/docs/en/whats-new/2026-w34
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 **Maintained by**: Claude How-To Contributors
 **License**: Educational purposes, free to use and adapt
