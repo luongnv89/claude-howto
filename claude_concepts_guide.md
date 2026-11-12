@@ -566,9 +566,9 @@ Claude Code includes bundled skills available out of the box, including:
 | **Debug** | `/debug` | Turn on debug logging for the current session and troubleshoot by reading the session debug log |
 | **Fewer Permission Prompts** | `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist for common read-only tools |
 | **Loop** | `/loop` | Schedule recurring tasks on a timer |
-| **Run** | `/run` | Launch and drive the project's app to verify a change (v2.1.145+) |
-| **Run Skill Generator** | `/run-skill-generator` | Write a per-project skill that teaches `/run` and `/verify` how to build, launch, and drive your app (v2.1.145+) |
-| **Verify** | `/verify` | Verify that a change actually works (v2.1.145+). Explicit invocation only since v2.1.215 |
+| **Run** | `/run` | Launch and drive the project's app to verify a change |
+| **Run Skill Generator** | `/run-skill-generator` | Write a per-project skill that teaches `/run` and `/verify` how to build, launch, and drive your app |
+| **Verify** | `/verify` | Verify that a change actually works. Explicit invocation only since v2.1.215 |
 
 These bundled skills are always available and do not require installation or configuration.
 

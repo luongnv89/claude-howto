@@ -259,13 +259,13 @@ cp -r 03-skills/* ~/.claude/skills/
 | `/doctor [prompt-audit [path]]` | Setup checkup that diagnoses installation, settings, extension, and `CLAUDE.md` problems and proposes fixes. Alias: `/checkup` | Troubleshooting your setup |
 | `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist | Reduce repeat permission prompts |
 | `/loop` | Run prompts on interval | Recurring tasks |
-| `/run` *(v2.1.145+)* | Launch this project's app to see a change running | Verifying a change in the real app |
-| `/run-skill-generator` *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project | First-time project setup for `/run` |
+| `/run` | Launch this project's app to see a change running | Verifying a change in the real app |
+| `/run-skill-generator` | Teach `/run`/`/verify` how to handle a specific project | First-time project setup for `/run` |
 | `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` | Review the current diff — or a PR, branch, or path — for correctness bugs. `--fix` applies findings, `--comment` posts them as inline PR comments. With no level given it reuses the last one you typed (v2.1.223). Lower effort levels moved to a **background subagent** in v2.1.218; `high`, `xhigh`, and `max` followed in v2.1.232, so review output no longer fills the conversation | After writing code, before landing a PR |
 | `/slides [brief]` *(v2.1.265+)* | Make a new presentation as a Claude Slides artifact from your brief. Needs artifacts and the Slides template | Creating a slide deck |
 | `/simplify` *(distinct again since v2.1.154)* | Cleanup-only review (reuse / simplification / efficiency / altitude) that applies the fixes; does not hunt bugs | Tidying code without a bug hunt |
 | `/update-config [request]` | Describe a settings change (allow a command, set an env var, add a hook) and Claude edits the matching `settings.json` | Changing settings without hand-editing JSON |
-| `/verify` *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works | Validating a fix end-to-end |
+| `/verify` | Build, run, and observe the app to confirm a fix works | Validating a fix end-to-end |
 | `/workflow-authoring` *(v2.1.248+)* | Load the reference for writing dynamic workflow scripts (script API, resume, quality patterns). Available when dynamic workflows are enabled | Writing or editing a workflow script |
 
 ---

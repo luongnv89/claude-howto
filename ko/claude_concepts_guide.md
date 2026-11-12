@@ -570,9 +570,9 @@ Claude Code에는 설치 없이 바로 쓸 수 있는 번들 스킬이 포함되
 | **Debug** | `/debug` | 현재 세션의 디버그 로깅을 켜고 세션 디버그 로그를 읽어 문제를 해결 |
 | **Fewer Permission Prompts** | `/fewer-permission-prompts` | 트랜스크립트를 스캔해 자주 쓰는 읽기 전용 도구에 대한 우선순위별 허용 목록을 제안 |
 | **Loop** | `/loop` | 타이머로 반복 작업 예약 |
-| **Run** | `/run` | 프로젝트 앱을 실행·조작해 변경 사항을 검증(v2.1.145+) |
-| **Run Skill Generator** | `/run-skill-generator` | `/run`과 `/verify`에 앱 빌드·실행·조작 방법을 알려 주는 프로젝트별 스킬을 작성(v2.1.145+) |
-| **Verify** | `/verify` | 변경 사항이 실제로 동작하는지 검증(v2.1.145+). v2.1.215부터 명시적 호출로만 실행 |
+| **Run** | `/run` | 프로젝트 앱을 실행·조작해 변경 사항을 검증 |
+| **Run Skill Generator** | `/run-skill-generator` | `/run`과 `/verify`에 앱 빌드·실행·조작 방법을 알려 주는 프로젝트별 스킬을 작성 |
+| **Verify** | `/verify` | 변경 사항이 실제로 동작하는지 검증. v2.1.215부터 명시적 호출로만 실행 |
 
 이 번들 스킬들은 항상 사용할 수 있으며 설치나 설정이 필요하지 않습니다.
 
