@@ -851,11 +851,11 @@ Claude Code ships with a set of built-in skills that are always available withou
 | `/deep-research <question>` | A bundled **workflow**, not a skill: fans out web searches and synthesizes a cited report (explicit invocation only since v2.1.218 — Claude won't trigger this on its own) |
 | `/fewer-permission-prompts` | Scan transcripts and propose a prioritized allowlist for common read-only tools |
 | `/loop [interval] [prompt]` | Run prompt repeatedly on interval (e.g., `/loop 5m check the deploy`) |
-| `/run` *(v2.1.145+)* | Launch this project's app to see a change running — looks for a project skill, otherwise falls back to built-in patterns per project type |
-| `/run-skill-generator` *(v2.1.145+)* | Teach `/run`/`/verify` how to handle a specific project by generating a per-project skill |
+| `/run` | Launch this project's app to see a change running — looks for a project skill, otherwise falls back to built-in patterns per project type |
+| `/run-skill-generator` | Teach `/run`/`/verify` how to handle a specific project by generating a per-project skill |
 | `/code-review [effort]` | Review the current diff for correctness bugs at a chosen effort level (e.g. `/code-review high`); pass `--comment` to post findings as inline PR comments. A distinct skill from `/simplify` (quality/reuse cleanups), which was split back out in v2.1.154. Claude can also start it on its own, everywhere since v2.1.246. Since v2.1.218 it runs as a background subagent, so review work no longer fills your conversation and stacked slash commands stay its review target. |
 | `/simplify` | Cleanup-only review — reuse, simplification, efficiency, altitude — and applies the fixes. Split back out from `/code-review` in v2.1.154 |
-| `/verify` *(v2.1.145+)* | Build, run, and observe the app to confirm a fix works (not just that tests pass) (explicit invocation only since v2.1.215 — Claude won't trigger this on its own) |
+| `/verify` | Build, run, and observe the app to confirm a fix works (not just that tests pass) (explicit invocation only since v2.1.215 — Claude won't trigger this on its own) |
 
 For automatic reviews on GitHub pull requests, Team and Enterprise organizations can turn on [managed Code Review](https://code.claude.com/docs/en/code-review).
 

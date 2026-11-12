@@ -136,7 +136,7 @@ claude -r "session"    # 이름 또는 ID로 세션 재개
 | **Git Worktrees** | 내장 | `claude -w <name>` |
 | **Auto Memory** | 내장 | `~/.claude/projects/<project>/memory/`에 자동 저장 |
 | **Task List** | 내장 | `Ctrl+T`(체크리스트), `/tasks`(백그라운드 작업) |
-| **Bundled Skills** | 내장 | `/batch`, `/claude-api`, `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` *(Claude가 스스로 시작할 수도 있으며 v2.1.246부터 모든 환경에서 가능. 수준을 지정하지 않으면 마지막으로 입력한 수준을 재사용, v2.1.223)*, `/simplify` *(정리 전용 리뷰. v2.1.154부터 다시 `/code-review`와 별도 기능)*, `/debug`, `/fewer-permission-prompts`, `/loop`, `/run` *(v2.1.145+)*, `/run-skill-generator` *(v2.1.145+)*, `/verify` *(v2.1.145+, v2.1.215부터 명시적 호출 전용 — Claude가 스스로 실행하지 않음)* |
+| **Bundled Skills** | 내장 | `/batch`, `/claude-api`, `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [pr#\|branch\|path]` *(Claude가 스스로 시작할 수도 있으며 v2.1.246부터 모든 환경에서 가능. 수준을 지정하지 않으면 마지막으로 입력한 수준을 재사용, v2.1.223)*, `/simplify` *(정리 전용 리뷰. v2.1.154부터 다시 `/code-review`와 별도 기능)*, `/debug`, `/fewer-permission-prompts`, `/loop`, `/run`, `/run-skill-generator`, `/verify` *(v2.1.215부터 명시적 호출 전용 — Claude가 스스로 실행하지 않음)* |
 
 ---
 
@@ -420,9 +420,9 @@ claude --plugin-dir ./07-plugins/pr-review
 | **Chrome Integration** | 브라우저 자동화 | `--chrome` 플래그 또는 `/chrome` 명령 |
 | **Keyboard Customization** | 사용자 지정 키 바인딩 | `/keybindings` 명령 |
 | **/usage-credits** | 추가 사용량 한도 설정(v2.1.144에서 `/extra-usage`에서 이름 변경, 기존 이름도 별칭으로 사용 가능) | `/usage-credits` |
-| **/run** *(v2.1.145+)* | 변경 사항이 적용된 프로젝트 앱 실행 | `/run` |
-| **/verify** *(v2.1.145+)* | 빌드, 실행 및 동작 확인을 통해 수정 사항 검증(v2.1.215부터 명시적 호출 전용 — Claude가 스스로 실행하지 않음) | `/verify` |
-| **/run-skill-generator** *(v2.1.145+)* | 특정 프로젝트에서 `/run`과 `/verify`를 사용할 수 있도록 설정 | `/run-skill-generator` |
+| **/run** | 변경 사항이 적용된 프로젝트 앱 실행 | `/run` |
+| **/verify** | 빌드, 실행 및 동작 확인을 통해 수정 사항 검증(v2.1.215부터 명시적 호출 전용 — Claude가 스스로 실행하지 않음) | `/verify` |
+| **/run-skill-generator** | 특정 프로젝트에서 `/run`과 `/verify`를 사용할 수 있도록 설정 | `/run-skill-generator` |
 | **Subagent Output Scanning** *(v2.1.210+)* | 서브에이전트 보고서에서 프롬프트 인젝션 패턴을 검사하고 무력화 | 기본적으로 켜져 있으며 끌 수 없음 |
 | **WebSearch Cap and Subagent Fan-Out Limits** *(v2.1.212, v2.1.219에서 확장)* | 세션당 WebSearch 호출 200회(`-p`와 Agent SDK에서는 턴당). v2.1.290부터 대화형 세션에서는 시간당 100회씩 다시 채워짐. 동시 서브에이전트 상한(기본값 20)은 v2.1.217에서 추가. v2.1.219부터 서브에이전트는 **기본적으로 깊이 3**까지 중첩 서브에이전트를 생성할 수 있음(v2.1.217에서는 중첩이 비활성화되어 있었음). 세션당 서브에이전트 200개 생성 상한은 **v2.1.224에서 제거**되어, 이제 세션당 전체 서브에이전트 수에 제한이 없음 | `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION`(기본값 200, `/clear`로 초기화), `CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR`(대화형 기본값 100, `-p`에서는 0), `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`(기본값 20), `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`(기본값 3, 1로 설정하면 비활성화) |
 | **Screen Reader Mode** *(v2.1.208)* | 스크린 리더용 일반 텍스트 렌더링 모드 | `--ax-screen-reader` 플래그, 셸에서 `CLAUDE_AX_SCREEN_READER=1`, 또는 사용자 설정(`~/.claude/settings.json`), 관리되는 설정, `--settings` 파일의 `"axScreenReader": true` — v2.1.305부터 프로젝트 및 로컬 설정에서는 무시됨 |
