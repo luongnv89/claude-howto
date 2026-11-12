@@ -19,10 +19,13 @@ tags: plugins, documentation, automation
 ## 包含内容
 
 ### 命令
-- [commands/generate-api-docs.md](commands/generate-api-docs.md) - 生成 API 文档
-- [commands/generate-readme.md](commands/generate-readme.md) - 生成 README
-- [commands/sync-docs.md](commands/sync-docs.md) - 同步文档
-- [commands/validate-docs.md](commands/validate-docs.md) - 校验文档
+
+插件命令以 `plugin.json` 中的插件 `name` 作为命名空间：
+
+- `/documentation:generate-api-docs`（[commands/generate-api-docs.md](commands/generate-api-docs.md)）- 生成 API 文档
+- `/documentation:generate-readme`（[commands/generate-readme.md](commands/generate-readme.md)）- 生成 README
+- `/documentation:sync-docs`（[commands/sync-docs.md](commands/sync-docs.md)）- 同步文档
+- `/documentation:validate-docs`（[commands/validate-docs.md](commands/validate-docs.md)）- 校验文档
 
 ### Subagents
 - [agents/api-documenter.md](agents/api-documenter.md) - API 文档 subagent
@@ -35,7 +38,8 @@ tags: plugins, documentation, automation
 - [templates/function-docs.md](templates/function-docs.md) - 函数文档模板
 
 ### MCP 服务器
-- GitHub 集成 - 用于文档同步
+
+`.mcp.json` 声明了一个服务器 `github`：GitHub 官方 MCP 服务器（`ghcr.io/github/github-mcp-server`），通过 Docker 以只读模式运行。它在 `/mcp` 中显示为 `plugin:documentation:github`。
 
 ## 安装
 
@@ -43,26 +47,32 @@ tags: plugins, documentation, automation
 claude --plugin-dir ./07-plugins/documentation
 ```
 
+加载插件之前先检查它：
+
+```bash
+claude plugin validate ./07-plugins/documentation
+```
+
 ## 使用方式
 
 ### 生成 API 文档
-```bash
-/generate-api-docs
+```text
+/documentation:generate-api-docs
 ```
 
 ### 创建 README
-```bash
-/generate-readme
+```text
+/documentation:generate-readme
 ```
 
 ### 同步文档
-```bash
-/sync-docs
+```text
+/documentation:sync-docs
 ```
 
 ### 校验文档
-```bash
-/validate-docs
+```text
+/documentation:validate-docs
 ```
 
 ## 适用场景
@@ -75,12 +85,12 @@ claude --plugin-dir ./07-plugins/documentation
 ## 需求
 
 - Claude Code 2.1+
-- GitHub 访问权限（可选）
+- Docker 和 GitHub personal access token（可选，用于 GitHub MCP 服务器）
 
 ## 示例工作流
 
 ```text
-用户：/generate-api-docs
+用户：/documentation:generate-api-docs
 
 Claude：
 1. 扫描 /src/api/ 下的所有 API 端点
@@ -117,6 +127,8 @@ Claude：
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
+
+`.mcp.json` 会把它作为 `GITHUB_PERSONAL_ACCESS_TOKEN`（服务器读取的变量）传给服务器。运行 `/mcp` 检查 `plugin:documentation:github` 是否已连接。没有 token 时，这些命令仍然可以处理本地文件。
 
 ## 最佳实践
 

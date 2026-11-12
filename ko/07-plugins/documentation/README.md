@@ -25,13 +25,22 @@
 claude --plugin-dir ./07-plugins/documentation
 ```
 
+로드하기 전에 플러그인을 검사합니다.
+
+```bash
+claude plugin validate ./07-plugins/documentation
+```
+
 ## 포함 항목
 
 ### 슬래시 명령어
-- `/generate-api-docs` - API 문서 생성
-- `/generate-readme` - README 작성 또는 업데이트
-- `/sync-docs` - 코드 변경 사항과 문서 동기화
-- `/validate-docs` - 문서 검증
+
+플러그인 명령어에는 `plugin.json`의 플러그인 `name`이 네임스페이스로 붙습니다.
+
+- `/documentation:generate-api-docs` - API 문서 생성
+- `/documentation:generate-readme` - README 작성 또는 업데이트
+- `/documentation:sync-docs` - 코드 변경 사항과 문서 동기화
+- `/documentation:validate-docs` - 문서 검증
 
 ### 서브에이전트
 - `api-documenter` - API 문서화 전문
@@ -44,39 +53,40 @@ claude --plugin-dir ./07-plugins/documentation
 - `adr-template.md` - 아키텍처 결정 기록(ADR) 템플릿
 
 ### MCP 서버
-- 문서 동기화를 위한 GitHub 통합
+
+`.mcp.json`은 서버 하나, `github`를 선언합니다. GitHub의 공식 MCP 서버(`ghcr.io/github/github-mcp-server`)이며 Docker로 읽기 전용 모드로 실행됩니다. `/mcp`에서는 `plugin:documentation:github`로 표시됩니다.
 
 ## 사용 방법
 
 ### API 문서 생성
-```
-/generate-api-docs
+```text
+/documentation:generate-api-docs
 ```
 
 ### README 작성
-```
-/generate-readme
+```text
+/documentation:generate-readme
 ```
 
 ### 문서 동기화
-```
-/sync-docs
+```text
+/documentation:sync-docs
 ```
 
 ### 문서 검증
-```
-/validate-docs
+```text
+/documentation:validate-docs
 ```
 
 ## 요구 사항
 
 - Claude Code 2.1+
-- GitHub 접근 권한(선택 사항)
+- Docker와 GitHub 개인 액세스 토큰(선택 사항, GitHub MCP 서버용)
 
 ## 워크플로 예시
 
-```
-User: /generate-api-docs
+```text
+User: /documentation:generate-api-docs
 
 Claude:
 1. Scans all API endpoints in /src/api/
@@ -113,6 +123,8 @@ Result:
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
+
+`.mcp.json`은 이 토큰을 서버가 읽는 변수인 `GITHUB_PERSONAL_ACCESS_TOKEN`으로 서버에 전달합니다. `/mcp`를 실행해 `plugin:documentation:github`가 연결되었는지 확인하세요. 토큰이 없어도 명령어는 로컬 파일에 대해 그대로 동작합니다.
 
 ## 모범 사례
 

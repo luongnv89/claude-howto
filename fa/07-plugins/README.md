@@ -423,9 +423,10 @@ $ my-tool --help
 
 **فایل:** `commands/review-pr.md`
 
+این فایل به `/pr-review:review-pr` تبدیل می‌شود: `name` پلاگین به‌اضافه نام فایل.
+
 ```markdown
 ---
-name: بازبینی PR
 description: شروع بازبینی جامع PR همراه با بررسی‌های امنیتی و تست
 ---
 
@@ -458,17 +459,64 @@ tools: Read, Grep, Bash
 - پیکربندی امن
 ```
 
+**فایل:** `hooks/hooks.json`
+
+وقتی کاربر یکی از فرمان‌های پلاگین را تایپ می‌کند، `hooks/pre-review.js` را اجرا می‌کند. این اسکریپت فرمان را بیرون از مخزن git مسدود می‌کند (کد خروج 2):
+
+```json
+{
+  "hooks": {
+    "UserPromptExpansion": [
+      {
+        "matcher": "^pr-review:(review-pr|check-security|check-tests)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**فایل:** `.mcp.json`
+
+سرور MCP رسمی GitHub را به‌صورت فقط‌خواندنی تعریف می‌کند و توکن را از `GITHUB_TOKEN` می‌گیرد:
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "-e", "GITHUB_READ_ONLY",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
+        "GITHUB_READ_ONLY": "1"
+      }
+    }
+  }
+}
+```
+
 **نصب:**
 
 ```bash
+claude plugin validate ./07-plugins/pr-review
 claude --plugin-dir ./07-plugins/pr-review
 
-# نتیجه:
-# ✅ ۳ دستور اسلش نصب شد
-# ✅ ۳ زیرایجنت پیکربندی شد
-# ✅ ۲ سرور MCP متصل شد
-# ✅ ۴ هوک ثبت شد
-# ✅ آماده استفاده!
+# Loads:
+# ✅ 3 slash commands: /pr-review:review-pr, /pr-review:check-security, /pr-review:check-tests
+# ✅ 3 subagents
+# ✅ 1 MCP server: plugin:pr-review:github
+# ✅ 1 hook: UserPromptExpansion → pre-review.js
 ```
 
 ### مثال ۲: پلاگین DevOps
@@ -486,16 +534,18 @@ devops-automation/
 │   ├── deployment-specialist.md
 │   ├── incident-commander.md
 │   └── alert-analyzer.md
-├── mcp/
-│   └── kubernetes-config.json
 ├── hooks/
+│   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
-└── scripts/
-    ├── deploy.sh
-    ├── rollback.sh
-    └── health-check.sh
+├── scripts/
+│   ├── deploy.sh
+│   ├── rollback.sh
+│   └── health-check.sh
+└── .mcp.json             # Kubernetes MCP server
 ```
+
+`hooks/hooks.json` فایل `pre-deploy.js` را پیش از هر فراخوانی Bash و `post-deploy.js` را پس از آن اجرا می‌کند. اسکریپت‌ها فرمان را از ورودی JSON هوک می‌خوانند و فقط روی فرمان‌های استقرار مانند `kubectl apply` یا `deploy.sh` عمل می‌کنند. `pre-deploy.js` وقتی `kubectl` نتواند به کلاستر برسد، با کد خروج 2 استقرار را مسدود می‌کند.
 
 ### مثال ۳: پلاگین مستندسازی
 
@@ -512,12 +562,11 @@ documentation/
 │   ├── api-documenter.md
 │   ├── code-commentator.md
 │   └── example-generator.md
-├── mcp/
-│   └── github-docs-config.json
-└── templates/
-    ├── api-endpoint.md
-    ├── function-docs.md
-    └── adr-template.md
+├── templates/
+│   ├── api-endpoint.md
+│   ├── function-docs.md
+│   └── adr-template.md
+└── .mcp.json             # GitHub MCP server
 ```
 
 ## مارکت‌پلیس پلاگین
@@ -1143,8 +1192,8 @@ claude --plugin-url https://example.com/releases/my-plugin-0.3.0.zip
 ## آنچه شامل می‌شود
 - ۳ دستور اسلش برای انواع مختلف بازبینی
 - ۳ زیرایجنت تخصصی
-- یکپارچه‌سازی MCP با GitHub و CodeQL
-- هوک‌های پویش خودکار امنیتی
+- یکپارچه‌سازی MCP با GitHub
+- یک هوک پیش از بازبینی که مخزن git را بررسی می‌کند
 
 ## نصب
 ```bash
@@ -1159,16 +1208,16 @@ claude --plugin-dir ./07-plugins/pr-review
 ✅ تحلیل تأثیر عملکرد
 
 ## استفاده
-```bash
-/review-pr
-/check-security
-/check-tests
+```text
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ## پیش‌نیازها
 - Claude Code 2.1+
-- دسترسی GitHub
-- CodeQL (اختیاری)
+- Node.js و Docker
+- یک توکن دسترسی شخصی GitHub در `GITHUB_TOKEN`
 ````
 
 ## پلاگین در برابر پیکربندی دستی
@@ -1294,10 +1343,10 @@ claude plugin update plugin-name
 ### گردش کار کامل پلاگین بازبینی PR
 
 ```
-1. کاربر: /review-pr
+1. کاربر: /pr-review:review-pr
 
 2. پلاگین اجرا می‌کند:
-   ├── هوک pre-review.js مخزن git را اعتبارسنجی می‌کند
+   ├── هوک pre-review.js (UserPromptExpansion) مخزن git را اعتبارسنجی می‌کند
    ├── MCP گیت‌هاب داده‌های PR را واکشی می‌کند
    ├── زیرایجنت security-reviewer امنیت را تحلیل می‌کند
    ├── زیرایجنت test-checker پوشش را تأیید می‌کند
@@ -1328,7 +1377,7 @@ claude plugin update plugin-name
 - بررسی کنید متغیرهای محیطی درست تنظیم شده‌اند
 - نصب و سلامت سرور MCP را بررسی کنید
 - وضعیت سرور MCP را با `/mcp` بررسی کنید
-- پیکربندی MCP را در پوشه `mcp/` بررسی کنید
+- پیکربندی MCP را در فایل `.mcp.json` پلاگین بررسی کنید
 
 ### فرمان‌ها پس از نصب در دسترس نیستند
 - مطمئن شوید پلاگین با موفقیت نصب شده است: `/plugin list`

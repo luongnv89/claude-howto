@@ -25,13 +25,22 @@
 claude --plugin-dir ./07-plugins/devops-automation
 ```
 
+読み込む前にプラグインをチェックする：
+
+```bash
+claude plugin validate ./07-plugins/devops-automation
+```
+
 ## 同梱内容
 
 ### スラッシュコマンド
-- `/deploy` — 本番またはステージングへデプロイ
-- `/rollback` — 前バージョンへロールバック
-- `/status` — システムの健全性を確認
-- `/incident` — 本番インシデントに対応
+
+プラグインのコマンドは、`plugin.json` のプラグイン `name` で名前空間が付く：
+
+- `/devops-automation:deploy` — 本番またはステージングへデプロイ
+- `/devops-automation:rollback` — 前バージョンへロールバック
+- `/devops-automation:status` — システムの健全性を確認
+- `/devops-automation:incident` — 本番インシデントに対応
 
 ### サブエージェント
 - `deployment-specialist` — デプロイ作業
@@ -39,7 +48,8 @@ claude --plugin-dir ./07-plugins/devops-automation
 - `alert-analyzer` — システム健全性の解析
 
 ### MCP サーバー
-- Kubernetes 連携
+
+`.mcp.json` は `kubernetes` という 1 つのサーバーを宣言する。npm パッケージ `mcp-server-kubernetes` を `npx` で `ALLOW_ONLY_NON_DESTRUCTIVE_TOOLS=true` を付けて実行するため、削除系のツールは無効になる。`/mcp` では `plugin:devops-automation:kubernetes` として表示される。
 
 ### スクリプト
 - `deploy.sh` — デプロイ自動化
@@ -47,61 +57,72 @@ claude --plugin-dir ./07-plugins/devops-automation
 - `health-check.sh` — ヘルスチェックユーティリティ
 
 ### フック
-- `pre-deploy.js` — デプロイ前検証
-- `post-deploy.js` — デプロイ後処理
+
+`hooks/hooks.json` は両方のスクリプトを Bash ツール呼び出しに登録する。スクリプトはデプロイ系のコマンド（`deploy.sh`、`rollback.sh`、`kubectl apply`、`kubectl set image`、`kubectl rollout restart|undo`、`helm install|upgrade|rollback`）にのみ反応し、それ以外のコマンドでは終了コード 0 で終了する：
+
+- `pre-deploy.js`（`PreToolUse`）：`kubectl` が見つからないかクラスタに到達できない場合、コマンドをブロックし（終了コード 2）、Claude にその理由が伝わる
+- `post-deploy.js`（`PostToolUse`）：`DEPLOY_APP_LABEL` のラベルが付いた Pod が ready になるまで最大 120 秒待機し、ready にならなければ Claude に伝える。`DEPLOY_APP_LABEL` が未設定の場合は待機をスキップする
+
+どちらのフックもクラスタの状態を読み取るだけである（`kubectl version`、`cluster-info`、`wait`）。
 
 ## 使い方
 
 ### ステージングへデプロイ
-```
-/deploy staging
+```text
+/devops-automation:deploy staging
 ```
 
 ### 本番へデプロイ
-```
-/deploy production
+```text
+/devops-automation:deploy production
 ```
 
 ### ロールバック
-```
-/rollback production
+```text
+/devops-automation:rollback production
 ```
 
 ### ステータス確認
-```
-/status
+```text
+/devops-automation:status
 ```
 
 ### インシデント対応
-```
-/incident
+```text
+/devops-automation:incident
 ```
 
 ## 必要要件
 
 - Claude Code 1.0 以上
+- Node.js（フックスクリプトと MCP サーバーの実行用）
 - Kubernetes CLI（kubectl）
 - クラスタへのアクセス設定
 
 ## 設定
 
-Kubernetes 設定をセットアップする：
+Kubernetes 設定をセットアップする（`.mcp.json` は `KUBECONFIG` を MCP サーバーに渡す）：
 ```bash
 export KUBECONFIG=~/.kube/config
 ```
 
+任意（デプロイ後の readiness チェック用）：
+```bash
+export DEPLOY_APP_LABEL="app=myapp"
+export DEPLOY_NAMESPACE="staging"
+```
+
 ## ワークフロー例
 
-```
-User: /deploy production
+```text
+User: /devops-automation:deploy production
 
 Claude:
-1. Runs pre-deploy hook (validates kubectl, cluster connection)
-2. Delegates to deployment-specialist subagent
-3. Runs deploy.sh script
-4. Monitors deployment progress via Kubernetes MCP
-5. Runs post-deploy hook (waits for pods, smoke tests)
-6. Provides deployment summary
+1. Delegates to deployment-specialist subagent
+2. Runs deploy.sh script; the pre-deploy hook first checks kubectl and the cluster connection
+3. Monitors deployment progress via Kubernetes MCP
+4. post-deploy hook waits for pods to be ready
+5. Provides deployment summary
 
 Result:
 ✅ Deployment complete

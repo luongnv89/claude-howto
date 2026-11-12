@@ -423,9 +423,10 @@ Sử dụng **lệnh slash standalone** cho workflows cá nhân nhanh. Sử dụ
 
 **File:** `commands/review-pr.md`
 
+File này trở thành `/pr-review:review-pr`: `name` của plugin cộng với tên file.
+
 ```markdown
 ---
-name: Review PR
 description: Start comprehensive PR review with security and testing checks
 ---
 
@@ -458,17 +459,64 @@ Chuyên tìm các lỗ hổng bảo mật:
 - Cấu hình bảo mật
 ```
 
+**File:** `hooks/hooks.json`
+
+Chạy `hooks/pre-review.js` khi người dùng gõ một trong các lệnh của plugin. Script chặn lệnh khi chạy bên ngoài một git repository (exit code 2):
+
+```json
+{
+  "hooks": {
+    "UserPromptExpansion": [
+      {
+        "matcher": "^pr-review:(review-pr|check-security|check-tests)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**File:** `.mcp.json`
+
+Khai báo MCP server chính thức của GitHub, ở chế độ chỉ đọc, với token lấy từ `GITHUB_TOKEN`:
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "-e", "GITHUB_READ_ONLY",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
+        "GITHUB_READ_ONLY": "1"
+      }
+    }
+  }
+}
+```
+
 **Cài Đặt:**
 
 ```bash
+claude plugin validate ./07-plugins/pr-review
 claude --plugin-dir ./07-plugins/pr-review
 
-# Kết quả:
-# ✅ 3 slash commands installed
-# ✅ 3 subagents configured
-# ✅ 2 MCP servers connected
-# ✅ 4 hooks registered
-# ✅ Ready to use!
+# Loads:
+# ✅ 3 slash commands: /pr-review:review-pr, /pr-review:check-security, /pr-review:check-tests
+# ✅ 3 subagents
+# ✅ 1 MCP server: plugin:pr-review:github
+# ✅ 1 hook: UserPromptExpansion → pre-review.js
 ```
 
 ### Ví Dụ 2: Plugin DevOps / Example 2: DevOps Plugin
@@ -486,16 +534,18 @@ devops-automation/
 │   ├── deployment-specialist.md
 │   ├── incident-commander.md
 │   └── alert-analyzer.md
-├── mcp/
-│   └── kubernetes-config.json
 ├── hooks/
+│   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
-└── scripts/
-    ├── deploy.sh
-    ├── rollback.sh
-    └── health-check.sh
+├── scripts/
+│   ├── deploy.sh
+│   ├── rollback.sh
+│   └── health-check.sh
+└── .mcp.json             # Kubernetes MCP server
 ```
+
+`hooks/hooks.json` chạy `pre-deploy.js` trước và `post-deploy.js` sau mỗi lần gọi Bash. Các script đọc lệnh từ JSON input của hook và chỉ tác động lên các lệnh triển khai như `kubectl apply` hoặc `deploy.sh`. `pre-deploy.js` exit 2 để chặn một lần triển khai khi `kubectl` không kết nối được cluster.
 
 ### Ví Dụ 3: Plugin Tài Liệu / Example 3: Documentation Plugin
 
@@ -512,12 +562,11 @@ documentation/
 │   ├── api-documenter.md
 │   ├── code-commentator.md
 │   └── example-generator.md
-├── mcp/
-│   └── github-docs-config.json
-└── templates/
-    ├── api-endpoint.md
-    ├── function-docs.md
-    └── adr-template.md
+├── templates/
+│   ├── api-endpoint.md
+│   ├── function-docs.md
+│   └── adr-template.md
+└── .mcp.json             # GitHub MCP server
 ```
 
 ## Marketplace Plugin / Plugin Marketplace
@@ -1143,8 +1192,8 @@ Workflow PR review hoàn chỉnh với các kiểm tra bảo mật, testing, và
 ## Những Gì Được Bao Gồm
 - 3 lệnh slash cho các loại review khác nhau
 - 3 tác nhân con chuyên biệt
-- Tích hợp GitHub và CodeQL MCP
-- Các hook quét bảo mật tự động
+- Tích hợp GitHub MCP
+- Một hook pre-review kiểm tra git repository
 
 ## Cài Đặt
 ```bash
@@ -1159,16 +1208,16 @@ claude --plugin-dir ./07-plugins/pr-review
 ✅ Phân tích tác động hiệu suất
 
 ## Sử Dụng
-```bash
-/review-pr
-/check-security
-/check-tests
+```text
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ## Yêu Cầu
 - Claude Code 2.1+
-- Truy cập GitHub
-- CodeQL (tùy chọn)
+- Node.js và Docker
+- Một GitHub personal access token trong `GITHUB_TOKEN`
 ````
 
 ## Plugin vs Cấu Hình Thủ Công / Plugin vs Manual Configuration
@@ -1294,10 +1343,10 @@ Các tính năng Claude Code sau hoạt động cùng với plugins:
 ### Workflow Đầy Đủ Của Plugin PR Review / PR Review Plugin Full Workflow
 
 ```
-1. User: /review-pr
+1. User: /pr-review:review-pr
 
 2. Plugin executes:
-   ├── pre-review.js hook validates git repo
+   ├── pre-review.js hook (UserPromptExpansion) validates git repo
    ├── GitHub MCP fetches PR data
    ├── security-reviewer subagent analyzes security
    ├── test-checker subagent verifies coverage
@@ -1328,7 +1377,7 @@ Các tính năng Claude Code sau hoạt động cùng với plugins:
 - Xác minh các biến môi trường được đặt đúng
 - Kiểm tra cài đặt và tình trạng của MCP server
 - Kiểm tra trạng thái MCP server bằng `/mcp`
-- Kiểm tra cấu hình MCP trong thư mục `mcp/`
+- Kiểm tra cấu hình MCP trong file `.mcp.json` của plugin
 
 ### Lệnh Không Có Sẵn Sau Khi Cài / Commands Not Available After Install
 - Đảm bảo plugin được cài đặt thành công: `/plugin list`

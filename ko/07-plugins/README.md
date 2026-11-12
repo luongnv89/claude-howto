@@ -429,9 +429,10 @@ $ my-tool --help
 
 **파일:** `commands/review-pr.md`
 
+이 파일은 `/pr-review:review-pr`가 됩니다. 플러그인 `name`에 파일 이름을 더한 것입니다.
+
 ```markdown
 ---
-name: Review PR
 description: 보안 및 테스트 검증을 포함한 종합적인 PR 리뷰 시작
 ---
 
@@ -464,17 +465,64 @@ Specializes in finding security vulnerabilities:
 - Secure configuration
 ```
 
+**파일:** `hooks/hooks.json`
+
+사용자가 플러그인의 명령어 중 하나를 입력하면 `hooks/pre-review.js`를 실행합니다. 이 스크립트는 git 저장소 밖에서는 명령어를 차단합니다(종료 코드 2).
+
+```json
+{
+  "hooks": {
+    "UserPromptExpansion": [
+      {
+        "matcher": "^pr-review:(review-pr|check-security|check-tests)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**파일:** `.mcp.json`
+
+GitHub의 공식 MCP 서버를 읽기 전용으로 선언하며, 토큰은 `GITHUB_TOKEN`에서 가져옵니다.
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "-e", "GITHUB_READ_ONLY",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
+        "GITHUB_READ_ONLY": "1"
+      }
+    }
+  }
+}
+```
+
 **설치:**
 
 ```bash
+claude plugin validate ./07-plugins/pr-review
 claude --plugin-dir ./07-plugins/pr-review
 
-# Result:
-# ✅ 3 slash commands installed
-# ✅ 3 subagents configured
-# ✅ 2 MCP servers connected
-# ✅ 4 hooks registered
-# ✅ Ready to use!
+# Loads:
+# ✅ 3 slash commands: /pr-review:review-pr, /pr-review:check-security, /pr-review:check-tests
+# ✅ 3 subagents
+# ✅ 1 MCP server: plugin:pr-review:github
+# ✅ 1 hook: UserPromptExpansion → pre-review.js
 ```
 
 ### 예제 2: DevOps 플러그인
@@ -492,16 +540,18 @@ devops-automation/
 │   ├── deployment-specialist.md
 │   ├── incident-commander.md
 │   └── alert-analyzer.md
-├── mcp/
-│   └── kubernetes-config.json
 ├── hooks/
+│   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
-└── scripts/
-    ├── deploy.sh
-    ├── rollback.sh
-    └── health-check.sh
+├── scripts/
+│   ├── deploy.sh
+│   ├── rollback.sh
+│   └── health-check.sh
+└── .mcp.json             # Kubernetes MCP server
 ```
+
+`hooks/hooks.json`은 각 Bash 호출 전에 `pre-deploy.js`를, 호출 후에 `post-deploy.js`를 실행합니다. 두 스크립트는 훅의 JSON 입력에서 명령어를 읽고, `kubectl apply`나 `deploy.sh` 같은 배포 명령어에만 동작합니다. `pre-deploy.js`는 `kubectl`이 클러스터에 연결할 수 없으면 종료 코드 2로 배포를 차단합니다.
 
 ### 예제 3: Documentation 플러그인
 
@@ -518,12 +568,11 @@ documentation/
 │   ├── api-documenter.md
 │   ├── code-commentator.md
 │   └── example-generator.md
-├── mcp/
-│   └── github-docs-config.json
-└── templates/
-    ├── api-endpoint.md
-    ├── function-docs.md
-    └── adr-template.md
+├── templates/
+│   ├── api-endpoint.md
+│   ├── function-docs.md
+│   └── adr-template.md
+└── .mcp.json             # GitHub MCP server
 ```
 
 ## 플러그인 마켓플레이스
@@ -1150,8 +1199,8 @@ claude --plugin-url https://example.com/releases/my-plugin-0.3.0.zip
 ## 포함 항목
 - 다양한 리뷰 유형을 위한 슬래시 명령어 3개
 - 특화된 서브에이전트 3개
-- GitHub 및 CodeQL MCP 통합
-- 자동화된 보안 스캔 훅
+- GitHub MCP 통합
+- git 저장소를 확인하는 리뷰 전(pre-review) 훅
 
 ## 설치
 ```bash
@@ -1166,16 +1215,16 @@ claude --plugin-dir ./07-plugins/pr-review
 ✅ 성능 영향 분석
 
 ## 사용 방법
-```bash
-/review-pr
-/check-security
-/check-tests
+```text
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ## 요구 사항
 - Claude Code 2.1+
-- GitHub 접근 권한
-- CodeQL(선택 사항)
+- Node.js와 Docker
+- `GITHUB_TOKEN`에 설정된 GitHub 개인 액세스 토큰
 ````
 
 ## 플러그인과 수동 구성 비교
@@ -1307,10 +1356,10 @@ claude plugin update plugin-name
 ### PR Review 플러그인 전체 워크플로
 
 ```
-1. 사용자: /review-pr
+1. 사용자: /pr-review:review-pr
 
 2. 플러그인 실행:
-   ├── pre-review.js 훅이 Git 저장소를 검증
+   ├── pre-review.js 훅(UserPromptExpansion)이 Git 저장소를 검증
    ├── GitHub MCP가 PR 데이터를 가져옴
    ├── security-reviewer 서브에이전트가 보안을 분석
    ├── test-checker 서브에이전트가 테스트 커버리지를 검증
@@ -1344,7 +1393,7 @@ claude plugin update plugin-name
 - 환경 변수가 올바르게 설정되었는지 확인
 - MCP 서버가 정상적으로 설치 및 실행 중인지 확인
 - `/mcp`로 MCP 서버 상태 확인
-- `mcp/` 디렉터리의 MCP 구성 확인
+- 플러그인의 `.mcp.json`에서 MCP 구성 확인
 
 ### 설치 후 명령어를 사용할 수 없는 경우
 

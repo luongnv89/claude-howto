@@ -365,9 +365,10 @@ my-plugin/
 
 **ファイル：** `commands/review-pr.md`
 
+このファイルは `/pr-review:review-pr` になる：プラグインの `name` とファイル名の組み合わせである。
+
 ```markdown
 ---
-name: Review PR
 description: Start comprehensive PR review with security and testing checks
 ---
 
@@ -400,17 +401,64 @@ Specializes in finding security vulnerabilities:
 - Secure configuration
 ```
 
+**ファイル：** `hooks/hooks.json`
+
+ユーザーがプラグインのコマンドのいずれかを入力したときに `hooks/pre-review.js` を実行する。このスクリプトは git リポジトリの外ではコマンドをブロックする（終了コード 2）：
+
+```json
+{
+  "hooks": {
+    "UserPromptExpansion": [
+      {
+        "matcher": "^pr-review:(review-pr|check-security|check-tests)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**ファイル：** `.mcp.json`
+
+GitHub 公式の MCP サーバーを読み取り専用で宣言し、トークンは `GITHUB_TOKEN` から取得する：
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "-e", "GITHUB_READ_ONLY",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
+        "GITHUB_READ_ONLY": "1"
+      }
+    }
+  }
+}
+```
+
 **インストール：**
 
 ```bash
+claude plugin validate ./07-plugins/pr-review
 claude --plugin-dir ./07-plugins/pr-review
 
-# Result:
-# ✅ 3 slash commands installed
-# ✅ 3 subagents configured
-# ✅ 2 MCP servers connected
-# ✅ 4 hooks registered
-# ✅ Ready to use!
+# Loads:
+# ✅ 3 slash commands: /pr-review:review-pr, /pr-review:check-security, /pr-review:check-tests
+# ✅ 3 subagents
+# ✅ 1 MCP server: plugin:pr-review:github
+# ✅ 1 hook: UserPromptExpansion → pre-review.js
 ```
 
 ### 例 2：DevOps プラグイン
@@ -428,16 +476,18 @@ devops-automation/
 │   ├── deployment-specialist.md
 │   ├── incident-commander.md
 │   └── alert-analyzer.md
-├── mcp/
-│   └── kubernetes-config.json
 ├── hooks/
+│   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
-└── scripts/
-    ├── deploy.sh
-    ├── rollback.sh
-    └── health-check.sh
+├── scripts/
+│   ├── deploy.sh
+│   ├── rollback.sh
+│   └── health-check.sh
+└── .mcp.json             # Kubernetes MCP server
 ```
+
+`hooks/hooks.json` は各 Bash 呼び出しの前に `pre-deploy.js` を、後に `post-deploy.js` を実行する。スクリプトはフックの JSON 入力からコマンドを読み取り、`kubectl apply` や `deploy.sh` などのデプロイ系コマンドにのみ反応する。`kubectl` がクラスタに到達できない場合、`pre-deploy.js` は終了コード 2 で終了してデプロイをブロックする。
 
 ### 例 3：Documentation プラグイン
 
@@ -454,12 +504,11 @@ documentation/
 │   ├── api-documenter.md
 │   ├── code-commentator.md
 │   └── example-generator.md
-├── mcp/
-│   └── github-docs-config.json
-└── templates/
-    ├── api-endpoint.md
-    ├── function-docs.md
-    └── adr-template.md
+├── templates/
+│   ├── api-endpoint.md
+│   ├── function-docs.md
+│   └── adr-template.md
+└── .mcp.json             # GitHub MCP server
 ```
 
 ## プラグインマーケットプレイス
@@ -866,8 +915,8 @@ Complete PR review workflow with security, testing, and documentation checks.
 ## What's Included
 - 3 slash commands for different review types
 - 3 specialized subagents
-- GitHub and CodeQL MCP integration
-- Automated security scanning hooks
+- GitHub MCP integration
+- A pre-review hook that checks the git repository
 
 ## Installation
 ```bash
@@ -882,16 +931,16 @@ claude --plugin-dir ./07-plugins/pr-review
 ✅ Performance impact analysis
 
 ## Usage
-```bash
-/review-pr
-/check-security
-/check-tests
+```text
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ## Requirements
 - Claude Code 2.1+
-- GitHub access
-- CodeQL (optional)
+- Node.js and Docker
+- A GitHub personal access token in `GITHUB_TOKEN`
 ````
 
 ## プラグイン vs 手動設定
@@ -1017,10 +1066,10 @@ claude plugin update plugin-name
 ### PR Review プラグインの全ワークフロー
 
 ```
-1. User: /review-pr
+1. User: /pr-review:review-pr
 
 2. Plugin executes:
-   ├── pre-review.js hook validates git repo
+   ├── pre-review.js hook (UserPromptExpansion) validates git repo
    ├── GitHub MCP fetches PR data
    ├── security-reviewer subagent analyzes security
    ├── test-checker subagent verifies coverage
@@ -1051,7 +1100,7 @@ claude plugin update plugin-name
 - 環境変数が正しく設定されているか確認
 - MCP サーバーのインストール状況と健全性を確認
 - `/mcp` で MCP サーバーの状態を確認
-- `mcp/` ディレクトリ内の MCP 設定を確認
+- プラグインの `.mcp.json` 内の MCP 設定を確認
 
 ### インストール後にコマンドが利用できない
 - プラグインが正しくインストールされているか確認：`/plugin list`

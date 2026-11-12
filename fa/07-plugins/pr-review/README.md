@@ -21,12 +21,33 @@
 claude --plugin-dir ./07-plugins/pr-review
 ```
 
+پیش از بارگذاری، پلاگین را بررسی کنید:
+
+```bash
+claude plugin validate ./07-plugins/pr-review
+```
+
 ## محتویات
 
+```text
+pr-review/
+├── .claude-plugin/
+│   └── plugin.json      # "name": "pr-review" sets the command prefix
+├── commands/            # each file becomes /pr-review:<file>
+├── agents/
+├── hooks/
+│   ├── hooks.json       # registers pre-review.js
+│   └── pre-review.js
+└── .mcp.json            # GitHub MCP server
+```
+
 ### دستورات Slash
-- `/review-pr` - بازبینی جامع PR
-- `/check-security` - بازبینی با تمرکز بر امنیت
-- `/check-tests` - تحلیل پوشش تست
+
+دستورات پلاگین با `name` پلاگین در `plugin.json` فضای‌نام‌گذاری می‌شوند:
+
+- `/pr-review:review-pr` - بازبینی جامع PR
+- `/pr-review:check-security` - بازبینی با تمرکز بر امنیت
+- `/pr-review:check-tests` - تحلیل پوشش تست
 
 ### subagentها
 - `security-reviewer` - شناسایی آسیب‌پذیری‌های امنیتی
@@ -34,48 +55,57 @@ claude --plugin-dir ./07-plugins/pr-review
 - `performance-analyzer` - ارزیابی تأثیر بر عملکرد
 
 ### سرورهای MCP
-- یکپارچه‌سازی GitHub برای داده‌های PR
+
+`.mcp.json` یک سرور به نام `github` تعریف می‌کند: سرور MCP رسمی GitHub (`ghcr.io/github/github-mcp-server`) که با Docker در حالت فقط‌خواندنی اجرا می‌شود. این سرور در `/mcp` با نام `plugin:pr-review:github` نمایش داده می‌شود.
 
 ### هوک‌ها
-- `pre-review.js` - اعتبارسنجی پیش از بازبینی
+
+`hooks/hooks.json` فایل `pre-review.js` را روی رویداد `UserPromptExpansion` و با یک matcher برای سه دستور بالا ثبت می‌کند. وقتی یکی از آن‌ها را تایپ می‌کنید، هوک:
+
+- اگر پوشه جاری مخزن git نباشد، دستور را مسدود می‌کند (کد خروج 2)
+- در غیر این صورت، شاخه جاری و یادداشتی درباره تغییرات کامیت‌نشده را به زمینه Claude اضافه می‌کند
 
 ## استفاده
 
 ### بازبینی پایه PR
-```
-/review-pr
+```text
+/pr-review:review-pr
 ```
 
 ### فقط بررسی امنیت
-```
-/check-security
+```text
+/pr-review:check-security
 ```
 
 ### بررسی پوشش تست
-```
-/check-tests
+```text
+/pr-review:check-tests
 ```
 
 ## نیازمندی‌ها
 
 - Claude Code 2.1+
-- دسترسی GitHub
+- Node.js (برای اجرای اسکریپت هوک)
+- Docker (برای اجرای سرور MCP گیت‌هاب)
+- یک توکن دسترسی شخصی GitHub
 - مخزن Git
 
 ## پیکربندی
 
-تنظیم GitHub token خود:
+پیش از اجرای Claude Code، GitHub token خود را تنظیم کنید:
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
 
+`.mcp.json` آن را با نام `GITHUB_PERSONAL_ACCESS_TOKEN`، یعنی متغیری که سرور می‌خواند، به سرور می‌دهد. برای بررسی اتصال `plugin:pr-review:github`، دستور `/mcp` را اجرا کنید.
+
 ## گردش‌کار نمونه
 
-```
-کاربر: /review-pr
+```text
+کاربر: /pr-review:review-pr
 
 Claude:
-۱. اجرای هوک pre-review (اعتبارسنجی مخزن git)
+۱. هوک pre-review مخزن git را بررسی می‌کند و شاخه را به زمینه اضافه می‌کند
 ۲. دریافت داده‌های PR از طریق GitHub MCP
 ۳. واگذاری بازبینی امنیت به subagent security-reviewer
 ۴. واگذاری تست به subagent test-checker

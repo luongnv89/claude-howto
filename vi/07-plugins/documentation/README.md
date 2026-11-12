@@ -21,13 +21,22 @@ Tạo và duy trì tài liệu toàn diện cho dự án của bạn.
 claude --plugin-dir ./07-plugins/documentation
 ```
 
+Kiểm tra plugin trước khi tải:
+
+```bash
+claude plugin validate ./07-plugins/documentation
+```
+
 ## Những Gì Được Bao Gồm
 
 ### Lệnh Slash
-- `/generate-api-docs` - Tạo tài liệu API
-- `/generate-readme` - Tạo mới hoặc cập nhật README
-- `/sync-docs` - Đồng bộ tài liệu với các thay đổi code
-- `/validate-docs` - Kiểm tra tài liệu
+
+Lệnh của plugin được đặt namespace theo `name` của plugin trong `plugin.json`:
+
+- `/documentation:generate-api-docs` - Tạo tài liệu API
+- `/documentation:generate-readme` - Tạo mới hoặc cập nhật README
+- `/documentation:sync-docs` - Đồng bộ tài liệu với các thay đổi code
+- `/documentation:validate-docs` - Kiểm tra tài liệu
 
 ### Tác Nhân Con
 - `api-documenter` - Chuyên gia tài liệu API
@@ -40,39 +49,40 @@ claude --plugin-dir ./07-plugins/documentation
 - `adr-template.md` - Template Architecture Decision Record (ADR)
 
 ### MCP Server
-- Tích hợp GitHub để đồng bộ tài liệu
+
+`.mcp.json` khai báo một server, `github`: MCP server chính thức của GitHub (`ghcr.io/github/github-mcp-server`), chạy bằng Docker ở chế độ chỉ đọc. Server này hiển thị là `plugin:documentation:github` trong `/mcp`.
 
 ## Cách Sử Dụng
 
 ### Tạo Tài Liệu API
-```
-/generate-api-docs
+```text
+/documentation:generate-api-docs
 ```
 
 ### Tạo README
-```
-/generate-readme
+```text
+/documentation:generate-readme
 ```
 
 ### Đồng Bộ Tài Liệu
-```
-/sync-docs
+```text
+/documentation:sync-docs
 ```
 
 ### Kiểm Tra Tài Liệu
-```
-/validate-docs
+```text
+/documentation:validate-docs
 ```
 
 ## Yêu Cầu
 
 - Claude Code 2.1+
-- Quyền truy cập GitHub (tùy chọn)
+- Docker và một GitHub personal access token (tùy chọn, cho GitHub MCP server)
 
 ## Ví Dụ Workflow
 
-```
-User: /generate-api-docs
+```text
+User: /documentation:generate-api-docs
 
 Claude:
 1. Quét tất cả API endpoint trong /src/api/
@@ -109,6 +119,8 @@ Thiết lập GitHub token để đồng bộ tài liệu:
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
+
+`.mcp.json` truyền token này cho server dưới tên `GITHUB_PERSONAL_ACCESS_TOKEN`, biến mà server đọc. Chạy `/mcp` để kiểm tra `plugin:documentation:github` đã kết nối. Không có token, các lệnh vẫn hoạt động trên file cục bộ.
 
 ## Best Practice
 

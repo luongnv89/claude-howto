@@ -21,13 +21,22 @@
 claude --plugin-dir ./07-plugins/devops-automation
 ```
 
+پیش از بارگذاری، پلاگین را بررسی کنید:
+
+```bash
+claude plugin validate ./07-plugins/devops-automation
+```
+
 ## محتویات
 
 ### دستورات Slash
-- `/deploy` - استقرار در محیط تولید یا staging
-- `/rollback` - بازگشت به نسخه قبلی
-- `/status` - بررسی سلامت سیستم
-- `/incident` - مدیریت حوادث تولید
+
+دستورات پلاگین با `name` پلاگین در `plugin.json` فضای‌نام‌گذاری می‌شوند:
+
+- `/devops-automation:deploy` - استقرار در محیط تولید یا staging
+- `/devops-automation:rollback` - بازگشت به نسخه قبلی
+- `/devops-automation:status` - بررسی سلامت سیستم
+- `/devops-automation:incident` - مدیریت حوادث تولید
 
 ### subagentها
 - `deployment-specialist` - عملیات استقرار
@@ -35,7 +44,8 @@ claude --plugin-dir ./07-plugins/devops-automation
 - `alert-analyzer` - تحلیل سلامت سیستم
 
 ### سرورهای MCP
-- یکپارچه‌سازی Kubernetes
+
+`.mcp.json` یک سرور به نام `kubernetes` تعریف می‌کند: بسته npm `mcp-server-kubernetes` که با `npx` و `ALLOW_ONLY_NON_DESTRUCTIVE_TOOLS=true` اجرا می‌شود، پس ابزارهای حذف آن خاموش هستند. این سرور در `/mcp` با نام `plugin:devops-automation:kubernetes` نمایش داده می‌شود.
 
 ### اسکریپت‌ها
 - `deploy.sh` - خودکارسازی استقرار
@@ -43,61 +53,72 @@ claude --plugin-dir ./07-plugins/devops-automation
 - `health-check.sh` - ابزارهای بررسی سلامت
 
 ### هوک‌ها
-- `pre-deploy.js` - اعتبارسنجی پیش از استقرار
-- `post-deploy.js` - وظایف پس از استقرار
+
+`hooks/hooks.json` هر دو اسکریپت را روی فراخوانی‌های ابزار Bash ثبت می‌کند. آن‌ها فقط روی فرمان‌های استقرار (`deploy.sh`، `rollback.sh`، `kubectl apply`، `kubectl set image`، `kubectl rollout restart|undo`، `helm install|upgrade|rollback`) عمل می‌کنند و برای هر فرمان دیگری با کد 0 خارج می‌شوند:
+
+- `pre-deploy.js` (`PreToolUse`): وقتی `kubectl` نصب نباشد یا نتواند به کلاستر برسد، فرمان را مسدود می‌کند (کد خروج 2) و Claude دلیل آن را می‌بیند
+- `post-deploy.js` (`PostToolUse`): تا 120 ثانیه منتظر می‌ماند تا podهایی با برچسب `DEPLOY_APP_LABEL` آماده شوند و اگر آماده نشوند به Claude اطلاع می‌دهد. اگر `DEPLOY_APP_LABEL` تنظیم نشده باشد، از انتظار صرف‌نظر می‌کند
+
+هر دو هوک فقط وضعیت کلاستر را می‌خوانند (`kubectl version`، `cluster-info`، `wait`).
 
 ## استفاده
 
 ### استقرار در staging
-```
-/deploy staging
+```text
+/devops-automation:deploy staging
 ```
 
 ### استقرار در تولید
-```
-/deploy production
+```text
+/devops-automation:deploy production
 ```
 
 ### بازگشت
-```
-/rollback production
+```text
+/devops-automation:rollback production
 ```
 
 ### بررسی وضعیت
-```
-/status
+```text
+/devops-automation:status
 ```
 
 ### مدیریت حادثه
-```
-/incident
+```text
+/devops-automation:incident
 ```
 
 ## نیازمندی‌ها
 
 - Claude Code 2.1+
+- Node.js (برای اجرای اسکریپت‌های هوک و سرور MCP)
 - Kubernetes CLI (kubectl)
 - دسترسی کلاستر پیکربندی‌شده
 
 ## پیکربندی
 
-پیکربندی Kubernetes خود را تنظیم کنید:
+پیکربندی Kubernetes خود را تنظیم کنید (`.mcp.json` متغیر `KUBECONFIG` را به سرور MCP می‌دهد):
 ```bash
 export KUBECONFIG=~/.kube/config
 ```
 
+اختیاری، برای بررسی آمادگی پس از استقرار:
+```bash
+export DEPLOY_APP_LABEL="app=myapp"
+export DEPLOY_NAMESPACE="staging"
+```
+
 ## گردش‌کار نمونه
 
-```
-کاربر: /deploy production
+```text
+کاربر: /devops-automation:deploy production
 
 Claude:
-۱. اجرای هوک pre-deploy (اعتبارسنجی kubectl، اتصال کلاستر)
-۲. واگذاری به subagent deployment-specialist
-۳. اجرای اسکریپت deploy.sh
-۴. مانیتورینگ پیشرفت استقرار از طریق Kubernetes MCP
-۵. اجرای هوک post-deploy (انتظار برای podها، تست‌های smoke)
-۶. ارائه خلاصه استقرار
+۱. واگذاری به subagent deployment-specialist
+۲. اجرای اسکریپت deploy.sh؛ هوک pre-deploy ابتدا kubectl و اتصال کلاستر را بررسی می‌کند
+۳. مانیتورینگ پیشرفت استقرار از طریق Kubernetes MCP
+۴. هوک post-deploy منتظر آماده شدن podها می‌ماند
+۵. ارائه خلاصه استقرار
 
 نتیجه:
 ✅ استقرار کامل شد
