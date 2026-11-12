@@ -1541,7 +1541,7 @@ Run `/config` and choose **Output style**, or run `/output-style <style>` to swi
 
 > **Note**: The standalone `/output-style` command was deprecated in v2.1.73 and removed in v2.1.91, but it **returned in v2.1.269** and is live in v2.1.278. It works in headless and Remote Control sessions. `/config` and the `outputStyle` setting still work too.
 
-Output style is part of the system prompt, which Claude Code reads once at session start — changes take effect after `/clear` or in a new session.
+Since v2.1.251, switching styles mid-session takes effect on your next message; Claude Code delivers the new style's instructions as a message in the conversation. Earlier versions applied the new style only after `/clear` or in a new session. In the terminal, style files are read at startup, so restart Claude Code after creating or editing one.
 
 ### Custom output styles
 

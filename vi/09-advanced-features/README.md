@@ -1535,7 +1535,7 @@ Chạy `/config` và chọn **Output style**, hoặc chạy `/output-style <styl
 
 > **Lưu ý**: Lệnh `/output-style` độc lập đã bị deprecate trong v2.1.73 và bị bỏ trong v2.1.91, nhưng nó đã **quay lại trong v2.1.269** và đang hoạt động trong v2.1.278. Nó hoạt động trong các phiên headless và Điều Khiển Từ Xa. `/config` và cài đặt `outputStyle` vẫn hoạt động.
 
-Kiểu đầu ra là một phần của system prompt, vốn được Claude Code đọc một lần khi bắt đầu phiên — thay đổi có hiệu lực sau `/clear` hoặc trong phiên mới.
+Từ v2.1.251, đổi kiểu giữa phiên sẽ có hiệu lực từ tin nhắn tiếp theo của bạn; Claude Code gửi hướng dẫn của kiểu mới dưới dạng một tin nhắn trong cuộc hội thoại. Các phiên bản trước chỉ áp dụng kiểu mới sau `/clear` hoặc trong phiên mới. Trong terminal, các file kiểu được đọc khi khởi động, vì vậy hãy khởi động lại Claude Code sau khi tạo hoặc chỉnh sửa một file kiểu.
 
 ### Kiểu đầu ra tùy chỉnh
 
