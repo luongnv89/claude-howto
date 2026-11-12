@@ -93,7 +93,7 @@
 | `/stats` | `/usage`의 통계 탭을 여는 단축 별칭 (v2.1.118+) | 세션 통계 확인 |
 | `/statusline` | 상태 표시줄 구성 | 상태 표시 사용자 지정 |
 | `/stickers` | Claude Code 스티커 주문 | 재미 요소 |
-| `/fast` | 빠른 출력 모드 전환. **Opus 5.5**(v2.1.280부터 기본값), **Opus 5, Opus 4.8**에 적용 | 응답 속도 향상 |
+| `/fast` | 빠른 출력 모드 전환. **Fable 5.2**(v2.1.321+), **Opus 5.5**(v2.1.280부터 기본값), **Opus 5, Opus 4.8**에 적용 | 응답 속도 향상 |
 | `/terminal-setup` | 터미널 연동 설정 | 터미널 기능 설정 |
 | `/undo` | `/rewind`의 별칭 (v2.1.108) | `/rewind`와 동일 |
 | `/upgrade` | 상위 플랜으로 전환하는 업그레이드 페이지 열기 | 플랜 업그레이드 |
@@ -595,8 +595,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**최종 업데이트**: 2026년 10월 26일
-**Claude Code 버전**: 2.1.310
+**최종 업데이트**: 2026년 11월 12일
+**Claude Code 버전**: 2.1.322
 **출처**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -638,4 +638,5 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/routines
 - https://code.claude.com/docs/en/auto-mode-config#generate-environment-entries-with-auto-mode-setup
 - https://code.claude.com/docs/en/scheduled-tasks
+- https://code.claude.com/docs/en/changelog#2-1-321
 **호환 모델**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

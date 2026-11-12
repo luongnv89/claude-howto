@@ -407,7 +407,7 @@ claude --plugin-dir ./07-plugins/pr-review
 | **タスクリスト** | バックグラウンドタスクの管理 | `/tasks`（エイリアス `/bashes`） |
 | **Auto Memory** | 会話からの自動メモリ保存 | Claude が `~/.claude/projects/<project>/memory/MEMORY.md` にメモを保存。`/memory` で管理 |
 | **Git ワークツリー** | 並列開発のための隔離ワークスペース | `claude --worktree <name>`（または `-w`） |
-| **モデル選択** | Fable 5.1、Fable 5、Opus 5、Sonnet 5.5、Sonnet 5、Sonnet 4.6、Opus 4.8、Haiku 4.5 を切替 | `/model` または `--model` フラグ（Anthropic API では `sonnet` は Sonnet 5.5 を指す、v2.1.284+） |
+| **モデル選択** | Fable 5.2、Fable 5.1、Fable 5、Opus 5.5、Opus 5、Sonnet 5.5、Sonnet 5、Sonnet 4.6、Opus 4.8、Haiku 5.5、Haiku 4.5 を切替 | `/model` または `--model` フラグ（Anthropic API では `sonnet` は Sonnet 5.5 を指す、v2.1.284+） |
 | **Agent Teams** | タスク上の複数エージェントを協調 | 環境変数 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` で有効化（実験的） |
 | **スケジュールタスク** | `/loop` による反復タスク | `/loop 5m /command` または CronCreate ツール |
 | **Chrome 連携** | ブラウザ自動化 | `--chrome` フラグまたは `/chrome` コマンド |
@@ -514,8 +514,8 @@ A：もちろん。カスタマイズ用のテンプレートである。
 **このカード**：手元に置いてクイックリファレンスとして！
 
 ---
-**最終更新**：2026 年 10 月 26 日
-**Claude Code バージョン**：2.1.310
+**最終更新**：2026 年 11 月 12 日
+**Claude Code バージョン**：2.1.322
 **情報源**：
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
@@ -531,4 +531,5 @@ A：もちろん。カスタマイズ用のテンプレートである。
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/headless
 - https://code.claude.com/docs/en/permission-modes#tool-calls-denied-in-claude-p-and-agent-sdk-runs
+- https://code.claude.com/docs/en/model-config#work-with-fable
 **互換モデル**：Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

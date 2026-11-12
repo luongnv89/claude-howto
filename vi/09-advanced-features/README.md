@@ -229,7 +229,7 @@ Tư duy mở rộng là quá trình suy luận có chủ đích, từng bước,
 
 **Kích hoạt tự động**:
 - Bật mặc định cho mọi model (Opus 5.5, Sonnet 5.5, Haiku 5.5, các model Fable, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Sonnet 4.6, Haiku 4.5)
-- Opus 5 / Opus 4.8: Suy luận thích ứng với các mức effort: `low` (○), `medium` (◐), `high` (●), `xhigh`, `max`. Mặc định là `medium` trên Opus 5.5 (model mặc định từ v2.1.280), Sonnet 5.5 và Haiku 5.5, `high` trên Opus 5 (v2.1.219), Sonnet 5, Opus 4.8 (v2.1.154), Opus 4.6 và Sonnet 4.6, và `xhigh` trên Opus 4.7. `xhigh` có trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8 và Opus 4.7 (lùi về `high` trên Opus 4.6 / Sonnet 4.6). `max` hoạt động trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 và Sonnet 4.6 (chỉ trong phiên). Haiku 4.5 không có mức effort. Opus 5, Opus 4.8 và Opus 4.7 có cửa sổ ngữ cảnh gốc 1M token (bản sửa ngữ cảnh 1M có từ v2.1.117 — trước đó, `/context` đếm sai Opus 4.7 theo cửa sổ 200K và kích hoạt autocompact sớm). Từ v2.1.129, `/context` chỉ hiển thị phần trực quan trong UI; phần ASCII không còn lọt vào ngữ cảnh hội thoại (tiết kiệm ~1.6k token mỗi lần gọi), nên bạn có thể gọi `/context` thoải mái.
+- Opus 5 / Opus 4.8: Suy luận thích ứng với các mức effort: `low` (○), `medium` (◐), `high` (●), `xhigh`, `max`. Mặc định là `medium` trên Fable 5.2, Opus 5.5 (model mặc định từ v2.1.280), Sonnet 5.5 và Haiku 5.5, `high` trên Fable 5.1, Fable 5, Opus 5 (v2.1.219), Sonnet 5, Opus 4.8 (v2.1.154), Opus 4.6 và Sonnet 4.6, và `xhigh` trên Opus 4.7. `xhigh` có trên các model Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8 và Opus 4.7 (lùi về `high` trên Opus 4.6 / Sonnet 4.6). `max` hoạt động trên các model Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 và Sonnet 4.6 (chỉ trong phiên). Haiku 4.5 không có mức effort. Opus 5, Opus 4.8 và Opus 4.7 có cửa sổ ngữ cảnh gốc 1M token (bản sửa ngữ cảnh 1M có từ v2.1.117 — trước đó, `/context` đếm sai Opus 4.7 theo cửa sổ 200K và kích hoạt autocompact sớm). Từ v2.1.129, `/context` chỉ hiển thị phần trực quan trong UI; phần ASCII không còn lọt vào ngữ cảnh hội thoại (tiết kiệm ~1.6k token mỗi lần gọi), nên bạn có thể gọi `/context` thoải mái.
 - Người dùng Pro/Max trên Opus 4.6 / Sonnet 4.6: effort mặc định được nâng từ `medium` lên `high` trong v2.1.117.
 - Các model khác: Ngân sách cố định tới 31.999 token
 
@@ -243,9 +243,9 @@ Tư duy mở rộng là quá trình suy luận có chủ đích, từng bước,
 export MAX_THINKING_TOKENS=1024
 ```
 
-**Mức effort** (hỗ trợ trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6 và Sonnet 4.6 — không có trên Haiku 4.5):
+**Mức effort** (hỗ trợ trên các model Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6 và Sonnet 4.6 — không có trên Haiku 4.5):
 ```bash
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), hoặc max — mặc định là high trên Opus 5 và Opus 4.8
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), xhigh (các model Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), hoặc max — mặc định là high trên Opus 5 và Opus 4.8
 ```
 
 **Cờ CLI**:
@@ -258,7 +258,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **Lưu ý:** Từ khóa "ultrathink" trong prompt kích hoạt chế độ suy luận sâu. Từ v2.1.311, khi gõ trong terminal tương tác, nó còn chạy lượt đó ở effort `xhigh` trên Opus 5.5, Sonnet 5.5, Haiku 5.5 và Fable 5.1 qua API của Anthropic (từ này chuyển sang màu cầu vồng khi có hiệu lực; nếu gõ trong lúc Claude đang làm việc, nó nâng mức cho phần còn lại của lượt đó; VS Code từ v2.1.316). Trên Bedrock hoặc các model khác, hãy đặt mức effort thay thế. `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) tắt từ khóa này. Các mức effort `low`, `medium`, `high` và `max` được hỗ trợ trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6 và Sonnet 4.6 (Haiku 4.5 không có). `xhigh` có trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8 và Opus 4.7. Effort mặc định là `medium` trên Opus 5.5, Sonnet 5.5 và Haiku 5.5, `high` trên Opus 5, Sonnet 5, Opus 4.8 (và Opus 4.6 / Sonnet 4.6) và `xhigh` trên Opus 4.7. Khác với Opus 4.8 và Opus 4.7 (vốn cố định effort mặc định ở lần chạy đầu), Opus 5 không giữ như vậy — mức bạn đã đặt trước đó được giữ lại. Thanh trượt `/effort` còn có nút bật/tắt **Ultracode** (Tab, hoặc `/effort ultracode [on|off]`), nhưng đây **không** phải mức effort của model — nó khiến Claude điều phối các workflow động ở bất kỳ mức effort nào phiên đang chạy. Từ v2.1.284, nó không còn ép `xhigh` và vẫn bật khi bạn đổi mức; `--effort ultracode` và `effortLevel: "ultracode"` của Agent SDK vẫn đặt `xhigh`.
+> **Lưu ý:** Từ khóa "ultrathink" trong prompt kích hoạt chế độ suy luận sâu. Từ v2.1.311, khi gõ trong terminal tương tác, nó còn chạy lượt đó ở effort `xhigh` trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2 (v2.1.321+) và Fable 5.1 qua API của Anthropic (từ này chuyển sang màu cầu vồng khi có hiệu lực; nếu gõ trong lúc Claude đang làm việc, nó nâng mức cho phần còn lại của lượt đó; VS Code từ v2.1.316). Trên Bedrock hoặc các model khác, hãy đặt mức effort thay thế. `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) tắt từ khóa này. Các mức effort `low`, `medium`, `high` và `max` được hỗ trợ trên các model Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6 và Sonnet 4.6 (Haiku 4.5 không có). `xhigh` có trên các model Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8 và Opus 4.7. Effort mặc định là `medium` trên Fable 5.2, Opus 5.5, Sonnet 5.5 và Haiku 5.5, `high` trên Fable 5.1, Fable 5, Opus 5, Sonnet 5, Opus 4.8 (và Opus 4.6 / Sonnet 4.6) và `xhigh` trên Opus 4.7. Khác với Opus 4.8 và Opus 4.7 (vốn cố định effort mặc định ở lần chạy đầu), Opus 5 không giữ như vậy — mức bạn đã đặt trước đó được giữ lại. Thanh trượt `/effort` còn có nút bật/tắt **Ultracode** (Tab, hoặc `/effort ultracode [on|off]`), nhưng đây **không** phải mức effort của model — nó khiến Claude điều phối các workflow động ở bất kỳ mức effort nào phiên đang chạy. Từ v2.1.284, nó không còn ép `xhigh` và vẫn bật khi bạn đổi mức; `--effort ultracode` và `effortLevel: "ultracode"` của Agent SDK vẫn đặt `xhigh`.
 
 ### Cơ Chế Dự Phòng Của Bộ Phân Loại An Toàn Trên Opus 5
 
@@ -269,7 +269,7 @@ Tách biệt với [cài đặt `fallbackModel`](#model-dự-phòng-fallbackmode
 
 Vì sao điều này quan trọng ở đây: nếu bạn chạy [tác nhân con security-review](../04-subagents/README.md) hoặc công việc CTF/pentest trên Opus 5, hãy chuẩn bị cho việc các prompt an ninh mạng âm thầm chạy lại trên Opus 4.8 (trần effort và cửa sổ ngữ cảnh khác), và các prompt liên quan đến sinh học bị từ chối thẳng. Hãy chỉ định rõ một model khác nếu hành vi đó gây cản trở.
 
-**Kiểm soát việc chuyển đổi** — cài đặt `switchModelsOnFlag` (v2.1.170+, mặc định `true`) quyết định việc dự phòng có diễn ra âm thầm hay không. Đặt thành `false` thì Claude Code sẽ tạm dừng, cho bạn chọn giữa chuyển model và sửa prompt. Cài đặt này xuất hiện trong `/config` với tên **Switch models when a message is flagged**.
+**Kiểm soát việc chuyển đổi** — cài đặt `switchModelsOnFlag` (v2.1.170+, mặc định `true`) quyết định việc dự phòng có diễn ra âm thầm hay không. Đặt thành `false` thì Claude Code sẽ tạm dừng, cho bạn chọn giữa chuyển model và sửa prompt. Việc tạm dừng này chỉ áp dụng cho cuộc hội thoại chính: subagent không bao giờ tạm dừng, nên với **Ask each time** (`false`), một yêu cầu subagent bị gắn cờ sẽ thất bại thay vì chuyển model (v2.1.318; các phiên bản trước chạy lại nó trên model dự phòng). Cài đặt này xuất hiện trong `/config` với tên **Switch models when a message is flagged**.
 
 ```json
 {
@@ -363,7 +363,7 @@ Tư duy mở rộng được kiểm soát qua biến môi trường, phím tắt
 # Đặt ngân sách token cho tư duy
 export MAX_THINKING_TOKENS=16000
 
-# Đặt mức effort (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6): low (○), medium (◐), high (●), xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), hoặc max — mặc định là high trên Opus 5 và Opus 4.8
+# Đặt mức effort (các model Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6): low (○), medium (◐), high (●), xhigh (các model Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), hoặc max — mặc định là high trên Opus 5 và Opus 4.8
 export CLAUDE_CODE_EFFORT_LEVEL=high
 ```
 
@@ -669,7 +669,7 @@ export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1
 
 Mức độ đồng thời cũng không phải là cài đặt của tác vụ nền — số tác nhân chạy cùng lúc được quy định bởi `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (mặc định `20`).
 
-Các lệnh Bash và PowerShell chạy nền chỉ có giới hạn thời gian trong các phiên không có người giám sát (v2.1.288): trong một lần chạy `-p`, một phiên Agent SDK, CI hoặc phiên cloud, lệnh được khởi chạy với `run_in_background` sẽ dừng sau `timeout` của nó — mặc định 30 phút, tối đa 2 giờ — và Claude được thông báo khi lệnh bị dừng. Lệnh nền trong phiên terminal, ứng dụng desktop hoặc VS Code không có giới hạn thời gian (trong v2.1.285–v2.1.287, giới hạn áp dụng cho mọi phiên).
+Các lệnh Bash và PowerShell chạy nền chỉ có giới hạn thời gian trong các phiên không có người giám sát (v2.1.288): trong một lần chạy `-p`, một phiên Agent SDK, CI hoặc phiên cloud, lệnh được khởi chạy với `run_in_background` sẽ dừng sau `timeout` của nó — mặc định 30 phút (10 phút trong một lần chạy `-p` có prompt được truyền dưới dạng văn bản thay vì qua `--input-format stream-json`), tối đa 2 giờ — và Claude được thông báo khi lệnh bị dừng. Lệnh nền trong phiên terminal, ứng dụng desktop hoặc VS Code không có giới hạn thời gian (trong v2.1.285–v2.1.287, giới hạn áp dụng cho mọi phiên).
 
 ---
 
@@ -744,7 +744,7 @@ Workflow xây dựng trên mô hình tác nhân con — xem [Tác Nhân Con](../
 
 ## Tác Vụ Theo Lịch
 
-Tác vụ theo lịch cho phép bạn chạy prompt tự động theo lịch lặp lại hoặc dưới dạng nhắc nhở một lần. Các tác vụ gắn với phiên — chúng chạy khi Claude Code đang hoạt động và bị xóa khi phiên kết thúc. Có từ v2.1.72+.
+Tác vụ theo lịch cho phép bạn chạy prompt tự động theo lịch lặp lại hoặc dưới dạng nhắc nhở một lần. Các tác vụ gắn với phiên — chúng chỉ kích hoạt khi Claude Code đang chạy. Khi bạn tiếp tục phiên bằng `--resume` hoặc `--continue`, Claude Code khôi phục các tác vụ chưa hết hạn, trừ các tác vụ một lần đã quá giờ và `/loop` tự điều nhịp (chạy lại `/loop` để khởi động lại nó). Có từ v2.1.72+.
 
 > **"Routines" giờ là "cloud scheduled tasks" (tháng 10/2026)**: Tài liệu của Anthropic đã đổi tên Routines — các tác vụ cloud bạn tạo bằng `/schedule` (alias `/routines`; xem bên dưới) — thành **cloud scheduled tasks (formerly routines)**, và gọi các tác vụ `/loop` và cron trên trang này là **session-scoped scheduled tasks**. Tên cũ vẫn còn trong URL `claude.ai/code/routines`, API `/fire` và nút bật/tắt quản trị **Scheduled tasks (Was Routines)**.
 
@@ -779,18 +779,18 @@ in 45 minutes, run the integration tests
 
 **Giới hạn và hành vi**:
 - Tối đa **50 tác vụ theo lịch** mỗi phiên
-- Gắn với phiên — bị xóa khi phiên kết thúc
-- Tác vụ lặp lại tự hết hạn sau **3 ngày**
+- Gắn với phiên — được khôi phục khi `--resume`/`--continue` nếu chưa hết hạn
+- Tác vụ lặp lại tự hết hạn **7 ngày** sau khi tạo (chúng kích hoạt một lần cuối rồi tự xóa)
 - Tác vụ chỉ kích hoạt khi Claude Code đang chạy — không bù cho các lần bị lỡ
 
 ### Chi tiết hành vi
 
 | Khía cạnh | Chi tiết |
 |--------|--------|
-| **Jitter cho tác vụ lặp lại** | Tối đa 10% khoảng thời gian (tối đa 15 phút) |
-| **Jitter cho tác vụ một lần** | Tối đa 90 giây tại các mốc :00/:30 |
+| **Jitter cho tác vụ lặp lại** | Chạy trễ tối đa một nửa khoảng cách tới lần chạy kế tiếp, không quá 30 phút; tác vụ `*/5 * * * *` (do `/loop 5m` tạo) không bị trễ và bắt đầu sớm 15 giây |
+| **Jitter cho tác vụ một lần** | Sớm tối đa 90 giây khi được lên lịch vào `:00` hoặc `:30` |
 | **Lần kích hoạt bị lỡ** | Không bù — bị bỏ qua nếu Claude Code không chạy |
-| **Tính bền vững** | Không được lưu qua các lần khởi động lại |
+| **Tính bền vững** | Được khôi phục khi `--resume`/`--continue`, trừ tác vụ đã hết hạn, tác vụ một lần đã quá giờ và `/loop` tự điều nhịp; các lần chạy bị lỡ không được bù |
 
 ### Tác Vụ Theo Lịch Trên Cloud
 
@@ -2470,7 +2470,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 # Cấu hình tư duy
 export MAX_THINKING_TOKENS=16000
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), hoặc max — mặc định là high trên Opus 5 và Opus 4.8 (hỗ trợ trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6)
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (các model Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), hoặc max — mặc định là high trên Opus 5 và Opus 4.8 (hỗ trợ trên các model Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6)
 
 # Bật/tắt tính năng
 export CLAUDE_CODE_DISABLE_AUTO_MEMORY=1    # Tắt bộ nhớ tự động (không tạo hay nạp file bộ nhớ tự động nào)
@@ -2777,8 +2777,8 @@ claude --teammate-mode in-process
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.316
+**Cập Nhật Lần Cuối**: Ngày 12 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.322
 **Nguồn**:
 - https://code.claude.com/docs/en/permission-modes#turn-off-the-critical-path-removal-prompt-in-bypasspermissions-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.314
@@ -2868,4 +2868,11 @@ claude --teammate-mode in-process
 - https://code.claude.com/docs/en/auto-mode-config#generate-environment-entries-with-auto-mode-setup
 - https://code.claude.com/docs/en/remote-control#requirements
 - https://code.claude.com/docs/en/cli-reference#cli-flags
+- https://code.claude.com/docs/en/scheduled-tasks#seven-day-expiry
+- https://code.claude.com/docs/en/scheduled-tasks#jitter
+- https://code.claude.com/docs/en/scheduled-tasks#limitations
+- https://code.claude.com/docs/en/model-config#subagents-switch-or-fail-without-asking
+- https://code.claude.com/docs/en/changelog#2-1-318
+- https://code.claude.com/docs/en/tools-reference#time-limit-for-background-commands
+- https://code.claude.com/docs/en/changelog#2-1-321
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

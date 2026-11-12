@@ -99,7 +99,7 @@ When skills share the same name across levels, higher-priority locations win: **
 
 ### Automatic Discovery
 
-**Nested directories**: When you work with files in subdirectories, Claude Code automatically discovers skills from nested `.claude/skills/` directories. For example, if you're editing a file in `packages/frontend/`, Claude Code also looks for skills in `packages/frontend/.claude/skills/`. This supports monorepo setups where packages have their own skills. When a nested skill has the same name as a repo-root skill, **both load**: for a `deploy` skill at the root and in `apps/web/.claude/skills/`, `/deploy` runs the root one and `/apps/web:deploy` runs the nested one.
+**Nested directories**: When you work with files in subdirectories, Claude Code automatically discovers skills from nested `.claude/skills/` directories. For example, if you're editing a file in `packages/frontend/`, Claude Code also looks for skills in `packages/frontend/.claude/skills/`. This supports monorepo setups where packages have their own skills. When a nested skill has the same name as a repo-root skill, **both load**: for a `deploy` skill at the root and in `apps/web/.claude/skills/`, `/deploy` runs the root one and `/apps/web:deploy` runs the nested one. The changelog adds two exceptions that the skills docs don't list yet: with the Bash sandbox on (v2.1.319+), skills in nested `.claude/skills` folders below the starting folder load only if you start Claude Code in that folder or `/cd` there; and `.claude/skills` folders inside `~/.claude/plugins` no longer load when Claude works on files there (v2.1.321+).
 
 **`--add-dir` directories**: Skills from directories added via `--add-dir` are loaded automatically with live change detection. Any edits to skill files in those directories take effect immediately without restarting Claude Code. If an added directory's skill has the same name as an enterprise, personal, or project skill, or one from a directory added earlier, it runs under a prefixed name instead. For example, with `--add-dir ../cli` and a `verify` skill in both places, `/verify` runs your project's skill and `/cli:verify` runs the one from `../cli` (v2.1.309+).
 
@@ -183,7 +183,7 @@ paths: "src/api/**/*.ts"               # Glob patterns limiting when skill activ
 | `allowed-tools` | Comma-separated list of tools the skill may use without permission prompts. When managed settings list `hooks` in `strictPluginOnlyCustomization`, a personal or project skill whose frontmatter declares `hooks` loses this pre-approval (v2.1.304); remove its `hooks` or move it into a plugin. |
 | `disallowed-tools` | Comma-separated list of tools to remove while the skill is active (complements `allowed-tools`). Added v2.1.152. |
 | `model` | Model override while the skill is active (e.g., `opus`, `sonnet`). |
-| `effort` | Effort level for the rest of the current turn (with `context: fork`, the forked subagent's level instead). Overrides the session effort level but not the `CLAUDE_CODE_EFFORT_LEVEL` environment variable. Values: `low`, `medium`, `high`, `xhigh`, or `max` — all five are supported on Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `high` on every model that supports effort, except Opus 5.5, Sonnet 5.5, and Haiku 5.5, which default to `medium`, and Opus 4.7, which defaults to `xhigh`. |
+| `effort` | Effort level for the rest of the current turn (with `context: fork`, the forked subagent's level instead). Overrides the session effort level but not the `CLAUDE_CODE_EFFORT_LEVEL` environment variable. Values: `low`, `medium`, `high`, `xhigh`, or `max` — all five are supported on Fable 5.2, Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `high` on every model that supports effort, except Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5, which default to `medium`, and Opus 4.7, which defaults to `xhigh`. |
 | `context` | `fork` to run the skill in a forked subagent context with its own context window. |
 | `agent` | Subagent type when `context: fork` (e.g., `Explore`, `Plan`, `general-purpose`). |
 | `background` | Only meaningful with `context: fork`. Defaults to `true` for `context: fork` skills, so they run in the background; set `false` to run them in the foreground. Added v2.1.218. |
@@ -845,7 +845,7 @@ Claude Code ships with a set of built-in skills that are always available withou
 | Skill | Description |
 |-------|-------------|
 | `/batch <instruction>` | Orchestrate large-scale parallel changes across codebase using git worktrees |
-| `/claude-api` | Load Claude API/SDK reference; auto-activates on `anthropic`/`@anthropic-ai/sdk` imports. `/claude-api api-version` updates your code to a newer API version such as `2026-10-21` (v2.1.307+); `/claude-api managed-agents-secure [<agent-id>]` checks a Managed Agent's settings against Anthropic's security guide, without changing anything (needs the `ant` CLI, v2.1.304+) |
+| `/claude-api` | Load Claude API/SDK reference; auto-activates on `anthropic`/`@anthropic-ai/sdk` imports. `/claude-api api-version` updates your code to a newer API version such as `2026-10-21` (v2.1.307+); `/claude-api managed-agents-secure [<agent-id>]` checks a Managed Agent's settings against Anthropic's security guide, without changing anything (needs the `ant` CLI, v2.1.304+); `/claude-api latency-optimize` finds where your Claude API code makes people wait and tries faster settings against your eval (v2.1.319+) |
 | `/dataviz` | Chart and dashboard design guidance with a runnable color-palette validator (v2.1.198) |
 | `/debug [description]` | Troubleshoot current session by reading debug log |
 | `/deep-research <question>` | A bundled **workflow**, not a skill: fans out web searches and synthesizes a cited report (explicit invocation only since v2.1.218 — Claude won't trigger this on its own) |
@@ -906,8 +906,8 @@ Once you start building skills seriously, two things become essential: a library
 
 ---
 
-**Last Updated**: November 1, 2026
-**Claude Code Version**: 2.1.316
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/slash-commands
@@ -939,4 +939,7 @@ Once you start building skills seriously, two things become essential: a library
 - https://code.claude.com/docs/en/skills#work-on-claude-api-projects
 - https://code.claude.com/docs/en/model-config#set-the-effort-level
 - https://code.claude.com/docs/en/skills#angle-brackets-in-a-skill-description
+- https://code.claude.com/docs/en/changelog#2-1-319
+- https://code.claude.com/docs/en/skills#load-skills-in-monorepos-and-subdirectories
+- https://code.claude.com/docs/en/changelog#2-1-321
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

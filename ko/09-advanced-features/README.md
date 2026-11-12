@@ -233,7 +233,7 @@ claude --model opusplan "design and implement the new API"
 
 **자동 활성화**:
 - 모든 모델 (Opus 5, Opus 4.8, Opus 4.7, Sonnet 4.6, Haiku 4.5)에 기본적으로 활성화되어 있습니다.
-- Opus 5 / Opus 4.8: 노력 수준이 있는 적응형 추론: `low` (○), `medium` (◐), `high` (●), `xhigh`, `max`. 기본값은 Opus 5.5(v2.1.280부터 기본 모델), Sonnet 5.5, Haiku 5.5에서 `medium`이고, Opus 5 (v2.1.219), Sonnet 5, Opus 4.8 (v2.1.154), Opus 4.6, Sonnet 4.6에서 `high`이며, Opus 4.7에서 `xhigh`입니다. `xhigh`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7에서 사용할 수 있습니다 (Opus 4.6 / Sonnet 4.6에서는 `high`로 대체됩니다). `max`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 및 Sonnet 4.6에서 작동합니다 (세션 전용). Haiku 4.5에는 노력 수준이 없습니다. Opus 5, Opus 4.8, Opus 4.7은 1M 토큰의 기본 컨텍스트 창을 가집니다 (1M 컨텍스트 수정은 v2.1.117에 적용됨 — 이전에는 `/context`가 Opus 4.7을 200K 창에 대해 잘못 계산하여 조기 자동 압축을 트리거했습니다). v2.1.129부터 `/context`는 UI 내에서만 시각화를 표시합니다. ASCII 시각화는 더 이상 대화 컨텍스트로 유출되지 않으므로 (호출당 약 1.6k 토큰 절약), `/context`는 자유롭게 호출해도 안전합니다.
+- Opus 5 / Opus 4.8: 노력 수준이 있는 적응형 추론: `low` (○), `medium` (◐), `high` (●), `xhigh`, `max`. 기본값은 Fable 5.2, Opus 5.5(v2.1.280부터 기본 모델), Sonnet 5.5, Haiku 5.5에서 `medium`이고, Fable 5.1, Fable 5, Opus 5 (v2.1.219), Sonnet 5, Opus 4.8 (v2.1.154), Opus 4.6, Sonnet 4.6에서 `high`이며, Opus 4.7에서 `xhigh`입니다. `xhigh`는 Fable 모델, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7에서 사용할 수 있습니다 (Opus 4.6 / Sonnet 4.6에서는 `high`로 대체됩니다). `max`는 Fable 모델, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 및 Sonnet 4.6에서 작동합니다 (세션 전용). Haiku 4.5에는 노력 수준이 없습니다. Opus 5, Opus 4.8, Opus 4.7은 1M 토큰의 기본 컨텍스트 창을 가집니다 (1M 컨텍스트 수정은 v2.1.117에 적용됨 — 이전에는 `/context`가 Opus 4.7을 200K 창에 대해 잘못 계산하여 조기 자동 압축을 트리거했습니다). v2.1.129부터 `/context`는 UI 내에서만 시각화를 표시합니다. ASCII 시각화는 더 이상 대화 컨텍스트로 유출되지 않으므로 (호출당 약 1.6k 토큰 절약), `/context`는 자유롭게 호출해도 안전합니다.
 - Opus 4.6 / Sonnet 4.6의 Pro/Max 구독자: v2.1.117에서 기본 노력 수준이 `medium`에서 `high`로 상향 조정되었습니다.
 - 다른 모델: 최대 31,999 토큰의 고정 예산
 
@@ -247,9 +247,9 @@ claude --model opusplan "design and implement the new API"
 export MAX_THINKING_TOKENS=1024
 ```
 
-**노력 수준** (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6에서 지원 — Haiku 4.5 제외):
+**노력 수준** (Fable 모델, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6에서 지원 — Haiku 4.5 제외):
 ```bash
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), xhigh (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
 ```
 
 **CLI 플래그**:
@@ -262,7 +262,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **참고:** 프롬프트의 "ultrathink" 키워드는 심층 추론 모드를 활성화합니다. 노력 수준 `low`, `medium`, `high`, `max`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6에서 지원됩니다 (Haiku 4.5는 지원하지 않음). `xhigh`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7에서 사용할 수 있습니다. 기본 노력 수준은 Opus 5.5, Sonnet 5.5, Haiku 5.5에서 `medium`이고, Opus 5, Sonnet 5, Opus 4.8 (및 Opus 4.6 / Sonnet 4.6)에서 `high`이며, Opus 4.7에서 `xhigh`입니다. 첫 실행 시 기본 노력 수준을 고정하는 Opus 4.8 및 Opus 4.7과 달리 Opus 5에는 그런 고정이 없으므로, 이전에 설정한 수준이 그대로 유지됩니다. `/effort` 슬라이더에는 **Ultracode** 토글(Tab 또는 `/effort ultracode [on|off]`)도 있는데, 이는 모델 노력 수준이 **아니며** 세션이 실행 중인 노력 수준에서 Claude가 동적 워크플로를 조율하도록 합니다. v2.1.284부터는 더 이상 `xhigh`를 강제하지 않고 수준을 바꿔도 켜진 상태로 유지됩니다. `--effort ultracode`와 Agent SDK의 `effortLevel: "ultracode"`는 여전히 `xhigh`를 설정합니다.
+> **참고:** 프롬프트의 "ultrathink" 키워드는 심층 추론 모드를 활성화합니다. 노력 수준 `low`, `medium`, `high`, `max`는 Fable 모델, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6에서 지원됩니다 (Haiku 4.5는 지원하지 않음). `xhigh`는 Fable 모델, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7에서 사용할 수 있습니다. 기본 노력 수준은 Fable 5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5에서 `medium`이고, Fable 5.1, Fable 5, Opus 5, Sonnet 5, Opus 4.8 (및 Opus 4.6 / Sonnet 4.6)에서 `high`이며, Opus 4.7에서 `xhigh`입니다. 첫 실행 시 기본 노력 수준을 고정하는 Opus 4.8 및 Opus 4.7과 달리 Opus 5에는 그런 고정이 없으므로, 이전에 설정한 수준이 그대로 유지됩니다. `/effort` 슬라이더에는 **Ultracode** 토글(Tab 또는 `/effort ultracode [on|off]`)도 있는데, 이는 모델 노력 수준이 **아니며** 세션이 실행 중인 노력 수준에서 Claude가 동적 워크플로를 조율하도록 합니다. v2.1.284부터는 더 이상 `xhigh`를 강제하지 않고 수준을 바꿔도 켜진 상태로 유지됩니다. `--effort ultracode`와 Agent SDK의 `effortLevel: "ultracode"`는 여전히 `xhigh`를 설정합니다.
 
 ### Opus 5의 안전 분류기 대체 동작
 
@@ -273,7 +273,7 @@ claude --effort high "complex architectural review"
 
 여기서 이것이 중요한 이유: Opus 5에서 [보안 검토 서브에이전트](../04-subagents/README.md)나 CTF/침투 테스트 작업을 실행한다면, 사이버 보안 프롬프트는 Opus 4.8(노력 상한과 컨텍스트 창이 다름)에서 조용히 재실행되고, 생물학 관련 프롬프트는 즉시 거부될 수 있다고 예상하십시오. 이 동작이 방해된다면 다른 모델을 명시적으로 고정하십시오.
 
-**전환 제어** — `switchModelsOnFlag` 설정(v2.1.170+, 기본값 `true`)은 대체가 조용히 일어날지 결정합니다. `false`로 설정하면 Claude Code가 대신 일시 중지하여 모델 전환과 프롬프트 수정 중 하나를 선택할 수 있게 합니다. `/config`에서 **Switch models when a message is flagged**로 표시됩니다.
+**전환 제어** — `switchModelsOnFlag` 설정(v2.1.170+, 기본값 `true`)은 대체가 조용히 일어날지 결정합니다. `false`로 설정하면 Claude Code가 대신 일시 중지하여 모델 전환과 프롬프트 수정 중 하나를 선택할 수 있게 합니다. 이 일시 중지는 메인 대화에만 해당합니다. 서브에이전트는 절대 일시 중지하지 않으므로, **Ask each time**(`false`)에서는 플래그가 지정된 서브에이전트 요청이 모델을 전환하는 대신 실패합니다(v2.1.318; 이전 버전은 대체 모델로 다시 실행했습니다). `/config`에서 **Switch models when a message is flagged**로 표시됩니다.
 
 ```json
 {
@@ -367,7 +367,7 @@ Migration path: When you reach 50k+ users or specific modules need independent s
 # Set thinking token budget
 export MAX_THINKING_TOKENS=16000
 
-# Set effort level (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6): low (○), medium (◐), high (●), xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
+# Set effort level (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6): low (○), medium (◐), high (●), xhigh (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
 export CLAUDE_CODE_EFFORT_LEVEL=high
 ```
 
@@ -673,7 +673,7 @@ export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1
 
 동시 실행 수도 백그라운드 작업 설정이 아닙니다. 한 번에 실행되는 에이전트 수는 `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`(기본값 `20`)가 결정합니다.
 
-백그라운드 Bash 및 PowerShell 명령어는 무인 세션에서만 시간 제한이 있습니다(v2.1.288). `-p` 실행, Agent SDK 세션, CI 또는 클라우드 세션에서 `run_in_background`로 시작한 명령어는 `timeout`(기본 30분, 최대 2시간) 후 중지되며, 중지되면 Claude에 알림이 갑니다. 터미널, 데스크톱 앱 또는 VS Code 세션의 백그라운드 명령어에는 시간 제한이 없습니다(v2.1.285–v2.1.287에서는 모든 세션에 제한이 적용되었습니다).
+백그라운드 Bash 및 PowerShell 명령어는 무인 세션에서만 시간 제한이 있습니다(v2.1.288). `-p` 실행, Agent SDK 세션, CI 또는 클라우드 세션에서 `run_in_background`로 시작한 명령어는 `timeout`(기본 30분, 프롬프트를 `--input-format stream-json` 대신 텍스트로 전달하는 `-p` 실행에서는 10분, 최대 2시간) 후 중지되며, 중지되면 Claude에 알림이 갑니다. 터미널, 데스크톱 앱 또는 VS Code 세션의 백그라운드 명령어에는 시간 제한이 없습니다(v2.1.285–v2.1.287에서는 모든 세션에 제한이 적용되었습니다).
 
 ---
 
@@ -746,7 +746,7 @@ v2.1.219부터 동적 워크플로의 기본값은 **중간 크기 지침(에이
 
 ## 예약된 작업
 
-예약된 작업을 사용하면 반복적인 일정 또는 일회성 알림으로 프롬프트를 자동으로 실행할 수 있습니다. 작업은 세션 범위이며, Claude Code가 활성 상태일 때 실행되고 세션이 종료되면 지워집니다. v2.1.72+부터 사용할 수 있습니다.
+예약된 작업을 사용하면 반복적인 일정 또는 일회성 알림으로 프롬프트를 자동으로 실행할 수 있습니다. 작업은 세션 범위이며, Claude Code가 실행 중일 때만 실행됩니다. `--resume` 또는 `--continue`로 재개하면 Claude Code는 만료되지 않은 작업을 복원하며, 예정 시각이 지난 일회성 작업과 자체 페이스 `/loop`는 예외입니다(다시 시작하려면 `/loop`를 다시 실행하십시오). v2.1.72+부터 사용할 수 있습니다.
 
 > **"Routines"는 이제 "클라우드 예약 작업"입니다 (2026년 10월)**: Anthropic 문서는 `/schedule`(별칭 `/routines`, 아래 참조)로 만드는 클라우드 작업인 Routines의 이름을 **클라우드 예약 작업(이전 명칭 routines)**으로 바꾸었고, 이 페이지의 `/loop` 및 크론 작업은 **세션 범위 예약 작업**이라고 부릅니다. 이전 이름은 `claude.ai/code/routines` URL, `/fire` API, 관리자 토글 **Scheduled tasks (Was Routines)**에 남아 있습니다.
 
@@ -781,18 +781,18 @@ in 45 minutes, run the integration tests
 
 **제한 및 동작**:
 - 세션당 최대 **50개의 예약된 작업**
-- 세션 범위 — 세션이 종료되면 지워집니다
-- 반복 작업은 **3일** 후 자동 만료됩니다
+- 세션 범위 — 만료되지 않았다면 `--resume`/`--continue` 시 복원됩니다
+- 반복 작업은 생성 후 **7일**이 지나면 자동 만료됩니다(마지막으로 한 번 실행된 뒤 스스로 삭제됩니다)
 - Claude Code가 실행 중일 때만 작업이 발생합니다 — 놓친 작업에 대한 따라잡기는 없습니다
 
 ### 동작 세부 정보
 
 | 측면 | 세부 사항 |
 |--------|--------|
-| **반복 지터** | 간격의 최대 10% (최대 15분) |
-| **일회성 지터** | :00/:30 경계에서 최대 90초 |
+| **반복 지터** | 다음 실행까지 간격의 최대 절반만큼 늦게 실행되며 최대 30분; `*/5 * * * *` 작업(`/loop 5m`이 만드는 작업)은 지연되지 않고 15초 일찍 시작됩니다 |
+| **일회성 지터** | `:00` 또는 `:30`으로 예약하면 최대 90초 일찍 실행됩니다 |
 | **놓친 발동** | 따라잡기 없음 — Claude Code가 실행 중이 아니면 건너뜀 |
-| **영속성** | 재시작 시 영속되지 않음 |
+| **영속성** | `--resume`/`--continue` 시 복원됨. 단, 만료된 작업, 예정 시각이 지난 일회성 작업, 자체 페이스 `/loop`는 제외; 놓친 실행은 따라잡지 않음 |
 
 ### 클라우드 예약 작업
 
@@ -2447,7 +2447,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 # 사고 구성
 export MAX_THINKING_TOKENS=16000
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8 (supported on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6)
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8 (supported on Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6)
 
 # 기능 토글
 export CLAUDE_CODE_DISABLE_AUTO_MEMORY=1    # 자동 메모리 비활성화 (자동 메모리 파일을 만들거나 로드하지 않음)
@@ -2745,8 +2745,8 @@ Claude Code 및 관련 기능에 대한 자세한 정보는 다음을 참조하�
 
 ---
 
-**최종 업데이트**: 2026년 10월 26일
-**Claude Code 버전**: 2.1.310
+**최종 업데이트**: 2026년 11월 12일
+**Claude Code 버전**: 2.1.322
 **출처**:
 - https://code.claude.com/docs/en/output-styles
 - https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
@@ -2825,4 +2825,11 @@ Claude Code 및 관련 기능에 대한 자세한 정보는 다음을 참조하�
 - https://code.claude.com/docs/en/auto-mode-config#generate-environment-entries-with-auto-mode-setup
 - https://code.claude.com/docs/en/remote-control#requirements
 - https://code.claude.com/docs/en/cli-reference#cli-flags
+- https://code.claude.com/docs/en/scheduled-tasks#seven-day-expiry
+- https://code.claude.com/docs/en/scheduled-tasks#jitter
+- https://code.claude.com/docs/en/scheduled-tasks#limitations
+- https://code.claude.com/docs/en/model-config#subagents-switch-or-fail-without-asking
+- https://code.claude.com/docs/en/changelog#2-1-318
+- https://code.claude.com/docs/en/tools-reference#time-limit-for-background-commands
+- https://code.claude.com/docs/en/changelog#2-1-321
 **호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

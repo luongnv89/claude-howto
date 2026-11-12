@@ -369,7 +369,7 @@ Mod là một plugin thay đổi giao diện và hành vi của Claude Code. Cod
 | Phản ứng với sự kiện | Theo dõi các lần gọi công cụ, prompts, và lượt; các hooks của một mod dùng chung biến, nên một hook có thể đếm số lần gọi công cụ trong khi hook khác hiển thị con số đó cạnh spinner |
 | Gọi mods API | Gọi một model, đọc và ghi file, khởi chạy tiến trình, hoặc gửi request mạng (một hook chỉ làm được những việc này qua mods API) |
 
-Để tạo một mod, hãy mô tả điều bạn muốn trong một phiên Claude Code: Claude làm việc dựa trên skill tích hợp sẵn `plugin-authoring` (hoặc bạn tự chạy `/plugin-authoring`), viết mod, và khi bạn bật hot reloading cho phiên, sẽ reload mod ở cuối mỗi lượt có thay đổi nó; `claude plugin validate` kiểm tra mod mà không chạy nó. Quản trị viên quyết định mod có được chạy hay không, và mod nào, thông qua managed settings — ví dụ, `allowManagedModsOnly` chỉ cho phép các mod của tổ chức bạn và các mod tích hợp sẵn trong Claude Code chạy hooks của chúng. Khi có managed settings, hoặc khi phiên dùng thông tin xác thực `/login` của gói Team hoặc Enterprise, một cơ chế bảo vệ tích hợp sẵn ngăn mod của người dùng phê duyệt một lần gọi mà quy tắc `deny` hoặc `ask` hay bất kỳ hook `PreToolUse` nào sẽ chặn; khi không có cả hai, mod có thể phê duyệt lần gọi như vậy.
+Để tạo một mod, hãy mô tả điều bạn muốn trong một phiên Claude Code: Claude làm việc dựa trên skill tích hợp sẵn `plugin-authoring` (hoặc bạn tự chạy `/plugin-authoring`), viết mod và tải nó khi lượt kết thúc — trong chế độ `auto` và `bypassPermissions` thì không cần hỏi (v2.1.321+, kể cả khi managed settings đặt `allowUnsandboxedCommands: false` hoặc `allowManagedDomainsOnly`), còn lại thì sau khi bạn phê duyệt hot reloading cho phiên — rồi reload mod ở cuối mỗi lượt có thay đổi nó. Mod không được tải ở nơi không ai có thể phê duyệt nó: chế độ `dontAsk`, hoặc một lần chạy `claude -p` ngoài chế độ `auto` và `bypassPermissions`; `claude plugin validate` kiểm tra mod mà không chạy nó. Quản trị viên quyết định mod có được chạy hay không, và mod nào, thông qua managed settings — ví dụ, `allowManagedModsOnly` chỉ cho phép các mod của tổ chức bạn và các mod tích hợp sẵn trong Claude Code chạy hooks của chúng. Khi có managed settings, hoặc khi phiên dùng thông tin xác thực `/login` của gói Team hoặc Enterprise, một cơ chế bảo vệ tích hợp sẵn ngăn mod của người dùng phê duyệt một lần gọi mà quy tắc `deny` hoặc `ask` hay bất kỳ hook `PreToolUse` nào sẽ chặn; khi không có cả hai, mod có thể phê duyệt lần gọi như vậy.
 
 > **Lưu ý**: v2.1.299–2.1.300 thêm các prop `Text` là `size`, `weight`, `mono`, `tabular`, `dir` (RTL) — `bold` bị deprecated, thay bằng `weight` — các bước khoảng cách `Box` từ `xs`–`xl`, `virtualText` cho prompt, `$.ui.view({ agentId })`, và hook `prompt.change`; v2.1.301 thêm `Input` `rows` cho ô nhập nhiều dòng (Enter để gửi, Shift+Enter để thêm dòng). v2.1.304 thêm `e.isReadOnly` trên `tool.check` (cùng matcher `isReadOnly: true`), các hook `settings.read` thấy được từng lớp settings (`e.layers`) khi chính Claude Code đọc settings — nhờ đó một managed mod có thể giới hạn một setting của tổ chức — và đối số `key` cho `$.settings.read()`; v2.1.305 giữ pane được neo trong phạm vi 45% chiều rộng terminal và vẽ `Image` trong iTerm2 3.5+ (render toàn màn hình); v2.1.310 vẽ `Image` bên trong tmux 3.3+ khi bật `allow-passthrough` và `focus-events`.
 
@@ -1358,8 +1358,8 @@ Nếu `claude plugin list` hiển thị `Version: unknown` cho một plugin lấ
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.316
+**Cập Nhật Lần Cuối**: Ngày 12 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.322
 **Nguồn**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1423,4 +1423,7 @@ Nếu `claude plugin list` hiển thị `Version: unknown` cho một plugin lấ
 - https://code.claude.com/docs/en/github-actions#run-a-skill
 - https://code.claude.com/docs/en/plugins/cli-reference#advice-on-the-readme
 - https://code.claude.com/docs/en/plugins/create-marketplace#host-your-marketplace
+- https://code.claude.com/docs/en/plugins/mods/create#ask-claude-for-a-mod
+- https://code.claude.com/docs/en/plugins/mods/create#sessions-where-a-mod-claude-writes-cant-load
+- https://code.claude.com/docs/en/changelog#2-1-321
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

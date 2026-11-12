@@ -814,7 +814,8 @@ Claude Code hỗ trợ nhiều mô hình với các khả năng khác nhau:
 | Opus 4.8 | `claude-opus-4-8` | 1M tokens | Mô hình Opus chủ lực trước đây, vẫn có thể chọn; mức effort thích ứng `low → max`; effort mặc định `high` (v2.1.154) |
 | Sonnet 4.6 | `claude-sonnet-4-6` | 1M tokens | Cân bằng giữa tốc độ và khả năng; effort mặc định cho người dùng Pro/Max được nâng từ `medium` lên `high` ở v2.1.117 |
 | Haiku 4.5 | `claude-haiku-4-5` | 200K tokens | Haiku thế hệ trước, vẫn là bí danh `haiku` trên Bedrock, Vertex, Foundry, và Claude Platform on AWS; không có mức effort |
-| Fable 5.1 | `claude-fable-5-1` | — | Mô hình Fable hiện tại; bí danh `fable` phân giải thành nó (v2.1.257) |
+| Fable 5.2 | `claude-fable-5-2` | 1M tokens | Mô hình Fable hiện tại từ v2.1.321; bí danh `fable` phân giải thành nó, trừ trong các phiên Claude apps gateway (ở đó là Fable 5); effort mặc định `medium`; hỗ trợ fast mode. Yêu cầu v2.1.321+ |
+| Fable 5.1 | `claude-fable-5-1` | — | Mô hình Fable trước đây (bí danh `fable` trỏ tới nó từ v2.1.257 cho đến trước v2.1.321); chọn nó bằng `/model claude-fable-5-1`. Yêu cầu v2.1.257+ |
 | Fable 5 | `claude-fable-5` | — | Mô hình lớp Mythos, đã được làm an toàn để dùng phổ thông (v2.1.170) |
 
 > **Lưu ý**: Sonnet 4.5 ngừng hoạt động vào ngày 30 tháng 11 năm 2026 trên Claude API, Claude Platform on AWS, Claude Models on Google Cloud (do Anthropic quản lý) và Microsoft Foundry; Amazon Bedrock và Agent Platform của Google Cloud tự đặt ngày riêng. Trên Foundry, nơi `default` và `sonnet` vẫn phân giải thành Sonnet 4.5, hãy chỉ định tường minh một mô hình mới hơn.
@@ -834,13 +835,13 @@ claude --model opusplan "design and implement the API"
 /fast
 ```
 
-> **Fable 5.1 và bí danh `fable` (v2.1.257)**: Fable 5.1 (`claude-fable-5-1`) ra mắt ở **v2.1.257**, và bí danh `fable` giờ phân giải thành nó thay vì Fable 5. Trang model-config chính thức nói Fable 5.1 "requires Claude Code v2.1.255 or later" (yêu cầu Claude Code v2.1.255 trở lên), nhưng 2.1.255 chưa bao giờ được phát hành — v2.1.257 là bản đầu tiên người dùng thực sự có thể cài để dùng nó. Trên Claude apps gateway, `fable` và `best` vẫn phân giải thành **Fable 5**; hãy chọn tường minh 5.1 trong `/model` ở đó. Nếu mô hình Fable mới nhất không khả dụng cho tổ chức của bạn, `fable` và `best` thử lại một lần với mô hình Fable trước đó (v2.1.301).
+> **Fable 5.2 và bí danh `fable` (v2.1.321)**: Fable 5.2 (`claude-fable-5-2`) ra mắt ở **v2.1.321**, và `fable` giờ phân giải thành nó, trừ trong các phiên Claude apps gateway, nơi `fable` vẫn phân giải thành **Fable 5** (hãy chạy `/model claude-fable-5-2` ở đó nếu gateway của bạn cung cấp nó). Fable 5.2 có cửa sổ ngữ cảnh 1M và có giá $8/$40 mỗi Mtok, với $0.20/Mtok cho cache read. Bí danh `best` giờ phân giải thành cùng mô hình với `opus`; trước v2.1.321, ở nơi có Fable, nó dùng mô hình mà `fable` phân giải thành. Fable 5.1 (`claude-fable-5-1`, v2.1.257+) và Fable 5 vẫn có thể chọn bằng model ID. Trên các gói Pro, Max và Ultra, mô hình `claude-fable-5-1` đã lưu trong user settings của bạn sẽ chuyển sang `fable` vào lần đầu bạn chạy v2.1.321 trở lên; trên các gói Team và Enterprise, việc chuyển đổi chờ theo cài đặt của tổ chức bạn. Tài khoản Console, nhà cung cấp bên thứ ba, và project, local hoặc managed settings giữ nguyên `claude-fable-5-1`; chạy `/model claude-fable-5-1` để chuyển lại. Nếu mô hình Fable mới nhất không khả dụng cho tổ chức của bạn, `fable` thử lại một lần với mô hình Fable trước đó (v2.1.301).
 
-> **Fast Mode chạy trên Opus 5.5, Opus 5, và Opus 4.8 (v2.1.280)**: Từ v2.1.219, `/fast` áp dụng cho **Opus 5 và Opus 4.8** — Opus 4.7 bị gỡ khỏi fast mode. Fast mode của Opus 5 được tính phí $10/$50 mỗi Mtok. Fast mode lần đầu chuyển sang Opus 4.8 ở v2.1.154 (khoảng 2× giá chuẩn cho tốc độ đầu ra ~2.5×), sau khi đã đổi từ Opus 4.6 sang Opus 4.7 ở v2.1.142. Biến môi trường `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` đã **bị deprecated ở v2.1.154 và bị gỡ vào 2026-06-01**; fast mode không còn có trên Opus 4.6 — hãy chọn Opus 5 hoặc Opus 4.8. **Từ v2.1.280, fast mode mặc định dùng Opus 5.5** ($8/$40 mỗi Mtok); Opus 5 và Opus 4.8 vẫn được hỗ trợ ở mức $10/$50 dưới dạng research preview (fast mode trên Opus 5.5 đã phát hành chính thức). **Fast mode trên Opus 4.8 bị deprecated từ ngày 30 tháng 10 năm 2026 và sẽ bị gỡ vào ngày 30 tháng 11 năm 2026** (v2.1.316); sau thời điểm đó, các request fast mode trên Opus 4.8 trả về lỗi thay vì quay về tốc độ chuẩn, vì vậy hãy chuyển sang Opus 5.5 để giữ mức tăng tốc. Fast mode và tốc độ chuẩn giữ các prompt cache riêng biệt: lần đầu chuyển sang fast mode sẽ đọc lại hội thoại mà không có cache theo giá fast mode, và mỗi lần chuyển đổi sau đó, kể cả lần tự động quay lại sau khi bị giới hạn tốc độ, sẽ đọc lại phần mà tốc độ đó chưa cache, vì vậy hãy bật nó ngay từ đầu phiên.
+> **Fast Mode chạy trên Fable 5.2, Opus 5.5, Opus 5, và Opus 4.8 (v2.1.321)**: Từ v2.1.219, `/fast` áp dụng cho **Opus 5 và Opus 4.8** — Opus 4.7 bị gỡ khỏi fast mode. Fast mode của Opus 5 được tính phí $10/$50 mỗi Mtok. Fast mode lần đầu chuyển sang Opus 4.8 ở v2.1.154 (khoảng 2× giá chuẩn cho tốc độ đầu ra ~2.5×), sau khi đã đổi từ Opus 4.6 sang Opus 4.7 ở v2.1.142. Biến môi trường `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` đã **bị deprecated ở v2.1.154 và bị gỡ vào 2026-06-01**; fast mode không còn có trên Opus 4.6 — hãy chọn Opus 5 hoặc Opus 4.8. **Từ v2.1.280, fast mode mặc định dùng Opus 5.5** ($8/$40 mỗi Mtok); Opus 5 và Opus 4.8 vẫn được hỗ trợ ở mức $10/$50 dưới dạng research preview (fast mode trên Opus 5.5 đã phát hành chính thức). **Từ v2.1.321, fast mode cũng chạy trên Fable 5.2** với giá $16/$80 mỗi Mtok; trên Fable 5.2, nó chỉ giữ trạng thái bật qua các phiên nếu bạn đã bật nó bằng `/fast` trong lúc dùng Fable 5.2, và chỉ riêng thiết lập `"fastMode": true` thì không có tác dụng ở đó. **Fast mode trên Opus 4.8 bị deprecated từ ngày 30 tháng 10 năm 2026 và sẽ bị gỡ vào ngày 30 tháng 11 năm 2026** (v2.1.316); sau thời điểm đó, các request fast mode trên Opus 4.8 trả về lỗi thay vì quay về tốc độ chuẩn, vì vậy hãy chuyển sang Opus 5.5 để giữ mức tăng tốc. Fast mode và tốc độ chuẩn giữ các prompt cache riêng biệt: lần đầu chuyển sang fast mode sẽ đọc lại hội thoại mà không có cache theo giá fast mode, và mỗi lần chuyển đổi sau đó, kể cả lần tự động quay lại sau khi bị giới hạn tốc độ, sẽ đọc lại phần mà tốc độ đó chưa cache, vì vậy hãy bật nó ngay từ đầu phiên.
 
 ### Mức Effort / Effort Levels (Opus 5 / Sonnet 5 / Opus 4.8 / Opus 4.7)
 
-Opus 5, Sonnet 5, Opus 4.8, và Opus 4.7 hỗ trợ suy luận thích ứng với các mức effort, xếp từ nhẹ nhất đến nặng nhất: `low` (○), `medium` (◐), `high` (●), `xhigh`, và `max`. Opus 5.5, Sonnet 5.5, và Haiku 5.5 cũng hỗ trợ cả năm mức. Mức **mặc định** là `medium` trên Opus 5.5 (mô hình mặc định từ v2.1.280), Sonnet 5.5, và Haiku 5.5; `high` trên Opus 5, Sonnet 5, Opus 4.8 (từ v2.1.154), Opus 4.6, và Sonnet 4.6; và `xhigh` trên Opus 4.7. `xhigh` có trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, và Opus 4.7; `max` hoạt động trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 và Sonnet 4.6 (chỉ trong phiên). Haiku 4.5 không có mức effort. Trên Opus 4.6 / Sonnet 4.6, effort mặc định cho người dùng Pro/Max được nâng từ `medium` lên `high` ở v2.1.117.
+Các mô hình Fable, Opus 5, Sonnet 5, Opus 4.8, và Opus 4.7 hỗ trợ suy luận thích ứng với các mức effort, xếp từ nhẹ nhất đến nặng nhất: `low` (○), `medium` (◐), `high` (●), `xhigh`, và `max`. Opus 5.5, Sonnet 5.5, và Haiku 5.5 cũng hỗ trợ cả năm mức. Mức **mặc định** là `medium` trên Fable 5.2, Opus 5.5 (mô hình mặc định từ v2.1.280), Sonnet 5.5, và Haiku 5.5; `high` trên Fable 5.1, Fable 5, Opus 5, Sonnet 5, Opus 4.8 (từ v2.1.154), Opus 4.6, và Sonnet 4.6; và `xhigh` trên Opus 4.7. `xhigh` có trên các mô hình Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, và Opus 4.7; `max` hoạt động trên các mô hình Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 và Sonnet 4.6 (chỉ trong phiên). Haiku 4.5 không có mức effort. Trên Opus 4.6 / Sonnet 4.6, effort mặc định cho người dùng Pro/Max được nâng từ `medium` lên `high` ở v2.1.117.
 
 ```bash
 # Đặt mức effort qua cờ CLI
@@ -850,10 +851,10 @@ claude --effort high "complex review"
 /effort high
 
 # Đặt mức effort qua biến môi trường
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), hoặc max — mặc định là high trên Opus 5
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (các mô hình Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), hoặc max — mặc định là high trên Opus 5
 ```
 
-Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311, khi được gõ trong terminal tương tác, nó còn chạy lượt đó ở `xhigh` trên Opus 5.5, Sonnet 5.5, Haiku 5.5, và Fable 5.1 qua API của Anthropic (tô màu cầu vồng khi có thể; VS Code từ v2.1.316), và `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) tắt tính năng này. Thanh trượt `/effort` còn có nút bật/tắt **Ultracode** (Tab, hoặc `/effort ultracode [on|off]`), vốn **không phải** là một mức effort của mô hình — nó khiến Claude điều phối các workflow động ở bất kỳ mức effort nào mà phiên đang chạy. Từ v2.1.284, nó không còn ép dùng `xhigh` và vẫn bật khi bạn đổi mức; `--effort ultracode` và `effortLevel: "ultracode"` của Agent SDK vẫn đặt `xhigh`.
+Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311, khi được gõ trong terminal tương tác, nó còn chạy lượt đó ở `xhigh` trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2 (v2.1.321+), và Fable 5.1 qua API của Anthropic (tô màu cầu vồng khi có thể; VS Code từ v2.1.316), và `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) tắt tính năng này. Thanh trượt `/effort` còn có nút bật/tắt **Ultracode** (Tab, hoặc `/effort ultracode [on|off]`), vốn **không phải** là một mức effort của mô hình — nó khiến Claude điều phối các workflow động ở bất kỳ mức effort nào mà phiên đang chạy. Từ v2.1.284, nó không còn ép dùng `xhigh` và vẫn bật khi bạn đổi mức; `--effort ultracode` và `effortLevel: "ultracode"` của Agent SDK vẫn đặt `xhigh`.
 
 ---
 
@@ -869,7 +870,7 @@ Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | Ghi đè ID mô hình Sonnet mặc định |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | Ghi đè ID mô hình Haiku mặc định |
 | `MAX_THINKING_TOKENS` | Đặt ngân sách token cho extended thinking |
-| `CLAUDE_CODE_EFFORT_LEVEL` | Đặt mức effort (`low`/`medium`/`high`/`xhigh`/`max`) — mặc định là `medium` trên Opus 5.5, Sonnet 5.5, và Haiku 5.5, `high` trên Opus 5, Sonnet 5, và Opus 4.8 (`xhigh` trên Opus 4.7); `xhigh` cần Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, hoặc Opus 4.8/4.7; `max` hoạt động trên Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 và Sonnet 4.6; đặt `auto` hoặc `unset` để không gửi mức effort nào, khi đó mặc định của API được áp dụng. Nó được ưu tiên hơn `--effort` và `/effort` |
+| `CLAUDE_CODE_EFFORT_LEVEL` | Đặt mức effort (`low`/`medium`/`high`/`xhigh`/`max`) — mặc định là `medium` trên Fable 5.2, Opus 5.5, Sonnet 5.5, và Haiku 5.5, `high` trên Fable 5.1, Fable 5, Opus 5, Sonnet 5, và Opus 4.8 (`xhigh` trên Opus 4.7); `xhigh` cần một mô hình Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, hoặc Opus 4.8/4.7; `max` hoạt động trên các mô hình Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 và Sonnet 4.6; đặt `auto` hoặc `unset` để không gửi mức effort nào, khi đó mặc định của API được áp dụng. Nó được ưu tiên hơn `--effort` và `/effort` |
 | `CLAUDE_CODE_SIMPLE` | Chế độ tối thiểu, được đặt bởi cờ `--bare` |
 | `CLAUDE_CODE_SAFE_MODE` | Đặt `1` để khởi động với mọi tùy chỉnh bị tắt (CLAUDE.md, plugins, skills, hooks, MCP) — dạng biến môi trường của `--safe-mode`, để cô lập lỗi cấu hình (v2.1.169) |
 | `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` | Đặt `1` để ẩn các skills, workflows, và commands đi kèm khỏi mô hình (v2.1.169) |
@@ -930,7 +931,7 @@ Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311
 | `CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS` | Độ trễ khởi đầu tính bằng mili giây, thay cho mặc định 500, của exponential backoff giữa các lần tự động thử lại một request bị từ chối với lỗi quá tải `529`. Số mili giây nguyên từ 500 đến 32000 viết bằng chữ số thuần; không có tác dụng khi `CLAUDE_CODE_RETRY_WATCHDOG=1` hoặc ở fast mode (v2.1.292) |
 | `CLAUDE_ENABLE_STREAM_WATCHDOG` | Watchdog khi stream rảnh (hủy/thử lại sau 5 phút không có sự kiện stream) bật mặc định cho mọi nhà cung cấp; đặt `0` để tắt (v2.1.196). |
 | `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` | Ghi đè mức hủy sau 5 phút rảnh cho các lần gọi công cụ MCP từ xa bị treo không phản hồi (v2.1.187+). |
-| `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **Đã gỡ (không còn tác dụng từ v2.1.160).** Trước đây ghim Fast Mode (`/fast`) vào Opus 4.6. `/fast` chỉ áp dụng cho **Opus 5.5 (mặc định từ v2.1.280), Opus 5, và Opus 4.8** (fast mode trên Opus 4.8 đã bị deprecated và sẽ bị gỡ vào ngày 30 tháng 11 năm 2026, v2.1.316) — Opus 4.6 và Opus 4.7 không còn là đích của fast mode. |
+| `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **Đã gỡ (không còn tác dụng từ v2.1.160).** Trước đây ghim Fast Mode (`/fast`) vào Opus 4.6. `/fast` chỉ áp dụng cho **Fable 5.2 (v2.1.321+), Opus 5.5 (mặc định từ v2.1.280), Opus 5, và Opus 4.8** (fast mode trên Opus 4.8 đã bị deprecated và sẽ bị gỡ vào ngày 30 tháng 11 năm 2026, v2.1.316) — Opus 4.6 và Opus 4.7 không còn là đích của fast mode. |
 | `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` | Giới hạn thời gian lượt không tương tác đầu tiên chờ các MCP server vẫn đang kết nối. Đặt `0` để không chờ (v2.1.274), ngoại trừ từ v2.1.284, lượt đầu tiên vẫn chờ tối đa 2 giây cho các server được chỉ định bởi `--allowedTools` hoặc một hook `mcp_tool` |
 | `MCP_PROTOCOL_NEGOTIATION` | Chỉ trên runtime MCP client v2, xác định Claude Code có thăm dò server về MCP protocol revision 2026-07-28 hay không: `auto` thăm dò server HTTP, connector claude.ai, và stdio; `legacy` không thăm dò server nào. Mọi giá trị khác bị bỏ qua kèm cảnh báo trong debug log (v2.1.221) |
 | `CLAUDE_CODE_DISABLE_WEB_FETCH` | Tắt công cụ WebFetch (v2.1.285) |
@@ -949,7 +950,7 @@ Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311
 | `CLAUDE_CODE_EVEN_MORE_DANGEROUSLY_SKIP_PERMISSIONS` | Đặt `1` trong môi trường khởi chạy (bị bỏ qua trong khối `env` của settings) để cho phép các lệnh `rm`/`rmdir` trên đường dẫn quan trọng chạy mà không cần hỏi ở chế độ `bypassPermissions`; không có tác dụng ở plan mode, khung VS Code, Desktop, hoặc khi có một hook `PermissionRequest` hay một quy tắc ask hoặc deny cho Bash/Edit/Read được áp dụng (v2.1.311) |
 | `CLAUDE_CODE_MODEL_CATALOG` | Đặt `off` để Claude Code trên Bedrock, Mantle, Vertex, và Foundry ngừng tải cài đặt mô hình từ một file đã ký trên `downloads.claude.ai` (v2.1.311) |
 | `CLAUDE_CODE_DISABLE_ULTRATHINK` | Đặt `1` để tắt từ khóa `ultrathink` (v2.1.316) |
-| `CLAUDE_CODE_SUBAGENT_EFFORT` | Mức effort mà các subagent chạy khi không có nguồn nào khác chỉ định, thay vì kế thừa mức của phiên (v2.1.316) |
+| `CLAUDE_CODE_SUBAGENT_EFFORT` | Mức effort mà các subagent chạy khi không có nguồn nào khác chỉ định, thay vì kế thừa mức của phiên (v2.1.316). Từ v2.1.317, một subagent chạy trên mô hình khác với cuộc hội thoại chính dùng mức effort đã lưu của mô hình đó hoặc mức mặc định của mô hình, thay vì mức effort của phiên |
 | `CLAUDE_CODE_ENABLE_TODO_TOOLS` | Đặt `1` để khôi phục các công cụ theo dõi todo/task (`TaskCreate`/`Get`/`Update`/`List`, `TodoWrite`), vốn mặc định chỉ có trên các mô hình Claude 3.x, Opus 4 đến 4.7, Sonnet 4 đến 4.6, và Haiku 4.5 (v2.1.268) |
 | `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS` | Thời gian WebFetch cache một URL đã tải. Mặc định 15 phút (v2.1.233) |
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | Chỉ trên Linux: opt-in một memory cgroup áp dụng cho các lệnh Bash (v2.1.233) |
@@ -1114,8 +1115,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.316
+**Cập Nhật Lần Cuối**: Ngày 12 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.322
 **Nguồn**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/permission-modes#time-limits-and-denials-in-auto-and-bypasspermissions-modes
@@ -1194,4 +1195,9 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/prompt-caching#turning-on-fast-mode
 - https://code.claude.com/docs/en/changelog#2-1-307
 - https://code.claude.com/docs/en/scheduled-tasks
+- https://code.claude.com/docs/en/model-config#model-aliases
+- https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/model-config#work-with-fable
+- https://code.claude.com/docs/en/model-config#version-history
+- https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

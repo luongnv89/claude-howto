@@ -817,7 +817,8 @@ Claude Code는 다양한 기능을 가진 여러 모델을 지원합니다:
 | Opus 4.8 | `claude-opus-4-8` | 1M 토큰 | 이전 플래그십 Opus, 여전히 선택 가능; 적응형 노력 수준 `low → max`; 기본 노력 `high` (v2.1.154) |
 | Sonnet 4.6 | `claude-sonnet-4-6` | 1M 토큰 | 균형 잡힌 속도와 기능; Pro/Max 구독자의 기본 노력은 v2.1.117에서 `medium`에서 `high`로 상향 조정됨 |
 | Haiku 4.5 | `claude-haiku-4-5` | 200K 토큰 | 이전 Haiku, Bedrock, Vertex, Foundry, Claude Platform on AWS에서는 여전히 `haiku` 별칭; 노력 수준 없음 |
-| Fable 5.1 | `claude-fable-5-1` | — | 현재 Fable 모델; `fable` 별칭이 이 모델로 해석됨 (v2.1.257) |
+| Fable 5.2 | `claude-fable-5-2` | 1M 토큰 | v2.1.321부터 현재 Fable 모델; Claude apps 게이트웨이 세션(그곳에서는 Fable 5)을 제외하면 `fable` 별칭이 이 모델로 해석됨; 기본 effort `medium`; 빠른 모드 지원. v2.1.321+ 필요 |
+| Fable 5.1 | `claude-fable-5-1` | — | 이전 Fable 모델(v2.1.257부터 v2.1.321 이전까지 `fable` 별칭이 이 모델을 가리킴); `/model claude-fable-5-1`로 선택. v2.1.257+ 필요 |
 | Fable 5 | `claude-fable-5` | — | Mythos 등급 모델, 일반적인 사용에 안전하게 만들어짐 (v2.1.170) |
 
 > **참고**: Sonnet 4.5는 Claude API, Claude Platform on AWS, Claude Models on Google Cloud(Anthropic 관리), Microsoft Foundry에서 2026년 11월 30일에 서비스 종료됩니다. Amazon Bedrock과 Google Cloud's Agent Platform은 자체 일정을 정합니다. `default`와 `sonnet`이 여전히 Sonnet 4.5로 해석되는 Foundry에서는 더 새로운 모델을 명시적으로 설정하십시오.
@@ -837,13 +838,13 @@ claude --model opusplan "design and implement the API"
 /fast
 ```
 
-> **Fable 5.1과 `fable` 별칭 (v2.1.257)**: Fable 5.1(`claude-fable-5-1`)은 **v2.1.257**에 포함되었으며, `fable` 별칭은 이제 Fable 5가 아닌 이 모델로 해석됩니다. 공식 model-config 페이지에는 Fable 5.1이 "Claude Code v2.1.255 이상이 필요하다"고 되어 있지만 2.1.255는 공개되지 않았으므로, 실제로 설치할 수 있는 첫 릴리스는 v2.1.257입니다. Claude apps 게이트웨이에서는 `fable`과 `best`가 여전히 **Fable 5**로 해석되므로, 그곳에서는 `/model`에서 5.1을 명시적으로 선택하십시오. 조직에서 최신 Fable 모델을 사용할 수 없으면 `fable`과 `best`는 이전 Fable 모델로 한 번 재시도합니다 (v2.1.301).
+> **Fable 5.2와 `fable` 별칭 (v2.1.321)**: Fable 5.2(`claude-fable-5-2`)는 **v2.1.321**에 포함되었으며, 이제 `fable`은 이 모델로 해석됩니다. 단, Claude apps 게이트웨이 세션에서는 `fable`이 여전히 **Fable 5**로 해석됩니다(게이트웨이가 Fable 5.2를 제공한다면 그곳에서 `/model claude-fable-5-2`를 실행하십시오). Fable 5.2는 1M 컨텍스트 창을 가지며 Mtok당 $8/$40, 캐시 읽기는 Mtok당 $0.20입니다. `best` 별칭은 이제 `opus`와 같은 모델로 해석되며, v2.1.321 이전에는 Fable을 사용할 수 있는 곳에서 `fable`이 해석되는 모델을 사용했습니다. Fable 5.1(`claude-fable-5-1`, v2.1.257+)과 Fable 5는 모델 ID로 계속 선택할 수 있습니다. Pro, Max, Ultra 요금제에서는 사용자 설정에 저장된 `claude-fable-5-1` 모델이 v2.1.321 이상을 처음 실행할 때 `fable`로 이동하며, Team 및 Enterprise 요금제에서는 조직 설정이 허용할 때까지 이동이 보류됩니다. Console 계정, 서드파티 제공자, 그리고 프로젝트, 로컬 또는 관리형 설정은 `claude-fable-5-1`을 유지합니다. 다시 전환하려면 `/model claude-fable-5-1`을 실행하십시오. 조직에서 최신 Fable 모델을 사용할 수 없으면 `fable`은 이전 Fable 모델로 한 번 재시도합니다 (v2.1.301).
 
-> **빠른 모드는 Opus 5.5, Opus 5, Opus 4.8에서 실행됩니다 (v2.1.280)**: v2.1.219부터 `/fast`는 **Opus 5와 Opus 4.8**에 적용되며, Opus 4.7은 빠른 모드에서 제외되었습니다. Opus 5의 빠른 모드는 Mtok당 $10/$50로 청구됩니다. 빠른 모드는 v2.1.154에서 처음 Opus 4.8로 이동했으며(표준 요금의 약 2배로 출력 속도 약 2.5배), 그 전에는 v2.1.142에서 Opus 4.6에서 Opus 4.7로 전환되었습니다. `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` 환경 변수는 **v2.1.154에서 지원 중단되었고 2026-06-01에 제거되었습니다**. Opus 4.6에서는 더 이상 빠른 모드를 사용할 수 없으므로 Opus 5 또는 Opus 4.8을 선택하십시오. **v2.1.280부터 빠른 모드의 기본값은 Opus 5.5입니다**(Mtok당 $8/$40). Opus 5와 Opus 4.8은 $10/$50로 계속 지원됩니다. 빠른 모드와 표준 속도는 별도의 프롬프트 캐시를 사용합니다. 처음 빠른 모드로 전환하면 대화를 캐시 없이 빠른 모드 요금으로 다시 읽고, 이후 전환할 때마다(속도 제한 후 자동 폴백 포함) 해당 속도에서 캐시되지 않은 부분을 다시 읽으므로 세션 시작 시에 켜십시오.
+> **빠른 모드는 Fable 5.2, Opus 5.5, Opus 5, Opus 4.8에서 실행됩니다 (v2.1.321)**: v2.1.219부터 `/fast`는 **Opus 5와 Opus 4.8**에 적용되며, Opus 4.7은 빠른 모드에서 제외되었습니다. Opus 5의 빠른 모드는 Mtok당 $10/$50로 청구됩니다. 빠른 모드는 v2.1.154에서 처음 Opus 4.8로 이동했으며(표준 요금의 약 2배로 출력 속도 약 2.5배), 그 전에는 v2.1.142에서 Opus 4.6에서 Opus 4.7로 전환되었습니다. `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` 환경 변수는 **v2.1.154에서 지원 중단되었고 2026-06-01에 제거되었습니다**. Opus 4.6에서는 더 이상 빠른 모드를 사용할 수 없으므로 Opus 5 또는 Opus 4.8을 선택하십시오. **v2.1.280부터 빠른 모드의 기본값은 Opus 5.5입니다**(Mtok당 $8/$40). Opus 5와 Opus 4.8은 $10/$50로 계속 지원됩니다. **v2.1.321부터 빠른 모드는 Fable 5.2에서도 실행됩니다**(Mtok당 $16/$80). Fable 5.2에서는 Fable 5.2를 사용하는 동안 `/fast`로 켠 경우에만 세션 간에 켜진 상태가 유지되며, `"fastMode": true` 설정만으로는 그곳에서 효과가 없습니다. 빠른 모드와 표준 속도는 별도의 프롬프트 캐시를 사용합니다. 처음 빠른 모드로 전환하면 대화를 캐시 없이 빠른 모드 요금으로 다시 읽고, 이후 전환할 때마다(속도 제한 후 자동 폴백 포함) 해당 속도에서 캐시되지 않은 부분을 다시 읽으므로 세션 시작 시에 켜십시오.
 
 ### 노력 수준 (Opus 5 / Sonnet 5 / Opus 4.8 / Opus 4.7)
 
-Opus 5, Sonnet 5, Opus 4.8, Opus 4.7은 가장 가벼운 것부터 가장 무거운 것까지 `low` (○), `medium` (◐), `high` (●), `xhigh`, `max` 순서로 노력 수준을 가진 적응형 추론을 지원합니다. Opus 5.5, Sonnet 5.5, Haiku 5.5도 다섯 가지 수준을 모두 지원합니다. **기본값**은 Opus 5.5(v2.1.280부터 기본 모델), Sonnet 5.5, Haiku 5.5에서는 `medium`, Opus 5, Sonnet 5, Opus 4.8(v2.1.154부터), Opus 4.6, Sonnet 4.6에서는 `high`, Opus 4.7에서는 `xhigh`입니다. `xhigh`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7에서 사용할 수 있습니다. `max`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 및 Sonnet 4.6 (세션 전용)에서 작동합니다. Haiku 4.5에는 노력 수준이 없습니다. Opus 4.6 / Sonnet 4.6의 경우 Pro/Max 구독자의 기본 노력은 v2.1.117에서 `medium`에서 `high`로 상향 조정되었습니다.
+Fable 모델, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7은 가장 가벼운 것부터 가장 무거운 것까지 `low` (○), `medium` (◐), `high` (●), `xhigh`, `max` 순서로 노력 수준을 가진 적응형 추론을 지원합니다. Opus 5.5, Sonnet 5.5, Haiku 5.5도 다섯 가지 수준을 모두 지원합니다. **기본값**은 Fable 5.2, Opus 5.5(v2.1.280부터 기본 모델), Sonnet 5.5, Haiku 5.5에서는 `medium`, Fable 5.1, Fable 5, Opus 5, Sonnet 5, Opus 4.8(v2.1.154부터), Opus 4.6, Sonnet 4.6에서는 `high`, Opus 4.7에서는 `xhigh`입니다. `xhigh`는 Fable 모델, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7에서 사용할 수 있습니다. `max`는 Fable 모델, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 및 Sonnet 4.6 (세션 전용)에서 작동합니다. Haiku 4.5에는 노력 수준이 없습니다. Opus 4.6 / Sonnet 4.6의 경우 Pro/Max 구독자의 기본 노력은 v2.1.117에서 `medium`에서 `high`로 상향 조정되었습니다.
 
 ```bash
 # CLI 플래그를 통해 노력 수준 설정
@@ -853,7 +854,7 @@ claude --effort high "complex review"
 /effort high
 
 # 환경 변수를 통해 노력 수준 설정
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), 또는 max — 기본값은 Opus 5에서 high
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), 또는 max — 기본값은 Opus 5에서 high
 ```
 
 프롬프트의 "ultrathink" 키워드는 깊은 추론을 활성화합니다. `/effort` 슬라이더에는 **Ultracode** 토글(Tab 또는 `/effort ultracode [on|off]`)도 있는데, 이는 모델 노력 수준이 **아니며** 세션의 노력 수준과 관계없이 Claude가 동적 워크플로를 오케스트레이션하도록 합니다. v2.1.284부터 더 이상 `xhigh`를 강제하지 않으며 수준을 바꿔도 켜진 상태로 유지됩니다. `--effort ultracode`와 Agent SDK의 `effortLevel: "ultracode"`는 여전히 `xhigh`를 설정합니다.
@@ -872,7 +873,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Son
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | 기본 Sonnet 모델 ID 재정의 |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | 기본 Haiku 모델 ID 재정의 |
 | `MAX_THINKING_TOKENS` | 확장 사고 토큰 예산 설정 |
-| `CLAUDE_CODE_EFFORT_LEVEL` | 노력 수준 설정 (`low`/`medium`/`high`/`xhigh`/`max`) — 기본값은 Opus 5.5, Sonnet 5.5, Haiku 5.5에서 `medium`, Opus 5, Sonnet 5, Opus 4.8에서 `high` (Opus 4.7에서 `xhigh`); `xhigh`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5 또는 Opus 4.8/4.7 필요; `max`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 및 Sonnet 4.6에서 작동 |
+| `CLAUDE_CODE_EFFORT_LEVEL` | 노력 수준 설정 (`low`/`medium`/`high`/`xhigh`/`max`) — 기본값은 Fable 5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5에서 `medium`, Fable 5.1, Fable 5, Opus 5, Sonnet 5, Opus 4.8에서 `high` (Opus 4.7에서 `xhigh`); `xhigh`는 Fable 모델, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5 또는 Opus 4.8/4.7 필요; `max`는 Fable 모델, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6 및 Sonnet 4.6에서 작동 |
 | `CLAUDE_CODE_SIMPLE` | `--bare` 플래그로 설정되는 최소 모드 |
 | `CLAUDE_CODE_SAFE_MODE` | 모든 사용자 정의를 비활성화한 상태로 시작하려면 `1`로 설정합니다 (CLAUDE.md, 플러그인, 스킬, 훅, MCP) — 구성 문제 격리를 위한 `--safe-mode`의 환경 변수 형식 (v2.1.169) |
 | `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` | 모델에서 번들된 스킬, 워크플로, 명령을 숨기려면 `1`로 설정합니다 (v2.1.169) |
@@ -933,7 +934,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Son
 | `CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS` | `529` 과부하 오류로 거부된 요청의 자동 재시도 사이 지수 백오프의 시작 지연(밀리초, 기본값 500 대신). 500부터 32000까지 숫자만 쓴 정수 밀리초; `CLAUDE_CODE_RETRY_WATCHDOG=1`이거나 빠른 모드에서는 효과 없음 (v2.1.292) |
 | `CLAUDE_ENABLE_STREAM_WATCHDOG` | 스트리밍 유휴 워치독(스트림 이벤트가 5분간 없으면 중단/재시도)은 모든 제공자에서 기본적으로 켜져 있습니다. 비활성화하려면 `0`으로 설정합니다 (v2.1.196). |
 | `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` | 응답 없이 지연되는 원격 MCP 도구 호출의 5분 유휴 중단 시간을 재정의합니다 (v2.1.187+). |
-| `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **제거됨 (v2.1.160부터 작동 안 함).** 이전에는 빠른 모드 (`/fast`)를 Opus 4.6에 고정했습니다. `/fast`는 **Opus 5.5(v2.1.280부터 기본값), Opus 5, Opus 4.8**에만 적용되며, Opus 4.6과 Opus 4.7은 더 이상 빠른 모드 대상이 아닙니다. |
+| `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **제거됨 (v2.1.160부터 작동 안 함).** 이전에는 빠른 모드 (`/fast`)를 Opus 4.6에 고정했습니다. `/fast`는 **Fable 5.2(v2.1.321+), Opus 5.5(v2.1.280부터 기본값), Opus 5, Opus 4.8**에만 적용되며, Opus 4.6과 Opus 4.7은 더 이상 빠른 모드 대상이 아닙니다. |
 | `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` | 첫 비대화형 턴이 아직 연결 중인 MCP 서버를 기다리는 시간의 상한. 기다리지 않으려면 `0`으로 설정합니다 (v2.1.274). 단, v2.1.284부터 첫 턴은 `--allowedTools` 또는 `mcp_tool` 훅에 지정된 서버를 최대 2초까지 계속 기다립니다 |
 | `MCP_PROTOCOL_NEGOTIATION` | v2 MCP 클라이언트 런타임에서만, Claude Code가 서버에 MCP 프로토콜 리비전 2026-07-28을 탐색할지 여부: `auto`는 HTTP, claude.ai 커넥터, stdio 서버를 탐색하고, `legacy`는 아무것도 탐색하지 않습니다. 다른 값은 디버그 로그에 경고를 남기고 무시됩니다 (v2.1.221) |
 | `CLAUDE_CODE_DISABLE_WEB_FETCH` | WebFetch 도구를 끕니다 (v2.1.285) |
@@ -1113,8 +1114,8 @@ claude -p --output-format json "query"
 
 ---
 
-**최종 업데이트**: 2026년 10월 26일
-**Claude Code 버전**: 2.1.310
+**최종 업데이트**: 2026년 11월 12일
+**Claude Code 버전**: 2.1.322
 **출처**:
 - https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
@@ -1183,4 +1184,8 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/prompt-caching#turning-on-fast-mode
 - https://code.claude.com/docs/en/changelog#2-1-307
 - https://code.claude.com/docs/en/scheduled-tasks
+- https://code.claude.com/docs/en/model-config#model-aliases
+- https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/model-config#work-with-fable
+- https://code.claude.com/docs/en/model-config#version-history
 **호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

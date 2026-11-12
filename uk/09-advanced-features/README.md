@@ -218,7 +218,7 @@ claude --model opusplan "design and implement the new API"
 
 **Автоматична активація**:
 - Увімкнено за замовчуванням для всіх моделей (Opus 4.6, Sonnet 4.6, Haiku 4.5)
-- Opus 4.6: Адаптивне міркування з рівнями зусиль: `low` (○), `medium` (◐), `high` (●), `max` (тільки Opus 4.6)
+- Opus 4.6: Адаптивне міркування з рівнями зусиль: `low` (○), `medium` (◐), `high` (●), `max`
 - Інші моделі: Фіксований бюджет до 31 999 токенів
 
 **Методи конфігурації**:
@@ -231,9 +231,9 @@ claude --model opusplan "design and implement the new API"
 export MAX_THINKING_TOKENS=1024
 ```
 
-**Рівень зусиль** (тільки Opus 4.6):
+**Рівень зусиль** (підтримується на моделях Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6 та Sonnet 4.6 — не на Haiku 4.5):
 ```bash
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), або max (тільки Opus 4.6)
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), xhigh (моделі Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7) або max
 ```
 
 **Прапорець CLI**:
@@ -246,7 +246,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **Примітка:** Ключове слово "ultrathink" у промптах активує режим глибокого міркування. Починаючи з v2.1.311, якщо ввести його в інтерактивному терміналі, воно також запускає цей хід із рівнем зусиль `xhigh` на Opus 5.5, Sonnet 5.5, Haiku 5.5 та Fable 5.1 через API Anthropic (слово підсвічується веселкою, коли це можливо; введене під час роботи Claude, воно підвищує рівень для решти цього ходу; у VS Code — з v2.1.316). На Bedrock або інших моделях натомість задайте рівень зусиль. `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) вимикає це ключове слово. Рівні зусиль `low`, `medium`, `high` та `max` (тільки Opus 4.6) контролюють обсяг міркувань Claude.
+> **Примітка:** Ключове слово "ultrathink" у промптах активує режим глибокого міркування. Починаючи з v2.1.311, якщо ввести його в інтерактивному терміналі, воно також запускає цей хід із рівнем зусиль `xhigh` на Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2 (v2.1.321+) та Fable 5.1 через API Anthropic (слово підсвічується веселкою, коли це можливо; введене під час роботи Claude, воно підвищує рівень для решти цього ходу; у VS Code — з v2.1.316). На Bedrock або інших моделях натомість задайте рівень зусиль. `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) вимикає це ключове слово. Рівні зусиль `low`, `medium`, `high` та `max` підтримуються на моделях Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6 та Sonnet 4.6 (Haiku 4.5 не має жодного). `xhigh` доступний на моделях Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8 та Opus 4.7. Рівень зусиль за замовчуванням — `medium` на Fable 5.2, Opus 5.5, Sonnet 5.5 та Haiku 5.5, `high` на Fable 5.1, Fable 5, Opus 5, Sonnet 5, Opus 4.8 (а також Opus 4.6 / Sonnet 4.6) і `xhigh` на Opus 4.7.
 
 ### Переваги розширеного мислення
 
@@ -334,7 +334,7 @@ This approach balances your current constraints (team size, timeline, DevOps res
 # Встановлення бюджету токенів мислення
 export MAX_THINKING_TOKENS=16000
 
-# Встановлення рівня зусиль (тільки Opus 4.6): low (○), medium (◐), high (●), або max (тільки Opus 4.6)
+# Встановлення рівня зусиль: low (○), medium (◐), high (●), xhigh (моделі Fable, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7) або max
 export CLAUDE_CODE_EFFORT_LEVEL=high
 ```
 
@@ -559,7 +559,7 @@ export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=true
 
 ## Заплановані завдання
 
-Заплановані завдання дозволяють автоматично запускати промпти за розкладом або як одноразові нагадування. Завдання привʼязані до сесії — вони працюють, поки Claude Code активний, і очищуються при завершенні сесії. Доступно з v2.1.72+.
+Заплановані завдання дозволяють автоматично запускати промпти за розкладом або як одноразові нагадування. Завдання привʼязані до сесії — вони спрацьовують лише поки Claude Code запущений. Коли ви відновлюєте сесію через `--resume` або `--continue`, Claude Code відновлює завдання, термін яких не минув, окрім одноразових завдань, час яких уже минув, і самокерованого `/loop` (запустіть `/loop` знову, щоб перезапустити його). Доступно з v2.1.72+.
 
 ### Команда `/loop`
 
@@ -592,18 +592,18 @@ in 45 minutes, run the integration tests
 
 **Обмеження та поведінка**:
 - До **50 запланованих завдань** на сесію
-- Привʼязані до сесії — очищуються при завершенні сесії
-- Повторювані завдання автоматично закінчуються через **3 дні**
+- Привʼязані до сесії — відновлюються через `--resume`/`--continue`, якщо термін не минув
+- Повторювані завдання автоматично закінчуються через **7 днів** після створення (спрацьовують востаннє, а потім видаляють себе)
 - Завдання спрацьовують лише під час роботи Claude Code — пропущені запуски не компенсуються
 
 ### Деталі поведінки
 
 | Аспект | Деталь |
 |--------|--------|
-| **Джитер повторюваних** | До 10% від інтервалу (макс. 15 хвилин) |
-| **Джитер одноразових** | До 90 секунд на межах :00/:30 |
+| **Джитер повторюваних** | Запуск із запізненням до половини проміжку до наступного запуску, щонайбільше 30 хвилин; завдання `*/5 * * * *` (його створює `/loop 5m`) не затримується і стартує на 15 секунд раніше |
+| **Джитер одноразових** | До 90 секунд раніше, якщо заплановано на `:00` або `:30` |
 | **Пропущені запуски** | Без компенсації — пропускаються, якщо Claude Code не працював |
-| **Збереження** | Не зберігаються між перезапусками |
+| **Збереження** | Відновлюються через `--resume`/`--continue`, окрім завдань із вичерпаним терміном, прострочених одноразових завдань і самокерованого `/loop`; пропущені запуски не надолужуються |
 
 ### Хмарні заплановані завдання
 
@@ -1927,8 +1927,8 @@ claude --teammate-mode in-process
 - [Офіційна документація Agent Teams](https://code.claude.com/docs/en/agent-teams)
 
 ---
-**Останнє оновлення**: 1 листопада 2026
-**Версія Claude Code**: 2.1.316
+**Останнє оновлення**: 12 листопада 2026
+**Версія Claude Code**: 2.1.322
 **Джерела**:
 - https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
 - https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
@@ -1961,4 +1961,8 @@ claude --teammate-mode in-process
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
 - https://code.claude.com/docs/en/cli-reference#cli-flags
+- https://code.claude.com/docs/en/model-config#adjust-effort-level
+- https://code.claude.com/docs/en/scheduled-tasks#seven-day-expiry
+- https://code.claude.com/docs/en/scheduled-tasks#jitter
+- https://code.claude.com/docs/en/scheduled-tasks#limitations
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

@@ -229,7 +229,7 @@ claude --model opusplan "طراحی و پیاده‌سازی API جدید"
 
 **فعال‌سازی خودکار**:
 - به‌طور پیش‌فرض برای همه مدل‌ها فعال است (Opus 5.5، Sonnet 5.5، Haiku 5.5، مدل‌های Fable، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Sonnet 4.6، Haiku 4.5)
-- Opus 5 / Opus 4.8: استدلال تطبیقی با سطوح تلاش: `low` (○)، `medium` (◐)، `high` (●)، `xhigh`، `max`. پیش‌فرض `medium` روی Opus 5.5 (مدل پیش‌فرض از v2.1.280)، Sonnet 5.5 و Haiku 5.5، `high` روی Opus 5 (v2.1.219)، Sonnet 5، Opus 4.8 (v2.1.154)، Opus 4.6 و Sonnet 4.6، و `xhigh` روی Opus 4.7 است. `xhigh` روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 در دسترس است (روی Opus 4.6 / Sonnet 4.6 به `high` برمی‌گردد). `max` روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5 و Opus 4.8/4.7/4.6 و Sonnet 4.6 کار می‌کند (فقط همان نشست). Haiku 4.5 هیچ سطح تلاشی ندارد. Opus 5، Opus 4.8 و Opus 4.7 یک پنجره زمینه بومی ۱ میلیون توکنی دارند (اصلاح زمینه ۱M در v2.1.117 اعمال شد — پیش از آن، `/context` پنجره Opus 4.7 را ۲۰۰K اشتباه می‌شمرد و فشرده‌سازی خودکار زودهنگام را راه می‌انداخت). از v2.1.129، `/context` تجسم خود را فقط درون رابط کاربری نشان می‌دهد؛ تجسم ASCII دیگر به زمینه گفتگو نشت نمی‌کند (حدود ۱.۶ هزار توکن صرفه‌جویی در هر فراخوانی)، بنابراین فراخوانی `/context` آزادانه بی‌خطر است.
+- Opus 5 / Opus 4.8: استدلال تطبیقی با سطوح تلاش: `low` (○)، `medium` (◐)، `high` (●)، `xhigh`، `max`. پیش‌فرض `medium` روی Fable 5.2، Opus 5.5 (مدل پیش‌فرض از v2.1.280)، Sonnet 5.5 و Haiku 5.5، `high` روی Fable 5.1، Fable 5، Opus 5 (v2.1.219)، Sonnet 5، Opus 4.8 (v2.1.154)، Opus 4.6 و Sonnet 4.6، و `xhigh` روی Opus 4.7 است. `xhigh` روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 در دسترس است (روی Opus 4.6 / Sonnet 4.6 به `high` برمی‌گردد). `max` روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5 و Opus 4.8/4.7/4.6 و Sonnet 4.6 کار می‌کند (فقط همان نشست). Haiku 4.5 هیچ سطح تلاشی ندارد. Opus 5، Opus 4.8 و Opus 4.7 یک پنجره زمینه بومی ۱ میلیون توکنی دارند (اصلاح زمینه ۱M در v2.1.117 اعمال شد — پیش از آن، `/context` پنجره Opus 4.7 را ۲۰۰K اشتباه می‌شمرد و فشرده‌سازی خودکار زودهنگام را راه می‌انداخت). از v2.1.129، `/context` تجسم خود را فقط درون رابط کاربری نشان می‌دهد؛ تجسم ASCII دیگر به زمینه گفتگو نشت نمی‌کند (حدود ۱.۶ هزار توکن صرفه‌جویی در هر فراخوانی)، بنابراین فراخوانی `/context` آزادانه بی‌خطر است.
 - مشترکان Pro/Max روی Opus 4.6 / Sonnet 4.6: تلاش پیش‌فرض در v2.1.117 از `medium` به `high` افزایش یافت.
 - سایر مدل‌ها: بودجه ثابت تا ۳۱٬۹۹۹ توکن
 
@@ -243,9 +243,9 @@ claude --model opusplan "طراحی و پیاده‌سازی API جدید"
 export MAX_THINKING_TOKENS=1024
 ```
 
-**سطح تلاش** (پشتیبانی‌شده روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6 و Sonnet 4.6 — نه Haiku 4.5):
+**سطح تلاش** (پشتیبانی‌شده روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6 و Sonnet 4.6 — نه Haiku 4.5):
 ```bash
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○)، medium (◐)، high (●)، xhigh (Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7)، یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○)، medium (◐)، high (●)، xhigh (مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7)، یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است
 ```
 
 **پرچم CLI**:
@@ -258,7 +258,7 @@ claude --effort high "بازبینی پیچیده معماری"
 /effort high
 ```
 
-> **نکته:** کلیدواژه «ultrathink» در پرامپت‌ها حالت استدلال عمیق را فعال می‌کند. از v2.1.311، اگر در ترمینال تعاملی تایپ شود، آن نوبت را نیز روی Opus 5.5، Sonnet 5.5، Haiku 5.5 و Fable 5.1 از طریق Anthropic API با تلاش `xhigh` اجرا می‌کند (وقتی ممکن باشد واژه رنگین‌کمانی می‌شود؛ اگر هنگام کار Claude تایپ شود، بقیهٔ همان نوبت را بالا می‌برد؛ در VS Code از v2.1.316). روی Bedrock یا مدل‌های دیگر، به‌جای آن سطح تلاش را تنظیم کنید. `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) این کلیدواژه را خاموش می‌کند. سطوح تلاش `low`، `medium`، `high` و `max` روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6 و Sonnet 4.6 پشتیبانی می‌شوند (Haiku 4.5 هیچ‌کدام را ندارد). `xhigh` روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 در دسترس است. تلاش پیش‌فرض روی Opus 5.5، Sonnet 5.5 و Haiku 5.5 برابر `medium`، روی Opus 5، Sonnet 5، Opus 4.8 (و Opus 4.6 / Sonnet 4.6) برابر `high` و روی Opus 4.7 برابر `xhigh` است. برخلاف Opus 4.8 و Opus 4.7 که تلاش پیش‌فرض خود را در نخستین اجرا ثابت می‌کنند، Opus 5 چنین قفلی ندارد — سطحی که پیش‌تر تنظیم کرده‌اید باقی می‌ماند. لغزنده `/effort` همچنین یک کلید **Ultracode** دارد (Tab، یا `/effort ultracode [on|off]`)، که **نه** یک سطح تلاش مدل است — با آن، Claude گردش‌کارهای پویا را در همان سطح تلاشی که نشست در آن اجرا می‌شود هماهنگ می‌کند. از v2.1.284 دیگر `xhigh` را تحمیل نمی‌کند و با تغییر سطح روشن می‌ماند؛ `--effort ultracode` و `effortLevel: "ultracode"` در Agent SDK همچنان `xhigh` را تنظیم می‌کنند.
+> **نکته:** کلیدواژه «ultrathink» در پرامپت‌ها حالت استدلال عمیق را فعال می‌کند. از v2.1.311، اگر در ترمینال تعاملی تایپ شود، آن نوبت را نیز روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Fable 5.2 (v2.1.321+) و Fable 5.1 از طریق Anthropic API با تلاش `xhigh` اجرا می‌کند (وقتی ممکن باشد واژه رنگین‌کمانی می‌شود؛ اگر هنگام کار Claude تایپ شود، بقیهٔ همان نوبت را بالا می‌برد؛ در VS Code از v2.1.316). روی Bedrock یا مدل‌های دیگر، به‌جای آن سطح تلاش را تنظیم کنید. `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) این کلیدواژه را خاموش می‌کند. سطوح تلاش `low`، `medium`، `high` و `max` روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6 و Sonnet 4.6 پشتیبانی می‌شوند (Haiku 4.5 هیچ‌کدام را ندارد). `xhigh` روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 در دسترس است. تلاش پیش‌فرض روی Fable 5.2، Opus 5.5، Sonnet 5.5 و Haiku 5.5 برابر `medium`، روی Fable 5.1، Fable 5، Opus 5، Sonnet 5، Opus 4.8 (و Opus 4.6 / Sonnet 4.6) برابر `high` و روی Opus 4.7 برابر `xhigh` است. برخلاف Opus 4.8 و Opus 4.7 که تلاش پیش‌فرض خود را در نخستین اجرا ثابت می‌کنند، Opus 5 چنین قفلی ندارد — سطحی که پیش‌تر تنظیم کرده‌اید باقی می‌ماند. لغزنده `/effort` همچنین یک کلید **Ultracode** دارد (Tab، یا `/effort ultracode [on|off]`)، که **نه** یک سطح تلاش مدل است — با آن، Claude گردش‌کارهای پویا را در همان سطح تلاشی که نشست در آن اجرا می‌شود هماهنگ می‌کند. از v2.1.284 دیگر `xhigh` را تحمیل نمی‌کند و با تغییر سطح روشن می‌ماند؛ `--effort ultracode` و `effortLevel: "ultracode"` در Agent SDK همچنان `xhigh` را تنظیم می‌کنند.
 
 ### بازگشت طبقه‌بند ایمنی روی Opus 5
 
@@ -269,7 +269,7 @@ claude --effort high "بازبینی پیچیده معماری"
 
 چرا اینجا مهم است: اگر [زیرایجنت‌های security-review](../04-subagents/README.md) یا کار CTF/pentest را روی Opus 5 اجرا می‌کنید، انتظار اجرای مجدد بی‌صدا روی Opus 4.8 (با سقف تلاش و پنجره زمینه متفاوت) برای پرامپت‌های امنیت سایبری، و امتناع صریح برای موارد نزدیک به زیست‌شناسی را داشته باشید. اگر این رفتار مانع کار شد، مدل دیگری را صریحاً پین کنید.
 
-**کنترل این جابه‌جایی** — تنظیم `switchModelsOnFlag` (v2.1.170+، پیش‌فرض `true`) تعیین می‌کند که آیا بازگشت بی‌صدا انجام می‌شود یا نه. آن را `false` کنید و Claude Code به‌جایش توقف می‌کند و به شما اجازه می‌دهد میان تغییر مدل و ویرایش پرامپت انتخاب کنید. در `/config` به‌صورت **Switch models when a message is flagged** ظاهر می‌شود.
+**کنترل این جابه‌جایی** — تنظیم `switchModelsOnFlag` (v2.1.170+، پیش‌فرض `true`) تعیین می‌کند که آیا بازگشت بی‌صدا انجام می‌شود یا نه. آن را `false` کنید و Claude Code به‌جایش توقف می‌کند و به شما اجازه می‌دهد میان تغییر مدل و ویرایش پرامپت انتخاب کنید. این توقف فقط برای گفتگوی اصلی است: یک زیرعامل (subagent) هرگز متوقف نمی‌شود، پس با **Ask each time** (`false`) درخواست پرچم‌خوردهٔ زیرعامل به‌جای تغییر مدل شکست می‌خورد (v2.1.318؛ نسخه‌های قبلی آن را روی مدل جایگزین دوباره اجرا می‌کردند). در `/config` به‌صورت **Switch models when a message is flagged** ظاهر می‌شود.
 
 ```json
 {
@@ -363,7 +363,7 @@ Claude: بگذارید این تصمیم معماری را با دقت بررس�
 # تنظیم بودجه توکن تفکر
 export MAX_THINKING_TOKENS=16000
 
-# تنظیم سطح تلاش (Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6، Sonnet 4.6): low (○)، medium (◐)، high (●)، xhigh (Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7)، یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است
+# تنظیم سطح تلاش (مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6، Sonnet 4.6): low (○)، medium (◐)، high (●)، xhigh (مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7)، یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است
 export CLAUDE_CODE_EFFORT_LEVEL=high
 ```
 
@@ -669,7 +669,7 @@ export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1
 
 هم‌زمانی نیز تنظیم وظیفه پس‌زمینه نیست — تعداد ایجنت‌هایی که هم‌زمان اجرا می‌شوند توسط `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (پیش‌فرض `20`) کنترل می‌شود.
 
-دستورهای Bash و PowerShell پس‌زمینه فقط در نشست‌های بدون نظارت محدودیت زمانی دارند (v2.1.288): در یک اجرای `-p`، یک نشست Agent SDK، CI یا نشست ابری، دستوری که با `run_in_background` شروع شده پس از `timeout` خود متوقف می‌شود — به‌طور پیش‌فرض ۳۰ دقیقه، حداکثر ۲ ساعت — و Claude هنگام توقف یکی مطلع می‌شود. دستورهای پس‌زمینه در ترمینال، برنامه دسکتاپ یا نشست VS Code محدودیت زمانی ندارند (در v2.1.285–v2.1.287 این محدودیت برای همه نشست‌ها اعمال می‌شد).
+دستورهای Bash و PowerShell پس‌زمینه فقط در نشست‌های بدون نظارت محدودیت زمانی دارند (v2.1.288): در یک اجرای `-p`، یک نشست Agent SDK، CI یا نشست ابری، دستوری که با `run_in_background` شروع شده پس از `timeout` خود متوقف می‌شود — به‌طور پیش‌فرض ۳۰ دقیقه (۱۰ دقیقه در اجرای `-p` که پرامپت آن را به‌صورت متن و نه با `--input-format stream-json` می‌دهید)، حداکثر ۲ ساعت — و Claude هنگام توقف یکی مطلع می‌شود. دستورهای پس‌زمینه در ترمینال، برنامه دسکتاپ یا نشست VS Code محدودیت زمانی ندارند (در v2.1.285–v2.1.287 این محدودیت برای همه نشست‌ها اعمال می‌شد).
 
 ---
 
@@ -744,7 +744,7 @@ done
 
 ## وظایف زمان‌بندی‌شده
 
-وظایف زمان‌بندی‌شده به شما امکان می‌دهند پرامپت‌ها را به‌صورت خودکار روی یک زمان‌بندی تکرارشونده یا به‌عنوان یادآورهای یک‌باره اجرا کنید. وظایف محدود به نشست هستند — تا وقتی Claude Code فعال است اجرا می‌شوند و با پایان نشست پاک می‌شوند. از v2.1.72+ در دسترس است.
+وظایف زمان‌بندی‌شده به شما امکان می‌دهند پرامپت‌ها را به‌صورت خودکار روی یک زمان‌بندی تکرارشونده یا به‌عنوان یادآورهای یک‌باره اجرا کنید. وظایف محدود به نشست هستند — فقط تا وقتی Claude Code در حال اجراست فعال می‌شوند. وقتی با `--resume` یا `--continue` ادامه می‌دهید، Claude Code وظایفی را که منقضی نشده‌اند بازیابی می‌کند، به‌جز وظایف یک‌باره‌ای که زمانشان گذشته و `/loop` خودگام (برای راه‌اندازی دوباره، `/loop` را دوباره اجرا کنید). از v2.1.72+ در دسترس است.
 
 > **«Routines» اکنون «cloud scheduled tasks» است (اکتبر ۲۰۲۶)**: مستندات Anthropic نام Routines — وظایف ابری‌ای که با `/schedule` می‌سازید (نام مستعار `/routines`؛ پایین را ببینید) — را به **cloud scheduled tasks (سابقاً routines)** تغییر داده و وظایف `/loop` و cron این صفحه را **وظایف زمان‌بندی‌شدهٔ محدود به نشست** می‌نامد. نام قدیمی در نشانی `claude.ai/code/routines`، API ‏`/fire` و کلید مدیریتی **Scheduled tasks (Was Routines)** باقی مانده است.
 
@@ -779,18 +779,18 @@ in 45 minutes, run the integration tests
 
 **محدودیت‌ها و رفتار**:
 - حداکثر **۵۰ وظیفهٔ زمان‌بندی‌شده** در هر نشست
-- محدود به نشست — با پایان نشست پاک می‌شوند
-- وظایف تکرارشونده پس از **۳ روز** به‌طور خودکار منقضی می‌شوند
+- محدود به نشست — اگر منقضی نشده باشند، با `--resume`/`--continue` بازیابی می‌شوند
+- وظایف تکرارشونده **۷ روز** پس از ایجاد به‌طور خودکار منقضی می‌شوند (یک بار آخر اجرا می‌شوند و سپس خود را حذف می‌کنند)
 - وظایف فقط زمانی فعال می‌شوند که Claude Code در حال اجرا باشد — جبرانی برای اجراهای ازدست‌رفته وجود ندارد
 
 ### جزئیات رفتار
 
 | جنبه | جزئیات |
 |--------|--------|
-| **لرزش تکرارشونده** | تا ۱۰٪ فاصله (حداکثر ۱۵ دقیقه) |
-| **لرزش یک‌باره** | تا ۹۰ ثانیه روی مرزهای :00/:30 |
+| **لرزش تکرارشونده** | تا نیمی از فاصله تا اجرای بعدی دیرتر اجرا می‌شود، حداکثر ۳۰ دقیقه؛ وظیفهٔ `*/5 * * * *` (همان که `/loop 5m` می‌سازد) به تأخیر نمی‌افتد و ۱۵ ثانیه زودتر شروع می‌شود |
+| **لرزش یک‌باره** | تا ۹۰ ثانیه زودتر، وقتی برای `:00` یا `:30` زمان‌بندی شده باشد |
 | **اجراهای ازدست‌رفته** | بدون جبران — اگر Claude Code در حال اجرا نبوده، نادیده گرفته می‌شود |
-| **ماندگاری** | در راه‌اندازی‌های مجدد حفظ نمی‌شود |
+| **ماندگاری** | با `--resume`/`--continue` بازیابی می‌شود، به‌جز وظایف منقضی‌شده، وظایف یک‌بارهٔ سررسیدگذشته و `/loop` خودگام؛ اجراهای ازدست‌رفته جبران نمی‌شوند |
 
 ### وظایف زمان‌بندی‌شدهٔ ابری
 
@@ -2470,7 +2470,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 # پیکربندی تفکر
 export MAX_THINKING_TOKENS=16000
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low، medium، high، xhigh (روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7) یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است (پشتیبانی‌شده روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6، Sonnet 4.6)
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low، medium، high، xhigh (روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7) یا max — پیش‌فرض روی Opus 5 و Opus 4.8 برابر high است (پشتیبانی‌شده روی مدل‌های Fable، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8، Opus 4.7، Opus 4.6، Sonnet 4.6)
 
 # کلیدهای فعال‌سازی قابلیت‌ها
 export CLAUDE_CODE_DISABLE_AUTO_MEMORY=1    # غیرفعال کردن حافظه خودکار (هیچ فایل حافظه خودکاری ساخته یا بارگذاری نمی‌شود)
@@ -2777,8 +2777,8 @@ claude --teammate-mode in-process
 
 ---
 
-**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.316
+**آخرین به‌روزرسانی**: ۱۲ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.322
 **منابع**:
 - https://code.claude.com/docs/en/permission-modes#turn-off-the-critical-path-removal-prompt-in-bypasspermissions-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.314
@@ -2868,4 +2868,11 @@ claude --teammate-mode in-process
 - https://code.claude.com/docs/en/auto-mode-config#generate-environment-entries-with-auto-mode-setup
 - https://code.claude.com/docs/en/remote-control#requirements
 - https://code.claude.com/docs/en/cli-reference#cli-flags
+- https://code.claude.com/docs/en/scheduled-tasks#seven-day-expiry
+- https://code.claude.com/docs/en/scheduled-tasks#jitter
+- https://code.claude.com/docs/en/scheduled-tasks#limitations
+- https://code.claude.com/docs/en/model-config#subagents-switch-or-fail-without-asking
+- https://code.claude.com/docs/en/changelog#2-1-318
+- https://code.claude.com/docs/en/tools-reference#time-limit-for-background-commands
+- https://code.claude.com/docs/en/changelog#2-1-321
 **مدل‌های سازگار**: Claude Fable 5، Claude Opus 5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 4.5

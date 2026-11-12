@@ -102,7 +102,7 @@ skills: skill1, skill2  # オプション — コンテキストにプリロー�
 mcpServers: server1  # オプション — 利用可能にする MCP サーバー
 memory: user  # オプション — 永続メモリのスコープ（user、project、local）
 background: false  # オプション — バックグラウンドタスクとして実行
-effort: high  # オプション — 推論努力（low、medium、high、max）
+effort: high  # オプション — 推論努力（low、medium、high、xhigh、max）
 isolation: worktree  # オプション — git ワークツリー分離
 initialPrompt: "Start by analyzing the codebase"  # オプション — 自動送信される最初のターン
 hooks:  # オプション — コンポーネントスコープのフック
@@ -133,7 +133,7 @@ hooks:  # オプション — コンポーネントスコープのフック
 | `hooks` | いいえ | このサブエージェントがアクティブな間だけ実行されるフック。すべてのフックイベントに対応。よく使うのは `PreToolUse`、`PostToolUse`、`Stop`（`SubagentStop` として実行） |
 | `memory` | いいえ | 永続メモリディレクトリのスコープ：`user`、`project`、`local` |
 | `background` | いいえ | `true` にすると常にこのサブエージェントをバックグラウンドタスクとして実行 |
-| `effort` | いいえ | 推論努力レベル：`low`、`medium`、`high`、`max` |
+| `effort` | いいえ | 推論努力レベル：`low`、`medium`、`high`、`xhigh`、`max`。メインの会話と異なるモデルで動くサブエージェントはセッションのレベルを使わず、そのモデルに保存された努力レベルまたはそのモデルのデフォルトで実行されます（v2.1.317）。レベルを選ぶにはここで `effort` を設定してください |
 | `isolation` | いいえ | `worktree` にするとサブエージェント専用の git ワークツリーを与える |
 | `initialPrompt` | いいえ | サブエージェントがメインエージェントとして実行されるとき、自動送信される最初のターン |
 
@@ -1273,8 +1273,8 @@ graph TD
 
 ---
 
-**最終更新**：2026 年 11 月 1 日
-**Claude Code バージョン**：2.1.316
+**最終更新**：2026 年 11 月 12 日
+**Claude Code バージョン**：2.1.322
 **ソース**：
 
 - https://code.claude.com/docs/en/sub-agents
@@ -1293,5 +1293,7 @@ graph TD
 - https://code.claude.com/docs/en/sub-agents#turn-fork-mode-on-or-off
 - https://code.claude.com/docs/en/agent-teams#have-teammates-plan-before-implementing
 - https://code.claude.com/docs/en/agent-teams#assign-and-claim-tasks
+- https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
+- https://code.claude.com/docs/en/changelog#2-1-317
 
 **互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

@@ -369,7 +369,7 @@ $ my-tool --help
 | واکنش به رویدادها | پیگیری فراخوانی ابزارها، پرامپت‌ها و نوبت‌ها؛ هوک‌های یک ماد متغیرها را به اشتراک می‌گذارند، بنابراین یکی می‌تواند فراخوانی‌های ابزار را بشمارد و دیگری تعداد را کنار نشانگر انتظار نمایش دهد |
 | فراخوانی API مادها | فراخوانی یک مدل، خواندن و نوشتن فایل‌ها، شروع فرایندها یا ارسال درخواست‌های شبکه (یک هوک این کارها را فقط از طریق API مادها می‌تواند انجام دهد) |
 
-برای ساخت یک ماد، آنچه می‌خواهید را در یک نشست Claude Code توصیف کنید: Claude از مهارت درون‌ساخت `plugin-authoring` کار می‌کند (یا خودتان `/plugin-authoring` را اجرا کنید)، ماد را می‌نویسد و، پس از آنکه بارگذاری مجدد داغ را برای نشست فعال کردید، آن را در پایان هر نوبتی که آن را تغییر دهد دوباره بارگذاری می‌کند؛ `claude plugin validate` یک ماد را بدون اجرای آن بررسی می‌کند. مدیران از طریق تنظیمات مدیریت‌شده تصمیم می‌گیرند که آیا مادها اجرا شوند و کدام‌ها — برای نمونه، `allowManagedModsOnly` اجازه می‌دهد فقط مادهای سازمان شما و مادهای درون‌ساخت Claude Code هوک‌هایشان را اجرا کنند. با تنظیمات مدیریت‌شده، یا یک `/login` در طرح Team یا Enterprise به‌عنوان اعتبارنامهٔ نشست، یک نگهبان درون‌ساخت مانع می‌شود که ماد یک کاربر فراخوانی‌ای را تأیید کند که قاعدهٔ `deny` یا `ask` یا هر هوک `PreToolUse` جلویش را می‌گیرد؛ بدون هیچ‌کدام، یک ماد می‌تواند چنین فراخوانی‌ای را تأیید کند.
+برای ساخت یک ماد، آنچه می‌خواهید را در یک نشست Claude Code توصیف کنید: Claude از مهارت درون‌ساخت `plugin-authoring` کار می‌کند (یا خودتان `/plugin-authoring` را اجرا کنید)، ماد را می‌نویسد و آن را در پایان نوبت بارگذاری می‌کند — در حالت‌های `auto` و `bypassPermissions` بدون پرسیدن (v2.1.321+، حتی زیر `allowUnsandboxedCommands: false` یا `allowManagedDomainsOnly` در تنظیمات مدیریت‌شده)، و در غیر این صورت پس از آنکه بارگذاری مجدد داغ را برای نشست تأیید کردید — و سپس آن را در پایان هر نوبتی که آن را تغییر دهد دوباره بارگذاری می‌کند. جایی که کسی نتواند آن را تأیید کند بارگذاری نمی‌شود: حالت `dontAsk`، یا یک اجرای `claude -p` بیرون از `auto` و `bypassPermissions`؛ `claude plugin validate` یک ماد را بدون اجرای آن بررسی می‌کند. مدیران از طریق تنظیمات مدیریت‌شده تصمیم می‌گیرند که آیا مادها اجرا شوند و کدام‌ها — برای نمونه، `allowManagedModsOnly` اجازه می‌دهد فقط مادهای سازمان شما و مادهای درون‌ساخت Claude Code هوک‌هایشان را اجرا کنند. با تنظیمات مدیریت‌شده، یا یک `/login` در طرح Team یا Enterprise به‌عنوان اعتبارنامهٔ نشست، یک نگهبان درون‌ساخت مانع می‌شود که ماد یک کاربر فراخوانی‌ای را تأیید کند که قاعدهٔ `deny` یا `ask` یا هر هوک `PreToolUse` جلویش را می‌گیرد؛ بدون هیچ‌کدام، یک ماد می‌تواند چنین فراخوانی‌ای را تأیید کند.
 
 > **نکته**: نسخه‌های v2.1.299–2.1.300 ویژگی‌های `Text` شامل `size`، `weight`، `mono`، `tabular`، `dir` (راست‌به‌چپ) را اضافه می‌کنند — `bold` به نفع `weight` منسوخ شده است — گام‌های فاصله‌گذاری `Box` از `xs` تا `xl`، `virtualText` پرامپت، `$.ui.view({ agentId })` و هوک `prompt.change`؛ نسخه v2.1.301 ویژگی `rows` را برای `Input` جهت یک فیلد چندخطی اضافه می‌کند (Enter ارسال می‌کند، Shift+Enter یک خط اضافه می‌کند). v2.1.304 ویژگی `e.isReadOnly` را روی `tool.check` (به‌همراه یک matcher `isReadOnly: true`)، هوک‌های `settings.read` را که هر لایهٔ تنظیمات (`e.layers`) را در خواندن‌های خود Claude Code می‌بینند — تا یک ماد مدیریت‌شده بتواند یک تنظیم سازمان را محدود کند — و آرگومان `key` را برای `$.settings.read()` اضافه می‌کند؛ v2.1.305 یک پنل docked را در ۴۵٪ عرض ترمینال نگه می‌دارد و `Image` را در iTerm2 3.5+ رسم می‌کند (رندر تمام‌صفحه)؛ v2.1.310 `Image` را داخل tmux 3.3+ با `allow-passthrough` و `focus-events` روشن رسم می‌کند.
 
@@ -1358,8 +1358,8 @@ claude plugin update plugin-name
 
 ---
 
-**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.316
+**آخرین به‌روزرسانی**: ۱۲ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.322
 **منابع**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1423,4 +1423,7 @@ claude plugin update plugin-name
 - https://code.claude.com/docs/en/github-actions#run-a-skill
 - https://code.claude.com/docs/en/plugins/cli-reference#advice-on-the-readme
 - https://code.claude.com/docs/en/plugins/create-marketplace#host-your-marketplace
+- https://code.claude.com/docs/en/plugins/mods/create#ask-claude-for-a-mod
+- https://code.claude.com/docs/en/plugins/mods/create#sessions-where-a-mod-claude-writes-cant-load
+- https://code.claude.com/docs/en/changelog#2-1-321
 **مدل‌های سازگار**: Claude Fable 5، Claude Opus 5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 4.5

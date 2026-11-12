@@ -404,7 +404,7 @@ claude --plugin-dir ./07-plugins/pr-review
 | **Danh Sách Tác Vụ** | Quản lý tác vụ nền | `/tasks` (bí danh `/bashes`) |
 | **Tự Động Bộ Nhớ** | Tự động lưu bộ nhớ từ cuộc hội thoại | Claude lưu ghi chú vào `~/.claude/projects/<project>/memory/MEMORY.md`; quản lý bằng `/memory` |
 | **Git Worktrees** | Không gian làm việc cô lập cho phát triển song song | `claude --worktree <name>` (hoặc `-w`) |
-| **Chọn Mô Hình** | Chuyển đổi giữa Fable 5.1, Fable 5, Opus 5, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Opus 4.8 và Haiku 4.5 | `/model` hoặc cờ `--model` (`sonnet` trỏ tới Sonnet 5.5 trên Anthropic API, v2.1.284+) |
+| **Chọn Mô Hình** | Chuyển đổi giữa Fable 5.2, Fable 5.1, Fable 5, Opus 5.5, Opus 5, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 5.5 và Haiku 4.5 | `/model` hoặc cờ `--model` (`sonnet` trỏ tới Sonnet 5.5 trên Anthropic API, v2.1.284+) |
 | **Đội Tác Nhân** | Phối hợp nhiều tác nhân trên tác vụ | Bật với biến môi trường `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` (thử nghiệm) |
 | **Tác Vụ Định Kỳ** | Tác vụ định kỳ với `/loop` | `/loop 5m /command` hoặc công cụ CronCreate |
 | **Tích Hợp Chrome** | Tự động hóa trình duyệt | Cờ `--chrome` hoặc lệnh `/chrome` |
@@ -512,8 +512,8 @@ Checklist bắt đầu:
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 26 tháng 10 năm 2026
-**Phiên Bản Claude Code**: 2.1.310
+**Cập Nhật Lần Cuối**: Ngày 12 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.322
 **Nguồn**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/commands
@@ -527,3 +527,4 @@ Checklist bắt đầu:
 - https://code.claude.com/docs/en/model-config
 - https://code.claude.com/docs/en/headless
 - https://code.claude.com/docs/en/permission-modes#tool-calls-denied-in-claude-p-and-agent-sdk-runs
+- https://code.claude.com/docs/en/model-config#work-with-fable

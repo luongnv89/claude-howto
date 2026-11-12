@@ -1420,6 +1420,9 @@ Claude Code는 적응형 추론 노력(reasoning effort)을 지원하는 다음 
 
 | 모델 | 컨텍스트 창 | 노력 수준 | 기본 노력 수준(Claude Code) |
 |-------|----------------|---------------|------------------------------|
+| Claude Fable 5.2 | 1M 토큰(네이티브) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — v2.1.321부터 기본 Fable 모델(Claude Code v2.1.321+ 필요) |
+| Claude Fable 5.1 | 1M 토큰(네이티브) | `low`, `medium`, `high`, `xhigh`, `max` | `high`(Claude Code v2.1.257+ 필요) |
+| Claude Fable 5 | 1M 토큰(네이티브) | `low`, `medium`, `high`, `xhigh`, `max` | `high` |
 | Claude Opus 5.5 | 1M 토큰(네이티브) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — v2.1.280부터 기본 모델이자 기본 Opus 모델(Claude Code v2.1.280+ 필요) |
 | Claude Sonnet 5.5 | 1M 토큰(네이티브) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — v2.1.284부터 Anthropic API의 기본 Sonnet 모델(Claude Code v2.1.284+ 필요) |
 | Claude Haiku 5.5 | 1M 토큰(네이티브) | `low`, `medium`, `high`, `xhigh`, `max` | `medium` — v2.1.293부터 Anthropic API의 기본 Haiku 모델(Claude Code v2.1.293+ 필요) |
@@ -1430,7 +1433,7 @@ Claude Code는 적응형 추론 노력(reasoning effort)을 지원하는 다음 
 | Claude Sonnet 4.6 | 1M 토큰 | `low`, `medium`, `high`, `max` | Pro/Max 구독자는 `high`(v2.1.117에서 `medium`에서 상향) |
 | Claude Haiku 4.5 | 200K 토큰 | — (노력 수준 미지원) | — |
 
-> **참고**: `xhigh`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7에서 사용할 수 있습니다. `max`는 Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6, Sonnet 4.6에서 동작합니다(세션 한정). Haiku 4.5는 노력 수준을 지원하지 않습니다.
+> **참고**: `xhigh`는 Fable 모델, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7에서 사용할 수 있습니다. `max`는 Fable 모델, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7/4.6, Sonnet 4.6에서 동작합니다(세션 한정). Haiku 4.5는 노력 수준을 지원하지 않습니다.
 
 > **참고**: v2.1.117에서 Opus 4.7 세션이 네이티브 1M 창 대신 200K 기준으로 `/context`를 계산하던 버그가 수정되었습니다. Opus 4.7에서 실제로 1M 컨텍스트를 사용하려면 v2.1.117 이상으로 업그레이드하세요. Opus 5와 Opus 4.8도 네이티브 1M 토큰 창을 제공합니다.
 

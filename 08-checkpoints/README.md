@@ -252,7 +252,7 @@ Checkpoints have the following limitations:
 - **Not a replacement for version control** - Use git for permanent, auditable changes to your codebase
 - **Subagent edits NOT restored** - A subagent's edits to files Claude hadn't already edited in your conversation are untracked, so `/rewind` leaves them as they are (revert them with git); the exception is a foreground `context: fork` skill, whose edits are restored like the main session's
 
-> **v2.1.216 update**: `/rewind` no longer restores or deletes files through symlinks or hard links at tracked paths. If a tracked path resolves through a symlink or hard link, rewind skips it rather than following the link, and it reports how many paths it skipped for this reason.
+> **v2.1.216 update**: `/rewind` no longer restores or deletes files through symlinks or hard links at tracked paths. If a tracked path resolves through a symlink or hard link, rewind skips it rather than following the link (directory symlinks are no longer followed since v2.1.319), and it reports how many paths it skipped for this reason.
 
 ## Troubleshooting
 
@@ -273,6 +273,7 @@ Checkpoints have the following limitations:
 - Ensure no uncommitted changes conflict
 - Check if checkpoint is corrupted
 - Try rewinding to a different checkpoint
+- `No files were restored` when restoring code to a checkpoint from before `/branch`: fixed in v2.1.319, so update Claude Code
 
 ## Integration with Git
 
@@ -341,8 +342,8 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 
 ---
 
-**Last Updated**: November 1, 2026
-**Claude Code Version**: 2.1.316
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/settings
@@ -357,4 +358,6 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 - https://code.claude.com/docs/en/checkpointing#external-changes-not-tracked
 - https://code.claude.com/docs/en/changelog#2-1-311
 - https://code.claude.com/docs/en/checkpointing#rewind-and-summarize
+- https://code.claude.com/docs/en/errors#no-files-were-restored
+- https://code.claude.com/docs/en/changelog#2-1-319
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

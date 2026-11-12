@@ -229,7 +229,7 @@ Extended thinking is a deliberate, step-by-step reasoning process where Claude:
 
 **Automatic activation**:
 - Enabled by default for all models (Opus 5.5, Sonnet 5.5, Haiku 5.5, the Fable models, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Sonnet 4.6, Haiku 4.5)
-- Opus 5 / Opus 4.8: Adaptive reasoning with effort levels: `low` (○), `medium` (◐), `high` (●), `xhigh`, `max`. The default is `medium` on Opus 5.5 (the default model since v2.1.280), Sonnet 5.5, and Haiku 5.5, `high` on Opus 5 (v2.1.219), Sonnet 5, Opus 4.8 (v2.1.154), Opus 4.6, and Sonnet 4.6, and `xhigh` on Opus 4.7. `xhigh` is available on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7 (it falls back to `high` on Opus 4.6 / Sonnet 4.6). `max` works on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, and Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 has no effort levels. Opus 5, Opus 4.8, and Opus 4.7 have a 1M-token native context window (1M context fix landed in v2.1.117 — before that, `/context` miscounted Opus 4.7 against a 200K window and triggered premature autocompact). Since v2.1.129, `/context` shows its visualization in-UI only; the ASCII viz no longer leaks into the conversation context (~1.6k tokens saved per call), so `/context` is safe to invoke freely.
+- Opus 5 / Opus 4.8: Adaptive reasoning with effort levels: `low` (○), `medium` (◐), `high` (●), `xhigh`, `max`. The default is `medium` on Fable 5.2, Opus 5.5 (the default model since v2.1.280), Sonnet 5.5, and Haiku 5.5, `high` on Fable 5.1, Fable 5, Opus 5 (v2.1.219), Sonnet 5, Opus 4.8 (v2.1.154), Opus 4.6, and Sonnet 4.6, and `xhigh` on Opus 4.7. `xhigh` is available on Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7 (it falls back to `high` on Opus 4.6 / Sonnet 4.6). `max` works on Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, and Opus 4.8/4.7/4.6 and Sonnet 4.6 (session-only). Haiku 4.5 has no effort levels. Opus 5, Opus 4.8, and Opus 4.7 have a 1M-token native context window (1M context fix landed in v2.1.117 — before that, `/context` miscounted Opus 4.7 against a 200K window and triggered premature autocompact). Since v2.1.129, `/context` shows its visualization in-UI only; the ASCII viz no longer leaks into the conversation context (~1.6k tokens saved per call), so `/context` is safe to invoke freely.
 - Pro/Max subscribers on Opus 4.6 / Sonnet 4.6: default effort was raised from `medium` to `high` in v2.1.117.
 - Other models: Fixed budget up to 31,999 tokens
 
@@ -243,9 +243,9 @@ Extended thinking is a deliberate, step-by-step reasoning process where Claude:
 export MAX_THINKING_TOKENS=1024
 ```
 
-**Effort level** (supported on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 — not Haiku 4.5):
+**Effort level** (supported on the Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 — not Haiku 4.5):
 ```bash
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low (○), medium (◐), high (●), xhigh (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
 ```
 
 **CLI flag**:
@@ -258,7 +258,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **Note:** The keyword "ultrathink" in prompts activates deep reasoning mode. Since v2.1.311, typed in the interactive terminal it also runs that turn at `xhigh` effort on Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 through Anthropic's API (the word turns rainbow when it can; typed while Claude works, it raises the rest of that turn; VS Code since v2.1.316). On Bedrock or other models, set the effort level instead. `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) turns the keyword off. Effort levels `low`, `medium`, `high`, and `max` are supported on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 (Haiku 4.5 has none). `xhigh` is available on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `medium` on Opus 5.5, Sonnet 5.5, and Haiku 5.5, `high` on Opus 5, Sonnet 5, Opus 4.8 (and Opus 4.6 / Sonnet 4.6) and `xhigh` on Opus 4.7. Unlike Opus 4.8 and Opus 4.7, which pin their default effort on first run, Opus 5 has no such hold — a level you previously set carries over. The `/effort` slider also has an **Ultracode** toggle (Tab, or `/effort ultracode [on|off]`), which is **not** a model effort level — it has Claude orchestrate dynamic workflows at whichever effort level the session runs at. Since v2.1.284 it no longer forces `xhigh` and stays on when you change the level; `--effort ultracode` and the Agent SDK's `effortLevel: "ultracode"` still set `xhigh`.
+> **Note:** The keyword "ultrathink" in prompts activates deep reasoning mode. Since v2.1.311, typed in the interactive terminal it also runs that turn at `xhigh` effort on Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2 (v2.1.321+), and Fable 5.1 through Anthropic's API (the word turns rainbow when it can; typed while Claude works, it raises the rest of that turn; VS Code since v2.1.316). On Bedrock or other models, set the effort level instead. `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) turns the keyword off. Effort levels `low`, `medium`, `high`, and `max` are supported on the Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6 (Haiku 4.5 has none). `xhigh` is available on the Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `medium` on Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5, `high` on Fable 5.1, Fable 5, Opus 5, Sonnet 5, Opus 4.8 (and Opus 4.6 / Sonnet 4.6) and `xhigh` on Opus 4.7. Unlike Opus 4.8 and Opus 4.7, which pin their default effort on first run, Opus 5 has no such hold — a level you previously set carries over. The `/effort` slider also has an **Ultracode** toggle (Tab, or `/effort ultracode [on|off]`), which is **not** a model effort level — it has Claude orchestrate dynamic workflows at whichever effort level the session runs at. Since v2.1.284 it no longer forces `xhigh` and stays on when you change the level; `--effort ultracode` and the Agent SDK's `effortLevel: "ultracode"` still set `xhigh`.
 
 ### Safety-Classifier Fallback on Opus 5
 
@@ -269,7 +269,7 @@ Separate from the [`fallbackModel` setting](#fallback-models-fallbackmodel) (whi
 
 Why this matters here: if you run [security-review subagents](../04-subagents/README.md) or CTF/pentest work on Opus 5, expect silent re-runs on Opus 4.8 (different effort ceiling and context window) for cybersecurity prompts, and outright refusals for biology-adjacent ones. Pin a different model explicitly if that behavior gets in the way.
 
-**Controlling the switch** — the `switchModelsOnFlag` setting (v2.1.170+, default `true`) decides whether the fallback happens silently. Set it to `false` and Claude Code pauses instead, letting you choose between switching models and editing the prompt. It appears in `/config` as **Switch models when a message is flagged**.
+**Controlling the switch** — the `switchModelsOnFlag` setting (v2.1.170+, default `true`) decides whether the fallback happens silently. Set it to `false` and Claude Code pauses instead, letting you choose between switching models and editing the prompt. This pause is for the main conversation only: a subagent never pauses, so with **Ask each time** (`false`) a flagged subagent request fails instead of switching models (v2.1.318; earlier versions re-ran it on the fallback model). It appears in `/config` as **Switch models when a message is flagged**.
 
 ```json
 {
@@ -363,7 +363,7 @@ Extended thinking is controlled via environment variables, keyboard shortcuts, a
 # Set thinking token budget
 export MAX_THINKING_TOKENS=16000
 
-# Set effort level (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6): low (○), medium (◐), high (●), xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
+# Set effort level (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6): low (○), medium (◐), high (●), xhigh (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8
 export CLAUDE_CODE_EFFORT_LEVEL=high
 ```
 
@@ -623,7 +623,7 @@ View results: /tasks
 
 ### Managing Background Tasks
 
-Run `/tasks` (alias `/bashes`) to list running shells and subagents, open one to see its output, or stop it. There are no `/task` subcommands.
+Run `/tasks` (alias `/bashes`) to list running shells and subagents, open one to see its output, or stop it. Since v2.1.319 an **Earlier in this session** row lists finished subagents, which you can reopen and message even after a restart. Since v2.1.321, for a command over 1,000 characters, background command notifications and `TaskStop` results show Claude only the start and end of the command, which saves context. There are no `/task` subcommands.
 
 ```text
 User: /tasks
@@ -669,7 +669,7 @@ export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1
 
 Concurrency is not a background-task setting either — how many agents run at once is governed by `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` (default `20`).
 
-Background Bash and PowerShell commands have a time limit only in unattended sessions (v2.1.288): in a `-p` run, an Agent SDK session, CI, or a cloud session, a command started with `run_in_background` stops after its `timeout` — 30 minutes by default, at most 2 hours — and Claude is notified when one is stopped. Background commands in a terminal, desktop app, or VS Code session have no time limit (in v2.1.285–v2.1.287 the limit applied to every session).
+Background Bash and PowerShell commands have a time limit only in unattended sessions (v2.1.288): in a `-p` run, an Agent SDK session, CI, or a cloud session, a command started with `run_in_background` stops after its `timeout` — 30 minutes by default (10 minutes in a `-p` run whose prompt you pass as text rather than with `--input-format stream-json`), at most 2 hours — and Claude is notified when one is stopped. Background commands in a terminal, desktop app, or VS Code session have no time limit (in v2.1.285–v2.1.287 the limit applied to every session).
 
 ---
 
@@ -678,6 +678,8 @@ Background Bash and PowerShell commands have a time limit only in unattended ses
 > **New in v2.1.98**: The Monitor tool lets Claude watch a background command's stdout and react the moment a matching event appears — replacing polling loops and `sleep` for waiting on long-running processes.
 
 Monitor attaches to any shell command that writes to stdout. Each stdout line from the command becomes a notification that wakes the session. Claude specifies the command; the harness streams output and delivers events as they fire. See the related [Background Tasks](#background-tasks) section for launching the underlying processes.
+
+Monitor can also open a WebSocket and treat each incoming message as an event. Since v2.1.319 a deny rule on every Bash command (`Bash` or `Bash(*)`) refuses these watches, and under such an ask rule you're always asked — a Monitor allow rule, `bypassPermissions` mode or the auto mode classifier can't approve it for you. If a watch behind a proxy fails with `could not resolve <host>`, restart with `CLAUDE_CODE_PROXY_RESOLVES_HOSTS=1`.
 
 > **Deadlines (v2.1.271)**: every Monitor watch now carries a deadline — at most 30 minutes, or 10 minutes in single-prompt `-p` runs. When the deadline passes, Claude is notified so it can re-arm the watch. There is no longer a way to arm a watch that never times out.
 
@@ -744,7 +746,7 @@ Workflows build on the subagent model — see [Subagents](../04-subagents/README
 
 ## Scheduled Tasks
 
-Scheduled Tasks let you run prompts automatically on a recurring schedule or as one-time reminders. Tasks are session-scoped — they run while Claude Code is active and are cleared when the session ends. Available since v2.1.72+.
+Scheduled Tasks let you run prompts automatically on a recurring schedule or as one-time reminders. Tasks are session-scoped — they fire only while Claude Code is running. When you resume with `--resume` or `--continue`, Claude Code restores tasks that haven't expired, except one-shot tasks whose time has passed and a self-paced `/loop` (run `/loop` again to restart it). Available since v2.1.72+.
 
 > **"Routines" are now "cloud scheduled tasks" (October 2026)**: Anthropic's docs renamed Routines, the cloud tasks you create with `/schedule` (alias `/routines`; see below), to **cloud scheduled tasks (formerly routines)**, and call the `/loop` and cron tasks on this page **session-scoped scheduled tasks**. The old name survives in the `claude.ai/code/routines` URL, the `/fire` API and the admin toggle **Scheduled tasks (Was Routines)**.
 
@@ -779,18 +781,18 @@ in 45 minutes, run the integration tests
 
 **Limits and behavior**:
 - Up to **50 scheduled tasks** per session
-- Session-scoped — cleared when the session ends
-- Recurring tasks auto-expire after **3 days**
+- Session-scoped — restored on `--resume`/`--continue` unless expired
+- Recurring tasks auto-expire **7 days** after creation (they fire one final time, then delete themselves)
 - Tasks only fire while Claude Code is running — no catch-up for missed fires
 
 ### Behavior details
 
 | Aspect | Detail |
 |--------|--------|
-| **Recurring jitter** | Up to 10% of the interval (max 15 minutes) |
-| **One-shot jitter** | Up to 90 seconds on :00/:30 boundaries |
+| **Recurring jitter** | Runs late by up to half the gap to the next run, at most 30 minutes; a `*/5 * * * *` task (what `/loop 5m` creates) isn't delayed and starts 15 seconds early |
+| **One-shot jitter** | Up to 90 seconds early when scheduled for `:00` or `:30` |
 | **Missed fires** | No catch-up — skipped if Claude Code was not running |
-| **Persistence** | Not persisted across restarts |
+| **Persistence** | Restored on `--resume`/`--continue`, except expired tasks, past-due one-shot tasks, and a self-paced `/loop`; missed runs aren't caught up |
 
 ### Cloud Scheduled Tasks
 
@@ -969,6 +971,8 @@ cat error.log | claude -p "Analyze these errors"
 - name: AI Code Review
   run: claude -p "Review PR"
 ```
+
+Since v2.1.319, a `-p` run in auto mode whose actions were refused because no safety check was available exits with code 1 (text and JSON output) instead of 0.
 
 ### Additional Print Mode Usage Examples
 
@@ -1163,6 +1167,8 @@ When you return to a session after being away, Claude can show a brief recap of 
 > **OTEL telemetry — `safety_event` (v2.1.307; no longer sent since v2.1.312)**: a `claude_code.safety_event` log event fired for each tool call that a permission rule, auto mode, a safety check, a hook, or the sandbox refused, prompted for, or sent back, with `category`, `decision` (`accept`/`reject`/`sent_back`) and `decision_source` attributes. It carries no command text, file paths, or host names. Per the v2.1.312 changelog, Claude Code no longer sends this event, although the monitoring docs still list it.
 
 > **OTEL telemetry — join attributes (v2.1.310)**: `tool_decision` and `tool_result` events add `request_id`, to join a call to its API response, and subagent events carry `parent_agent_id`.
+
+> **OTEL telemetry — plan and provider attributes (v2.1.317)**: metrics, events and spans now carry `anthropic.plan`, `anthropic.seat_type`, `anthropic.provider` and `anthropic.custom_base_url`.
 
 **Control recap behavior:**
 
@@ -1826,6 +1832,7 @@ claude remote-control --name "Auth Refactor"
 |------|-------------|
 | `--name "title"` | Custom session title for easy identification |
 | `--verbose` | Show detailed connection logs |
+| `--settings <file>` | Apply a settings file to every session the server starts (v2.1.321). If the file changes, no new session starts until you restart `claude remote-control`. Put it after `remote-control`: a `--settings` placed before the verb makes Remote Control refuse to start |
 
 > **Note (v2.1.300)**: `claude remote-control` no longer accepts `--sandbox` or `--no-sandbox` (they never had an effect; passing either now exits with an error). To sandbox Remote Control sessions, set `sandbox.enabled` in a settings file.
 
@@ -1857,6 +1864,7 @@ Three ways to connect from another device:
 - One remote session per interactive Claude Code process — server mode (`claude remote-control`) serves several at once (`--capacity`, default 32)
 - Terminal must stay open on the host machine
 - If the network is unreachable, server mode exits after ~10 minutes; an interactive session keeps retrying and reconnects when the network returns
+- A session stays in the folder it was started in; a connected client can't move it to another folder (v2.1.321)
 
 ### Use cases
 
@@ -2470,7 +2478,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 # Thinking configuration
 export MAX_THINKING_TOKENS=16000
-export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8 (supported on Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6)
+export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5 and Opus 4.8 (supported on Fable models, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7, Opus 4.6, Sonnet 4.6)
 
 # Feature toggles
 export CLAUDE_CODE_DISABLE_AUTO_MEMORY=1    # Disable auto memory (no auto memory files are created or loaded)
@@ -2641,7 +2649,7 @@ Use a read-only database user for `PROJECT_DB_URL`; see the read-only setup in [
 > the settings reference does not yet spell them out.
 
 A recurring theme in recent releases: security-relevant settings can no longer be widened
-by a repository you cloned. Three changes to know about.
+by a repository you cloned. Six changes to know about.
 
 **Nested repositories need their own trust confirmation (v2.1.232).** A git repository
 inside a trusted parent directory no longer inherits that trust. If you trust
@@ -2654,6 +2662,18 @@ binary the sandbox uses is honored only from user settings, managed settings, or
 
 **Remote Control auto-start is user-scope only (v2.1.222).** Repo-local settings cannot
 enable Remote Control auto-start; it can only be turned on at user scope via `/config`.
+
+**`--add-dir` marketplaces need that directory's trust (v2.1.319).** Directories added
+with `--add-dir` register plugin marketplaces only once that directory's own trust
+dialog has been accepted.
+
+**Auto mode's server-side check stays off (v2.1.319).** A project's settings files or a
+plugin can no longer switch auto mode's server-side check back on once you have switched
+it off outside the project.
+
+**`CLAUDE_CODE_PROXY_RESOLVES_HOSTS` is environment-only on managed networks (v2.1.319).**
+Settings files can no longer set `CLAUDE_CODE_PROXY_RESOLVES_HOSTS` where the host
+manages the network — set it in the process environment.
 
 The pattern to internalize: if a setting would let a checked-in file expand what Claude
 Code is allowed to do on your machine, assume it is now user-scope only.
@@ -2777,8 +2797,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: November 1, 2026
-**Claude Code Version**: 2.1.316
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/permission-modes#turn-off-the-critical-path-removal-prompt-in-bypasspermissions-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.314
@@ -2868,4 +2888,18 @@ For more information about Claude Code and related features:
 - https://code.claude.com/docs/en/auto-mode-config#generate-environment-entries-with-auto-mode-setup
 - https://code.claude.com/docs/en/remote-control#requirements
 - https://code.claude.com/docs/en/cli-reference#cli-flags
+- https://code.claude.com/docs/en/scheduled-tasks#seven-day-expiry
+- https://code.claude.com/docs/en/scheduled-tasks#jitter
+- https://code.claude.com/docs/en/scheduled-tasks#limitations
+- https://code.claude.com/docs/en/model-config#subagents-switch-or-fail-without-asking
+- https://code.claude.com/docs/en/changelog#2-1-318
+- https://code.claude.com/docs/en/tools-reference#time-limit-for-background-commands
+- https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-319
+- https://code.claude.com/docs/en/errors#not-carried-over-to-the-sessions-remote-control-starts
+- https://code.claude.com/docs/en/changelog#2-1-317
+- https://code.claude.com/docs/en/permissions#what-runs-before-you-trust-a-folder
+- https://code.claude.com/docs/en/headless
+- https://code.claude.com/docs/en/tools-reference#bash-rules-that-deny-or-prompt-for-websocket-watches
+- https://code.claude.com/docs/en/tools-reference#addresses-and-hosts-denied-to-websocket-watches
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

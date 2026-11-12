@@ -214,7 +214,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 完全パスで 11〜13 時間。ただし 15 分で即座に価値が得られる。スラッシュコマンドのテンプレートをコピーして試すだけでよい。
 
 **Claude Sonnet / Haiku / Opus と一緒に使えるか？**
-使える。すべてのテンプレートは Claude Sonnet 5.5、Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5 で動作する。
+使える。すべてのテンプレートは Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5 で動作する。
 
 **コントリビュートできるか？**
 もちろん。ガイドラインは [CONTRIBUTING.md](CONTRIBUTING.md) を参照。新しい例、バグ修正、ドキュメント改善、コミュニティテンプレートを歓迎する。
@@ -878,8 +878,8 @@ MIT License — [LICENSE](../LICENSE) を参照。利用、変更、再配布は
 
 ---
 
-**最終更新**：2026 年 10 月 26 日
-**Claude Code バージョン**：2.1.310
+**最終更新**：2026 年 11 月 12 日
+**Claude Code バージョン**：2.1.322
 **情報源**：
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/hooks
@@ -896,4 +896,5 @@ MIT License — [LICENSE](../LICENSE) を参照。利用、変更、再配布は
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
+- https://code.claude.com/docs/en/model-config#work-with-fable
 **互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

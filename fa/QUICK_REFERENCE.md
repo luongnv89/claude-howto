@@ -408,7 +408,7 @@ claude --plugin-dir ./07-plugins/pr-review
 | **حافظه خودکار** | ذخیره خودکار حافظه از گفت‌وگوها | Claude یادداشت‌ها را در `~/.claude/projects/<project>/memory/MEMORY.md` ذخیره می‌کند؛ با `/memory` مدیریت کنید |
 | **AGENTS.md** *(v2.1.277)* | فایل زمینه پروژه بین‌ابزاری، که وقتی `CLAUDE.md` در دایرکتوری کاری یا بالاتر از آن وجود ندارد به‌عنوان دستورالعمل پروژه خوانده می‌شود | تغییر حالت با **Project instructions** در `/config`. [AGENTS.md](02-memory/README.md#agentsmd) را ببینید |
 | **worktreeهای گیت** | فضاهای کاری مجزا برای توسعه موازی | `claude --worktree <name>` (یا `-w`) |
-| **انتخاب مدل** | جابه‌جایی بین Fable 5.1، Fable 5، Opus 5.5، Opus 5، Sonnet 5.5، Sonnet 5، Sonnet 4.6، Opus 4.8، Haiku 5.5 و Haiku 4.5 | `/model` (`sonnet` روی API آنتروپیک به Sonnet 5.5 تبدیل می‌شود، v2.1.284+) — از v2.1.153 انتخاب به‌عنوان پیش‌فرض نشست‌های جدید ذخیره می‌شود؛ برای فقط-این-نشست `s` را بزنید |
+| **انتخاب مدل** | جابه‌جایی بین Fable 5.2، Fable 5.1، Fable 5، Opus 5.5، Opus 5، Sonnet 5.5، Sonnet 5، Sonnet 4.6، Opus 4.8، Haiku 5.5 و Haiku 4.5 | `/model` (`sonnet` روی API آنتروپیک به Sonnet 5.5 تبدیل می‌شود، v2.1.284+) — از v2.1.153 انتخاب به‌عنوان پیش‌فرض نشست‌های جدید ذخیره می‌شود؛ برای فقط-این-نشست `s` را بزنید |
 | **تیم‌های ایجنت** | هماهنگی چند ایجنت روی وظایف | فعال‌سازی با متغیر محیطی `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` (آزمایشی) |
 | **گردش کارهای پویا** *(v2.1.154)* | هماهنگ‌سازی چندایجنت قطعی؛ از v2.1.219 راهنمای اندازه پیش‌فرض متوسط است (هدف: کمتر از ۱۰ ایجنت) | `/workflows` برای مشاهده اجراها؛ از Claude بخواهید یکی بسازد؛ اندازه را با **Dynamic workflow size** در `/config` تغییر دهید |
 | **وظایف زمان‌بندی‌شده (محدود به نشست)** | وظایف تکرارشونده با `/loop` درون یک نشست | `/loop 5m /command` یا ابزار CronCreate |
@@ -526,8 +526,8 @@ echo $GITHUB_PERSONAL_ACCESS_TOKEN
 
 ---
 
-**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.316
+**آخرین به‌روزرسانی**: ۱۲ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.322
 **منابع**:
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
 - https://code.claude.com/docs/en/memory#agents-md
@@ -553,4 +553,5 @@ echo $GITHUB_PERSONAL_ACCESS_TOKEN
 - https://code.claude.com/docs/en/permission-modes#tool-calls-denied-in-claude-p-and-agent-sdk-runs
 - https://code.claude.com/docs/en/tools-reference#session-search-limit
 - https://code.claude.com/docs/en/routines
+- https://code.claude.com/docs/en/model-config#work-with-fable
 **مدل‌های سازگار**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

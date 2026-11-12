@@ -214,7 +214,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 전체 경로를 완료하는 데 약 11~13시간이 소요됩니다. 하지만 슬래시 명령어 템플릿 하나를 복사해 실행하는 것만으로도 15분 안에 즉각적인 효과를 얻을 수 있습니다.
 
 **Claude Sonnet / Haiku / Opus에서도 사용할 수 있나요?**
-네. 모든 템플릿은 Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5에서 사용할 수 있습니다.
+네. 모든 템플릿은 Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5에서 사용할 수 있습니다.
 
 **기여할 수 있나요?**
 물론입니다. 자세한 내용은 [CONTRIBUTING.md](CONTRIBUTING.md)를 참고하세요. 새로운 예제, 버그 수정, 문서 개선, 커뮤니티 템플릿 기여를 환영합니다.
@@ -886,8 +886,8 @@ MIT License - 자세한 내용은 [LICENSE](../LICENSE)를 참고하세요. 자�
 
 ---
 
-**최종 업데이트**: 2026년 10월 26일
-**Claude Code 버전**: 2.1.310
+**최종 업데이트**: 2026년 11월 12일
+**Claude Code 버전**: 2.1.322
 **출처**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/hooks
@@ -910,4 +910,5 @@ MIT License - 자세한 내용은 [LICENSE](../LICENSE)를 참고하세요. 자�
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
+- https://code.claude.com/docs/en/model-config#work-with-fable
 **호환 모델**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
