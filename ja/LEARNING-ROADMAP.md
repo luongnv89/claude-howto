@@ -369,7 +369,7 @@ cp 04-subagents/*.md .claude/agents/
 #### 達成事項
 ✅ 複雑な機能向けのプランニングモード
 ✅ 6 モード（default、acceptEdits、plan、auto、dontAsk、bypassPermissions）の詳細な権限制御
-✅ Alt+T / Option+T による拡張思考の切り替え
+✅ 拡張思考の制御：常に拡張思考を使うモデルでは `/effort`、思考をオフにできるモデルでは Alt+T / Option+T
 ✅ バックグラウンドタスク管理
 ✅ 学習済み設定のための Auto Memory
 ✅ バックグラウンド安全性分類器付きの Auto Mode
@@ -389,15 +389,16 @@ claude --permission-mode plan "analyze this codebase"
 claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
 
-# 演習 3: 拡張思考を有効化
-# セッション中に Alt+T (macOS は Option+T) を押して切り替え
+# 演習 3: 拡張思考を制御
+# /effort を実行してレベルを選ぶ。Opus 5.5、Sonnet 5.5、Haiku 5.5 と Fable モデルは常に拡張思考を使う
+# Alt+T (macOS は Option+T) は claude-opus-5 など、思考をオフにできるモデルでのみ切り替わる
 
 # 演習 4: 高度なチェックポイントワークフロー
-# 1. "Clean state" チェックポイントを作成
+# 1. クリーンな状態から始める（チェックポイントはプロンプトごとに自動作成され、名前は付けられない）
 # 2. プランニングモードで機能を設計
 # 3. サブエージェントへの委譲で実装
 # 4. バックグラウンドでテスト実行
-# 5. テスト失敗ならチェックポイントへ巻き戻し
+# 5. テスト失敗なら /rewind で手順 2 の前のチェックポイントへ巻き戻し
 # 6. 別アプローチを試す
 
 # 演習 5: auto モード (バックグラウンド安全性分類器) を試す
@@ -421,7 +422,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 #### 達成基準
 - [ ] 複雑な機能でプランニングモードを使った
 - [ ] 権限モードを設定した（plan、acceptEdits、auto、dontAsk）
-- [ ] Alt+T / Option+T で拡張思考を切り替えた
+- [ ] `/effort` で思考レベルを設定した（思考をオフにできるモデルでは Alt+T / Option+T で切り替えた）
 - [ ] バックグラウンド安全性分類器付き auto モードを使った
 - [ ] 長時間処理でバックグラウンドタスクを使った
 - [ ] 外部イベントをセッションにプッシュするチャンネルを試した
@@ -758,7 +759,7 @@ done
 - https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
-**互換モデル**：Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5
+**互換モデル**：Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5
 **メンテナンス**：Claude How-To Contributors
 **ライセンス**：教育目的、自由に使用・改変可能
 

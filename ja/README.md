@@ -16,7 +16,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/luongnv89/claude-howto?style=flat&color=gold)](https://github.com/luongnv89/claude-howto/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/luongnv89/claude-howto?style=flat)](https://github.com/luongnv89/claude-howto/network/members)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../LICENSE)
-[![Version](https://img.shields.io/badge/version-2.1.119-brightgreen)](../CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.1.316-brightgreen)](../CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-2.1+-purple)](https://code.claude.com)
 
 🌐 **Language / Ngôn ngữ / 语言 / Мова / 言語 / 언어:** [English](../README.md) | [Tiếng Việt](../vi/README.md) | [中文](../zh/README.md) | [Українська](../uk/README.md) | [日本語](README.md) | [한국어](../ko/README.md) | [فارسی](../fa/README.md)
@@ -106,7 +106,7 @@ Claude Code の力の 90% を眠らせたままで、しかも自分が何を知
 
 - **GitHub スター**：日常的に Claude Code を使う開発者から
 - **フォーク**：自チームのワークフローに合わせて応用するチームから
-- **積極的にメンテナンス**：Claude Code のリリースに同期（最新は v2.1.119、2026 年 4 月）
+- **積極的にメンテナンス**：Claude Code のリリースに同期（最新は v2.1.316、2026 年 10 月）
 - **コミュニティ駆動**：実際の運用設定を共有する開発者からのコントリビュート
 
 [![Star History Chart](https://api.star-history.com/svg?repos=luongnv89/claude-howto&type=Date)](https://star-history.com/#luongnv89/claude-howto&Date)
@@ -205,7 +205,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 そう。MIT ライセンスで永遠に無料。個人プロジェクト、業務、チームで自由に使える。ライセンス表記の同梱以外に制約はない。
 
 **メンテナンスされているか？**
-積極的に。本ガイドは Claude Code のリリースごとに同期される。現行バージョンは v2.1.119（2026 年 4 月）で、Claude Code 2.1+ と互換。
+積極的に。本ガイドは Claude Code のリリースごとに同期される。現行バージョンは v2.1.316（2026 年 10 月）で、Claude Code 2.1+ と互換。
 
 **公式ドキュメントとの違いは？**
 公式ドキュメントは機能リファレンスである。本ガイドは図、本番品質テンプレート、段階的な学習パスを備えたチュートリアルである。両者は補完関係にある。学ぶときはここから始め、具体的な仕様が必要なときに公式を参照するとよい。
@@ -897,4 +897,4 @@ MIT License — [LICENSE](../LICENSE) を参照。利用、変更、再配布は
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
 - https://code.claude.com/docs/en/model-config#work-with-fable
-**互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5
+**互換モデル**：Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

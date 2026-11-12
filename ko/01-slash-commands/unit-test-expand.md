@@ -31,4 +31,4 @@ description: 테스트되지 않은 분기 및 엣지 케이스를 대상으로 
 **Claude Code 버전**: 2.1.220
 **출처**:
 - https://code.claude.com/docs/en/commands
-**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
