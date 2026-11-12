@@ -15,15 +15,43 @@ COMMIT_MSG=$(git log -1 --pretty=%B 2>/dev/null)
 AUTHOR=$(git log -1 --pretty=%an 2>/dev/null)
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
+# Keep at most $2 bytes of $1, without splitting a UTF-8 character.
+# The cut counts bytes (LC_ALL=C) so it works in any locale, then drops the
+# lead and continuation bytes of a character it cut through, so the result
+# is still valid UTF-8 and the payload is still valid JSON.
+truncate_utf8() {
+  local LC_ALL=C s=$1
+  if (( ${#s} > $2 )); then
+    s=${s:0:$2}
+    case $s in
+      *[$'\xc0'-$'\xff']) s=${s%?} ;;
+      *[$'\xe0'-$'\xff'][$'\x80'-$'\xbf']) s=${s%??} ;;
+      *[$'\xf0'-$'\xff'][$'\x80'-$'\xbf'][$'\x80'-$'\xbf']) s=${s%???} ;;
+    esac
+  fi
+  printf '%s' "$s"
+}
+
+# Slack suggests keeping a message under 4,000 characters and cuts it off past
+# 40,000, so a notification only needs the start of the commit message. The caps
+# also bound the time json_string takes, which grows faster than the input when
+# a hostile commit fills it with quotes or control characters.
+COMMIT_MSG=$(truncate_utf8 "$COMMIT_MSG" 4000)
+AUTHOR=$(truncate_utf8 "$AUTHOR" 256)
+BRANCH=$(truncate_utf8 "$BRANCH" 256)
+
 # Print a value as a JSON string literal, surrounding quotes included.
 # The commit message, author and branch come from git, so anyone who can push
 # a commit controls them. Pasting them into the JSON unescaped would let a
 # message like `x", "text": "...` rewrite the payload, and a newline or tab
 # would make it invalid. This escapes \ and " plus every control character
 # U+0001-U+001F (a bash variable can't hold U+0000), as RFC 8259 requires.
-# Pure bash, so the hook doesn't need jq or python3.
+# Pure bash, so the hook doesn't need jq or python3. LC_ALL=C makes the
+# replacements compare bytes instead of decoding UTF-8 characters, which is
+# hundreds of times faster on non-ASCII text. That is safe because \, " and the
+# control bytes never occur inside a multibyte UTF-8 character.
 json_string() {
-  local s=$1 i hex ch
+  local LC_ALL=C s=$1 i hex ch
   s=${s//\\/\\\\}
   s=${s//\"/\\\"}
   s=${s//$'\n'/\\n}

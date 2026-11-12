@@ -15,15 +15,41 @@ COMMIT_MSG=$(git log -1 --pretty=%B 2>/dev/null)
 AUTHOR=$(git log -1 --pretty=%an 2>/dev/null)
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
+# $1 の先頭から最大 $2 バイトを取り出す。UTF-8 の文字の途中では切らない。
+# どのロケールでも同じ結果になるよう、バイト単位（LC_ALL=C）で切り、
+# 途中で切れた文字の先頭バイトと継続バイトを捨てる。結果は正しい UTF-8 のままなので、
+# ペイロードも正しい JSON のまま。
+truncate_utf8() {
+  local LC_ALL=C s=$1
+  if (( ${#s} > $2 )); then
+    s=${s:0:$2}
+    case $s in
+      *[$'\xc0'-$'\xff']) s=${s%?} ;;
+      *[$'\xe0'-$'\xff'][$'\x80'-$'\xbf']) s=${s%??} ;;
+      *[$'\xf0'-$'\xff'][$'\x80'-$'\xbf'][$'\x80'-$'\xbf']) s=${s%???} ;;
+    esac
+  fi
+  printf '%s' "$s"
+}
+
+# Slack はメッセージを 4,000 文字以内にするよう勧めており、40,000 文字を超えると切り捨てる。
+# 通知にはコミットメッセージの冒頭があれば十分。悪意あるコミットが引用符や制御文字で
+# 埋め尽くすと json_string の処理時間は入力長以上の勢いで伸びるが、上限を設ければ抑えられる。
+COMMIT_MSG=$(truncate_utf8 "$COMMIT_MSG" 4000)
+AUTHOR=$(truncate_utf8 "$AUTHOR" 256)
+BRANCH=$(truncate_utf8 "$BRANCH" 256)
+
 # 値を JSON 文字列リテラル（前後の引用符を含む）として出力する。
 # コミットメッセージ・作者・ブランチは git から取るため、コミットを push できる人なら
 # 誰でも中身を決められる。エスケープせずに JSON へ埋め込むと、`x", "text": "...` の
 # ようなメッセージでペイロードを書き換えられ、改行やタブでも JSON が壊れる。
 # ここでは \ と " に加え、RFC 8259 の要求どおり制御文字 U+0001-U+001F をすべて
 # エスケープする（bash の変数は U+0000 を保持できない）。
-# 純粋な bash なので、jq も python3 も不要。
+# 純粋な bash なので、jq も python3 も不要。LC_ALL=C で置換を UTF-8 の文字単位ではなく
+# バイト単位にすると、非 ASCII のテキストで数百倍速くなる。\ と " と制御文字のバイトは
+# UTF-8 の多バイト文字の中には現れないので、バイト単位でも安全。
 json_string() {
-  local s=$1 i hex ch
+  local LC_ALL=C s=$1 i hex ch
   s=${s//\\/\\\\}
   s=${s//\"/\\\"}
   s=${s//$'\n'/\\n}
