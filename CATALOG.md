@@ -279,8 +279,8 @@ Bundled collections of commands, agents, MCP servers, and hooks.
 | Plugin | Description | Components | When to Use | Scope | Installation |
 |--------|-------------|------------|-------------|-------|--------------|
 | `pr-review` | PR review workflow | 3 commands, 3 agents, GitHub MCP | Code reviews | Project | `claude --plugin-dir ./07-plugins/pr-review` |
-| `devops-automation` | Deployment & monitoring | 4 commands, 3 agents, K8s MCP | DevOps tasks | Project | `/plugin install devops-automation` |
-| `documentation` | Doc generation suite | 4 commands, 3 agents, templates | Documentation | Project | `/plugin install documentation` |
+| `devops-automation` | Deployment & monitoring | 4 commands, 3 agents, 2 hooks | DevOps tasks | Project | `claude --plugin-dir ./07-plugins/devops-automation` |
+| `documentation` | Doc generation suite | 4 commands, 3 agents, templates | Documentation | Project | `claude --plugin-dir ./07-plugins/documentation` |
 
 > **Scope**: `Project` = team-shared, `User` = personal workflows
 

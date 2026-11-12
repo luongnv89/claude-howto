@@ -847,7 +847,7 @@ graph TD
 
 ### Example Plugin README
 
-See the three complete plugins in **[07-plugins/](07-plugins/)** — `pr-review/`, `documentation/`, and `devops-automation/` each ship a full `README.md`, manifest, commands, agents, and MCP config you can copy wholesale.
+See the three complete plugins in **[07-plugins/](07-plugins/)** — `pr-review/`, `documentation/`, and `devops-automation/` each ship a full `README.md`, manifest, commands, and agents, plus MCP config, hooks, or both, that you can copy wholesale.
 
 ### Plugin vs Manual Configuration
 

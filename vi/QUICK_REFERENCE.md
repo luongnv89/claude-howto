@@ -67,10 +67,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### Plugins
 ```bash
-# Cài đặt từ ví dụ (nếu đã xuất bản)
+# Cài đặt từ ví dụ (từ thư mục gốc của repo)
 claude --plugin-dir ./07-plugins/pr-review
-/plugin install devops-automation
-/plugin install documentation
+claude --plugin-dir ./07-plugins/devops-automation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### Checkpoints
@@ -167,13 +167,13 @@ cp 04-subagents/documentation-writer.md .claude/agents/
 cp -r 03-skills/doc-generator ~/.claude/skills/
 
 # Plugin (giải pháp hoàn chỉnh)
-/plugin install documentation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### DevOps
 ```bash
 # Plugin hoàn chỉnh
-/plugin install devops-automation
+claude --plugin-dir ./07-plugins/devops-automation
 
 # Lệnh: /devops-automation:deploy, /devops-automation:rollback, /devops-automation:status, /devops-automation:incident
 ```

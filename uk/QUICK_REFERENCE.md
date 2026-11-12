@@ -78,10 +78,10 @@ chmod +x ~/.claude/hooks/*.sh
 ### Плагіни
 
 ```bash
-# Встановити з прикладів (якщо опубліковані)
+# Встановити з прикладів (з кореня репозиторію)
 claude --plugin-dir ./07-plugins/pr-review
-/plugin install devops-automation
-/plugin install documentation
+claude --plugin-dir ./07-plugins/devops-automation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### Контрольні точки
@@ -182,14 +182,14 @@ cp 04-subagents/documentation-writer.md .claude/agents/
 cp -r 03-skills/doc-generator ~/.claude/skills/
 
 # Плагін (комплексне рішення)
-/plugin install documentation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### DevOps
 
 ```bash
 # Повний плагін
-/plugin install devops-automation
+claude --plugin-dir ./07-plugins/devops-automation
 
 # Команди: /devops-automation:deploy, /devops-automation:rollback, /devops-automation:status, /devops-automation:incident
 ```

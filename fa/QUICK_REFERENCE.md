@@ -67,10 +67,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### پلاگین‌ها
 ```bash
-# نصب از مثال‌ها (در صورت انتشار)
+# نصب از مثال‌ها (از ریشه مخزن)
 claude --plugin-dir ./07-plugins/pr-review
-/plugin install devops-automation
-/plugin install documentation
+claude --plugin-dir ./07-plugins/devops-automation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### چک‌پوینت‌ها
@@ -169,13 +169,13 @@ cp 04-subagents/documentation-writer.md .claude/agents/
 cp -r 03-skills/doc-generator ~/.claude/skills/
 
 # پلاگین (راه‌حل کامل)
-/plugin install documentation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### DevOps
 ```bash
 # پلاگین کامل
-/plugin install devops-automation
+claude --plugin-dir ./07-plugins/devops-automation
 
 # دستورات: /devops-automation:deploy، /devops-automation:rollback، /devops-automation:status، /devops-automation:incident
 ```

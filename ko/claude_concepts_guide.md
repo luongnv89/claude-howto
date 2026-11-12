@@ -851,7 +851,7 @@ graph TD
 
 ### 플러그인 README 예시
 
-**[07-plugins/](07-plugins/)** 의 완전한 플러그인 3종을 참고하세요. `pr-review/`, `documentation/`, `devops-automation/` 각각에 그대로 복사해 쓸 수 있는 전체 `README.md`, 매니페스트, 명령어, 에이전트, MCP 구성이 들어 있습니다.
+**[07-plugins/](07-plugins/)** 의 완전한 플러그인 3종을 참고하세요. `pr-review/`, `documentation/`, `devops-automation/` 각각에 그대로 복사해 쓸 수 있는 전체 `README.md`, 매니페스트, 명령어, 에이전트와 함께 MCP 구성, 훅 또는 둘 다가 들어 있습니다.
 
 ### 플러그인과 수동 구성 비교
 

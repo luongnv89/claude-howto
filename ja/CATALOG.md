@@ -257,8 +257,8 @@ cp -r 03-skills/* ~/.claude/skills/
 | プラグイン | 説明 | 構成要素 | 利用シーン | スコープ | インストール |
 |--------|-------------|------------|-------------|-------|--------------|
 | `pr-review` | PR レビューワークフロー | コマンド 3、エージェント 3、GitHub MCP | コードレビュー | プロジェクト | `claude --plugin-dir ./07-plugins/pr-review` |
-| `devops-automation` | デプロイと監視 | コマンド 4、エージェント 3、K8s MCP | DevOps タスク | プロジェクト | `/plugin install devops-automation` |
-| `documentation` | ドキュメント生成スイート | コマンド 4、エージェント 3、テンプレート | ドキュメント | プロジェクト | `/plugin install documentation` |
+| `devops-automation` | デプロイと監視 | コマンド 4、エージェント 3、フック 2 | DevOps タスク | プロジェクト | `claude --plugin-dir ./07-plugins/devops-automation` |
+| `documentation` | ドキュメント生成スイート | コマンド 4、エージェント 3、テンプレート | ドキュメント | プロジェクト | `claude --plugin-dir ./07-plugins/documentation` |
 
 > **スコープ**：`プロジェクト` = チーム共有、`ユーザー` = 個人ワークフロー
 

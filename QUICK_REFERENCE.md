@@ -67,10 +67,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### Plugins
 ```bash
-# Install from examples (if published)
+# Install from examples (from the repo root)
 claude --plugin-dir ./07-plugins/pr-review
-/plugin install devops-automation
-/plugin install documentation
+claude --plugin-dir ./07-plugins/devops-automation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### Checkpoints
@@ -169,13 +169,13 @@ cp 04-subagents/documentation-writer.md .claude/agents/
 cp -r 03-skills/doc-generator ~/.claude/skills/
 
 # Plugin (complete solution)
-/plugin install documentation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### DevOps
 ```bash
 # Complete plugin
-/plugin install devops-automation
+claude --plugin-dir ./07-plugins/devops-automation
 
 # Commands: /devops-automation:deploy, /devops-automation:rollback, /devops-automation:status, /devops-automation:incident
 ```

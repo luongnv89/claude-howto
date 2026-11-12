@@ -250,8 +250,8 @@ cp -r 03-skills/* ~/.claude/skills/
 | Plugin | 说明 | 组件 | 适用场景 | 作用域 | 安装 |
 |--------|-------------|------------|-------------|-------|--------------|
 | `pr-review` | PR 审查工作流 | 3 个 commands、3 个 agents、GitHub MCP | 代码审查 | 项目 | `claude --plugin-dir ./07-plugins/pr-review` |
-| `devops-automation` | 部署与监控 | 4 个 commands、3 个 agents、K8s MCP | DevOps 任务 | 项目 | `/plugin install devops-automation` |
-| `documentation` | 文档生成套件 | 4 个 commands、3 个 agents、模板 | 文档编写 | 项目 | `/plugin install documentation` |
+| `devops-automation` | 部署与监控 | 4 个 commands、3 个 agents、2 个 hooks | DevOps 任务 | 项目 | `claude --plugin-dir ./07-plugins/devops-automation` |
+| `documentation` | 文档生成套件 | 4 个 commands、3 个 agents、模板 | 文档编写 | 项目 | `claude --plugin-dir ./07-plugins/documentation` |
 
 > **作用域**: `Project` = 团队共享，`User` = 个人工作流
 
@@ -521,7 +521,7 @@ claude mcp add github -- npx -y @modelcontextprotocol/server-github
 
 # 使用 Plugins
 claude --plugin-dir ./07-plugins/pr-review
-/plugin install devops-automation
+claude --plugin-dir ./07-plugins/devops-automation
 ```
 
 ---
