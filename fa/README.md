@@ -12,7 +12,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/luongnv89/claude-howto?style=flat&color=gold)](https://github.com/luongnv89/claude-howto/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/luongnv89/claude-howto?style=flat)](https://github.com/luongnv89/claude-howto/network/members)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../LICENSE)
-[![Version](https://img.shields.io/badge/version-2.1.310-brightgreen)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.1.316-brightgreen)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-2.1+-purple)](https://code.claude.com)
 
 🌐 **زبان / Language / 语言 / Мова / 언어:** [English](../README.md) | [Tiếng Việt](../vi/README.md) | [中文](../zh/README.md) | [Українська](../uk/README.md) | [日本語](../ja/README.md) | [한국어](../ko/README.md) | [فارسی](README.md)
@@ -102,7 +102,7 @@
 
 - **ستاره‌های GitHub** از توسعه‌دهندگانی که روزانه از Claude Code استفاده می‌کنند
 - **فورک‌ها** از تیم‌هایی که این راهنما را برای خط لوله کاری خود تطبیق می‌دهند
-- **فعالاً نگهداری می‌شود** — با هر نسخه Claude Code هماهنگ است (آخرین: v2.1.310، اکتبر ۲۰۲۶)
+- **فعالاً نگهداری می‌شود** — با هر نسخه Claude Code هماهنگ است (آخرین: v2.1.316، اکتبر ۲۰۲۶)
 - **محور جامعه** — مشارکت‌هایی از توسعه‌دهندگانی که کانفیگ‌های واقعی خود را به اشتراک می‌گذارند
 
 [![نمودار تاریخچه ستاره](https://api.star-history.com/svg?repos=luongnv89/claude-howto&type=Date)](https://star-history.com/#luongnv89/claude-howto&Date)
@@ -201,7 +201,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 بله. با لایسنس MIT، برای همیشه رایگان است. در پروژه‌های شخصی، در محل کار، در تیم خود استفاده کنید — بدون محدودیت به جز گذاردن اعلان لایسنس.
 
 **آیا این نگهداری می‌شود؟**
-فعالاً. راهنما با هر نسخه Claude Code هماهنگ است. نسخه فعلی: v2.1.310 (اکتبر ۲۰۲۶)، سازگار با Claude Code 2.1+.
+فعالاً. راهنما با هر نسخه Claude Code هماهنگ است. نسخه فعلی: v2.1.316 (اکتبر ۲۰۲۶)، سازگار با Claude Code 2.1+.
 
 **این چگونه از مستندات رسمی متفاوت است؟**
 مستندات رسمی یک مرجع ویژگی هستند. این راهنما یک آموزش با نمودارها، قالب‌های آماده تولید و مسیر یادگیری پیش‌رونده است. این دو مکمل یکدیگرند — برای یادگیری از اینجا شروع کنید، وقتی به جزئیات نیاز دارید به مستندات مراجعه کنید.
