@@ -250,7 +250,7 @@ These steps capture the core recommendations for smooth workflows with Claude Co
 | **Monitor Tool** | Watch a background command's stdout stream and react to events instead of polling (v2.1.98+) | [Advanced Features](09-advanced-features/) |
 | **/goal mode** | Register a session-level completion condition; Claude keeps working until met (v2.1.139+) | [Slash Commands](01-slash-commands/) |
 | **claude agents (Agent View)** | List, inspect, and resume background agents from the terminal; `--json` for machine-readable output (v2.1.139+, `--json` added v2.1.145) | [code.claude.com/docs/en/agent-view](https://code.claude.com/docs/en/agent-view) |
-| **/run, /verify, /run-skill-generator** | Bundled skills to launch your project, confirm a fix works, and generate per-project run/verify skills (v2.1.145+) | [Skills Guide](03-skills/) |
+| **/run, /verify, /run-skill-generator** | Bundled skills to launch your project, confirm a fix works, and generate per-project run/verify skills | [Skills Guide](03-skills/) |
 
 ---
 **Last Updated**: October 26, 2026
