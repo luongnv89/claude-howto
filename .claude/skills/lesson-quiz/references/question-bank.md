@@ -715,7 +715,7 @@
 - **Question**: Does the "ultrathink" keyword trigger deep reasoning?
 - **Options**: A) Yes, it triggers deep reasoning for one response without changing session settings | B) No, it's treated as regular prompt text | C) Yes, but only on Opus 4.6 | D) Yes, and it permanently changes the effort level
 - **Correct**: A
-- **Explanation**: Including "ultrathink" in your prompt adds an in-context instruction for the model to reason more on that turn, without changing your session effort setting. Since v2.1.311, typed in the interactive terminal on Opus 5.5, Sonnet 5.5, Haiku 5.5, or Fable 5.1 through Anthropic's API, it also runs that turn at `xhigh` effort, and the word shows in rainbow colors when it can (the VS Code extension does the same since v2.1.316). Typed while Claude is working, it raises the rest of that turn. `CLAUDE_CODE_DISABLE_ULTRATHINK` turns the keyword off (v2.1.316). Use `/effort max` for session-level deep reasoning.
+- **Explanation**: Including "ultrathink" in your prompt adds an in-context instruction for the model to reason more on that turn, without changing your session effort setting. Since v2.1.311, typed in the interactive terminal on Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2 (v2.1.321+), or Fable 5.1 through Anthropic's API, it also runs that turn at `xhigh` effort, and the word shows in rainbow colors when it can (the VS Code extension does the same since v2.1.316). Typed while Claude is working, it raises the rest of that turn. `CLAUDE_CODE_DISABLE_ULTRATHINK` turns the keyword off (v2.1.316). Use `/effort max` for session-level deep reasoning.
 - **Review**: Extended Thinking section
 
 ### Q6
@@ -844,8 +844,8 @@
 
 ---
 
-**Last Updated**: November 1, 2026
-**Claude Code Version**: 2.1.316
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/skills
