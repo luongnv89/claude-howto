@@ -136,7 +136,7 @@ Skills có cấu trúc nested directories với subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `06-hooks/README.md` | ✅ Done | Claude | 2026-04-03 | Hooks overview |
+| `06-hooks/README.md` | ✅ Done | Claude | 2026-11-03 | Hooks overview |
 | `06-hooks/format-code.sh` | ✅ Done | Claude | 2026-04-03 | Auto-format hook |
 | `06-hooks/log-bash.sh` | ✅ Done | Claude | 2026-04-03 | Bash logging hook |
 | `06-hooks/notify-team.sh` | ✅ Done | Claude | 2026-04-03 | Team notifications |
