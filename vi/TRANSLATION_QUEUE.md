@@ -158,7 +158,7 @@ Plugins có cấu trúc nested với các subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `07-plugins/README.md` | ✅ Done | Claude | 2026-04-03 | Plugins overview |
+| `07-plugins/README.md` | ✅ Done | Claude | 2026-11-03 | Plugins overview |
 
 ### 07-plugins/devops-automation/
 
@@ -215,7 +215,7 @@ Plugins có cấu trúc nested với các subdirectories.
 
 | File | Trạng thái | Dịch bởi | Ngày dịch | Notes |
 |------|------------|----------|-----------|-------|
-| `10-cli/README.md` | ✅ Done | Claude | 2026-04-03 | CLI reference |
+| `10-cli/README.md` | ✅ Done | Claude | 2026-11-03 | CLI reference |
 
 **Progress:** 1/1 files (100%) ✅
 
