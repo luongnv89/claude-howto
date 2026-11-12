@@ -3076,7 +3076,7 @@ Claude Code は推論努力を調整可能な 3 モデルをサポートする�
 ---
 
 *最終更新：2026 年 9 月 2 日*
-*対応：Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5*
+*対応：Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5*
 *収録機能：フック、チェックポイント、プラニングモード、拡張思考、バックグラウンドタスク、権限モード（6 種）、ヘッドレスモード、セッション管理、Auto Memory、Agent Teams、定期タスク、Chrome 連携、Channels、音声入力、同梱スキル*
 
 ---
@@ -3104,4 +3104,4 @@ Claude Code は推論努力を調整可能な 3 モデルをサポートする�
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/model-config#adjust-effort-level
 
-**対応モデル：** Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5
+**対応モデル：** Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

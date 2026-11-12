@@ -1188,4 +1188,4 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/changelog#2-1-321
 - https://code.claude.com/docs/en/model-config#work-with-fable
 - https://code.claude.com/docs/en/model-config#version-history
-**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

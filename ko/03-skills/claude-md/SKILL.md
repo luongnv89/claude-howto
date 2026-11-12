@@ -195,7 +195,7 @@ CLAUDE.md를 생성하거나 업데이트할 때:
 
 사용자가 AGENTS.md 생성/업데이트를 요청하는 경우:
 
-**v2.1.277부터 Claude Code는 `AGENTS.md`를 프로젝트 지침으로 직접 읽습니다.** 단, 작업 디렉터리와 그 상위의 모든 디렉터리에 `CLAUDE.md`, `.claude/CLAUDE.md`, `CLAUDE.local.md`가 하나도 없을 때만 해당합니다. `~/.claude/CLAUDE.md`, 관리형(managed) CLAUDE.md, `.claude/rules/`는 이 확인에 포함되지 않으며 계속 함께 로드됩니다. 어떤 파일을 읽을지는 `/config`의 **Project instructions** 항목으로 제어합니다: `claude-md-or-agents-md`(기본값), `claude-md-and-agents-md`, `claude-md`, `managed-only`. 직접 읽기를 사용할 수 없는 경우(v2.1.277 이전 버전(Bedrock/Vertex/Foundry, LLM 게이트웨이, 텔레메트리 비활성화 환경에서는 v2.1.281 이전), 또는 업그레이드 후 첫 세션)에는 CLAUDE.md에서 `@AGENTS.md`로 가져오거나 `CLAUDE.md`를 해당 파일에 대한 심볼릭 링크로 만드는 방식으로 대체합니다.
+**v2.1.277부터 Claude Code는 `AGENTS.md`를 프로젝트 지침으로 직접 읽습니다.** 단, 작업 디렉터리와 그 상위의 모든 디렉터리에 `CLAUDE.md`, `.claude/CLAUDE.md`, `CLAUDE.local.md`가 하나도 없을 때만 해당합니다. `~/.claude/CLAUDE.md`, 관리형(managed) CLAUDE.md, `.claude/rules/`는 이 확인에 포함되지 않으며 계속 함께 로드됩니다. 어떤 파일을 읽을지는 `/config`의 **Project instructions** 항목으로 제어합니다: `claude-md-or-agents-md`(기본값), `claude-md-and-agents-md`, `claude-md`, `managed-only`. 직접 읽기를 사용할 수 없는 경우(v2.1.277 이전 버전(Bedrock/Vertex/Foundry, LLM 게이트웨이, 텔레메트리 비활성화 환경에서는 v2.1.281 이전), `/plugin`에서 `AGENTS.md`를 읽는 내장 플러그인을 비활성화한 경우, 또는 일부 경우 v2.1.276 이하에서 업그레이드한 후 첫 세션)에는 CLAUDE.md에서 `@AGENTS.md`로 가져오거나 `CLAUDE.md`를 해당 파일에 대한 심볼릭 링크로 만드는 방식으로 대체합니다.
 
 AGENTS.md는 여러 도구가 공용으로 쓰는 프로젝트 컨텍스트 파일로, 에이전트 정의 형식이 아니라 CLAUDE.md와 같은 *종류*의 문서입니다. 여러 코딩 에이전트가 하나의 프로젝트 규칙 세트를 공유할 수 있도록 존재합니다:
 - 빌드, 테스트, 린트 명령어
@@ -226,4 +226,4 @@ AGENTS.md는 여러 도구가 공용으로 쓰는 프로젝트 컨텍스트 파�
 - https://code.claude.com/docs/en/memory#agents-md
 - https://code.claude.com/docs/en/memory#when-agents-md-support-is-unavailable
 - https://code.claude.com/docs/en/memory
-**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

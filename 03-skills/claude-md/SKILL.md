@@ -193,7 +193,7 @@ Before finalizing, verify:
 
 If the user requests AGENTS.md creation/update:
 
-**Since v2.1.277, Claude Code reads `AGENTS.md` directly as project instructions** — but only when the working directory and every directory above it contain no `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md`. `~/.claude/CLAUDE.md`, managed CLAUDE.md, and `.claude/rules/` do not count for that check and keep loading alongside. Which files are read is controlled by **Project instructions** in `/config`: `claude-md-or-agents-md` (default), `claude-md-and-agents-md`, `claude-md`, or `managed-only`. Where direct reading is unavailable — versions before v2.1.277 (before v2.1.281 on Bedrock/Vertex/Foundry, LLM gateways, or with telemetry disabled), or the first session after upgrading — fall back to importing it from CLAUDE.md with `@AGENTS.md`, or symlinking `CLAUDE.md` to it.
+**Since v2.1.277, Claude Code reads `AGENTS.md` directly as project instructions** — but only when the working directory and every directory above it contain no `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md`. `~/.claude/CLAUDE.md`, managed CLAUDE.md, and `.claude/rules/` do not count for that check and keep loading alongside. Which files are read is controlled by **Project instructions** in `/config`: `claude-md-or-agents-md` (default), `claude-md-and-agents-md`, `claude-md`, or `managed-only`. Where direct reading is unavailable — versions before v2.1.277 (before v2.1.281 on Bedrock/Vertex/Foundry, LLM gateways, or with telemetry disabled), with the built-in plugin that reads `AGENTS.md` disabled in `/plugin`, or in some cases the first session after upgrading from v2.1.276 or earlier — fall back to importing it from CLAUDE.md with `@AGENTS.md`, or symlinking `CLAUDE.md` to it.
 
 AGENTS.md is a cross-tool project-context file — the same *category* of document as CLAUDE.md, not an agent-definition format. It exists so several coding agents can share one set of project conventions:
 - Build, test, and lint commands
@@ -224,4 +224,4 @@ Apply similar principles:
 - https://code.claude.com/docs/en/memory#agents-md
 - https://code.claude.com/docs/en/memory#when-agents-md-support-is-unavailable
 - https://code.claude.com/docs/en/memory
-**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

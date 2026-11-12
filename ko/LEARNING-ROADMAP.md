@@ -369,13 +369,13 @@ cp 04-subagents/*.md .claude/agents/
 #### 달성할 내용
 ✅ 복잡한 기능을 위한 계획 모드
 ✅ 6가지 모드(manual — 이전 명칭 default, acceptEdits, plan, auto, dontAsk, bypassPermissions)를 통한 세분화된 권한 제어
-✅ Alt+T / Option+T 토글을 통한 확장 사고
+✅ 확장 사고 제어: 항상 확장 사고를 사용하는 모델에서는 `/effort`, 사고를 끌 수 있는 모델에서는 Alt+T / Option+T
 ✅ 백그라운드 작업 관리
 ✅ 학습된 환경 설정을 위한 자동 메모리
 ✅ 백그라운드 안전 분류기가 있는 자동 모드
 ✅ 실행 중인 세션에 이벤트(CI 결과, 채팅 메시지, 웹훅)를 푸시하는 채널
 ✅ 핸즈프리 상호 작용을 위한 음성 받아쓰기
-✅ 원격 제어(정식 출시 — Claude 앱에서 내 컴퓨터가 기기 카드로 표시됨), 데스크톱 앱 및 웹 세션
+✅ 원격 제어(리서치 프리뷰 종료 — Claude 앱에서 내 컴퓨터가 기기 카드로 표시됨), 데스크톱 앱 및 웹 세션
 ✅ 다중 에이전트 협업을 위한 에이전트 팀
 
 #### 실습 과제
@@ -389,15 +389,16 @@ claude --permission-mode plan "analyze this codebase"
 claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
 
-# Exercise 3: Enable extended thinking
-# Press Alt+T (Option+T on macOS) during a session to toggle
+# Exercise 3: Control extended thinking
+# Run /effort and pick a level; Opus 5.5, Sonnet 5.5, Haiku 5.5 and the Fable models always use extended thinking
+# Alt+T (Option+T on macOS) toggles thinking only on models that allow it, e.g. claude-opus-5
 
 # Exercise 4: Advanced checkpoint workflow
-# 1. Create checkpoint "Clean state"
+# 1. Start from a clean state (Claude Code checkpoints every prompt automatically; checkpoints can't be named)
 # 2. Use planning mode to design a feature
 # 3. Implement with subagent delegation
 # 4. Run tests in background
-# 5. If tests fail, rewind to checkpoint
+# 5. If tests fail, /rewind to the checkpoint before step 2
 # 6. Try alternative approach
 
 # Exercise 5: Try auto mode (background safety classifier)
@@ -421,7 +422,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 #### 성공 기준
 - [ ] 복잡한 기능을 위해 계획 모드를 사용함
 - [ ] 권한 모드(plan, acceptEdits, auto, dontAsk)를 구성함
-- [ ] Alt+T / Option+T로 확장 사고를 토글함
+- [ ] `/effort`로 사고 수준을 설정함(사고를 끌 수 있는 모델에서는 Alt+T / Option+T로 토글함)
 - [ ] 백그라운드 안전 분류기가 있는 자동 모드를 사용함
 - [ ] 긴 작업을 위해 백그라운드 작업을 사용함
 - [ ] 외부 이벤트를 세션에 푸시하는 채널을 탐색함
@@ -763,7 +764,7 @@ done
 - https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
-**호환 모델**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 **유지보수**: Claude How-To 기여자
 **라이선스**: 교육 목적, 자유롭게 사용 및 개작 가능
 

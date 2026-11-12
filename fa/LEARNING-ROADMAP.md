@@ -365,13 +365,13 @@ cp 04-subagents/*.md .claude/agents/
 #### چه چیزی به دست می‌آورید
 ✅ حالت برنامه‌ریزی برای ویژگی‌های پیچیده
 ✅ کنترل دقیق مجوز با ۶ حالت (manual — که قبلاً default بود، acceptEdits، plan، auto، dontAsk، bypassPermissions)
-✅ تفکر گسترده از طریق کلید Alt+T / Option+T
+✅ کنترل تفکر گسترده: `/effort` روی مدل‌هایی که همیشه از تفکر گسترده استفاده می‌کنند، و Alt+T / Option+T روی مدل‌هایی که تفکر در آن‌ها خاموش‌شدنی است
 ✅ مدیریت وظایف پس‌زمینه
 ✅ حافظه خودکار برای ترجیحات آموخته‌شده
 ✅ حالت خودکار با طبقه‌بند ایمنی پس‌زمینه
 ✅ کانال‌هایی که رویدادها (نتایج CI، پیام‌های چت، webhookها) را به یک نشست در حال اجرا می‌فرستند
 ✅ دیکته صوتی برای تعامل بدون استفاده از دست
-✅ کنترل از راه دور (به‌طور عمومی در دسترس — ماشین شما به‌عنوان کارت دستگاه در اپلیکیشن Claude ظاهر می‌شود)، اپلیکیشن دسکتاپ و نشست‌های وب
+✅ کنترل از راه دور (خارج از پیش‌نمایش پژوهشی — ماشین شما به‌عنوان کارت دستگاه در اپلیکیشن Claude ظاهر می‌شود)، اپلیکیشن دسکتاپ و نشست‌های وب
 ✅ تیم‌های ایجنت برای همکاری چند‌ایجنت
 
 #### تمرین‌های عملی
@@ -385,15 +385,16 @@ claude --permission-mode plan "analyze this codebase"
 claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
 
-# تمرین ۳: فعال‌سازی تفکر گسترده
-# در حین یک نشست Alt+T (در macOS: Option+T) بزنید
+# تمرین ۳: کنترل تفکر گسترده
+# /effort را اجرا و یک سطح انتخاب کنید؛ Opus 5.5، Sonnet 5.5، Haiku 5.5 و مدل‌های Fable همیشه از تفکر گسترده استفاده می‌کنند
+# Alt+T (در macOS: Option+T) فقط روی مدل‌هایی که اجازه می‌دهند، مثل claude-opus-5، تفکر را روشن/خاموش می‌کند
 
 # تمرین ۴: جریان کاری پیشرفته چک‌پوینت
-# ۱. ایجاد چک‌پوینت "Clean state"
+# ۱. از یک وضعیت تمیز شروع کنید (Claude Code برای هر پرامپت خودکار چک‌پوینت می‌سازد؛ چک‌پوینت‌ها نام‌گذاری نمی‌شوند)
 # ۲. استفاده از حالت برنامه‌ریزی برای طراحی یک ویژگی
 # ۳. پیاده‌سازی با واگذاری به زیرایجنت
 # ۴. اجرای تست‌ها در پس‌زمینه
-# ۵. در صورت شکست تست‌ها، بازگردانی به چک‌پوینت
+# ۵. در صورت شکست تست‌ها، با /rewind به چک‌پوینت پیش از مرحله ۲ برگردید
 # ۶. امتحان رویکرد جایگزین
 
 # تمرین ۵: امتحان حالت خودکار (طبقه‌بند ایمنی پس‌زمینه)
@@ -417,7 +418,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 #### معیارهای موفقیت
 - [ ] از حالت برنامه‌ریزی برای یک ویژگی پیچیده استفاده کردم
 - [ ] حالت‌های مجوز را پیکربندی کردم (plan، acceptEdits، auto، dontAsk)
-- [ ] تفکر گسترده را با Alt+T / Option+T فعال و غیرفعال کردم
+- [ ] سطح تفکر را با `/effort` تنظیم کردم (و روی مدلی که اجازه می‌دهد، تفکر را با Alt+T / Option+T روشن/خاموش کردم)
 - [ ] از حالت خودکار با طبقه‌بند ایمنی پس‌زمینه استفاده کردم
 - [ ] از وظایف پس‌زمینه برای عملیات طولانی استفاده کردم
 - [ ] کانال‌هایی را که رویدادهای خارجی را به نشست می‌فرستند بررسی کردم
@@ -759,7 +760,7 @@ done
 - https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
-**مدل‌های سازگار**: Claude Fable 5.1، Claude Fable 5، Claude Opus 5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 4.5
+**مدل‌های سازگار**: Claude Fable 5.2، Claude Fable 5.1، Claude Fable 5، Claude Opus 5.5، Claude Opus 5، Claude Sonnet 5.5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 5.5، Claude Haiku 4.5
 **نگهداری توسط**: مشارکت‌کنندگان Claude How-To
 **مجوز**: اهداف آموزشی، استفاده و اقتباس آزاد
 

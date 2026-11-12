@@ -178,7 +178,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 Так. Ліцензія MIT, безкоштовно назавжди. Використовуйте в особистих проєктах, на роботі, у команді — без обмежень, крім включення ліцензії.
 
 **Це підтримується?**
-Активно. Довідник синхронізується з кожним релізом Claude Code. Поточна версія: v2.1.112 (квітень 2026), сумісна з Claude Code 2.1+.
+Активно. Довідник синхронізується з кожним релізом Claude Code. Поточна версія: v2.1.316 (жовтень 2026), сумісна з Claude Code 2.1+.
 
 **Чим це відрізняється від офіційної документації?**
 Офіційна документація — це довідник функцій. Цей довідник — туторіал з діаграмами, готовими до продакшену шаблонами та прогресивним навчальним шляхом. Вони доповнюють одне одного — починайте тут для навчання, звертайтесь до офіційних документів коли потрібні деталі.
@@ -672,4 +672,4 @@ Claude:
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
 - https://code.claude.com/docs/en/model-config#work-with-fable
-**Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Сумісні моделі**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
