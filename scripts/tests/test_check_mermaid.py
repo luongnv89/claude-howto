@@ -114,6 +114,34 @@ class TestExtractBlocks:
         blocks = check_mermaid.extract_blocks(md)
         assert [b.source for b in blocks] == [SEQ]
 
+    def test_extracts_fence_with_space_before_language(self, tmp_path: Path) -> None:
+        md = tmp_path / "diagram.md"
+        md.write_text("``` mermaid\n" + FLOW + "```\n", encoding="utf-8")
+        assert [b.source for b in check_mermaid.extract_blocks(md)] == [FLOW]
+
+    def test_nested_fence_reports_its_own_line(self, tmp_path: Path) -> None:
+        md = tmp_path / "list.md"
+        md.write_text(
+            "# Steps\n\n1. First\n\n   ```mermaid\n   graph TD\n   A --> B\n   ```\n\n"
+            "    ```mermaid\n    graph TD\n    C --> D\n    ```\n",
+            encoding="utf-8",
+        )
+        blocks = check_mermaid.extract_blocks(md)
+        assert [(b.line, b.source) for b in blocks] == [
+            (5, "   graph TD\n   A --> B\n   "),
+            (10, "    graph TD\n    C --> D\n    "),
+        ]
+
+    def test_fence_regex_matches_build_website_and_build_epub(self) -> None:
+        import build_epub
+        import build_website
+
+        for module in (build_website, build_epub):
+            assert module.MERMAID_BLOCK_RE.pattern == (
+                check_mermaid.MERMAID_BLOCK_RE.pattern
+            )
+            assert module.MERMAID_BLOCK_RE.flags == check_mermaid.MERMAID_BLOCK_RE.flags
+
 
 class TestValidBlocks:
     def test_valid_blocks_pass_with_count_line(

@@ -315,6 +315,44 @@ class TestReplaceMermaidBlocks:
         assert "` ```mermaid `" in out
         assert "```mermaidjs" in out
 
+    def test_replaces_fence_with_space_before_language(self) -> None:
+        md = "``` mermaid\nflowchart LR\nA-->B\n```\n"
+        out = replace_mermaid_blocks(md)
+        assert out.count('<pre class="mermaid">') == 1
+        assert "```" not in out
+
+    def test_ignores_hyphenated_language(self) -> None:
+        md = "```mermaid-foo\nA-->B\n```\n"
+        assert replace_mermaid_blocks(md) == md
+
+    def test_keeps_indentation_of_nested_fence(self) -> None:
+        md = (
+            "1. Step one\n\n"
+            "   ```mermaid\n"
+            "   flowchart LR\n"
+            "   A-->B\n"
+            "   ```\n\n"
+            "2. Step two\n"
+        )
+        out = replace_mermaid_blocks(md)
+        assert '\n\n   <pre class="mermaid">   flowchart LR\n' in out
+        assert "```" not in out
+
+    def test_nested_fence_renders_inside_list_item(self) -> None:
+        # Python-Markdown continues a list item at four spaces of indentation.
+        md = (
+            "- Step one\n\n"
+            "    ```mermaid\n"
+            "    flowchart LR\n"
+            "    A-->B\n"
+            "    ```\n\n"
+            "- Step two\n"
+        )
+        soup = BeautifulSoup(render_markdown(md), "html.parser")
+        diagram = soup.select_one("li pre.mermaid")
+        assert diagram is not None
+        assert "Step one" in diagram.find_parent("li").get_text()
+
 
 # =============================================================================
 # render_markdown

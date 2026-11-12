@@ -562,8 +562,12 @@ def rewrite_links(
 # =============================================================================
 
 
+# A ```mermaid fence with an optional info string. The `indent` group is
+# re-emitted so a fence nested in a list item stays there. Keep in sync
+# with build_epub.py and check_mermaid.py.
 MERMAID_BLOCK_RE = re.compile(
-    r"^[ \t]*```[ \t]*mermaid(?:[ \t][^`\n]*)?\n(.*?)```", re.DOTALL | re.MULTILINE
+    r"^(?P<indent>[ \t]*)```[ \t]*mermaid(?:[ \t][^`\n]*)?\n(?P<code>.*?)```",
+    re.DOTALL | re.MULTILINE,
 )
 
 
@@ -572,12 +576,13 @@ def replace_mermaid_blocks(md_content: str) -> str:
 
     The page script swaps each block for a Pele-rendered diagram; without
     JavaScript, or when Pele cannot render a diagram, the source stays as a
-    readable code block.
+    readable code block. The block keeps the fence's indentation, so a
+    diagram nested in a list item stays inside it.
     """
 
     def _replace(match: re.Match[str]) -> str:
-        code = match.group(1)
-        return f'<pre class="mermaid">{html.escape(code)}</pre>'
+        code = match.group("code")
+        return f'{match.group("indent")}<pre class="mermaid">{html.escape(code)}</pre>'
 
     return MERMAID_BLOCK_RE.sub(_replace, md_content)
 

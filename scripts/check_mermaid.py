@@ -35,8 +35,12 @@ from pele_renderer import (
 from vendor_assets import PELE_VERSION
 
 IGNORE_DIRS = {".venv", "node_modules", ".git", "blog-posts", ".agents"}
+# A ```mermaid fence with an optional info string. The build scripts re-emit
+# the `indent` group so a fence nested in a list item stays there. Keep in
+# sync with build_epub.py and build_website.py.
 MERMAID_BLOCK_RE = re.compile(
-    r"^[ \t]*```[ \t]*mermaid(?:[ \t][^`\n]*)?\n(.*?)```", re.DOTALL | re.MULTILINE
+    r"^(?P<indent>[ \t]*)```[ \t]*mermaid(?:[ \t][^`\n]*)?\n(?P<code>.*?)```",
+    re.DOTALL | re.MULTILINE,
 )
 TRUTHY = {"1", "true", "yes"}
 
@@ -77,7 +81,7 @@ def extract_blocks(path: Path) -> list[MermaidBlock]:
             path=path,
             line=content.count("\n", 0, match.start()) + 1,
             index=index,
-            source=match.group(1),
+            source=match.group("code"),
         )
         for index, match in enumerate(MERMAID_BLOCK_RE.finditer(content), start=1)
     ]
