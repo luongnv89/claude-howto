@@ -97,7 +97,7 @@ claude --plugin-dir ./07-plugins/pr-review
 # plan           - تحلیل فقط-خواندنی، بدون تغییر
 # auto           - طبقه‌بند پس‌زمینه مجوزها را خودکار تعیین می‌کند
 # dontAsk        - فقط ابزارهای از پیش تأییدشده اجرا می‌شوند؛ بقیه رد می‌شوند
-# bypassPermissions - پذیرش همه اقدام‌ها (--permission-mode bypassPermissions؛ --dangerously-skip-permissions معادل آن است)
+# bypassPermissions - پذیرش همه اقدام‌ها به‌جز قواعد deny و معدود اقداماتی که هیچ حالتی خودکار تأیید نمی‌کند (--permission-mode bypassPermissions؛ --dangerously-skip-permissions معادل آن است)
 
 # مدیریت نشست
 /resume                # از سرگیری گفت‌وگوی قبلی (بدون آرگومان = انتخابگر نشست‌های گذشته)
@@ -526,8 +526,8 @@ echo $GITHUB_PERSONAL_ACCESS_TOKEN
 
 ---
 
-**آخرین به‌روزرسانی**: ۲۶ اکتبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.310
+**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.316
 **منابع**:
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
 - https://code.claude.com/docs/en/memory#agents-md

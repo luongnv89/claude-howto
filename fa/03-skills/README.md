@@ -157,7 +157,7 @@ user-invocable: false                       # Hide from slash menu
 allowed-tools: Read, Grep, Glob             # Pre-approve these tools (no permission prompts) while the skill runs
 disallowed-tools: Write, Edit               # Remove specific tools while active (v2.1.152)
 model: opus                                 # Specific model to use
-effort: high                                # Effort level override (low, medium, high, xhigh, max)
+effort: high                                # Effort for the rest of the turn (low, medium, high, xhigh, max)
 context: fork                               # Run in isolated subagent
 agent: Explore                              # Which agent type (with context: fork)
 background: false                           # Fork skills run in background (default true); false = foreground
@@ -175,7 +175,7 @@ paths: "src/api/**/*.ts"               # Glob patterns limiting when skill activ
 | فیلد | توضیح |
 |-------|-------------|
 | `name` | توصیه‌شده (قابل حمل): فقط حروف کوچک، اعداد و خط تیره (حداکثر ۶۴ کاراکتر). `anthropic-skills` و `synced` در Claude Code رزرو شده‌اند. |
-| `description` | کاری که مهارت انجام می‌دهد **و** چه زمانی از آن استفاده شود. متن ترکیبی `description` + `when_to_use` در فهرست مهارت‌ها در ۱,۵۳۶ کاراکتر بریده می‌شود (قابل پیکربندی از طریق `skillListingMaxDescChars`). برای تطبیق فراخوانی خودکار حیاتی است. |
+| `description` | کاری که مهارت انجام می‌دهد **و** چه زمانی از آن استفاده شود. متن ترکیبی `description` + `when_to_use` در فهرست مهارت‌ها در ۱,۵۳۶ کاراکتر بریده می‌شود (قابل پیکربندی از طریق `skillListingMaxDescChars`). برای تطبیق فراخوانی خودکار حیاتی است. براکت‌های زاویه‌ای به‌صورت `&lt;` و `&gt;` نمایش داده می‌شوند، پس یک جای‌نگهدار را به‌صورت `[branch]` بنویسید یا آن را در `argument-hint` بگذارید. |
 | `when_to_use` | زمینه اضافی برای اینکه Claude چه زمانی باید مهارت را فراخوانی کند. در فهرست مهارت‌ها به `description` افزوده می‌شود و در سقف ۱,۵۳۶ کاراکتری حساب می‌شود. |
 | `argument-hint` | راهنمایی نمایش‌داده‌شده در منوی تکمیل خودکار `/` (مثلاً `"[filename] [format]"`). |
 | `disable-model-invocation` | `true` = فقط کاربر می‌تواند از طریق `/name` فراخوانی کند. Claude هرگز به‌طور خودکار فراخوانی نمی‌کند. |
@@ -183,7 +183,7 @@ paths: "src/api/**/*.ts"               # Glob patterns limiting when skill activ
 | `allowed-tools` | فهرست جداشده با ویرگول از ابزارهایی که مهارت می‌تواند بدون پرامپت مجوز استفاده کند. وقتی تنظیمات مدیریت‌شده `hooks` را در `strictPluginOnlyCustomization` فهرست کند، مهارت شخصی یا پروژه‌ای که frontmatter آن `hooks` را تعریف کرده این پیش‌تأیید را از دست می‌دهد (v2.1.304)؛ `hooks` آن را حذف کنید یا مهارت را به یک پلاگین منتقل کنید. |
 | `disallowed-tools` | فهرست جداشده با ویرگول از ابزارهایی که هنگام فعال بودن مهارت حذف می‌شوند (مکمل `allowed-tools`). افزوده‌شده در نسخه 2.1.152. |
 | `model` | بازنویسی مدل هنگام فعال بودن مهارت (مثلاً `opus`، `sonnet`). |
-| `effort` | بازنویسی سطح تلاش هنگام فعال بودن مهارت: `low`، `medium`، `high`، `xhigh` یا `max` — هر پنج سطح در Fable 5.1، Fable 5، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 پشتیبانی می‌شوند. تلاش پیش‌فرض در هر مدلی که از effort پشتیبانی می‌کند `high` است، به‌جز Opus 5.5، Sonnet 5.5 و Haiku 5.5 که پیش‌فرض `medium` دارند، و Opus 4.7 که پیش‌فرض `xhigh` دارد. |
+| `effort` | سطح تلاش برای بقیهٔ نوبت جاری (با `context: fork`، به‌جای آن سطح زیرایجنت فورک‌شده). سطح تلاش نشست را بازنویسی می‌کند اما متغیر محیطی `CLAUDE_CODE_EFFORT_LEVEL` را نه. مقادیر: `low`، `medium`، `high`، `xhigh` یا `max` — هر پنج سطح در Fable 5.1، Fable 5، Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 پشتیبانی می‌شوند. تلاش پیش‌فرض در هر مدلی که از effort پشتیبانی می‌کند `high` است، به‌جز Opus 5.5، Sonnet 5.5 و Haiku 5.5 که پیش‌فرض `medium` دارند، و Opus 4.7 که پیش‌فرض `xhigh` دارد. |
 | `context` | `fork` برای اجرای مهارت در زمینه یک زیرایجنت منشعب با پنجره زمینه خودش. |
 | `agent` | نوع زیرایجنت وقتی `context: fork` باشد (مثلاً `Explore`، `Plan`، `general-purpose`). |
 | `background` | فقط با `context: fork` معنا دارد. برای مهارت‌های `context: fork` پیش‌فرض `true` است، بنابراین در پس‌زمینه اجرا می‌شوند؛ برای اجرا در پیش‌زمینه `false` بگذارید. افزوده‌شده در نسخه 2.1.218. |
@@ -906,8 +906,8 @@ chmod +x ~/.claude/skills/my-skill/scripts/*.py
 
 ---
 
-**آخرین به‌روزرسانی**: ۲۶ اکتبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.310
+**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.316
 **منابع**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/slash-commands
@@ -937,4 +937,6 @@ chmod +x ~/.claude/skills/my-skill/scripts/*.py
 - https://code.claude.com/docs/en/skills#frontmatter-reference
 - https://code.claude.com/docs/en/skills#skill-not-triggering
 - https://code.claude.com/docs/en/skills#work-on-claude-api-projects
+- https://code.claude.com/docs/en/model-config#set-the-effort-level
+- https://code.claude.com/docs/en/skills#angle-brackets-in-a-skill-description
 **مدل‌های سازگار**: Claude Fable 5، Claude Opus 5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 4.5

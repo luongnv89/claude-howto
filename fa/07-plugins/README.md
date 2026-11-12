@@ -533,6 +533,8 @@ documentation/
 /plugin install <plugin-name>@claude-community
 ```
 
+> **منسوخ**: مارکت‌پلیس قدیمی‌تر `claude-code-plugins` در `anthropics/claude-code` منسوخ شده است. پلاگین‌های Anthropic را با `claude plugin install <plugin>@claude-plugins-official` نصب کنید و هر گام آموزشی را که `/plugin marketplace add anthropics/claude-code` را اجرا می‌کند نادیده بگیرید. پلاگین‌هایی که پیش‌تر از آن نصب کرده‌اید از `claude-plugins-official` به‌روزرسانی می‌شوند، به‌جز `ralph-wiggum` (اکنون `ralph-loop`، با دستورهای `/ralph-loop:`) و `claude-opus-4-5-migration` (بازنشسته؛ `claude plugin uninstall claude-opus-4-5-migration@claude-code-plugins` را اجرا کنید).
+
 ```mermaid
 graph TB
     A["مارکت‌پلیس پلاگین"]
@@ -653,7 +655,7 @@ docs-helper       0.9.0     community  +610       Doc-style guide enforcement
 
 | فیلد | الزامی | توضیح |
 |-------|----------|-------------|
-| `name` | بله | نام مارکت‌پلیس به صورت kebab-case |
+| `name` | بله | نام مارکت‌پلیس به صورت kebab-case؛ نامی انتخاب کنید که بعید است نویسندگان دیگر از آن استفاده کنند، چون کاربر نمی‌تواند دو مارکت‌پلیس هم‌نام اضافه کند |
 | `owner` | بله | سازمان یا کاربری که مارکت‌پلیس را نگهداری می‌کند: یک شیء با `name` الزامی (`email`، `url` اختیاری) |
 | `plugins` | بله | آرایه‌ای از ورودی‌های پلاگین |
 | `plugins[].name` | بله | نام پلاگین (kebab-case) |
@@ -863,7 +865,7 @@ claude plugin init <name>                    # ساخت اسکلت یک پلاگ
 | `plugin validate` | `--strict` | برخورد با هشدارها به‌عنوان خطا |
 | `plugin validate` | `--json` | تولید گزارش اعتبارسنجی ماشین‌خوان (v2.1.259+) |
 
-`claude plugin validate` همچنین ورودی‌های `.mcp.json` را بررسی می‌کند (v2.1.281+) و زمانی شکست می‌خورد که مسیرهای `outputStyles`، `themes`، `monitors` یا `lspServers` موجود نباشند یا به خارج از پوشه پلاگین اشاره کنند (v2.1.283+).
+`claude plugin validate` همچنین ورودی‌های `.mcp.json` را بررسی می‌کند (v2.1.281+) و زمانی شکست می‌خورد که مسیرهای `outputStyles`، `themes`، `monitors` یا `lspServers` موجود نباشند یا به خارج از پوشه پلاگین اشاره کنند (v2.1.283+). همچنین وقتی README یک پلاگین هیچ خطی برای نصب آن از یک مارکت‌پلیس ندارد، یک بلوک `Advice` همراه با خطی برای چسباندن چاپ می‌کند؛ این توصیه حکم نهایی یا کد خروج را تغییر نمی‌دهد، حتی با `--strict` (v2.1.295+).
 
 مثال: `claude plugin tag ./my-plugin` یک **مسیر** به پلاگین می‌گیرد (نه یک رشته نسخه). این فرمان یک برچسب git به شکل `{name}--v{version}` برگرفته از `plugin.json` می‌سازد، بررسی می‌کند که `plugin.json` و هر ورودی مارکت‌پلیس دربرگیرنده با هم توافق دارند، و روش توصیه‌شده برای بریدن انتشارهای پلاگین جهت توزیع است.
 
@@ -919,8 +921,8 @@ claude plugin install my-plugin@my-marketplace --accept-command <sha256>
 در یک نشست، `/plugin install <plugin> --marketplace <source>` مارکت‌پلیس را درون‌خطی نام می‌برد و پیشنهاد می‌کند پیش از نصب آن را اضافه کنید، بنابراین کشف و افزودن یک مارکت‌پلیس دیگر گام جداگانه‌ای نیست. از پوسته خودتان، `claude plugin install <plugin> --marketplace <source>` همین کار را می‌کند (v2.1.292+): در صورت نیاز مارکت‌پلیس را اضافه می‌کند، با همان بررسی‌های سیاستی که `claude plugin marketplace add` دارد، سپس پلاگین را نصب می‌کند.
 
 ```bash
-/plugin install code-review --marketplace anthropics/claude-code
-claude plugin install code-review --marketplace anthropics/claude-code   # همین کار، از پوسته شما (v2.1.292+)
+/plugin install deploy-helper --marketplace your-org/plugins
+claude plugin install deploy-helper --marketplace your-org/plugins   # همین کار، از پوسته شما (v2.1.292+)
 ```
 
 ## روش‌های نصب
@@ -1011,7 +1013,7 @@ export FORCE_AUTOUPDATE_PLUGINS=1
 
 # رانر CI بدون کلید SSH — وادار کردن HTTPS برای نصب پلاگین
 export CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1
-claude plugin install code-review@claude-code-plugins
+claude plugin install code-review@claude-plugins-official
 ```
 
 > **بارگذاری پلاگین در نشست راه دور (v2.1.179)**: کارایی بارگذاری پلاگین در نشست‌های راه دور در v2.1.179 بهبود یافت، بنابراین وقتی به یک نشست راه دور متصل می‌شوید پلاگین‌ها سریع‌تر در دسترس قرار می‌گیرند.
@@ -1356,8 +1358,8 @@ claude plugin update plugin-name
 
 ---
 
-**آخرین به‌روزرسانی**: ۲۶ اکتبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.310
+**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.316
 **منابع**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1417,4 +1419,8 @@ claude plugin update plugin-name
 - https://code.claude.com/docs/en/plugins/troubleshooting#a-plugin-installed-from-a-git-repository-shows-version-unknown
 - https://code.claude.com/docs/en/plugins/host-marketplace
 - https://code.claude.com/docs/en/plugins/components#frontmatter-fields-in-plugin-agents
+- https://code.claude.com/docs/en/plugins/anthropic-marketplaces#deprecated-claude-code-plugins-marketplace
+- https://code.claude.com/docs/en/github-actions#run-a-skill
+- https://code.claude.com/docs/en/plugins/cli-reference#advice-on-the-readme
+- https://code.claude.com/docs/en/plugins/create-marketplace#host-your-marketplace
 **مدل‌های سازگار**: Claude Fable 5، Claude Opus 5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 4.5

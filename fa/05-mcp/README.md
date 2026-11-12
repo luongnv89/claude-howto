@@ -213,6 +213,7 @@ URL باید از `https://` استفاده کند. این گزینه به Claud
 
 - **اعلان احراز هویت هنگام شروع (v2.1.193+)**: هنگام شروع، Claude Code اعلانی نمایش می‌دهد که هر سرور MCP نیازمند احراز هویت را فهرست می‌کند، تا سروری که به ورود نیاز دارد بی‌صدا از کار نیفتد.
 - **بازتازه‌سازی خودکار `headersHelper` (v2.1.193+)**: اگر احراز هویت سفارشی را از طریق `headersHelper` ارائه دهید، هر زمان سروری HTTP 401 یا 403 برگرداند، این کمک‌کننده به‌طور خودکار دوباره فراخوانی می‌شود. اعتبارنامه‌ها بدون اتصال مجدد دستی و در همان لحظه بازتازه می‌شوند. [استفاده از سرآیندهای پویا برای احراز هویت سفارشی](https://code.claude.com/docs/en/mcp) را ببینید.
+- **OAuth پشت یک پروکسی احراز هویت (v2.1.299+)**: سرآیند خود پروکسی را با `--header`، `headers` یا یک `headersHelper` ارسال کنید، `Authorization` را از این سرآیندها بیرون نگه دارید و با `claude mcp login <name>` وارد شوید. سرآیند `Authorization` پیکربندی‌شده به‌عنوان اعتبارنامه استفاده می‌شود و به OAuth بازنمی‌گردد.
 
 > **هشدار** (v2.1.238): یک `headersHelper` در `.mcp.json` پروژه، و سرورهای MCP درون‌خطی در فایل‌های ایجنت پروژه یا `--add-dir`، اکنون نیازمند پذیرفته‌شدن گفت‌وگوی اعتماد آن پوشه هستند — از جمله زیر `claude -p`. چنین کمک‌کننده‌هایی همچنین **بدون متغیرهای محیطی اعتبارنامهٔ ارث‌رسیده** اجرا می‌شوند؛ کمک‌کننده‌های محدودهٔ کاربر، مدیریت‌شده و claude.ai در عوض از پوشهٔ پیکربندی Claude اجرا می‌شوند. پیکربندی پروژه‌ای که به اعتبارنامه‌های ارث‌رسیده یا اجرای بدون اعتماد تکیه کرده باشد، تا زمانی که گفت‌وگوی اعتماد را نپذیرید و اعتبارنامه را به روشی دیگر تأمین نکنید، از کار می‌افتد.
 
@@ -315,6 +316,8 @@ MCP Apps نخستین افزونهٔ رسمی MCP است که امکان می‌
 ## دریافت ورودی از کاربر در MCP
 
 سرورهای MCP می‌توانند ورودی ساختاریافته را از کاربر از طریق گفت‌وگوهای تعاملی درخواست کنند (v2.1.49+). این امکان به سرور MCP اجازه می‌دهد در میانهٔ گردش‌کار اطلاعات بیشتری بخواهد -- برای نمونه درخواست تأیید، انتخاب از فهرستی از گزینه‌ها یا پر کردن فیلدهای الزامی -- و به این ترتیب تعاملات سرور MCP را تعاملی‌تر می‌کند.
+
+اگر سروری که روی Java MCP SDK 0.17.0 یا قدیمی‌تر ساخته شده با پیام "rejected Claude Code's elicitation capability" از اتصال سر باز زند، آن را به Java MCP SDK 0.17.1+ ارتقا دهید یا `"bareElicitationCapability": true` را به مدخل آن اضافه کنید (stdio، `sse`، `http` و `ws`؛ v2.1.281+)، که آن را به elicitation حالت فرم محدود می‌کند.
 
 ## سقف توضیح ابزار و دستورالعمل‌ها
 
@@ -436,9 +439,9 @@ claude mcp add-json events-server '{"type":"stdio","command":"npx","args":["@mod
 
 > **نکته**: در پیکربندی‌های JSON — `.mcp.json`، `~/.claude.json` یا `claude mcp add-json` — فیلد `type` مقدار `streamable-http` را به‌عنوان نام جایگزین برای `http` می‌پذیرد. مشخصات MCP برای این ترنسپورت از نام `streamable-http` استفاده می‌کند، بنابراین پیکربندی‌هایی که از مستندات خود سرور کپی شده‌اند، بدون تغییر کار می‌کنند.
 
-از v2.1.238، دستورهای `claude mcp list` و `claude mcp get` سرورهای غیرفعال را به‌صورت `⊘ Disabled` نشان می‌دهند، بدون اینکه برای بررسی سلامت به آن‌ها متصل شوند.
+از v2.1.238، دستورهای `claude mcp list` و `claude mcp get` سرورهای غیرفعال را به‌صورت `⊘ Disabled` نشان می‌دهند، بدون اینکه برای بررسی سلامت به آن‌ها متصل شوند. سروری که یکی از سیاست‌های سازمان شما آن را رد می‌کند در هر دو دستور به‌صورت `✘ Blocked by enterprise managed policy` نشان داده می‌شود؛ سروری که با فهرست مجاز، فهرست ممنوع یا محدودیت مدیریت‌شدهٔ دیگری برای MCP فیلتر شده باشد به‌جای فهرست شدن پنهان می‌شود.
 
-دستورهای `claude mcp login <name>` / `claude mcp logout <name>` معادل غیرتعاملی جریان OAuth در منوی `/mcp` هستند — بدون باز کردن آن، احراز هویت کنید یا خارج شوید. برای تکمیل OAuth از طریق SSH یا در یک نشست بدون رابط گرافیکی، `--no-browser` را به `login` اضافه کنید (این فلگ جریان را از طریق stdin هدایت می‌کند).
+دستورهای `claude mcp login <name>` / `claude mcp logout <name>` معادل غیرتعاملی جریان OAuth در منوی `/mcp` هستند — بدون باز کردن آن، احراز هویت کنید یا خارج شوید. برای تکمیل OAuth از طریق SSH یا در یک نشست بدون رابط گرافیکی، `--no-browser` را به `login` اضافه کنید (این فلگ جریان را از طریق stdin هدایت می‌کند). `claude mcp remove` توکن‌های OAuth ذخیره‌شده را حذف می‌کند اما آن‌ها را باطل نمی‌کند؛ برای باطل کردن آن‌ها در جایی که سرور مجوز از آن پشتیبانی می‌کند، پیش از `claude mcp remove <name>` دستور `claude mcp logout <name>` را اجرا کنید.
 
 ## جدول سرورهای MCP موجود
 
@@ -548,7 +551,7 @@ claude mcp add --transport http github https://api.githubcopilot.com/mcp/ --head
 
 متغیرها در زمان اجرا بسط می‌یابند:
 - `${VAR}` - از متغیر محیطی استفاده می‌کند؛ اگر تنظیم نشده باشد (و پیش‌فرضی نداشته باشد)، سرور همچنان با مقدار تحت‌اللفظی `${VAR}` بارگذاری می‌شود و `claude mcp list` و `/mcp` درباره متغیر ناموجود هشدار می‌دهند
-- `${VAR:-default}` - از متغیر محیطی استفاده می‌کند و اگر تنظیم نشده باشد به پیش‌فرض برمی‌گردد
+- `${VAR:-default}` - از متغیر محیطی استفاده می‌کند و اگر تنظیم نشده باشد به پیش‌فرض برمی‌گردد. متغیری که روی رشتهٔ خالی تنظیم شده باشد تنظیم‌شده به حساب می‌آید و به مقدار خالی گسترش می‌یابد (مثلاً `url` به `/mcp` تبدیل می‌شود)؛ برای گرفتن پیش‌فرض، آن را unset کنید
 
 ### نمونه ۲: راه‌اندازی Database MCP
 
@@ -1362,8 +1365,8 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 
 ---
 
-**آخرین به‌روزرسانی**: ۲۶ اکتبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.310
+**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.316
 **منابع**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
@@ -1390,4 +1393,10 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 - https://code.claude.com/docs/en/mcp#time-limits-on-mcp-tool-calls
 - https://code.claude.com/docs/en/changelog#2-1-307
 - https://code.claude.com/docs/en/mcp#mark-tools-that-are-safe-to-call-twice
+- https://code.claude.com/docs/en/mcp#variables-set-to-an-empty-string
+- https://code.claude.com/docs/en/mcp#managing-your-servers
+- https://code.claude.com/docs/en/mcp#server-status
+- https://code.claude.com/docs/en/errors#mcp-server-rejected-the-elicitation-capability
+- https://code.claude.com/docs/en/mcp#elicitation-modes-claude-code-declares
+- https://code.claude.com/docs/en/mcp#use-oauth-with-a-server-behind-an-authenticating-proxy
 **مدل‌های سازگار**: Claude Fable 5، Claude Opus 5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 4.5

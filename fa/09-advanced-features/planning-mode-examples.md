@@ -533,10 +533,10 @@ Proceed with this plan? (yes/no/modify)
 7. **برای تست در هر مرحله برنامه‌ریزی کنید**
 
 ---
-**آخرین به‌روزرسانی**: ۲۹ ژوئیه ۲۰۲۶
-**نسخه Claude Code**: ۲.۱.۲۲۰
+**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.316
 **منبع**:
 - https://code.claude.com/docs/en/changelog
-- https://code.claude.com/docs/en/best-practices
+- https://code.claude.com/docs/en/permission-modes#analyze-before-you-edit-with-plan-mode
 - https://code.claude.com/docs/en/model-config
 **مدل‌های سازگار**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

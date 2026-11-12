@@ -547,6 +547,8 @@ graph TD
 npm install -g @anthropic-ai/claude-code@latest
 ```
 
+> **نکته**: در npm 12 که به‌طور پیش‌فرض مرحلهٔ postinstall در Claude Code را رد می‌کند، این دستور با `Error: claude native binary not installed.` پایان می‌یابد. به نصب‌کنندهٔ بومی بروید یا [رفع نصب npm 12](https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install) را دنبال کنید.
+
 ### روشن یا خاموش کردن حافظه خودکار
 
 حافظه خودکار **به‌طور پیش‌فرض روشن است**. تنظیم `autoMemoryEnabled` (پیش‌فرض `true`) آن را کنترل می‌کند; وقتی `false`، Claude نه از و نه به دایرکتوری حافظه خودکار می‌خواند یا می‌نویسد. همچنین می‌توانید با `/memory` در طول یک نشست toggle کنید.
@@ -976,7 +978,7 @@ graph LR
 
 - **از سطوح سلسله‌مراتب مناسب استفاده کنید**:
   - **سیاست مدیریت‌شده**: سیاست‌های شرکت‌گستر، استانداردهای امنیتی، الزامات انطباق
-  - **حافظه پروژه**: استانداردهای تیم، معماری، قراردادهای کدنویسی (به git commit کنید)
+  - **حافظه پروژه**: استانداردهای تیم، قراردادهای کدنویسی، و تصمیم‌هایی که Claude نمی‌تواند از کد بخواند (به git commit کنید)
   - **حافظه کاربر**: ترجیحات شخصی، سبک ارتباط، انتخاب ابزار
   - **حافظه دایرکتوری**: قوانین و بازنویسی‌های خاص ماژول
 
@@ -1000,6 +1002,8 @@ graph LR
 - **داده‌های حساس شامل نکنید**: بدون PII، اطلاعات خصوصی، یا اسرار اختصاصی
 
 - **محتوا را تکرار نکنید**: از importها (`@path`) برای ارجاع به مستندات موجود به‌جای آن استفاده کنید
+
+- **آنچه Claude خودش می‌تواند بخواند را توصیف نکنید**: مرور معماری و چیدمان فایل‌ها را کنار بگذارید، چون Claude مخزن را می‌خواند. به خطی که Claude مدام نادیده می‌گیرد هم IMPORTANT یا حروف بزرگ اضافه نکنید: فایل را کوتاه‌تر کنید، یا قاعده‌ای را که نباید انعطاف داشته باشد به یک هوک یا قاعدهٔ deny تبدیل کنید
 
 - **مبهم نباشید**: از جملات عمومی مثل "از بهترین شیوه‌ها پیروی کنید" یا "کد خوب بنویسید" اجتناب کنید
 
@@ -1246,8 +1250,8 @@ Anthropic بیش از ۸۰٪ از system prompt خود Claude Code را برای
 
 ---
 
-**آخرین به‌روزرسانی**: ۲۶ اکتبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.310
+**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.316
 **منبع**:
 - https://code.claude.com/docs/en/memory
 - https://code.claude.com/docs/en/memory#agents-md
@@ -1265,4 +1269,6 @@ Anthropic بیش از ۸۰٪ از system prompt خود Claude Code را برای
 - https://code.claude.com/docs/en/memory#how-it-works
 - https://code.claude.com/docs/en/memory#path-specific-rules
 - https://code.claude.com/docs/en/memory#how-claude-md-files-load
+- https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install
+- https://code.claude.com/docs/en/best-practices
 **مدل‌های سازگار**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

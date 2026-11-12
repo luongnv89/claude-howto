@@ -1284,6 +1284,7 @@ Esc + Esc
 **فعال‌سازی:**
 - در طول نشست با `Alt+T` (یا `Option+T` در macOS) وضعیت را تغییر دهید
 - مدل‌های Opus 4.7+، Sonnet 5+، Haiku 5.5 و Fable همیشه از استدلال تطبیقی استفاده می‌کنند، بنابراین بودجهٔ ثابت `MAX_THINKING_TOKENS` اعمال نمی‌شود؛ عمق را با `/effort` کنترل کنید
+- برای اجرای همان یک نوبت با تلاش `xhigh` روی Opus 5.5، Sonnet 5.5، Haiku 5.5 و Fable 5.1 از طریق Anthropic API، در پرامپت `ultrathink` تایپ کنید (ترمینال v2.1.311+، VS Code v2.1.316+)؛ `CLAUDE_CODE_DISABLE_ULTRATHINK` این کلیدواژه را خاموش می‌کند
 
 ```bash
 # عمق استدلال را با سطح تلاش کنترل کنید
@@ -1423,7 +1424,7 @@ Claude Code از مدل‌های زیر با تلاش استدلال تطبیق�
 | Claude Sonnet 5 | ۱ میلیون توکن (بومی) | `low`, `medium`, `high`, `xhigh`, `max` | `high` — مدل پیش‌فرض برای Pro/Team Standard از v2.1.197 تا v2.1.280 (اکنون Opus 5.5) |
 | Claude Opus 4.8 | ۱ میلیون توکن (بومی) | `low`, `medium`, `high`, `xhigh`, `max` | `high` (از v2.1.154) |
 | Claude Opus 4.7 (قدیمی) | ۱ میلیون توکن (بومی) | `low`, `medium`, `high`, `xhigh`, `max` | `xhigh` (از زمان عرضه Opus 4.7، 2026-04-16) |
-| Claude Sonnet 4.6 | ۱ میلیون توکن | `low`, `medium`, `high`, `max` | `high` برای مشترکان Pro/Max (در v2.1.117 از `medium` افزایش یافت) |
+| Claude Sonnet 4.6 | ۱ میلیون توکن | `low`, `medium`, `high`, `max` | `high` (در v2.1.117 برای مشترکان Pro/Max از `medium` افزایش یافت) |
 | Claude Haiku 4.5 | ۲۰۰ هزار توکن | — (بدون پشتیبانی از سطح تلاش) | — |
 
 > **توجه**: `xhigh` روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8 و Opus 4.7 در دسترس است؛ `max` روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7/4.6 و Sonnet 4.6 کار می‌کند (فقط در محدوده نشست). Haiku 4.5 از سطوح تلاش پشتیبانی نمی‌کند.
@@ -1440,8 +1441,8 @@ Claude Code از مدل‌های زیر با تلاش استدلال تطبیق�
 - [کتاب آشپزی آنتروپیک](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**آخرین به‌روزرسانی**: ۲۶ اکتبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.310
+**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.316
 **منابع**:
 - https://code.claude.com/docs/en/plugins/manifest-reference
 - https://code.claude.com/docs/en/plugins/create
@@ -1468,4 +1469,6 @@ Claude Code از مدل‌های زیر با تلاش استدلال تطبیق�
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/changelog#2-1-307
 - https://code.claude.com/docs/en/skills#work-on-claude-api-projects
+- https://code.claude.com/docs/en/model-config#adjust-effort-level
+- https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
 **مدل‌های سازگار**: Claude Fable 5.1، Claude Fable 5، Claude Opus 5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 4.5
