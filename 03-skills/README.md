@@ -942,4 +942,4 @@ Once you start building skills seriously, two things become essential: a library
 - https://code.claude.com/docs/en/changelog#2-1-319
 - https://code.claude.com/docs/en/skills#load-skills-in-monorepos-and-subdirectories
 - https://code.claude.com/docs/en/changelog#2-1-321
-**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

@@ -369,7 +369,7 @@ cp 04-subagents/*.md .claude/agents/
 #### 你将完成什么
 ✅ 为复杂功能使用 planning mode
 ✅ 用 6 种模式进行细粒度权限控制（default、acceptEdits、plan、auto、dontAsk、bypassPermissions）
-✅ 用 Alt+T / Option+T 切换 extended thinking
+✅ 控制 extended thinking：始终使用 extended thinking 的模型用 `/effort`，可关闭思考的模型上用 Alt+T / Option+T
 ✅ 管理后台任务
 ✅ 使用 Auto Memory 记住偏好
 ✅ 使用自动模式（Auto Mode）和后台安全分类器
@@ -389,15 +389,16 @@ claude --permission-mode plan "analyze this codebase"
 claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
 
-# 练习 3：启用 extended thinking
-# 在会话中按 Alt+T（macOS 上是 Option+T）切换
+# 练习 3：控制 extended thinking
+# 运行 /effort 选择级别；Opus 5.5、Sonnet 5.5、Haiku 5.5 和 Fable 系列模型始终使用 extended thinking
+# Alt+T（macOS 上是 Option+T）只在允许关闭思考的模型上切换，例如 claude-opus-5
 
 # 练习 4：高级 checkpoint 工作流
-# 1. 创建名为 "Clean state" 的 checkpoint
+# 1. 从干净状态开始（Claude Code 每个提示自动创建一个 checkpoint，无法命名）
 # 2. 使用 planning mode 设计功能
 # 3. 通过 subagent 委派实现
 # 4. 在后台运行测试
-# 5. 如果测试失败，回退到 checkpoint
+# 5. 如果测试失败，用 /rewind 回退到第 2 步之前的 checkpoint
 # 6. 尝试另一种方案
 
 # 练习 5：尝试自动模式（Auto mode，后台安全分类器）
@@ -421,7 +422,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 #### 成功标准
 - [ ] 为复杂功能使用过 planning mode
 - [ ] 配置过权限模式（plan、acceptEdits、auto、dontAsk）
-- [ ] 用 Alt+T / Option+T 切换过 extended thinking
+- [ ] 用 `/effort` 设置过思考级别（在允许的模型上用 Alt+T / Option+T 切换过思考）
 - [ ] 使用过带后台安全分类器的自动模式（Auto mode）
 - [ ] 使用过后台任务处理长时间操作
 - [ ] 探索过把外部事件推送到会话的通道（Channels）

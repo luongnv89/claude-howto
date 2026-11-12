@@ -402,9 +402,9 @@ documentation/
 ### 権限モード
 - **default**：危険な操作で承認を求める
 - **acceptEdits**：ファイル編集を自動承認、それ以外は確認
-- **plan**：読み取り専用分析、変更なし
+- **plan**：変更せずに調査して変更案を示す — Claude はファイルを読み、探索のためにシェルコマンドを実行し、計画を書く。計画を承認するまで編集はブロックされる（bypass permissions が使える対話型ターミナルのセッションを除く）
 - **auto**：バックグラウンドの安全チェック付きで全操作を実行 — 分類器がコマンドと保護ディレクトリへの書き込みを審査する（`autoMode` 設定オブジェクトで構成）
-- **dontAsk**：事前承認済みのツールのみ — 本来プロンプトが出る呼び出しはすべて自動的に拒否される。Claude が実行できるのは `permissions.allow` に一致するもの、読み取り専用の Bash コマンド、`PreToolUse` フックが承認した呼び出しに限られる
+- **dontAsk**：事前承認済みのツールのみ — 本来プロンプトが出る呼び出しはすべて自動的に拒否される。Claude は引き続き、作業ディレクトリ内のファイル読み取り、読み取り専用の Bash コマンド、`permissions.allow` ルールまたは `PreToolUse` フックが承認した呼び出しの大半を実行する。インストールした mod も一部の呼び出しを承認できる
 - **bypassPermissions**：すべて承認（`--permission-mode bypassPermissions` または同等の `--dangerously-skip-permissions` で有効化）
 
 ### ヘッドレスモード（`claude -p`）
@@ -886,7 +886,7 @@ Run tests in background
 
 **最終更新**：2026 年 10 月 26 日
 **Claude Code バージョン**：2.1.310
-**互換モデル**：Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5
+**互換モデル**：Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5
 **例題総数**：100 ファイル超
 **カテゴリ**：10 機能
 **フック**：自動化スクリプト 8 個

@@ -384,7 +384,7 @@ documentation/
 | 예약 작업 | `/loop` 및 cron 도구를 사용한 세션 범위 반복 작업 | 자동화된 반복 워크플로 |
 | Chrome 통합 | Claude in Chrome 확장 프로그램을 통해 사용자의 Chrome에서 브라우저 자동화 | 웹 테스트 및 스크래핑 |
 | 원격 제어 (확장됨) | 연결 방법, 보안, 비교 표, 디바이스 카드 | 원격 세션 관리 (더 이상 리서치 프리뷰가 아님) |
-| 세션 간 메시징 | `notify_when_idle`(v2.1.236)을 포함한 `SendMessage` / `ListAgents` | 같은 머신의 세션 간 협업 |
+| 세션 간 메시징 | `notify_when_idle`(v2.1.236)을 포함한 `SendMessage` / `ListAgents` | 같은 머신의 세션 간 협업, 또는 Remote Control을 통한 다른 머신·클라우드 세션과의 협업 |
 | 키보드 사용자 지정 | 사용자 지정 키 바인딩, 코드 지원, 컨텍스트 | 개인화된 단축키 |
 | 데스크톱 앱 (확장됨) | 커넥터, launch.json, 엔터프라이즈 기능 | 데스크톱 통합 |
 | | | |
@@ -410,14 +410,14 @@ documentation/
 - 수십에서 수백 개의 백그라운드 서브에이전트의 확정적 오케스트레이션
 - 포괄적인 커버리지를 위한 팬아웃 / 파이프라인 / 병렬 단계
 - `/workflows`로 실행을 확인합니다. `/effort`의 Ultracode 토글(`/effort ultracode [on|off]`)은 effort 수준을 바꾸지 않고 세션에서 이를 켜며(v2.1.284), `ultracode` 설정으로 지속시킬 수 있습니다.
-- v2.1.219부터 기본 크기 가이드라인은 중간(에이전트 10개 미만 목표)이며, `/config`의 **Dynamic workflow size**로 변경할 수 있습니다.
+- 기본 크기 가이드라인은 중간(v2.1.219)이고, Pro 플랜에서는 작음(v2.1.271+)입니다. 중간은 v2.1.271부터 에이전트 10개 미만을 목표로 합니다(이전에는 15개). `/config`의 **Dynamic workflow size**로 변경할 수 있습니다.
 
 ### 권한 모드
 - **manual**: 읽기 이외의 모든 작업 전에 확인 (v2.1.200부터 Manual로 표시되며, 구성 값은 여전히 `default`)
 - **acceptEdits**: 파일 편집 자동 승인, 다른 작업은 요청
-- **plan**: 읽기 전용 분석, 수정 없음
+- **plan**: 변경하지 않고 조사해 변경안을 제시 — Claude가 파일을 읽고, 탐색용 셸 명령을 실행하고, 계획을 작성함. 계획을 승인할 때까지 편집은 차단됨(bypass permissions를 사용할 수 있는 대화형 터미널 세션 제외)
 - **auto**: 모든 작업을 백그라운드 안전 검사와 함께 수행 — 분류기가 명령어와 보호된 디렉터리 쓰기를 검토 (`autoMode` 설정 객체로 구성)
-- **dontAsk**: 사전 승인된 도구만 실행 — 프롬프트가 필요한 모든 호출을 자동 거부. Claude는 `permissions.allow`에 일치하는 항목, 읽기 전용 Bash 명령어, `PreToolUse` 훅이 승인한 호출만 실행
+- **dontAsk**: 사전 승인된 도구만 실행 — 프롬프트가 필요한 모든 호출을 자동 거부. Claude는 작업 디렉터리 안의 파일 읽기, 읽기 전용 Bash 명령어, `permissions.allow` 규칙이나 `PreToolUse` 훅이 승인한 호출의 대부분은 계속 실행하며, 설치한 mod도 일부 호출을 승인할 수 있음
 - **bypassPermissions**: 모든 작업 승인 (`--permission-mode bypassPermissions` 또는 동등한 `--dangerously-skip-permissions`로 활성화)
 
 ### 헤드리스 모드 (`claude -p`)
@@ -458,7 +458,7 @@ documentation/
 - 리서치 프리뷰 종료 — `claude remote-control`을 실행 중인 머신이 Claude 앱 Code 탭에 디바이스 카드로 표시됨
 
 ### 세션 간 메시징
-- 같은 머신의 세션 간 `SendMessage`
+- 같은 머신의 다른 세션, 그리고 claude.ai 로그인으로 Remote Control에 연결된 세션에서 다른 머신이나 클라우드에 있는 내 세션으로 보내는 `SendMessage`(클라우드 세션은 `SendMessage`로 답장할 수 없음)
 - `notify_when_idle` — 상대 세션이 다음에 유휴 상태가 될 때 한 번 알림(옵트인, v2.1.236)
 - `ListAgents`가 세션 자신의 이름을 보고하고 실행 중인 팀원 목록을 표시(v2.1.239)
 
@@ -486,7 +486,7 @@ documentation/
 - `claude` - 대화형 세션 시작
 - `claude -p "prompt"` - 헤드리스/비대화형 모드
 - `claude --cloud "task"` - 클라우드(웹) 세션 시작
-- `claude --model` - 모델 선택 (Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 5.5, Haiku 4.5)
+- `claude --model` - 모델 선택 (Fable 5.2, Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 5.5, Haiku 4.5)
 - `claude --permission-mode` - 권한 모드 설정
 - `claude --remote-control` - claude.ai 또는 Claude 앱에서도 조작할 수 있는 세션 시작
 
@@ -926,7 +926,7 @@ Run tests in background
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/scheduled-tasks
-**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 **총 예시 수**: 100개 이상 파일
 **카테고리**: 10가지 기능
 **훅**: 11가지 자동화 스크립트

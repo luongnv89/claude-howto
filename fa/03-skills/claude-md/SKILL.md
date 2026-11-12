@@ -193,7 +193,7 @@ agent_docs/
 
 اگر کاربر درخواست ایجاد/به‌روزرسانی AGENTS.md را دارد:
 
-**از نسخه v2.1.277، Claude Code فایل `AGENTS.md` را مستقیماً به‌عنوان دستورالعمل پروژه می‌خواند** — اما فقط زمانی که دایرکتوری کاری و تمام دایرکتوری‌های بالاتر آن هیچ `CLAUDE.md`، `.claude/CLAUDE.md` یا `CLAUDE.local.md` نداشته باشند. `~/.claude/CLAUDE.md`، CLAUDE.md مدیریت‌شده و `.claude/rules/` در این بررسی به حساب نمی‌آیند و در کنار آن بارگذاری می‌شوند. اینکه کدام فایل‌ها خوانده شوند توسط **Project instructions** در `/config` کنترل می‌شود: `claude-md-or-agents-md` (پیش‌فرض)، `claude-md-and-agents-md`، `claude-md` یا `managed-only`. در جایی که خواندن مستقیم در دسترس نیست — نسخه‌های پیش از v2.1.277 (پیش از v2.1.281 روی Bedrock/Vertex/Foundry، درگاه‌های LLM یا با غیرفعال بودن تله‌متری)، یا نخستین نشست پس از ارتقا — به وارد کردن آن از CLAUDE.md با `@AGENTS.md` یا ایجاد پیوند نمادین `CLAUDE.md` به آن بازگردید.
+**از نسخه v2.1.277، Claude Code فایل `AGENTS.md` را مستقیماً به‌عنوان دستورالعمل پروژه می‌خواند** — اما فقط زمانی که دایرکتوری کاری و تمام دایرکتوری‌های بالاتر آن هیچ `CLAUDE.md`، `.claude/CLAUDE.md` یا `CLAUDE.local.md` نداشته باشند. `~/.claude/CLAUDE.md`، CLAUDE.md مدیریت‌شده و `.claude/rules/` در این بررسی به حساب نمی‌آیند و در کنار آن بارگذاری می‌شوند. اینکه کدام فایل‌ها خوانده شوند توسط **Project instructions** در `/config` کنترل می‌شود: `claude-md-or-agents-md` (پیش‌فرض)، `claude-md-and-agents-md`، `claude-md` یا `managed-only`. در جایی که خواندن مستقیم در دسترس نیست — نسخه‌های پیش از v2.1.277 (پیش از v2.1.281 روی Bedrock/Vertex/Foundry، درگاه‌های LLM یا با غیرفعال بودن تله‌متری)، با غیرفعال بودن پلاگین داخلی‌ای که `AGENTS.md` را می‌خواند در `/plugin`، یا در برخی موارد نخستین نشست پس از ارتقا از v2.1.276 یا پیش‌تر — به وارد کردن آن از CLAUDE.md با `@AGENTS.md` یا ایجاد پیوند نمادین `CLAUDE.md` به آن بازگردید.
 
 AGENTS.md یک فایل زمینه پروژه بین‌ابزاری است — همان *دسته* سند CLAUDE.md، نه یک قالب تعریف ایجنت. وجود دارد تا چند ایجنت کدنویسی بتوانند یک مجموعه قرارداد پروژه را به اشتراک بگذارند:
 - دستورات ساخت، تست و lint
@@ -224,4 +224,4 @@ AGENTS.md یک فایل زمینه پروژه بین‌ابزاری است — �
 - https://code.claude.com/docs/en/memory#agents-md
 - https://code.claude.com/docs/en/memory#when-agents-md-support-is-unavailable
 - https://code.claude.com/docs/en/memory
-**مدل‌های سازگار**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**مدل‌های سازگار**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

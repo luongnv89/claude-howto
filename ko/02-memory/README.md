@@ -1269,4 +1269,4 @@ Opus 5 또는 Fable 5를 대상으로 하는 기존 CLAUDE.md 파일에서 검�
 - https://code.claude.com/docs/en/memory#how-it-works
 - https://code.claude.com/docs/en/memory#path-specific-rules
 - https://code.claude.com/docs/en/memory#how-claude-md-files-load
-**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

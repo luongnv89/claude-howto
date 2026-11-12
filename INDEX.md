@@ -380,7 +380,7 @@ Advanced capabilities for complex workflows.
 | Scheduled Tasks | Recurring session-scoped tasks with `/loop` and cron tools | Automated recurring workflows |
 | Chrome Integration | Browser automation in your own Chrome via the Claude in Chrome extension | Web testing and scraping |
 | Remote Control (expanded) | Connection methods, security, comparison table, device cards | Remote session management (no longer a research preview) |
-| Cross-Session Messaging | `SendMessage` / `ListAgents`, including `notify_when_idle` (v2.1.236) | Coordinating sessions on the same machine |
+| Cross-Session Messaging | `SendMessage` / `ListAgents`, including `notify_when_idle` (v2.1.236) | Coordinating your sessions on this machine, or on other machines and in the cloud via Remote Control |
 | Keyboard Customization | Custom keybindings, chord support, contexts | Personalized shortcuts |
 | Desktop App (expanded) | Connectors, launch.json, enterprise features | Desktop integration |
 | | | |
@@ -406,14 +406,14 @@ Advanced capabilities for complex workflows.
 - Deterministic orchestration of tens-to-hundreds of background subagents
 - Fan-out / pipeline / parallel stages for comprehensive coverage
 - View runs with `/workflows`; the Ultracode toggle in `/effort` (`/effort ultracode [on|off]`) turns it on for a session without changing the effort level (v2.1.284); the `ultracode` setting makes it persist
-- Default size guideline is medium (aim for fewer than 10 agents) as of v2.1.219 — change it with **Dynamic workflow size** in `/config`
+- Default size guideline is medium (v2.1.219), or small on a Pro plan (v2.1.271+); medium aims for fewer than 10 agents since v2.1.271 (15 before) — change it with **Dynamic workflow size** in `/config`
 
 ### Permission Modes
 - **manual**: Ask before anything beyond reads (shown as Manual since v2.1.200; config value is still `default`)
 - **acceptEdits**: Auto-accept file edits, ask for others
-- **plan**: Read-only analysis, no modifications
+- **plan**: Research and propose changes without making them — Claude reads files, runs shell commands to explore, and writes a plan; edits stay blocked until you approve the plan (except in interactive terminal sessions with bypass permissions available)
 - **auto**: Everything, with background safety checks — a classifier reviews commands and protected-directory writes (configured via the `autoMode` settings object)
-- **dontAsk**: Only pre-approved tools — auto-denies every call that would otherwise prompt. Claude runs only `permissions.allow` matches, read-only Bash commands, and calls approved by a `PreToolUse` hook
+- **dontAsk**: Only pre-approved tools — auto-denies every call that would otherwise prompt. Claude still runs file reads inside the working directories, read-only Bash commands, and most calls that a `permissions.allow` rule or a `PreToolUse` hook approves; a mod you installed can also approve some calls
 - **bypassPermissions**: Accept all (enable with `--permission-mode bypassPermissions` or the equivalent `--dangerously-skip-permissions`)
 
 ### Headless Mode (`claude -p`)
@@ -454,7 +454,7 @@ Advanced capabilities for complex workflows.
 - Out of research preview — a machine running `claude remote-control` appears as a device card in the Claude app's Code tab
 
 ### Cross-Session Messaging
-- `SendMessage` between sessions on the same machine
+- `SendMessage` to your other sessions on this machine, and, from a session connected to Remote Control with a claude.ai sign-in, to your sessions on other machines or in the cloud (a cloud session can't answer with `SendMessage`)
 - `notify_when_idle` — one opt-in notice when the other session next goes idle (v2.1.236)
 - `ListAgents` reports the session's own name and lists live teammates (v2.1.239)
 
@@ -482,7 +482,7 @@ Command-line interface usage patterns and reference.
 - `claude` - Start interactive session
 - `claude -p "prompt"` - Headless/non-interactive mode
 - `claude --cloud "task"` - Start a cloud (web) session
-- `claude --model` - Select model (Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 5.5, Haiku 4.5)
+- `claude --model` - Select model (Fable 5.2, Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Opus 5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 5.5, Haiku 4.5)
 - `claude --permission-mode` - Set permission mode
 - `claude --remote-control` - Start a session you can also control from claude.ai or the Claude app
 
@@ -899,8 +899,8 @@ Want to add more examples? Follow the structure:
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
@@ -922,7 +922,10 @@ Want to add more examples? Follow the structure:
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/scheduled-tasks
-**Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+- https://code.claude.com/docs/en/permission-modes#allow-only-pre-approved-tools-with-dontask-mode
+- https://code.claude.com/docs/en/cross-session-messaging
+- https://code.claude.com/docs/en/whats-new/2026-w34
+**Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 **Total Examples**: 100+ files
 **Categories**: 10 features
 **Hooks**: 11 automation scripts

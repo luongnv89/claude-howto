@@ -648,4 +648,4 @@ v2.1.220(2026-07-25)이 여전히 현재 Claude Code 릴리스이므로, 이 항
 **Claude Code 버전**: 2.1.245
 **출처**:
 - https://code.claude.com/docs/en/changelog
-**호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+**호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

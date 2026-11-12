@@ -392,9 +392,9 @@ documentation/
 #### Permission Modes
 - **default**：风险操作需要审批
 - **acceptEdits**：自动接受文件编辑，其他操作仍需审批
-- **plan**：只读分析，不做修改
+- **plan**：只调研并提出修改方案，不直接修改 — Claude 会读取文件、运行 shell 命令进行探索并编写计划；在你批准计划之前编辑一直被阻止（可使用 bypass permissions 的交互式终端会话除外）
 - **auto**：所有操作都执行，附带后台安全检查 — 由分类器审查命令和受保护目录的写入（通过 `autoMode` 设置对象配置）
-- **dontAsk**：只允许预先批准的工具 — 任何本来会弹出提示的调用都会被自动拒绝。Claude 只运行 `permissions.allow` 匹配项、只读 Bash 命令，以及被 `PreToolUse` hook 批准的调用
+- **dontAsk**：只允许预先批准的工具 — 任何本来会弹出提示的调用都会被自动拒绝。Claude 仍会运行工作目录内的文件读取、只读 Bash 命令，以及大多数由 `permissions.allow` 规则或 `PreToolUse` hook 批准的调用；你安装的 mod 也可以批准部分调用
 - **bypassPermissions**：全部接受（使用 `--permission-mode bypassPermissions` 或等效的 `--dangerously-skip-permissions` 启用）
 
 #### Headless Mode（`claude -p`）

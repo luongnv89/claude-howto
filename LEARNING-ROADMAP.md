@@ -365,13 +365,13 @@ Before starting Level 3, make sure you're comfortable with these Level 2 concept
 #### What You'll Achieve
 ✅ Planning mode for complex features
 ✅ Fine-grained permission control with 6 modes (manual — formerly default, acceptEdits, plan, auto, dontAsk, bypassPermissions)
-✅ Extended thinking via Alt+T / Option+T toggle
+✅ Extended thinking control: `/effort` on models that always use extended thinking, Alt+T / Option+T on models where thinking can be turned off
 ✅ Background task management
 ✅ Auto Memory for learned preferences
 ✅ Auto Mode with background safety classifier
 ✅ Channels that push events (CI results, chat messages, webhooks) into a running session
 ✅ Voice Dictation for hands-free interaction
-✅ Remote control (generally available — your machine appears as a device card in the Claude app), desktop app, and web sessions
+✅ Remote control (out of research preview — your machine appears as a device card in the Claude app), desktop app, and web sessions
 ✅ Agent Teams for multi-agent collaboration
 
 #### Hands-on Exercises
@@ -385,15 +385,16 @@ claude --permission-mode plan "analyze this codebase"
 claude --permission-mode acceptEdits "refactor the auth module"
 claude --permission-mode auto "implement the feature"
 
-# Exercise 3: Enable extended thinking
-# Press Alt+T (Option+T on macOS) during a session to toggle
+# Exercise 3: Control extended thinking
+# Run /effort and pick a level; Opus 5.5, Sonnet 5.5, Haiku 5.5 and the Fable models always use extended thinking
+# Alt+T (Option+T on macOS) toggles thinking only on models that allow it, e.g. claude-opus-5
 
 # Exercise 4: Advanced checkpoint workflow
-# 1. Create checkpoint "Clean state"
+# 1. Start from a clean state (Claude Code checkpoints every prompt automatically; checkpoints can't be named)
 # 2. Use planning mode to design a feature
 # 3. Implement with subagent delegation
 # 4. Run tests in background
-# 5. If tests fail, rewind to checkpoint
+# 5. If tests fail, /rewind to the checkpoint before step 2
 # 6. Try alternative approach
 
 # Exercise 5: Try auto mode (background safety classifier)
@@ -417,7 +418,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 #### Success Criteria
 - [ ] Used planning mode for a complex feature
 - [ ] Configured permission modes (plan, acceptEdits, auto, dontAsk)
-- [ ] Toggled extended thinking with Alt+T / Option+T
+- [ ] Set the thinking depth with `/effort` (and, on a model that allows it, toggled thinking with Alt+T / Option+T)
 - [ ] Used auto mode with background safety classifier
 - [ ] Used background tasks for long operations
 - [ ] Explored Channels that push external events into a session
@@ -739,8 +740,8 @@ Once you've completed all milestones:
 
 ---
 
-**Last Updated**: October 26, 2026
-**Claude Code Version**: 2.1.310
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/overview
 - https://code.claude.com/docs/en/hooks
@@ -759,7 +760,8 @@ Once you've completed all milestones:
 - https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
-**Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
+- https://code.claude.com/docs/en/whats-new/2026-w34
+**Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 **Maintained by**: Claude How-To Contributors
 **License**: Educational purposes, free to use and adapt
 

@@ -315,4 +315,4 @@ Checkpoints cho phép bạn quay lại — nhưng làm thế nào bạn biết *
 - https://code.claude.com/docs/en/checkpointing#bash-command-changes-not-tracked
 - https://code.claude.com/docs/en/checkpointing#external-changes-not-tracked
 - https://code.claude.com/docs/en/changelog#2-1-311
-**Các Mô Hình Tương Thích**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5
+**Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
