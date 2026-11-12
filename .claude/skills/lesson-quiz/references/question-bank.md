@@ -220,7 +220,7 @@
 - **Options**: A) Inline in SKILL.md | B) In a `references/api-spec.md` file inside the skill directory | C) In the project's CLAUDE.md | D) In a separate `.claude/rules/` file
 - **Correct**: B
 - **Explanation**: Large reference material belongs in the `references/` subdirectory. Claude loads Level 3 resources on demand, keeping SKILL.md lean.
-- **Review**: Supporting files structure section
+- **Review**: Supporting Files section
 
 ### Q7
 - **Category**: conceptual
@@ -731,7 +731,7 @@
 - **Question**: What does the Task List feature (Ctrl+T) provide?
 - **Options**: A) A list of running background processes | B) A persistent to-do list that survives context compaction, shareable via `CLAUDE_CODE_TASK_LIST_ID` | C) A history of past sessions | D) A queue of pending tool calls
 - **Correct**: B
-- **Explanation**: The Task List (Ctrl+T) is persistent across context compactions and can be shared across sessions via named task directories using `CLAUDE_CODE_TASK_LIST_ID`.
+- **Explanation**: The Task List (Ctrl+T) is persistent across context compactions and can be shared across sessions via named task directories using `CLAUDE_CODE_TASK_LIST_ID`. It fills only in sessions that have the task-tracking tools, which Claude Code provides by default only on Opus 4.7, Sonnet 4.6, Haiku 4.5, and earlier models; on Opus 5.5, Sonnet 5.5, Haiku 5.5, and the Fable models it stays empty unless you opt in, for example with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` (v2.1.233+).
 - **Review**: Task List section
 
 ### Q8
