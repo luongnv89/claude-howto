@@ -187,7 +187,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 11-13 годин для повного шляху. Але ви отримаєте цінність за 15 хвилин — просто скопіюйте шаблон слеш-команди та спробуйте.
 
 **Чи працює це з Claude Sonnet / Haiku / Opus?**
-Так. Усі шаблони працюють з Claude Fable 5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5.
+Так. Усі шаблони працюють з Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5.
 
 **Чи можна долучитися?**
 Звичайно. Див. [CONTRIBUTING.md](CONTRIBUTING.md) для настанов. Ми вітаємо нові приклади, виправлення, покращення документації та шаблони спільноти.
@@ -659,8 +659,8 @@ Claude:
 
 ---
 
-**Останнє оновлення**: 26 жовтня 2026
-**Версія Claude Code**: 2.1.310
+**Останнє оновлення**: 12 листопада 2026
+**Версія Claude Code**: 2.1.322
 **Джерела**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/hooks
@@ -671,4 +671,5 @@ Claude:
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
+- https://code.claude.com/docs/en/model-config#work-with-fable
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

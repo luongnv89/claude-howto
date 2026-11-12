@@ -90,7 +90,7 @@
 | `/stats` | نام مستعار میان‌بر که تب آمار `/usage` را باز می‌کند (نسخه 2.1.118 به بعد) | مرور معیارهای نشست |
 | `/statusline` | پیکربندی خط وضعیت | سفارشی‌سازی نمایش وضعیت |
 | `/stickers` | سفارش استیکرهای Claude Code | پاداش‌های سرگرم‌کننده |
-| `/fast` | تغییر وضعیت حالت خروجی سریع؛ روی **Opus 5.5** (پیش‌فرض از نسخه 2.1.280)، **Opus 5 و Opus 4.8** اعمال می‌شود (حالت fast روی Opus 4.8 از ۳۰ اکتبر ۲۰۲۶ منسوخ شده و در ۳۰ نوامبر ۲۰۲۶ حذف خواهد شد؛ به Opus 5.5 مهاجرت کنید) | افزایش سرعت پاسخ‌ها |
+| `/fast` | تغییر وضعیت حالت خروجی سریع؛ روی **Fable 5.2** (نسخه 2.1.321+)، **Opus 5.5** (پیش‌فرض از نسخه 2.1.280)، **Opus 5 و Opus 4.8** اعمال می‌شود (حالت fast روی Opus 4.8 از ۳۰ اکتبر ۲۰۲۶ منسوخ شده و در ۳۰ نوامبر ۲۰۲۶ حذف خواهد شد؛ به Opus 5.5 مهاجرت کنید) | افزایش سرعت پاسخ‌ها |
 | `/terminal-setup` | پیکربندی یکپارچه‌سازی ترمینال | راه‌اندازی ویژگی‌های ترمینال |
 | `/undo` | نام مستعار برای `/rewind` (نسخه 2.1.108) | مانند `/rewind` |
 | `/upgrade` | باز کردن صفحه ارتقا برای تغییر به طرح بالاتر | ارتقای طرح |
@@ -592,8 +592,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.316
+**آخرین به‌روزرسانی**: ۱۲ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.322
 **منابع**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -638,4 +638,5 @@ chmod +x ~/.claude/hooks/*.sh
 - https://code.claude.com/docs/en/feature-availability#ultra-plan
 - https://code.claude.com/docs/en/ultrareview#pricing-and-free-runs
 - https://code.claude.com/docs/en/changelog#2-1-316
+- https://code.claude.com/docs/en/changelog#2-1-321
 **مدل‌های سازگار**: Claude Fable 5.1، Claude Fable 5، Claude Opus 5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 4.5

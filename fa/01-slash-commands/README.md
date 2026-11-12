@@ -49,7 +49,7 @@
 | `/exit` | خروج از REPL (نام مستعار: `/quit`) |
 | `/export [filename]` | صادرات گفت‌وگوی فعلی به یک فایل یا کلیپ‌بورد |
 | `/usage-credits` | پیکربندی استفاده اضافی برای محدودیت‌های نرخ (تغییر نام از `/extra-usage` در v2.1.144؛ `/extra-usage` همچنان به‌عنوان نام مستعار کار می‌کند) |
-| `/fast [on\|off]` | toggle حالت سریع. برای Opus 5.5 (پیش‌فرض حالت سریع از v2.1.280)، Opus 5 و Opus 4.8 اعمال می‌شود. حالت سریع روی Opus 4.8 از ۳۰ اکتبر ۲۰۲۶ منسوخ شده و در ۳۰ نوامبر ۲۰۲۶ حذف خواهد شد؛ پس از آن، درخواست‌های سریع روی Opus 4.8 به‌جای بازگشت به سرعت استاندارد خطا برمی‌گردانند، پس برای حفظ افزایش سرعت به Opus 5.5 بروید (v2.1.316) |
+| `/fast [on\|off]` | toggle حالت سریع. برای Fable 5.2 (v2.1.321+)، Opus 5.5 (پیش‌فرض حالت سریع از v2.1.280)، Opus 5 و Opus 4.8 اعمال می‌شود. حالت سریع روی Opus 4.8 از ۳۰ اکتبر ۲۰۲۶ منسوخ شده و در ۳۰ نوامبر ۲۰۲۶ حذف خواهد شد؛ پس از آن، درخواست‌های سریع روی Opus 4.8 به‌جای بازگشت به سرعت استاندارد خطا برمی‌گردانند، پس برای حفظ افزایش سرعت به Opus 5.5 بروید (v2.1.316) |
 | `/feedback` | ارسال بازخورد. از v2.1.141، می‌تواند نشست‌های اخیر (آخر ۲۴ ساعت یا ۷ روز) را ضمیمه کند تا گزارش‌هایی که بیش از یک نشست را در بر می‌گیرند شامل زمینه باشند. از v2.1.178، `/bug` نیازمند یک توضیح پیش از ارسال است. |
 | `/focus` | toggle نمای تمرکز (اضافه شده در v2.1.110؛ جایگزین `Ctrl+O` برای toggle تمرکز) |
 | `/goal <statement>` | ثبت یک شرط تکمیل سطح نشست؛ Claude تا زمان تحقق هدف کار می‌کند. `/goal clear` آن را حذف می‌کند. هدف فعال در خط وضعیت ظاهر می‌شود، با یک پنل overlay زنده که زمان سپری‌شده، تعداد نوبت و استفاده از token را نشان می‌دهد (اضافه شده در v2.1.139). |
@@ -655,8 +655,8 @@ Deploy the application to production:
 
 ---
 
-**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.316
+**آخرین به‌روزرسانی**: ۱۲ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.322
 **منبع**:
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills
@@ -698,6 +698,7 @@ Deploy the application to production:
 - https://code.claude.com/docs/en/feature-availability#ultra-plan
 - https://code.claude.com/docs/en/changelog#2-1-316
 - https://code.claude.com/docs/en/model-config#when-a-new-effort-level-starts
+- https://code.claude.com/docs/en/changelog#2-1-321
 **مدل‌های سازگار**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *بخشی از سری راهنمای [Claude How To](../)*

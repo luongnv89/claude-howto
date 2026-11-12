@@ -375,7 +375,7 @@ $ my-tool --help
 | 이벤트에 반응 | 도구 호출, 프롬프트, 턴을 추적. 모드의 훅은 변수를 공유하므로 한 훅이 도구 호출 수를 세고 다른 훅이 스피너 옆에 그 수를 표시할 수 있음 |
 | 모드 API 호출 | 모델 호출, 파일 읽기·쓰기, 프로세스 시작, 네트워크 요청(훅은 모드 API를 통해서만 이를 수행할 수 있음) |
 
-모드를 만들려면 Claude Code 세션에서 원하는 내용을 설명하십시오. Claude가 내장 `plugin-authoring` 스킬을 바탕으로(또는 직접 `/plugin-authoring` 실행) 모드를 작성하며, 세션에서 핫 리로드를 활성화하면 모드를 변경한 각 턴이 끝날 때마다 다시 로드합니다. `claude plugin validate`는 모드를 실행하지 않고 검사합니다. 관리자는 관리 설정을 통해 모드의 실행 여부와 실행할 모드를 결정합니다. 예를 들어 `allowManagedModsOnly`는 조직의 모드와 Claude Code에 내장된 모드만 훅을 실행하도록 합니다. 관리 설정이 있거나 Team 또는 Enterprise `/login`이 세션의 자격 증명인 경우, 내장 보호 장치가 `deny` 또는 `ask` 규칙이나 `PreToolUse` 훅이 막을 호출을 사용자의 모드가 승인하지 못하도록 막습니다. 둘 다 없으면 모드가 그러한 호출을 승인할 수 있습니다.
+모드를 만들려면 Claude Code 세션에서 원하는 내용을 설명하십시오. Claude가 내장 `plugin-authoring` 스킬을 바탕으로(또는 직접 `/plugin-authoring` 실행) 모드를 작성하고 턴이 끝날 때 로드합니다. `auto` 및 `bypassPermissions` 모드에서는 묻지 않고 로드하며(v2.1.321+, 관리 설정의 `allowUnsandboxedCommands: false` 또는 `allowManagedDomainsOnly` 아래에서도), 그 밖의 경우에는 세션의 핫 리로드를 승인한 뒤에 로드합니다. 이후 모드를 변경한 각 턴이 끝날 때마다 다시 로드합니다. 아무도 승인할 수 없는 곳, 즉 `dontAsk` 모드나 `auto` 및 `bypassPermissions` 이외 모드의 `claude -p` 실행에서는 로드되지 않습니다. `claude plugin validate`는 모드를 실행하지 않고 검사합니다. 관리자는 관리 설정을 통해 모드의 실행 여부와 실행할 모드를 결정합니다. 예를 들어 `allowManagedModsOnly`는 조직의 모드와 Claude Code에 내장된 모드만 훅을 실행하도록 합니다. 관리 설정이 있거나 Team 또는 Enterprise `/login`이 세션의 자격 증명인 경우, 내장 보호 장치가 `deny` 또는 `ask` 규칙이나 `PreToolUse` 훅이 막을 호출을 사용자의 모드가 승인하지 못하도록 막습니다. 둘 다 없으면 모드가 그러한 호출을 승인할 수 있습니다.
 
 > **참고**: v2.1.299–2.1.300에서는 `Text` 속성 `size`, `weight`, `mono`, `tabular`, `dir`(RTL)이 추가되었고(`bold`는 지원 중단(deprecated)되어 `weight`로 대체), `Box` 간격 단계 `xs`–`xl`, 프롬프트 `virtualText`, `$.ui.view({ agentId })`, `prompt.change` 훅이 추가되었습니다. v2.1.301에서는 여러 줄 입력을 위한 `Input` `rows`가 추가되었습니다(Enter로 제출, Shift+Enter로 줄 추가). v2.1.304에서는 `tool.check`의 `e.isReadOnly`(및 `isReadOnly: true` 매처), Claude Code 자체의 설정 읽기에서 각 설정 계층(`e.layers`)을 볼 수 있는 `settings.read` 훅(관리 모드가 조직 설정의 상한을 정할 수 있음), `$.settings.read()`의 `key` 인수가 추가되었습니다. v2.1.305에서는 고정된 패널이 터미널 너비의 45% 이내로 유지되고 iTerm2 3.5+에서 `Image`를 그립니다(전체 화면 렌더링). v2.1.310에서는 `allow-passthrough`와 `focus-events`가 켜진 tmux 3.3+ 안에서 `Image`를 그립니다.
 
@@ -1376,8 +1376,8 @@ git 소스 플러그인에 대해 `claude plugin list`가 `Version: unknown`을 
 
 ---
 
-**최종 업데이트**: 2026년 10월 26일
-**Claude Code 버전**: 2.1.310
+**최종 업데이트**: 2026년 11월 12일
+**Claude Code 버전**: 2.1.322
 **출처**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1437,4 +1437,7 @@ git 소스 플러그인에 대해 `claude plugin list`가 `Version: unknown`을 
 - https://code.claude.com/docs/en/plugins/troubleshooting#a-plugin-installed-from-a-git-repository-shows-version-unknown
 - https://code.claude.com/docs/en/plugins/host-marketplace
 - https://code.claude.com/docs/en/plugins/components#frontmatter-fields-in-plugin-agents
+- https://code.claude.com/docs/en/plugins/mods/create#ask-claude-for-a-mod
+- https://code.claude.com/docs/en/plugins/mods/create#sessions-where-a-mod-claude-writes-cant-load
+- https://code.claude.com/docs/en/changelog#2-1-321
 **호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

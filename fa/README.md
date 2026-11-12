@@ -210,7 +210,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 ۱۱ تا ۱۳ ساعت برای مسیر کامل. اما در ۱۵ دقیقه ارزش فوری دریافت می‌کنید — فقط یک قالب دستور اسلش را کپی و امتحان کنید.
 
 **آیا می‌توانم با Claude Sonnet / Haiku / Opus از این استفاده کنم؟**
-بله. همه قالب‌ها با Claude Fable 5.1، Claude Fable 5، Claude Opus 5.5، Claude Opus 5، Claude Sonnet 5.5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 5.5 و Claude Haiku 4.5 کار می‌کنند.
+بله. همه قالب‌ها با Claude Fable 5.2، Claude Fable 5.1، Claude Fable 5، Claude Opus 5.5، Claude Opus 5، Claude Sonnet 5.5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 5.5 و Claude Haiku 4.5 کار می‌کنند.
 
 **آیا می‌توانم مشارکت کنم؟**
 قطعاً. به [CONTRIBUTING.md](CONTRIBUTING.md) برای راهنمایی‌ها مراجعه کنید. از مثال‌های جدید، رفع اشکال، بهبود مستندات و قالب‌های جامعه استقبال می‌کنیم.
@@ -874,8 +874,8 @@ uv run scripts/build_epub.py
 
 ---
 
-**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.316
+**آخرین به‌روزرسانی**: ۱۲ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.322
 **منابع**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/hooks
@@ -899,4 +899,5 @@ uv run scripts/build_epub.py
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
 - https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install
+- https://code.claude.com/docs/en/model-config#work-with-fable
 **مدل‌های سازگار**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

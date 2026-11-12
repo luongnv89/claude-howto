@@ -413,7 +413,7 @@ claude --plugin-dir ./07-plugins/pr-review
 | **Auto Memory** | 대화 내용을 자동으로 Memory에 저장 | Claude가 `~/.claude/projects/<project>/memory/MEMORY.md`에 메모를 저장하며 `/memory`로 관리 |
 | **AGENTS.md** *(v2.1.277)* | 여러 도구에서 쓰는 프로젝트 컨텍스트 파일로, 작업 디렉터리나 그 상위에 `CLAUDE.md`가 없으면 프로젝트 지침으로 읽힘 | `/config`의 **Project instructions**에서 모드 전환. [AGENTS.md](02-memory/README.md#agentsmd) 참고 |
 | **Git Worktrees** | 병렬 개발을 위한 격리된 작업 공간 | `claude --worktree <name>`(또는 `-w`) |
-| **Model Selection** | Fable 5.1, Fable 5, Opus 5.5, Opus 5, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 5.5, Haiku 4.5 간 모델 전환 | `/model`(Anthropic API에서 `sonnet`은 Sonnet 5.5로 해석, v2.1.284+) — v2.1.153부터 선택한 모델이 새 세션의 기본값으로 저장되며, `s`를 누르면 현재 세션에만 적용 |
+| **Model Selection** | Fable 5.2, Fable 5.1, Fable 5, Opus 5.5, Opus 5, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 5.5, Haiku 4.5 간 모델 전환 | `/model`(Anthropic API에서 `sonnet`은 Sonnet 5.5로 해석, v2.1.284+) — v2.1.153부터 선택한 모델이 새 세션의 기본값으로 저장되며, `s`를 누르면 현재 세션에만 적용 |
 | **Agent Teams** | 여러 Agent가 협업하여 작업 수행 | `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` 환경 변수로 활성화(실험적) |
 | **Dynamic Workflows** *(v2.1.154)* | 결정론적 멀티 Agent 오케스트레이션. v2.1.219부터 기본 크기 가이드라인은 중간(에이전트 10개 미만 목표) | `/workflows`로 실행 내역 확인, Claude에게 생성 요청, `/config`의 **Dynamic workflow size**로 크기 변경 |
 | **Scheduled Tasks (세션 범위)** | 세션 안에서 `/loop`를 이용한 반복 작업 | `/loop 5m /command` 또는 CronCreate 도구 |
@@ -532,8 +532,8 @@ A: 물론입니다! 예제는 자유롭게 사용자 환경에 맞게 수정할 
 
 ---
 
-**최종 업데이트**: 2026년 10월 26일
-**Claude Code 버전**: 2.1.310
+**최종 업데이트**: 2026년 11월 12일
+**Claude Code 버전**: 2.1.322
 **출처**:
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
 - https://code.claude.com/docs/en/memory#agents-md
@@ -559,4 +559,5 @@ A: 물론입니다! 예제는 자유롭게 사용자 환경에 맞게 수정할 
 - https://code.claude.com/docs/en/permission-modes#tool-calls-denied-in-claude-p-and-agent-sdk-runs
 - https://code.claude.com/docs/en/tools-reference#session-search-limit
 - https://code.claude.com/docs/en/routines
+- https://code.claude.com/docs/en/model-config#work-with-fable
 **호환 모델**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

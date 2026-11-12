@@ -729,7 +729,7 @@ claude --effort xhigh "complex review"
 export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on Opus 4.7), or max (Opus 4.7 only)
 ```
 
-プロンプト内のキーワード「ultrathink」は深い推論を有効化する。v2.1.311 以降、対話型ターミナルで入力すると、Anthropic の API 経由の Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.1 ではそのターンを `xhigh` で実行する（可能な場合は虹色で表示される。VS Code は v2.1.316 以降）。`CLAUDE_CODE_DISABLE_ULTRATHINK=1`（v2.1.316）でこのキーワードを無効化できる。`max` の労力レベルは Opus 4.7 専用である。
+プロンプト内のキーワード「ultrathink」は深い推論を有効化する。v2.1.311 以降、対話型ターミナルで入力すると、Anthropic の API 経由の Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.2（v2.1.321 以降）、Fable 5.1 ではそのターンを `xhigh` で実行する（可能な場合は虹色で表示される。VS Code は v2.1.316 以降）。`CLAUDE_CODE_DISABLE_ULTRATHINK=1`（v2.1.316）でこのキーワードを無効化できる。`max` の労力レベルは Opus 4.7 専用である。
 
 ---
 
@@ -878,8 +878,8 @@ claude -p --output-format json "query"
 
 ---
 
-**最終更新**: 2026 年 11 月 1 日
-**Claude Code バージョン**: 2.1.316
+**最終更新**: 2026 年 11 月 12 日
+**Claude Code バージョン**: 2.1.322
 **出典**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
@@ -910,4 +910,5 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/mcp#tool-search-through-a-gateway
 - https://code.claude.com/docs/en/env-vars#variables
 - https://code.claude.com/docs/en/scheduled-tasks
+- https://code.claude.com/docs/en/model-config#adjust-effort-level
 **対応モデル**: Claude Fable 5、Claude Opus 5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 4.5

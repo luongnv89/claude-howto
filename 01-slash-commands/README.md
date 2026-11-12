@@ -39,7 +39,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/color [color\|default]` | Set prompt bar color. Bare `/color` (no args) picks a random session color (v2.1.128+); pass a color name or hex to set explicitly. |
 | `/compact [instructions]` | Compact conversation with optional focus instructions. A failed compact now displays as an error in the UI instead of silently doing nothing (v2.1.216) |
 | `/config` | Open Settings (alias: `/settings`) |
-| `/context` | Visualize context usage as colored grid. Shows an explicit warning when usage is over the context window limit (v2.1.216) |
+| `/context` | Visualize context usage as colored grid. Shows an explicit warning when usage is over the context window limit (v2.1.216). Since v2.1.319 Claude reads only the table, not the grid; each list keeps its 10 largest rows, and MCP tools that load on demand share one row per server until they're called. |
 | `/copy [N]` | Copy assistant response to clipboard; `w` writes to file |
 | `/cost` | Typing-shortcut alias for `/usage` — opens the cost tab (v2.1.118+) |
 | `/desktop` | Continue in Desktop app (alias: `/app`) |
@@ -49,13 +49,13 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/exit` | Exit the REPL (alias: `/quit`) |
 | `/export [filename]` | Export the current conversation to a file or clipboard |
 | `/usage-credits` | Configure extra usage for rate limits (renamed from `/extra-usage` in v2.1.144; `/extra-usage` still works as an alias) |
-| `/fast [on\|off]` | Toggle fast mode. Applies to Opus 5.5 (the fast-mode default since v2.1.280), Opus 5, and Opus 4.8. Fast mode on Opus 4.8 is deprecated as of October 30, 2026 and will be removed on November 30, 2026; after that, fast requests on Opus 4.8 return an error instead of falling back to standard speed, so switch to Opus 5.5 to keep the speedup (v2.1.316) |
+| `/fast [on\|off]` | Toggle fast mode. Applies to Fable 5.2 (v2.1.321+), Opus 5.5 (the fast-mode default since v2.1.280), Opus 5, and Opus 4.8. Fast mode on Opus 4.8 is deprecated as of October 30, 2026 and will be removed on November 30, 2026; after that, fast requests on Opus 4.8 return an error instead of falling back to standard speed, so switch to Opus 5.5 to keep the speedup (v2.1.316) |
 | `/feedback` | Submit feedback. Since v2.1.141, can attach recent sessions (last 24h or 7d) so reports spanning more than one session include context. As of v2.1.178, `/bug` requires a description before it can be submitted. |
 | `/focus` | Toggle focus view (added v2.1.110; replaces `Ctrl+O` for focus toggle) |
 | `/goal <statement>` | Register a session-level completion condition; Claude keeps working until the goal is met. `/goal clear` removes it. Active goal appears in the status line, with a live overlay panel showing elapsed time, turn count, and token usage (added v2.1.139). |
 | `/help` | Show help |
 | `/hooks` | View hook configurations |
-| `/ide` | Manage IDE integrations |
+| `/ide` | Manage IDE integrations. Since v2.1.318, starting `claude` in an IDE's integrated terminal no longer installs or updates the IDE extension: install it from the editor's extensions view (or run `/ide` from an outside terminal); until it's installed, `/ide` reports "No available IDEs detected". |
 | `/init` | Initialize `CLAUDE.md`. Set `CLAUDE_CODE_NEW_INIT=1` for interactive flow |
 | `/insights` | Generate session analysis report |
 | `/install-github-app` | Set up GitHub Actions app |
@@ -67,7 +67,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/mcp` | Manage MCP servers and OAuth |
 | `/memory` | Edit `CLAUDE.md`, toggle auto-memory |
 | `/mobile` | QR code for mobile app (aliases: `/ios`, `/android`) |
-| `/model [model]` | Select model with left/right arrows for effort. Since v2.1.153, the choice is **saved as the default** for new sessions (matching the IDE); press `s` after selecting to apply it to the current session only. (The keybinding `modelPicker:setAsDefault` was renamed to `modelPicker:thisSessionOnly`; the old `d` action is now `s`.) From v2.1.219 the picker showed the merged Opus row as "Opus (1M context)"; v2.1.283 drops that label from the Opus and Default rows where Opus already has a 1M window (the window is unchanged). |
+| `/model [model]` | Select model with left/right arrows for effort. Since v2.1.153, the choice is **saved as the default** for new sessions (matching the IDE); press `s` after selecting to apply it to the current session only. (The keybinding `modelPicker:setAsDefault` was renamed to `modelPicker:thisSessionOnly`; the old `d` action is now `s`.) From v2.1.219 the picker showed the merged Opus row as "Opus (1M context)"; v2.1.283 drops that label from the Opus and Default rows where Opus already has a 1M window (the window is unchanged). Since v2.1.319 older models are grouped under a **More models** row; since v2.1.321 it is an unnumbered row below every other, so opening it doesn't renumber the rest. |
 | `/output-style [name]` | List and switch output styles (re-added in v2.1.269 after being removed in v2.1.91). With no argument it lists the styles and marks the current one. Works in headless and Remote Control sessions; the selection is saved to `.claude/settings.local.json` |
 | `/passes` | Share free week of Claude Code |
 | `/permissions` | View/update permissions (alias: `/allowed-tools`) |
@@ -97,7 +97,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/stickers` | Order Claude Code stickers |
 | `/status` | Show version, model, account, and a `Session kind` row reading `background job · attached`, `background job · unattended`, or `interactive` (row added v2.1.221). Openable while Claude is responding |
 | `/statusline` | Configure status line |
-| `/tasks` | List/manage background tasks |
+| `/tasks` | List/manage background tasks. Since v2.1.319 an **Earlier in this session** row lists finished subagents, so you can reopen one and message it even after it leaves the list or you restart. |
 | `/team-onboarding` | Generate a teammate ramp-up guide from your last 30 days of Claude Code sessions, commands, and MCP usage; on Team and Enterprise plans it also returns a share link (new in v2.1.101) |
 | `/teleport` | Resume a Claude Code on the web session in this terminal; opens a picker of your web sessions (alias: `/tp`). Requires a claude.ai subscription |
 | `/terminal-setup` | Configure terminal keybindings |
@@ -118,7 +118,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 | Skill | Purpose |
 |-------|---------|
 | `/batch <instruction>` | Orchestrate large-scale parallel changes using worktrees |
-| `/claude-api` | Load Claude API reference for project language. Subcommands include `api-version` (move code to a newer API version, v2.1.307+) and `managed-agents-secure` (audit a Managed Agent's settings, v2.1.304+) |
+| `/claude-api` | Load Claude API reference for project language. Subcommands include `api-version` (move code to a newer API version, v2.1.307+), `managed-agents-secure` (audit a Managed Agent's settings, v2.1.304+), and `latency-optimize` (find where your Claude API code makes people wait and try faster settings against your eval, v2.1.319+) |
 | `/dataviz` | Chart and dashboard design guidance with a runnable color-palette validator (v2.1.198) |
 | `/debug [description]` | Enable debug logging |
 | `/design [description]` | Create a **design canvas** — a multi-artboard visual design (UI mockups, screen flows, landing pages, posters) published as an artifact and refined visually rather than in code. Use it instead of hand-writing HTML when the layout is what you want to iterate on. Requires v2.1.265+, a session where artifacts are available, and an account with the Design template; not available on Bedrock, Vertex, Foundry, or Claude Platform on AWS. Standalone Claude Design (claude.ai/design) closes by December 14, 2026. `/design consent` and `/design revoke` grant or withdraw Claude's access to Claude Design; when Claude asks you to run `/design consent`, type it at the prompt yourself. |
@@ -655,8 +655,8 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: November 1, 2026
-**Claude Code Version**: 2.1.316
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills
@@ -698,6 +698,10 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 - https://code.claude.com/docs/en/feature-availability#ultra-plan
 - https://code.claude.com/docs/en/changelog#2-1-316
 - https://code.claude.com/docs/en/model-config#when-a-new-effort-level-starts
+- https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-319
+- https://code.claude.com/docs/en/vs-code#run-cli-in-vs-code
+- https://code.claude.com/docs/en/changelog#2-1-318
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *Part of the [Claude How To](../) guide series*

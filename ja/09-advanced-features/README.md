@@ -255,7 +255,7 @@ claude --effort high "complex architectural review"
 /effort high
 ```
 
-> **注：** プロンプトに「ultrathink」というキーワードを含めると深い推論モードが起動する。v2.1.311 以降、対話型ターミナルで入力すると、Anthropic の API 経由の Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.1 ではそのターンを `xhigh` の努力度で実行する（可能な場合はキーワードが虹色で表示される。Claude の作業中に入力すると、そのターンの残りの努力度を引き上げる。VS Code は v2.1.316 以降）。Bedrock やその他のモデルでは、代わりに努力度レベルを設定すること。`CLAUDE_CODE_DISABLE_ULTRATHINK=1`（v2.1.316）でこのキーワードを無効化できる。努力度レベル `low`、`medium`、`high`、`max` は Opus 4.7、Opus 4.6、Sonnet 4.6 でサポートされる。`xhigh`（Opus 4.7 でのデフォルト）は Opus 4.7 専用である。
+> **注：** プロンプトに「ultrathink」というキーワードを含めると深い推論モードが起動する。v2.1.311 以降、対話型ターミナルで入力すると、Anthropic の API 経由の Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.2（v2.1.321 以降）、Fable 5.1 ではそのターンを `xhigh` の努力度で実行する（可能な場合はキーワードが虹色で表示される。Claude の作業中に入力すると、そのターンの残りの努力度を引き上げる。VS Code は v2.1.316 以降）。Bedrock やその他のモデルでは、代わりに努力度レベルを設定すること。`CLAUDE_CODE_DISABLE_ULTRATHINK=1`（v2.1.316）でこのキーワードを無効化できる。努力度レベル `low`、`medium`、`high`、`max` は Opus 4.7、Opus 4.6、Sonnet 4.6 でサポートされる。`xhigh`（Opus 4.7 でのデフォルト）は Opus 4.7 専用である。
 
 ### 拡張思考のメリット
 
@@ -635,7 +635,7 @@ done
 
 ## スケジュールタスク
 
-スケジュールタスクを使うと、定期スケジュールで自動的にプロンプトを実行したり、1 回だけのリマインダーとして実行したりできる。タスクはセッションスコープ — Claude Code が動作している間だけ実行され、セッション終了時にクリアされる。v2.1.72 以降で利用可能。
+スケジュールタスクを使うと、定期スケジュールで自動的にプロンプトを実行したり、1 回だけのリマインダーとして実行したりできる。タスクはセッションスコープ — Claude Code が動作している間だけ実行される。`--resume` または `--continue` で再開すると、Claude Code は期限切れでないタスクを復元する。ただし、予定時刻を過ぎた 1 回限りのタスクと自己ペースの `/loop` は除く（再開するには `/loop` をもう一度実行する）。v2.1.72 以降で利用可能。
 
 ### `/loop` コマンド
 
@@ -668,18 +668,18 @@ in 45 minutes, run the integration tests
 
 **制限と挙動：**
 - セッションあたり最大 **50 個のスケジュールタスク**
-- セッションスコープ — セッション終了時にクリアされる
-- 定期タスクは **3 日後** に自動失効する
+- セッションスコープ — 期限切れでなければ `--resume`／`--continue` で復元される
+- 定期タスクは作成から **7 日後** に自動失効する（最後に 1 回実行してから自身を削除する）
 - タスクは Claude Code の動作中のみ実行される — 取りこぼしの追加実行はない
 
 ### 挙動の詳細
 
 | 項目 | 詳細 |
 |--------|--------|
-| **定期実行のジッタ** | 間隔の最大 10%（最大 15 分） |
-| **1 回限りのジッタ** | :00／:30 境界で最大 90 秒 |
+| **定期実行のジッタ** | 次回実行までの間隔の半分まで遅れて開始する（最大 30 分）。`*/5 * * * *` のタスク（`/loop 5m` が作成するもの）は遅延せず、15 秒早く開始する |
+| **1 回限りのジッタ** | `:00` または `:30` に予定した場合、最大 90 秒早く実行される |
 | **取りこぼし** | キャッチアップなし — Claude Code が動いていなければスキップされる |
-| **永続化** | 再起動をまたいで保持されない |
+| **永続化** | `--resume`／`--continue` で復元される。ただし期限切れのタスク、予定時刻を過ぎた 1 回限りのタスク、自己ペースの `/loop` は除く。取りこぼした実行の追加実行はない |
 
 ### クラウドスケジュールタスク
 
@@ -2103,8 +2103,8 @@ Claude Code および関連機能の詳細：
 
 ---
 
-**最終更新：** 2026 年 11 月 1 日
-**Claude Code バージョン：** 2.1.316
+**最終更新：** 2026 年 11 月 12 日
+**Claude Code バージョン：** 2.1.322
 **情報源：**
 - https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
 - https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
@@ -2143,5 +2143,9 @@ Claude Code および関連機能の詳細：
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
 - https://code.claude.com/docs/en/cli-reference#cli-flags
+- https://code.claude.com/docs/en/model-config#adjust-effort-level
+- https://code.claude.com/docs/en/scheduled-tasks#seven-day-expiry
+- https://code.claude.com/docs/en/scheduled-tasks#jitter
+- https://code.claude.com/docs/en/scheduled-tasks#limitations
 
 **互換モデル：** Claude Sonnet 4.6、Claude Opus 4.7、Claude Haiku 4.5

@@ -140,7 +140,7 @@ của tác nhân con để giải quyết vấn đề.
 | `hooks` | Không | Hooks chỉ chạy khi tác nhân con này đang hoạt động. Hỗ trợ mọi sự kiện hook; phổ biến nhất là `PreToolUse`, `PostToolUse`, `Stop` (chạy dưới dạng `SubagentStop`) |
 | `memory` | Không | Phạm vi thư mục bộ nhớ liên tục: `user`, `project`, hoặc `local` |
 | `background` | Không | Tác nhân con vốn đã chạy nền theo mặc định (v2.1.198). Từ v2.1.302, các tác nhân con của cuộc hội thoại chính trong ứng dụng desktop và VS Code cũng khởi động ở chế độ nền. Khi chế độ fork đang bật (mặc định), Claude không thể chờ chúng. Các lời gọi Agent của chính tác nhân con trong `claude -p`, Agent SDK, ứng dụng desktop và VS Code mặc định chạy ở foreground. Đặt thành `true` để *buộc* luôn chạy nền và ngăn thực thi nội tuyến |
-| `effort` | Không | Mức độ nỗ lực lý luận: `low`, `medium`, `high`, `xhigh`, hoặc `max`. Ghi đè mức nỗ lực của phiên; các mức khả dụng phụ thuộc vào mô hình. Claude cũng có thể truyền giá trị `effort` khi gọi công cụ Agent (v2.1.292). Khi không có gì chỉ định mức, `CLAUDE_CODE_SUBAGENT_EFFORT` đặt mức mà tác nhân con chạy thay cho mức của phiên (v2.1.316). |
+| `effort` | Không | Mức độ nỗ lực lý luận: `low`, `medium`, `high`, `xhigh`, hoặc `max`. Ghi đè mức nỗ lực của phiên; các mức khả dụng phụ thuộc vào mô hình. Claude cũng có thể truyền giá trị `effort` khi gọi công cụ Agent (v2.1.292). Khi không có gì chỉ định mức, `CLAUDE_CODE_SUBAGENT_EFFORT` đặt mức mà tác nhân con chạy thay cho mức của phiên (v2.1.316). Tác nhân con chạy trên mô hình khác với cuộc hội thoại chính không dùng mức của phiên: nó chạy ở mức nỗ lực đã lưu của mô hình đó hoặc mức mặc định của mô hình (v2.1.317), vì vậy hãy đặt `effort` ở đây để tự chọn. |
 | `isolation` | Không | Đặt thành `worktree` để cung cấp cho tác nhân con git worktree riêng |
 | `initialPrompt` | Không | Lượt đầu tự động gửi khi tác nhân con chạy như tác nhân chính |
 | `color` | Không | Màu hiển thị của tác nhân con trong danh sách tác vụ và transcript. Chấp nhận `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink`, hoặc `cyan` |
@@ -779,7 +779,7 @@ Cấu hình đội được lưu trữ tại `~/.claude/teams/{team-name}/config
 
 ### Chọn Mô Hình Cho Đồng Nghiệp
 
-Từ v2.1.234, cài đặt `/config` "Default teammate model" đã bị gỡ bỏ. Giờ đây đồng nghiệp mặc định kế thừa mô hình của trưởng đội, trừ khi lời gọi tạo đồng nghiệp chỉ định rõ một mô hình khác.
+Từ v2.1.234, cài đặt `/config` "Default teammate model" đã bị gỡ bỏ. Giờ đây đồng nghiệp mặc định kế thừa mô hình của trưởng đội, trừ khi lời gọi tạo đồng nghiệp chỉ định rõ một mô hình khác. Từ v2.1.317, đồng nghiệp chạy trên mô hình khác với trưởng đội sẽ chạy ở mức nỗ lực đã lưu của mô hình đó hoặc mức mặc định của mô hình, chứ không theo mức của phiên trưởng đội.
 
 ### Kiến Trúc Đội
 
@@ -1352,8 +1352,8 @@ Xem phần OpenTelemetry trong [Tính Năng Nâng Cao → Telemetry](../09-advan
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.316
+**Cập Nhật Lần Cuối**: Ngày 12 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.322
 **Nguồn**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1390,4 +1390,6 @@ Xem phần OpenTelemetry trong [Tính Năng Nâng Cao → Telemetry](../09-advan
 - https://code.claude.com/docs/en/changelog#2-1-316
 - https://code.claude.com/docs/en/sub-agents#choose-a-model
 - https://code.claude.com/docs/en/errors#a-command-line-deny-rule-cannot-be-handed-to-a-teammate-intact
+- https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
+- https://code.claude.com/docs/en/changelog#2-1-317
 **Các Mô Hình Tương Thích**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

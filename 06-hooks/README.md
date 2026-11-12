@@ -63,7 +63,7 @@ Hooks are configured in settings files with a specific structure:
 | `asyncRewake` | If `true`, runs in the background and wakes Claude on exit code 2. Implies `async`. | `true` |
 | `shell` | Accepts `"bash"` or `"powershell"`. Defaults to `"bash"`, or to `"powershell"` on Windows when Git Bash isn't installed. A PowerShell hook's exit code 2 blocks only from v2.1.309; upgrade before relying on a PowerShell guard hook. | `"bash"` |
 | `statusMessage` | Custom spinner message displayed while the hook runs | `"Formatting…"` |
-| `onFailure` | What happens to the action when a command or HTTP hook fails (can't start, times out, exits with an unexpected code): `"continue"` (default) or `"block"` (v2.1.295+) | `"block"` |
+| `onFailure` | What happens to the action when a command or HTTP hook fails (can't start, times out, exits with an unexpected code): `"continue"` (default) or `"block"` (v2.1.295+). Agent SDK hook callbacks set this on the matcher: `onFailure: "block"` in TypeScript (Agent SDK v0.3.317+) or `on_failure="block"` in Python (v0.2.177+) blocks the action when the callback fails, instead of letting it run. | `"block"` |
 
 > **Note**: Some events lower the default timeout. `UserPromptSubmit` lowers the `command`, `http`, and `mcp_tool` default to 30 seconds, and `MessageDisplay` lowers it to 10 seconds. `SessionEnd` hooks share a 1.5-second budget; if your settings set a longer per-hook `timeout`, Claude Code raises that budget to match, up to 60 seconds.
 
@@ -227,7 +227,7 @@ The `mcp_tool` type invokes a configured MCP tool directly; configuration refere
 - `"tool"` -- the tool name on that server to invoke
 - `"input"` -- optional arguments passed to the tool; string values support `${path}` substitution from the hook's JSON input, such as `"${tool_input.file_path}"`
 
-The tool's arguments come from `input` (with `${path}` substitution), not from the hook input directly. See [MCP server setup](../05-mcp/README.md) for configuring MCP servers.
+The tool's arguments come from `input` (with `${path}` substitution), not from the hook input directly. See [MCP server setup](../05-mcp/README.md) for configuring MCP servers. If Claude Code can't read the tool's answer (for example an answer over 16 MiB from a stdio or HTTP server), a `PreToolUse` `mcp_tool` hook gives no verdict and the tool call is refused (v2.1.321; earlier versions skipped the hook).
 
 ### Agent Hooks
 
@@ -332,14 +332,14 @@ Runs after Claude creates tool parameters and before processing. Use this to val
   - `"allow"` skips the permission prompt (except for tools that require user interaction, and connector tools your organization set to `ask`)
   - `"deny"` prevents the tool call
   - `"ask"` prompts the user to confirm; the prompt names the plugin or skill the hook comes from (v2.1.301). In auto mode the call goes to the prompt instead of the classifier, except that the classifier can still deny calls Claude Code's own checks flag (protected paths, unsandboxed retries), and `SubagentHandback` calls run without a prompt — return `"deny"` to stop one
-  - `"defer"` ends the turn so the tool can be resumed later, and works only in non-interactive mode with `-p` (interactive sessions log a warning and ignore it); the result carries `stop_reason: "tool_deferred"`. `permissionDecisionReason`, `updatedInput` and `additionalContext` are all ignored for this value
+  - `"defer"` ends the turn so the tool can be resumed later, and works only in non-interactive mode with `-p` and only when Claude makes a single tool call in the turn (interactive sessions log a warning and ignore it); the result carries `stop_reason: "tool_deferred"`. `permissionDecisionReason`, `updatedInput` and `additionalContext` are all ignored for this value. A `defer` that can't be honored no longer drops another hook's `ask` (v2.1.321). If a deferred call's tool is missing when you resume (`stop_reason: "tool_deferred_unavailable"`), the call stays pending and the run exits 1 (v2.1.319); to drop it, resume with a prompt and `CLAUDE_CODE_DROP_UNAVAILABLE_DEFERRED_TOOL=1`.
   - Deny and ask rules are still evaluated regardless of what the hook returns. When multiple `PreToolUse` hooks disagree, precedence is `deny` > `defer` > `ask` > `allow`
 - `permissionDecisionReason`: Explanation for decision. Shown to the user (not Claude) for `"ask"`; shown to Claude for `"deny"`; for `"allow"` and `"defer"`, written to the debug log only
 - `updatedInput`: Replacement tool input (replaces the whole input object). Since v2.1.300 it is validated like Claude's own input — unknown keys are dropped, and input the tool rejects denies the call. When several `PreToolUse` hooks return `updatedInput` for the same call, Claude Code doesn't merge the rewrites or guarantee which one the tool runs with, so let only one hook rewrite a given tool's input.
 
 ### PostToolUse
 
-Runs immediately after tool completion. Use for verification, logging, or providing context back to Claude.
+Runs immediately after tool completion. Since v2.1.319, if a message sent with `Ctrl+Enter` ends the turn while a tool is running and the tool then finishes, `PostToolUse` hooks still run on its result with 10 seconds to finish (use `async: true` for longer work); `Esc` cancels them. Use for verification, logging, or providing context back to Claude.
 
 **Configuration:**
 ```json
@@ -1653,8 +1653,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: November 1, 2026
-**Claude Code Version**: 2.1.316
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1685,4 +1685,9 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 - https://code.claude.com/docs/en/hooks#json-output
 - https://code.claude.com/docs/en/env-vars#variables
 - https://code.claude.com/docs/en/model-config#extended-context
+- https://code.claude.com/docs/en/agent-sdk/hooks#block-the-action-when-a-callback-fails
+- https://code.claude.com/docs/en/hooks#mcp-tool-hook-fields
+- https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-319
+- https://code.claude.com/docs/en/hooks#posttooluse-after-an-interrupt
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

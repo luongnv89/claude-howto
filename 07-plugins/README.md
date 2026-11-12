@@ -369,15 +369,15 @@ A mod is a plugin that changes how Claude Code looks and behaves. Its code is a 
 | React to events | Follow tool calls, prompts, and turns; a mod's hooks share variables, so one can count tool calls while another shows the count beside the spinner |
 | Call the mods API | Call a model, read and write files, start processes, or make network requests (a hook can do these only through the mods API) |
 
-To create a mod, describe what you want in a Claude Code session: Claude works from the built-in `plugin-authoring` skill (or run `/plugin-authoring` yourself), writes the mod, and, once you enable hot reloading for the session, reloads it at the end of each turn that changes it; `claude plugin validate` checks a mod without running it. Administrators decide whether mods run, and which ones, through managed settings — for example, `allowManagedModsOnly` lets only your organization's mods and the mods built into Claude Code run their hooks. With managed settings, or a Team or Enterprise `/login` as the session's credential, a built-in guard stops a user's mod from approving a call that a `deny` or `ask` rule or any `PreToolUse` hook would stop; without either, a mod can approve such a call.
+To create a mod, describe what you want in a Claude Code session: Claude works from the built-in `plugin-authoring` skill (or run `/plugin-authoring` yourself), writes the mod and loads it when the turn ends — in `auto` and `bypassPermissions` modes without asking (v2.1.321+, even under managed `allowUnsandboxedCommands: false` or `allowManagedDomainsOnly`), otherwise once you approve hot reloading for the session — and then reloads it at the end of each turn that changes it. It doesn't load where nobody can approve it: `dontAsk` mode, or a `claude -p` run outside `auto` and `bypassPermissions`; `claude plugin validate` checks a mod without running it. Administrators decide whether mods run, and which ones, through managed settings — for example, `allowManagedModsOnly` lets only your organization's mods and the mods built into Claude Code run their hooks. With managed settings, or a Team or Enterprise `/login` as the session's credential, a built-in guard stops a user's mod from approving a call that a `deny` or `ask` rule or any `PreToolUse` hook would stop; without either, a mod can approve such a call.
 
-> **Note**: v2.1.299–2.1.300 add `Text` props `size`, `weight`, `mono`, `tabular`, `dir` (RTL) — `bold` is deprecated in favor of `weight` — `Box` spacing steps `xs`–`xl`, prompt `virtualText`, `$.ui.view({ agentId })`, and the `prompt.change` hook; v2.1.301 adds `Input` `rows` for a multi-line field (Enter submits, Shift+Enter adds a line). v2.1.304 adds `e.isReadOnly` on `tool.check` (plus an `isReadOnly: true` matcher), `settings.read` hooks that see each settings layer (`e.layers`) on Claude Code's own reads — so a managed mod can cap an organization's setting — and a `key` argument for `$.settings.read()`; v2.1.305 keeps a docked pane within 45% of the terminal's width and draws `Image` in iTerm2 3.5+ (fullscreen rendering); v2.1.310 draws `Image` inside tmux 3.3+ with `allow-passthrough` and `focus-events` on.
+> **Note**: v2.1.299–2.1.300 add `Text` props `size`, `weight`, `mono`, `tabular`, `dir` (RTL) — `bold` is deprecated in favor of `weight` — `Box` spacing steps `xs`–`xl`, prompt `virtualText`, `$.ui.view({ agentId })`, and the `prompt.change` hook; v2.1.301 adds `Input` `rows` for a multi-line field (Enter submits, Shift+Enter adds a line). v2.1.304 adds `e.isReadOnly` on `tool.check` (plus an `isReadOnly: true` matcher), `settings.read` hooks that see each settings layer (`e.layers`) on Claude Code's own reads — so a managed mod can cap an organization's setting — and a `key` argument for `$.settings.read()`; v2.1.305 keeps a docked pane within 45% of the terminal's width and draws `Image` in iTerm2 3.5+ (fullscreen rendering); v2.1.310 draws `Image` inside tmux 3.3+ with `allow-passthrough` and `focus-events` on. v2.1.318 adds an `effort` option to `$.model.fork`, so a quick side job can run at `low` whatever effort the session uses (the result reports the effort sent), and what a mod attaches at `prompt.submit` now stays in the user's turn rather than going out as a system message.
 
 > **Note**: See the official [Mods overview](https://code.claude.com/docs/en/plugins/mods/overview), [Create a mod](https://code.claude.com/docs/en/plugins/mods/create), and [Mods reference](https://code.claude.com/docs/en/plugins/mods/reference).
 
 ## Plugin Settings
 
-Plugins can ship a `settings.json` file to provide default configuration. Two keys take effect, `agent` and `subagentStatusLine`; every other key is dropped. `agent` takes the name of one of the plugin's agents and runs it as the main thread:
+Plugins can ship a `settings.json` file to provide default configuration. Two keys take effect, `agent` and `subagentStatusLine`; every other key is dropped. Since v2.1.319, `${CLAUDE_PLUGIN_ROOT}` is substituted in a plugin-provided `subagentStatusLine` command, so it can run the plugin's own scripts. `agent` takes the name of one of the plugin's agents and runs it as the main thread:
 
 ```json
 {
@@ -871,7 +871,7 @@ Example: `claude plugin tag ./my-plugin` takes a **path** to the plugin (not a v
 
 `claude plugin prune` is useful after installing or uninstalling marketplace plugins that pulled in their own dependencies — it removes any auto-installed plugins whose parent plugin has since been removed. `plugin uninstall --prune` does the same cascade in a single step.
 
-> **Dependency enforcement (v2.1.143)**: `claude plugin disable <name>` **refuses** if another enabled plugin still depends on the target (the dependency graph would break). `claude plugin enable <name>` **force-enables transitive dependencies** after a single confirmation prompt rather than requiring a separate enable for each. Use `claude plugin prune` to clean up dependencies whose dependents were later removed.
+> **Dependency enforcement (v2.1.143)**: `claude plugin disable <name>` **refuses** if another enabled plugin still depends on the target (the dependency graph would break). `claude plugin enable <name>` **force-enables transitive dependencies** after a single confirmation prompt rather than requiring a separate enable for each. Use `claude plugin prune` to clean up dependencies whose dependents were later removed. Since v2.1.319, `claude plugin update`, `/plugin` **Update now** and background auto-update also install dependencies that the new plugin version adds.
 
 ### `claude plugin details <name>` (v2.1.139+)
 
@@ -1087,7 +1087,7 @@ Administrators can control plugin behavior across an organization using managed 
 |---------|-------------|
 | `enabledPlugins` | Allowlist of plugins that are enabled by default |
 | `enabledPlugins` (set to `false`) | Block a plugin: `"enabledPlugins": { "<plugin>@<marketplace>": false }` in managed settings blocks it from installation at every scope and hides it from the marketplace |
-| `extraKnownMarketplaces` | Add additional marketplace sources beyond the defaults |
+| `extraKnownMarketplaces` | Add additional marketplace sources beyond the defaults. From managed settings (v2.1.321+), a declared name can't be added from another source, an entry from elsewhere is hidden, and plugins the declared marketplace lists are reinstalled from it; after a take-over from an undeclared source, saved data is set aside for `cleanupPeriodDays`, and options and secrets until `claude plugin restore-set-aside` |
 | `strictKnownMarketplaces` | Restrict which marketplaces users are allowed to add (managed-only; enforced on every plugin lifecycle event since v2.1.117) |
 | `blockedMarketplaces` | Blocklist of marketplaces; enforced on every plugin lifecycle event since v2.1.117; supports `hostPattern` / `pathPattern` regex fields since v2.1.119 |
 | `allowedChannelPlugins` | Allowlist of [channel](https://code.claude.com/docs/en/channels) plugins that may push messages into sessions (entries name a `marketplace` and a `plugin`) |
@@ -1358,8 +1358,8 @@ If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, updat
 
 ---
 
-**Last Updated**: November 1, 2026
-**Claude Code Version**: 2.1.316
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1423,4 +1423,10 @@ If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, updat
 - https://code.claude.com/docs/en/github-actions#run-a-skill
 - https://code.claude.com/docs/en/plugins/cli-reference#advice-on-the-readme
 - https://code.claude.com/docs/en/plugins/create-marketplace#host-your-marketplace
+- https://code.claude.com/docs/en/plugins/mods/create#ask-claude-for-a-mod
+- https://code.claude.com/docs/en/plugins/mods/create#sessions-where-a-mod-claude-writes-cant-load
+- https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-318
+- https://code.claude.com/docs/en/changelog#2-1-319
+- https://code.claude.com/docs/en/plugins/org#require-a-marketplace-and-its-plugins
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

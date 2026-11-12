@@ -53,7 +53,7 @@
 | `/exit` | REPL 종료 (별칭: `/quit`) |
 | `/export [filename]` | 현재 대화를 파일 또는 클립보드로 내보냅니다 |
 | `/usage-credits` | 속도 제한을 위한 추가 사용량 구성 (v2.1.144에서 `/extra-usage`에서 이름 변경, `/extra-usage`는 여전히 별칭으로 작동) |
-| `/fast [on\|off]` | 빠른 모드 전환. Opus 5.5(v2.1.280부터 빠른 모드 기본값), Opus 5, Opus 4.8에 적용됩니다 |
+| `/fast [on\|off]` | 빠른 모드 전환. Fable 5.2(v2.1.321+), Opus 5.5(v2.1.280부터 빠른 모드 기본값), Opus 5, Opus 4.8에 적용됩니다 |
 | `/feedback` | 피드백 제출. v2.1.141부터 최근 세션(지난 24시간 또는 7일)을 첨부할 수 있어 여러 세션에 걸친 보고서에 컨텍스트가 포함됩니다. v2.1.178부터 `/bug`는 제출 전에 설명이 필요합니다. |
 | `/focus` | 포커스 뷰 전환 (v2.1.110에 추가, 포커스 토글용 `Ctrl+O`를 대체) |
 | `/goal <statement>` | 세션 수준 완료 조건을 등록합니다. Claude는 목표가 달성될 때까지 계속 작업합니다. `/goal clear`는 이를 제거합니다. 활성 목표는 상태 표시줄에 나타나며, 경과 시간, 턴 수, 토큰 사용량을 보여주는 라이브 오버레이 패널이 함께 표시됩니다 (v2.1.139에 추가). |
@@ -658,8 +658,8 @@ Deploy the application to production:
 
 ---
 
-**최종 업데이트**: 2026년 10월 26일
-**Claude Code 버전**: 2.1.310
+**최종 업데이트**: 2026년 11월 12일
+**Claude Code 버전**: 2.1.322
 **출처**:
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills
@@ -698,6 +698,7 @@ Deploy the application to production:
 - https://code.claude.com/docs/en/routines#where-the-name-routines-still-appears
 - https://code.claude.com/docs/en/artifacts#find-an-artifact-again
 - https://code.claude.com/docs/en/auto-mode-config#generate-environment-entries-with-auto-mode-setup
+- https://code.claude.com/docs/en/changelog#2-1-321
 **호환 모델**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
 
 *[Claude How To](../) 가이드 시리즈의 일부입니다*

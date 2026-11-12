@@ -701,7 +701,7 @@ claude --effort high "complex review"
 export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high або max (лише Opus 4.6)
 ```
 
-Ключове слово "ultrathink" у промптах активує глибоке міркування. Починаючи з v2.1.311, якщо ввести його в інтерактивному терміналі, воно також запускає цей хід із рівнем `xhigh` на Opus 5.5, Sonnet 5.5, Haiku 5.5 та Fable 5.1 через API Anthropic (слово підсвічується веселкою, коли це можливо; у VS Code — з v2.1.316), а `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) вимикає його. Рівень `max` — ексклюзивний для Opus 4.6.
+Ключове слово "ultrathink" у промптах активує глибоке міркування. Починаючи з v2.1.311, якщо ввести його в інтерактивному терміналі, воно також запускає цей хід із рівнем `xhigh` на Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2 (v2.1.321+) та Fable 5.1 через API Anthropic (слово підсвічується веселкою, коли це можливо; у VS Code — з v2.1.316), а `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (v2.1.316) вимикає його. Рівень `max` — ексклюзивний для Opus 4.6.
 
 ---
 
@@ -842,8 +842,8 @@ claude -p --output-format json "query"
 *Частина серії посібників [Claude How To](../)*
 
 ---
-**Останнє оновлення**: 1 листопада 2026
-**Версія Claude Code**: 2.1.316
+**Останнє оновлення**: 12 листопада 2026
+**Версія Claude Code**: 2.1.322
 **Джерела**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
@@ -859,4 +859,5 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/cli-reference#cli-flags
 - https://code.claude.com/docs/en/env-vars#variables
 - https://code.claude.com/docs/en/scheduled-tasks
+- https://code.claude.com/docs/en/model-config#adjust-effort-level
 **Сумісні моделі**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

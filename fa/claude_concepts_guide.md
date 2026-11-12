@@ -1284,7 +1284,7 @@ Esc + Esc
 **فعال‌سازی:**
 - در طول نشست با `Alt+T` (یا `Option+T` در macOS) وضعیت را تغییر دهید
 - مدل‌های Opus 4.7+، Sonnet 5+، Haiku 5.5 و Fable همیشه از استدلال تطبیقی استفاده می‌کنند، بنابراین بودجهٔ ثابت `MAX_THINKING_TOKENS` اعمال نمی‌شود؛ عمق را با `/effort` کنترل کنید
-- برای اجرای همان یک نوبت با تلاش `xhigh` روی Opus 5.5، Sonnet 5.5، Haiku 5.5 و Fable 5.1 از طریق Anthropic API، در پرامپت `ultrathink` تایپ کنید (ترمینال v2.1.311+، VS Code v2.1.316+)؛ `CLAUDE_CODE_DISABLE_ULTRATHINK` این کلیدواژه را خاموش می‌کند
+- برای اجرای همان یک نوبت با تلاش `xhigh` روی Opus 5.5، Sonnet 5.5، Haiku 5.5، Fable 5.2 (v2.1.321+) و Fable 5.1 از طریق Anthropic API، در پرامپت `ultrathink` تایپ کنید (ترمینال v2.1.311+، VS Code v2.1.316+)؛ `CLAUDE_CODE_DISABLE_ULTRATHINK` این کلیدواژه را خاموش می‌کند
 
 ```bash
 # عمق استدلال را با سطح تلاش کنترل کنید
@@ -1441,8 +1441,8 @@ Claude Code از مدل‌های زیر با تلاش استدلال تطبیق�
 - [کتاب آشپزی آنتروپیک](https://github.com/anthropics/anthropic-cookbook)
 
 ---
-**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.316
+**آخرین به‌روزرسانی**: ۱۲ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.322
 **منابع**:
 - https://code.claude.com/docs/en/plugins/manifest-reference
 - https://code.claude.com/docs/en/plugins/create

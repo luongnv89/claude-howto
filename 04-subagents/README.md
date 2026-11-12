@@ -140,7 +140,7 @@ to solving problems.
 | `hooks` | No | Hooks that run only while this subagent is active. All hook events are supported; most common are `PreToolUse`, `PostToolUse`, `Stop` (runs as `SubagentStop`) |
 | `memory` | No | Persistent memory directory scope: `user`, `project`, or `local` |
 | `background` | No | Subagents already run in the background by default (v2.1.198). Since v2.1.302 the main conversation's subagents in the desktop app and VS Code also start in the background. While fork mode is on (the default), Claude can't wait for them. A subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Set to `true` to *force* background always and prevent inline execution |
-| `effort` | No | Reasoning effort level: `low`, `medium`, `high`, `xhigh`, or `max`. Overrides the session effort level; available levels depend on the model. Claude can also pass an `effort` value when it calls the Agent tool (v2.1.292). When nothing names a level, `CLAUDE_CODE_SUBAGENT_EFFORT` sets the one subagents run at instead of the session's (v2.1.316). |
+| `effort` | No | Reasoning effort level: `low`, `medium`, `high`, `xhigh`, or `max`. Overrides the session effort level; available levels depend on the model. Claude can also pass an `effort` value when it calls the Agent tool (v2.1.292). When nothing names a level, `CLAUDE_CODE_SUBAGENT_EFFORT` sets the one subagents run at instead of the session's (v2.1.316). A subagent on a different model than the main conversation doesn't use the session's level: it runs at that model's saved effort level or its default (v2.1.317), so set `effort` here to choose. |
 | `isolation` | No | Set to `worktree` to give the subagent its own git worktree |
 | `initialPrompt` | No | Auto-submitted first turn when the subagent runs as the main agent |
 | `color` | No | Display color for the subagent in the task list and transcript. Accepts `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink`, or `cyan` |
@@ -530,7 +530,7 @@ graph LR
 
 ## Background Subagents
 
-Subagents run in the background by default (v2.1.198). Since v2.1.302 the main conversation's subagents in the desktop app and VS Code also start in the background. While fork mode is on (the default), Claude can't wait for them. A subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Claude keeps working on the main conversation while a subagent runs and is notified when it finishes, so you no longer wait on a subagent to return before continuing. In VS Code (v2.1.304+), a background subagent shows as one status line under its Agent card instead of streaming every step into the chat; open `/tasks` and click it to see its tool calls and transcript.
+Subagents run in the background by default (v2.1.198). Since v2.1.302 the main conversation's subagents in the desktop app and VS Code also start in the background. While fork mode is on (the default), Claude can't wait for them. A subagent's own Agent calls in `claude -p`, the Agent SDK, the desktop app and VS Code run in the foreground by default. Claude keeps working on the main conversation while a subagent runs and is notified when it finishes, so you no longer wait on a subagent to return before continuing. A background subagent's shell command that is still running after 3 minutes moves to the background, so the prompt cache doesn't expire while it runs (v2.1.318). A `SendMessage` to a running background subagent moves its running command to the background without stopping it, so the message arrives sooner (v2.1.317). In VS Code (v2.1.304+), a background subagent shows as one status line under its Agent card instead of streaming every step into the chat; open `/tasks` and click it to see its tool calls and transcript.
 
 ### Configuration
 
@@ -779,7 +779,7 @@ Team configurations are stored at `~/.claude/teams/{team-name}/config.json`.
 
 ### Teammate Model Selection
 
-As of v2.1.234, the "Default teammate model" `/config` setting was removed. Teammates now inherit the team lead's model by default, unless the spawn call specifies a different model explicitly.
+As of v2.1.234, the "Default teammate model" `/config` setting was removed. Teammates now inherit the team lead's model by default, unless the spawn call specifies a different model explicitly. Since v2.1.317, a teammate on a different model than the lead runs at that model's saved effort level or its default, not the lead session's level.
 
 ### Architecture
 
@@ -1352,8 +1352,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: November 1, 2026
-**Claude Code Version**: 2.1.316
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1390,4 +1390,7 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 - https://code.claude.com/docs/en/changelog#2-1-316
 - https://code.claude.com/docs/en/sub-agents#choose-a-model
 - https://code.claude.com/docs/en/errors#a-command-line-deny-rule-cannot-be-handed-to-a-teammate-intact
+- https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
+- https://code.claude.com/docs/en/changelog#2-1-317
+- https://code.claude.com/docs/en/changelog#2-1-318
 **Compatible Models**: Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5

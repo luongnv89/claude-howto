@@ -134,7 +134,7 @@ to solving problems.
 | `hooks` | Ні | Хуки, що працюють лише поки цей субагент активний. Підтримуються всі події хуків; найпоширеніші — `PreToolUse`, `PostToolUse`, `Stop` (виконується як `SubagentStop`) |
 | `memory` | Ні | Область постійної пам'яті: `user`, `project` або `local` |
 | `background` | Ні | `true` для запуску як фонового завдання |
-| `effort` | Ні | Рівень зусиль: `low`, `medium`, `high` або `max` |
+| `effort` | Ні | Рівень зусиль: `low`, `medium`, `high` або `max`. Субагент на іншій моделі, ніж основна розмова, не використовує рівень сесії: він працює на збереженому рівні зусиль цієї моделі або на її типовому рівні (v2.1.317), тож щоб обрати рівень, задайте `effort` тут |
 | `isolation` | Ні | `worktree` для власного git worktree |
 | `initialPrompt` | Ні | Автоматичний перший крок при запуску субагента як головного агента |
 | `color` | Ні | Колір відображення субагента у списку завдань і транскрипті. Приймає `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink` або `cyan` |
@@ -1132,8 +1132,8 @@ graph TD
 - [Посібник хуків](../06-hooks/) — для автоматизації за подіями
 
 ---
-**Останнє оновлення**: 1 листопада 2026
-**Версія Claude Code**: 2.1.316
+**Останнє оновлення**: 12 листопада 2026
+**Версія Claude Code**: 2.1.322
 **Джерела**:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/commands
@@ -1148,4 +1148,6 @@ graph TD
 - https://code.claude.com/docs/en/changelog#2-1-302
 - https://code.claude.com/docs/en/agent-teams#have-teammates-plan-before-implementing
 - https://code.claude.com/docs/en/agent-teams#assign-and-claim-tasks
+- https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
+- https://code.claude.com/docs/en/changelog#2-1-317
 **Сумісні моделі**: Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5

@@ -408,7 +408,7 @@ claude --plugin-dir ./07-plugins/pr-review
 | **Auto Memory** | Automatic memory saving from conversations | Claude saves notes to `~/.claude/projects/<project>/memory/MEMORY.md`; manage with `/memory` |
 | **AGENTS.md** *(v2.1.277)* | Cross-tool project-context file, read as project instructions when no `CLAUDE.md` exists at or above the working directory | Switch modes with **Project instructions** in `/config`. See [AGENTS.md](02-memory/README.md#agentsmd) |
 | **Git Worktrees** | Isolated workspaces for parallel development | `claude --worktree <name>` (or `-w`) |
-| **Model Selection** | Switch between Fable 5.1, Fable 5, Opus 5.5, Opus 5, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 5.5, and Haiku 4.5 | `/model` (`sonnet` resolves to Sonnet 5.5 on the Anthropic API, v2.1.284+) — since v2.1.153 the choice is saved as the default for new sessions; press `s` for session-only |
+| **Model Selection** | Switch between Fable 5.2, Fable 5.1, Fable 5, Opus 5.5, Opus 5, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Opus 4.8, Haiku 5.5, and Haiku 4.5 | `/model` (`sonnet` resolves to Sonnet 5.5 on the Anthropic API, v2.1.284+) — since v2.1.153 the choice is saved as the default for new sessions; press `s` for session-only |
 | **Agent Teams** | Coordinate multiple agents on tasks | Enable with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` env var (experimental) |
 | **Dynamic Workflows** *(v2.1.154)* | Deterministic multi-agent orchestration; since v2.1.219 the default size guideline is medium (aim for fewer than 10 agents) | `/workflows` to view runs; ask Claude to create one; change the size via **Dynamic workflow size** in `/config` |
 | **Scheduled Tasks (session-scoped)** | Recurring tasks with `/loop` within a session | `/loop 5m /command` or CronCreate tool |
@@ -526,8 +526,8 @@ Getting started checklist:
 
 ---
 
-**Last Updated**: November 1, 2026
-**Claude Code Version**: 2.1.316
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
 - https://code.claude.com/docs/en/memory#agents-md
@@ -553,4 +553,5 @@ Getting started checklist:
 - https://code.claude.com/docs/en/permission-modes#tool-calls-denied-in-claude-p-and-agent-sdk-runs
 - https://code.claude.com/docs/en/tools-reference#session-search-limit
 - https://code.claude.com/docs/en/routines
+- https://code.claude.com/docs/en/model-config#work-with-fable
 **Compatible Models**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
