@@ -5,19 +5,35 @@ on:
     tags:
       - 'v*'
 
+env:
+  # The one list of languages to build and release. The release job checks
+  # which of them are missing; add a new language here only.
+  LANGUAGES: en vi zh ja ko fa
+
 jobs:
+  # `strategy.matrix` can't read `env`, so this job turns LANGUAGES into JSON.
+  languages:
+    name: List languages
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.list.outputs.list }}
+    steps:
+      - id: list
+        run: echo "list=$(jq -cn --arg l "$LANGUAGES" '$l | split(" ")')" >> "$GITHUB_OUTPUT"
+
   build:
     name: Build EPUB (${{ matrix.lang }})
+    needs: languages
     runs-on: ubuntu-latest
     env:
       # Pin every uv command (uv venv and the PEP 723 env of `uv run`) to 3.11.
       UV_PYTHON: '3.11'
     strategy:
-      # Don't cancel other languages if one fails — we still want to release
-      # whichever languages built successfully.
+      # Don't cancel other languages if one fails — the release job still
+      # drafts a release with whichever languages built successfully.
       fail-fast: false
       matrix:
-        lang: [en, vi, zh, ja, ko, fa]
+        lang: ${{ fromJSON(needs.languages.outputs.list) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -56,9 +72,9 @@ jobs:
   release:
     name: Publish GitHub Release
     needs: build
-    # Release even if some language builds failed — we still publish the
-    # artifacts that did build. `needs.build.result != 'cancelled'` guards
-    # against manually cancelled runs.
+    # Run even if some language builds failed: the release is then a draft
+    # whose body names the missing languages. `needs.build.result !=
+    # 'cancelled'` guards against manually cancelled runs.
     if: ${{ always() && needs.build.result != 'cancelled' }}
     runs-on: ubuntu-latest
     permissions:
@@ -72,12 +88,56 @@ jobs:
           pattern: epub-*
           merge-multiple: true
 
-      - name: List built artifacts
-        run: ls -lh dist/
+      - name: Check for missing languages
+        id: check
+        env:
+          BUILD_RESULT: ${{ needs.build.result }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          shopt -s nullglob
+          epubs=(dist/claude-howto-guide*.epub)
+          if [ "${#epubs[@]}" -eq 0 ]; then
+            echo "::error::no EPUBs built, nothing to release"
+            exit 1
+          fi
+          ls -lh "${epubs[@]}"
 
+          missing=()
+          for lang in $LANGUAGES; do
+            if [ "$lang" = en ]; then
+              file=dist/claude-howto-guide.epub
+            else
+              file="dist/claude-howto-guide-$lang.epub"
+            fi
+            [ -f "$file" ] || missing+=("$lang")
+          done
+
+          if [ "$BUILD_RESULT" = success ] && [ "${#missing[@]}" -eq 0 ]; then
+            echo "draft=false" >> "$GITHUB_OUTPUT"
+            echo "note=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          list="${missing[*]:-none}"
+          echo "::warning::partial build, publishing a draft (missing: $list)"
+          {
+            echo "draft=true"
+            echo "note<<EOF_NOTE"
+            echo "> [!WARNING]"
+            echo "> **Partial release.** Missing languages: ${list// /, }."
+            echo "> A language build failed ([workflow run]($RUN_URL)), so this release"
+            echo "> was saved as a draft. Review it before publishing."
+            echo ""
+            echo "EOF_NOTE"
+          } >> "$GITHUB_OUTPUT"
+
+      # softprops/action-gh-release v2: `body` is prepended to the generated
+      # notes; `draft: true` keeps the release unpublished.
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.epub
+          draft: ${{ steps.check.outputs.draft }}
+          body: ${{ steps.check.outputs.note }}
           generate_release_notes: true
           fail_on_unmatched_files: true
