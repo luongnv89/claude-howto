@@ -71,10 +71,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### プラグイン
 ```bash
-# 例からインストール (リポジトリのルートから)
-claude --plugin-dir ./07-plugins/pr-review
-claude --plugin-dir ./07-plugins/devops-automation
-claude --plugin-dir ./07-plugins/documentation
+# 例を 1 セッションだけ読み込む (リポジトリのルートから)
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### チェックポイント

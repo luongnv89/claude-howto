@@ -61,7 +61,7 @@ claude plugin validate ./07-plugins/devops-automation
 
 どちらのフックもクラスタの状態を読み取るだけである（`kubectl version`、`cluster-info`、`rollout status`、`wait`）。
 
-コマンドの判定方法：スクリプトはヒアドキュメントの本文とクォートされた文字列を取り除き、コマンドを改行、`&&`、`||`、`;`、`|`、`&` で分割し、各部分の最初の単語を見る（`VAR=value` や `sudo`、`env` などのラッパーの後）。動詞の前にあるグローバルフラグも考慮されるため、`kubectl -n prod apply` や `helm -n prod upgrade` はデプロイとみなされるが、`echo "kubectl apply"`、`cat scripts/deploy.sh`、`git commit -m "helm upgrade notes"` はみなされない。これはシェルパーサーではなくヒューリスティックであり、クォート内に隠れたデプロイ（`bash -c "kubectl apply …"`）、他のラッパー（`ssh`、`xargs`、`make deploy`）を介したデプロイ、他のスクリプト内のデプロイは検出できない。安全上の境界として頼らないこと。
+コマンドの判定方法：スクリプトはヒアドキュメントの本文とクォートされた文字列を取り除き、コマンドを改行、`&&`、`||`、`;`、`|`、`&` で分割し、各部分の最初の単語を見る（`VAR=value`、`sudo`、`env` などのラッパー、`do`、`then`、`!` などのシェルキーワードの後）。動詞の前にあるグローバルフラグも考慮されるため、`kubectl -n prod apply` や `helm -n prod upgrade` はデプロイとみなされるが、`echo "kubectl apply"`、`cat scripts/deploy.sh`、`git commit -m "helm upgrade notes"` はみなされない。これはシェルパーサーではなくヒューリスティックであり、クォート内に隠れたデプロイ（`bash -c "kubectl apply …"`）、他のラッパー（`ssh`、`xargs`、`make deploy`）やラッパーのフラグ（`sudo -E`、`env -i`）を介したデプロイ、`source` や `.` で実行されるデプロイ、クォートされたスクリプトパス（`"./scripts/deploy.sh"`）で始まるデプロイ、閉じていないクォートや `<<<` ヒアストリングの後にあるデプロイ、他のスクリプト内のデプロイは検出できない。また、`kubectl -n apply get pods` のような変わったフラグ値で誤検出することもある。安全上の境界として頼らないこと。
 
 デプロイコマンドの実行中に `Ctrl+Enter` を押してターンが終了した場合でも、post-deploy フックはコマンドの完了時に実行される。ただし Claude Code は `timeout` の値にかかわらず 10 秒後にフックを強制終了するため、チェックが完了しない可能性がある。
 

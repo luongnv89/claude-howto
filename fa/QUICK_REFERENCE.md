@@ -67,10 +67,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### پلاگین‌ها
 ```bash
-# نصب از مثال‌ها (از ریشه مخزن)
-claude --plugin-dir ./07-plugins/pr-review
-claude --plugin-dir ./07-plugins/devops-automation
-claude --plugin-dir ./07-plugins/documentation
+# بارگذاری مثال‌ها برای یک نشست (از ریشه مخزن)
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### چک‌پوینت‌ها

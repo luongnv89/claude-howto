@@ -64,6 +64,7 @@ Lệnh của plugin được đặt namespace theo `name` của plugin trong `pl
 
 - chặn lệnh (exit code 2) khi thư mục hiện tại không phải là git repository
 - nếu không, thêm nhánh hiện tại (hoặc ghi chú rằng HEAD đang ở trạng thái detached, hoặc rằng repository chưa có commit nào), kèm ghi chú về các thay đổi chưa commit, vào ngữ cảnh của Claude
+- trong một bare repository (hoặc bên trong `.git`), chỉ thêm ghi chú rằng không có working tree để review
 
 ## Cách Sử Dụng
 

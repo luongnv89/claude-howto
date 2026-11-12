@@ -491,7 +491,7 @@ Specializes in finding security vulnerabilities:
 
 **파일:** `.mcp.json`
 
-GitHub의 공식 MCP 서버를 읽기 전용으로 선언하며, 토큰은 `GITHUB_TOKEN`에서 가져옵니다. 이미지는 [v2.1.0 릴리스](https://github.com/github/github-mcp-server/releases/tag/v2.1.0)로 고정되어 있으므로, 업스트림 업데이트가 검토 없이 플러그인을 바꿀 수 없습니다.
+GitHub의 공식 MCP 서버를 읽기 전용으로 선언하며, 토큰은 `GITHUB_TOKEN`에서 가져옵니다. 이미지는 [v2.1.0 릴리스](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) 태그로 고정되어 있으므로, 태그를 바꾸거나 배포자가 태그를 다시 push할 때만 바뀝니다. digest로 고정하면 더 엄격합니다. `:v2.1.0`을 2026-11-12 기준 v2.1.0의 digest인 `@sha256:f6056fc10bfffcc8c81a6417a2e9ca12808647e8dd6049642a4feaadee0e0f8a`로 바꾸세요. 이 파일은 태그로 고정합니다.
 
 ```json
 {

@@ -71,10 +71,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### Plugins
 ```bash
-# 예제에서 설치(저장소 루트에서 실행)
-claude --plugin-dir ./07-plugins/pr-review
-claude --plugin-dir ./07-plugins/devops-automation
-claude --plugin-dir ./07-plugins/documentation
+# 예제를 한 세션 동안 불러오기(저장소 루트에서 실행)
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### Checkpoints

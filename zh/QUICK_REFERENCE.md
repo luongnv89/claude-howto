@@ -67,10 +67,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### Plugins
 ```bash
-# 从示例安装（在仓库根目录运行）
-claude --plugin-dir ./07-plugins/pr-review
-claude --plugin-dir ./07-plugins/devops-automation
-claude --plugin-dir ./07-plugins/documentation
+# 为单个会话加载示例（在仓库根目录运行）
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### Checkpoints

@@ -28,15 +28,20 @@ const path = require('path');
  * and `git commit -m "helm upgrade"` don't count. Global flags before the
  * verb (`kubectl -n prod apply`) do count.
  */
+// Words skipped before the program name: simple wrappers, then shell
+// keywords and grouping tokens (`for …; do kubectl apply …`, `{ …; }`, `! …`).
+const SKIP_WORDS = ['sudo', 'env', 'time', 'nohup', 'exec', 'command',
+  'if', 'then', 'else', 'elif', 'do', 'while', 'until', '{', '!'];
+
 function isDeployCommand(command) {
   const text = command
-    .replace(/<<-?\s*['"]?(\w+)['"]?[^\n]*\n[\s\S]*?(\n\s*\1\s*(?=\n|$)|$)/g, '\n') // heredoc bodies
+    .replace(/(<<-?\s*['"]?(\w+)['"]?[^\n]*)\n[\s\S]*?(?:\n\s*\2\s*(?=\n|$)|$)/g, '$1\n') // heredoc bodies (keep the opening line)
     .replace(/'[^']*'|"(?:\\.|[^"\\])*"/g, "''"); // quoted strings
 
   return text.split(/&&|\|\||[\n;|&()`]/).some((piece) => {
     const words = piece.trim().split(/\s+/).filter(Boolean);
-    while (words.length && (/^\w+=/.test(words[0]) || ['sudo', 'env', 'time', 'nohup', 'exec', 'command'].includes(words[0]))) {
-      words.shift(); // VAR=value prefixes and simple wrappers
+    while (words.length && (/^\w+=/.test(words[0]) || SKIP_WORDS.includes(words[0]))) {
+      words.shift(); // VAR=value prefixes, simple wrappers and shell keywords
     }
     if (!words.length) return false;
 

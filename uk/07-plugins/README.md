@@ -397,7 +397,7 @@ Specializes in finding security vulnerabilities:
 
 **Файл:** `.mcp.json`
 
-Оголошує офіційний MCP-сервер GitHub у режимі лише для читання, з токеном із `GITHUB_TOKEN`. Образ закріплено на [релізі v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0), тож оновлення upstream не може змінити плагін без перевірки:
+Оголошує офіційний MCP-сервер GitHub у режимі лише для читання, з токеном із `GITHUB_TOKEN`. Образ закріплено на тезі [релізу v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0), тож він змінюється лише тоді, коли ви змінюєте тег або видавець повторно публікує його. Закріплення за digest суворіше: замініть `:v2.1.0` на `@sha256:f6056fc10bfffcc8c81a6417a2e9ca12808647e8dd6049642a4feaadee0e0f8a` — digest v2.1.0 станом на 2026-11-12. Файл закріплює тег:
 
 ```json
 {

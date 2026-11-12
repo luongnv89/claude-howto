@@ -67,10 +67,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### Plugins
 ```bash
-# Install from examples (from the repo root)
-claude --plugin-dir ./07-plugins/pr-review
-claude --plugin-dir ./07-plugins/devops-automation
-claude --plugin-dir ./07-plugins/documentation
+# Load the examples for one session (from the repo root)
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### Checkpoints

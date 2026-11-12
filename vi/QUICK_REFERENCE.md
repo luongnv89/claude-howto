@@ -67,10 +67,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### Plugins
 ```bash
-# Cài đặt từ ví dụ (từ thư mục gốc của repo)
-claude --plugin-dir ./07-plugins/pr-review
-claude --plugin-dir ./07-plugins/devops-automation
-claude --plugin-dir ./07-plugins/documentation
+# Tải các ví dụ cho một phiên (từ thư mục gốc của repo)
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### Checkpoints

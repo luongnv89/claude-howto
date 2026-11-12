@@ -64,6 +64,7 @@ Plugin commands are namespaced with the plugin `name` from `plugin.json`:
 
 - blocks the command (exit code 2) when the current directory is not a git repository
 - otherwise adds the current branch (or a note that HEAD is detached, or that the repository has no commits yet), and a note about uncommitted changes, to Claude's context
+- in a bare repository (or inside `.git`), adds only a note that there is no working tree to review
 
 ## Usage
 

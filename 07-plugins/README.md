@@ -485,7 +485,7 @@ Runs `hooks/pre-review.js` when the user types one of the plugin's commands. The
 
 **File:** `.mcp.json`
 
-Declares GitHub's official MCP server, read-only, with the token taken from `GITHUB_TOKEN`. The image is pinned to the [v2.1.0 release](https://github.com/github/github-mcp-server/releases/tag/v2.1.0), so an upstream update can't change the plugin without a review:
+Declares GitHub's official MCP server, read-only, with the token taken from `GITHUB_TOKEN`. The image is pinned to the [v2.1.0 release](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) tag, so it changes only when you edit the tag or the publisher re-pushes it. Pinning by digest is stricter: replace `:v2.1.0` with `@sha256:f6056fc10bfffcc8c81a6417a2e9ca12808647e8dd6049642a4feaadee0e0f8a`, the digest of v2.1.0 on 2026-11-12. The file pins the tag:
 
 ```json
 {

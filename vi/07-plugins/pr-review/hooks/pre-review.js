@@ -28,6 +28,16 @@ function git(args, cwd) {
   return execFileSync('git', args, { cwd, encoding: 'utf8', stdio: 'pipe' });
 }
 
+function addContext(text) {
+  // Exit 0 with JSON: Claude Code adds additionalContext next to the prompt.
+  console.log(JSON.stringify({
+    hookSpecificOutput: {
+      hookEventName: 'UserPromptExpansion',
+      additionalContext: text,
+    },
+  }));
+}
+
 async function main() {
   const input = JSON.parse((await readStdin()) || '{}');
   const cwd = input.cwd || process.cwd();
@@ -39,6 +49,12 @@ async function main() {
     // Exit 2 blocks the expansion; stderr is shown to the user.
     console.error(`/${command} needs a git repository, and ${cwd} is not one.`);
     process.exit(2);
+  }
+
+  if (git(['rev-parse', '--is-inside-work-tree'], cwd).trim() !== 'true') {
+    // A bare repository, or cwd is inside .git: there is no working tree to inspect.
+    addContext(`${cwd} is a bare repository or a .git directory, so there is no working tree or branch to review.`);
+    process.exit(0);
   }
 
   const notes = [];
@@ -69,13 +85,7 @@ async function main() {
     notes.push(`The working tree has ${count} uncommitted change(s), which are not part of any PR yet.`);
   }
 
-  // Exit 0 with JSON: Claude Code adds additionalContext next to the prompt.
-  console.log(JSON.stringify({
-    hookSpecificOutput: {
-      hookEventName: 'UserPromptExpansion',
-      additionalContext: notes.join(' '),
-    },
-  }));
+  addContext(notes.join(' '));
 }
 
 main().catch((error) => {

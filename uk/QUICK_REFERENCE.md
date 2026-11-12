@@ -78,10 +78,10 @@ chmod +x ~/.claude/hooks/*.sh
 ### Плагіни
 
 ```bash
-# Встановити з прикладів (з кореня репозиторію)
-claude --plugin-dir ./07-plugins/pr-review
-claude --plugin-dir ./07-plugins/devops-automation
-claude --plugin-dir ./07-plugins/documentation
+# Завантажити приклади на один сеанс (з кореня репозиторію)
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### Контрольні точки

@@ -253,7 +253,7 @@ cp -r 03-skills/* ~/.claude/skills/
 |--------|------|------------|---------------------|---------|-------------|
 | `pr-review` | Процес ревʼю PR | 3 команди, 3 агенти, GitHub MCP | Ревʼю коду | Проект | `claude --plugin-dir ./07-plugins/pr-review` |
 | `devops-automation` | Розгортання та моніторинг | 4 команди, 3 агенти, 2 хуки | DevOps-завдання | Проект | `claude --plugin-dir ./07-plugins/devops-automation` |
-| `documentation` | Набір генерації документації | 4 команди, 3 агенти, шаблони | Документація | Проект | `claude --plugin-dir ./07-plugins/documentation` |
+| `documentation` | Набір генерації документації | 4 команди, 3 агенти, GitHub MCP, шаблони | Документація | Проект | `claude --plugin-dir ./07-plugins/documentation` |
 
 > **Область**: `Проект` = спільні для команди, `Користувач` = персональні процеси
 

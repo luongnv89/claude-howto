@@ -280,7 +280,7 @@ Bundled collections of commands, agents, MCP servers, and hooks.
 |--------|-------------|------------|-------------|-------|--------------|
 | `pr-review` | PR review workflow | 3 commands, 3 agents, GitHub MCP | Code reviews | Project | `claude --plugin-dir ./07-plugins/pr-review` |
 | `devops-automation` | Deployment & monitoring | 4 commands, 3 agents, 2 hooks | DevOps tasks | Project | `claude --plugin-dir ./07-plugins/devops-automation` |
-| `documentation` | Doc generation suite | 4 commands, 3 agents, templates | Documentation | Project | `claude --plugin-dir ./07-plugins/documentation` |
+| `documentation` | Doc generation suite | 4 commands, 3 agents, GitHub MCP, templates | Documentation | Project | `claude --plugin-dir ./07-plugins/documentation` |
 
 > **Scope**: `Project` = team-shared, `User` = personal workflows
 

@@ -379,7 +379,7 @@ tools: Read, Grep, Bash
 
 **文件：** `.mcp.json`
 
-声明 GitHub 官方 MCP 服务器，以只读模式运行，token 取自 `GITHUB_TOKEN`。镜像固定在 [v2.1.0 版本](https://github.com/github/github-mcp-server/releases/tag/v2.1.0)，因此上游更新无法在未经审查的情况下改变插件：
+声明 GitHub 官方 MCP 服务器，以只读模式运行，token 取自 `GITHUB_TOKEN`。镜像固定在 [v2.1.0 版本](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) 的 tag 上，因此只有在你修改 tag 或发布者重新推送该 tag 时才会变化。按 digest 固定更严格：把 `:v2.1.0` 换成 `@sha256:f6056fc10bfffcc8c81a6417a2e9ca12808647e8dd6049642a4feaadee0e0f8a`，即 2026-11-12 时 v2.1.0 的 digest。该文件固定的是 tag：
 
 ```json
 {

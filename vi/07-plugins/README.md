@@ -485,7 +485,7 @@ Chạy `hooks/pre-review.js` khi người dùng gõ một trong các lệnh củ
 
 **File:** `.mcp.json`
 
-Khai báo MCP server chính thức của GitHub, ở chế độ chỉ đọc, với token lấy từ `GITHUB_TOKEN`. Image được ghim ở [bản phát hành v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0), nên một bản cập nhật từ upstream không thể thay đổi plugin khi chưa được review:
+Khai báo MCP server chính thức của GitHub, ở chế độ chỉ đọc, với token lấy từ `GITHUB_TOKEN`. Image được ghim ở tag [bản phát hành v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0), nên nó chỉ thay đổi khi bạn sửa tag hoặc nhà phát hành push lại tag đó. Ghim theo digest thì chặt chẽ hơn: thay `:v2.1.0` bằng `@sha256:f6056fc10bfffcc8c81a6417a2e9ca12808647e8dd6049642a4feaadee0e0f8a`, digest của v2.1.0 vào ngày 2026-11-12. File này ghim theo tag:
 
 ```json
 {

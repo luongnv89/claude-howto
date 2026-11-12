@@ -61,7 +61,7 @@ claude plugin validate ./07-plugins/devops-automation
 
 두 훅 모두 클러스터 상태를 읽기만 합니다(`kubectl version`, `cluster-info`, `rollout status`, `wait`).
 
-명령어를 인식하는 방식: 스크립트는 heredoc 본문과 따옴표로 묶인 문자열을 제거하고, 명령어를 줄바꿈, `&&`, `||`, `;`, `|`, `&` 기준으로 나눈 뒤, 각 부분의 첫 단어를 확인합니다(`VAR=value`와 `sudo`, `env` 같은 래퍼는 건너뜀). 하위 명령어 앞에 전역 플래그가 있어도 인식되므로 `kubectl -n prod apply`와 `helm -n prod upgrade`는 배포로 간주되지만, `echo "kubectl apply"`, `cat scripts/deploy.sh`, `git commit -m "helm upgrade notes"`는 배포가 아닙니다. 이것은 셸 파서가 아니라 휴리스틱이므로, 따옴표 안에 숨은 배포(`bash -c "kubectl apply …"`), 다른 래퍼(`ssh`, `xargs`, `make deploy`) 뒤의 배포, 다른 스크립트 안의 배포는 놓칩니다. 이를 안전 경계로 삼지 마세요.
+명령어를 인식하는 방식: 스크립트는 heredoc 본문과 따옴표로 묶인 문자열을 제거하고, 명령어를 줄바꿈, `&&`, `||`, `;`, `|`, `&` 기준으로 나눈 뒤, 각 부분의 첫 단어를 확인합니다(`VAR=value`, `sudo`, `env` 같은 래퍼, `do`, `then`, `!` 같은 셸 키워드는 건너뜀). 하위 명령어 앞에 전역 플래그가 있어도 인식되므로 `kubectl -n prod apply`와 `helm -n prod upgrade`는 배포로 간주되지만, `echo "kubectl apply"`, `cat scripts/deploy.sh`, `git commit -m "helm upgrade notes"`는 배포가 아닙니다. 이것은 셸 파서가 아니라 휴리스틱이므로, 따옴표 안에 숨은 배포(`bash -c "kubectl apply …"`), 다른 래퍼(`ssh`, `xargs`, `make deploy`)나 래퍼 플래그(`sudo -E`, `env -i`) 뒤의 배포, `source`나 `.`로 실행하는 배포, 따옴표로 감싼 스크립트 경로(`"./scripts/deploy.sh"`)로 시작하는 배포, 닫히지 않은 따옴표나 `<<<` here-string 뒤의 배포, 다른 스크립트 안의 배포는 놓칩니다. 또한 `kubectl -n apply get pods`처럼 특이한 플래그 값에서 잘못 감지할 수도 있습니다. 이를 안전 경계로 삼지 마세요.
 
 배포 명령어가 실행되는 동안 `Ctrl+Enter`를 눌러 턴이 끝나면, 명령어가 끝날 때 post-deploy 훅은 여전히 실행되지만 Claude Code가 `timeout` 값과 관계없이 10초 후에 훅을 종료하므로 점검이 끝나지 않을 수 있습니다.
 

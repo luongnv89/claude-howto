@@ -427,7 +427,7 @@ Specializes in finding security vulnerabilities:
 
 **ファイル：** `.mcp.json`
 
-GitHub 公式の MCP サーバーを読み取り専用で宣言し、トークンは `GITHUB_TOKEN` から取得する。イメージは [v2.1.0 リリース](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) に固定されているため、上流の更新によってレビューなしにプラグインが変わることはない：
+GitHub 公式の MCP サーバーを読み取り専用で宣言し、トークンは `GITHUB_TOKEN` から取得する。イメージは [v2.1.0 リリース](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) のタグに固定されているため、変わるのはタグを書き換えたときか、公開元がタグを再 push したときだけである。digest で固定するとより厳密になる：`:v2.1.0` を `@sha256:f6056fc10bfffcc8c81a6417a2e9ca12808647e8dd6049642a4feaadee0e0f8a`（2026-11-12 時点の v2.1.0 の digest）に置き換える。このファイルはタグで固定している：
 
 ```json
 {

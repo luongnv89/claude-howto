@@ -283,7 +283,7 @@ cp -r 03-skills/* ~/.claude/skills/
 |--------|-------------|------------|-------------|-------|--------------|
 | `pr-review` | PR 리뷰 워크플로 | 명령어 3개, 에이전트 3개, GitHub MCP | 코드 리뷰 | 프로젝트 | `claude --plugin-dir ./07-plugins/pr-review` |
 | `devops-automation` | 배포 및 모니터링 | 명령어 4개, 에이전트 3개, 훅 2개 | DevOps 작업 | 프로젝트 | `claude --plugin-dir ./07-plugins/devops-automation` |
-| `documentation` | 문서 생성 모음 | 명령어 4개, 에이전트 3개, 템플릿 | 문서 작성 | 프로젝트 | `claude --plugin-dir ./07-plugins/documentation` |
+| `documentation` | 문서 생성 모음 | 명령어 4개, 에이전트 3개, GitHub MCP, 템플릿 | 문서 작성 | 프로젝트 | `claude --plugin-dir ./07-plugins/documentation` |
 
 > **Scope**: `Project` = 팀 공유, `User` = 개인 워크플로
 

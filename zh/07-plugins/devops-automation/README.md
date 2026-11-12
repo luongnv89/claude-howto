@@ -58,7 +58,7 @@ claude plugin validate ./07-plugins/devops-automation
 
 两个 hooks 都只读取集群状态（`kubectl version`、`cluster-info`、`rollout status`、`wait`）。
 
-命令的识别方式：脚本会去掉 heredoc 正文和引号内的字符串，按换行符、`&&`、`||`、`;`、`|` 和 `&` 拆分命令，并查看每一段的第一个词（跳过 `VAR=value` 以及 `sudo`、`env` 等包装命令）。动词之前的全局参数也会被识别，所以 `kubectl -n prod apply` 和 `helm -n prod upgrade` 算作部署，而 `echo "kubectl apply"`、`cat scripts/deploy.sh` 和 `git commit -m "helm upgrade notes"` 不算。这是一种启发式方法，而不是 shell 解析器：它会漏掉藏在引号里的部署（`bash -c "kubectl apply …"`）、藏在其他包装命令后面的部署（`ssh`、`xargs`、`make deploy`），以及写在其他脚本里的部署。不要把它当作安全边界。
+命令的识别方式：脚本会去掉 heredoc 正文和引号内的字符串，按换行符、`&&`、`||`、`;`、`|` 和 `&` 拆分命令，并查看每一段的第一个词（跳过 `VAR=value`、`sudo`、`env` 等包装命令，以及 `do`、`then`、`!` 等 shell 关键字）。动词之前的全局参数也会被识别，所以 `kubectl -n prod apply` 和 `helm -n prod upgrade` 算作部署，而 `echo "kubectl apply"`、`cat scripts/deploy.sh` 和 `git commit -m "helm upgrade notes"` 不算。这是一种启发式方法，而不是 shell 解析器：它会漏掉藏在引号里的部署（`bash -c "kubectl apply …"`）、藏在其他包装命令（`ssh`、`xargs`、`make deploy`）或包装命令参数（`sudo -E`、`env -i`）后面的部署、用 `source` 或 `.` 运行的部署、以带引号的脚本路径（`"./scripts/deploy.sh"`）开头的部署、位于未闭合引号或 `<<<` here-string 之后的部署，以及写在其他脚本里的部署。遇到 `kubectl -n apply get pods` 这类不寻常的参数值时，它也可能误报。不要把它当作安全边界。
 
 如果你在部署命令运行期间按下 `Ctrl+Enter` 并因此结束了当前轮次，post-deploy hook 仍会在命令结束时运行，但无论其 `timeout` 设为多少，Claude Code 都会在 10 秒后终止它，因此检查可能无法完成。
 
