@@ -28,11 +28,11 @@ graph TD
 
 از **نسخه 2.1.113**، CLI در Claude Code یک **باینری بومی مخصوص هر پلتفرم** (macOS، Linux، Windows) را از طریق وابستگی‌های اختیاری npm اجرا می‌کند. باینری هنگام نصب با سیستم‌عامل و معماری شما تطبیق داده می‌شود — زمان اجرای قدیمی جاوااسکریپت بسته‌بندی‌شده دیگر در macOS یا Linux پیش‌فرض نیست.
 
-**نصب توصیه‌شده** نصب‌کننده بومی است (`curl -fsSL https://claude.ai/install.sh | bash`؛ در Windows `irm https://claude.ai/install.ps1 | iex`). نصب با npm در README رسمی منسوخ شده است؛ نصب‌کننده بومی، Homebrew (`brew install --cask claude-code`) یا WinGet (`winget install Anthropic.ClaudeCode`) را ترجیح دهید. برای مرجع، `npm install -g @anthropic-ai/claude-code` (Node.js 22 به بعد) همان باینری بومی را از طریق یک وابستگی اختیاری مخصوص هر پلتفرم نصب می‌کند.
+**نصب توصیه‌شده** نصب‌کننده بومی است (`curl -fsSL https://claude.ai/install.sh | bash`؛ در Windows `irm https://claude.ai/install.ps1 | iex`). نصب با npm در README رسمی منسوخ شده است؛ نصب‌کننده بومی، Homebrew (`brew install --cask claude-code`) یا WinGet (`winget install Anthropic.ClaudeCode`) را ترجیح دهید. برای مرجع، `npm install -g @anthropic-ai/claude-code` (Node.js 22 به بعد) همان باینری بومی را از طریق یک وابستگی اختیاری مخصوص هر پلتفرم نصب می‌کند. در npm 12 که به‌طور پیش‌فرض مرحلهٔ postinstall در Claude Code را رد می‌کند، آن نصب با `Error: claude native binary not installed.` پایان می‌یابد — به نصب‌کنندهٔ بومی بروید یا [رفع نصب npm 12](https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install) را دنبال کنید.
 
 **میزبان دانلود** (نسخه 2.1.116 به بعد): آرتیفکت‌های باینری بومی از `https://downloads.claude.ai/claude-code-releases` سرو می‌شوند.
 
-> **کاربران سازمانی / پروکسی**: اگر شبکه شما نیازمند فهرست مجاز صریح است، `downloads.claude.ai` (و `https://downloads.claude.ai/claude-code-releases`) را به قواعد خروج پروکسی خود اضافه کنید. محیط‌هایی که پیش‌تر فقط `storage.googleapis.com` یا رجیستری npm را مجاز کرده بودند باید به‌روزرسانی شوند، در غیر این صورت `claude update` و نصب اولیه شکست می‌خورد.
+> **کاربران سازمانی / پروکسی**: اگر شبکه شما نیازمند فهرست مجاز صریح است، `downloads.claude.ai` (و `https://downloads.claude.ai/claude-code-releases`) را به قواعد خروج پروکسی خود اضافه کنید. محیط‌هایی که پیش‌تر فقط `storage.googleapis.com` یا رجیستری npm را مجاز کرده بودند باید به‌روزرسانی شوند، در غیر این صورت `claude update` و نصب اولیه شکست می‌خورد. روی Bedrock، Mantle، Vertex و Foundry، Claude Code تنظیمات مدل را نیز از یک فایل امضاشده روی `downloads.claude.ai` بارگذاری می‌کند (نسخه 2.1.311)؛ برای خاموش کردن آن `CLAUDE_CODE_MODEL_CATALOG=off` را تنظیم کنید.
 
 بسته جاوااسکریپت قدیمی‌تر هنوز برای Windows و برای محیط‌هایی که به آن پین کرده‌اند تولید می‌شود؛ آن نصب‌ها همچنان Glob و Grep را به‌عنوان ابزارهای درجه یک ارائه می‌دهند (به پانوشت Glob/Grep زیر [ابزارها](#مدیریت-ابزار-و-مجوز) مراجعه کنید).
 
@@ -48,6 +48,7 @@ graph TD
 | `claude -c -p "query"` | ادامه در حالت چاپ | `claude -c -p "check for type errors"` |
 | `claude -r "<session>" "query"` | از سرگیری نشست با شناسه یا نام | `claude -r "auth-refactor" "finish this PR"` |
 | `claude update` | به‌روزرسانی به آخرین نسخه | `claude update` |
+| `/restart` (دستور اسلش، نام مستعار `/update`) | راه‌اندازی مجدد Claude Code و ازسرگیری همین نشست برای اعمال یک به‌روزرسانی نصب‌شده. طرح‌های Pro، Max و Ultra؛ نصب بومی روی macOS یا Linux، نه WSL (نسخه 2.1.288 به بعد) | `/restart` |
 | `/doctor` (دستور اسلش) | تشخیص سلامت نصب، پیکربندی و پلاگین. از نسخه 2.1.116 می‌تواند **در حین پاسخ‌دهی Claude** باز شود، آیکون‌های وضعیت را درون‌خطی نشان می‌دهد، و کلید `f` را برای رفع خودکار مشکلات شناسایی‌شده می‌پذیرد. نسخه 2.1.178 چیدمان را به یک درخت تخت با آیکون‌های وضعیت واضح‌تر و دستورات برجسته‌شده بازطراحی کرد | `/doctor` را درون REPL اجرا کنید |
 | `claude mcp` | پیکربندی سرورهای MCP (شامل `login`/`logout` برای احراز هویت، نسخه 2.1.186 به بعد) | به [مستندات MCP](../05-mcp/) مراجعه کنید |
 | `claude mcp serve` | اجرای Claude Code به‌عنوان یک سرور MCP | `claude mcp serve` |
@@ -63,7 +64,7 @@ graph TD
 | `claude purge [path]` | حذف همه وضعیت محلی Claude Code برای یک پروژه (رونوشت‌ها، وظایف، لاگ‌های اشکال‌زدایی، تاریخچه ویرایش فایل، تاریخچه پرامپت و ورودی `~/.claude.json`). برای انتخاب‌گر تعاملی `[path]` را حذف کنید. پرچم‌ها: `--dry-run` برای پیش‌نمایش، `-y/--yes` برای رد کردن تأیید، `-i/--interactive` برای تأیید هر مورد، `--all` برای همه پروژه‌ها (نسخه 2.1.126 به بعد) — در نسخه 2.1.288 از `claude project purge` تغییر نام یافت؛ نام قبلی هنوز کار می‌کند و یک اعلان چاپ می‌کند | `claude purge ~/work/repo --dry-run` |
 | `claude plugin prune` | حذف وابستگی‌های پلاگین یتیم که به‌طور خودکار نصب شده‌اند (پلاگین والد رفته است). `plugin uninstall --prune` همان آبشار را پس از حذف یک هدف انجام می‌دهد (نسخه 2.1.121 به بعد) | `claude plugin prune` |
 | `claude ultrareview [target]` | اجرای غیرتعاملی `/ultrareview`. یافته‌ها را در stdout چاپ می‌کند، در موفقیت ۰ و در شکست ۱، و اگر با Ctrl-C قطع شود ۱۳۰ خارج می‌شود. از `--json` برای بار خام، `--timeout <minutes>` برای بازنویسی پیش‌فرض ۴۵ دقیقه (از نسخه 2.1.260)، و `--post` / `--no-post` برای کنترل ارسال یافته‌ها به PR استفاده کنید. در پوشه‌ای که به آن اعتماد نکرده‌اید، روی ترمینال می‌پرسد و در غیر این صورت با ۱ خارج می‌شود؛ در اسکریپت‌ها و CI، `--trust-workspace` را بعد از هدف بیاویید (نسخه 2.1.309+). **نیازمند Claude Code نسخه 2.1.227 یا جدیدتر** | `claude ultrareview 1234 --json --no-post` |
-| `claude self-hosted-runner [setup\|doctor\|orchestrator]` | شروع یک runner که نشست‌های ابری Claude Code را روی ماشین یا کانتینر خودتان میزبانی می‌کند. `setup` یک راهنمای گام‌به‌گام اپراتور است، `doctor` یک runner مستقر را تشخیص می‌دهد، `orchestrator` runnerهای درخواستی ایجاد می‌کند (`--shutdown-drain-sec` آن، نسخه 2.1.299، اجازه می‌دهد نظرسنجی و هوک‌های ایجاد در جریان، هنگام SIGTERM تمام شوند). **طرح‌های Team و Enterprise؛ نیازمند Claude Code نسخه 2.1.224 یا جدیدتر.** در Windows، راه‌اندازی نیازمند `--base-dir` صریح است (نسخه 2.1.229). از نسخه 2.1.307 هوک‌های checkout پس از ۳۰ دقیقه به‌طور پیش‌فرض متوقف می‌شوند، که باعث شکست راه‌اندازی نشست می‌شود؛ `--checkout-hook-timeout-min` را باال ببرید یا روی `0` بگذارید | `claude self-hosted-runner setup` |
+| `claude self-hosted-runner [setup\|doctor\|orchestrator]` | شروع یک runner که نشست‌های ابری Claude Code را روی ماشین یا کانتینر خودتان میزبانی می‌کند. `setup` یک راهنمای گام‌به‌گام اپراتور است، `doctor` یک runner مستقر را تشخیص می‌دهد، `orchestrator` runnerهای درخواستی ایجاد می‌کند (`--shutdown-drain-sec` آن، نسخه 2.1.299، اجازه می‌دهد نظرسنجی و هوک‌های ایجاد در جریان، هنگام SIGTERM تمام شوند). **طرح‌های Team و Enterprise؛ نیازمند Claude Code نسخه 2.1.224 یا جدیدتر.** در Windows، راه‌اندازی نیازمند `--base-dir` صریح است (نسخه 2.1.229). از نسخه 2.1.307 هوک‌های checkout پس از ۳۰ دقیقه به‌طور پیش‌فرض متوقف می‌شوند، که باعث شکست راه‌اندازی نشست می‌شود؛ `--checkout-hook-timeout-min` را باال ببرید یا روی `0` بگذارید. از نسخه 2.1.311، `--hold-idle-file <path>` و `--max-hold-min <n>` (پیش‌فرض `1440`؛ `0` آن را خاموش می‌کند) یک نشست بیکار را تا زمانی که میزبان شما فرایندهایی را گزارش می‌کند که آن نشست در حال اجرا رها کرده نگه می‌دارند | `claude self-hosted-runner setup` |
 | `claude auth login` | ورود (از `--email`، `--sso` پشتیبانی می‌کند). از نسخه 2.1.126، کد OAuth چسبانده‌شده در ترمینال را به‌عنوان جایگزین می‌پذیرد وقتی بازگشت مرورگر نمی‌تواند به localhost برسد (WSL2، SSH، کانتینرها) | `claude auth login --email user@example.com` |
 | `claude auth logout` | خروج از حساب فعلی | `claude auth logout` |
 | `claude auth status` | بررسی وضعیت احراز هویت (در صورت ورود ۰، در غیر این صورت ۱) | `claude auth status` |
@@ -532,7 +533,7 @@ claude agents
 | `--plugin-dir <path>` | 2.1.142 | استفاده از یک دایرکتوری پلاگین مشخص برای نشست ارسال‌شده |
 | `--permission-mode <mode>` | 2.1.142 | تعیین حالت مجوز (`plan`، `acceptEdits`، `auto` و غیره) برای نشست ارسال‌شده |
 | `--model <model>` | 2.1.142 | پین کردن یک مدل برای نشست ارسال‌شده |
-| `--effort <level>` | 2.1.142 | پین کردن سطح تلاش (`low`/`medium`/`high`/`xhigh`/`max`) |
+| `--effort <level>` | 2.1.142 | تعیین سطح تلاش آغازین نشست ارسال‌شده (`low`/`medium`/`high`/`xhigh`/`max`) — سطحی که در نشست انتخاب شود یا `CLAUDE_CODE_EFFORT_LEVEL` بر آن اولویت دارد |
 | `--dangerously-skip-permissions` | 2.1.142 | اجرای نشست ارسال‌شده بدون پرامپت مجوز (فقط در سندباکس‌ها استفاده کنید) |
 | `--json` | 2.1.145 | چاپ فهرست ایجنت‌ها به‌صورت JSON قابل خواندن برای ماشین برای اسکریپت‌نویسی (نوارهای وضعیت، انتخاب‌گرهای نشست، ادغام با tmux-resurrect) |
 
@@ -573,7 +574,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           claude -p --output-format json \
-            --max-turns 1 \
+            --max-turns 5 \
             "Review the changes in this PR for:
             - Security vulnerabilities
             - Performance issues
@@ -805,7 +806,7 @@ Claude Code از چندین مدل با قابلیت‌های متفاوت پش�
 
 | مدل | شناسه | پنجره زمینه | یادداشت‌ها |
 |-------|-----|----------------|-------|
-| Opus 5.5 | `claude-opus-5-5` | ۱ میلیون توکن | مدل پیش‌فرض و مدل پیش‌فرض Opus از نسخه 2.1.280 در Pro، Max، Team، Enterprise، Anthropic API، Claude Platform روی AWS، Amazon Bedrock و Agent Platform گوگل کلاد (Pro و Team Standard پیش‌تر پیش‌فرض Sonnet 5 داشتند)؛ Microsoft Foundry هنوز `opus` را به Opus 4.6 و `default` را به Sonnet 4.5 تبدیل می‌کند. سطوح تلاش تطبیقی `low → max`، تلاش پیش‌فرض `medium`؛ تفکر نمی‌تواند خاموش شود. نیازمند نسخه 2.1.280 به بعد |
+| Opus 5.5 | `claude-opus-5-5` | ۱ میلیون توکن | مدل پیش‌فرض و مدل پیش‌فرض Opus از نسخه 2.1.280 در Pro، Max، Ultra، Team، Enterprise، Anthropic API، Claude Platform روی AWS، Amazon Bedrock و Agent Platform گوگل کلاد (Pro و Team Standard پیش‌تر پیش‌فرض Sonnet 5 داشتند)؛ Microsoft Foundry هنوز `opus` را به Opus 4.6 و `default` را به Sonnet 4.5 تبدیل می‌کند. سطوح تلاش تطبیقی `low → max`، تلاش پیش‌فرض `medium`؛ تفکر نمی‌تواند خاموش شود. نیازمند نسخه 2.1.280 به بعد |
 | Sonnet 5.5 | `claude-sonnet-5-5` | ۱ میلیون توکن | مدل پیش‌فرض Sonnet روی Anthropic API از نسخه 2.1.284 (مستعار `sonnet` در آنجا به آن تبدیل می‌شود)؛ سطوح تلاش تطبیقی `low → max`، تلاش پیش‌فرض `medium`؛ تفکر نمی‌تواند خاموش شود؛ در حالت fast در دسترس نیست. نیازمند نسخه 2.1.284 به بعد |
 | Haiku 5.5 | `claude-haiku-5-5` | ۱ میلیون توکن | مدل پیش‌فرض Haiku روی Anthropic API از نسخه 2.1.293 (مستعار `haiku` در آنجا به آن تبدیل می‌شود؛ Bedrock، Vertex، Foundry و Claude Platform روی AWS هنوز `haiku` را به Haiku 4.5 تبدیل می‌کنند)؛ سطوح تلاش تطبیقی `low → max`، تلاش پیش‌فرض `medium`؛ تفکر نمی‌تواند خاموش شود. نیازمند نسخه 2.1.293 به بعد |
 | Sonnet 5 | `claude-sonnet-5` | ۱ میلیون توکن | پیش‌فرض روی صندلی‌های Pro / Team Standard از نسخه 2.1.197 تا نسخه 2.1.280، که آن طرح‌ها به Opus 5.5 منتقل شدند؛ پنجره زمینه بومی ۱ میلیون توکنی |
@@ -835,7 +836,7 @@ claude --model opusplan "design and implement the API"
 
 > **Fable 5.1 و مستعار `fable` (نسخه 2.1.257)**: Fable 5.1 (`claude-fable-5-1`) در **نسخه 2.1.257** عرضه می‌شود، و مستعار `fable` اکنون به آن تبدیل می‌شود نه به Fable 5. صفحه رسمی پیکربندی مدل می‌گوید Fable 5.1 «نیازمند Claude Code نسخه 2.1.255 یا جدیدتر است»، اما 2.1.255 هرگز منتشر نشد — 2.1.257 نخستین انتشاری است که کاربران واقعاً می‌توانند آن را با آن نصب کنند. روی درگاه اپلیکیشن‌های Claude، `fable` و `best` هنوز به **Fable 5** تبدیل می‌شوند؛ آنجا 5.1 را صریحاً در `/model` انتخاب کنید. اگر جدیدترین مدل Fable برای سازمان شما در دسترس نیست، `fable` و `best` یک بار روی مدل Fable قبلی دوباره تلاش می‌کنند (نسخه 2.1.301).
 
-> **حالت Fast روی Opus 5.5، Opus 5 و Opus 4.8 اجرا می‌شود (نسخه 2.1.280)**: از نسخه 2.1.219، `/fast` روی **Opus 5 و Opus 4.8** اعمال می‌شود — Opus 4.7 از حالت fast حذف شد. حالت fast در Opus 5 با نرخ ۱۰ دلار / ۵۰ دلار به ازای هر میلیون توکن صورت‌حساب می‌شود. حالت fast نخست در نسخه 2.1.154 به Opus 4.8 منتقل شد (حدود ۲ برابر نرخ استاندارد برای حدود ۲.۵ برابر سرعت خروجی)، که در نسخه 2.1.142 از Opus 4.6 به Opus 4.7 تغییر کرده بود. متغیر محیطی `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` در **نسخه 2.1.154 منسوخ و در ۲۰۲۶-۰۶-۰۱ حذف شد**؛ حالت fast دیگر در Opus 4.6 در دسترس نیست — به‌جای آن Opus 5 یا Opus 4.8 را انتخاب کنید. **از نسخه 2.1.280، حالت fast به‌طور پیش‌فرض Opus 5.5 است** (۸ دلار / ۴۰ دلار به ازای هر میلیون توکن)؛ Opus 5 و Opus 4.8 همچنان با ۱۰ دلار / ۵۰ دلار پشتیبانی می‌شوند. حالت fast و سرعت استاندارد کش پرامپت جداگانه دارند: نخستین سوئیچ به حالت fast گفتگو را بدون کش با نرخ حالت fast دوباره می‌خواند، و هر جابه‌جایی بعدی، شامل بازگشت خودکار پس از محدودیت نرخ، آنچه را که آن سرعت کش نکرده دوباره می‌خواند، پس آن را در آغاز نشست روشن کنید.
+> **حالت Fast روی Opus 5.5، Opus 5 و Opus 4.8 اجرا می‌شود (نسخه 2.1.280)**: از نسخه 2.1.219، `/fast` روی **Opus 5 و Opus 4.8** اعمال می‌شود — Opus 4.7 از حالت fast حذف شد. حالت fast در Opus 5 با نرخ ۱۰ دلار / ۵۰ دلار به ازای هر میلیون توکن صورت‌حساب می‌شود. حالت fast نخست در نسخه 2.1.154 به Opus 4.8 منتقل شد (حدود ۲ برابر نرخ استاندارد برای حدود ۲.۵ برابر سرعت خروجی)، که در نسخه 2.1.142 از Opus 4.6 به Opus 4.7 تغییر کرده بود. متغیر محیطی `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` در **نسخه 2.1.154 منسوخ و در ۲۰۲۶-۰۶-۰۱ حذف شد**؛ حالت fast دیگر در Opus 4.6 در دسترس نیست — به‌جای آن Opus 5 یا Opus 4.8 را انتخاب کنید. **از نسخه 2.1.280، حالت fast به‌طور پیش‌فرض Opus 5.5 است** (۸ دلار / ۴۰ دلار به ازای هر میلیون توکن)؛ Opus 5 و Opus 4.8 همچنان با ۱۰ دلار / ۵۰ دلار به‌عنوان پیش‌نمایش پژوهشی پشتیبانی می‌شوند (حالت fast روی Opus 5.5 به‌طور عمومی در دسترس است). **حالت fast روی Opus 4.8 از ۳۰ اکتبر ۲۰۲۶ منسوخ شده و در ۳۰ نوامبر ۲۰۲۶ حذف خواهد شد** (نسخه 2.1.316)؛ پس از آن، درخواست‌های حالت fast روی Opus 4.8 به‌جای بازگشت به سرعت استاندارد خطا برمی‌گردانند، پس برای حفظ افزایش سرعت به Opus 5.5 مهاجرت کنید. حالت fast و سرعت استاندارد کش پرامپت جداگانه دارند: نخستین سوئیچ به حالت fast گفتگو را بدون کش با نرخ حالت fast دوباره می‌خواند، و هر جابه‌جایی بعدی، شامل بازگشت خودکار پس از محدودیت نرخ، آنچه را که آن سرعت کش نکرده دوباره می‌خواند، پس آن را در آغاز نشست روشن کنید.
 
 ### سطوح تلاش (Opus 5 / Sonnet 5 / Opus 4.8 / Opus 4.7)
 
@@ -852,7 +853,7 @@ claude --effort high "complex review"
 export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8/4.7), or max — default is high on Opus 5
 ```
 
-کلیدواژه «ultrathink» در پرامپت‌ها استدلال عمیق را فعال می‌کند. اسلایدر `/effort` یک کلید **Ultracode** هم دارد (Tab، یا `/effort ultracode [on|off]`) که **سطح تلاش مدل نیست** — باعث می‌شود Claude جریان‌های کاری پویا را در همان سطح تلاشی که نشست اجرا می‌شود هماهنگ کند. از نسخه 2.1.284 دیگر `xhigh` را الزام نمی‌کند و هنگام تغییر سطح روشن می‌ماند؛ `--effort ultracode` و `effortLevel: "ultracode"` در Agent SDK هنوز `xhigh` را تعیین می‌کنند.
+کلیدواژه «ultrathink» در پرامپت‌ها استدلال عمیق را فعال می‌کند؛ از نسخه 2.1.311، اگر در ترمینال تعاملی تایپ شود، آن نوبت را نیز روی Opus 5.5، Sonnet 5.5، Haiku 5.5 و Fable 5.1 از طریق Anthropic API با `xhigh` اجرا می‌کند (وقتی ممکن باشد رنگین‌کمانی می‌شود؛ در VS Code از نسخه 2.1.316)، و `CLAUDE_CODE_DISABLE_ULTRATHINK=1` (نسخه 2.1.316) آن را خاموش می‌کند. اسلایدر `/effort` یک کلید **Ultracode** هم دارد (Tab، یا `/effort ultracode [on|off]`) که **سطح تلاش مدل نیست** — باعث می‌شود Claude جریان‌های کاری پویا را در همان سطح تلاشی که نشست اجرا می‌شود هماهنگ کند. از نسخه 2.1.284 دیگر `xhigh` را الزام نمی‌کند و هنگام تغییر سطح روشن می‌ماند؛ `--effort ultracode` و `effortLevel: "ultracode"` در Agent SDK هنوز `xhigh` را تعیین می‌کنند.
 
 ---
 
@@ -868,7 +869,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Son
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | بازنویسی شناسه مدل پیش‌فرض Sonnet |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | بازنویسی شناسه مدل پیش‌فرض Haiku |
 | `MAX_THINKING_TOKENS` | تعیین بودجه توکن تفکر گسترده |
-| `CLAUDE_CODE_EFFORT_LEVEL` | تعیین سطح تلاش (`low`/`medium`/`high`/`xhigh`/`max`) — پیش‌فرض `medium` در Opus 5.5، Sonnet 5.5 و Haiku 5.5، `high` در Opus 5، Sonnet 5 و Opus 4.8 (`xhigh` در Opus 4.7)؛ `xhigh` نیازمند Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5 یا Opus 4.8/4.7 است؛ `max` در Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7/4.6 و Sonnet 4.6 کار می‌کند |
+| `CLAUDE_CODE_EFFORT_LEVEL` | تعیین سطح تلاش (`low`/`medium`/`high`/`xhigh`/`max`) — پیش‌فرض `medium` در Opus 5.5، Sonnet 5.5 و Haiku 5.5، `high` در Opus 5، Sonnet 5 و Opus 4.8 (`xhigh` در Opus 4.7)؛ `xhigh` نیازمند Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5 یا Opus 4.8/4.7 است؛ `max` در Opus 5.5، Sonnet 5.5، Haiku 5.5، Opus 5، Sonnet 5، Opus 4.8/4.7/4.6 و Sonnet 4.6 کار می‌کند؛ برای ارسال نکردن هیچ سطح تلاشی، تا پیش‌فرض API اعمال شود، `auto` یا `unset` بگذارید. این متغیر بر `--effort` و `/effort` اولویت دارد |
 | `CLAUDE_CODE_SIMPLE` | حالت کمینه، تعیین‌شده با پرچم `--bare` |
 | `CLAUDE_CODE_SAFE_MODE` | برای شروع با همه سفارشی‌سازی‌ها غیرفعال (CLAUDE.md، پلاگین‌ها، مهارت‌ها، هوک‌ها، MCP) آن را `1` بگذارید — شکل متغیر محیطی `--safe-mode`، برای جداسازی مشکلات پیکربندی (نسخه 2.1.169) |
 | `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` | برای پنهان کردن مهارت‌ها، جریان‌های کاری و دستورات بسته‌بندی‌شده از مدل آن را `1` بگذارید (نسخه 2.1.169) |
@@ -929,7 +930,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Son
 | `CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS` | تأخیر شروع به میلی‌ثانیه، به‌جای پیش‌فرض ۵۰۰، برای عقب‌نشینی نمایی بین تلاش‌های مجدد خودکار یک درخواست ردشده با خطای بیش‌بار `529`. میلی‌ثانیه کامل از ۵۰۰ تا ۳۲۰۰۰ با ارقام ساده؛ بدون اثر وقتی `CLAUDE_CODE_RETRY_WATCHDOG=1` باشد یا در حالت fast (نسخه 2.1.292) |
 | `CLAUDE_ENABLE_STREAM_WATCHDOG` | نگهبان بی‌کاری استریم (لغو/تلاش مجدد پس از ۵ دقیقه بدون رویداد استریم) به‌طور پیش‌فرض برای همه ارائه‌دهندگان روشن است؛ برای غیرفعال کردن آن را `0` بگذارید (نسخه 2.1.196). |
 | `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT` | بازنویسی قطع ۵ دقیقه‌ای بی‌کاری برای فراخوانی‌های ابزار MCP از راه دور که بدون پاسخ معلق می‌مانند (نسخه 2.1.187 به بعد). |
-| `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **حذف شد (از نسخه 2.1.160 بی‌اثر).** پیش‌تر حالت Fast (`/fast`) را به Opus 4.6 پین می‌کرد. `/fast` فقط روی **Opus 5.5 (پیش‌فرض از نسخه 2.1.280)، Opus 5 و Opus 4.8** اعمال می‌شود — Opus 4.6 و Opus 4.7 دیگر هدف حالت fast نیستند. |
+| `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` | **حذف شد (از نسخه 2.1.160 بی‌اثر).** پیش‌تر حالت Fast (`/fast`) را به Opus 4.6 پین می‌کرد. `/fast` فقط روی **Opus 5.5 (پیش‌فرض از نسخه 2.1.280)، Opus 5 و Opus 4.8** اعمال می‌شود (حالت fast روی Opus 4.8 منسوخ شده و در ۳۰ نوامبر ۲۰۲۶ حذف می‌شود، نسخه 2.1.316) — Opus 4.6 و Opus 4.7 دیگر هدف حالت fast نیستند. |
 | `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` | محدود می‌کند نخستین نوبت غیرتعاملی چه مدت منتظر سرورهای MCP که هنوز در حال اتصال هستند بماند. برای عدم انتظار `0` بگذارید (نسخه 2.1.274)، با این استثنا که از نسخه 2.1.284 نخستین نوبت همچنان تا ۲ ثانیه برای سرورهای نام‌برده‌شده در `--allowedTools` یا یک هوک `mcp_tool` منتظر می‌ماند |
 | `MCP_PROTOCOL_NEGOTIATION` | فقط در زمان اجرای کلاینت MCP نسخه ۲، اینکه Claude Code سرورها را برای بازبینی پروتکل MCP 2026-07-28 بررسی کند یا نه: `auto` سرورهای HTTP، کانکتور claude.ai و stdio را بررسی می‌کند؛ `legacy` هیچ‌کدام را. هر مقدار دیگر با یک هشدار در لاگ اشکال‌زدایی نادیده گرفته می‌شود (نسخه 2.1.221) |
 | `CLAUDE_CODE_DISABLE_WEB_FETCH` | ابزار WebFetch را خاموش می‌کند (نسخه 2.1.285) |
@@ -938,13 +939,17 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Son
 | `CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS` | محدودیت ایجنت‌های هم‌زمان در هر اجرای ابزار Workflow را بالا می‌برد. ۱ تا ۲۵۶ را می‌پذیرد (نسخه 2.1.269) |
 | `CLAUDE_CODE_AUTO_MODE_SERVER` | برای استفاده از درخواست‌های طبقه‌بند حالت auto خود Claude Code به‌جای بازبینی سمت سرور آن را `0` بگذارید — در Bedrock، Vertex، Foundry و درگاه‌ها از نسخه 2.1.278، و در اتصال مستقیم Anthropic API از نسخه 2.1.281 (در آنجا طبقه‌بند محلی به مصرف شما اضافه می‌شود، و `1` انصراف می‌دهد) |
 | `CLAUDE_CODE_AUTO_MODE_MODEL` | شناسهٔ کامل مدل، مثل `claude-sonnet-4-6`، برای طبقه‌بند حالت auto سمت کلاینت که در غیر این صورت از Sonnet 5 استفاده می‌کند؛ مدل حالت auto سمت سرور را تغییر نمی‌دهد. برای Opus 5، Sonnet 5.5، Opus 5.5 یا مدلی که سیاست سازمان شما حذف کرده نادیده گرفته می‌شود (نسخه 2.1.302) |
-| `CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT` | برای خاموش کردن مهلت ۲ دقیقه‌ای پرامپت خطرناک `rm` در `--dangerously-skip-permissions` و حالت auto، که در غیر این صورت دستور را با یک راهنمای بازنویسی رد می‌کند تا نشست‌های بدون نظارت ادامه یابند، آن را `1` بگذارید (نسخه 2.1.281) |
+| `CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT` | آن را در محیط راه‌اندازی `1` بگذارید تا پرامپت `rm` مسیر بحرانی تغییر کند: در حالت `--dangerously-skip-permissions` (bypassPermissions) پرامپت ترمینال محدودیت زمانی ندارد و پنل گفت‌وگوی VS Code از شما می‌پرسد؛ در حالت auto به‌جای آن طبقه‌بند تصمیم می‌گیرد، در ترمینال، پنل VS Code، اجراهای `-p` و نشست‌های Agent SDK. بدون آن، پرامپت ترمینال پس از ۲ دقیقه دستور را با یک راهنمای بازنویسی رد می‌کند تا نشست‌های بدون نظارت ادامه یابند (نسخه 2.1.281) |
 | `CLAUDE_CODE_DISABLE_MOUNTED_DRIVE_RM_PROMPT` | در محیط راه‌انداز `1` بگذارید (در بلوک `env` تنظیمات نادیده گرفته می‌شود) تا پرامپت `rm` بازگشتی روی مسیر یک درایو mount‌شده مثل `/Volumes/USB` یا `/mnt/c` در WSL خاموش شود (نسخه 2.1.304) |
 | `CLAUDE_CODE_DISABLE_ULTRAREVIEW_TRUST_CHECK` | در محیط راه‌انداز `1` بگذارید تا `claude ultrareview` در پوشه‌ای که نمی‌تواند دربارهٔ آن بپرسد (مثل CI) با `Error: Workspace not trusted` خارج نشود؛ فقط جایی استفاده کنید که هر اجرا در پوشه‌ای مورد اعتماد شما شروع می‌شود (نسخه 2.1.309) |
 | `CLAUDE_CODE_DISABLE_FILE_MENTIONS` | برای توقف بازکردن اشاره‌های `@` به فایل‌ها و دایرکتوری‌ها آن را `1` بگذارید؛ Claude مسیرهای اشاره‌شده را با یادداشتی برای خواندنشان با ابزارهای فایل خود دریافت می‌کند. در تنظیمات پروژه و محلی نادیده گرفته می‌شود (نسخه 2.1.299) |
 | `CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS` | اندازه زمینه، به توکن، که فشرده‌سازی در حالت بی‌کار در آن اعمال می‌شود (پیش‌فرض `200000`؛ مقادیر کمتر از `100000` به `100000` افزایش می‌یابند). فشرده‌سازی در حالت بی‌کار را با `"idleCompaction": false` خاموش کنید، یا از ردیف `Idle compaction` در `/config` خاموش کنید (نسخه 2.1.302). در نسخه 2.1.299 اضافه شد؛ نیازمند نسخه 2.1.290 به بعد |
 | `CLAUDE_CODE_GZIP_REQUEST_BODIES` | برای خاموش کردن فشرده‌سازی gzip بدنه‌های بزرگ درخواست API، تله‌متری و انتشار آرتیفکت که به `api.anthropic.com` فرستاده می‌شوند، آن را `0` بگذارید. فشرده‌سازی به‌طور خودکار پشت پروکسی، با گواهی کلاینت، یا با `NODE_EXTRA_CA_CERTS` رد می‌شود؛ اگر یک پروکسی بازرسی‌کننده TLS که Claude Code نمی‌تواند تشخیص دهد درخواست‌های فشرده را بد مدیریت می‌کند، از `0` استفاده کنید. از نسخه 2.1.300 فشرده‌سازی حتی وقتی تله‌متری غیرفعال است اعمال می‌شود (نسخه 2.1.300) |
 | `CLAUDE_CODE_ARTIFACT_PUBLISH_EDITS` | برای توقف اعمال تغییرات کوچک توسط Claude روی فایل یک آرتیفکت به‌عنوان بخشی از انتشار آن، آن را `0` بگذارید؛ Claude سپس فایل را با ابزارهای فایل خود ویرایش می‌کند و در گامی جداگانه منتشر می‌کند (نسخه 2.1.300) |
+| `CLAUDE_CODE_EVEN_MORE_DANGEROUSLY_SKIP_PERMISSIONS` | آن را در محیط راه‌اندازی `1` بگذارید (در بلوک `env` تنظیمات نادیده گرفته می‌شود) تا دستورهای `rm`/`rmdir` مسیر بحرانی در حالت `bypassPermissions` بدون پرامپت اجرا شوند؛ در حالت برنامه‌ریزی، پنل VS Code، دسکتاپ، یا وقتی یک هوک `PermissionRequest` یا یک قاعدهٔ ask یا deny برای Bash/Edit/Read اعمال می‌شود اثری ندارد (نسخه 2.1.311) |
+| `CLAUDE_CODE_MODEL_CATALOG` | آن را `off` بگذارید تا Claude Code روی Bedrock، Mantle، Vertex و Foundry تنظیمات مدل را از یک فایل امضاشده روی `downloads.claude.ai` بارگذاری نکند (نسخه 2.1.311) |
+| `CLAUDE_CODE_DISABLE_ULTRATHINK` | آن را `1` بگذارید تا کلیدواژهٔ `ultrathink` خاموش شود (نسخه 2.1.316) |
+| `CLAUDE_CODE_SUBAGENT_EFFORT` | سطح تلاشی که زیرایجنت‌ها وقتی هیچ چیز دیگری سطحی تعیین نکند با آن اجرا می‌شوند، به‌جای به ارث بردن سطح نشست (نسخه 2.1.316) |
 | `CLAUDE_CODE_ENABLE_TODO_TOOLS` | برای بازگرداندن ابزارهای todo/پیگیری وظایف (`TaskCreate`/`Get`/`Update`/`List`، `TodoWrite`) آن را `1` بگذارید؛ این ابزارها به‌طور پیش‌فرض فقط در مدل‌های Claude 3.x، Opus 4 تا 4.7، Sonnet 4 تا 4.6 و Haiku 4.5 در دسترس هستند (نسخه 2.1.268) |
 | `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS` | چه مدت WebFetch یک URL واکشی‌شده را در cache نگه می‌دارد. پیش‌فرض ۱۵ دقیقه (نسخه 2.1.233) |
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | فقط Linux: انصراف از اعمال یک memory cgroup روی دستورات Bash (نسخه 2.1.233) |
@@ -994,7 +999,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Opus 5.5, Son
 | `syncClaudeAiSkills` / `syncClaudeAiPlugins` | (نسخه 2.1.275) هر کدام را `false` بگذارید تا از همگام‌سازی مهارت‌ها یا پلاگین‌هایی که در حساب claude.ai خود فعال کرده‌اید در نشست‌های ترمینال انصراف دهید. |
 | `attribution` | (نسخه 2.1.281) برای پنهان کردن همه انتساب‌های کامیت و PR `"attribution": false` را تعیین کنید. نسخه‌های قدیمی‌تر CLI فایلی را که آن را داشته باشد رد می‌کنند، بنابراین شکل شیئی را در فایل‌هایی که بین نسخه‌ها به اشتراک گذاشته می‌شوند نگه دارید. |
 | `maxProseWidth` | (نسخه 2.1.282) عرض متن Claude را در ترمینال‌های عریض محدود می‌کند؛ جدول‌ها و بلوک‌های کد عرض کامل را حفظ می‌کنند. |
-| `idleCompaction` | (نسخه 2.1.290) یک گفتگوی طولانی که از آن دور شده‌اید را کمی پیش از انقضای cache پرامپتش فشرده می‌کند، تا پیام بعدی شما به‌جای کل گفتگو یک خلاصه بفرستد. به‌طور پیش‌فرض در نشست‌های تعاملی با TTL cache یک‌ساعته روشن است وقتی زمینه به ۲۰۰ هزار توکن می‌رسد (`CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS`) و حدود ۵۴ دقیقه گذشته باشد. برای خاموش کردن آن `false` بگذارید، یا از ردیف `Idle compaction` در `/config` خاموش کنید (نسخه 2.1.302)؛ `DISABLE_AUTO_COMPACT` هم آن را خاموش می‌کند. |
+| `idleCompaction` | (نسخه 2.1.290) یک گفتگوی طولانی که از آن دور شده‌اید را کمی پیش از انقضای cache پرامپتش فشرده می‌کند، تا پیام بعدی شما به‌جای کل گفتگو یک خلاصه بفرستد. به‌طور پیش‌فرض در نشست‌های تعاملی ترمینال با TTL cache یک‌ساعته روشن است وقتی زمینه به ۲۰۰ هزار توکن می‌رسد (`CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS`) و حدود یک ساعت گذشته باشد. از نسخه 2.1.314 در پنل گفت‌وگوی VS Code و زبانهٔ Code اپ دسکتاپ (نشست‌های محلی یا SSH)، برای مشترکانی که تلمتری‌شان خاموش است، و روی Bedrock، Vertex، Foundry و دروازه‌های LLM پس از روشن شدن cache یک‌ساعتهٔ پرامپت نیز اجرا می‌شود. برای خاموش کردن آن `false` بگذارید، یا از ردیف `Idle compaction` در `/config` خاموش کنید (نسخه 2.1.302)؛ `DISABLE_AUTO_COMPACT` هم آن را خاموش می‌کند. |
 
 ```json
 {
@@ -1109,9 +1114,19 @@ claude -p --output-format json "query"
 
 ---
 
-**آخرین به‌روزرسانی**: ۲۶ اکتبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.310
+**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.316
 **منابع**:
+- https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
+- https://code.claude.com/docs/en/permission-modes#time-limits-and-denials-in-auto-and-bypasspermissions-modes
+- https://code.claude.com/docs/en/changelog#2-1-316
+- https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
+- https://code.claude.com/docs/en/model-config#adjust-effort-level
+- https://code.claude.com/docs/en/feature-availability#ultra-plan
+- https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install
+- https://code.claude.com/docs/en/model-config#send-no-effort-level
+- https://code.claude.com/docs/en/changelog#2-1-311
+- https://code.claude.com/docs/en/changelog#2-1-314
 - https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability

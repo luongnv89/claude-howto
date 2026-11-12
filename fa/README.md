@@ -140,7 +140,7 @@
 
 ## شروع در ۱۵ دقیقه
 
-> **یادداشت نصب**: از v2.1.113 به بعد، Claude Code به‌صورت یک باینری بومی برای هر پلتفرم (macOS/Linux/Windows) عرضه می‌شود. نصب پیشنهادی نصب‌کننده بومی است (`curl -fsSL https://claude.ai/install.sh | bash`)؛ نصب npm در README رسمی منسوخ شده است؛ از نصب‌کننده بومی، Homebrew (`brew install --cask claude-code`) یا WinGet (`winget install Anthropic.ClaudeCode`) استفاده کنید. برای مرجع، `npm install -g @anthropic-ai/claude-code` همان باینری بومی را از طریق یک وابستگی اختیاری برای هر پلتفرم در زمان نصب دریافت می‌کند. از v2.1.116، دانلودها از `https://downloads.claude.ai/claude-code-releases` انجام می‌شود — پروکسی‌های شرکتی باید این میزبان را به فهرست مجاز اضافه کنند.
+> **یادداشت نصب**: از v2.1.113 به بعد، Claude Code به‌صورت یک باینری بومی برای هر پلتفرم (macOS/Linux/Windows) عرضه می‌شود. نصب پیشنهادی نصب‌کننده بومی است (`curl -fsSL https://claude.ai/install.sh | bash`)؛ نصب npm در README رسمی منسوخ شده است؛ از نصب‌کننده بومی، Homebrew (`brew install --cask claude-code`) یا WinGet (`winget install Anthropic.ClaudeCode`) استفاده کنید. برای مرجع، `npm install -g @anthropic-ai/claude-code` همان باینری بومی را از طریق یک وابستگی اختیاری برای هر پلتفرم در زمان نصب دریافت می‌کند. در npm 12 که به‌طور پیش‌فرض مرحلهٔ postinstall در Claude Code را رد می‌کند، آن نصب با `Error: claude native binary not installed.` پایان می‌یابد — به نصب‌کنندهٔ بومی بروید یا [رفع نصب npm 12](https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install) را دنبال کنید. از v2.1.116، دانلودها از `https://downloads.claude.ai/claude-code-releases` انجام می‌شود — پروکسی‌های شرکتی باید این میزبان را به فهرست مجاز اضافه کنند.
 
 ```bash
 # 1. کلون کردن راهنما
@@ -874,8 +874,8 @@ uv run scripts/build_epub.py
 
 ---
 
-**آخرین به‌روزرسانی**: ۲۶ اکتبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.310
+**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.316
 **منابع**:
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
 - https://code.claude.com/docs/en/hooks
@@ -898,4 +898,5 @@ uv run scripts/build_epub.py
 - https://code.claude.com/docs/en/headless#auto-approve-tools
 - https://code.claude.com/docs/en/permission-modes#which-mode-a-non-interactive-run-starts-in
 - https://code.claude.com/docs/en/mcp#example-query-your-postgresql-database
+- https://code.claude.com/docs/en/troubleshoot-install#fix-an-npm-12-install
 **مدل‌های سازگار**: Claude Fable 5.1, Claude Fable 5, Claude Opus 5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 4.5
