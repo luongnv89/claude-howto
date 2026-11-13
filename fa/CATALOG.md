@@ -279,8 +279,8 @@ cp -r 03-skills/* ~/.claude/skills/
 | پلاگین | توضیح | اجزا | زمان استفاده | دامنه | نصب |
 |--------|-------------|------------|-------------|-------|--------------|
 | `pr-review` | جریان کاری بازبینی PR | ۳ دستور، ۳ ایجنت، GitHub MCP | بازبینی کد | پروژه | `claude --plugin-dir ./07-plugins/pr-review` |
-| `devops-automation` | استقرار و پایش | ۴ دستور، ۳ ایجنت، K8s MCP | وظایف DevOps | پروژه | `/plugin install devops-automation` |
-| `documentation` | مجموعه تولید مستندات | ۴ دستور، ۳ ایجنت، قالب‌ها | مستندسازی | پروژه | `/plugin install documentation` |
+| `devops-automation` | استقرار و پایش | ۴ دستور، ۳ ایجنت، ۲ هوک | وظایف DevOps | پروژه | `claude --plugin-dir ./07-plugins/devops-automation` |
+| `documentation` | مجموعه تولید مستندات | ۴ دستور، ۳ ایجنت، GitHub MCP، قالب‌ها | مستندسازی | پروژه | `claude --plugin-dir ./07-plugins/documentation` |
 
 > **دامنه**: `Project` = مشترک تیمی، `User` = جریان‌های کاری شخصی
 

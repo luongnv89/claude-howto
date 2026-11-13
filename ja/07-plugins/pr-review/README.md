@@ -25,12 +25,33 @@
 claude --plugin-dir ./07-plugins/pr-review
 ```
 
+読み込む前にプラグインをチェックする：
+
+```bash
+claude plugin validate ./07-plugins/pr-review
+```
+
 ## 同梱内容
 
+```text
+pr-review/
+├── .claude-plugin/
+│   └── plugin.json      # "name": "pr-review" sets the command prefix
+├── commands/            # each file becomes /pr-review:<file>
+├── agents/
+├── hooks/
+│   ├── hooks.json       # registers pre-review.js
+│   └── pre-review.js
+└── .mcp.json            # GitHub MCP server
+```
+
 ### スラッシュコマンド
-- `/review-pr` — 包括的な PR レビュー
-- `/check-security` — セキュリティ観点のレビュー
-- `/check-tests` — テストカバレッジ解析
+
+プラグインのコマンドは、`plugin.json` のプラグイン `name` で名前空間が付く：
+
+- `/pr-review:review-pr` — 包括的な PR レビュー
+- `/pr-review:check-security` — セキュリティ観点のレビュー
+- `/pr-review:check-tests` — テストカバレッジ解析
 
 ### サブエージェント
 - `security-reviewer` — セキュリティ脆弱性の検出
@@ -38,48 +59,58 @@ claude --plugin-dir ./07-plugins/pr-review
 - `performance-analyzer` — パフォーマンス影響の評価
 
 ### MCP サーバー
-- PR データ取得のための GitHub 連携
+
+`.mcp.json` は `github` という 1 つのサーバーを宣言する。GitHub 公式の MCP サーバー（`ghcr.io/github/github-mcp-server`）を Docker で読み取り専用モードで実行する。イメージは [v2.1.0 リリース](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) に固定されている。アップグレードするには `.mcp.json` のタグを変更する。`/mcp` では `plugin:pr-review:github` として表示される。
 
 ### フック
-- `pre-review.js` — レビュー前検証
+
+`hooks/hooks.json` は `pre-review.js` を `UserPromptExpansion` イベントに登録し、上記 3 つのコマンドに一致する matcher を設定する。matcher は `pr-review:review-pr`（Claude Code 2.1.322 がプラグインコマンドに対して送る `command_name`）と、プレフィックスなしの `review-pr` の両方を受け付ける。いずれかのコマンドを入力すると、フックは次のように動作する：
+
+- カレントディレクトリが git リポジトリでない場合、コマンドをブロックする（終了コード 2）
+- それ以外の場合、現在のブランチ（または HEAD が detached 状態であること、あるいはリポジトリにまだコミットがないことを示す注記）と、未コミットの変更に関する注記を Claude のコンテキストに追加する
+- bare リポジトリ（または `.git` の中）では、レビューする作業ツリーがないという注記だけを追加する
 
 ## 使い方
 
 ### 基本的な PR レビュー
-```
-/review-pr
+```text
+/pr-review:review-pr
 ```
 
 ### セキュリティチェックのみ
-```
-/check-security
+```text
+/pr-review:check-security
 ```
 
 ### テストカバレッジチェック
-```
-/check-tests
+```text
+/pr-review:check-tests
 ```
 
 ## 必要要件
 
 - Claude Code 1.0 以上
-- GitHub アクセス
+- Node.js（フックスクリプトの実行用）
+- Docker（GitHub MCP サーバーの実行用）
+- GitHub の personal access token
 - Git リポジトリ
 
 ## 設定
 
-GitHub トークンを設定する：
+Claude Code を起動する前に GitHub トークンを設定する：
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
 
+`.mcp.json` はこれを、サーバーが読み取る変数である `GITHUB_PERSONAL_ACCESS_TOKEN` としてサーバーに渡す。`/mcp` を実行して `plugin:pr-review:github` が接続されていることを確認する。
+
 ## ワークフロー例
 
-```
-User: /review-pr
+```text
+User: /pr-review:review-pr
 
 Claude:
-1. Runs pre-review hook (validates git repo)
+1. pre-review hook checks the git repository and adds the branch to context
 2. Fetches PR data via GitHub MCP
 3. Delegates security review to security-reviewer subagent
 4. Delegates testing to test-checker subagent

@@ -220,7 +220,7 @@
 - **Options**: A) Inline in SKILL.md | B) In a `references/api-spec.md` file inside the skill directory | C) In the project's CLAUDE.md | D) In a separate `.claude/rules/` file
 - **Correct**: B
 - **Explanation**: Large reference material belongs in the `references/` subdirectory. Claude loads Level 3 resources on demand, keeping SKILL.md lean.
-- **Review**: Supporting files structure section
+- **Review**: Supporting Files section
 
 ### Q7
 - **Category**: conceptual
@@ -715,7 +715,7 @@
 - **Question**: Does the "ultrathink" keyword trigger deep reasoning?
 - **Options**: A) Yes, it triggers deep reasoning for one response without changing session settings | B) No, it's treated as regular prompt text | C) Yes, but only on Opus 4.6 | D) Yes, and it permanently changes the effort level
 - **Correct**: A
-- **Explanation**: Including "ultrathink" in your prompt adds an in-context instruction for the model to reason more on that turn, without changing your session effort setting. Since v2.1.311, typed in the interactive terminal on Opus 5.5, Sonnet 5.5, Haiku 5.5, or Fable 5.1 through Anthropic's API, it also runs that turn at `xhigh` effort, and the word shows in rainbow colors when it can (the VS Code extension does the same since v2.1.316). Typed while Claude is working, it raises the rest of that turn. `CLAUDE_CODE_DISABLE_ULTRATHINK` turns the keyword off (v2.1.316). Use `/effort max` for session-level deep reasoning.
+- **Explanation**: Including "ultrathink" in your prompt adds an in-context instruction for the model to reason more on that turn, without changing your session effort setting. Since v2.1.311, typed in the interactive terminal on Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2 (v2.1.321+), or Fable 5.1 through Anthropic's API, it also runs that turn at `xhigh` effort, and the word shows in rainbow colors when it can (the VS Code extension does the same since v2.1.316). Typed while Claude is working, it raises the rest of that turn. `CLAUDE_CODE_DISABLE_ULTRATHINK` turns the keyword off (v2.1.316). Use `/effort max` for session-level deep reasoning.
 - **Review**: Extended Thinking section
 
 ### Q6
@@ -731,7 +731,7 @@
 - **Question**: What does the Task List feature (Ctrl+T) provide?
 - **Options**: A) A list of running background processes | B) A persistent to-do list that survives context compaction, shareable via `CLAUDE_CODE_TASK_LIST_ID` | C) A history of past sessions | D) A queue of pending tool calls
 - **Correct**: B
-- **Explanation**: The Task List (Ctrl+T) is persistent across context compactions and can be shared across sessions via named task directories using `CLAUDE_CODE_TASK_LIST_ID`.
+- **Explanation**: The Task List (Ctrl+T) is persistent across context compactions and can be shared across sessions via named task directories using `CLAUDE_CODE_TASK_LIST_ID`. It fills only in sessions that have the task-tracking tools, which, outside background and cloud sessions, Claude Code provides by default only on Opus 4.7, Sonnet 4.6, Haiku 4.5, and earlier models; on Opus 5.5, Sonnet 5.5, Haiku 5.5, and the Fable models it stays empty unless you opt in, for example with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` (v2.1.233+).
 - **Review**: Task List section
 
 ### Q8
@@ -844,8 +844,8 @@
 
 ---
 
-**Last Updated**: November 1, 2026
-**Claude Code Version**: 2.1.316
+**Last Updated**: November 12, 2026
+**Claude Code Version**: 2.1.322
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/skills

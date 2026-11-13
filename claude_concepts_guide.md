@@ -743,7 +743,7 @@ Three complete, installable plugins live in **[07-plugins/](07-plugins/)**:
 
 - **`pr-review/`** — review commands, three specialist agents, GitHub MCP, and a pre-review hook
 - **`documentation/`** — doc generation commands, three agents, and reusable templates
-- **`devops-automation/`** — deploy/rollback/status/incident commands, three agents, Kubernetes MCP, and shell scripts
+- **`devops-automation/`** — deploy/rollback/status/incident commands, three agents, deploy hooks, and shell scripts
 
 Each includes its `.claude-plugin/plugin.json` manifest and directory layout.
 
@@ -847,7 +847,7 @@ graph TD
 
 ### Example Plugin README
 
-See the three complete plugins in **[07-plugins/](07-plugins/)** — `pr-review/`, `documentation/`, and `devops-automation/` each ship a full `README.md`, manifest, commands, agents, and MCP config you can copy wholesale.
+See the three complete plugins in **[07-plugins/](07-plugins/)** — `pr-review/`, `documentation/`, and `devops-automation/` each ship a full `README.md`, manifest, commands, and agents, plus MCP config, hooks, or both, that you can copy wholesale.
 
 ### Plugin vs Manual Configuration
 

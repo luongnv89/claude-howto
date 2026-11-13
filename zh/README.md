@@ -635,14 +635,14 @@ Claude：
 ### DevOps 部署
 
 ```markdown
-# 使用：Plugins + MCP + Hooks
+# 使用：Plugins + Subagents + Hooks
 
-用户：/deploy production
+用户：/devops-automation:deploy production
 
 Claude：
 1. 运行部署前 hook（校验环境）
 2. 委派给 deployment-specialist subagent
-3. 通过 Kubernetes MCP 执行部署
+3. 运行部署脚本（kubectl）
 4. 监控进度
 5. 运行部署后 hook（健康检查）
 6. 报告状态

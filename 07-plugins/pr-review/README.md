@@ -21,12 +21,33 @@ Complete PR review workflow with security, testing, and documentation checks.
 claude --plugin-dir ./07-plugins/pr-review
 ```
 
+Check the plugin before you load it:
+
+```bash
+claude plugin validate ./07-plugins/pr-review
+```
+
 ## What's Included
 
+```text
+pr-review/
+├── .claude-plugin/
+│   └── plugin.json      # "name": "pr-review" sets the command prefix
+├── commands/            # each file becomes /pr-review:<file>
+├── agents/
+├── hooks/
+│   ├── hooks.json       # registers pre-review.js
+│   └── pre-review.js
+└── .mcp.json            # GitHub MCP server
+```
+
 ### Slash Commands
-- `/review-pr` - Comprehensive PR review
-- `/check-security` - Security-focused review
-- `/check-tests` - Test coverage analysis
+
+Plugin commands are namespaced with the plugin `name` from `plugin.json`:
+
+- `/pr-review:review-pr` - Comprehensive PR review
+- `/pr-review:check-security` - Security-focused review
+- `/pr-review:check-tests` - Test coverage analysis
 
 ### Subagents
 - `security-reviewer` - Security vulnerability detection
@@ -34,48 +55,58 @@ claude --plugin-dir ./07-plugins/pr-review
 - `performance-analyzer` - Performance impact evaluation
 
 ### MCP Servers
-- GitHub integration for PR data
+
+`.mcp.json` declares one server, `github`: GitHub's official MCP server (`ghcr.io/github/github-mcp-server`), run with Docker in read-only mode. The image is pinned to the [v2.1.0 release](https://github.com/github/github-mcp-server/releases/tag/v2.1.0); change the tag in `.mcp.json` to upgrade. It shows up as `plugin:pr-review:github` in `/mcp`.
 
 ### Hooks
-- `pre-review.js` - Pre-review validation
+
+`hooks/hooks.json` registers `pre-review.js` on the `UserPromptExpansion` event, with a matcher for the three commands above. The matcher accepts both `pr-review:review-pr` (the `command_name` Claude Code 2.1.322 sends for a plugin command) and the bare `review-pr`. When you type one of them, the hook:
+
+- blocks the command (exit code 2) when the current directory is not a git repository
+- otherwise adds the current branch (or a note that HEAD is detached, or that the repository has no commits yet), and a note about uncommitted changes, to Claude's context
+- in a bare repository (or inside `.git`), adds only a note that there is no working tree to review
 
 ## Usage
 
 ### Basic PR Review
-```
-/review-pr
+```text
+/pr-review:review-pr
 ```
 
 ### Security Check Only
-```
-/check-security
+```text
+/pr-review:check-security
 ```
 
 ### Test Coverage Check
-```
-/check-tests
+```text
+/pr-review:check-tests
 ```
 
 ## Requirements
 
 - Claude Code 2.1+
-- GitHub access
+- Node.js (runs the hook script)
+- Docker (runs the GitHub MCP server)
+- A GitHub personal access token
 - Git repository
 
 ## Configuration
 
-Set up your GitHub token:
+Set your GitHub token before you start Claude Code:
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
 
+`.mcp.json` passes it to the server as `GITHUB_PERSONAL_ACCESS_TOKEN`, the variable the server reads. Run `/mcp` to check that `plugin:pr-review:github` is connected.
+
 ## Example Workflow
 
-```
-User: /review-pr
+```text
+User: /pr-review:review-pr
 
 Claude:
-1. Runs pre-review hook (validates git repo)
+1. pre-review hook checks the git repository and adds the branch to context
 2. Fetches PR data via GitHub MCP
 3. Delegates security review to security-reviewer subagent
 4. Delegates testing to test-checker subagent

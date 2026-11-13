@@ -21,21 +21,27 @@ Tự động hóa DevOps hoàn chỉnh cho triển khai, giám sát và ứng ph
 claude --plugin-dir ./07-plugins/devops-automation
 ```
 
+Kiểm tra plugin trước khi tải:
+
+```bash
+claude plugin validate ./07-plugins/devops-automation
+```
+
 ## Những Gì Được Bao Gồm
 
 ### Lệnh Slash
-- `/deploy` - Triển khai lên production hoặc staging
-- `/rollback` - Rollback về phiên bản trước
-- `/status` - Kiểm tra sức khỏe hệ thống
-- `/incident` - Xử lý sự cố production
+
+Lệnh của plugin được đặt namespace theo `name` của plugin trong `plugin.json`:
+
+- `/devops-automation:deploy` - Triển khai lên production hoặc staging
+- `/devops-automation:rollback` - Rollback về phiên bản trước
+- `/devops-automation:status` - Kiểm tra sức khỏe hệ thống
+- `/devops-automation:incident` - Xử lý sự cố production
 
 ### Tác Nhân Con
 - `deployment-specialist` - Các thao tác triển khai
 - `incident-commander` - Điều phối sự cố
 - `alert-analyzer` - Phân tích sức khỏe hệ thống
-
-### MCP Server
-- Tích hợp Kubernetes
 
 ### Script
 - `deploy.sh` - Tự động hóa triển khai
@@ -43,61 +49,73 @@ claude --plugin-dir ./07-plugins/devops-automation
 - `health-check.sh` - Tiện ích kiểm tra sức khỏe
 
 ### Hook
-- `pre-deploy.js` - Xác thực trước khi triển khai
-- `post-deploy.js` - Các tác vụ sau khi triển khai
+
+`hooks/hooks.json` đăng ký cả hai script cho các lần gọi tool Bash. Chúng chỉ tác động lên các lệnh triển khai (`deploy.sh`, `rollback.sh`, `kubectl apply`, `kubectl set image`, `kubectl rollout restart|undo`, `helm install|upgrade|rollback`) và exit 0 với mọi lệnh khác:
+
+- `pre-deploy.js` (`PreToolUse`): chặn lệnh (exit code 2) khi thiếu `kubectl` hoặc `kubectl` không kết nối được cluster, và Claude sẽ thấy lý do
+- `post-deploy.js` (`PostToolUse`): kiểm tra lần triển khai và báo cho Claude nếu nó thất bại. Khi đã đặt `DEPLOY_DEPLOYMENT`, script chạy `kubectl rollout status` (tối đa 120s), lệnh này chờ các pod mới. Nếu không, khi đã đặt `DEPLOY_APP_LABEL`, script chuyển sang dùng `kubectl wait` để chờ các pod có nhãn đó ở trạng thái Ready; các pod cũ vẫn đang Ready cũng vượt qua bước kiểm tra này. Khi không đặt biến nào, bước kiểm tra được bỏ qua. Ghi chú gửi cho Claude cho biết bước kiểm tra nào đã chạy
+
+Cả hai hook chỉ đọc trạng thái cluster (`kubectl version`, `cluster-info`, `rollout status`, `wait`).
+
+Cách nhận diện một lệnh: các script bỏ phần thân heredoc và các chuỗi trong dấu nháy, tách lệnh theo dòng mới, `&&`, `||`, `;`, `|` và `&`, rồi xét từ đầu tiên của mỗi phần (sau `VAR=value`, các wrapper như `sudo` hoặc `env`, và các từ khóa shell như `do`, `then` hoặc `!`). Các cờ toàn cục đứng trước động từ vẫn được tính, nên `kubectl -n prod apply` và `helm -n prod upgrade` là lệnh triển khai, còn `echo "kubectl apply"`, `cat scripts/deploy.sh` và `git commit -m "helm upgrade notes"` thì không. Đây là một heuristic, không phải trình phân tích cú pháp shell: nó bỏ sót các lệnh triển khai ẩn trong dấu nháy (`bash -c "kubectl apply …"`), nằm sau các wrapper khác (`ssh`, `xargs`, `make deploy`) hoặc cờ của wrapper (`sudo -E`, `env -i`), chạy bằng `source` hoặc `.`, bắt đầu bằng đường dẫn script trong dấu nháy (`"./scripts/deploy.sh"`), nằm sau một dấu nháy chưa đóng hoặc một here-string `<<<`, hoặc bên trong các script khác. Nó cũng có thể nhận nhầm khi giá trị cờ bất thường, như `kubectl -n apply get pods`. Đừng dựa vào nó như một ranh giới an toàn.
+
+Nếu bạn nhấn `Ctrl+Enter` trong khi một lệnh triển khai đang chạy và việc đó kết thúc lượt, hook post-deploy vẫn chạy khi lệnh hoàn tất, nhưng Claude Code sẽ dừng nó sau 10 giây, bất kể `timeout` của nó là bao nhiêu, nên bước kiểm tra có thể không hoàn tất.
 
 ## Cách Sử Dụng
 
 ### Triển Khai Lên Staging
-```
-/deploy staging
+```text
+/devops-automation:deploy staging
 ```
 
 ### Triển Khai Lên Production
-```
-/deploy production
+```text
+/devops-automation:deploy production
 ```
 
 ### Rollback
-```
-/rollback production
+```text
+/devops-automation:rollback production
 ```
 
 ### Kiểm Tra Trạng Thái
-```
-/status
+```text
+/devops-automation:status
 ```
 
 ### Xử Lý Sự Cố
-```
-/incident
+```text
+/devops-automation:incident
 ```
 
 ## Yêu Cầu
 
 - Claude Code 2.1+
+- Node.js (chạy các script hook)
 - Kubernetes CLI (kubectl)
 - Đã cấu hình quyền truy cập cluster
 
 ## Cấu Hình
 
-Thiết lập Kubernetes config của bạn:
+Các hook và script dùng cấu hình `kubectl` thông thường của bạn (`~/.kube/config`, hoặc `KUBECONFIG` nếu bạn có đặt biến này).
+
+Tùy chọn, cho bước kiểm tra sau triển khai (đặt `DEPLOY_DEPLOYMENT`, hoặc `DEPLOY_APP_LABEL` để dùng phương án dự phòng chờ pod sẵn sàng):
 ```bash
-export KUBECONFIG=~/.kube/config
+export DEPLOY_DEPLOYMENT="myapp"
+export DEPLOY_APP_LABEL="app=myapp"
+export DEPLOY_NAMESPACE="staging"
 ```
 
 ## Ví Dụ Workflow
 
-```
-User: /deploy production
+```text
+User: /devops-automation:deploy production
 
 Claude:
-1. Chạy hook pre-deploy (xác thực kubectl, kết nối cluster)
-2. Giao việc cho tác nhân con deployment-specialist
-3. Chạy script deploy.sh
-4. Giám sát tiến trình triển khai qua Kubernetes MCP
-5. Chạy hook post-deploy (chờ các pod, chạy smoke test)
-6. Cung cấp bản tóm tắt triển khai
+1. Giao việc cho tác nhân con deployment-specialist
+2. Chạy script deploy.sh; hook pre-deploy kiểm tra kubectl và kết nối cluster trước
+3. Hook post-deploy chờ các pod sẵn sàng
+4. Cung cấp bản tóm tắt triển khai
 
 Kết quả:
 ✅ Triển khai hoàn tất

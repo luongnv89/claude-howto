@@ -423,9 +423,10 @@ Use **standalone slash commands** for quick personal workflows. Use **plugins** 
 
 **File:** `commands/review-pr.md`
 
+This file becomes `/pr-review:review-pr`: the plugin `name` plus the file name.
+
 ```markdown
 ---
-name: Review PR
 description: Start comprehensive PR review with security and testing checks
 ---
 
@@ -458,17 +459,65 @@ Specializes in finding security vulnerabilities:
 - Secure configuration
 ```
 
+**File:** `hooks/hooks.json`
+
+Runs `hooks/pre-review.js` when the user types one of the plugin's commands. The script blocks the command outside a git repository (exit code 2). The matcher is tested against `command_name`, which for a plugin command was `pr-review:review-pr` on Claude Code 2.1.322; it also accepts the bare `review-pr` form. `args` (exec form) passes the script path as one argument, so no quoting is needed:
+
+```json
+{
+  "hooks": {
+    "UserPromptExpansion": [
+      {
+        "matcher": "^(pr-review:)?(review-pr|check-security|check-tests)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js"],
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**File:** `.mcp.json`
+
+Declares GitHub's official MCP server, read-only, with the token taken from `GITHUB_TOKEN`. The image is pinned to the [v2.1.0 release](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) tag, so it changes only when you edit the tag or the publisher re-pushes it. Pinning by digest is stricter: replace `:v2.1.0` with `@sha256:f6056fc10bfffcc8c81a6417a2e9ca12808647e8dd6049642a4feaadee0e0f8a`, the digest of v2.1.0 on 2026-11-12. The file pins the tag:
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "-e", "GITHUB_READ_ONLY",
+        "ghcr.io/github/github-mcp-server:v2.1.0"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
+        "GITHUB_READ_ONLY": "1"
+      }
+    }
+  }
+}
+```
+
 **Installation:**
 
 ```bash
+claude plugin validate ./07-plugins/pr-review
 claude --plugin-dir ./07-plugins/pr-review
 
-# Result:
-# ✅ 3 slash commands installed
-# ✅ 3 subagents configured
-# ✅ 2 MCP servers connected
-# ✅ 4 hooks registered
-# ✅ Ready to use!
+# Loads:
+# ✅ 3 slash commands: /pr-review:review-pr, /pr-review:check-security, /pr-review:check-tests
+# ✅ 3 subagents
+# ✅ 1 MCP server: plugin:pr-review:github
+# ✅ 1 hook: UserPromptExpansion → pre-review.js
 ```
 
 ### Example 2: DevOps Plugin
@@ -486,9 +535,8 @@ devops-automation/
 │   ├── deployment-specialist.md
 │   ├── incident-commander.md
 │   └── alert-analyzer.md
-├── mcp/
-│   └── kubernetes-config.json
 ├── hooks/
+│   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
 └── scripts/
@@ -496,6 +544,8 @@ devops-automation/
     ├── rollback.sh
     └── health-check.sh
 ```
+
+`hooks/hooks.json` runs `pre-deploy.js` before and `post-deploy.js` after each Bash call. The scripts read the command from the hook's JSON input and act only on deploy commands such as `kubectl apply` or `deploy.sh`. `pre-deploy.js` exits 2 to block a deploy when `kubectl` can't reach a cluster. The plugin has no MCP server: the hooks and scripts call `kubectl` directly.
 
 ### Example 3: Documentation Plugin
 
@@ -512,12 +562,11 @@ documentation/
 │   ├── api-documenter.md
 │   ├── code-commentator.md
 │   └── example-generator.md
-├── mcp/
-│   └── github-docs-config.json
-└── templates/
-    ├── api-endpoint.md
-    ├── function-docs.md
-    └── adr-template.md
+├── templates/
+│   ├── api-endpoint.md
+│   ├── function-docs.md
+│   └── adr-template.md
+└── .mcp.json             # GitHub MCP server
 ```
 
 ## Plugin Marketplace
@@ -1143,8 +1192,8 @@ Complete PR review workflow with security, testing, and documentation checks.
 ## What's Included
 - 3 slash commands for different review types
 - 3 specialized subagents
-- GitHub and CodeQL MCP integration
-- Automated security scanning hooks
+- GitHub MCP integration
+- A pre-review hook that checks the git repository
 
 ## Installation
 ```bash
@@ -1159,16 +1208,16 @@ claude --plugin-dir ./07-plugins/pr-review
 ✅ Performance impact analysis
 
 ## Usage
-```bash
-/review-pr
-/check-security
-/check-tests
+```text
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ## Requirements
 - Claude Code 2.1+
-- GitHub access
-- CodeQL (optional)
+- Node.js and Docker
+- A GitHub personal access token in `GITHUB_TOKEN`
 ````
 
 ## Plugin vs Manual Configuration
@@ -1294,10 +1343,10 @@ The following Claude Code features work together with plugins:
 ### PR Review Plugin Full Workflow
 
 ```
-1. User: /review-pr
+1. User: /pr-review:review-pr
 
 2. Plugin executes:
-   ├── pre-review.js hook validates git repo
+   ├── pre-review.js hook (UserPromptExpansion) validates git repo
    ├── GitHub MCP fetches PR data
    ├── security-reviewer subagent analyzes security
    ├── test-checker subagent verifies coverage
@@ -1328,7 +1377,7 @@ The following Claude Code features work together with plugins:
 - Verify environment variables are set correctly
 - Check MCP server installation and health
 - Check MCP server status with `/mcp`
-- Review MCP configuration in `mcp/` directory
+- Review MCP configuration in the plugin's `.mcp.json`
 
 ### Commands Not Available After Install
 - Ensure plugin was installed successfully: `/plugin list`

@@ -238,7 +238,7 @@ Event-driven automation scripts that execute automatically.
 
 Bundled collections of features.
 
-### PR Review Plugin (10 files)
+### PR Review Plugin (11 files)
 ```
 pr-review/
 ├── .claude-plugin/
@@ -251,16 +251,16 @@ pr-review/
 │   ├── security-reviewer.md          # Security specialist
 │   ├── test-checker.md               # Test specialist
 │   └── performance-analyzer.md       # Performance specialist
-├── mcp/
-│   └── github-config.json            # GitHub integration
+├── .mcp.json                         # GitHub integration
 ├── hooks/
+│   ├── hooks.json                    # Hook registration
 │   └── pre-review.js                 # Pre-review validation
 └── README.md                         # Plugin documentation
 ```
 
 **Features**: Security analysis, test coverage, performance impact
 
-**Commands**: `/review-pr`, `/check-security`, `/check-tests`
+**Commands**: `/pr-review:review-pr`, `/pr-review:check-security`, `/pr-review:check-tests`
 
 **Installation**: `claude --plugin-dir ./07-plugins/pr-review` (from the repo root)
 
@@ -280,9 +280,8 @@ devops-automation/
 │   ├── deployment-specialist.md      # Deployment expert
 │   ├── incident-commander.md         # Incident coordinator
 │   └── alert-analyzer.md             # Alert analyzer
-├── mcp/
-│   └── kubernetes-config.json        # Kubernetes integration
 ├── hooks/
+│   ├── hooks.json                    # Hook registration
 │   ├── pre-deploy.js                 # Pre-deployment checks
 │   └── post-deploy.js                # Post-deployment tasks
 ├── scripts/
@@ -294,13 +293,13 @@ devops-automation/
 
 **Features**: Kubernetes deployment, rollback, monitoring, incident response
 
-**Commands**: `/deploy`, `/rollback`, `/status`, `/incident`
+**Commands**: `/devops-automation:deploy`, `/devops-automation:rollback`, `/devops-automation:status`, `/devops-automation:incident`
 
 **Installation**: `claude --plugin-dir ./07-plugins/devops-automation` (from the repo root)
 
 ---
 
-### Documentation Plugin (14 files)
+### Documentation Plugin (13 files)
 ```
 documentation/
 ├── .claude-plugin/
@@ -314,8 +313,7 @@ documentation/
 │   ├── api-documenter.md             # API doc specialist
 │   ├── code-commentator.md           # Code comment specialist
 │   └── example-generator.md          # Example creator
-├── mcp/
-│   └── github-docs-config.json       # GitHub integration
+├── .mcp.json                         # GitHub integration
 ├── templates/
 │   ├── api-endpoint.md               # API endpoint template
 │   ├── function-docs.md              # Function doc template
@@ -325,7 +323,7 @@ documentation/
 
 **Features**: API docs, README generation, doc sync, validation
 
-**Commands**: `/generate-api-docs`, `/generate-readme`, `/sync-docs`, `/validate-docs`
+**Commands**: `/documentation:generate-api-docs`, `/documentation:generate-readme`, `/documentation:sync-docs`, `/documentation:validate-docs`
 
 **Installation**: `claude --plugin-dir ./07-plugins/documentation` (from the repo root)
 
@@ -615,9 +613,9 @@ claude-howto/
 │   │   │   ├── security-reviewer.md
 │   │   │   ├── test-checker.md
 │   │   │   └── performance-analyzer.md
-│   │   ├── mcp/
-│   │   │   └── github-config.json
+│   │   ├── .mcp.json
 │   │   ├── hooks/
+│   │   │   ├── hooks.json
 │   │   │   └── pre-review.js
 │   │   └── README.md
 │   ├── devops-automation/
@@ -632,9 +630,8 @@ claude-howto/
 │   │   │   ├── deployment-specialist.md
 │   │   │   ├── incident-commander.md
 │   │   │   └── alert-analyzer.md
-│   │   ├── mcp/
-│   │   │   └── kubernetes-config.json
 │   │   ├── hooks/
+│   │   │   ├── hooks.json
 │   │   │   ├── pre-deploy.js
 │   │   │   └── post-deploy.js
 │   │   ├── scripts/
@@ -654,8 +651,7 @@ claude-howto/
 │   │   │   ├── api-documenter.md
 │   │   │   ├── code-commentator.md
 │   │   │   └── example-generator.md
-│   │   ├── mcp/
-│   │   │   └── github-docs-config.json
+│   │   ├── .mcp.json
 │   │   ├── templates/
 │   │   │   ├── api-endpoint.md
 │   │   │   ├── function-docs.md

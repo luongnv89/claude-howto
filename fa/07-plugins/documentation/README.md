@@ -21,13 +21,22 @@
 claude --plugin-dir ./07-plugins/documentation
 ```
 
+پیش از بارگذاری، پلاگین را بررسی کنید:
+
+```bash
+claude plugin validate ./07-plugins/documentation
+```
+
 ## محتویات
 
 ### دستورات Slash
-- `/generate-api-docs` - تولید مستندات API
-- `/generate-readme` - ایجاد یا به‌روزرسانی README
-- `/sync-docs` - هماهنگ‌سازی مستندات با تغییرات کد
-- `/validate-docs` - اعتبارسنجی مستندات
+
+دستورات پلاگین با `name` پلاگین در `plugin.json` فضای‌نام‌گذاری می‌شوند:
+
+- `/documentation:generate-api-docs` - تولید مستندات API
+- `/documentation:generate-readme` - ایجاد یا به‌روزرسانی README
+- `/documentation:sync-docs` - هماهنگ‌سازی مستندات با تغییرات کد
+- `/documentation:validate-docs` - اعتبارسنجی مستندات
 
 ### subagentها
 - `api-documenter` - متخصص مستندسازی API
@@ -40,39 +49,40 @@ claude --plugin-dir ./07-plugins/documentation
 - `adr-template.md` - قالب ثبت تصمیم معماری
 
 ### سرورهای MCP
-- یکپارچه‌سازی GitHub برای هماهنگ‌سازی مستندات
+
+`.mcp.json` یک سرور به نام `github` تعریف می‌کند: سرور MCP رسمی GitHub (`ghcr.io/github/github-mcp-server`) که با Docker در حالت فقط‌خواندنی اجرا می‌شود. ایمیج روی [نسخه v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) ثابت شده است؛ برای ارتقا، تگ را در `.mcp.json` تغییر دهید. این سرور در `/mcp` با نام `plugin:documentation:github` نمایش داده می‌شود.
 
 ## استفاده
 
 ### تولید مستندات API
-```
-/generate-api-docs
+```text
+/documentation:generate-api-docs
 ```
 
 ### ایجاد README
-```
-/generate-readme
+```text
+/documentation:generate-readme
 ```
 
 ### هماهنگ‌سازی مستندات
-```
-/sync-docs
+```text
+/documentation:sync-docs
 ```
 
 ### اعتبارسنجی مستندات
-```
-/validate-docs
+```text
+/documentation:validate-docs
 ```
 
 ## نیازمندی‌ها
 
 - Claude Code 2.1+
-- دسترسی GitHub (اختیاری)
+- Docker و یک توکن دسترسی شخصی GitHub (اختیاری، برای سرور MCP گیت‌هاب)
 
 ## گردش‌کار نمونه
 
-```
-کاربر: /generate-api-docs
+```text
+کاربر: /documentation:generate-api-docs
 
 Claude:
 ۱. اسکن همه endpointهای API در /src/api/
@@ -109,6 +119,8 @@ Claude:
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
+
+`.mcp.json` آن را با نام `GITHUB_PERSONAL_ACCESS_TOKEN`، یعنی متغیری که سرور می‌خواند، به سرور می‌دهد. برای بررسی اتصال `plugin:documentation:github`، دستور `/mcp` را اجرا کنید. بدون توکن، دستورات همچنان روی فایل‌های محلی کار می‌کنند.
 
 ## بهترین روش‌ها
 

@@ -317,9 +317,10 @@ my-plugin/
 
 **文件：** `commands/review-pr.md`
 
+这个文件会成为 `/pr-review:review-pr`：插件的 `name` 加上文件名。
+
 ```markdown
 ---
-name: Review PR
 description: 启动包含安全和测试检查的完整 PR 审查
 ---
 
@@ -352,17 +353,65 @@ tools: Read, Grep, Bash
 - 安全配置
 ```
 
+**文件：** `hooks/hooks.json`
+
+当用户输入插件的某个命令时运行 `hooks/pre-review.js`。如果当前不在 git 仓库中，该脚本会阻止命令执行（退出码 2）。matcher 匹配的是 `command_name`，在 Claude Code 2.1.322 上，插件命令的 `command_name` 是 `pr-review:review-pr`；matcher 也接受不带前缀的 `review-pr`。`args`（exec 形式）把脚本路径作为单个参数传入，因此无需加引号：
+
+```json
+{
+  "hooks": {
+    "UserPromptExpansion": [
+      {
+        "matcher": "^(pr-review:)?(review-pr|check-security|check-tests)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js"],
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**文件：** `.mcp.json`
+
+声明 GitHub 官方 MCP 服务器，以只读模式运行，token 取自 `GITHUB_TOKEN`。镜像固定在 [v2.1.0 版本](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) 的 tag 上，因此只有在你修改 tag 或发布者重新推送该 tag 时才会变化。按 digest 固定更严格：把 `:v2.1.0` 换成 `@sha256:f6056fc10bfffcc8c81a6417a2e9ca12808647e8dd6049642a4feaadee0e0f8a`，即 2026-11-12 时 v2.1.0 的 digest。该文件固定的是 tag：
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "-e", "GITHUB_READ_ONLY",
+        "ghcr.io/github/github-mcp-server:v2.1.0"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
+        "GITHUB_READ_ONLY": "1"
+      }
+    }
+  }
+}
+```
+
 **安装：**
 
 ```bash
+claude plugin validate ./07-plugins/pr-review
 claude --plugin-dir ./07-plugins/pr-review
 
-# 结果：
-# ✅ 已安装 3 个 slash commands
-# ✅ 已配置 3 个 subagents
-# ✅ 已连接 2 个 MCP servers
-# ✅ 已注册 4 个 hooks
-# ✅ 可以直接使用！
+# Loads:
+# ✅ 3 slash commands: /pr-review:review-pr, /pr-review:check-security, /pr-review:check-tests
+# ✅ 3 subagents
+# ✅ 1 MCP server: plugin:pr-review:github
+# ✅ 1 hook: UserPromptExpansion → pre-review.js
 ```
 
 ### 示例 2：DevOps 插件
@@ -380,9 +429,8 @@ devops-automation/
 │   ├── deployment-specialist.md
 │   ├── incident-commander.md
 │   └── alert-analyzer.md
-├── mcp/
-│   └── kubernetes-config.json
 ├── hooks/
+│   ├── hooks.json        # PreToolUse/PostToolUse on Bash
 │   ├── pre-deploy.js
 │   └── post-deploy.js
 └── scripts/
@@ -390,6 +438,8 @@ devops-automation/
     ├── rollback.sh
     └── health-check.sh
 ```
+
+`hooks/hooks.json` 会在每次 Bash 调用之前运行 `pre-deploy.js`，之后运行 `post-deploy.js`。这两个脚本从 hook 的 JSON 输入中读取命令，只对 `kubectl apply` 或 `deploy.sh` 这类部署命令生效。当 `kubectl` 无法连接到集群时，`pre-deploy.js` 以退出码 2 退出，阻止部署。该插件没有 MCP 服务器：hooks 和脚本直接调用 `kubectl`。
 
 ### 示例 3：文档插件
 
@@ -406,12 +456,11 @@ documentation/
 │   ├── api-documenter.md
 │   ├── code-commentator.md
 │   └── example-generator.md
-├── mcp/
-│   └── github-docs-config.json
-└── templates/
-    ├── api-endpoint.md
-    ├── function-docs.md
-    └── adr-template.md
+├── templates/
+│   ├── api-endpoint.md
+│   ├── function-docs.md
+│   └── adr-template.md
+└── .mcp.json             # GitHub MCP server
 ```
 
 ## 插件市场
@@ -756,8 +805,8 @@ agent 文件本身无法添加 hooks 或 MCP servers；请改为以插件级 hoo
 ## 包含内容
 - 3 个用于不同审查类型的 slash commands
 - 3 个专门化 subagents
-- GitHub 和 CodeQL MCP 集成
-- 自动安全扫描 hooks
+- GitHub MCP 集成
+- 一个检查 git 仓库的 pre-review hook
 
 ## 安装
 ```bash
@@ -772,16 +821,16 @@ claude --plugin-dir ./07-plugins/pr-review
 ✅ 性能影响分析
 
 ## 使用
-```bash
-/review-pr
-/check-security
-/check-tests
+```text
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ## 要求
 - Claude Code 2.1+
-- GitHub 访问权限
-- CodeQL（可选）
+- Node.js 和 Docker
+- 在 `GITHUB_TOKEN` 中设置 GitHub personal access token
 ````
 
 ## 插件 vs 手动配置
@@ -907,10 +956,10 @@ claude plugin update plugin-name
 ### PR Review 插件完整工作流
 
 ```
-1. 用户：/review-pr
+1. 用户：/pr-review:review-pr
 
 2. 插件执行：
-   ├── pre-review.js hook 验证 git repo
+   ├── pre-review.js hook（UserPromptExpansion）验证 git repo
    ├── GitHub MCP 获取 PR 数据
    ├── security-reviewer subagent 分析安全
    ├── test-checker subagent 验证覆盖率
@@ -941,7 +990,7 @@ claude plugin update plugin-name
 - 确认环境变量已正确设置
 - 检查 MCP server 的安装和健康状态
 - 使用 `/mcp` 查看 MCP 服务器状态
-- 查看 `mcp/` 目录中的 MCP 配置
+- 查看插件 `.mcp.json` 中的 MCP 配置
 
 ### 安装后命令不可用
 - 确认插件已成功安装：`/plugin list`

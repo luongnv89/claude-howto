@@ -242,7 +242,7 @@ blog-draft/
 
 기능들을 묶어 놓은 모음집입니다.
 
-### PR 검토 플러그인 (10개 파일)
+### PR 검토 플러그인 (11개 파일)
 ```
 pr-review/
 ├── .claude-plugin/
@@ -255,16 +255,16 @@ pr-review/
 │   ├── security-reviewer.md          # 보안 전문가
 │   ├── test-checker.md               # 테스트 전문가
 │   └── performance-analyzer.md       # 성능 전문가
-├── mcp/
-│   └── github-config.json            # GitHub 통합
+├── .mcp.json                         # GitHub 통합
 ├── hooks/
+│   ├── hooks.json                    # 훅 등록
 │   └── pre-review.js                 # 사전 검토 유효성 검사
 └── README.md                         # 플러그인 문서
 ```
 
 **기능**: 보안 분석, 테스트 커버리지, 성능 영향
 
-**명령어**: `/review-pr`, `/check-security`, `/check-tests`
+**명령어**: `/pr-review:review-pr`, `/pr-review:check-security`, `/pr-review:check-tests`
 
 **설치**: `claude --plugin-dir ./07-plugins/pr-review` (저장소 루트에서 실행)
 
@@ -284,9 +284,8 @@ devops-automation/
 │   ├── deployment-specialist.md      # 배포 전문가
 │   ├── incident-commander.md         # 인시던트 코디네이터
 │   └── alert-analyzer.md             # 경고 분석기
-├── mcp/
-│   └── kubernetes-config.json        # Kubernetes 통합
 ├── hooks/
+│   ├── hooks.json                    # 훅 등록
 │   ├── pre-deploy.js                 # 배포 전 검사
 │   └── post-deploy.js                # 배포 후 작업
 ├── scripts/
@@ -298,13 +297,13 @@ devops-automation/
 
 **기능**: Kubernetes 배포, 롤백, 모니터링, 인시던트 대응
 
-**명령어**: `/deploy`, `/rollback`, `/status`, `/incident`
+**명령어**: `/devops-automation:deploy`, `/devops-automation:rollback`, `/devops-automation:status`, `/devops-automation:incident`
 
 **설치**: `claude --plugin-dir ./07-plugins/devops-automation` (저장소 루트에서 실행)
 
 ---
 
-### 문서화 플러그인 (14개 파일)
+### 문서화 플러그인 (13개 파일)
 ```
 documentation/
 ├── .claude-plugin/
@@ -318,8 +317,7 @@ documentation/
 │   ├── api-documenter.md             # API 문서 전문가
 │   ├── code-commentator.md           # 코드 주석 전문가
 │   └── example-generator.md          # 예시 생성기
-├── mcp/
-│   └── github-docs-config.json       # GitHub 통합
+├── .mcp.json                         # GitHub 통합
 ├── templates/
 │   ├── api-endpoint.md               # API 엔드포인트 템플릿
 │   ├── function-docs.md              # 함수 문서 템플릿
@@ -329,7 +327,7 @@ documentation/
 
 **기능**: API 문서, README 생성, 문서 동기화, 유효성 검사
 
-**명령어**: `/generate-api-docs`, `/generate-readme`, `/sync-docs`, `/validate-docs`
+**명령어**: `/documentation:generate-api-docs`, `/documentation:generate-readme`, `/documentation:sync-docs`, `/documentation:validate-docs`
 
 **설치**: `claude --plugin-dir ./07-plugins/documentation` (저장소 루트에서 실행)
 
@@ -619,9 +617,9 @@ claude-howto/
 │   │   │   ├── security-reviewer.md
 │   │   │   ├── test-checker.md
 │   │   │   └── performance-analyzer.md
-│   │   ├── mcp/
-│   │   │   └── github-config.json
+│   │   ├── .mcp.json
 │   │   ├── hooks/
+│   │   │   ├── hooks.json
 │   │   │   └── pre-review.js
 │   │   └── README.md
 │   ├── devops-automation/
@@ -636,9 +634,8 @@ claude-howto/
 │   │   │   ├── deployment-specialist.md
 │   │   │   ├── incident-commander.md
 │   │   │   └── alert-analyzer.md
-│   │   ├── mcp/
-│   │   │   └── kubernetes-config.json
 │   │   ├── hooks/
+│   │   │   ├── hooks.json
 │   │   │   ├── pre-deploy.js
 │   │   │   └── post-deploy.js
 │   │   ├── scripts/
@@ -658,8 +655,7 @@ claude-howto/
 │   │   │   ├── api-documenter.md
 │   │   │   ├── code-commentator.md
 │   │   │   └── example-generator.md
-│   │   ├── mcp/
-│   │   │   └── github-docs-config.json
+│   │   ├── .mcp.json
 │   │   ├── templates/
 │   │   │   ├── api-endpoint.md
 │   │   │   ├── function-docs.md
