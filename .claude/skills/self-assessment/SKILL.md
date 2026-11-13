@@ -1,6 +1,6 @@
 ---
 name: self-assessment
-version: 2.5.7
+version: 2.5.8
 description: Comprehensive Claude Code self-assessment and learning path advisor. Runs a multi-category quiz covering 10 feature areas, produces a detailed skill profile with per-topic scores, identifies specific gaps, and generates a personalized learning path with prioritized next steps. Use when asked to "assess my level", "take the quiz", "find my level", "where should I start", "what should I learn next", "check my skills", "skill check", or "level up".
 ---
 
@@ -348,7 +348,7 @@ Use these specific recommendations when a topic is a gap:
 
 **Advanced Features (score 0)**:
 - Tutorial: [09-advanced-features/](../../../09-advanced-features/)
-- Focus on: Planning mode (/plan or Shift+Tab), permission modes (6 types: manual — config value `default`, shown as Manual since v2.1.200 — acceptEdits, plan, auto, dontAsk, bypassPermissions), extended thinking (Alt+T/Option+T toggle — no effect on Opus 5.5 (the default model), Sonnet 5.5, Haiku 5.5, or the Fable models, where thinking stays on), and the `ultrathink` keyword, which runs that turn at `xhigh` effort on Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 (v2.1.311+)
+- Focus on: Planning mode (/plan or Shift+Tab), permission modes (6 types: manual — config value `default`, shown as Manual since v2.1.200 — acceptEdits, plan, auto, dontAsk, bypassPermissions), extended thinking (Alt+T/Option+T toggle — no effect on Opus 5.5 (the default model), Sonnet 5.5, Haiku 5.5, or the Fable models, where thinking stays on), and the `ultrathink` keyword, which runs that turn at `xhigh` effort on Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2, and Fable 5.1 in the terminal (v2.1.311+) and VS Code (v2.1.316+) through Anthropic's API, not on Bedrock (Fable 5.2 needs v2.1.321+)
 - Key exercise: Use planning mode to design a feature, then implement it
 - Done when: You can switch between planning and implementation modes fluently
 
