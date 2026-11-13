@@ -204,7 +204,7 @@ claude --model opusplan "design and implement the new API"
 
 **Chỉnh sửa kế hoạch bên ngoài**: Nhấn `Ctrl+G` để mở kế hoạch hiện tại trong trình soạn thảo bên ngoài và chỉnh sửa chi tiết.
 
-> **Cập nhật v2.1.112**: File kế hoạch giờ được đặt tên theo prompt đã tạo ra chúng (thay vì các từ ngẫu nhiên), giúp dễ duyệt và tái sử dụng hơn.
+> **Cập nhật v2.1.111**: File kế hoạch giờ được đặt tên theo prompt đã tạo ra chúng (thay vì các từ ngẫu nhiên), giúp dễ duyệt và tái sử dụng hơn.
 
 > **Cập nhật v2.1.136 — chế độ plan chặn ghi file vô điều kiện**: Chế độ plan giờ chặn mọi thao tác ghi file, kể cả khi có rule `Edit(...)` khớp trong `permissions.allow`. Trước đây một rule `Edit(...)` dễ dãi có thể cho phép ghi trong chế độ plan; lỗ hổng đó đã được đóng. Nếu workflow của bạn phụ thuộc vào hành vi cũ, hãy thoát chế độ plan (`Shift+Tab`) trước khi chỉnh sửa.
 
@@ -397,7 +397,7 @@ claude --permission-mode auto
 # Hoặc chuyển vòng tới nó bằng Shift+Tab trong REPL
 ```
 
-> **Cập nhật v2.1.112**: Chế độ auto không còn cần cờ `--enable-auto-mode`. Người dùng Max truy cập trực tiếp trên Opus 4.7.
+> **Cập nhật v2.1.111**: Chế độ auto không còn cần cờ `--enable-auto-mode`. Người dùng Max truy cập trực tiếp trên Opus 4.7.
 
 > **Cập nhật v2.1.158**: Chế độ auto trở nên khả dụng trên Bedrock, Vertex và Foundry cho Opus 4.7/4.8, với điều kiện đặt `CLAUDE_CODE_ENABLE_AUTO_MODE=1`.
 >

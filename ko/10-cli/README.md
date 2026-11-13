@@ -415,11 +415,11 @@ claude purge --all --interactive
 | `--json-schema` | 유효성 검사된 JSON 출력 | `claude -p --json-schema '{"type":"object"}' "q"` |
 | `--ax-screen-reader` | 스크린 리더용 일반 텍스트 렌더링 모드 (v2.1.208) | `claude --ax-screen-reader` |
 
-### 플랫폼 및 테마 참고 사항 (v2.1.112)
+### 플랫폼 및 테마 참고 사항 (v2.1.111)
 
 - **Windows의 PowerShell 도구**: Windows에 전용 PowerShell 도구가 출시되고 있으며 환경 변수를 통해 제어할 수 있습니다.
 - **자동 (터미널 일치) 테마**: 새로운 "자동 (터미널 일치)" 테마는 Claude Code의 밝기/어둡기 외관을 터미널과 동기화합니다.
-- **더 조용한 권한 프롬프트**: 읽기 전용 `Bash` 호출 및 `Glob` 패턴은 더 이상 권한 프롬프트를 트리거하지 않습니다.
+- **더 조용한 권한 프롬프트**: `ls *.ts`처럼 glob 패턴을 사용하는 읽기 전용 Bash 명령과 `cd <project-dir> &&`로 시작하는 명령은 더 이상 권한 프롬프트를 트리거하지 않습니다.
 
 ### 고급 예시
 

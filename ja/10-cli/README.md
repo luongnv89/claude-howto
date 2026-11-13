@@ -345,11 +345,11 @@ claude -r "feature-auth" --fork-session "test with different architecture"
 | `--max-budget-usd` | 最大支出額（プリントモード）。上限に達するとバックグラウンドのサブエージェントも停止する (v2.1.217) | `claude -p --max-budget-usd 5.00 "query"` |
 | `--json-schema` | 検証付き JSON 出力 | `claude -p --json-schema '{"type":"object"}' "q"` |
 
-### プラットフォームとテーマの注記（v2.1.112）
+### プラットフォームとテーマの注記（v2.1.111）
 
 - **Windows 版の PowerShell ツール**: Windows 向けに専用の PowerShell ツールがロールアウトされ、環境変数で制御できる。
 - **「Auto（ターミナルに合わせる）」テーマ**: 新しい "Auto (match terminal)" テーマで Claude Code のライト／ダーク表示をターミナルと同期できる。
-- **静かな権限プロンプト**: 読み取り専用の `Bash` 呼び出しと `Glob` パターンは権限プロンプトを発生させなくなった。
+- **静かな権限プロンプト**: glob パターンを含む読み取り専用の Bash コマンド（`ls *.ts` など）と、`cd <project-dir> &&` で始まるコマンドは権限プロンプトを発生させなくなった。
 
 ### 高度な例
 

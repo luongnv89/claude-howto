@@ -204,7 +204,7 @@ claude --model opusplan "design and implement the new API"
 
 **Edit plan externally**: Press `Ctrl+G` to open the current plan in your external editor for detailed modifications.
 
-> **v2.1.112 update**: Plan files are now named after the prompt that produced them (instead of random words), making them easier to browse and reuse.
+> **v2.1.111 update**: Plan files are now named after the prompt that produced them (instead of random words), making them easier to browse and reuse.
 
 > **v2.1.136 update — plan-mode write blocks are unconditional**: Plan mode now blocks all file writes, including when a matching `Edit(...)` rule exists in `permissions.allow`. Previously a permissive `Edit(...)` rule could let writes through in plan mode; that bypass is closed. If a workflow depended on the older behavior, exit plan mode (`Shift+Tab`) before editing.
 
@@ -397,7 +397,7 @@ claude --permission-mode auto
 # Or cycle to it with Shift+Tab in the REPL
 ```
 
-> **v2.1.112 update**: Auto mode no longer requires the `--enable-auto-mode` flag. Max subscribers access it directly on Opus 4.7.
+> **v2.1.111 update**: Auto mode no longer requires the `--enable-auto-mode` flag. Max subscribers access it directly on Opus 4.7.
 
 > **v2.1.158 update**: Auto mode became available on Bedrock, Vertex, and Foundry for Opus 4.7/4.8, gated behind `CLAUDE_CODE_ENABLE_AUTO_MODE=1`.
 >

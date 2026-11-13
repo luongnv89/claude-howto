@@ -414,11 +414,11 @@ claude purge --all --interactive
 | `--json-schema` | Validated JSON output | `claude -p --json-schema '{"type":"object"}' "q"` |
 | `--ax-screen-reader` | Plain-text rendering mode for screen readers (v2.1.208) | `claude --ax-screen-reader` |
 
-### Platform & Theme Notes (v2.1.112)
+### Platform & Theme Notes (v2.1.111)
 
 - **PowerShell tool on Windows**: A dedicated PowerShell tool is rolling out on Windows and is controllable via environment variable.
 - **Auto (match terminal) theme**: The new "Auto (match terminal)" theme syncs Claude Code's light/dark appearance with your terminal.
-- **Quieter permission prompts**: Read-only `Bash` invocations and `Glob` patterns no longer trigger permission prompts.
+- **Quieter permission prompts**: Read-only Bash commands with glob patterns, such as `ls *.ts`, and commands starting with `cd <project-dir> &&` no longer trigger a permission prompt.
 
 ### Advanced Examples
 

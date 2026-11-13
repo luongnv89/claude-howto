@@ -412,11 +412,11 @@ claude purge --all --interactive
 | `--json-schema` | Đầu ra JSON đã xác thực | `claude -p --json-schema '{"type":"object"}' "q"` |
 | `--ax-screen-reader` | Chế độ render văn bản thuần cho trình đọc màn hình (v2.1.208) | `claude --ax-screen-reader` |
 
-### Ghi Chú Nền Tảng & Theme / Platform & Theme Notes (v2.1.112)
+### Ghi Chú Nền Tảng & Theme / Platform & Theme Notes (v2.1.111)
 
 - **Công cụ PowerShell trên Windows**: Một công cụ PowerShell chuyên dụng đang được triển khai dần trên Windows và có thể điều khiển qua biến môi trường.
 - **Theme tự động (khớp terminal)**: Theme mới "Auto (match terminal)" đồng bộ giao diện sáng/tối của Claude Code với terminal của bạn.
-- **Lời hỏi quyền ít hơn**: Các lệnh gọi `Bash` chỉ đọc và các mẫu `Glob` không còn kích hoạt lời hỏi quyền.
+- **Lời hỏi quyền ít hơn**: Các lệnh Bash chỉ đọc có mẫu glob, chẳng hạn `ls *.ts`, và các lệnh bắt đầu bằng `cd <project-dir> &&` không còn kích hoạt lời hỏi quyền.
 
 ### Ví Dụ Nâng Cao / Advanced Examples
 
