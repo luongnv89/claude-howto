@@ -25,12 +25,33 @@
 claude --plugin-dir ./07-plugins/pr-review
 ```
 
+로드하기 전에 플러그인을 검사합니다.
+
+```bash
+claude plugin validate ./07-plugins/pr-review
+```
+
 ## 포함 항목
 
+```text
+pr-review/
+├── .claude-plugin/
+│   └── plugin.json      # "name": "pr-review" sets the command prefix
+├── commands/            # each file becomes /pr-review:<file>
+├── agents/
+├── hooks/
+│   ├── hooks.json       # registers pre-review.js
+│   └── pre-review.js
+└── .mcp.json            # GitHub MCP server
+```
+
 ### 슬래시 명령어
-- `/review-pr` - 종합 PR 리뷰
-- `/check-security` - 보안 중심 리뷰
-- `/check-tests` - 테스트 커버리지 분석
+
+플러그인 명령어에는 `plugin.json`의 플러그인 `name`이 네임스페이스로 붙습니다.
+
+- `/pr-review:review-pr` - 종합 PR 리뷰
+- `/pr-review:check-security` - 보안 중심 리뷰
+- `/pr-review:check-tests` - 테스트 커버리지 분석
 
 ### 서브에이전트
 - `security-reviewer` - 보안 취약점 탐지
@@ -38,48 +59,58 @@ claude --plugin-dir ./07-plugins/pr-review
 - `performance-analyzer` - 성능 영향 평가
 
 ### MCP 서버
-- PR 데이터 연동을 위한 GitHub 통합
+
+`.mcp.json`은 서버 하나, `github`를 선언합니다. GitHub의 공식 MCP 서버(`ghcr.io/github/github-mcp-server`)이며 Docker로 읽기 전용 모드로 실행됩니다. 이미지는 [v2.1.0 릴리스](https://github.com/github/github-mcp-server/releases/tag/v2.1.0)로 고정되어 있으며, 업그레이드하려면 `.mcp.json`의 태그를 변경하세요. `/mcp`에서는 `plugin:pr-review:github`로 표시됩니다.
 
 ### 훅(Hooks)
-- `pre-review.js` - 리뷰 전 검증
+
+`hooks/hooks.json`은 `pre-review.js`를 `UserPromptExpansion` 이벤트에 등록하며, 위의 세 명령어에 대한 matcher를 사용합니다. matcher는 `pr-review:review-pr`(Claude Code 2.1.322가 플러그인 명령어에 대해 보내는 `command_name`)와 접두사 없는 `review-pr`를 모두 허용합니다. 이 중 하나를 입력하면 훅은 다음을 수행합니다.
+
+- 현재 디렉터리가 git 저장소가 아니면 명령어를 차단합니다(종료 코드 2)
+- 그렇지 않으면 현재 브랜치(또는 HEAD가 분리된 상태이거나 저장소에 아직 커밋이 없다는 안내)와, 커밋되지 않은 변경 사항에 대한 안내를 Claude의 컨텍스트에 추가합니다
+- bare 저장소(또는 `.git` 내부)에서는 검토할 작업 트리가 없다는 안내만 추가합니다
 
 ## 사용 방법
 
 ### 기본 PR 리뷰
-```
-/review-pr
+```text
+/pr-review:review-pr
 ```
 
 ### 보안 점검만 수행
-```
-/check-security
+```text
+/pr-review:check-security
 ```
 
 ### 테스트 커버리지 점검
-```
-/check-tests
+```text
+/pr-review:check-tests
 ```
 
 ## 요구 사항
 
 - Claude Code 2.1+
-- GitHub 접근 권한
+- Node.js(훅 스크립트 실행)
+- Docker(GitHub MCP 서버 실행)
+- GitHub 개인 액세스 토큰
 - Git 저장소
 
 ## 설정
 
-GitHub 토큰을 설정합니다.
+Claude Code를 시작하기 전에 GitHub 토큰을 설정합니다.
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
 
+`.mcp.json`은 이 토큰을 서버가 읽는 변수인 `GITHUB_PERSONAL_ACCESS_TOKEN`으로 서버에 전달합니다. `/mcp`를 실행해 `plugin:pr-review:github`가 연결되었는지 확인하세요.
+
 ## 워크플로 예시
 
-```
-User: /review-pr
+```text
+User: /pr-review:review-pr
 
 Claude:
-1. Runs pre-review hook (validates git repo)
+1. pre-review hook checks the git repository and adds the branch to context
 2. Fetches PR data via GitHub MCP
 3. Delegates security review to security-reviewer subagent
 4. Delegates testing to test-checker subagent

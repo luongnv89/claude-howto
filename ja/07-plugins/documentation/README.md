@@ -25,13 +25,22 @@
 claude --plugin-dir ./07-plugins/documentation
 ```
 
+読み込む前にプラグインをチェックする：
+
+```bash
+claude plugin validate ./07-plugins/documentation
+```
+
 ## 同梱内容
 
 ### スラッシュコマンド
-- `/generate-api-docs` — API ドキュメントを生成
-- `/generate-readme` — README を作成または更新
-- `/sync-docs` — コード変更にドキュメントを同期
-- `/validate-docs` — ドキュメントを検証
+
+プラグインのコマンドは、`plugin.json` のプラグイン `name` で名前空間が付く：
+
+- `/documentation:generate-api-docs` — API ドキュメントを生成
+- `/documentation:generate-readme` — README を作成または更新
+- `/documentation:sync-docs` — コード変更にドキュメントを同期
+- `/documentation:validate-docs` — ドキュメントを検証
 
 ### サブエージェント
 - `api-documenter` — API ドキュメンテーションのスペシャリスト
@@ -44,39 +53,40 @@ claude --plugin-dir ./07-plugins/documentation
 - `adr-template.md` — Architecture Decision Record（ADR）テンプレート
 
 ### MCP サーバー
-- ドキュメント同期のための GitHub 連携
+
+`.mcp.json` は `github` という 1 つのサーバーを宣言する。GitHub 公式の MCP サーバー（`ghcr.io/github/github-mcp-server`）を Docker で読み取り専用モードで実行する。イメージは [v2.1.0 リリース](https://github.com/github/github-mcp-server/releases/tag/v2.1.0) に固定されている。アップグレードするには `.mcp.json` のタグを変更する。`/mcp` では `plugin:documentation:github` として表示される。
 
 ## 使い方
 
 ### API ドキュメントを生成
-```
-/generate-api-docs
+```text
+/documentation:generate-api-docs
 ```
 
 ### README を作成
-```
-/generate-readme
+```text
+/documentation:generate-readme
 ```
 
 ### ドキュメントを同期
-```
-/sync-docs
+```text
+/documentation:sync-docs
 ```
 
 ### ドキュメントを検証
-```
-/validate-docs
+```text
+/documentation:validate-docs
 ```
 
 ## 必要要件
 
 - Claude Code 1.0 以上
-- GitHub アクセス（任意）
+- Docker と GitHub の personal access token（任意。GitHub MCP サーバー用）
 
 ## ワークフロー例
 
-```
-User: /generate-api-docs
+```text
+User: /documentation:generate-api-docs
 
 Claude:
 1. Scans all API endpoints in /src/api/
@@ -113,6 +123,8 @@ REST API エンドポイントを完全な例つきでドキュメント化す�
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
+
+`.mcp.json` はこれを、サーバーが読み取る変数である `GITHUB_PERSONAL_ACCESS_TOKEN` としてサーバーに渡す。`/mcp` を実行して `plugin:documentation:github` が接続されていることを確認する。トークンがなくても、コマンドはローカルファイルに対しては動作する。
 
 ## ベストプラクティス
 

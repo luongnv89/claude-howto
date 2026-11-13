@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "UserPromptExpansion": [
+      {
+        "matcher": "^(pr-review:)?(review-pr|check-security|check-tests)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/pre-review.js"],
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

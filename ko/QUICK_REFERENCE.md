@@ -71,10 +71,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### Plugins
 ```bash
-# 예제에서 설치(게시된 경우)
-claude --plugin-dir ./07-plugins/pr-review
-/plugin install devops-automation
-/plugin install documentation
+# 예제를 한 세션 동안 불러오기(저장소 루트에서 실행)
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### Checkpoints
@@ -158,7 +158,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 방법 4: Plugin (권장)
 claude --plugin-dir ./07-plugins/pr-review
-# 사용: /review-pr
+# 사용: /pr-review:review-pr
 ```
 
 ### 문서 작성
@@ -173,15 +173,15 @@ cp 04-subagents/documentation-writer.md .claude/agents/
 cp -r 03-skills/doc-generator ~/.claude/skills/
 
 # Plugin (완전한 솔루션)
-/plugin install documentation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### DevOps
 ```bash
 # 전체 Plugin 설치
-/plugin install devops-automation
+claude --plugin-dir ./07-plugins/devops-automation
 
-# 명령어: /deploy, /rollback, /status, /incident
+# 명령어: /devops-automation:deploy, /devops-automation:rollback, /devops-automation:status, /devops-automation:incident
 ```
 
 ### 팀 표준 관리
@@ -387,9 +387,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # 번들 기능 사용
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

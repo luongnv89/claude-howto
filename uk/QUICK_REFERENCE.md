@@ -78,10 +78,10 @@ chmod +x ~/.claude/hooks/*.sh
 ### Плагіни
 
 ```bash
-# Встановити з прикладів (якщо опубліковані)
-claude --plugin-dir ./07-plugins/pr-review
-/plugin install devops-automation
-/plugin install documentation
+# Завантажити приклади на один сеанс (з кореня репозиторію)
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### Контрольні точки
@@ -166,7 +166,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Спосіб 4: Плагін (найкращий)
 claude --plugin-dir ./07-plugins/pr-review
-# Використання: /review-pr
+# Використання: /pr-review:review-pr
 ```
 
 ### Документація
@@ -182,16 +182,16 @@ cp 04-subagents/documentation-writer.md .claude/agents/
 cp -r 03-skills/doc-generator ~/.claude/skills/
 
 # Плагін (комплексне рішення)
-/plugin install documentation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### DevOps
 
 ```bash
 # Повний плагін
-/plugin install devops-automation
+claude --plugin-dir ./07-plugins/devops-automation
 
-# Команди: /deploy, /rollback, /status, /incident
+# Команди: /devops-automation:deploy, /devops-automation:rollback, /devops-automation:status, /devops-automation:incident
 ```
 
 ### Командні стандарти
@@ -412,9 +412,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # Використати вбудовані функції
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

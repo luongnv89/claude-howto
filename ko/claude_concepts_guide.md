@@ -747,7 +747,7 @@ my-plugin/
 
 - **`pr-review/`** — 리뷰 명령어, 전문 에이전트 3개, GitHub MCP, 리뷰 전 훅
 - **`documentation/`** — 문서 생성 명령어, 에이전트 3개, 재사용 가능한 템플릿
-- **`devops-automation/`** — deploy/rollback/status/incident 명령어, 에이전트 3개, Kubernetes MCP, 셸 스크립트
+- **`devops-automation/`** — deploy/rollback/status/incident 명령어, 에이전트 3개, 배포 훅, 셸 스크립트
 
 각 플러그인에는 `.claude-plugin/plugin.json` 매니페스트와 디렉터리 구성이 포함되어 있습니다.
 
@@ -851,7 +851,7 @@ graph TD
 
 ### 플러그인 README 예시
 
-**[07-plugins/](07-plugins/)** 의 완전한 플러그인 3종을 참고하세요. `pr-review/`, `documentation/`, `devops-automation/` 각각에 그대로 복사해 쓸 수 있는 전체 `README.md`, 매니페스트, 명령어, 에이전트, MCP 구성이 들어 있습니다.
+**[07-plugins/](07-plugins/)** 의 완전한 플러그인 3종을 참고하세요. `pr-review/`, `documentation/`, `devops-automation/` 각각에 그대로 복사해 쓸 수 있는 전체 `README.md`, 매니페스트, 명령어, 에이전트와 함께 MCP 구성, 훅 또는 둘 다가 들어 있습니다.
 
 ### 플러그인과 수동 구성 비교
 

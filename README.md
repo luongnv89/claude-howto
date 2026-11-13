@@ -637,14 +637,14 @@ Claude:
 ### DevOps Deployment
 
 ```markdown
-# Uses: Plugins + MCP + Hooks
+# Uses: Plugins + Subagents + Hooks
 
-User: /deploy production
+User: /devops-automation:deploy production
 
 Claude:
 1. Runs pre-deploy hook (validates environment)
 2. Delegates to deployment-specialist subagent
-3. Executes deployment via Kubernetes MCP
+3. Runs the deploy script (kubectl)
 4. Monitors progress
 5. Runs post-deploy hook (health checks)
 6. Reports status

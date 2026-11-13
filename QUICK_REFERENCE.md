@@ -67,10 +67,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### Plugins
 ```bash
-# Install from examples (if published)
-claude --plugin-dir ./07-plugins/pr-review
-/plugin install devops-automation
-/plugin install documentation
+# Load the examples for one session (from the repo root)
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### Checkpoints
@@ -154,7 +154,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Method 4: Plugin (best)
 claude --plugin-dir ./07-plugins/pr-review
-# Use: /review-pr
+# Use: /pr-review:review-pr
 ```
 
 ### Documentation
@@ -169,15 +169,15 @@ cp 04-subagents/documentation-writer.md .claude/agents/
 cp -r 03-skills/doc-generator ~/.claude/skills/
 
 # Plugin (complete solution)
-/plugin install documentation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### DevOps
 ```bash
 # Complete plugin
-/plugin install devops-automation
+claude --plugin-dir ./07-plugins/devops-automation
 
-# Commands: /deploy, /rollback, /status, /incident
+# Commands: /devops-automation:deploy, /devops-automation:rollback, /devops-automation:status, /devops-automation:incident
 ```
 
 ### Team Standards
@@ -382,9 +382,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # Use bundled features
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

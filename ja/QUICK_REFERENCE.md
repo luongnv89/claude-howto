@@ -71,10 +71,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### プラグイン
 ```bash
-# 例からインストール (公開済みなら)
-claude --plugin-dir ./07-plugins/pr-review
-/plugin install devops-automation
-/plugin install documentation
+# 例を 1 セッションだけ読み込む (リポジトリのルートから)
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### チェックポイント
@@ -156,7 +156,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 方法 4: プラグイン (推奨)
 claude --plugin-dir ./07-plugins/pr-review
-# 利用: /review-pr
+# 利用: /pr-review:review-pr
 ```
 
 ### ドキュメント
@@ -171,15 +171,15 @@ cp 04-subagents/documentation-writer.md .claude/agents/
 cp -r 03-skills/doc-generator ~/.claude/skills/
 
 # プラグイン (完全ソリューション)
-/plugin install documentation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### DevOps
 ```bash
 # 完全プラグイン
-/plugin install devops-automation
+claude --plugin-dir ./07-plugins/devops-automation
 
-# コマンド: /deploy、/rollback、/status、/incident
+# コマンド: /devops-automation:deploy、/devops-automation:rollback、/devops-automation:status、/devops-automation:incident
 ```
 
 ### チーム標準
@@ -384,9 +384,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # バンドル機能を使う
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

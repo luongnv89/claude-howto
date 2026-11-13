@@ -246,8 +246,8 @@ Bộ sưu tập được đóng gói của commands, agents, MCP servers, và ho
 | Plugin | Mô Tả | Components | Khi Nào Dùng | Phạm Vi | Cài Đặt |
 |--------|-------------|------------|-------------|-------|--------------|
 | `pr-review` | Workflow review PR | 3 commands, 3 agents, GitHub MCP | Review code | Project | `claude --plugin-dir ./07-plugins/pr-review` |
-| `devops-automation` | Triển khai & giám sát | 4 commands, 3 agents, K8s MCP | Tasks DevOps | Project | `/plugin install devops-automation` |
-| `documentation` | Bộ tạo tài liệu | 4 commands, 3 agents, templates | Tài liệu | Project | `/plugin install documentation` |
+| `devops-automation` | Triển khai & giám sát | 4 commands, 3 agents, 2 hooks | Tasks DevOps | Project | `claude --plugin-dir ./07-plugins/devops-automation` |
+| `documentation` | Bộ tạo tài liệu | 4 commands, 3 agents, GitHub MCP, templates | Tài liệu | Project | `claude --plugin-dir ./07-plugins/documentation` |
 
 > **Phạm Vi**: `Project` = chia sẻ team, `User` = workflows cá nhân
 

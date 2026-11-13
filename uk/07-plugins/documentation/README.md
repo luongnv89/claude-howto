@@ -21,13 +21,22 @@
 claude --plugin-dir ./07-plugins/documentation
 ```
 
+Перевірте плагін перед завантаженням:
+
+```bash
+claude plugin validate ./07-plugins/documentation
+```
+
 ## Що включено
 
 ### Слеш-команди
-- `/generate-api-docs` — Генерація API-документації
-- `/generate-readme` — Створення або оновлення README
-- `/sync-docs` — Синхронізація документації зі змінами коду
-- `/validate-docs` — Валідація документації
+
+Команди плагіна мають простір імен за `name` плагіна з `plugin.json`:
+
+- `/documentation:generate-api-docs` — Генерація API-документації
+- `/documentation:generate-readme` — Створення або оновлення README
+- `/documentation:sync-docs` — Синхронізація документації зі змінами коду
+- `/documentation:validate-docs` — Валідація документації
 
 ### Субагенти
 - `api-documenter` — Спеціаліст з API-документації
@@ -40,39 +49,40 @@ claude --plugin-dir ./07-plugins/documentation
 - `adr-template.md` — Шаблон Architecture Decision Record
 
 ### MCP-сервери
-- Інтеграція з GitHub для синхронізації документації
+
+`.mcp.json` оголошує один сервер, `github`: офіційний MCP-сервер GitHub (`ghcr.io/github/github-mcp-server`), що запускається через Docker у режимі лише для читання. Образ закріплено на [релізі v2.1.0](https://github.com/github/github-mcp-server/releases/tag/v2.1.0); щоб оновити, змініть тег у `.mcp.json`. У `/mcp` він відображається як `plugin:documentation:github`.
 
 ## Використання
 
 ### Генерація API-документації
-```
-/generate-api-docs
+```text
+/documentation:generate-api-docs
 ```
 
 ### Створення README
-```
-/generate-readme
+```text
+/documentation:generate-readme
 ```
 
 ### Синхронізація документації
-```
-/sync-docs
+```text
+/documentation:sync-docs
 ```
 
 ### Валідація документації
-```
-/validate-docs
+```text
+/documentation:validate-docs
 ```
 
 ## Вимоги
 
 - Claude Code 2.1+
-- Доступ до GitHub (опціонально)
+- Docker і персональний токен доступу GitHub (опціонально, для MCP-сервера GitHub)
 
 ## Приклад робочого процесу
 
-```
-User: /generate-api-docs
+```text
+User: /documentation:generate-api-docs
 
 Claude:
 1. Сканує всі API-ендпоінти в /src/api/
@@ -109,6 +119,8 @@ Claude:
 ```bash
 export GITHUB_TOKEN="your_github_token"
 ```
+
+`.mcp.json` передає його серверу як `GITHUB_PERSONAL_ACCESS_TOKEN` — змінну, яку читає сервер. Запустіть `/mcp`, щоб перевірити, що `plugin:documentation:github` підключено. Без токена команди все одно працюють з локальними файлами.
 
 ## Найкращі практики
 

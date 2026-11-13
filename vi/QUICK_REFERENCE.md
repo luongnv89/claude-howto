@@ -67,10 +67,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### Plugins
 ```bash
-# Cài đặt từ ví dụ (nếu đã xuất bản)
-claude --plugin-dir ./07-plugins/pr-review
-/plugin install devops-automation
-/plugin install documentation
+# Tải các ví dụ cho một phiên (từ thư mục gốc của repo)
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### Checkpoints
@@ -152,7 +152,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # Cách 4: Plugin (tốt nhất)
 claude --plugin-dir ./07-plugins/pr-review
-# Sử dụng: /review-pr
+# Sử dụng: /pr-review:review-pr
 ```
 
 ### Tài Liệu
@@ -167,15 +167,15 @@ cp 04-subagents/documentation-writer.md .claude/agents/
 cp -r 03-skills/doc-generator ~/.claude/skills/
 
 # Plugin (giải pháp hoàn chỉnh)
-/plugin install documentation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### DevOps
 ```bash
 # Plugin hoàn chỉnh
-/plugin install devops-automation
+claude --plugin-dir ./07-plugins/devops-automation
 
-# Lệnh: /deploy, /rollback, /status, /incident
+# Lệnh: /devops-automation:deploy, /devops-automation:rollback, /devops-automation:status, /devops-automation:incident
 ```
 
 ### Tiêu Chuẩn Đội
@@ -380,9 +380,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # Sử dụng tính năng được gói
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---

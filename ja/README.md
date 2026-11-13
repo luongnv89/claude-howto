@@ -641,14 +641,14 @@ Claude:
 ### DevOps デプロイ
 
 ```markdown
-# 利用機能: プラグイン + MCP + フック
+# 利用機能: プラグイン + サブエージェント + フック
 
-User: /deploy production
+User: /devops-automation:deploy production
 
 Claude:
 1. デプロイ前フックを実行 (環境を検証)
 2. deployment-specialist サブエージェントに委譲
-3. Kubernetes MCP 経由でデプロイ実行
+3. デプロイスクリプトを実行 (kubectl)
 4. 進捗を監視
 5. デプロイ後フックを実行 (ヘルスチェック)
 6. ステータスを報告

@@ -67,10 +67,10 @@ chmod +x ~/.claude/hooks/*.sh
 
 ### Plugins
 ```bash
-# 从示例安装（如果已发布）
-claude --plugin-dir ./07-plugins/pr-review
-/plugin install devops-automation
-/plugin install documentation
+# 为单个会话加载示例（在仓库根目录运行）
+claude --plugin-dir ./07-plugins/pr-review \
+  --plugin-dir ./07-plugins/devops-automation \
+  --plugin-dir ./07-plugins/documentation
 ```
 
 ### Checkpoints
@@ -152,7 +152,7 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 
 # 方法 4：插件（推荐）
 claude --plugin-dir ./07-plugins/pr-review
-# 使用：/review-pr
+# 使用：/pr-review:review-pr
 ```
 
 ### 文档
@@ -167,15 +167,15 @@ cp 04-subagents/documentation-writer.md .claude/agents/
 cp -r 03-skills/doc-generator ~/.claude/skills/
 
 # 插件（完整方案）
-/plugin install documentation
+claude --plugin-dir ./07-plugins/documentation
 ```
 
 ### DevOps
 ```bash
 # 完整插件
-/plugin install devops-automation
+claude --plugin-dir ./07-plugins/devops-automation
 
-# 命令：/deploy、/rollback、/status、/incident
+# 命令：/devops-automation:deploy、/devops-automation:rollback、/devops-automation:status、/devops-automation:incident
 ```
 
 ### 团队规范
@@ -380,9 +380,9 @@ cp -r 03-skills/code-review-specialist ~/.claude/skills/
 claude --plugin-dir ./07-plugins/pr-review
 
 # 使用打包功能
-/review-pr
-/check-security
-/check-tests
+/pr-review:review-pr
+/pr-review:check-security
+/pr-review:check-tests
 ```
 
 ---
