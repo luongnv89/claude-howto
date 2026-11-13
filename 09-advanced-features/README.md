@@ -204,7 +204,7 @@ claude --model opusplan "design and implement the new API"
 
 **Edit plan externally**: Press `Ctrl+G` to open the current plan in your external editor for detailed modifications.
 
-> **v2.1.111 update**: Plan files are now named after the prompt that produced them (instead of random words), making them easier to browse and reuse.
+> **v2.1.111 update**: Plan files are now named after the prompt that produced them, such as `fix-auth-race-snug-otter.md`, instead of purely random words, making them easier to browse and reuse.
 
 > **v2.1.136 update — plan-mode write blocks are unconditional**: Plan mode now blocks all file writes, including when a matching `Edit(...)` rule exists in `permissions.allow`. Previously a permissive `Edit(...)` rule could let writes through in plan mode; that bypass is closed. If a workflow depended on the older behavior, exit plan mode (`Shift+Tab`) before editing.
 

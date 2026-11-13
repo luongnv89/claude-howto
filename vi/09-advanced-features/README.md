@@ -204,7 +204,7 @@ claude --model opusplan "design and implement the new API"
 
 **Chỉnh sửa kế hoạch bên ngoài**: Nhấn `Ctrl+G` để mở kế hoạch hiện tại trong trình soạn thảo bên ngoài và chỉnh sửa chi tiết.
 
-> **Cập nhật v2.1.111**: File kế hoạch giờ được đặt tên theo prompt đã tạo ra chúng (thay vì các từ ngẫu nhiên), giúp dễ duyệt và tái sử dụng hơn.
+> **Cập nhật v2.1.111**: File kế hoạch giờ được đặt tên theo prompt đã tạo ra chúng, chẳng hạn `fix-auth-race-snug-otter.md`, thay vì hoàn toàn là các từ ngẫu nhiên, giúp dễ duyệt và tái sử dụng hơn.
 
 > **Cập nhật v2.1.136 — chế độ plan chặn ghi file vô điều kiện**: Chế độ plan giờ chặn mọi thao tác ghi file, kể cả khi có rule `Edit(...)` khớp trong `permissions.allow`. Trước đây một rule `Edit(...)` dễ dãi có thể cho phép ghi trong chế độ plan; lỗ hổng đó đã được đóng. Nếu workflow của bạn phụ thuộc vào hành vi cũ, hãy thoát chế độ plan (`Shift+Tab`) trước khi chỉnh sửa.
 
