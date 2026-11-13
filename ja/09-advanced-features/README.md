@@ -203,7 +203,7 @@ claude --model opusplan "design and implement the new API"
 
 **外部エディタで計画を編集：** `Ctrl+G` を押すと、現在の計画を外部エディタで開いて詳細に修正できる。
 
-> **v2.1.112 アップデート：** 計画ファイルがランダムな単語ではなく、生成元プロンプトに基づいた名前で保存されるようになり、閲覧と再利用が容易になった。
+> **v2.1.111 アップデート：** 計画ファイルが純粋にランダムな単語ではなく、生成元プロンプトに基づいた名前（例：`fix-auth-race-snug-otter.md`）で保存されるようになり、閲覧と再利用が容易になった。
 
 ---
 
@@ -357,9 +357,12 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh
 
 ### 必要要件
 
+オートモードは、アカウントが以下の要件をすべて満たす場合にのみ利用できる：
+
 - **プラン：** すべてのプラン
-- **モデル：** Claude Sonnet 4.6 または Opus 4.7
-- **プロバイダ：** Anthropic API のみ（Bedrock、Vertex、Foundry では非対応）
+- **組織：** Team と Enterprise では、オートモードはデフォルトで利用可能。管理者は managed settings で `permissions.disableAutoMode` を `"disable"` に設定すると、組織全体でオフにできる
+- **モデル：** Anthropic API と Claude Platform on AWS では Claude Opus 4.6 以降、Sonnet 4.6 以降、Haiku 5.5、または Fable モデル。Amazon Bedrock、Google Cloud の Agent Platform（Vertex AI）、Microsoft Foundry、サインイン済みの Claude apps gateway セッションでは Claude Sonnet 5 以降、Opus 4.7 以降、Haiku 5.5（v2.1.293+）、Fable モデルのみ。Sonnet 4.5、Opus 4.5、Haiku 4.5、claude-3 系の旧モデルはどのプロバイダでも非対応。`ANTHROPIC_BASE_URL` のゲートウェイ経由では、ゲートウェイ上の名前に "haiku" を含むモデルは `claude-haiku-5-5` を除き、Haiku 4.5 と同様に拒否される（v2.1.323）
+- **プロバイダ：** Anthropic API、Claude Platform on AWS、Amazon Bedrock、Google Cloud の Agent Platform（Vertex AI）、Microsoft Foundry、サインイン済みの Claude apps gateway セッションでデフォルトで利用可能。v2.1.158 から v2.1.206 までは、Anthropic API と Claude Platform on AWS 以外では `CLAUDE_CODE_ENABLE_AUTO_MODE=1` を設定するまでオートモードはオフだったが、v2.1.207 でこの要件は削除された。この変数は互換性のために引き続き受け付けられるが、v2.1.207 以降は効果がない
 - **分類器：** 追加のトークンコストが発生する。ただし Enterprise プランと Claude API アカウントでは、v2.1.278 以降サーバー側でチェックが実行され、課金されない
 
 ### オートモードの有効化
@@ -372,7 +375,7 @@ claude --permission-mode auto
 # Or cycle to it with Shift+Tab in the REPL
 ```
 
-> **v2.1.112 アップデート：** オートモードに `--enable-auto-mode` フラグは不要になった。Max サブスクライバは Opus 4.7 で直接アクセスできる。
+> **v2.1.111 アップデート：** オートモードに `--enable-auto-mode` フラグは不要になった。Max サブスクライバは Opus 4.7 で直接アクセスできる。
 
 または、デフォルトの権限モードとして設定する：
 
@@ -724,7 +727,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 | `bypassPermissions` | 全操作、権限チェックなし（危険） |
 | `dontAsk` | 事前承認済みツールのみ実行、その他はすべて拒否 |
 
-CLI では `Shift+Tab` でモードを切り替える。デフォルトは `--permission-mode` フラグまたは `permissions.defaultMode` 設定で指定する。パーミッションモードが未設定の場合、v2.1.284 以降は対話型のターミナルセッションと VS Code セッションがすべてのプランとプロバイダーで auto モードで開始する（v2.1.283 では Bedrock、Google Cloud の Agent Platform、Foundry などのサードパーティプロバイダー上、またはテレメトリをオフにした場合に限られていた）。`permissions.defaultMode` は引き続きこれより優先され、auto モードを利用できないセッションは代わりに `default`（Manual）で開始する。v2.1.302 以降、パーミッションモードを設定していない `claude -p` または Agent SDK の実行は Manual モード（設定値は `default`）で開始し、承認が必要なツール呼び出しを拒否する。`--permission-mode`（たとえば `auto` や `acceptEdits`）または `--allowedTools` を渡す。
+CLI では `Shift+Tab` でモードを切り替える。デフォルトは `--permission-mode` フラグまたは `permissions.defaultMode` 設定で指定する。パーミッションモードが未設定の場合、v2.1.284 以降は対話型のターミナルセッションと VS Code セッションがすべてのプランとプロバイダーで auto モードで開始する（v2.1.283 では Bedrock、Google Cloud の Agent Platform、Foundry などのサードパーティプロバイダー上、またはテレメトリをオフにした場合に限られていた）。`permissions.defaultMode` は引き続きこれより優先される。`--permission-mode` フラグ、設定ファイル、またはこのデフォルトが `auto` を選択していても、そのセッションで auto モードを利用できない場合、セッションは先に確認を求める `default`（Manual）モードで開始する。v2.1.323 では、`--permission-mode auto` や設定の `defaultMode: auto` がそのようなセッションをより多くを許可しうるモードで開始していた問題が修正された。v2.1.302 以降、パーミッションモードを設定していない `claude -p` または Agent SDK の実行は Manual モード（設定値は `default`）で開始し、承認が必要なツール呼び出しを拒否する。`--permission-mode`（たとえば `auto` や `acceptEdits`）または `--allowedTools` を渡す。
 
 ### 起動方法
 
@@ -2103,8 +2106,8 @@ Claude Code および関連機能の詳細：
 
 ---
 
-**最終更新：** 2026 年 11 月 12 日
-**Claude Code バージョン：** 2.1.322
+**最終更新：** 2026 年 11 月 13 日
+**Claude Code バージョン：** 2.1.323
 **情報源：**
 - https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
 - https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
@@ -2147,5 +2150,6 @@ Claude Code および関連機能の詳細：
 - https://code.claude.com/docs/en/scheduled-tasks#seven-day-expiry
 - https://code.claude.com/docs/en/scheduled-tasks#jitter
 - https://code.claude.com/docs/en/scheduled-tasks#limitations
+- https://code.claude.com/docs/en/changelog#2-1-323
 
 **互換モデル：** Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

@@ -348,9 +348,12 @@ Auto Mode — це режим дозволів, який використову�
 
 ### Вимоги
 
+Auto mode доступний лише тоді, коли ваш акаунт відповідає всім цим вимогам:
+
 - **План**: усі плани
-- **Модель**: Claude Sonnet 4.6 або Opus 4.6
-- **Провайдер**: Тільки Anthropic API (не підтримується на Bedrock, Vertex або Foundry)
+- **Організація**: у Team та Enterprise auto mode доступний за замовчуванням. Адміністратори можуть вимкнути його для організації, встановивши `permissions.disableAutoMode` у `"disable"` у managed settings
+- **Модель**: в Anthropic API та Claude Platform on AWS — Claude Opus 4.6 або новіша, Sonnet 4.6 або новіша, Haiku 5.5 чи модель Fable. В Amazon Bedrock, Agent Platform від Google Cloud (Vertex AI), Microsoft Foundry та сесіях Claude apps gateway із виконаним входом — лише Claude Sonnet 5 або новіша, Opus 4.7 або новіша, Haiku 5.5 (v2.1.293+) і моделі Fable. Старіші моделі — Sonnet 4.5, Opus 4.5, Haiku 4.5 і моделі claude-3 — не підтримуються в жодного провайдера. За шлюзом в `ANTHROPIC_BASE_URL` auto mode відхиляє модель, чия назва в шлюзі містить "haiku", окрім `claude-haiku-5-5`, так само як відхиляє Haiku 4.5 (v2.1.323)
+- **Провайдер**: доступний за замовчуванням в Anthropic API, Claude Platform on AWS, Amazon Bedrock, Agent Platform від Google Cloud (Vertex AI), Microsoft Foundry та сесіях Claude apps gateway із виконаним входом. З v2.1.158 по v2.1.206 auto mode був вимкнений у всіх цих провайдерів, окрім Anthropic API та Claude Platform on AWS, доки ви не встановлювали `CLAUDE_CODE_ENABLE_AUTO_MODE=1`; v2.1.207 прибрала цю вимогу. Змінна й далі приймається для сумісності, але з v2.1.207 не має жодного ефекту
 - **Класифікатор**: Додаткова вартість токенів, окрім планів Enterprise та акаунтів Claude API, де v2.1.278+ виконує перевірку на боці сервера без оплати
 
 ### Увімкнення Auto Mode
@@ -648,7 +651,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 | `bypassPermissions` | Усі дії, без перевірки дозволів (небезпечно) |
 | `dontAsk` | Виконуються лише попередньо затверджені інструменти; всі інші відхиляються |
 
-Перемикайте режими через `Shift+Tab` у CLI. Встановіть режим за замовчуванням через прапорець `--permission-mode` або налаштування `permissions.defaultMode`. Якщо режим дозволів не налаштовано, інтерактивні сесії в терміналі та VS Code починаючи з v2.1.284 запускаються в режимі auto на будь-якому плані та в будь-якого провайдера (у v2.1.283 так було лише у сторонніх провайдерів, як-от Bedrock, Agent Platform від Google Cloud і Foundry, або з вимкненою телеметрією); `permissions.defaultMode` і далі має пріоритет, а сесія, де режим auto недоступний, натомість запускається в режимі `default` (Manual). Починаючи з v2.1.302, запуск `claude -p` або Agent SDK, у якому не задано режим дозволів, стартує в режимі Manual (значення конфігурації `default`) і відхиляє виклики інструментів, які потребують схвалення; передайте `--permission-mode` (наприклад, `auto` або `acceptEdits`) або `--allowedTools`.
+Перемикайте режими через `Shift+Tab` у CLI. Встановіть режим за замовчуванням через прапорець `--permission-mode` або налаштування `permissions.defaultMode`. Якщо режим дозволів не налаштовано, інтерактивні сесії в терміналі та VS Code починаючи з v2.1.284 запускаються в режимі auto на будь-якому плані та в будь-якого провайдера (у v2.1.283 так було лише у сторонніх провайдерів, як-от Bedrock, Agent Platform від Google Cloud і Foundry, або з вимкненою телеметрією); `permissions.defaultMode` і далі має пріоритет. Коли прапорець `--permission-mode`, файл налаштувань або це значення за замовчуванням вибирає `auto`, але режим auto недоступний для сесії, сесія запускається в режимі `default` (Manual), який спершу питає; у v2.1.323 виправлено те, що `--permission-mode auto` і налаштування `defaultMode: auto` запускали таку сесію в режимі, який міг дозволяти більше. Починаючи з v2.1.302, запуск `claude -p` або Agent SDK, у якому не задано режим дозволів, стартує в режимі Manual (значення конфігурації `default`) і відхиляє виклики інструментів, які потребують схвалення; передайте `--permission-mode` (наприклад, `auto` або `acceptEdits`) або `--allowedTools`.
 
 ### Методи активації
 
@@ -1927,8 +1930,8 @@ claude --teammate-mode in-process
 - [Офіційна документація Agent Teams](https://code.claude.com/docs/en/agent-teams)
 
 ---
-**Останнє оновлення**: 12 листопада 2026
-**Версія Claude Code**: 2.1.322
+**Останнє оновлення**: 13 листопада 2026
+**Версія Claude Code**: 2.1.323
 **Джерела**:
 - https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
 - https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
@@ -1965,4 +1968,5 @@ claude --teammate-mode in-process
 - https://code.claude.com/docs/en/scheduled-tasks#seven-day-expiry
 - https://code.claude.com/docs/en/scheduled-tasks#jitter
 - https://code.claude.com/docs/en/scheduled-tasks#limitations
+- https://code.claude.com/docs/en/changelog#2-1-323
 **Сумісні моделі**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

@@ -69,7 +69,7 @@
 | `statusMessage` | 훅이 실행되는 동안 표시할 사용자 정의 스피너 메시지 | `"Formatting…"` |
 | `onFailure` | command 또는 HTTP 훅이 실패했을 때(시작 불가, 타임아웃, 예상하지 못한 종료 코드) 동작을 어떻게 처리할지 지정합니다: `"continue"`(기본값) 또는 `"block"`(v2.1.295+) | `"block"` |
 
-> **참고**: 일부 이벤트는 기본 타임아웃을 낮춥니다. `UserPromptSubmit`은 `command`, `http`, `mcp_tool`의 기본값을 30초로, `MessageDisplay`는 10초로 낮춥니다. `SessionEnd` 훅은 1.5초 예산을 공유하며, 설정에서 훅별 `timeout`을 더 길게 지정하면 Claude Code가 그에 맞춰 예산을 최대 60초까지 늘립니다.
+> **참고**: 일부 이벤트는 기본 타임아웃을 낮춥니다. `UserPromptSubmit`은 `command`, `http`, `mcp_tool`의 기본값을 30초로, `MessageDisplay`는 10초로 낮춥니다. `SessionEnd` 훅은 1.5초 예산을 공유하며, 설정에서 훅별 `timeout`을 더 길게 지정하면 Claude Code가 그에 맞춰 예산을 최대 60초까지 늘립니다. `claude -p` 및 Agent SDK 세션에서는 훅이 오래 실행되는 동안 Claude Code가 30초마다 진행 상황 하트비트를 보내므로(v2.1.323), Claude Desktop 같은 호스트가 이 버전을 포함하게 되면 턴을 멈춘 것으로 보고 종료하지 않습니다.
 
 ### 매처 패턴
 

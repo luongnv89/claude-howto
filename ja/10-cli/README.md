@@ -83,7 +83,7 @@ graph TD
 | `--teleport` | web セッションをローカルで再開 | `claude --teleport` |
 | `--teammate-mode` | エージェントチームの表示モード | `claude --teammate-mode tmux` |
 | `--bare` | 最小モード（フック、スキル、プラグイン、MCP、自動メモリ、CLAUDE.md をスキップ） | `claude --bare` |
-| `--enable-auto-mode` | 自動権限モードを解禁（Opus 4.7 の Max 加入者には不要） | `claude --enable-auto-mode` |
+| `--permission-mode auto` | auto 権限モードで開始（v2.1.111 で削除された `--enable-auto-mode` フラグの代替） | `claude --permission-mode auto` |
 | `--channels` | MCP チャンネルプラグインを購読。各エントリは `plugin:<name>@<marketplace>` の形式でタグ付けする必要があり、名前のみの指定は拒否される | `claude --channels plugin:discord@my-marketplace` |
 | `--chrome` / `--no-chrome` | Chrome ブラウザ統合を有効化／無効化 | `claude --chrome` |
 | `--effort` | 思考労力レベルを設定 | `claude --effort high` |
@@ -194,7 +194,6 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | `--dangerously-skip-permissions` | 全ての権限プロンプトをスキップ | `claude --dangerously-skip-permissions` |
 | `--permission-mode` | 指定した権限モードで開始 | `claude --permission-mode auto` |
 | `--permission-prompt-tool` | 権限処理用の MCP ツール | `claude -p --mcp-config ./mcp.json --permission-prompt-tool mcp__permissions__approve "query"` |
-| `--enable-auto-mode` | 自動権限モードを解禁 | `claude --enable-auto-mode` |
 
 > **Glob / Grep 注記（v2.1.113+）**: ネイティブな macOS／Linux ビルドでは、`Glob` と `Grep` は独立したファーストクラスツールではなく、Bash ツール経由で呼び出される組み込みの `bfs` および `ugrep` バイナリとして提供される。Windows 版および npm バンドル（JS）版では引き続きスタンドアロンツールとして公開される。サブエージェントの `allowedTools` ／ `disallowedTools` リストでは、バックエンド側の置換は透過的なため、どのプラットフォームでも設定では引き続き `Glob` ／ `Grep` を参照すればよい。
 
@@ -338,7 +337,6 @@ claude -r "feature-auth" --fork-session "test with different architecture"
 | `--enable-lsp-logging` | 詳細な LSP ログを有効化 | `claude --enable-lsp-logging` |
 | `--betas` | API リクエストのベータヘッダ | `claude --betas interleaved-thinking` |
 | `--plugin-dir` | ディレクトリからプラグインを読み込む（複数指定可） | `claude --plugin-dir ./my-plugin` |
-| `--enable-auto-mode` | 自動権限モードを解禁 | `claude --enable-auto-mode` |
 | `--effort` | 思考労力レベルを設定 | `claude --effort high` |
 | `--bare` | 最小モード（フック、スキル、プラグイン、MCP、自動メモリ、CLAUDE.md をスキップ） | `claude --bare` |
 | `--channels` | MCP チャンネルプラグインを購読（`plugin:<name>@<marketplace>` 形式でタグ付け） | `claude --channels plugin:discord@my-marketplace` |
@@ -347,11 +345,11 @@ claude -r "feature-auth" --fork-session "test with different architecture"
 | `--max-budget-usd` | 最大支出額（プリントモード）。上限に達するとバックグラウンドのサブエージェントも停止する (v2.1.217) | `claude -p --max-budget-usd 5.00 "query"` |
 | `--json-schema` | 検証付き JSON 出力 | `claude -p --json-schema '{"type":"object"}' "q"` |
 
-### プラットフォームとテーマの注記（v2.1.112）
+### プラットフォームとテーマの注記（v2.1.111）
 
 - **Windows 版の PowerShell ツール**: Windows 向けに専用の PowerShell ツールがロールアウトされ、環境変数で制御できる。
 - **「Auto（ターミナルに合わせる）」テーマ**: 新しい "Auto (match terminal)" テーマで Claude Code のライト／ダーク表示をターミナルと同期できる。
-- **静かな権限プロンプト**: 読み取り専用の `Bash` 呼び出しと `Glob` パターンは権限プロンプトを発生させなくなった。
+- **静かな権限プロンプト**: glob パターンを含む読み取り専用の Bash コマンド（`ls *.ts` など）と、`cd <project-dir> &&` で始まるコマンドは権限プロンプトを発生させなくなった。
 
 ### 高度な例
 
@@ -766,7 +764,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on O
 | `SLASH_COMMAND_TOOL_CHAR_BUDGET` | スラッシュコマンドツールの文字数予算 |
 | `ENABLE_TOOL_SEARCH` | ツール検索機能を有効化 |
 | `MAX_MCP_OUTPUT_TOKENS` | MCP ツール出力の最大トークン数 |
-| `CLAUDE_CODE_PERFORCE_MODE` | `1` を設定すると Perforce モードを有効化 — ファイルをデフォルトで読み取り専用として扱う（Perforce/P4 バージョン管理ワークフロー向け）（v2.1.98 追加） |
+| `CLAUDE_CODE_PERFORCE_MODE` | `1` を設定すると Perforce 対応の書き込み保護を有効化 — 対象ファイルに owner-write ビットがない場合、Edit、Write、NotebookEdit は `p4 edit <file>` のヒント付きで失敗する。Perforce は同期したファイルのこのビットを `p4 edit` で開くまでクリアしている（v2.1.98 追加）。v2.1.323 以降、Perforce の設定が見つかったのにこのモードがオフの場合、起動時に一度だけこの変数を案内する通知が表示される |
 | `DISABLE_UPDATES` | 手動の `claude update` を含むすべての更新経路をブロックする。バックグラウンドの自動更新のみブロックする `DISABLE_AUTOUPDATER` より厳密（v2.1.118+） |
 | `CLAUDE_CODE_HIDE_CWD` | `1` に設定すると、起動時ロゴでカレント作業ディレクトリを隠す（プライバシー／画面共有用途）（v2.1.119+） |
 | `CLAUDE_CODE_FORK_SUBAGENT` | `0` を設定するとフォークサブエージェントを無効化する。v2.1.302 以降、ターミナル、`claude -p`、Agent SDK、デスクトップアプリ、VS Code でデフォルト有効。v2.1.302 より前は、`claude -p` と Agent SDK で有効にするには `1` を設定する。 |
@@ -804,7 +802,7 @@ claude -p --output-format json "query"
 | 簡易コードレビュー | `cat file \| claude -p "review"` |
 | 構造化出力 | `claude -p --output-format json "query"` |
 | 安全な探索 | `claude --permission-mode plan` |
-| 安全装置付き自律実行 | `claude --enable-auto-mode --permission-mode auto` |
+| 安全装置付き自律実行 | `claude --permission-mode auto` |
 | CI/CD 連携 | `claude -p --max-turns 3 --output-format json` |
 | 作業の再開 | `claude -r "session-name"` |
 | カスタムモデル | `claude --model opus "complex task"` |
@@ -878,8 +876,8 @@ claude -p --output-format json "query"
 
 ---
 
-**最終更新**: 2026 年 11 月 12 日
-**Claude Code バージョン**: 2.1.322
+**最終更新**: 2026 年 11 月 13 日
+**Claude Code バージョン**: 2.1.323
 **出典**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
@@ -911,4 +909,5 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/env-vars#variables
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/model-config#adjust-effort-level
+- https://code.claude.com/docs/en/changelog#2-1-323
 **対応モデル**: Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

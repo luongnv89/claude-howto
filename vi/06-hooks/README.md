@@ -65,7 +65,7 @@ Hooks được cấu hình trong các file settings với cấu trúc cụ thể
 | `statusMessage` | Thông điệp spinner tùy chỉnh hiển thị khi hook đang chạy | `"Đang định dạng…"` |
 | `onFailure` | Điều gì xảy ra với hành động khi một command hook hoặc HTTP hook thất bại (không khởi động được, hết thời gian, thoát với mã không mong đợi): `"continue"` (mặc định) hoặc `"block"` (v2.1.295+) | `"block"` |
 
-> **Lưu ý**: Một số sự kiện hạ thấp timeout mặc định. `UserPromptSubmit` hạ mặc định của `command`, `http` và `mcp_tool` xuống 30 giây, còn `MessageDisplay` hạ xuống 10 giây. Các hook `SessionEnd` dùng chung ngân sách 1,5 giây; nếu cài đặt của bạn khai báo `timeout` dài hơn cho một hook, Claude Code nâng ngân sách đó cho khớp, tối đa 60 giây.
+> **Lưu ý**: Một số sự kiện hạ thấp timeout mặc định. `UserPromptSubmit` hạ mặc định của `command`, `http` và `mcp_tool` xuống 30 giây, còn `MessageDisplay` hạ xuống 10 giây. Các hook `SessionEnd` dùng chung ngân sách 1,5 giây; nếu cài đặt của bạn khai báo `timeout` dài hơn cho một hook, Claude Code nâng ngân sách đó cho khớp, tối đa 60 giây. Trong các phiên `claude -p` và Agent SDK, Claude Code gửi một heartbeat tiến độ mỗi 30 giây khi hook chạy lâu (v2.1.323), để một host như Claude Desktop không kết thúc lượt vì cho rằng đã bị treo, một khi host đó đã bao gồm phiên bản này.
 
 ### Các Mẫu Matcher / Matcher Patterns
 

@@ -243,6 +243,8 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 
 > **سخت‌سازی مجوز (نسخه 2.1.214)**: دستورات Docker/Podman که از پرچم‌های تغییر مسیر دیمون استفاده می‌کنند (مثلاً `--url`، `--connection`، `--identity`) اکنون به‌جای اجرای خودکار نیازمند پرامپت مجوز هستند. دستورات `file` که از `-m`/`--magic-file` یا `-f`/`--files-from` استفاده می‌کنند هم اکنون نیازمند مجوز هستند. دستورات Bash بیش از ۱۰,۰۰۰ کاراکتر همیشه پرامپت مجوز می‌دهند، بدون توجه به قواعد allow.
 
+> **سخت‌سازی مجوز (نسخه 2.1.323)**: Claude Code هنگام راه‌اندازی دربارهٔ قاعدهٔ allow در Bash که در مقدار یک متغیر `*` دارد، مانند `Bash(PORT=* npm run dev)`، هشدار می‌دهد. قواعد allow با wildcard چسبیده، مانند `Bash(ls*)`، که در برخی موارد از پرامپت مجوز رد می‌شدند اصلاح شده‌اند؛ قاعده‌ای که نام یک متغیر را می‌آورد، مانند `Bash(NODE_ENV*)`، اکنون می‌پرسد. قواعد deny و ask در Bash دیگر برخی دستورات اجراشده از طریق `sudo`، `env` و wrapperهای مشابه را از قلم نمی‌اندازند، و موردی که ابزارهای Write و Edit می‌توانستند در مسیری بنویسند که یک قاعدهٔ deny برای `Read` آن را پوشش می‌دهد رفع شده است. با تنظیم `plansDirectory`، نوشتن فایل طرحی که نتوان نشان داد درون پروژه می‌ماند رد می‌شود. پرامپت‌های Bash دیگر برای دستوراتی که در مسیرهای حساس مانند `.git` یا `.claude` می‌نویسند گزینهٔ «don't ask again» را پیشنهاد نمی‌کنند، چون قاعدهٔ ذخیره‌شده جلوی پرامپت بعدی را نمی‌گرفت؛ و «don't ask again» روی قاعدهٔ allowای که به نظر می‌رسد رازی در خود دارد، یا در `settings.local.json`ای ذخیره می‌شود که git آن را دنبال می‌کند، فقط برای همان نشست دوام دارد و ذخیره نمی‌شود.
+
 ### مثال‌های مجوز
 
 ```bash
@@ -410,11 +412,11 @@ claude purge --all --interactive
 | `--json-schema` | خروجی JSON اعتبارسنجی‌شده | `claude -p --json-schema '{"type":"object"}' "q"` |
 | `--ax-screen-reader` | حالت رندر متن ساده برای صفحه‌خوان‌ها (نسخه 2.1.208) | `claude --ax-screen-reader` |
 
-### نکات پلتفرم و تم (نسخه 2.1.112)
+### نکات پلتفرم و تم (نسخه 2.1.111)
 
 - **ابزار PowerShell در Windows**: یک ابزار PowerShell اختصاصی در Windows در حال عرضه است و از طریق متغیر محیطی قابل کنترل است.
 - **تم Auto (match terminal)**: تم جدید «Auto (match terminal)» ظاهر روشن/تیره Claude Code را با ترمینال شما همگام می‌کند.
-- **پرامپت‌های مجوز کم‌صداتر**: فراخوانی‌های فقط-خواندنی `Bash` و الگوهای `Glob` دیگر پرامپت مجوز ایجاد نمی‌کنند.
+- **پرامپت‌های مجوز کم‌صداتر**: دستورات فقط-خواندنی Bash با الگوهای glob، مانند `ls *.ts`، و دستوراتی که با `cd <project-dir> &&` شروع می‌شوند دیگر پرامپت مجوز ایجاد نمی‌کنند.
 
 ### مثال‌های پیشرفته
 
@@ -898,7 +900,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Fable models,
 | `SLASH_COMMAND_TOOL_CHAR_BUDGET` | بودجه کاراکتری ابزارهای دستور اسلش |
 | `ENABLE_TOOL_SEARCH` | فعال‌سازی قابلیت جستجوی ابزار |
 | `MAX_MCP_OUTPUT_TOKENS` | حداکثر توکن خروجی ابزار MCP |
-| `CLAUDE_CODE_PERFORCE_MODE` | برای فعال‌سازی حالت Perforce آن را `1` بگذارید — فایل‌ها را به‌طور پیش‌فرض فقط-خواندنی در نظر می‌گیرد (برای جریان‌های کاری کنترل نسخه Perforce/P4) (افزوده‌شده در نسخه 2.1.98) |
+| `CLAUDE_CODE_PERFORCE_MODE` | برای فعال‌سازی محافظت از نوشتن مبتنی بر Perforce آن را `1` بگذارید: Edit، Write و NotebookEdit با راهنمای `p4 edit <file>` شکست می‌خورند وقتی فایل هدف بیت owner-write را ندارد؛ Perforce این بیت را روی فایل‌های همگام‌شده پاک می‌کند تا زمانی که `p4 edit` آن‌ها را باز کند (افزوده‌شده در نسخه 2.1.98). از نسخه 2.1.323، وقتی تنظیمات Perforce پیدا شود و این حالت خاموش باشد، یک اعلان یک‌باره هنگام راه‌اندازی این متغیر را نام می‌برد |
 | `DISABLE_UPDATES` | همه مسیرهای به‌روزرسانی شامل `claude update` دستی را مسدود می‌کند. سخت‌گیرانه‌تر از `DISABLE_AUTOUPDATER` است که فقط به‌روزرسان خودکار پس‌زمینه را مسدود می‌کند (نسخه 2.1.118 به بعد) |
 | `CLAUDE_CODE_HIDE_CWD` | وقتی `1` باشد، دایرکتوری کاری جاری را در لوگوی راه‌اندازی پنهان می‌کند (استفاده حریم خصوصی / اشتراک صفحه) (نسخه 2.1.119 به بعد) |
 | `CLAUDE_CODE_FORK_SUBAGENT` | برای خاموش کردن زیرایجنت‌های منشعب آن را `0` بگذارید. از نسخه 2.1.302 آن‌ها به‌طور پیش‌فرض در ترمینال، `claude -p`، Agent SDK، اپلیکیشن دسکتاپ و VS Code روشن هستند؛ پیش از نسخه 2.1.302 برای روشن کردنشان در `claude -p` و Agent SDK آن را `1` می‌گذاشتید. |
@@ -939,7 +941,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Fable models,
 | `CLAUDE_CODE_WEBFETCH_DEADLINE_MS` | مهلت ۳۰۰ ثانیه‌ای WebFetch را بازنویسی می‌کند، که در نسخه 2.1.268 معرفی شد. برای غیرفعال کردن مهلت `0` بگذارید (نسخه 2.1.268) |
 | `CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS` | محدودیت ایجنت‌های هم‌زمان در هر اجرای ابزار Workflow را بالا می‌برد. ۱ تا ۲۵۶ را می‌پذیرد (نسخه 2.1.269) |
 | `CLAUDE_CODE_AUTO_MODE_SERVER` | برای استفاده از درخواست‌های طبقه‌بند حالت auto خود Claude Code به‌جای بازبینی سمت سرور آن را `0` بگذارید — در Bedrock، Vertex، Foundry و درگاه‌ها از نسخه 2.1.278، و در اتصال مستقیم Anthropic API از نسخه 2.1.281 (در آنجا طبقه‌بند محلی به مصرف شما اضافه می‌شود، و `1` انصراف می‌دهد) |
-| `CLAUDE_CODE_AUTO_MODE_MODEL` | شناسهٔ کامل مدل، مثل `claude-sonnet-4-6`، برای طبقه‌بند حالت auto سمت کلاینت که در غیر این صورت از Sonnet 5 استفاده می‌کند؛ مدل حالت auto سمت سرور را تغییر نمی‌دهد. برای Opus 5، Sonnet 5.5، Opus 5.5 یا مدلی که سیاست سازمان شما حذف کرده نادیده گرفته می‌شود (نسخه 2.1.302) |
+| `CLAUDE_CODE_AUTO_MODE_MODEL` | شناسهٔ کامل مدل، مثل `claude-sonnet-4-6`، برای طبقه‌بند حالت auto سمت کلاینت که در غیر این صورت از Sonnet 5 استفاده می‌کند؛ مدل حالت auto سمت سرور را تغییر نمی‌دهد. برای Opus 5، Sonnet 5.5، Opus 5.5 یا مدلی که سیاست سازمان شما حذف کرده نادیده گرفته می‌شود (نسخه 2.1.302). از نسخه 2.1.323 در تنظیمات مدیریت‌شده برای نشست‌های Claude Desktop روی ارائه‌دهندگان شخص ثالث نیز کار می‌کند و زمانی اعمال می‌شود که Claude Desktop آن نسخه را در بر بگیرد |
 | `CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT` | آن را در محیط راه‌اندازی `1` بگذارید تا پرامپت `rm` مسیر بحرانی تغییر کند: در حالت `--dangerously-skip-permissions` (bypassPermissions) پرامپت ترمینال محدودیت زمانی ندارد و پنل گفت‌وگوی VS Code از شما می‌پرسد؛ در حالت auto به‌جای آن طبقه‌بند تصمیم می‌گیرد، در ترمینال، پنل VS Code، اجراهای `-p` و نشست‌های Agent SDK. بدون آن، پرامپت ترمینال پس از ۲ دقیقه دستور را با یک راهنمای بازنویسی رد می‌کند تا نشست‌های بدون نظارت ادامه یابند (نسخه 2.1.281) |
 | `CLAUDE_CODE_DISABLE_MOUNTED_DRIVE_RM_PROMPT` | در محیط راه‌انداز `1` بگذارید (در بلوک `env` تنظیمات نادیده گرفته می‌شود) تا پرامپت `rm` بازگشتی روی مسیر یک درایو mount‌شده مثل `/Volumes/USB` یا `/mnt/c` در WSL خاموش شود (نسخه 2.1.304) |
 | `CLAUDE_CODE_DISABLE_ULTRAREVIEW_TRUST_CHECK` | در محیط راه‌انداز `1` بگذارید تا `claude ultrareview` در پوشه‌ای که نمی‌تواند دربارهٔ آن بپرسد (مثل CI) با `Error: Workspace not trusted` خارج نشود؛ فقط جایی استفاده کنید که هر اجرا در پوشه‌ای مورد اعتماد شما شروع می‌شود (نسخه 2.1.309) |
@@ -951,6 +953,8 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Fable models,
 | `CLAUDE_CODE_MODEL_CATALOG` | آن را `off` بگذارید تا Claude Code روی Bedrock، Mantle، Vertex و Foundry تنظیمات مدل را از یک فایل امضاشده روی `downloads.claude.ai` بارگذاری نکند (نسخه 2.1.311) |
 | `CLAUDE_CODE_DISABLE_ULTRATHINK` | آن را `1` بگذارید تا کلیدواژهٔ `ultrathink` خاموش شود (نسخه 2.1.316) |
 | `CLAUDE_CODE_SUBAGENT_EFFORT` | سطح تلاشی که زیرایجنت‌ها وقتی هیچ چیز دیگری سطحی تعیین نکند با آن اجرا می‌شوند، به‌جای به ارث بردن سطح نشست (نسخه 2.1.316). از نسخه 2.1.317، زیرایجنتی که روی مدلی متفاوت از مدل گفتگوی اصلی اجرا می‌شود، به‌جای سطح تلاش نشست، از سطح تلاش ذخیره‌شدهٔ آن مدل یا سطح پیش‌فرض آن استفاده می‌کند |
+| `CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES` | آن را `1` بگذارید تا خلاصه‌های پیشرفت زیرایجنت‌ها و درخواست‌هایی که آن‌ها را می‌نویسند خاموش شوند. از نسخه 2.1.318 در دسترس است و در changelog نسخه 2.1.323 اعلام شد؛ صفحهٔ مستندات env-vars هنوز آن را فهرست نکرده است |
+| `CLAUDE_CODE_RESUME_HINT_COMMAND` | برنامه‌ای که Claude Code را اجرا می‌کند می‌تواند آن را تنظیم کند تا راهنمای هنگام خروج، فرمان resume خود آن برنامه را نام ببرد (نسخه 2.1.323؛ برگرفته از changelog، صفحهٔ مستندات env-vars هنوز آن را فهرست نکرده است) |
 | `CLAUDE_CODE_ENABLE_TODO_TOOLS` | برای بازگرداندن ابزارهای todo/پیگیری وظایف (`TaskCreate`/`Get`/`Update`/`List`، `TodoWrite`) آن را `1` بگذارید؛ این ابزارها به‌طور پیش‌فرض فقط در مدل‌های Claude 3.x، Opus 4 تا 4.7، Sonnet 4 تا 4.6 و Haiku 4.5 در دسترس هستند (نسخه 2.1.268) |
 | `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS` | چه مدت WebFetch یک URL واکشی‌شده را در cache نگه می‌دارد. پیش‌فرض ۱۵ دقیقه (نسخه 2.1.233) |
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | فقط Linux: انصراف از اعمال یک memory cgroup روی دستورات Bash (نسخه 2.1.233) |
@@ -1115,8 +1119,8 @@ claude -p --output-format json "query"
 
 ---
 
-**آخرین به‌روزرسانی**: ۱۲ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.322
+**آخرین به‌روزرسانی**: ۱۳ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.323
 **منابع**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/permission-modes#time-limits-and-denials-in-auto-and-bypasspermissions-modes
@@ -1200,4 +1204,6 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/model-config#work-with-fable
 - https://code.claude.com/docs/en/model-config#version-history
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
+- https://code.claude.com/docs/en/changelog#2-1-323
+- https://code.claude.com/docs/en/permissions#wildcard-patterns
 **مدل‌های سازگار**: Claude Fable 5.2، Claude Fable 5.1، Claude Fable 5، Claude Opus 5.5، Claude Opus 5، Claude Sonnet 5.5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 5.5، Claude Haiku 4.5

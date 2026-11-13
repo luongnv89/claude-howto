@@ -208,7 +208,7 @@ claude --model opusplan "design and implement the new API"
 
 **외부에서 계획 편집**: `Ctrl+G`를 눌러 외부 편집기에서 현재 계획을 열고 상세하게 수정할 수 있습니다.
 
-> **v2.1.112 업데이트**: 이제 계획 파일은 무작위 단어 대신 생성된 프롬프트의 이름을 따서 명명되므로, 더 쉽게 찾아보고 재사용할 수 있습니다.
+> **v2.1.111 업데이트**: 이제 계획 파일은 순전히 무작위 단어 대신 생성된 프롬프트의 이름을 따서 `fix-auth-race-snug-otter.md`처럼 명명되므로, 더 쉽게 찾아보고 재사용할 수 있습니다.
 
 > **v2.1.136 업데이트 — 계획 모드 쓰기 블록은 무조건적입니다**: 계획 모드는 이제 `permissions.allow`에 일치하는 `Edit(...)` 규칙이 있는 경우를 포함하여 모든 파일 쓰기를 차단합니다. 이전에는 관대한 `Edit(...)` 규칙이 계획 모드에서 쓰기를 허용할 수 있었지만, 해당 우회 경로는 폐쇄되었습니다. 워크플로가 이전 동작에 의존하는 경우, 편집하기 전에 계획 모드를 종료하십시오 (`Shift+Tab`).
 
@@ -379,7 +379,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high
 
 ## 자동 모드
 
-자동 모드는 백그라운드 안전 분류기를 사용하여 각 작업을 실행하기 전에 검토하는 권한 모드입니다. Claude가 자율적으로 작업하면서 위험한 작업을 차단할 수 있도록 합니다. 모든 플랜에서 사용할 수 있지만 적격한 모델이 필요합니다(Anthropic API 및 Claude Platform on AWS에서는 Claude Opus 4.6 이상, Sonnet 4.6 이상, Haiku 5.5 또는 Fable 모델, Bedrock, Vertex, Foundry 및 로그인된 Claude apps gateway 세션에서는 Sonnet 5 이상, Opus 4.7 이상, Haiku 5.5 또는 Fable 모델). Team 및 Enterprise에서는 기본적으로 켜져 있으며, 관리자는 관리형 설정에서 조직 전체에 대해 끌 수 있습니다.
+자동 모드는 백그라운드 안전 분류기를 사용하여 각 작업을 실행하기 전에 검토하는 권한 모드입니다. Claude가 자율적으로 작업하면서 위험한 작업을 차단할 수 있도록 합니다. 모든 플랜에서 사용할 수 있지만 적격한 모델이 필요합니다(Anthropic API 및 Claude Platform on AWS에서는 Claude Opus 4.6 이상, Sonnet 4.6 이상, Haiku 5.5 또는 Fable 모델, Bedrock, Vertex, Foundry 및 로그인된 Claude apps gateway 세션에서는 Sonnet 5 이상, Opus 4.7 이상, Haiku 5.5 또는 Fable 모델). `ANTHROPIC_BASE_URL`의 게이트웨이 뒤에서는 자동 모드가 게이트웨이 이름에 "haiku"가 포함된 모델을 `claude-haiku-5-5`를 제외하고 Haiku 4.5와 마찬가지로 거부합니다(v2.1.323). Team 및 Enterprise에서는 기본적으로 켜져 있으며, 관리자는 관리형 설정에서 조직 전체에 대해 끌 수 있습니다.
 
 ### 요구 사항
 
@@ -401,7 +401,7 @@ claude --permission-mode auto
 # 또는 REPL에서 Shift+Tab으로 순환하여 선택합니다
 ```
 
-> **v2.1.112 업데이트**: 자동 모드는 더 이상 `--enable-auto-mode` 플래그를 필요로 하지 않습니다. Max 구독자는 Opus 4.7에서 직접 액세스할 수 있습니다.
+> **v2.1.111 업데이트**: 자동 모드는 더 이상 `--enable-auto-mode` 플래그를 필요로 하지 않습니다. Max 구독자는 Opus 4.7에서 직접 액세스할 수 있습니다.
 
 > **v2.1.158 업데이트**: Opus 4.7/4.8용 Bedrock, Vertex, Foundry에서 자동 모드를 사용할 수 있게 되었으며, `CLAUDE_CODE_ENABLE_AUTO_MODE=1`로 활성화해야 했습니다.
 >
@@ -841,7 +841,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 
 > **참고**: `default` 권한 모드는 v2.1.200에서 **Manual**로 이름이 바뀌었으며(CLI, `--help`, VS Code, JetBrains 전반), 이 모드가 활성화된 동안에는 하단에 회색 ⏸ 배지가 표시됩니다(v2.1.203). `--permission-mode manual`과 `--permission-mode default` 모두 작동하며, 설정의 `"defaultMode": "manual"`과 `"defaultMode": "default"`도 마찬가지입니다. 설정 키는 `permissions.defaultMode`이며 `permissions.mode` 키는 없으므로, 아래 예시는 정식 철자를 사용합니다.
 
-CLI에서 `Shift+Tab`으로 모드를 순환할 수 있습니다. `--permission-mode` 플래그 또는 `permissions.defaultMode` 설정으로 기본값을 설정합니다. 권한 모드가 구성되지 않은 경우, v2.1.284부터 모든 플랜과 제공자에서 대화형 터미널 및 VS Code 세션은 자동 모드로 시작합니다(v2.1.283에서는 Bedrock, Google Cloud's Agent Platform, Foundry 같은 서드파티 제공자나 텔레메트리가 꺼진 경우에만 그랬습니다). `permissions.defaultMode`가 여전히 이를 재정의하며, 자동 모드를 사용할 수 없는 세션은 대신 Manual로 시작합니다. v2.1.302부터 권한 모드가 설정되지 않은 `claude -p` 또는 Agent SDK 실행은 Manual 모드(구성 값 `default`)로 시작하며 승인이 필요한 도구 호출을 거부합니다. `--permission-mode`(예: `auto` 또는 `acceptEdits`)나 `--allowedTools`를 전달하십시오.
+CLI에서 `Shift+Tab`으로 모드를 순환할 수 있습니다. `--permission-mode` 플래그 또는 `permissions.defaultMode` 설정으로 기본값을 설정합니다. 권한 모드가 구성되지 않은 경우, v2.1.284부터 모든 플랜과 제공자에서 대화형 터미널 및 VS Code 세션은 자동 모드로 시작합니다(v2.1.283에서는 Bedrock, Google Cloud's Agent Platform, Foundry 같은 서드파티 제공자나 텔레메트리가 꺼진 경우에만 그랬습니다). `permissions.defaultMode`가 여전히 이를 재정의합니다. `--permission-mode` 플래그, 설정 파일 또는 이 기본값이 `auto`를 선택했지만 세션에서 자동 모드를 사용할 수 없는 경우, 세션은 먼저 묻는 Manual 모드로 시작합니다. v2.1.323에서는 `--permission-mode auto`와 설정의 `defaultMode: auto`가 이런 세션을 더 많은 것을 허용할 수 있는 모드로 시작하던 문제가 수정되었습니다. v2.1.302부터 권한 모드가 설정되지 않은 `claude -p` 또는 Agent SDK 실행은 Manual 모드(구성 값 `default`)로 시작하며 승인이 필요한 도구 호출을 거부합니다. `--permission-mode`(예: `auto` 또는 `acceptEdits`)나 `--allowedTools`를 전달하십시오.
 
 > **계획 모드는 셸 명령어를 분류기에 맡깁니다 (v2.1.218)**: [자동 모드](#자동-모드)를 사용할 수 있고 `useAutoModeDuringPlan` 설정이 켜져 있으면(기본값), 계획 중에 분류기가 프롬프트 대신 셸 명령어를 검토합니다. 승인된 명령어는 실행되고 거부된 명령어는 차단됩니다. 계획 모드는 여전히 파일 쓰기를 무조건 차단합니다.
 
@@ -2532,7 +2532,7 @@ export CLAUDE_CODE_GZIP_REQUEST_BODIES=0                    # (v2.1.300) api.ant
 export CLAUDE_CODE_ARTIFACT_PUBLISH_EDITS=0                 # (v2.1.300) 게시 중 편집 대신, 파일 도구로 아티팩트 파일을 편집한 뒤 별도 단계로 게시.
 
 # 새 변수 (v2.1.301-v2.1.302)
-export CLAUDE_CODE_AUTO_MODE_MODEL=claude-sonnet-4-6  # 클라이언트 측 자동 모드 분류기 모델 (v2.1.302); Opus 5, Sonnet 5.5, Opus 5.5 또는 정책에서 제외한 모델에는 무시됨
+export CLAUDE_CODE_AUTO_MODE_MODEL=claude-sonnet-4-6  # 클라이언트 측 자동 모드 분류기 모델 (v2.1.302); Opus 5, Sonnet 5.5, Opus 5.5 또는 정책에서 제외한 모델에는 무시됨; v2.1.323부터 서드파티 제공자의 Claude Desktop 세션용 관리형 설정에서 작동 (Claude Desktop에 해당 버전이 포함되면 적용됨)
 export CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS=3600000  # 먼 사용 한도 재설정을 기다리지 않고 중지 (v2.1.301)
 
 # 새 변수 (v2.1.304-v2.1.310) — 실행하는 셸에서 설정
@@ -2745,8 +2745,8 @@ Claude Code 및 관련 기능에 대한 자세한 정보는 다음을 참조하�
 
 ---
 
-**최종 업데이트**: 2026년 11월 12일
-**Claude Code 버전**: 2.1.322
+**최종 업데이트**: 2026년 11월 13일
+**Claude Code 버전**: 2.1.323
 **출처**:
 - https://code.claude.com/docs/en/output-styles
 - https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
@@ -2832,4 +2832,5 @@ Claude Code 및 관련 기능에 대한 자세한 정보는 다음을 참조하�
 - https://code.claude.com/docs/en/changelog#2-1-318
 - https://code.claude.com/docs/en/tools-reference#time-limit-for-background-commands
 - https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-323
 **호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

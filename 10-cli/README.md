@@ -245,6 +245,8 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 
 > **Permission hardening (v2.1.319–v2.1.321)**: the Bash tool now asks before running `which` with flags outside a lookup/display set; read-only commands wrapped in a plain `timeout DURATION` (such as `timeout 30 rg foo`) no longer prompt; a session's exact Bash or PowerShell ask rule is refused, not asked about, when a broader deny rule covers the command (v2.1.319). `cp` and `mv` spelled by a path, such as `/bin/cp`, get the same path checks as `cp` and `mv`, and deny rules and protected-file prompts now apply to the file that a `cp` or `mv` into a directory writes (v2.1.321).
 
+> **Permission hardening (v2.1.323)**: Claude Code warns at start-up about a Bash allow rule with a `*` in a variable's value, such as `Bash(PORT=* npm run dev)`. It fixes allow rules with an attached wildcard, such as `Bash(ls*)`, that skipped the permission prompt in some cases; a rule that names a variable, such as `Bash(NODE_ENV*)`, now asks. Bash deny and ask rules no longer miss some commands run through `sudo`, `env` and similar wrappers, and a case where the Write and Edit tools could write to a path a `Read` deny rule covers is fixed. With `plansDirectory` set, a plan-file write that can't be shown to stay inside the project is refused. Bash prompts no longer offer "don't ask again" for commands that write to sensitive paths such as `.git` or `.claude`, where the saved rule didn't stop the next prompt, and "don't ask again" on an allow rule that looks like it holds a secret, or that would be saved to a `settings.local.json` that git tracks, lasts for the session only and isn't saved.
+
 ### Permission Examples
 
 ```bash
@@ -412,11 +414,11 @@ claude purge --all --interactive
 | `--json-schema` | Validated JSON output | `claude -p --json-schema '{"type":"object"}' "q"` |
 | `--ax-screen-reader` | Plain-text rendering mode for screen readers (v2.1.208) | `claude --ax-screen-reader` |
 
-### Platform & Theme Notes (v2.1.112)
+### Platform & Theme Notes (v2.1.111)
 
 - **PowerShell tool on Windows**: A dedicated PowerShell tool is rolling out on Windows and is controllable via environment variable.
 - **Auto (match terminal) theme**: The new "Auto (match terminal)" theme syncs Claude Code's light/dark appearance with your terminal.
-- **Quieter permission prompts**: Read-only `Bash` invocations and `Glob` patterns no longer trigger permission prompts.
+- **Quieter permission prompts**: Read-only Bash commands with glob patterns, such as `ls *.ts`, and commands starting with `cd <project-dir> &&` no longer trigger a permission prompt.
 
 ### Advanced Examples
 
@@ -909,7 +911,7 @@ The "ultrathink" keyword in prompts activates deep reasoning; since v2.1.311, ty
 | `SLASH_COMMAND_TOOL_CHAR_BUDGET` | Character budget for slash command tools |
 | `ENABLE_TOOL_SEARCH` | Enable tool search capability |
 | `MAX_MCP_OUTPUT_TOKENS` | Maximum tokens for MCP tool output |
-| `CLAUDE_CODE_PERFORCE_MODE` | Set to `1` to enable Perforce mode — treats files as read-only by default (for Perforce/P4 version control workflows) (added v2.1.98) |
+| `CLAUDE_CODE_PERFORCE_MODE` | Set to `1` to enable Perforce-aware write protection: Edit, Write, and NotebookEdit fail with a `p4 edit <file>` hint when the target file lacks the owner-write bit, which Perforce clears on synced files until `p4 edit` opens them (added v2.1.98). Since v2.1.323, a one-time start-up notice names this variable when Perforce settings are found and the mode is off |
 | `DISABLE_UPDATES` | Blocks all update paths including manual `claude update`. Stricter than `DISABLE_AUTOUPDATER`, which only blocks the background autoupdater (v2.1.118+) |
 | `CLAUDE_CODE_HIDE_CWD` | When set to `1`, hides the current working directory in the startup logo (privacy / screen-share use) (v2.1.119+) |
 | `CLAUDE_CODE_FORK_SUBAGENT` | Set to `0` to turn fork subagents off. Since v2.1.302 they are on by default in the terminal, `claude -p`, the Agent SDK, the desktop app and VS Code; before v2.1.302, set `1` to turn them on in `claude -p` and the Agent SDK. |
@@ -950,7 +952,7 @@ The "ultrathink" keyword in prompts activates deep reasoning; since v2.1.311, ty
 | `CLAUDE_CODE_WEBFETCH_DEADLINE_MS` | Overrides WebFetch's 300-second deadline, introduced in v2.1.268. Set `0` to disable the deadline (v2.1.268) |
 | `CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS` | Raises the Workflow tool's per-run concurrent agent limit. Accepts 1–256 (v2.1.269) |
 | `CLAUDE_CODE_AUTO_MODE_SERVER` | Set to `0` to use Claude Code's own auto-mode classifier requests instead of server-side review — on Bedrock, Vertex, Foundry, and gateways since v2.1.278, and on a direct Anthropic API connection since v2.1.281 (there the local classifier then counts toward usage, and `1` opts in) |
-| `CLAUDE_CODE_AUTO_MODE_MODEL` | Full model ID, such as `claude-sonnet-4-6`, for the client-side auto mode classifier, which otherwise uses Sonnet 5; does not change server-side auto mode's model. Ignored for Opus 5, Sonnet 5.5, Opus 5.5 or a model your organization's policy excludes (v2.1.302) |
+| `CLAUDE_CODE_AUTO_MODE_MODEL` | Full model ID, such as `claude-sonnet-4-6`, for the client-side auto mode classifier, which otherwise uses Sonnet 5; does not change server-side auto mode's model. Ignored for Opus 5, Sonnet 5.5, Opus 5.5 or a model your organization's policy excludes (v2.1.302). Since v2.1.323 it also works in managed settings for Claude Desktop sessions on third-party providers, taking effect once Claude Desktop includes that version |
 | `CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT` | Set to `1` in the launching environment to change the critical-path `rm` prompt: in `--dangerously-skip-permissions` (bypassPermissions) mode the terminal prompt has no time limit and the VS Code chat panel asks you; in auto mode the classifier decides instead, in the terminal, the VS Code panel, `-p` runs and Agent SDK sessions. Without it, the terminal prompt denies the command after 2 minutes with a rewrite hint so unattended sessions keep going (v2.1.281) |
 | `CLAUDE_CODE_DISABLE_MOUNTED_DRIVE_RM_PROMPT` | Set to `1` in the launching environment (ignored in a settings `env` block) to turn off the prompt for a recursive `rm` of a mounted drive path such as `/Volumes/USB` or WSL's `/mnt/c` (v2.1.304) |
 | `CLAUDE_CODE_DISABLE_ULTRAREVIEW_TRUST_CHECK` | Set to `1` in the launching environment so `claude ultrareview` doesn't exit with `Error: Workspace not trusted` in a folder it can't ask about, such as in CI; use only where every run starts in a folder you trust (v2.1.309) |
@@ -962,6 +964,8 @@ The "ultrathink" keyword in prompts activates deep reasoning; since v2.1.311, ty
 | `CLAUDE_CODE_MODEL_CATALOG` | Set to `off` to stop Claude Code on Bedrock, Mantle, Vertex, and Foundry from loading model settings from a signed file on `downloads.claude.ai` (v2.1.311) |
 | `CLAUDE_CODE_DISABLE_ULTRATHINK` | Set to `1` to turn the `ultrathink` keyword off (v2.1.316) |
 | `CLAUDE_CODE_SUBAGENT_EFFORT` | Effort level subagents run at when nothing else names one, instead of inheriting the session's (v2.1.316). Since v2.1.317, a subagent on a different model from the main conversation uses that model's saved effort level or its default, instead of the session's effort level |
+| `CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES` | Set to `1` to turn off subagent progress summaries and the requests that write them. Available since v2.1.318 and announced in the v2.1.323 changelog; the env-vars docs page doesn't list it yet |
+| `CLAUDE_CODE_RESUME_HINT_COMMAND` | A program that starts Claude Code can set it so the exit hint names that program's own resume command (v2.1.323; changelog-sourced, the env-vars docs page doesn't list it yet) |
 | `CLAUDE_CODE_ENABLE_TODO_TOOLS` | Set to `1` to restore the todo/task-tracking tools (`TaskCreate`/`Get`/`Update`/`List`, `TodoWrite`), which are available by default only on Claude 3.x models, Opus 4 through 4.7, Sonnet 4 through 4.6, and Haiku 4.5 (v2.1.268) |
 | `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS` | How long WebFetch caches a fetched URL. Default 15 minutes (v2.1.233) |
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | Linux only: opt in to a memory cgroup applied to Bash commands (v2.1.233) |
@@ -1127,8 +1131,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: November 12, 2026
-**Claude Code Version**: 2.1.322
+**Last Updated**: November 13, 2026
+**Claude Code Version**: 2.1.323
 **Sources**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/permission-modes#time-limits-and-denials-in-auto-and-bypasspermissions-modes
@@ -1222,4 +1226,6 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/env-vars#features-that-need-feature-flag-fetching
 - https://code.claude.com/docs/en/settings-reference#permissions-denyinsteadofprompting
 - https://code.claude.com/docs/en/changelog#2-1-317
+- https://code.claude.com/docs/en/changelog#2-1-323
+- https://code.claude.com/docs/en/permissions#wildcard-patterns
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

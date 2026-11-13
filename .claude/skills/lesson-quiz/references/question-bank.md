@@ -563,7 +563,7 @@
 - **Question**: What does the `settings.json` `agent` key do in a plugin?
 - **Options**: A) Specifies authentication credentials | B) Sets the main thread agent for the plugin | C) Lists available subagents | D) Configures agent permissions
 - **Correct**: B
-- **Explanation**: The `agent` key in a plugin's settings.json specifies which agent definition to use as the main thread agent when the plugin is active.
+- **Explanation**: The `agent` key in a plugin's settings.json specifies which agent definition to use as the main thread agent when the plugin is active. Since v2.1.323 the key is deprecated: it still applies, but Claude Code warns about it at startup, in `claude plugin list` and in `claude plugin validate`.
 - **Review**: Plugin Settings section
 
 ### Q8
@@ -844,8 +844,8 @@
 
 ---
 
-**Last Updated**: November 12, 2026
-**Claude Code Version**: 2.1.322
+**Last Updated**: November 13, 2026
+**Claude Code Version**: 2.1.323
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/skills
@@ -880,3 +880,4 @@
 - https://code.claude.com/docs/en/changelog#2-1-316
 - https://code.claude.com/docs/en/checkpointing#rewind-and-summarize
 - https://code.claude.com/docs/en/mcp#variables-set-to-an-empty-string
+- https://code.claude.com/docs/en/changelog#2-1-323

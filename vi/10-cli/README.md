@@ -243,6 +243,8 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 
 > **Siết chặt quyền (v2.1.214)**: Các lệnh Docker/Podman dùng cờ chuyển hướng daemon (ví dụ `--url`, `--connection`, `--identity`) giờ yêu cầu hỏi quyền thay vì chạy tự động. Các lệnh `file` dùng `-m`/`--magic-file` hoặc `-f`/`--files-from` cũng giờ yêu cầu quyền. Lệnh Bash dài hơn 10.000 ký tự luôn hỏi quyền, bất kể quy tắc allow.
 
+> **Siết chặt quyền (v2.1.323)**: Claude Code cảnh báo khi khởi động về một quy tắc allow của Bash có `*` trong giá trị của biến, chẳng hạn `Bash(PORT=* npm run dev)`. Bản này sửa các quy tắc allow có wildcard gắn liền, chẳng hạn `Bash(ls*)`, từng bỏ qua lời nhắc quyền trong một số trường hợp; một quy tắc nêu tên biến, chẳng hạn `Bash(NODE_ENV*)`, giờ sẽ hỏi. Các quy tắc deny và ask của Bash không còn bỏ sót một số lệnh chạy qua `sudo`, `env` và các wrapper tương tự, và một trường hợp công cụ Write và Edit có thể ghi vào đường dẫn thuộc phạm vi một quy tắc deny `Read` đã được sửa. Khi đặt `plansDirectory`, một lần ghi tệp kế hoạch không thể chứng minh là nằm trong dự án sẽ bị từ chối. Lời nhắc Bash không còn đưa ra "don't ask again" cho các lệnh ghi vào đường dẫn nhạy cảm như `.git` hoặc `.claude`, nơi quy tắc đã lưu không ngăn được lời nhắc tiếp theo, và "don't ask again" trên một quy tắc allow trông như chứa bí mật, hoặc sẽ được lưu vào một `settings.local.json` mà git theo dõi, chỉ có hiệu lực trong phiên và không được lưu.
+
 ### Ví Dụ Quyền / Permission Examples
 
 ```bash
@@ -410,11 +412,11 @@ claude purge --all --interactive
 | `--json-schema` | Đầu ra JSON đã xác thực | `claude -p --json-schema '{"type":"object"}' "q"` |
 | `--ax-screen-reader` | Chế độ render văn bản thuần cho trình đọc màn hình (v2.1.208) | `claude --ax-screen-reader` |
 
-### Ghi Chú Nền Tảng & Theme / Platform & Theme Notes (v2.1.112)
+### Ghi Chú Nền Tảng & Theme / Platform & Theme Notes (v2.1.111)
 
 - **Công cụ PowerShell trên Windows**: Một công cụ PowerShell chuyên dụng đang được triển khai dần trên Windows và có thể điều khiển qua biến môi trường.
 - **Theme tự động (khớp terminal)**: Theme mới "Auto (match terminal)" đồng bộ giao diện sáng/tối của Claude Code với terminal của bạn.
-- **Lời hỏi quyền ít hơn**: Các lệnh gọi `Bash` chỉ đọc và các mẫu `Glob` không còn kích hoạt lời hỏi quyền.
+- **Lời hỏi quyền ít hơn**: Các lệnh Bash chỉ đọc có mẫu glob, chẳng hạn `ls *.ts`, và các lệnh bắt đầu bằng `cd <project-dir> &&` không còn kích hoạt lời hỏi quyền.
 
 ### Ví Dụ Nâng Cao / Advanced Examples
 
@@ -898,7 +900,7 @@ Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311
 | `SLASH_COMMAND_TOOL_CHAR_BUDGET` | Ngân sách ký tự cho công cụ lệnh slash |
 | `ENABLE_TOOL_SEARCH` | Bật khả năng tìm kiếm công cụ |
 | `MAX_MCP_OUTPUT_TOKENS` | Số token tối đa cho đầu ra của công cụ MCP |
-| `CLAUDE_CODE_PERFORCE_MODE` | Đặt `1` để bật chế độ Perforce — mặc định coi các file là chỉ đọc (cho workflow quản lý phiên bản Perforce/P4) (thêm ở v2.1.98) |
+| `CLAUDE_CODE_PERFORCE_MODE` | Đặt `1` để bật cơ chế bảo vệ ghi theo Perforce: Edit, Write và NotebookEdit thất bại kèm gợi ý `p4 edit <file>` khi file đích thiếu bit owner-write, bit mà Perforce xóa trên các file đã sync cho đến khi `p4 edit` mở chúng (thêm ở v2.1.98). Từ v2.1.323, một thông báo khởi động hiển thị một lần sẽ nêu tên biến này khi tìm thấy cài đặt Perforce mà chế độ này đang tắt |
 | `DISABLE_UPDATES` | Chặn mọi đường cập nhật, kể cả `claude update` thủ công. Chặt hơn `DISABLE_AUTOUPDATER`, vốn chỉ chặn trình tự động cập nhật chạy nền (v2.1.118+) |
 | `CLAUDE_CODE_HIDE_CWD` | Khi đặt `1`, ẩn thư mục làm việc hiện tại trong logo khởi động (để bảo mật / khi chia sẻ màn hình) (v2.1.119+) |
 | `CLAUDE_CODE_FORK_SUBAGENT` | Đặt `0` để tắt fork subagent. Từ v2.1.302 chúng được bật mặc định trong terminal, `claude -p`, Agent SDK, ứng dụng desktop và VS Code; trước v2.1.302, đặt `1` để bật chúng trong `claude -p` và Agent SDK. |
@@ -939,7 +941,7 @@ Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311
 | `CLAUDE_CODE_WEBFETCH_DEADLINE_MS` | Ghi đè thời hạn 300 giây của WebFetch, được giới thiệu ở v2.1.268. Đặt `0` để tắt thời hạn (v2.1.268) |
 | `CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS` | Nâng giới hạn số agent chạy đồng thời mỗi lần chạy của công cụ Workflow. Nhận 1–256 (v2.1.269) |
 | `CLAUDE_CODE_AUTO_MODE_SERVER` | Đặt `0` để dùng các request bộ phân loại chế độ auto của chính Claude Code thay vì review phía server — trên Bedrock, Vertex, Foundry, và gateway từ v2.1.278, và trên kết nối Anthropic API trực tiếp từ v2.1.281 (ở đó bộ phân loại cục bộ khi ấy được tính vào mức sử dụng, và `1` để opt-in) |
-| `CLAUDE_CODE_AUTO_MODE_MODEL` | ID mô hình đầy đủ, ví dụ `claude-sonnet-4-6`, cho bộ phân loại chế độ auto phía client, vốn mặc định dùng Sonnet 5; không đổi mô hình của chế độ auto phía server. Bị bỏ qua với Opus 5, Sonnet 5.5, Opus 5.5 hoặc mô hình mà chính sách tổ chức của bạn loại trừ (v2.1.302) |
+| `CLAUDE_CODE_AUTO_MODE_MODEL` | ID mô hình đầy đủ, ví dụ `claude-sonnet-4-6`, cho bộ phân loại chế độ auto phía client, vốn mặc định dùng Sonnet 5; không đổi mô hình của chế độ auto phía server. Bị bỏ qua với Opus 5, Sonnet 5.5, Opus 5.5 hoặc mô hình mà chính sách tổ chức của bạn loại trừ (v2.1.302). Từ v2.1.323, biến này còn hoạt động trong cài đặt được quản lý cho các phiên Claude Desktop trên nhà cung cấp bên thứ ba, có hiệu lực khi Claude Desktop có phiên bản đó |
 | `CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT` | Đặt `1` trong môi trường khởi chạy để thay đổi lời hỏi về lệnh `rm` trên đường dẫn quan trọng: ở chế độ `--dangerously-skip-permissions` (bypassPermissions), lời hỏi trên terminal không có giới hạn thời gian và khung chat VS Code sẽ hỏi bạn; ở chế độ auto, bộ phân loại quyết định thay, trong terminal, khung VS Code, các lần chạy `-p` và các phiên Agent SDK. Nếu không đặt, lời hỏi trên terminal sẽ từ chối lệnh sau 2 phút kèm gợi ý viết lại để các phiên không giám sát tiếp tục chạy (v2.1.281) |
 | `CLAUDE_CODE_DISABLE_MOUNTED_DRIVE_RM_PROMPT` | Đặt `1` trong môi trường khởi chạy (bị bỏ qua trong khối `env` của settings) để tắt lời hỏi khi `rm` đệ quy một đường dẫn ổ đĩa được mount như `/Volumes/USB` hoặc `/mnt/c` của WSL (v2.1.304) |
 | `CLAUDE_CODE_DISABLE_ULTRAREVIEW_TRUST_CHECK` | Đặt `1` trong môi trường khởi chạy để `claude ultrareview` không thoát với `Error: Workspace not trusted` trong thư mục mà nó không thể hỏi, chẳng hạn trong CI; chỉ dùng khi mọi lần chạy đều bắt đầu trong thư mục bạn tin cậy (v2.1.309) |
@@ -951,6 +953,8 @@ Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311
 | `CLAUDE_CODE_MODEL_CATALOG` | Đặt `off` để Claude Code trên Bedrock, Mantle, Vertex, và Foundry ngừng tải cài đặt mô hình từ một file đã ký trên `downloads.claude.ai` (v2.1.311) |
 | `CLAUDE_CODE_DISABLE_ULTRATHINK` | Đặt `1` để tắt từ khóa `ultrathink` (v2.1.316) |
 | `CLAUDE_CODE_SUBAGENT_EFFORT` | Mức effort mà các subagent chạy khi không có nguồn nào khác chỉ định, thay vì kế thừa mức của phiên (v2.1.316). Từ v2.1.317, một subagent chạy trên mô hình khác với cuộc hội thoại chính dùng mức effort đã lưu của mô hình đó hoặc mức mặc định của mô hình, thay vì mức effort của phiên |
+| `CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES` | Đặt `1` để tắt các bản tóm tắt tiến độ của subagent và các request dùng để viết chúng. Có từ v2.1.318 và được công bố trong changelog v2.1.323; trang tài liệu env-vars chưa liệt kê biến này |
+| `CLAUDE_CODE_RESUME_HINT_COMMAND` | Một chương trình khởi động Claude Code có thể đặt biến này để gợi ý khi thoát nêu lệnh resume của chính chương trình đó (v2.1.323; lấy từ changelog, trang tài liệu env-vars chưa liệt kê biến này) |
 | `CLAUDE_CODE_ENABLE_TODO_TOOLS` | Đặt `1` để khôi phục các công cụ theo dõi todo/task (`TaskCreate`/`Get`/`Update`/`List`, `TodoWrite`), vốn mặc định chỉ có trên các mô hình Claude 3.x, Opus 4 đến 4.7, Sonnet 4 đến 4.6, và Haiku 4.5 (v2.1.268) |
 | `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS` | Thời gian WebFetch cache một URL đã tải. Mặc định 15 phút (v2.1.233) |
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | Chỉ trên Linux: opt-in một memory cgroup áp dụng cho các lệnh Bash (v2.1.233) |
@@ -1115,8 +1119,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 12 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.322
+**Cập Nhật Lần Cuối**: Ngày 13 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.323
 **Nguồn**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/permission-modes#time-limits-and-denials-in-auto-and-bypasspermissions-modes
@@ -1200,4 +1204,6 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/model-config#work-with-fable
 - https://code.claude.com/docs/en/model-config#version-history
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
+- https://code.claude.com/docs/en/changelog#2-1-323
+- https://code.claude.com/docs/en/permissions#wildcard-patterns
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

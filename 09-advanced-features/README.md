@@ -204,7 +204,7 @@ claude --model opusplan "design and implement the new API"
 
 **Edit plan externally**: Press `Ctrl+G` to open the current plan in your external editor for detailed modifications.
 
-> **v2.1.112 update**: Plan files are now named after the prompt that produced them (instead of random words), making them easier to browse and reuse.
+> **v2.1.111 update**: Plan files are now named after the prompt that produced them, such as `fix-auth-race-snug-otter.md`, instead of purely random words, making them easier to browse and reuse.
 
 > **v2.1.136 update — plan-mode write blocks are unconditional**: Plan mode now blocks all file writes, including when a matching `Edit(...)` rule exists in `permissions.allow`. Previously a permissive `Edit(...)` rule could let writes through in plan mode; that bypass is closed. If a workflow depended on the older behavior, exit plan mode (`Shift+Tab`) before editing.
 
@@ -375,7 +375,7 @@ Toggle during a session with `Alt+T` / `Option+T`, set effort with `/effort`, or
 
 ## Auto Mode
 
-Auto Mode is a permission mode that uses a background safety classifier to review each action before execution. It allows Claude to work autonomously while blocking dangerous operations. It's available on all plans, but requires an eligible model (Claude Opus 4.6 or later, Sonnet 4.6 or later, Haiku 5.5, or a Fable model on the Anthropic API and Claude Platform on AWS; Sonnet 5 or later, Opus 4.7 or later, Haiku 5.5, or a Fable model on Bedrock, Vertex, Foundry, and signed-in Claude apps gateway sessions). On Team and Enterprise it is on by default — administrators can turn it off for the organization in managed settings.
+Auto Mode is a permission mode that uses a background safety classifier to review each action before execution. It allows Claude to work autonomously while blocking dangerous operations. It's available on all plans, but requires an eligible model (Claude Opus 4.6 or later, Sonnet 4.6 or later, Haiku 5.5, or a Fable model on the Anthropic API and Claude Platform on AWS; Sonnet 5 or later, Opus 4.7 or later, Haiku 5.5, or a Fable model on Bedrock, Vertex, Foundry, and signed-in Claude apps gateway sessions). Behind a gateway at `ANTHROPIC_BASE_URL`, auto mode refuses a model whose gateway name contains "haiku", other than `claude-haiku-5-5`, as it refuses Haiku 4.5 (v2.1.323). On Team and Enterprise it is on by default — administrators can turn it off for the organization in managed settings.
 
 ### Requirements
 
@@ -397,7 +397,7 @@ claude --permission-mode auto
 # Or cycle to it with Shift+Tab in the REPL
 ```
 
-> **v2.1.112 update**: Auto mode no longer requires the `--enable-auto-mode` flag. Max subscribers access it directly on Opus 4.7.
+> **v2.1.111 update**: Auto mode no longer requires the `--enable-auto-mode` flag. Max subscribers access it directly on Opus 4.7.
 
 > **v2.1.158 update**: Auto mode became available on Bedrock, Vertex, and Foundry for Opus 4.7/4.8, gated behind `CLAUDE_CODE_ENABLE_AUTO_MODE=1`.
 >
@@ -841,7 +841,7 @@ Permission modes control what actions Claude can take without explicit approval.
 
 > **Note**: The `default` permission mode was renamed to **Manual** in v2.1.200 (across the CLI, `--help`, VS Code, and JetBrains), and a grey ⏸ badge appears in the footer while it is active (v2.1.203). Both `--permission-mode manual` and `--permission-mode default` work, as do `"defaultMode": "manual"` and `"defaultMode": "default"` in settings. Note that the settings key is `permissions.defaultMode` — there is no `permissions.mode` key, so the examples below use the canonical spelling.
 
-Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting. When no permission mode is configured, interactive terminal and VS Code sessions start in auto mode on every plan and provider since v2.1.284 (v2.1.283 did this only on third-party providers such as Bedrock, Google Cloud's Agent Platform, and Foundry, or with telemetry off); `permissions.defaultMode` still overrides it, and a session where auto mode isn't available starts in Manual instead. Since v2.1.302, a `claude -p` or Agent SDK run with no permission mode set starts in Manual mode (config value `default`) and denies tool calls that need approval; pass `--permission-mode` (for example `auto` or `acceptEdits`) or `--allowedTools`.
+Cycle through modes with `Shift+Tab` in the CLI. Set a default with the `--permission-mode` flag or the `permissions.defaultMode` setting. When no permission mode is configured, interactive terminal and VS Code sessions start in auto mode on every plan and provider since v2.1.284 (v2.1.283 did this only on third-party providers such as Bedrock, Google Cloud's Agent Platform, and Foundry, or with telemetry off); `permissions.defaultMode` still overrides it. When the `--permission-mode` flag, a settings file, or this default selects `auto` but auto mode isn't available to the session, the session starts in Manual mode, which asks first; v2.1.323 fixed `--permission-mode auto` and a settings `defaultMode: auto` starting such a session in a mode that could allow more. Since v2.1.302, a `claude -p` or Agent SDK run with no permission mode set starts in Manual mode (config value `default`) and denies tool calls that need approval; pass `--permission-mode` (for example `auto` or `acceptEdits`) or `--allowedTools`.
 
 > **Plan mode defers shell commands to the classifier (v2.1.218)**: When [auto mode](#auto-mode) is available and the `useAutoModeDuringPlan` setting is on — which it is by default — the classifier reviews shell commands during planning instead of prompting you. Approved commands run, and rejected ones are blocked. Plan mode still blocks file writes unconditionally.
 
@@ -2563,7 +2563,7 @@ export CLAUDE_CODE_GZIP_REQUEST_BODIES=0                    # (v2.1.300) Turn of
 export CLAUDE_CODE_ARTIFACT_PUBLISH_EDITS=0                 # (v2.1.300) Edit artifact files with file tools, then publish as a separate step, instead of in-publish edits.
 
 # Newer variables (v2.1.301-v2.1.302)
-export CLAUDE_CODE_AUTO_MODE_MODEL=claude-sonnet-4-6  # client-side auto mode classifier model (v2.1.302); ignored for Opus 5, Sonnet 5.5, Opus 5.5 or a model your policy excludes
+export CLAUDE_CODE_AUTO_MODE_MODEL=claude-sonnet-4-6  # client-side auto mode classifier model (v2.1.302); ignored for Opus 5, Sonnet 5.5, Opus 5.5 or a model your policy excludes; works in managed settings for Claude Desktop sessions on third-party providers since v2.1.323 (takes effect once Claude Desktop includes that version)
 export CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS=3600000  # stop waiting on far-off usage-limit resets (v2.1.301)
 
 # Newer variables (v2.1.304-v2.1.310) — set in the launching shell
@@ -2797,8 +2797,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: November 12, 2026
-**Claude Code Version**: 2.1.322
+**Last Updated**: November 13, 2026
+**Claude Code Version**: 2.1.323
 **Sources**:
 - https://code.claude.com/docs/en/permission-modes#turn-off-the-critical-path-removal-prompt-in-bypasspermissions-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.314
@@ -2902,4 +2902,5 @@ For more information about Claude Code and related features:
 - https://code.claude.com/docs/en/headless
 - https://code.claude.com/docs/en/tools-reference#bash-rules-that-deny-or-prompt-for-websocket-watches
 - https://code.claude.com/docs/en/tools-reference#addresses-and-hosts-denied-to-websocket-watches
+- https://code.claude.com/docs/en/changelog#2-1-323
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
