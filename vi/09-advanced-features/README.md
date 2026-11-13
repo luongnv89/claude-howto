@@ -375,7 +375,7 @@ Bật/tắt trong phiên bằng `Alt+T` / `Option+T`, đặt effort bằng `/eff
 
 ## Chế Độ Auto
 
-Chế độ Auto là một chế độ quyền dùng bộ phân loại an toàn chạy nền để review từng hành động trước khi thực thi. Nó cho phép Claude làm việc tự chủ trong khi vẫn chặn các thao tác nguy hiểm. Chế độ này có trên mọi gói, nhưng cần model đủ điều kiện (Claude Opus 4.6 trở lên, Sonnet 4.6 trở lên, Haiku 5.5 hoặc một model Fable trên Anthropic API và Claude Platform on AWS; Sonnet 5 trở lên, Opus 4.7 trở lên, Haiku 5.5 hoặc một model Fable trên Bedrock, Vertex, Foundry và các phiên Claude apps gateway đã đăng nhập). Trên gói Team và Enterprise, chế độ này bật mặc định — quản trị viên có thể tắt nó cho tổ chức trong cài đặt được quản lý.
+Chế độ Auto là một chế độ quyền dùng bộ phân loại an toàn chạy nền để review từng hành động trước khi thực thi. Nó cho phép Claude làm việc tự chủ trong khi vẫn chặn các thao tác nguy hiểm. Chế độ này có trên mọi gói, nhưng cần model đủ điều kiện (Claude Opus 4.6 trở lên, Sonnet 4.6 trở lên, Haiku 5.5 hoặc một model Fable trên Anthropic API và Claude Platform on AWS; Sonnet 5 trở lên, Opus 4.7 trở lên, Haiku 5.5 hoặc một model Fable trên Bedrock, Vertex, Foundry và các phiên Claude apps gateway đã đăng nhập). Phía sau một gateway tại `ANTHROPIC_BASE_URL`, chế độ auto từ chối một model có tên trên gateway chứa "haiku", trừ `claude-haiku-5-5`, giống như cách nó từ chối Haiku 4.5 (v2.1.323). Trên gói Team và Enterprise, chế độ này bật mặc định — quản trị viên có thể tắt nó cho tổ chức trong cài đặt được quản lý.
 
 ### Yêu Cầu
 
@@ -839,7 +839,7 @@ Chế độ quyền kiểm soát những hành động Claude có thể thực h
 
 > **Lưu ý**: Chế độ quyền `default` được đổi tên thành **Manual** trong v2.1.200 (trên CLI, `--help`, VS Code và JetBrains), và một huy hiệu ⏸ màu xám xuất hiện ở chân trang khi chế độ này đang bật (v2.1.203). Cả `--permission-mode manual` và `--permission-mode default` đều hoạt động, cũng như `"defaultMode": "manual"` và `"defaultMode": "default"` trong cài đặt. Lưu ý khóa cài đặt là `permissions.defaultMode` — không có khóa `permissions.mode`, nên các ví dụ bên dưới dùng cách viết chuẩn.
 
-Chuyển vòng qua các chế độ bằng `Shift+Tab` trong CLI. Đặt mặc định bằng cờ `--permission-mode` hoặc cài đặt `permissions.defaultMode`. Khi chưa cấu hình chế độ quyền nào, các phiên terminal tương tác và VS Code khởi động ở chế độ auto trên mọi gói và nhà cung cấp từ v2.1.284 (v2.1.283 chỉ làm vậy trên các nhà cung cấp bên thứ ba như Bedrock, Google Cloud's Agent Platform và Foundry, hoặc khi tắt telemetry); `permissions.defaultMode` vẫn ghi đè điều này, và một phiên không có chế độ auto sẽ khởi động ở Manual thay vào đó. Từ v2.1.302, một lượt chạy `claude -p` hoặc Agent SDK không đặt chế độ quyền sẽ khởi động ở chế độ Manual (giá trị cấu hình `default`) và từ chối các lời gọi công cụ cần phê duyệt; hãy truyền `--permission-mode` (ví dụ `auto` hoặc `acceptEdits`) hoặc `--allowedTools`.
+Chuyển vòng qua các chế độ bằng `Shift+Tab` trong CLI. Đặt mặc định bằng cờ `--permission-mode` hoặc cài đặt `permissions.defaultMode`. Khi chưa cấu hình chế độ quyền nào, các phiên terminal tương tác và VS Code khởi động ở chế độ auto trên mọi gói và nhà cung cấp từ v2.1.284 (v2.1.283 chỉ làm vậy trên các nhà cung cấp bên thứ ba như Bedrock, Google Cloud's Agent Platform và Foundry, hoặc khi tắt telemetry); `permissions.defaultMode` vẫn ghi đè điều này. Khi cờ `--permission-mode`, một tệp cài đặt hoặc mặc định này chọn `auto` nhưng chế độ auto không khả dụng cho phiên, phiên sẽ khởi động ở chế độ Manual, vốn hỏi trước; v2.1.323 đã sửa lỗi `--permission-mode auto` và cài đặt `defaultMode: auto` khởi động một phiên như vậy ở chế độ có thể cho phép nhiều hơn. Từ v2.1.302, một lượt chạy `claude -p` hoặc Agent SDK không đặt chế độ quyền sẽ khởi động ở chế độ Manual (giá trị cấu hình `default`) và từ chối các lời gọi công cụ cần phê duyệt; hãy truyền `--permission-mode` (ví dụ `auto` hoặc `acceptEdits`) hoặc `--allowedTools`.
 
 > **Chế độ plan nhường lệnh shell cho bộ phân loại (v2.1.218)**: Khi [chế độ auto](#chế-độ-auto) khả dụng và cài đặt `useAutoModeDuringPlan` đang bật — mặc định là bật — bộ phân loại sẽ review các lệnh shell trong khi lập kế hoạch thay vì hỏi bạn. Lệnh được phê duyệt sẽ chạy, lệnh bị từ chối sẽ bị chặn. Chế độ plan vẫn chặn ghi file vô điều kiện.
 
@@ -2555,7 +2555,7 @@ export CLAUDE_CODE_GZIP_REQUEST_BODIES=0                    # (v2.1.300) Tắt n
 export CLAUDE_CODE_ARTIFACT_PUBLISH_EDITS=0                 # (v2.1.300) Chỉnh sửa file artifact bằng công cụ file, rồi publish như một bước riêng, thay vì chỉnh sửa ngay trong lúc publish.
 
 # Các biến mới hơn (v2.1.301-v2.1.302)
-export CLAUDE_CODE_AUTO_MODE_MODEL=claude-sonnet-4-6  # model của bộ phân loại chế độ auto phía client (v2.1.302); bị bỏ qua với Opus 5, Sonnet 5.5, Opus 5.5 hoặc model bị chính sách của bạn loại trừ
+export CLAUDE_CODE_AUTO_MODE_MODEL=claude-sonnet-4-6  # model của bộ phân loại chế độ auto phía client (v2.1.302); bị bỏ qua với Opus 5, Sonnet 5.5, Opus 5.5 hoặc model bị chính sách của bạn loại trừ; hoạt động trong cài đặt được quản lý cho các phiên Claude Desktop trên nhà cung cấp bên thứ ba từ v2.1.323 (có hiệu lực khi Claude Desktop có phiên bản đó)
 export CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS=3600000  # ngừng chờ các lần đặt lại giới hạn sử dụng còn xa (v2.1.301)
 
 # Các biến mới hơn (v2.1.304-v2.1.310) — đặt trong shell khởi chạy
@@ -2777,8 +2777,8 @@ claude --teammate-mode in-process
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 12 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.322
+**Cập Nhật Lần Cuối**: Ngày 13 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.323
 **Nguồn**:
 - https://code.claude.com/docs/en/permission-modes#turn-off-the-critical-path-removal-prompt-in-bypasspermissions-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.314
@@ -2875,4 +2875,5 @@ claude --teammate-mode in-process
 - https://code.claude.com/docs/en/changelog#2-1-318
 - https://code.claude.com/docs/en/tools-reference#time-limit-for-background-commands
 - https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-323
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

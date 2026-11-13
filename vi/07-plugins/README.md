@@ -96,6 +96,7 @@ Ngoài các trường định danh đó, manifest còn có thể chỉ cho Claud
 | `lspServers` | string \| array \| object | LSP servers cho code intelligence — đi đến định nghĩa, tìm tham chiếu, chẩn đoán. Thường là `"./.lsp.json"`. Xem [Cấu hình LSP server](#cấu-hình-lsp-server--lsp-server-configuration) |
 | `channels` | array | Khai báo channel để chèn tin nhắn (kiểu Telegram, Slack, Discord) |
 | `dependencies` | array | Các plugin khác mà plugin này cần, có thể kèm ràng buộc phiên bản semver |
+| `engines` | object | `engines["claude-code"]` nêu khoảng phiên bản Claude Code mà plugin hỗ trợ. Claude Code không cài đặt, cập nhật hay tải một plugin nằm ngoài khoảng đó, và lệnh cài đặt và cập nhật chọn phiên bản plugin mới nhất phù hợp (v2.1.323; lấy từ changelog, manifest reference chưa liệt kê field này) |
 | `keywords` | array | Các tag khám phá dùng khi duyệt và tìm kiếm marketplace |
 | `metadata` | object | Object tự do cho dữ liệu riêng của bạn, ví dụ các trường entitlement hoặc catalog |
 | `experimental.themes` | string \| array | Các file hoặc thư mục theme màu (thay thế thư mục mặc định `themes/`) |
@@ -125,7 +126,7 @@ my-plugin/
 ├── .mcp.json             # Cấu hình MCP server
 ├── .lsp.json             # Cấu hình LSP server cho code intelligence
 ├── bin/                  # Các file thực thi được thêm vào PATH của công cụ Bash khi plugin được bật (lệnh PowerShell không sandbox cũng tìm thấy, v2.1.302)
-├── settings.json         # Cài đặt mặc định áp dụng khi plugin được bật (chỉ các key `agent` và `subagentStatusLine` có hiệu lực)
+├── settings.json         # Cài đặt mặc định áp dụng khi plugin được bật (chỉ key `agent` có hiệu lực; bị deprecated từ v2.1.323)
 ├── themes/               # Tùy chọn: kèm các theme Claude Code tùy chỉnh (v2.1.118+)
 ├── templates/
 │   └── issue-template.md
@@ -232,6 +233,8 @@ Khi được cấu hình, LSP servers cung cấp:
 - **Điều hướng code** — đi đến định nghĩa, tìm tham chiếu, implementations
 - **Thông tin hover** — chữ ký kiểu và tài liệu khi hover
 - **Liệt kê ký hiệu** — duyệt các ký hiệu trong file hoặc workspace hiện tại
+
+Nếu language server của một plugin không khởi động được, tab **Errors** của `/plugin` hiển thị lỗi kèm lý do, và từ v2.1.323 Claude Code còn hiển thị một cảnh báo nêu tên server và những gì cần kiểm tra.
 
 ### Thư mục `bin/` trên `PATH` / `bin/` directory on `PATH`
 
@@ -377,7 +380,7 @@ Mod là một plugin thay đổi giao diện và hành vi của Claude Code. Cod
 
 ## Cài Đặt Plugin / Plugin Settings
 
-Plugins có thể kèm một file `settings.json` để cung cấp cấu hình mặc định. Hai key có hiệu lực là `agent` và `subagentStatusLine`; mọi key khác bị bỏ qua. `agent` nhận tên của một agent trong plugin và chạy nó làm luồng chính:
+Plugins có thể kèm một file `settings.json` để cung cấp cấu hình mặc định. Chỉ key `agent` có hiệu lực; mọi key khác bị bỏ qua. v2.1.323 đã gỡ bỏ setting `subagentStatusLine`, nên các dòng subagent luôn dùng giao diện mặc định, và một file settings vẫn còn chứa key này vẫn được tải như trước. `agent` nhận tên của một agent trong plugin và chạy nó làm luồng chính. Từ v2.1.323, key này bị deprecated: nó vẫn có hiệu lực, nhưng Claude Code cảnh báo về nó khi khởi động, trong `claude plugin list` và trong `claude plugin validate`:
 
 ```json
 {
@@ -914,7 +917,7 @@ claude plugin init <name>                    # Tạo khung plugin mới (bí dan
 | `plugin validate` | `--strict` | Coi cảnh báo là lỗi |
 | `plugin validate` | `--json` | Xuất báo cáo xác thực dạng máy đọc được (v2.1.259+) |
 
-`claude plugin validate` cũng kiểm tra các mục `.mcp.json` (v2.1.281+) và báo lỗi khi các đường dẫn `outputStyles`, `themes`, `monitors`, hoặc `lspServers` bị thiếu hoặc trỏ ra ngoài thư mục plugin (v2.1.283+). Nó cũng in ra một khối `Advice`, kèm một dòng để dán vào, khi README của plugin không có dòng nào cài plugin đó từ một marketplace; lời khuyên này không thay đổi kết luận hay mã thoát, kể cả với `--strict` (v2.1.295+).
+`claude plugin validate` cũng kiểm tra các mục `.mcp.json` (v2.1.281+) và báo lỗi khi các đường dẫn `outputStyles`, `themes`, `monitors`, hoặc `lspServers` bị thiếu hoặc trỏ ra ngoài thư mục plugin (v2.1.283+). Nó cũng in ra một khối `Advice`, kèm một dòng để dán vào, khi README của plugin không có dòng nào cài plugin đó từ một marketplace; lời khuyên này không thay đổi kết luận hay mã thoát, kể cả với `--strict` (v2.1.295+). Từ v2.1.323, lệnh này còn kiểm tra kiểu (type-check) module hooks TypeScript của plugin và báo mỗi phát hiện dưới dạng cảnh báo, nên `--strict` sẽ thất bại vì nó; liệt kê các danh từ `$` mà hook `engine.create` của một mod thêm vào, giữ lại hoặc thay thế; và báo lỗi một mod có hook `engine.create` không được viết theo dạng duy nhất được chấp nhận, trong khi các mod đã cài vẫn tiếp tục được tải.
 
 Ví dụ: `claude plugin tag ./my-plugin` nhận một **đường dẫn** đến plugin (không phải chuỗi phiên bản). Nó tạo git tag `{name}--v{version}` lấy từ `plugin.json`, kiểm tra rằng `plugin.json` và mục marketplace bao quanh (nếu có) khớp nhau, và là cách được khuyến nghị để cắt bản release plugin để phân phối.
 
@@ -950,7 +953,7 @@ claude plugin eval --help     # Danh sách tùy chọn đầy đủ
 
 ### Output dạng máy đọc với `--json` / Machine-readable output with `--json` (v2.1.268+)
 
-`--json` được chấp nhận trên `install`, `uninstall`, `update`, `enable`, và `disable`, giúp việc quản lý plugin có thể viết script trong CI. Mỗi dòng của `claude plugin list --json` cũng mang `errorDetails` và `noteDetails`, nên một plugin bị lỗi tự giải thích mà không cần lệnh thứ hai.
+`--json` được chấp nhận trên `install`, `uninstall`, `update`, `enable`, và `disable`, giúp việc quản lý plugin có thể viết script trong CI. Mỗi dòng của `claude plugin list --json` cũng mang `errorDetails` và `noteDetails`, nên một plugin bị lỗi tự giải thích mà không cần lệnh thứ hai. Từ v2.1.323, kết quả của `claude plugin install --json` còn mang `unsetOptionCount`: số tùy chọn `userConfig` chưa được đặt.
 
 ```bash
 claude plugin install my-plugin@my-marketplace --json
@@ -1407,8 +1410,8 @@ Nếu `claude plugin list` hiển thị `Version: unknown` cho một plugin lấ
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 12 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.322
+**Cập Nhật Lần Cuối**: Ngày 13 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.323
 **Nguồn**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1475,4 +1478,6 @@ Nếu `claude plugin list` hiển thị `Version: unknown` cho một plugin lấ
 - https://code.claude.com/docs/en/plugins/mods/create#ask-claude-for-a-mod
 - https://code.claude.com/docs/en/plugins/mods/create#sessions-where-a-mod-claude-writes-cant-load
 - https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-323
+- https://code.claude.com/docs/en/plugins/troubleshooting#language-server-doesnt-start
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

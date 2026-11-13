@@ -100,6 +100,7 @@ sequenceDiagram
 | `lspServers` | string \| array \| object | 코드 인텔리전스(정의로 이동, 참조 찾기, 진단)를 위한 LSP 서버. 보통 `"./.lsp.json"`입니다. [LSP 서버 구성](#lsp-서버-구성) 참고 |
 | `channels` | array | 메시지 주입을 위한 채널 선언(Telegram, Slack, Discord 방식) |
 | `dependencies` | array | 이 플러그인이 필요로 하는 다른 플러그인. 선택적으로 semver 버전 제약 지정 가능 |
+| `engines` | object | `engines["claude-code"]`는 플러그인이 지원하는 Claude Code 버전 범위를 지정합니다. Claude Code는 이 범위를 벗어난 플러그인을 설치, 업데이트, 로드하지 않으며, 설치와 업데이트 시 범위에 맞는 최신 플러그인 버전을 선택합니다(v2.1.323, 변경 로그 기준이며 매니페스트 레퍼런스에는 아직 나와 있지 않음) |
 | `keywords` | array | 마켓플레이스를 탐색·검색할 때 사용하는 검색 태그 |
 | `metadata` | object | 사용 권한(entitlement)이나 카탈로그 필드 등 자체 데이터를 위한 자유 형식 객체 |
 | `experimental.themes` | string \| array | 색상 테마 파일 또는 디렉터리(기본 `themes/`를 대체) |
@@ -129,7 +130,7 @@ my-plugin/
 ├── .mcp.json             # MCP 서버 구성
 ├── .lsp.json             # 코드 인텔리전스를 위한 LSP 서버 구성
 ├── bin/                  # 플러그인 활성화 중 Bash 도구의 PATH에 추가되는 실행 파일(샌드박스 밖의 PowerShell 명령어도 찾음, v2.1.302)
-├── settings.json         # 플러그인 활성화 시 적용되는 기본 설정(`agent`와 `subagentStatusLine` 키만 적용됨)
+├── settings.json         # 플러그인 활성화 시 적용되는 기본 설정(`agent` 키만 적용됨, v2.1.323부터 지원 중단 예정)
 ├── themes/               # 선택 사항: 사용자 정의 Claude Code 테마 제공(v2.1.118+)
 ├── templates/
 │   └── issue-template.md
@@ -237,6 +238,8 @@ my-plugin/
 - **코드 탐색** — 정의로 이동, 참조 찾기, 구현 찾기
 - **호버 정보** — 마우스를 올리면 타입 시그니처와 문서를 표시
 - **심볼 목록** — 현재 파일 또는 워크스페이스의 심볼 탐색
+
+플러그인의 언어 서버가 시작되지 않으면 `/plugin`의 **Errors** 탭에 실패 내용과 그 이유가 표시되며, v2.1.323부터는 Claude Code가 해당 서버와 확인할 사항을 알려 주는 경고도 표시합니다.
 
 ### `bin/` 디렉터리를 `PATH`에 추가
 
@@ -383,7 +386,7 @@ $ my-tool --help
 
 ## 플러그인 설정
 
-플러그인은 기본 구성을 제공하기 위해 `settings.json` 파일을 포함할 수 있습니다. 적용되는 키는 `agent`와 `subagentStatusLine` 두 가지이며, 그 외의 키는 모두 무시됩니다. `agent`는 플러그인 에이전트 중 하나의 이름을 받아 이를 메인 스레드로 실행합니다.
+플러그인은 기본 구성을 제공하기 위해 `settings.json` 파일을 포함할 수 있습니다. `agent` 키만 적용되며, 그 외의 키는 모두 무시됩니다. v2.1.323에서 `subagentStatusLine` 설정이 제거되어 서브에이전트 행은 항상 기본 모양을 사용하며, 이 키가 아직 남아 있는 설정 파일도 이전처럼 로드됩니다. `agent`는 플러그인 에이전트 중 하나의 이름을 받아 이를 메인 스레드로 실행합니다. v2.1.323부터 이 키는 지원 중단 예정(deprecated)입니다. 여전히 적용되지만, Claude Code는 시작 시, `claude plugin list`, `claude plugin validate`에서 이에 대해 경고합니다.
 
 ```json
 {
@@ -918,7 +921,7 @@ claude plugin init <name>                    # 새 플러그인 스캐폴드 생
 | `plugin validate` | `--strict` | 경고를 오류로 처리 |
 | `plugin validate` | `--json` | 기계가 읽을 수 있는 검증 보고서 출력(v2.1.259+) |
 
-`claude plugin validate`는 `.mcp.json` 항목도 검사하며(v2.1.281+), `outputStyles`, `themes`, `monitors`, `lspServers` 경로가 없거나 플러그인 디렉터리 밖을 가리키면 실패합니다(v2.1.283+).
+`claude plugin validate`는 `.mcp.json` 항목도 검사하며(v2.1.281+), `outputStyles`, `themes`, `monitors`, `lspServers` 경로가 없거나 플러그인 디렉터리 밖을 가리키면 실패합니다(v2.1.283+). v2.1.323부터는 플러그인의 TypeScript 훅 모듈도 타입 검사하여 각 발견 사항을 경고로 보고하므로 `--strict`에서는 실패합니다. 또한 mod의 `engine.create` 훅이 추가, 보류 또는 대체하는 `$` 명사를 나열하고, `engine.create` 훅이 허용되는 단 하나의 형식으로 작성되지 않은 mod는 실패로 처리합니다. 이미 설치된 mod는 계속 로드됩니다.
 
 예시: `claude plugin tag ./my-plugin`은 버전 문자열이 아니라 플러그인 **경로**를 받습니다. `plugin.json`에서 도출한 `{name}--v{version}` git 태그를 생성하며, `plugin.json`과 이를 감싸는 마켓플레이스 항목이 일치하는지 검증합니다. 배포를 위한 플러그인 릴리스를 만드는 권장 방법입니다.
 
@@ -954,7 +957,7 @@ claude plugin eval --help     # 전체 옵션 목록
 
 ### `--json`으로 기계가 읽을 수 있는 출력 (v2.1.268+)
 
-`--json`은 `install`, `uninstall`, `update`, `enable`, `disable`에서 사용할 수 있어 CI에서 플러그인 관리를 스크립트로 처리할 수 있습니다. `claude plugin list --json`의 각 행에는 `errorDetails`와 `noteDetails`도 포함되므로, 실패한 플러그인의 원인을 별도 명령어 없이 확인할 수 있습니다.
+`--json`은 `install`, `uninstall`, `update`, `enable`, `disable`에서 사용할 수 있어 CI에서 플러그인 관리를 스크립트로 처리할 수 있습니다. `claude plugin list --json`의 각 행에는 `errorDetails`와 `noteDetails`도 포함되므로, 실패한 플러그인의 원인을 별도 명령어 없이 확인할 수 있습니다. v2.1.323부터 `claude plugin install --json` 결과에는 아직 설정되지 않은 `userConfig` 옵션의 개수인 `unsetOptionCount`도 포함됩니다.
 
 ```bash
 claude plugin install my-plugin@my-marketplace --json
@@ -1425,8 +1428,8 @@ git 소스 플러그인에 대해 `claude plugin list`가 `Version: unknown`을 
 
 ---
 
-**최종 업데이트**: 2026년 11월 12일
-**Claude Code 버전**: 2.1.322
+**최종 업데이트**: 2026년 11월 13일
+**Claude Code 버전**: 2.1.323
 **출처**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1489,4 +1492,6 @@ git 소스 플러그인에 대해 `claude plugin list`가 `Version: unknown`을 
 - https://code.claude.com/docs/en/plugins/mods/create#ask-claude-for-a-mod
 - https://code.claude.com/docs/en/plugins/mods/create#sessions-where-a-mod-claude-writes-cant-load
 - https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-323
+- https://code.claude.com/docs/en/plugins/troubleshooting#language-server-doesnt-start
 **호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

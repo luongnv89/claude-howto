@@ -96,6 +96,7 @@ Beyond those identity fields, the manifest can point Claude Code at components t
 | `lspServers` | string \| array \| object | LSP servers for code intelligence — go to definition, find references, diagnostics. Commonly `"./.lsp.json"`. See [LSP server configuration](#lsp-server-configuration) |
 | `channels` | array | Channel declarations for message injection (Telegram, Slack, Discord style) |
 | `dependencies` | array | Other plugins this plugin requires, optionally with semver version constraints |
+| `engines` | object | `engines["claude-code"]` states the Claude Code version range the plugin supports. Claude Code doesn't install, update or load a plugin outside that range, and install and update pick the newest plugin version that fits (v2.1.323; changelog-sourced, the manifest reference doesn't list it yet) |
 | `keywords` | array | Discovery tags used when browsing and searching marketplaces |
 | `metadata` | object | Free-form object for your own data, such as entitlement or catalog fields |
 | `experimental.themes` | string \| array | Color theme files or directories (replaces the default `themes/`) |
@@ -125,7 +126,7 @@ my-plugin/
 ├── .mcp.json             # MCP server configurations
 ├── .lsp.json             # LSP server configurations for code intelligence
 ├── bin/                  # Executables added to Bash tool's PATH while plugin is enabled (unsandboxed PowerShell commands find them too, v2.1.302)
-├── settings.json         # Default settings applied when plugin is enabled (only the `agent` and `subagentStatusLine` keys take effect)
+├── settings.json         # Default settings applied when plugin is enabled (only the `agent` key takes effect; deprecated since v2.1.323)
 ├── themes/               # Optional: ship custom Claude Code themes (v2.1.118+)
 ├── templates/
 │   └── issue-template.md
@@ -232,6 +233,8 @@ Once configured, LSP servers provide:
 - **Code navigation** — go to definition, find references, implementations
 - **Hover information** — type signatures and documentation on hover
 - **Symbol listing** — browse symbols in the current file or workspace
+
+If a plugin's language server can't start, the `/plugin` **Errors** tab shows the failure with its reason, and since v2.1.323 Claude Code also shows a warning that names the server and what to check.
 
 ### `bin/` directory on `PATH`
 
@@ -377,7 +380,7 @@ To create a mod, describe what you want in a Claude Code session: Claude works f
 
 ## Plugin Settings
 
-Plugins can ship a `settings.json` file to provide default configuration. Two keys take effect, `agent` and `subagentStatusLine`; every other key is dropped. Since v2.1.319, `${CLAUDE_PLUGIN_ROOT}` is substituted in a plugin-provided `subagentStatusLine` command, so it can run the plugin's own scripts. `agent` takes the name of one of the plugin's agents and runs it as the main thread:
+Plugins can ship a `settings.json` file to provide default configuration. Only the `agent` key takes effect; every other key is dropped. v2.1.323 removed the `subagentStatusLine` setting, so subagent rows always use the default look, and a settings file that still holds the key loads as before. `agent` takes the name of one of the plugin's agents and runs it as the main thread. Since v2.1.323 it is deprecated: it still applies, but Claude Code warns about it at startup, in `claude plugin list` and in `claude plugin validate`:
 
 ```json
 {
@@ -914,7 +917,7 @@ claude plugin init <name>                    # Scaffold a new plugin (alias: cla
 | `plugin validate` | `--strict` | Treat warnings as errors |
 | `plugin validate` | `--json` | Emit a machine-readable validation report (v2.1.259+) |
 
-`claude plugin validate` also checks `.mcp.json` entries (v2.1.281+) and fails when `outputStyles`, `themes`, `monitors`, or `lspServers` paths are missing or point outside the plugin directory (v2.1.283+). It also prints an `Advice` block, with a line to paste, when a plugin's README has no line that installs it from a marketplace; advice doesn't change the verdict or the exit code, even with `--strict` (v2.1.295+).
+`claude plugin validate` also checks `.mcp.json` entries (v2.1.281+) and fails when `outputStyles`, `themes`, `monitors`, or `lspServers` paths are missing or point outside the plugin directory (v2.1.283+). It also prints an `Advice` block, with a line to paste, when a plugin's README has no line that installs it from a marketplace; advice doesn't change the verdict or the exit code, even with `--strict` (v2.1.295+). Since v2.1.323 it also type-checks a plugin's TypeScript hooks module and reports each finding as a warning, so `--strict` fails on it; lists the `$` nouns a mod's `engine.create` hook adds, withholds or replaces; and fails a mod whose `engine.create` hook isn't written in the one accepted form, while installed mods keep loading.
 
 Example: `claude plugin tag ./my-plugin` takes a **path** to the plugin (not a version string). It creates a `{name}--v{version}` git tag derived from `plugin.json`, validating that `plugin.json` and any enclosing marketplace entry agree, and is the recommended way to cut plugin releases for distribution.
 
@@ -950,7 +953,7 @@ claude plugin eval --help     # Full option list
 
 ### Machine-readable output with `--json` (v2.1.268+)
 
-`--json` is accepted on `install`, `uninstall`, `update`, `enable`, and `disable`, which makes plugin management scriptable in CI. Each row of `claude plugin list --json` also carries `errorDetails` and `noteDetails`, so a failing plugin explains itself without a second command.
+`--json` is accepted on `install`, `uninstall`, `update`, `enable`, and `disable`, which makes plugin management scriptable in CI. Each row of `claude plugin list --json` also carries `errorDetails` and `noteDetails`, so a failing plugin explains itself without a second command. Since v2.1.323, the `claude plugin install --json` result also carries `unsetOptionCount`: how many `userConfig` options are not yet set.
 
 ```bash
 claude plugin install my-plugin@my-marketplace --json
@@ -1407,8 +1410,8 @@ If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, updat
 
 ---
 
-**Last Updated**: November 12, 2026
-**Claude Code Version**: 2.1.322
+**Last Updated**: November 13, 2026
+**Claude Code Version**: 2.1.323
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1478,4 +1481,6 @@ If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, updat
 - https://code.claude.com/docs/en/changelog#2-1-318
 - https://code.claude.com/docs/en/changelog#2-1-319
 - https://code.claude.com/docs/en/plugins/org#require-a-marketplace-and-its-plugins
+- https://code.claude.com/docs/en/changelog#2-1-323
+- https://code.claude.com/docs/en/plugins/troubleshooting#language-server-doesnt-start
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

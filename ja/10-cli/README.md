@@ -766,7 +766,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on O
 | `SLASH_COMMAND_TOOL_CHAR_BUDGET` | スラッシュコマンドツールの文字数予算 |
 | `ENABLE_TOOL_SEARCH` | ツール検索機能を有効化 |
 | `MAX_MCP_OUTPUT_TOKENS` | MCP ツール出力の最大トークン数 |
-| `CLAUDE_CODE_PERFORCE_MODE` | `1` を設定すると Perforce モードを有効化 — ファイルをデフォルトで読み取り専用として扱う（Perforce/P4 バージョン管理ワークフロー向け）（v2.1.98 追加） |
+| `CLAUDE_CODE_PERFORCE_MODE` | `1` を設定すると Perforce 対応の書き込み保護を有効化 — 対象ファイルに owner-write ビットがない場合、Edit、Write、NotebookEdit は `p4 edit <file>` のヒント付きで失敗する。Perforce は同期したファイルのこのビットを `p4 edit` で開くまでクリアしている（v2.1.98 追加）。v2.1.323 以降、Perforce の設定が見つかったのにこのモードがオフの場合、起動時に一度だけこの変数を案内する通知が表示される |
 | `DISABLE_UPDATES` | 手動の `claude update` を含むすべての更新経路をブロックする。バックグラウンドの自動更新のみブロックする `DISABLE_AUTOUPDATER` より厳密（v2.1.118+） |
 | `CLAUDE_CODE_HIDE_CWD` | `1` に設定すると、起動時ロゴでカレント作業ディレクトリを隠す（プライバシー／画面共有用途）（v2.1.119+） |
 | `CLAUDE_CODE_FORK_SUBAGENT` | `0` を設定するとフォークサブエージェントを無効化する。v2.1.302 以降、ターミナル、`claude -p`、Agent SDK、デスクトップアプリ、VS Code でデフォルト有効。v2.1.302 より前は、`claude -p` と Agent SDK で有効にするには `1` を設定する。 |
@@ -878,8 +878,8 @@ claude -p --output-format json "query"
 
 ---
 
-**最終更新**: 2026 年 11 月 12 日
-**Claude Code バージョン**: 2.1.322
+**最終更新**: 2026 年 11 月 13 日
+**Claude Code バージョン**: 2.1.323
 **出典**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
@@ -911,4 +911,5 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/env-vars#variables
 - https://code.claude.com/docs/en/scheduled-tasks
 - https://code.claude.com/docs/en/model-config#adjust-effort-level
+- https://code.claude.com/docs/en/changelog#2-1-323
 **対応モデル**: Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

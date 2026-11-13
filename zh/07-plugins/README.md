@@ -200,6 +200,8 @@ my-plugin/
 - **悬浮信息** - 在悬停时查看类型签名和文档
 - **符号列表** - 浏览当前文件或工作区中的符号
 
+如果插件的 language server 无法启动，`/plugin` 的 **Errors** 标签页会显示失败及其原因；自 v2.1.323 起，Claude Code 还会显示一条警告，指明该 server 以及需要检查的内容。
+
 ## 插件选项（v2.1.83+）
 
 插件可以在清单中通过 `userConfig` 声明用户可配置选项。标记为 `sensitive: true` 的值会存储在系统钥匙串中，而不是明文设置文件里：
@@ -277,7 +279,7 @@ my-plugin/
 
 ## 插件设置
 
-插件可以提供一个 `settings.json` 文件来定义默认配置。生效的键有两个：`agent` 和 `subagentStatusLine`，其他键都会被丢弃。`agent` 填写插件中某个 agent 的名称，并将其作为主线程运行：
+插件可以提供一个 `settings.json` 文件来定义默认配置。只有 `agent` 键生效，其他键都会被丢弃。v2.1.323 移除了 `subagentStatusLine` 设置，因此 subagent 行始终使用默认外观，仍包含该键的设置文件照常加载。`agent` 填写插件中某个 agent 的名称，并将其作为主线程运行。自 v2.1.323 起该键已弃用：它仍然生效，但 Claude Code 会在启动时、在 `claude plugin list` 和 `claude plugin validate` 中对其发出警告：
 
 ```json
 {

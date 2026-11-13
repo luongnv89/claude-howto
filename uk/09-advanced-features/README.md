@@ -648,7 +648,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 | `bypassPermissions` | Усі дії, без перевірки дозволів (небезпечно) |
 | `dontAsk` | Виконуються лише попередньо затверджені інструменти; всі інші відхиляються |
 
-Перемикайте режими через `Shift+Tab` у CLI. Встановіть режим за замовчуванням через прапорець `--permission-mode` або налаштування `permissions.defaultMode`. Якщо режим дозволів не налаштовано, інтерактивні сесії в терміналі та VS Code починаючи з v2.1.284 запускаються в режимі auto на будь-якому плані та в будь-якого провайдера (у v2.1.283 так було лише у сторонніх провайдерів, як-от Bedrock, Agent Platform від Google Cloud і Foundry, або з вимкненою телеметрією); `permissions.defaultMode` і далі має пріоритет, а сесія, де режим auto недоступний, натомість запускається в режимі `default` (Manual). Починаючи з v2.1.302, запуск `claude -p` або Agent SDK, у якому не задано режим дозволів, стартує в режимі Manual (значення конфігурації `default`) і відхиляє виклики інструментів, які потребують схвалення; передайте `--permission-mode` (наприклад, `auto` або `acceptEdits`) або `--allowedTools`.
+Перемикайте режими через `Shift+Tab` у CLI. Встановіть режим за замовчуванням через прапорець `--permission-mode` або налаштування `permissions.defaultMode`. Якщо режим дозволів не налаштовано, інтерактивні сесії в терміналі та VS Code починаючи з v2.1.284 запускаються в режимі auto на будь-якому плані та в будь-якого провайдера (у v2.1.283 так було лише у сторонніх провайдерів, як-от Bedrock, Agent Platform від Google Cloud і Foundry, або з вимкненою телеметрією); `permissions.defaultMode` і далі має пріоритет. Коли прапорець `--permission-mode`, файл налаштувань або це значення за замовчуванням вибирає `auto`, але режим auto недоступний для сесії, сесія запускається в режимі `default` (Manual), який спершу питає; у v2.1.323 виправлено те, що `--permission-mode auto` і налаштування `defaultMode: auto` запускали таку сесію в режимі, який міг дозволяти більше. Починаючи з v2.1.302, запуск `claude -p` або Agent SDK, у якому не задано режим дозволів, стартує в режимі Manual (значення конфігурації `default`) і відхиляє виклики інструментів, які потребують схвалення; передайте `--permission-mode` (наприклад, `auto` або `acceptEdits`) або `--allowedTools`.
 
 ### Методи активації
 
@@ -1927,8 +1927,8 @@ claude --teammate-mode in-process
 - [Офіційна документація Agent Teams](https://code.claude.com/docs/en/agent-teams)
 
 ---
-**Останнє оновлення**: 12 листопада 2026
-**Версія Claude Code**: 2.1.322
+**Останнє оновлення**: 13 листопада 2026
+**Версія Claude Code**: 2.1.323
 **Джерела**:
 - https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
 - https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
@@ -1965,4 +1965,5 @@ claude --teammate-mode in-process
 - https://code.claude.com/docs/en/scheduled-tasks#seven-day-expiry
 - https://code.claude.com/docs/en/scheduled-tasks#jitter
 - https://code.claude.com/docs/en/scheduled-tasks#limitations
+- https://code.claude.com/docs/en/changelog#2-1-323
 **Сумісні моделі**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

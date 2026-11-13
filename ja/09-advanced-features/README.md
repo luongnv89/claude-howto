@@ -724,7 +724,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 | `bypassPermissions` | 全操作、権限チェックなし（危険） |
 | `dontAsk` | 事前承認済みツールのみ実行、その他はすべて拒否 |
 
-CLI では `Shift+Tab` でモードを切り替える。デフォルトは `--permission-mode` フラグまたは `permissions.defaultMode` 設定で指定する。パーミッションモードが未設定の場合、v2.1.284 以降は対話型のターミナルセッションと VS Code セッションがすべてのプランとプロバイダーで auto モードで開始する（v2.1.283 では Bedrock、Google Cloud の Agent Platform、Foundry などのサードパーティプロバイダー上、またはテレメトリをオフにした場合に限られていた）。`permissions.defaultMode` は引き続きこれより優先され、auto モードを利用できないセッションは代わりに `default`（Manual）で開始する。v2.1.302 以降、パーミッションモードを設定していない `claude -p` または Agent SDK の実行は Manual モード（設定値は `default`）で開始し、承認が必要なツール呼び出しを拒否する。`--permission-mode`（たとえば `auto` や `acceptEdits`）または `--allowedTools` を渡す。
+CLI では `Shift+Tab` でモードを切り替える。デフォルトは `--permission-mode` フラグまたは `permissions.defaultMode` 設定で指定する。パーミッションモードが未設定の場合、v2.1.284 以降は対話型のターミナルセッションと VS Code セッションがすべてのプランとプロバイダーで auto モードで開始する（v2.1.283 では Bedrock、Google Cloud の Agent Platform、Foundry などのサードパーティプロバイダー上、またはテレメトリをオフにした場合に限られていた）。`permissions.defaultMode` は引き続きこれより優先される。`--permission-mode` フラグ、設定ファイル、またはこのデフォルトが `auto` を選択していても、そのセッションで auto モードを利用できない場合、セッションは先に確認を求める `default`（Manual）モードで開始する。v2.1.323 では、`--permission-mode auto` や設定の `defaultMode: auto` がそのようなセッションをより多くを許可しうるモードで開始していた問題が修正された。v2.1.302 以降、パーミッションモードを設定していない `claude -p` または Agent SDK の実行は Manual モード（設定値は `default`）で開始し、承認が必要なツール呼び出しを拒否する。`--permission-mode`（たとえば `auto` や `acceptEdits`）または `--allowedTools` を渡す。
 
 ### 起動方法
 
@@ -2103,8 +2103,8 @@ Claude Code および関連機能の詳細：
 
 ---
 
-**最終更新：** 2026 年 11 月 12 日
-**Claude Code バージョン：** 2.1.322
+**最終更新：** 2026 年 11 月 13 日
+**Claude Code バージョン：** 2.1.323
 **情報源：**
 - https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
 - https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
@@ -2147,5 +2147,6 @@ Claude Code および関連機能の詳細：
 - https://code.claude.com/docs/en/scheduled-tasks#seven-day-expiry
 - https://code.claude.com/docs/en/scheduled-tasks#jitter
 - https://code.claude.com/docs/en/scheduled-tasks#limitations
+- https://code.claude.com/docs/en/changelog#2-1-323
 
 **互換モデル：** Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

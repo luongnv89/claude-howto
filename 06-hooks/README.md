@@ -65,7 +65,7 @@ Hooks are configured in settings files with a specific structure:
 | `statusMessage` | Custom spinner message displayed while the hook runs | `"Formatting…"` |
 | `onFailure` | What happens to the action when a command or HTTP hook fails (can't start, times out, exits with an unexpected code): `"continue"` (default) or `"block"` (v2.1.295+). Agent SDK hook callbacks set this on the matcher: `onFailure: "block"` in TypeScript (Agent SDK v0.3.317+) or `on_failure="block"` in Python (v0.2.177+) blocks the action when the callback fails, instead of letting it run. | `"block"` |
 
-> **Note**: Some events lower the default timeout. `UserPromptSubmit` lowers the `command`, `http`, and `mcp_tool` default to 30 seconds, and `MessageDisplay` lowers it to 10 seconds. `SessionEnd` hooks share a 1.5-second budget; if your settings set a longer per-hook `timeout`, Claude Code raises that budget to match, up to 60 seconds.
+> **Note**: Some events lower the default timeout. `UserPromptSubmit` lowers the `command`, `http`, and `mcp_tool` default to 30 seconds, and `MessageDisplay` lowers it to 10 seconds. `SessionEnd` hooks share a 1.5-second budget; if your settings set a longer per-hook `timeout`, Claude Code raises that budget to match, up to 60 seconds. In `claude -p` and Agent SDK sessions, Claude Code sends a progress heartbeat every 30 seconds while hooks run long (v2.1.323), so a host such as Claude Desktop won't end the turn as hung once it includes that version.
 
 ### Matcher Patterns
 
@@ -1653,8 +1653,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: November 12, 2026
-**Claude Code Version**: 2.1.322
+**Last Updated**: November 13, 2026
+**Claude Code Version**: 2.1.323
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1690,4 +1690,5 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 - https://code.claude.com/docs/en/changelog#2-1-321
 - https://code.claude.com/docs/en/changelog#2-1-319
 - https://code.claude.com/docs/en/hooks#posttooluse-after-an-interrupt
+- https://code.claude.com/docs/en/changelog#2-1-323
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

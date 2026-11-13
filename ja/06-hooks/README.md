@@ -68,7 +68,7 @@
 | `shell` | `"bash"` または `"powershell"` を受け付ける。デフォルトは `"bash"`、Git Bash が未インストールの Windows では `"powershell"`。 | `"bash"` |
 | `statusMessage` | フック実行中に表示されるカスタムスピナーメッセージ | `"フォーマット中…"` |
 
-> **注意**: 一部のイベントはデフォルトのタイムアウトを引き下げる。`UserPromptSubmit` は command / http / mcp_tool のデフォルトを 30 秒に、`MessageDisplay` は 10 秒に下げる。`SessionEnd` フックは 1.5 秒の予算を共有し、設定でより長い `timeout` を指定した場合は Claude Code が最大 60 秒まで予算を引き上げる。
+> **注意**: 一部のイベントはデフォルトのタイムアウトを引き下げる。`UserPromptSubmit` は command / http / mcp_tool のデフォルトを 30 秒に、`MessageDisplay` は 10 秒に下げる。`SessionEnd` フックは 1.5 秒の予算を共有し、設定でより長い `timeout` を指定した場合は Claude Code が最大 60 秒まで予算を引き上げる。`claude -p` と Agent SDK のセッションでは、フックの実行が長引く間、Claude Code が 30 秒ごとに進捗ハートビートを送る（v2.1.323）。そのため Claude Desktop などのホストは、このバージョンを取り込めばターンをハングとみなして終了しなくなる。
 
 ### マッチャーパターン
 
