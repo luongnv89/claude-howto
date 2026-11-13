@@ -10,8 +10,10 @@
 INPUT=$(cat)
 
 # JSON 入力からプロンプト本文を抽出
-# Claude Code は UserPromptSubmit の本文を "prompt" フィールドで送る
-PROMPT=$(echo "$INPUT" | sed -n 's/.*"prompt"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+# Claude Code は UserPromptSubmit の本文を "prompt" フィールドで送る。
+# パターンはエスケープされた引用符（\"）を読み飛ばすため、`say \"hi\" then
+# rm -rf /` のようなプロンプトも最初の \" で止まらず全体を検査できる。
+PROMPT=$(echo "$INPUT" | sed -nE 's/.*"prompt"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p' | head -1)
 
 if [ -z "$PROMPT" ]; then
   exit 0

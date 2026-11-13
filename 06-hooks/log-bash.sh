@@ -10,10 +10,10 @@
 INPUT=$(cat)
 
 # Extract the bash command from tool_input
-# Note: sed [^"]* stops at escaped quotes in JSON; for commands with double-quoted
-# strings, only the portion up to the first \" will be captured — this is a known
-# limitation of sed-based JSON parsing and is acceptable for logging purposes.
-COMMAND=$(echo "$INPUT" | sed -n 's/.*"command"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+# The pattern skips escaped quotes (\"), so double-quoted strings are logged in
+# full. The command is logged as it appears in the JSON: \" stays \" and a
+# newline is written as \n, which keeps each entry on one line.
+COMMAND=$(echo "$INPUT" | sed -nE 's/.*"command"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p' | head -1)
 
 if [ -z "$COMMAND" ]; then
   exit 0
@@ -22,8 +22,14 @@ fi
 TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 LOGFILE="$HOME/.claude/bash-commands.log"
 
-# Create log directory if it doesn't exist
+# Create log directory if it doesn't exist.
+# The log can contain secrets passed as command arguments (tokens, passwords,
+# API keys), so new files and directories are created owner-only, and an
+# existing log from an older version is tightened to 0600.
+umask 077
 mkdir -p "$(dirname "$LOGFILE")"
+touch "$LOGFILE"
+chmod 600 "$LOGFILE"
 
 # Log the command
 echo "[$TIMESTAMP] $COMMAND" >> "$LOGFILE"

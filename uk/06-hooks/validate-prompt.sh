@@ -10,8 +10,10 @@
 INPUT=$(cat)
 
 # Extract the prompt text from JSON input
-# Claude Code sends the UserPromptSubmit text in the "prompt" field
-PROMPT=$(echo "$INPUT" | sed -n 's/.*"prompt"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+# Claude Code sends the UserPromptSubmit text in the "prompt" field.
+# The pattern skips escaped quotes (\"), so a prompt like `say \"hi\" then
+# rm -rf /` is checked in full instead of stopping at the first \".
+PROMPT=$(echo "$INPUT" | sed -nE 's/.*"prompt"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p' | head -1)
 
 if [ -z "$PROMPT" ]; then
   exit 0

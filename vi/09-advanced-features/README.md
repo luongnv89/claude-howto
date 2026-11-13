@@ -569,7 +569,7 @@ Script thêm các rule thuộc các nhóm sau:
 | Ghi git (tùy chọn) | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git checkout:*)`, `Bash(git switch:*)`, `Bash(git stash:*)`, `Bash(git tag:*)` |
 | Trình quản lý package | `Bash(npm ci:*)`, `Bash(npm install:*)`, `Bash(pip install:*)`, `Bash(pip3 install:*)` |
 | Build & test | `Bash(make:*)`, `Bash(pytest:*)`, `Bash(go test:*)` |
-| Shell thông dụng | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(find:*)` |
+| Shell thông dụng | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(wc:*)` |
 | GitHub CLI | `Bash(gh pr view:*)`, `Bash(gh pr create:*)`, `Bash(gh issue list:*)` |
 
 Các thao tác nguy hiểm (`rm -rf`, `sudo`, force push, `DROP TABLE`, `terraform destroy`, v.v.) được cố ý loại trừ. Script có tính idempotent — chạy hai lần sẽ không nhân đôi rule.

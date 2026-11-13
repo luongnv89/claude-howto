@@ -24,6 +24,16 @@ from typing import Iterable
 SETTINGS_PATH = Path.home() / ".claude" / "settings.json"
 
 # Core baseline: read-only inspection and low-risk local shell commands.
+#
+# Deliberately NOT in the baseline:
+# - sort / uniq: `sort -o FILE` and `uniq IN OUT` overwrite a file, and a
+#   trailing-wildcard rule approves any arguments.
+# - env / printenv: print every environment variable, API keys and tokens
+#   included, into the transcript; `env CMD` also runs CMD.
+# - find: Claude Code already runs read-only `find` without a prompt, and
+#   since v2.1.113 a find rule can't approve -exec/-delete, so a rule adds
+#   nothing. (In Manual mode, `find` with an unquoted glob prompts anyway.)
+# Argument-constraining patterns are fragile, so leave these tools out.
 CORE_PERMISSIONS = [
     "Read(*)",
     "Grep(*)",
@@ -39,9 +49,6 @@ CORE_PERMISSIONS = [
     "Bash(head:*)",
     "Bash(tail:*)",
     "Bash(wc:*)",
-    "Bash(sort:*)",
-    "Bash(uniq:*)",
-    "Bash(find:*)",
     "Bash(dirname:*)",
     "Bash(basename:*)",
     "Bash(realpath:*)",
@@ -51,8 +58,6 @@ CORE_PERMISSIONS = [
     "Bash(md5sum:*)",
     "Bash(sha256sum:*)",
     "Bash(date:*)",
-    "Bash(env:*)",
-    "Bash(printenv:*)",
     "Bash(git status:*)",
     "Bash(git log:*)",
     "Bash(git diff:*)",

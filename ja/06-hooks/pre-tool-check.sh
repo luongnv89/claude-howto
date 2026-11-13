@@ -45,8 +45,12 @@
 # 標準入力から JSON 全体を読み取る
 INPUT=$(cat)
 
-# 移植性のある sed でコマンドを抽出（macOS / Linux 双方互換）
-COMMAND=$(echo "$INPUT" | sed -n 's/.*"command"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+# 移植性のある sed でコマンドを抽出（macOS / Linux 双方互換）。
+# パターンはエスケープされた引用符（\"）を読み飛ばすため、`echo \"x\"; rm -rf /` も
+# 最初の \" で止まらず全体を読み取れる。値は JSON エンコードのまま（改行は \n の 2 文字）で、
+# パターンの一覧は回避も容易（`rm -r -f /`）なので、このフックはセキュリティ境界ではなく
+# ガードレールとして扱うこと。
+COMMAND=$(echo "$INPUT" | sed -nE 's/.*"command"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p' | head -1)
 
 # 抽出に失敗した場合は生の入力にフォールバック
 if [ -z "$COMMAND" ]; then

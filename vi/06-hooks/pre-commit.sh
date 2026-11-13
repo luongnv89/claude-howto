@@ -4,13 +4,15 @@
 # Note: There is no "PreCommit" hook event. Use PreToolUse with a Bash matcher
 # and inspect the command to detect git commit operations.
 #
-# Mã thoát: 2 chặn lệnh gọi tool và hiển thị stderr làm lý do chặn.
-# Bất kỳ giá trị khác 0 nào khác đều là lỗi KHÔNG chặn — commit vẫn tiếp tục.
-# Nguồn: https://code.claude.com/docs/en/hooks
+# Exit codes: 2 blocks the tool call and surfaces stderr as the block reason.
+# Any other non-zero value is a NON-blocking error — the commit would proceed.
+# Source: https://code.claude.com/docs/en/hooks
 
-# Đọc JSON của hook từ stdin; chỉ chạy test với lệnh git commit
+# Read the hook JSON from stdin; only run the tests for git commit commands
 INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | sed -n 's/.*"command"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+# Extract tool_input.command. The pattern skips escaped quotes (\"), so a command
+# like `cd "app" && git commit` is read in full instead of stopping at the first \"
+COMMAND=$(echo "$INPUT" | sed -nE 's/.*"command"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p' | head -1)
 if ! echo "$COMMAND" | grep -q 'git commit'; then
   exit 0
 fi

@@ -45,8 +45,12 @@
 # Read the full JSON input from stdin
 INPUT=$(cat)
 
-# Extract the command using portable sed (compatible with macOS and Linux)
-COMMAND=$(echo "$INPUT" | sed -n 's/.*"command"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+# Extract the command using portable sed (compatible with macOS and Linux).
+# The pattern skips escaped quotes (\"), so `echo \"x\"; rm -rf /` is read in
+# full instead of stopping at the first \". The value stays JSON-encoded (a
+# newline is the two characters \n), and a pattern list is easy to get around
+# (`rm -r -f /`), so treat this hook as a guardrail, not a security boundary.
+COMMAND=$(echo "$INPUT" | sed -nE 's/.*"command"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p' | head -1)
 
 # Fall back to the raw input if extraction fails
 if [ -z "$COMMAND" ]; then

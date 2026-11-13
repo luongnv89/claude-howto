@@ -455,7 +455,7 @@ python3 09-advanced-features/setup-auto-mode-permissions.py --include-git-write 
 | Опціональний запис у git | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git checkout:*)`, `Bash(git switch:*)`, `Bash(git stash:*)`, `Bash(git tag:*)` |
 | Менеджери пакетів | `Bash(npm ci:*)`, `Bash(npm install:*)`, `Bash(pip install:*)`, `Bash(pip3 install:*)` |
 | Збірка та тести | `Bash(make:*)`, `Bash(pytest:*)`, `Bash(go test:*)` |
-| Звичайні shell-команди | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(find:*)` |
+| Звичайні shell-команди | `Bash(ls:*)`, `Bash(cat:*)`, `Bash(wc:*)` |
 | GitHub CLI | `Bash(gh pr view:*)`, `Bash(gh pr create:*)`, `Bash(gh issue list:*)` |
 
 Небезпечні операції (`rm -rf`, `sudo`, force push, `DROP TABLE`, `terraform destroy` тощо) навмисно виключені. Скрипт ідемпотентний — повторний запуск не дублює правила.
