@@ -348,9 +348,12 @@ Auto Mode — це режим дозволів, який використову�
 
 ### Вимоги
 
+Auto mode доступний лише тоді, коли ваш акаунт відповідає всім цим вимогам:
+
 - **План**: усі плани
-- **Модель**: Claude Sonnet 4.6 або Opus 4.6
-- **Провайдер**: Тільки Anthropic API (не підтримується на Bedrock, Vertex або Foundry)
+- **Організація**: у Team та Enterprise auto mode доступний за замовчуванням. Адміністратори можуть вимкнути його для організації, встановивши `permissions.disableAutoMode` у `"disable"` у managed settings
+- **Модель**: в Anthropic API та Claude Platform on AWS — Claude Opus 4.6 або новіша, Sonnet 4.6 або новіша, Haiku 5.5 чи модель Fable. В Amazon Bedrock, Agent Platform від Google Cloud (Vertex AI), Microsoft Foundry та сесіях Claude apps gateway із виконаним входом — лише Claude Sonnet 5 або новіша, Opus 4.7 або новіша, Haiku 5.5 (v2.1.293+) і моделі Fable. Старіші моделі — Sonnet 4.5, Opus 4.5, Haiku 4.5 і моделі claude-3 — не підтримуються в жодного провайдера. За шлюзом в `ANTHROPIC_BASE_URL` auto mode відхиляє модель, чия назва в шлюзі містить "haiku", окрім `claude-haiku-5-5`, так само як відхиляє Haiku 4.5 (v2.1.323)
+- **Провайдер**: доступний за замовчуванням в Anthropic API, Claude Platform on AWS, Amazon Bedrock, Agent Platform від Google Cloud (Vertex AI), Microsoft Foundry та сесіях Claude apps gateway із виконаним входом. З v2.1.158 по v2.1.206 auto mode був вимкнений у всіх цих провайдерів, окрім Anthropic API та Claude Platform on AWS, доки ви не встановлювали `CLAUDE_CODE_ENABLE_AUTO_MODE=1`; v2.1.207 прибрала цю вимогу. Змінна й далі приймається для сумісності, але з v2.1.207 не має жодного ефекту
 - **Класифікатор**: Додаткова вартість токенів, окрім планів Enterprise та акаунтів Claude API, де v2.1.278+ виконує перевірку на боці сервера без оплати
 
 ### Увімкнення Auto Mode

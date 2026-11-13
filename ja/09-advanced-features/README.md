@@ -357,9 +357,12 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh
 
 ### 必要要件
 
+オートモードは、アカウントが以下の要件をすべて満たす場合にのみ利用できる：
+
 - **プラン：** すべてのプラン
-- **モデル：** Claude Sonnet 4.6 または Opus 4.7
-- **プロバイダ：** Anthropic API のみ（Bedrock、Vertex、Foundry では非対応）
+- **組織：** Team と Enterprise では、オートモードはデフォルトで利用可能。管理者は managed settings で `permissions.disableAutoMode` を `"disable"` に設定すると、組織全体でオフにできる
+- **モデル：** Anthropic API と Claude Platform on AWS では Claude Opus 4.6 以降、Sonnet 4.6 以降、Haiku 5.5、または Fable モデル。Amazon Bedrock、Google Cloud の Agent Platform（Vertex AI）、Microsoft Foundry、サインイン済みの Claude apps gateway セッションでは Claude Sonnet 5 以降、Opus 4.7 以降、Haiku 5.5（v2.1.293+）、Fable モデルのみ。Sonnet 4.5、Opus 4.5、Haiku 4.5、claude-3 系の旧モデルはどのプロバイダでも非対応。`ANTHROPIC_BASE_URL` のゲートウェイ経由では、ゲートウェイ上の名前に "haiku" を含むモデルは `claude-haiku-5-5` を除き、Haiku 4.5 と同様に拒否される（v2.1.323）
+- **プロバイダ：** Anthropic API、Claude Platform on AWS、Amazon Bedrock、Google Cloud の Agent Platform（Vertex AI）、Microsoft Foundry、サインイン済みの Claude apps gateway セッションでデフォルトで利用可能。v2.1.158 から v2.1.206 までは、Anthropic API と Claude Platform on AWS 以外では `CLAUDE_CODE_ENABLE_AUTO_MODE=1` を設定するまでオートモードはオフだったが、v2.1.207 でこの要件は削除された。この変数は互換性のために引き続き受け付けられるが、v2.1.207 以降は効果がない
 - **分類器：** 追加のトークンコストが発生する。ただし Enterprise プランと Claude API アカウントでは、v2.1.278 以降サーバー側でチェックが実行され、課金されない
 
 ### オートモードの有効化

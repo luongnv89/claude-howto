@@ -126,7 +126,7 @@ my-plugin/
 ├── .mcp.json             # MCP server configurations
 ├── .lsp.json             # LSP server configurations for code intelligence
 ├── bin/                  # Executables added to Bash tool's PATH while plugin is enabled (unsandboxed PowerShell commands find them too, v2.1.302)
-├── settings.json         # Default settings applied when plugin is enabled (only the `agent` key takes effect; deprecated since v2.1.323)
+├── settings.json         # Default settings applied when plugin is enabled (only the `agent` key takes effect, and that key is deprecated since v2.1.323)
 ├── themes/               # Optional: ship custom Claude Code themes (v2.1.118+)
 ├── templates/
 │   └── issue-template.md
@@ -917,7 +917,7 @@ claude plugin init <name>                    # Scaffold a new plugin (alias: cla
 | `plugin validate` | `--strict` | Treat warnings as errors |
 | `plugin validate` | `--json` | Emit a machine-readable validation report (v2.1.259+) |
 
-`claude plugin validate` also checks `.mcp.json` entries (v2.1.281+) and fails when `outputStyles`, `themes`, `monitors`, or `lspServers` paths are missing or point outside the plugin directory (v2.1.283+). It also prints an `Advice` block, with a line to paste, when a plugin's README has no line that installs it from a marketplace; advice doesn't change the verdict or the exit code, even with `--strict` (v2.1.295+). Since v2.1.323 it also type-checks a plugin's TypeScript hooks module and reports each finding as a warning, so `--strict` fails on it; lists the `$` nouns a mod's `engine.create` hook adds, withholds or replaces; and fails a mod whose `engine.create` hook isn't written in the one accepted form, while installed mods keep loading.
+`claude plugin validate` also checks `.mcp.json` entries (v2.1.281+) and fails when `outputStyles`, `themes`, `monitors`, or `lspServers` paths are missing or point outside the plugin directory (v2.1.283+). It also prints an `Advice` block, with a line to paste, when a plugin's README has no line that installs it from a marketplace; advice doesn't change the verdict or the exit code, even with `--strict` (v2.1.295+). Since v2.1.323 it also type-checks a plugin's TypeScript hooks module and reports each finding as a warning, so `--strict` fails on it; lists the `$` nouns a mod's `engine.create` hook adds, withholds or replaces; and fails a mod whose `engine.create` hook isn't written in the one accepted form, while installed mods keep loading. These three additions are changelog-sourced; the CLI reference doesn't list them yet.
 
 Example: `claude plugin tag ./my-plugin` takes a **path** to the plugin (not a version string). It creates a `{name}--v{version}` git tag derived from `plugin.json`, validating that `plugin.json` and any enclosing marketplace entry agree, and is the recommended way to cut plugin releases for distribution.
 
@@ -953,7 +953,7 @@ claude plugin eval --help     # Full option list
 
 ### Machine-readable output with `--json` (v2.1.268+)
 
-`--json` is accepted on `install`, `uninstall`, `update`, `enable`, and `disable`, which makes plugin management scriptable in CI. Each row of `claude plugin list --json` also carries `errorDetails` and `noteDetails`, so a failing plugin explains itself without a second command. Since v2.1.323, the `claude plugin install --json` result also carries `unsetOptionCount`: how many `userConfig` options are not yet set.
+`--json` is accepted on `install`, `uninstall`, `update`, `enable`, and `disable`, which makes plugin management scriptable in CI. Each row of `claude plugin list --json` also carries `errorDetails` and `noteDetails`, so a failing plugin explains itself without a second command. Since v2.1.323, the `claude plugin install --json` result also carries `unsetOptionCount`: how many `userConfig` options are not yet set (changelog-sourced; the CLI reference's JSON result format doesn't list it yet).
 
 ```bash
 claude plugin install my-plugin@my-marketplace --json

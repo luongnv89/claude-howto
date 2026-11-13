@@ -130,7 +130,7 @@ my-plugin/
 ├── .mcp.json             # MCP 서버 구성
 ├── .lsp.json             # 코드 인텔리전스를 위한 LSP 서버 구성
 ├── bin/                  # 플러그인 활성화 중 Bash 도구의 PATH에 추가되는 실행 파일(샌드박스 밖의 PowerShell 명령어도 찾음, v2.1.302)
-├── settings.json         # 플러그인 활성화 시 적용되는 기본 설정(`agent` 키만 적용됨, v2.1.323부터 지원 중단 예정)
+├── settings.json         # 플러그인 활성화 시 적용되는 기본 설정(`agent` 키만 적용되며, 그 키는 v2.1.323부터 지원 중단 예정)
 ├── themes/               # 선택 사항: 사용자 정의 Claude Code 테마 제공(v2.1.118+)
 ├── templates/
 │   └── issue-template.md
@@ -921,7 +921,7 @@ claude plugin init <name>                    # 새 플러그인 스캐폴드 생
 | `plugin validate` | `--strict` | 경고를 오류로 처리 |
 | `plugin validate` | `--json` | 기계가 읽을 수 있는 검증 보고서 출력(v2.1.259+) |
 
-`claude plugin validate`는 `.mcp.json` 항목도 검사하며(v2.1.281+), `outputStyles`, `themes`, `monitors`, `lspServers` 경로가 없거나 플러그인 디렉터리 밖을 가리키면 실패합니다(v2.1.283+). v2.1.323부터는 플러그인의 TypeScript 훅 모듈도 타입 검사하여 각 발견 사항을 경고로 보고하므로 `--strict`에서는 실패합니다. 또한 mod의 `engine.create` 훅이 추가, 보류 또는 대체하는 `$` 명사를 나열하고, `engine.create` 훅이 허용되는 단 하나의 형식으로 작성되지 않은 mod는 실패로 처리합니다. 이미 설치된 mod는 계속 로드됩니다.
+`claude plugin validate`는 `.mcp.json` 항목도 검사하며(v2.1.281+), `outputStyles`, `themes`, `monitors`, `lspServers` 경로가 없거나 플러그인 디렉터리 밖을 가리키면 실패합니다(v2.1.283+). v2.1.323부터는 플러그인의 TypeScript 훅 모듈도 타입 검사하여 각 발견 사항을 경고로 보고하므로 `--strict`에서는 실패합니다. 또한 mod의 `engine.create` 훅이 추가, 보류 또는 대체하는 `$` 명사를 나열하고, `engine.create` 훅이 허용되는 단 하나의 형식으로 작성되지 않은 mod는 실패로 처리합니다. 이미 설치된 mod는 계속 로드됩니다. 이 세 가지 추가 사항은 변경 로그 기준이며 CLI 레퍼런스에는 아직 나와 있지 않습니다.
 
 예시: `claude plugin tag ./my-plugin`은 버전 문자열이 아니라 플러그인 **경로**를 받습니다. `plugin.json`에서 도출한 `{name}--v{version}` git 태그를 생성하며, `plugin.json`과 이를 감싸는 마켓플레이스 항목이 일치하는지 검증합니다. 배포를 위한 플러그인 릴리스를 만드는 권장 방법입니다.
 
@@ -957,7 +957,7 @@ claude plugin eval --help     # 전체 옵션 목록
 
 ### `--json`으로 기계가 읽을 수 있는 출력 (v2.1.268+)
 
-`--json`은 `install`, `uninstall`, `update`, `enable`, `disable`에서 사용할 수 있어 CI에서 플러그인 관리를 스크립트로 처리할 수 있습니다. `claude plugin list --json`의 각 행에는 `errorDetails`와 `noteDetails`도 포함되므로, 실패한 플러그인의 원인을 별도 명령어 없이 확인할 수 있습니다. v2.1.323부터 `claude plugin install --json` 결과에는 아직 설정되지 않은 `userConfig` 옵션의 개수인 `unsetOptionCount`도 포함됩니다.
+`--json`은 `install`, `uninstall`, `update`, `enable`, `disable`에서 사용할 수 있어 CI에서 플러그인 관리를 스크립트로 처리할 수 있습니다. `claude plugin list --json`의 각 행에는 `errorDetails`와 `noteDetails`도 포함되므로, 실패한 플러그인의 원인을 별도 명령어 없이 확인할 수 있습니다. v2.1.323부터 `claude plugin install --json` 결과에는 아직 설정되지 않은 `userConfig` 옵션의 개수인 `unsetOptionCount`도 포함됩니다(변경 로그 기준이며 CLI 레퍼런스의 JSON 결과 형식에는 아직 나와 있지 않음).
 
 ```bash
 claude plugin install my-plugin@my-marketplace --json

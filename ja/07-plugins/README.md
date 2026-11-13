@@ -113,7 +113,7 @@ my-plugin/
 ├── .mcp.json             # MCP サーバーの設定
 ├── .lsp.json             # コードインテリジェンス用の LSP サーバー設定
 ├── bin/                  # プラグイン有効化中に Bash ツールの PATH に追加される実行ファイル
-├── settings.json         # プラグイン有効化時に適用されるデフォルト設定（有効なのは `agent` キーのみ。v2.1.323 で非推奨）
+├── settings.json         # プラグイン有効化時に適用されるデフォルト設定（有効なのは `agent` キーのみで、そのキーも v2.1.323 から非推奨）
 ├── themes/               # 任意：Claude Code のカスタムテーマを同梱（v2.1.118 以降）
 ├── templates/
 │   └── issue-template.md

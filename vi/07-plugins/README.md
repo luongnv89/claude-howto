@@ -126,7 +126,7 @@ my-plugin/
 ├── .mcp.json             # Cấu hình MCP server
 ├── .lsp.json             # Cấu hình LSP server cho code intelligence
 ├── bin/                  # Các file thực thi được thêm vào PATH của công cụ Bash khi plugin được bật (lệnh PowerShell không sandbox cũng tìm thấy, v2.1.302)
-├── settings.json         # Cài đặt mặc định áp dụng khi plugin được bật (chỉ key `agent` có hiệu lực; bị deprecated từ v2.1.323)
+├── settings.json         # Cài đặt mặc định áp dụng khi plugin được bật (chỉ key `agent` có hiệu lực, và key đó bị deprecated từ v2.1.323)
 ├── themes/               # Tùy chọn: kèm các theme Claude Code tùy chỉnh (v2.1.118+)
 ├── templates/
 │   └── issue-template.md
@@ -917,7 +917,7 @@ claude plugin init <name>                    # Tạo khung plugin mới (bí dan
 | `plugin validate` | `--strict` | Coi cảnh báo là lỗi |
 | `plugin validate` | `--json` | Xuất báo cáo xác thực dạng máy đọc được (v2.1.259+) |
 
-`claude plugin validate` cũng kiểm tra các mục `.mcp.json` (v2.1.281+) và báo lỗi khi các đường dẫn `outputStyles`, `themes`, `monitors`, hoặc `lspServers` bị thiếu hoặc trỏ ra ngoài thư mục plugin (v2.1.283+). Nó cũng in ra một khối `Advice`, kèm một dòng để dán vào, khi README của plugin không có dòng nào cài plugin đó từ một marketplace; lời khuyên này không thay đổi kết luận hay mã thoát, kể cả với `--strict` (v2.1.295+). Từ v2.1.323, lệnh này còn kiểm tra kiểu (type-check) module hooks TypeScript của plugin và báo mỗi phát hiện dưới dạng cảnh báo, nên `--strict` sẽ thất bại vì nó; liệt kê các danh từ `$` mà hook `engine.create` của một mod thêm vào, giữ lại hoặc thay thế; và báo lỗi một mod có hook `engine.create` không được viết theo dạng duy nhất được chấp nhận, trong khi các mod đã cài vẫn tiếp tục được tải.
+`claude plugin validate` cũng kiểm tra các mục `.mcp.json` (v2.1.281+) và báo lỗi khi các đường dẫn `outputStyles`, `themes`, `monitors`, hoặc `lspServers` bị thiếu hoặc trỏ ra ngoài thư mục plugin (v2.1.283+). Nó cũng in ra một khối `Advice`, kèm một dòng để dán vào, khi README của plugin không có dòng nào cài plugin đó từ một marketplace; lời khuyên này không thay đổi kết luận hay mã thoát, kể cả với `--strict` (v2.1.295+). Từ v2.1.323, lệnh này còn kiểm tra kiểu (type-check) module hooks TypeScript của plugin và báo mỗi phát hiện dưới dạng cảnh báo, nên `--strict` sẽ thất bại vì nó; liệt kê các danh từ `$` mà hook `engine.create` của một mod thêm vào, giữ lại hoặc thay thế; và báo lỗi một mod có hook `engine.create` không được viết theo dạng duy nhất được chấp nhận, trong khi các mod đã cài vẫn tiếp tục được tải. Ba bổ sung này lấy từ changelog; CLI reference chưa liệt kê chúng.
 
 Ví dụ: `claude plugin tag ./my-plugin` nhận một **đường dẫn** đến plugin (không phải chuỗi phiên bản). Nó tạo git tag `{name}--v{version}` lấy từ `plugin.json`, kiểm tra rằng `plugin.json` và mục marketplace bao quanh (nếu có) khớp nhau, và là cách được khuyến nghị để cắt bản release plugin để phân phối.
 
@@ -953,7 +953,7 @@ claude plugin eval --help     # Danh sách tùy chọn đầy đủ
 
 ### Output dạng máy đọc với `--json` / Machine-readable output with `--json` (v2.1.268+)
 
-`--json` được chấp nhận trên `install`, `uninstall`, `update`, `enable`, và `disable`, giúp việc quản lý plugin có thể viết script trong CI. Mỗi dòng của `claude plugin list --json` cũng mang `errorDetails` và `noteDetails`, nên một plugin bị lỗi tự giải thích mà không cần lệnh thứ hai. Từ v2.1.323, kết quả của `claude plugin install --json` còn mang `unsetOptionCount`: số tùy chọn `userConfig` chưa được đặt.
+`--json` được chấp nhận trên `install`, `uninstall`, `update`, `enable`, và `disable`, giúp việc quản lý plugin có thể viết script trong CI. Mỗi dòng của `claude plugin list --json` cũng mang `errorDetails` và `noteDetails`, nên một plugin bị lỗi tự giải thích mà không cần lệnh thứ hai. Từ v2.1.323, kết quả của `claude plugin install --json` còn mang `unsetOptionCount`: số tùy chọn `userConfig` chưa được đặt (lấy từ changelog; phần JSON result format của CLI reference chưa liệt kê field này).
 
 ```bash
 claude plugin install my-plugin@my-marketplace --json

@@ -83,7 +83,7 @@ graph TD
 | `--teleport` | web セッションをローカルで再開 | `claude --teleport` |
 | `--teammate-mode` | エージェントチームの表示モード | `claude --teammate-mode tmux` |
 | `--bare` | 最小モード（フック、スキル、プラグイン、MCP、自動メモリ、CLAUDE.md をスキップ） | `claude --bare` |
-| `--enable-auto-mode` | 自動権限モードを解禁（Opus 4.7 の Max 加入者には不要） | `claude --enable-auto-mode` |
+| `--permission-mode auto` | auto 権限モードで開始（v2.1.111 で削除された `--enable-auto-mode` フラグの代替） | `claude --permission-mode auto` |
 | `--channels` | MCP チャンネルプラグインを購読。各エントリは `plugin:<name>@<marketplace>` の形式でタグ付けする必要があり、名前のみの指定は拒否される | `claude --channels plugin:discord@my-marketplace` |
 | `--chrome` / `--no-chrome` | Chrome ブラウザ統合を有効化／無効化 | `claude --chrome` |
 | `--effort` | 思考労力レベルを設定 | `claude --effort high` |
@@ -194,7 +194,6 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 | `--dangerously-skip-permissions` | 全ての権限プロンプトをスキップ | `claude --dangerously-skip-permissions` |
 | `--permission-mode` | 指定した権限モードで開始 | `claude --permission-mode auto` |
 | `--permission-prompt-tool` | 権限処理用の MCP ツール | `claude -p --mcp-config ./mcp.json --permission-prompt-tool mcp__permissions__approve "query"` |
-| `--enable-auto-mode` | 自動権限モードを解禁 | `claude --enable-auto-mode` |
 
 > **Glob / Grep 注記（v2.1.113+）**: ネイティブな macOS／Linux ビルドでは、`Glob` と `Grep` は独立したファーストクラスツールではなく、Bash ツール経由で呼び出される組み込みの `bfs` および `ugrep` バイナリとして提供される。Windows 版および npm バンドル（JS）版では引き続きスタンドアロンツールとして公開される。サブエージェントの `allowedTools` ／ `disallowedTools` リストでは、バックエンド側の置換は透過的なため、どのプラットフォームでも設定では引き続き `Glob` ／ `Grep` を参照すればよい。
 
@@ -338,7 +337,6 @@ claude -r "feature-auth" --fork-session "test with different architecture"
 | `--enable-lsp-logging` | 詳細な LSP ログを有効化 | `claude --enable-lsp-logging` |
 | `--betas` | API リクエストのベータヘッダ | `claude --betas interleaved-thinking` |
 | `--plugin-dir` | ディレクトリからプラグインを読み込む（複数指定可） | `claude --plugin-dir ./my-plugin` |
-| `--enable-auto-mode` | 自動権限モードを解禁 | `claude --enable-auto-mode` |
 | `--effort` | 思考労力レベルを設定 | `claude --effort high` |
 | `--bare` | 最小モード（フック、スキル、プラグイン、MCP、自動メモリ、CLAUDE.md をスキップ） | `claude --bare` |
 | `--channels` | MCP チャンネルプラグインを購読（`plugin:<name>@<marketplace>` 形式でタグ付け） | `claude --channels plugin:discord@my-marketplace` |
@@ -804,7 +802,7 @@ claude -p --output-format json "query"
 | 簡易コードレビュー | `cat file \| claude -p "review"` |
 | 構造化出力 | `claude -p --output-format json "query"` |
 | 安全な探索 | `claude --permission-mode plan` |
-| 安全装置付き自律実行 | `claude --enable-auto-mode --permission-mode auto` |
+| 安全装置付き自律実行 | `claude --permission-mode auto` |
 | CI/CD 連携 | `claude -p --max-turns 3 --output-format json` |
 | 作業の再開 | `claude -r "session-name"` |
 | カスタムモデル | `claude --model opus "complex task"` |
