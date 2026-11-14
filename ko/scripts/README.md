@@ -65,14 +65,14 @@ python scripts/build_epub.py
 
 ```
 usage: build_epub.py [-h] [--root ROOT] [--output OUTPUT] [--verbose]
-                     [--lang {en,vi,zh,ja,ko}]
+                     [--lang {en,vi,zh,ja,ko,fa}]
 
 options:
   -h, --help            show this help message and exit
   --root, -r ROOT       Root directory (default: repo root)
   --output, -o OUTPUT   Output path (default: claude-howto-guide.epub)
   --verbose, -v         Enable verbose logging
-  --lang {en,vi,zh,ja,ko}  Language to build (default: en)
+  --lang {en,vi,zh,ja,ko,fa}  Language to build (default: en)
 ```
 
 ## 예제
@@ -163,13 +163,13 @@ python -m http.server --directory site 8080
 
 ```
 usage: build_website.py [-h] [--root ROOT] [--output OUTPUT]
-                        [--lang {en,vi,zh,ja,uk,ko}] [--repo-url REPO_URL]
+                        [--lang {en,vi,zh,ja,uk,ko,fa}] [--repo-url REPO_URL]
                         [--branch BRANCH] [--verbose]
 
 options:
   --root, -r ROOT       Source root (default: repo root)
   --output, -o OUTPUT   Output directory (default: <repo>/site)
-  --lang LANG           Language to build: en | vi | zh | ja | uk | ko
+  --lang LANG           Language to build: en | vi | zh | ja | uk | ko | fa
   --repo-url URL        GitHub repo for blob links (default: luongnv89/claude-howto)
   --branch BRANCH       Branch for blob links (default: main)
   --verbose, -v         Enable verbose logging

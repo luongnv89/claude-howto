@@ -50,14 +50,14 @@ python scripts/build_epub.py
 
 ```
 usage: build_epub.py [-h] [--root ROOT] [--output OUTPUT] [--verbose]
-                     [--lang {en,vi,zh,ja}]
+                     [--lang {en,vi,zh,ja,ko,fa}]
 
 options:
   -h, --help            show this help message and exit
   --root, -r ROOT       Root directory (default: repo root)
   --output, -o OUTPUT   Output path (default: claude-howto-guide.epub)
   --verbose, -v         Enable verbose logging
-  --lang {en,vi,zh,ja}  Language to build (default: en)
+  --lang {en,vi,zh,ja,ko,fa}  Language to build (default: en)
 ```
 
 ## Приклади
