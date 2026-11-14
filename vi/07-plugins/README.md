@@ -735,6 +735,8 @@ Plugins có thể được lấy từ nhiều vị trí:
 
 Các nguồn GitHub và git hỗ trợ các trường tùy chọn `ref` (nhánh/tag) và `sha` (hash commit) để version pinning.
 
+Một nguồn **marketplace** (`github` hoặc `git`, trong `extraKnownMarketplaces` hoặc dưới dạng `owner/repo@ref` khi bạn thêm marketplace) cũng nhận `ref`: một nhánh, một tag, hoặc SHA đầy đủ viết thường của một commit trên một nhánh hoặc tag. Ghim bằng SHA cần v2.1.324 trở lên theo marketplace reference (changelog liệt kê nó ở v2.1.325) và bị từ chối với một tên marketplace dành riêng như `claude-plugins-official`. Các client trước phiên bản đó không thể clone một bản ghim như vậy, nên một marketplace được ghim theo cách này sẽ ngừng tải ở đó.
+
 **Tên nguồn rút gọn và `metadata.pluginRoot` (v2.1.239)**: `metadata.pluginRoot` của marketplace giờ đã có hiệu lực — một tên nguồn plugin rút gọn trong catalog được phân giải thành một thư mục nằm dưới root đó, thay vì phải viết đầy đủ đường dẫn tương đối ở mọi mục.
 
 **Skills đồng bộ từ claude.ai (v2.1.239)**: các plugin được đồng bộ từ claude.ai xuất hiện dưới dạng `name@synced`. Hãy gọi chúng theo cách đó trong `claude plugin enable <name>@synced` và `claude plugin disable <name>@synced`. Một plugin đồng bộ không bao giờ ghi đè plugin đã cài có cùng tên — hai plugin cùng tồn tại, phân biệt bằng hậu tố `@synced`.
@@ -917,7 +919,7 @@ claude plugin init <name>                    # Tạo khung plugin mới (bí dan
 | `plugin validate` | `--strict` | Coi cảnh báo là lỗi |
 | `plugin validate` | `--json` | Xuất báo cáo xác thực dạng máy đọc được (v2.1.259+) |
 
-`claude plugin validate` cũng kiểm tra các mục `.mcp.json` (v2.1.281+) và báo lỗi khi các đường dẫn `outputStyles`, `themes`, `monitors`, hoặc `lspServers` bị thiếu hoặc trỏ ra ngoài thư mục plugin (v2.1.283+). Nó cũng in ra một khối `Advice`, kèm một dòng để dán vào, khi README của plugin không có dòng nào cài plugin đó từ một marketplace; lời khuyên này không thay đổi kết luận hay mã thoát, kể cả với `--strict` (v2.1.295+). Từ v2.1.323, lệnh này còn kiểm tra kiểu (type-check) module hooks TypeScript của plugin và báo mỗi phát hiện dưới dạng cảnh báo, nên `--strict` sẽ thất bại vì nó; liệt kê các danh từ `$` mà hook `engine.create` của một mod thêm vào, giữ lại hoặc thay thế; và báo lỗi một mod có hook `engine.create` không được viết theo dạng duy nhất được chấp nhận, trong khi các mod đã cài vẫn tiếp tục được tải. Ba bổ sung này lấy từ changelog; CLI reference chưa liệt kê chúng.
+`claude plugin validate` cũng kiểm tra các mục `.mcp.json` (v2.1.281+) và báo lỗi khi các đường dẫn `outputStyles`, `themes`, `monitors`, hoặc `lspServers` bị thiếu hoặc trỏ ra ngoài thư mục plugin (v2.1.283+). Nó cũng in ra một khối `Advice`, kèm một dòng để dán vào, khi README của plugin không có dòng nào cài plugin đó từ một marketplace; lời khuyên này không thay đổi kết luận hay mã thoát, kể cả với `--strict` (v2.1.295+). Từ v2.1.323, lệnh này còn kiểm tra kiểu (type-check) module hooks TypeScript của plugin và báo mỗi phát hiện dưới dạng cảnh báo, nên `--strict` sẽ thất bại vì nó; liệt kê các danh từ `$` mà hook `engine.create` của một mod thêm vào, giữ lại hoặc thay thế; và báo lỗi một mod có hook `engine.create` không được viết theo dạng duy nhất được chấp nhận, trong khi các mod đã cài vẫn tiếp tục được tải. Ba bổ sung này lấy từ changelog; CLI reference chưa liệt kê chúng. Từ v2.1.325, việc tải plugin bỏ qua, và `claude plugin validate` báo cáo, một số đường dẫn và liên kết không an toàn trong thư mục của plugin (lấy từ changelog).
 
 Ví dụ: `claude plugin tag ./my-plugin` nhận một **đường dẫn** đến plugin (không phải chuỗi phiên bản). Nó tạo git tag `{name}--v{version}` lấy từ `plugin.json`, kiểm tra rằng `plugin.json` và mục marketplace bao quanh (nếu có) khớp nhau, và là cách được khuyến nghị để cắt bản release plugin để phân phối.
 
@@ -1025,6 +1027,8 @@ claude --plugin-dir ./my-plugin.zip
 # Tải archive .zip của plugin từ URL cho phiên hiện tại (v2.1.129+, có thể lặp lại)
 claude --plugin-url https://example.com/releases/my-plugin-0.3.0.zip
 ```
+
+> **Thay đổi khi tải (v2.1.325)**: các thư mục `.claude/skills` bên trong plugin `--plugin-dir` không còn được tải từ một phiên khởi động ở thư mục phía trên chúng; thay vào đó, hãy khởi động Claude Code trong thư mục plugin (changelog bổ sung điều này; tài liệu chưa liệt kê nó). Các gói MCP của plugin (`.mcpb`, `.dxt`) giờ được giải nén vào `mcpb/` dưới thư mục gốc của plugins thay vì `.mcpb-cache` trong thư mục của plugin, nhờ đó các thư mục plugin chỉ đọc vẫn tải được, và một gói được lấy qua URL sẽ được tải lại một lần. Tài liệu về việc tải plugin ghi thư mục `mcpb/` từ v2.1.324; changelog liệt kê thay đổi này ở v2.1.325.
 
 ### Từ Git Repository / From Git Repository
 ```bash
@@ -1156,6 +1160,8 @@ Các quản trị viên có thể kiểm soát hành vi plugin trên toàn tổ 
 > `blockedMarketplaces`.** Ở mọi nơi khác có nguồn `github` — kể cả
 > `extraKnownMarketplaces` và `/plugin marketplace add` — giá trị `repo` phải chỉ đúng
 > một repository.
+
+> **Plugin của tổ chức và `pluginDigests` (v2.1.325)**: các plugin của một marketplace từ xa mà managed settings khai báo, bật và liệt kê trong `prependPlugins` hoặc `appendPlugins` giờ được tính là của tổ chức, và `pluginDigests` đã bị deprecated và bị bỏ qua. Settings reference ghi tài liệu cho `prependPlugins` và `appendPlugins`; changelog bổ sung việc deprecated `pluginDigests`, điều mà tài liệu chưa liệt kê.
 
 Các cài đặt này có thể được áp dụng ở cấp tổ chức qua các file cấu hình được quản lý và được ưu tiên hơn các cài đặt cấp người dùng.
 
@@ -1410,8 +1416,8 @@ Nếu `claude plugin list` hiển thị `Version: unknown` cho một plugin lấ
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 13 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.323
+**Cập Nhật Lần Cuối**: Ngày 14 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.325
 **Nguồn**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1480,4 +1486,7 @@ Nếu `claude plugin list` hiển thị `Version: unknown` cho một plugin lấ
 - https://code.claude.com/docs/en/changelog#2-1-321
 - https://code.claude.com/docs/en/changelog#2-1-323
 - https://code.claude.com/docs/en/plugins/troubleshooting#language-server-doesnt-start
+- https://code.claude.com/docs/en/plugins/marketplace-reference#marketplace-sources
+- https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk
+- https://code.claude.com/docs/en/changelog#2-1-325
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

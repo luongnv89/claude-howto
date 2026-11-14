@@ -248,6 +248,8 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 
 > **권한 강화 (v2.1.323)**: Claude Code는 시작 시 변수 값에 `*`가 들어 있는 Bash 허용 규칙(예: `Bash(PORT=* npm run dev)`)에 대해 경고합니다. 와일드카드가 붙어 있는 허용 규칙(예: `Bash(ls*)`)이 일부 경우 권한 프롬프트를 건너뛰던 문제가 수정되었으며, 변수 이름을 지정하는 규칙(예: `Bash(NODE_ENV*)`)은 이제 확인을 요청합니다. Bash 거부 및 확인(ask) 규칙이 `sudo`, `env` 및 유사한 래퍼를 통해 실행되는 일부 명령을 더 이상 놓치지 않으며, Write 및 Edit 도구가 `Read` 거부 규칙이 적용되는 경로에 쓸 수 있던 사례도 수정되었습니다. `plansDirectory`가 설정된 경우, 프로젝트 안에 머문다는 것을 보장할 수 없는 계획 파일 쓰기는 거부됩니다. Bash 프롬프트는 `.git`이나 `.claude` 같은 민감한 경로에 쓰는 명령에 대해 더 이상 "don't ask again"을 제공하지 않습니다(저장된 규칙이 다음 프롬프트를 막지 못했습니다). 또한 비밀 정보를 담고 있는 것처럼 보이는 허용 규칙이나 git이 추적하는 `settings.local.json`에 저장될 허용 규칙에 대한 "don't ask again"은 해당 세션 동안만 유지되며 저장되지 않습니다.
 
+> **권한 강화 (v2.1.325)**: 읽기 전용 git 명령은 이제 프로젝트의 저장소도 아니고 신뢰한 저장소도 아닌 저장소에서 먼저 확인을 요청합니다. 그곳에서 프롬프트 없이 실행하려면 `additionalDirectories` 설정이 아니라 `--add-dir`로 해당 저장소를 지정하세요. `Read(./.env)` 같은 상대 경로 거부 및 확인(ask) 규칙은 `cd` 이후에도 계속 프로젝트에 적용되며, 이제 추가된 디렉터리에도 적용됩니다. 확인 없이 실행될 수 있던 일부 복합 Bash 명령은 이제 확인을 요청하고, Bash 허용 규칙은 더 이상 규칙에 지정된 프로그램과 다른 프로그램을 실행할 수 없으며, 특정 Bash 명령에 적용되지 않던 일부 거부 및 확인 규칙이 이제 적용됩니다. `plansDirectory`가 설정된 경우, 승인된 계획 편집을 해당 폴더가 받을 수 없으면 기본 계획 폴더에 저장되고, 어디에 왜 저장되었는지 경고가 표시됩니다. 이 내용은 변경 로그에서 가져온 것이며, 권한 문서에는 git 및 추가된 디렉터리 관련 변경 사항이 아직 나와 있지 않습니다.
+
 ### 권한 예시
 
 ```bash
@@ -959,6 +961,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Fable models,
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | Linux 전용: Bash 명령에 메모리 cgroup을 적용하도록 옵트인합니다 (v2.1.233) |
 | `ANTHROPIC_BEDROCK_REGION_PREFIX` | 특정 Bedrock 교차 리전 추론 프로필을 우선 사용합니다 (v2.1.224) |
 | `CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT` | 인식되지 않는 모델 ID에서 v2.1.223 이전의 자동 압축 동작을 복원하려면 `1`로 설정합니다 (v2.1.223) |
+| `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Claude Code가 활성 모델에 대해 가정하는 컨텍스트 윈도우 크기(토큰 단위)를 재정의합니다(예: 게이트웨이 또는 사용자 지정 모델 ID에 `400000`). 인식하지 못하고 `[1m]`이 없는 ID에서는 이 값이 단독으로 적용됩니다. 여기에는 게이트웨이의 `claude-sonnet-latest`처럼 `claude-`로 시작하는 ID도 포함되며, 모델 구성 문서에 따르면 v2.1.324부터입니다(변경 로그에는 v2.1.325에 나와 있습니다). `[1m]`이 있는 인식되지 않는 ID에서 1M 미만의 값을 쓰려면 `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`도 필요합니다. 인식하는 ID에서는 모든 압축을 끄는 `DISABLE_COMPACT`가 있을 때만 이 값이 적용됩니다 |
 | `CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS` | 동적 워크플로 팬아웃에서 접두사 스태거링을 비활성화하려면 `0`으로 설정합니다 (v2.1.229) |
 | `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS` | `dialogExpiry` 설정을 재정의합니다 (v2.1.224) |
 | `CLAUDE_CODE_PROJECT_DIR_NAME` | Claude Code가 프로젝트 경로에서 파생하는 프로젝트별 대화 기록 디렉터리 이름을 재정의합니다 (v2.1.234) |
@@ -1118,8 +1121,8 @@ claude -p --output-format json "query"
 
 ---
 
-**최종 업데이트**: 2026년 11월 13일
-**Claude Code 버전**: 2.1.323
+**최종 업데이트**: 2026년 11월 14일
+**Claude Code 버전**: 2.1.325
 **출처**:
 - https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
@@ -1194,4 +1197,6 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/model-config#version-history
 - https://code.claude.com/docs/en/changelog#2-1-323
 - https://code.claude.com/docs/en/permissions#wildcard-patterns
+- https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/model-config#which-ids-claude_code_max_context_tokens-applies-to
 **호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

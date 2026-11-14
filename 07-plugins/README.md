@@ -735,6 +735,8 @@ Plugins can be sourced from multiple locations:
 
 GitHub and git sources support optional `ref` (branch/tag) and `sha` (commit hash) fields for version pinning.
 
+A **marketplace** source (`github` or `git`, in `extraKnownMarketplaces` or as `owner/repo@ref` when you add the marketplace) also takes `ref`: a branch, a tag, or the full lowercase SHA of a commit on a branch or tag. A SHA pin needs v2.1.324 or later per the marketplace reference (the changelog lists it in v2.1.325) and is refused for a reserved marketplace name such as `claude-plugins-official`. Clients before that version can't clone such a pin, so a marketplace pinned this way stops loading there.
+
 **Bare source names and `metadata.pluginRoot` (v2.1.239)**: a marketplace's `metadata.pluginRoot` now takes effect — a bare plugin source name in the catalog resolves to a directory under that root, instead of having to be spelled as a full relative path on every entry.
 
 **Skills synced from claude.ai (v2.1.239)**: plugins synced down from claude.ai appear as `name@synced`. Address them that way in `claude plugin enable <name>@synced` and `claude plugin disable <name>@synced`. A synced plugin never overrides an installed plugin of the same name — the two coexist, distinguished by the `@synced` suffix.
@@ -917,7 +919,7 @@ claude plugin init <name>                    # Scaffold a new plugin (alias: cla
 | `plugin validate` | `--strict` | Treat warnings as errors |
 | `plugin validate` | `--json` | Emit a machine-readable validation report (v2.1.259+) |
 
-`claude plugin validate` also checks `.mcp.json` entries (v2.1.281+) and fails when `outputStyles`, `themes`, `monitors`, or `lspServers` paths are missing or point outside the plugin directory (v2.1.283+). It also prints an `Advice` block, with a line to paste, when a plugin's README has no line that installs it from a marketplace; advice doesn't change the verdict or the exit code, even with `--strict` (v2.1.295+). Since v2.1.323 it also type-checks a plugin's TypeScript hooks module and reports each finding as a warning, so `--strict` fails on it; lists the `$` nouns a mod's `engine.create` hook adds, withholds or replaces; and fails a mod whose `engine.create` hook isn't written in the one accepted form, while installed mods keep loading. These three additions are changelog-sourced; the CLI reference doesn't list them yet.
+`claude plugin validate` also checks `.mcp.json` entries (v2.1.281+) and fails when `outputStyles`, `themes`, `monitors`, or `lspServers` paths are missing or point outside the plugin directory (v2.1.283+). It also prints an `Advice` block, with a line to paste, when a plugin's README has no line that installs it from a marketplace; advice doesn't change the verdict or the exit code, even with `--strict` (v2.1.295+). Since v2.1.323 it also type-checks a plugin's TypeScript hooks module and reports each finding as a warning, so `--strict` fails on it; lists the `$` nouns a mod's `engine.create` hook adds, withholds or replaces; and fails a mod whose `engine.create` hook isn't written in the one accepted form, while installed mods keep loading. These three additions are changelog-sourced; the CLI reference doesn't list them yet. Since v2.1.325, plugin loading skips, and `claude plugin validate` reports, some unsafe paths and links in a plugin's folder (changelog-sourced).
 
 Example: `claude plugin tag ./my-plugin` takes a **path** to the plugin (not a version string). It creates a `{name}--v{version}` git tag derived from `plugin.json`, validating that `plugin.json` and any enclosing marketplace entry agree, and is the recommended way to cut plugin releases for distribution.
 
@@ -1025,6 +1027,8 @@ claude --plugin-dir ./my-plugin.zip
 # Fetch a plugin .zip archive from a URL for the current session (v2.1.129+, repeatable)
 claude --plugin-url https://example.com/releases/my-plugin-0.3.0.zip
 ```
+
+> **Loading changes (v2.1.325)**: `.claude/skills` folders inside `--plugin-dir` plugins no longer load from a session started above them; start Claude Code in the plugin folder instead (the changelog adds this; the docs don't list it yet). Plugin MCP bundles (`.mcpb`, `.dxt`) now unpack into `mcpb/` under the plugins root instead of `.mcpb-cache` in the plugin's folder, so read-only plugin folders load, and a bundle fetched by URL downloads again once. The plugin loading docs date the `mcpb/` folder to v2.1.324; the changelog lists the change in v2.1.325.
 
 ### From Git Repository
 ```bash
@@ -1156,6 +1160,8 @@ Administrators can control plugin behavior across an organization using managed 
 > `blockedMarketplaces`.** Everywhere else a `github` source appears — including
 > `extraKnownMarketplaces` and `/plugin marketplace add` — the `repo` value must name a
 > single repository.
+
+> **Organization plugins and `pluginDigests` (v2.1.325)**: plugins of a remote marketplace that managed settings declare, enable and list in `prependPlugins` or `appendPlugins` now count as the organization's, and `pluginDigests` is deprecated and ignored. The settings reference documents `prependPlugins` and `appendPlugins`; the changelog adds the `pluginDigests` deprecation, which the docs don't list yet.
 
 These settings can be applied at the organization level via managed configuration files and take precedence over user-level settings.
 
@@ -1410,8 +1416,8 @@ If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, updat
 
 ---
 
-**Last Updated**: November 13, 2026
-**Claude Code Version**: 2.1.323
+**Last Updated**: November 14, 2026
+**Claude Code Version**: 2.1.325
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1483,4 +1489,7 @@ If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, updat
 - https://code.claude.com/docs/en/plugins/org#require-a-marketplace-and-its-plugins
 - https://code.claude.com/docs/en/changelog#2-1-323
 - https://code.claude.com/docs/en/plugins/troubleshooting#language-server-doesnt-start
+- https://code.claude.com/docs/en/plugins/marketplace-reference#marketplace-sources
+- https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk
+- https://code.claude.com/docs/en/changelog#2-1-325
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

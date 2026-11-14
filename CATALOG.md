@@ -89,7 +89,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/subtask` | Spawn a forked subagent that inherits the conversation and reports back (v2.1.212+) | Delegate a side task without losing your place |
 | `/stats` | Shortcut alias that opens the stats tab of `/usage` (v2.1.118+) | Review session metrics |
 | `/statusline` | Configure status line | Customize status display |
-| `/stickers` | Order Claude Code stickers | Fun rewards |
+| `/stickers` | Check Claude Code sticker availability | Fun rewards |
 | `/fast` | Toggle fast output mode; applies to **Fable 5.2** (v2.1.321+), **Opus 5.5** (the default since v2.1.280), **Opus 5, and Opus 4.8** (Opus 4.8 fast mode is deprecated as of October 30, 2026 and will be removed on November 30, 2026; migrate to Opus 5.5) | Speed up responses |
 | `/terminal-setup` | Configure terminal integration | Setup terminal features |
 | `/undo` | Alias for `/rewind` (v2.1.108) | Same as `/rewind` |
@@ -592,8 +592,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: November 12, 2026
-**Claude Code Version**: 2.1.322
+**Last Updated**: November 14, 2026
+**Claude Code Version**: 2.1.325
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

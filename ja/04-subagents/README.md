@@ -731,6 +731,8 @@ claude --teammate-mode tmux
 
 > **注**：分割ペインモードは tmux または iTerm2 が必要。VS Code のターミナル、Windows Terminal、Ghostty では利用できない。
 
+> **注（v2.1.325）**：tmux と iTerm2 のチームメイトは、シェルが最後に `cd` を実行した場所ではなく、セッションのフォルダで起動するようになった。認識されない `teammateMode` の値は引き続き適用されないが、`claude -p`、起動時の警告、`claude doctor` でスキップされた項目として一覧に表示されるようになった。どちらも変更履歴に基づくもので、Agent Teams のドキュメントにはまだ記載されていない。
+
 ### ナビゲーション
 
 チームメイト間を移動するには、エージェントパネルで上下矢印キーを使って選択し Enter を押す（インプロセスモード）か、チームメイトのペインをクリックする（分割ペインモード）。
@@ -1273,8 +1275,8 @@ graph TD
 
 ---
 
-**最終更新**：2026 年 11 月 12 日
-**Claude Code バージョン**：2.1.322
+**最終更新**：2026 年 11 月 14 日
+**Claude Code バージョン**：2.1.325
 **ソース**：
 
 - https://code.claude.com/docs/en/sub-agents
@@ -1295,5 +1297,6 @@ graph TD
 - https://code.claude.com/docs/en/agent-teams#assign-and-claim-tasks
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-317
+- https://code.claude.com/docs/en/changelog#2-1-325
 
 **互換モデル**：Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

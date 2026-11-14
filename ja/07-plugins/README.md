@@ -634,6 +634,8 @@ graph TB
 
 GitHub および git ソースは、バージョンピン留め用に任意の `ref`（ブランチ / タグ）と `sha`（コミットハッシュ）フィールドをサポートする。
 
+**マーケットプレイス**のソース（`github` または `git`。`extraKnownMarketplaces` 内、またはマーケットプレイス追加時の `owner/repo@ref` として指定）も `ref` を受け付ける：ブランチ、タグ、またはブランチかタグ上にあるコミットの完全な小文字の SHA。SHA によるピン留めは、マーケットプレイスリファレンスによれば v2.1.324 以降が必要で（changelog では v2.1.325 に記載）、`claude-plugins-official` のような予約済みマーケットプレイス名では拒否される。それより前のバージョンのクライアントはこのピン留めをクローンできないため、この方法でピン留めしたマーケットプレイスはそこでは読み込まれなくなる。
+
 ### 配布方法
 
 **GitHub（推奨）**：
@@ -878,6 +880,8 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 > **より分かりやすいエイリアス（v2.1.232）**：`additionalMarketplaces` は `extraKnownMarketplaces` の、`allowedMarketplaces` は `strictKnownMarketplaces` のエイリアスとして受け付けられる。公式の settings リファレンスの [Marketplace key aliases](https://code.claude.com/docs/en/settings-reference#marketplace-key-aliases) に両方とも記載されている。古いバージョンはエイリアスを無視するため、正式なキーをそのまま使い続けて問題ない。
 
 > **オーナーのワイルドカード（v2.1.223 以降）**：`"owner/*"` エントリは、ある GitHub オーナー配下のすべてのマーケットプレイスリポジトリを許可またはブロックする。**`strictKnownMarketplaces` と `blockedMarketplaces` でのみ受け付けられる。** `extraKnownMarketplaces` や `/plugin marketplace add` を含め、`github` ソースが登場する他の箇所では、`repo` の値は単一のリポジトリを指定しなければならない。
+
+> **組織のプラグインと `pluginDigests`（v2.1.325）**：管理対象設定が宣言・有効化し、`prependPlugins` または `appendPlugins` に列挙したリモートマーケットプレイスのプラグインは、組織のプラグインとして扱われるようになり、`pluginDigests` は非推奨となって無視される。settings リファレンスは `prependPlugins` と `appendPlugins` を記載している。`pluginDigests` の非推奨化は changelog が追加したもので、ドキュメントにはまだ記載がない。
 
 これらの設定は管理対象設定ファイルで組織レベルに適用でき、ユーザーレベルの設定より優先される。
 

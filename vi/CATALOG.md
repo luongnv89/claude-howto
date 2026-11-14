@@ -81,7 +81,7 @@ Commands là các lệnh tắt do người dùng gọi thực hiện các hành 
 | `/subtask` | Spawn một subagent được fork kế thừa cuộc hội thoại và báo cáo lại (v2.1.212+) | Giao một tác vụ phụ mà không mất chỗ đang làm |
 | `/stats` | Hiển thị thống kê session | Review metrics session |
 | `/statusline` | Cấu hình status line | Tùy chỉnh hiển thị trạng thái |
-| `/stickers` | Đặt mua stickers Claude Code | Phần thưởng vui |
+| `/stickers` | Kiểm tra xem stickers Claude Code có sẵn không | Phần thưởng vui |
 | `/fast` | Bật/tắt mode output nhanh | Tăng tốc độ responses |
 | `/terminal-setup` | Cấu hình tích hợp terminal | Thiết lập tính năng terminal |
 | `/upgrade` | Mở trang nâng cấp để chuyển sang gói cao hơn | Nâng cấp gói |

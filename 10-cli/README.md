@@ -247,6 +247,8 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 
 > **Permission hardening (v2.1.323)**: Claude Code warns at start-up about a Bash allow rule with a `*` in a variable's value, such as `Bash(PORT=* npm run dev)`. It fixes allow rules with an attached wildcard, such as `Bash(ls*)`, that skipped the permission prompt in some cases; a rule that names a variable, such as `Bash(NODE_ENV*)`, now asks. Bash deny and ask rules no longer miss some commands run through `sudo`, `env` and similar wrappers, and a case where the Write and Edit tools could write to a path a `Read` deny rule covers is fixed. With `plansDirectory` set, a plan-file write that can't be shown to stay inside the project is refused. Bash prompts no longer offer "don't ask again" for commands that write to sensitive paths such as `.git` or `.claude`, where the saved rule didn't stop the next prompt, and "don't ask again" on an allow rule that looks like it holds a secret, or that would be saved to a `settings.local.json` that git tracks, lasts for the session only and isn't saved.
 
+> **Permission hardening (v2.1.325)**: read-only git commands now ask first in a repository that isn't the project's or one you trusted; to run them there without prompts, name that repository with `--add-dir`, not the `additionalDirectories` setting. Relative deny and ask rules such as `Read(./.env)` keep covering the project after a `cd`, and now also apply in added directories. Some compound Bash commands that could run without asking now ask, a Bash allow rule can no longer run a different program than the one it names, and some deny and ask rules that didn't apply to certain Bash commands now do. With `plansDirectory` set, an approved plan edit that the folder can't take is saved in the default plans folder, and a warning says where and why. These come from the changelog; the permissions docs don't list the git and added-directory changes yet.
+
 ### Permission Examples
 
 ```bash
@@ -971,6 +973,7 @@ The "ultrathink" keyword in prompts activates deep reasoning; since v2.1.311, ty
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | Linux only: opt in to a memory cgroup applied to Bash commands (v2.1.233) |
 | `ANTHROPIC_BEDROCK_REGION_PREFIX` | Prefer a specific Bedrock cross-region inference profile (v2.1.224) |
 | `CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT` | Set to `1` to restore pre-v2.1.223 auto-compact behavior on unrecognized model IDs (v2.1.223) |
+| `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Override the context window size, in tokens, that Claude Code assumes for the active model, such as `400000` for a gateway or custom model ID. For an ID it doesn't recognize and that has no `[1m]`, the value applies on its own; that includes IDs starting with `claude-`, such as a gateway's `claude-sonnet-latest`, since v2.1.324 per the model configuration docs (the changelog lists it in v2.1.325). For an unrecognized ID with `[1m]`, a value under 1M also needs `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`; for an ID it recognizes, the value applies only with `DISABLE_COMPACT`, which turns off all compaction |
 | `CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS` | Set to `0` to disable prefix staggering on dynamic-workflow fan-out (v2.1.229) |
 | `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS` | Overrides the `dialogExpiry` setting (v2.1.224) |
 | `CLAUDE_CODE_PROJECT_DIR_NAME` | Overrides the per-project transcript directory name Claude Code derives from the project path (v2.1.234) |
@@ -1131,8 +1134,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: November 13, 2026
-**Claude Code Version**: 2.1.323
+**Last Updated**: November 14, 2026
+**Claude Code Version**: 2.1.325
 **Sources**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/permission-modes#time-limits-and-denials-in-auto-and-bypasspermissions-modes
@@ -1228,4 +1231,6 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/changelog#2-1-317
 - https://code.claude.com/docs/en/changelog#2-1-323
 - https://code.claude.com/docs/en/permissions#wildcard-patterns
+- https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/model-config#which-ids-claude_code_max_context_tokens-applies-to
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

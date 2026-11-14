@@ -80,7 +80,7 @@
 | `/subtask` | 派生一个继承当前对话的 forked subagent，完成后把结果返回给本对话（v2.1.212+） | 委派支线任务而不打断当前思路 |
 | `/stats` | 显示会话统计 | 查看会话指标 |
 | `/statusline` | 配置状态栏 | 自定义状态显示 |
-| `/stickers` | 订购 Claude Code 贴纸 | 趣味奖励 |
+| `/stickers` | 查看 Claude Code 贴纸是否可获取 | 趣味奖励 |
 | `/fast` | 切换快速输出模式 | 加快响应 |
 | `/terminal-setup` | 配置终端集成 | 设置终端特性 |
 | `/upgrade` | 打开升级页面以切换到更高套餐 | 套餐升级 |

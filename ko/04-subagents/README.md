@@ -773,6 +773,8 @@ claude --teammate-mode tmux
 
 > **참고**: 분할 창 모드에는 tmux 또는 iTerm2가 필요합니다. VS Code 터미널, Windows 터미널 또는 Ghostty에서는 사용할 수 없습니다.
 
+> **참고 (v2.1.325)**: 이제 tmux와 iTerm2 팀원은 셸이 마지막으로 `cd`를 실행한 위치가 아니라 세션의 폴더에서 시작합니다. 인식되지 않는 `teammateMode` 값은 여전히 적용되지 않지만, 이제 `claude -p`, 시작 경고, `claude doctor`가 이를 건너뛴 항목으로 표시합니다. 두 변경 모두 changelog에 나오며, 에이전트 팀 문서에는 아직 없습니다.
+
 ### 내비게이션
 
 팀원 간에 이동하려면 에이전트 패널에서 위아래 화살표 키로 이동한 뒤 Enter를 누르거나(인-프로세스 모드), 팀원의 창을 클릭합니다(분할 창 모드).
@@ -1355,8 +1357,8 @@ graph TD
 
 ---
 
-**최종 업데이트**: 2026년 11월 12일
-**Claude Code 버전**: 2.1.322
+**최종 업데이트**: 2026년 11월 14일
+**Claude Code 버전**: 2.1.325
 **출처**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1389,4 +1391,5 @@ graph TD
 - https://code.claude.com/docs/en/vs-code#see-a-background-subagents-tool-calls
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-317
+- https://code.claude.com/docs/en/changelog#2-1-325
 **호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

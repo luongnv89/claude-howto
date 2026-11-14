@@ -94,7 +94,7 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/skill-doctor` | Show which loaded skills go unused and what each one costs in context, so you can decide which to turn off. The report opens in the `/plugin` manager's **Stats** tab; in non-interactive `-p` mode it prints as text. Over Remote Control it replies `Skill usage reports are not available on this connection.` — run it in the terminal on the machine hosting the session (requires v2.1.252+) |
 | `/skills` | List available skills |
 | `/stats` | Typing-shortcut alias for `/usage` — opens the stats tab (daily usage, sessions, streaks) (v2.1.118+) |
-| `/stickers` | Order Claude Code stickers |
+| `/stickers` | Check Claude Code sticker availability |
 | `/status` | Show version, model, account, and a `Session kind` row reading `background job · attached`, `background job · unattended`, or `interactive` (row added v2.1.221). Openable while Claude is responding |
 | `/statusline` | Configure status line |
 | `/tasks` | List/manage background tasks. Since v2.1.319 an **Earlier in this session** row lists finished subagents, so you can reopen one and message it even after it leaves the list or you restart. |
@@ -655,8 +655,8 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: November 12, 2026
-**Claude Code Version**: 2.1.322
+**Last Updated**: November 14, 2026
+**Claude Code Version**: 2.1.325
 **Sources**:
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills

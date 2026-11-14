@@ -245,6 +245,8 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 
 > **سخت‌سازی مجوز (نسخه 2.1.323)**: Claude Code هنگام راه‌اندازی دربارهٔ قاعدهٔ allow در Bash که در مقدار یک متغیر `*` دارد، مانند `Bash(PORT=* npm run dev)`، هشدار می‌دهد. قواعد allow با wildcard چسبیده، مانند `Bash(ls*)`، که در برخی موارد از پرامپت مجوز رد می‌شدند اصلاح شده‌اند؛ قاعده‌ای که نام یک متغیر را می‌آورد، مانند `Bash(NODE_ENV*)`، اکنون می‌پرسد. قواعد deny و ask در Bash دیگر برخی دستورات اجراشده از طریق `sudo`، `env` و wrapperهای مشابه را از قلم نمی‌اندازند، و موردی که ابزارهای Write و Edit می‌توانستند در مسیری بنویسند که یک قاعدهٔ deny برای `Read` آن را پوشش می‌دهد رفع شده است. با تنظیم `plansDirectory`، نوشتن فایل طرحی که نتوان نشان داد درون پروژه می‌ماند رد می‌شود. پرامپت‌های Bash دیگر برای دستوراتی که در مسیرهای حساس مانند `.git` یا `.claude` می‌نویسند گزینهٔ «don't ask again» را پیشنهاد نمی‌کنند، چون قاعدهٔ ذخیره‌شده جلوی پرامپت بعدی را نمی‌گرفت؛ و «don't ask again» روی قاعدهٔ allowای که به نظر می‌رسد رازی در خود دارد، یا در `settings.local.json`ای ذخیره می‌شود که git آن را دنبال می‌کند، فقط برای همان نشست دوام دارد و ذخیره نمی‌شود.
 
+> **سخت‌سازی مجوز (نسخه 2.1.325)**: دستورات فقط‌خواندنی git اکنون در مخزنی که نه مخزن پروژه است و نه مخزنی که به آن اعتماد کرده‌اید، ابتدا می‌پرسند؛ برای اجرای آن‌ها در آنجا بدون پرامپت، آن مخزن را با `--add-dir` نام ببرید، نه با تنظیم `additionalDirectories`. قواعد deny و ask نسبی مانند `Read(./.env)` پس از یک `cd` همچنان پروژه را پوشش می‌دهند و اکنون در دایرکتوری‌های افزوده‌شده نیز اعمال می‌شوند. برخی دستورات مرکب Bash که می‌توانستند بدون پرسیدن اجرا شوند اکنون می‌پرسند، یک قاعدهٔ allow در Bash دیگر نمی‌تواند برنامه‌ای غیر از برنامه‌ای که نام می‌برد را اجرا کند، و برخی قواعد deny و ask که روی برخی دستورات Bash اعمال نمی‌شدند اکنون اعمال می‌شوند. با تنظیم `plansDirectory`، ویرایش تأییدشدهٔ طرحی که آن پوشه نمی‌تواند بپذیرد در پوشهٔ پیش‌فرض طرح‌ها ذخیره می‌شود و هشداری می‌گوید کجا و چرا. این موارد از changelog آمده‌اند؛ مستندات permissions هنوز تغییرات مربوط به git و دایرکتوری‌های افزوده‌شده را فهرست نمی‌کند.
+
 ### مثال‌های مجوز
 
 ```bash
@@ -960,6 +962,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Fable models,
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | فقط Linux: انصراف از اعمال یک memory cgroup روی دستورات Bash (نسخه 2.1.233) |
 | `ANTHROPIC_BEDROCK_REGION_PREFIX` | ترجیح یک پروفایل استنتاج بین‌منطقه‌ای مشخص Bedrock (نسخه 2.1.224) |
 | `CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT` | برای بازگرداندن رفتار فشرده‌سازی خودکار پیش از نسخه 2.1.223 روی شناسه‌های مدل ناشناخته آن را `1` بگذارید (نسخه 2.1.223) |
+| `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | اندازهٔ پنجرهٔ زمینه را، بر حسب توکن، که Claude Code برای مدل فعال فرض می‌کند بازنویسی می‌کند، مثلاً `400000` برای یک gateway یا شناسهٔ مدل سفارشی. برای شناسه‌ای که آن را نمی‌شناسد و `[1m]` ندارد، این مقدار به‌تنهایی اعمال می‌شود؛ این شامل شناسه‌هایی هم می‌شود که با `claude-` شروع می‌شوند، مانند `claude-sonnet-latest` یک gateway، از نسخه 2.1.324 طبق مستندات پیکربندی مدل (changelog آن را در نسخه 2.1.325 فهرست می‌کند). برای شناسهٔ ناشناخته‌ای که `[1m]` دارد، مقدار کمتر از 1M به `CLAUDE_CODE_DISABLE_1M_CONTEXT=1` هم نیاز دارد؛ برای شناسه‌ای که آن را می‌شناسد، این مقدار فقط همراه با `DISABLE_COMPACT` اعمال می‌شود، که همهٔ فشرده‌سازی‌ها را خاموش می‌کند |
 | `CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS` | برای غیرفعال کردن پخش‌شوندگی پیشوند در fan-out جریان کاری پویا آن را `0` بگذارید (نسخه 2.1.229) |
 | `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS` | تنظیم `dialogExpiry` را بازنویسی می‌کند (نسخه 2.1.224) |
 | `CLAUDE_CODE_PROJECT_DIR_NAME` | نام دایرکتوری رونوشت هر پروژه که Claude Code از مسیر پروژه مشتق می‌کند را بازنویسی می‌کند (نسخه 2.1.234) |
@@ -1119,8 +1122,8 @@ claude -p --output-format json "query"
 
 ---
 
-**آخرین به‌روزرسانی**: ۱۳ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.323
+**آخرین به‌روزرسانی**: ۱۴ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.325
 **منابع**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/permission-modes#time-limits-and-denials-in-auto-and-bypasspermissions-modes
@@ -1206,4 +1209,6 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-323
 - https://code.claude.com/docs/en/permissions#wildcard-patterns
+- https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/model-config#which-ids-claude_code_max_context_tokens-applies-to
 **مدل‌های سازگار**: Claude Fable 5.2، Claude Fable 5.1، Claude Fable 5، Claude Opus 5.5، Claude Opus 5، Claude Sonnet 5.5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 5.5، Claude Haiku 4.5

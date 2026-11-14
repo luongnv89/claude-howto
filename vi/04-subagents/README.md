@@ -769,6 +769,8 @@ Bạn cũng có thể đặt chế độ hiển thị trong `settings.json`:
 
 > **Lưu ý**: Chế độ split-pane yêu cầu tmux hoặc iTerm2. Nó không có sẵn trong terminal VS Code, Windows Terminal, hoặc Ghostty.
 
+> **Lưu ý (v2.1.325)**: Các đồng nghiệp trong tmux và iTerm2 giờ khởi động trong thư mục của phiên thay vì ở nơi shell chạy `cd` lần cuối. Một giá trị `teammateMode` không được nhận diện vẫn không được áp dụng, nhưng giờ `claude -p`, cảnh báo khi khởi động và `claude doctor` liệt kê nó là một mục bị bỏ qua. Cả hai đều lấy từ changelog; tài liệu Agent Teams chưa liệt kê chúng.
+
 ### Điều hướng
 
 Để di chuyển giữa các đồng nghiệp, dùng phím mũi tên lên/xuống trong bảng agent rồi nhấn Enter (chế độ in-process), hoặc nhấp vào pane của đồng nghiệp (chế độ split-pane).
@@ -1352,8 +1354,8 @@ Xem phần OpenTelemetry trong [Tính Năng Nâng Cao → Telemetry](../09-advan
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 12 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.322
+**Cập Nhật Lần Cuối**: Ngày 14 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.325
 **Nguồn**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1392,4 +1394,5 @@ Xem phần OpenTelemetry trong [Tính Năng Nâng Cao → Telemetry](../09-advan
 - https://code.claude.com/docs/en/errors#a-command-line-deny-rule-cannot-be-handed-to-a-teammate-intact
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-317
+- https://code.claude.com/docs/en/changelog#2-1-325
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

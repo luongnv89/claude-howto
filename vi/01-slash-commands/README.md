@@ -79,7 +79,7 @@ Lệnh tích hợp sẵn là các lối tắt cho các hành động phổ biế
 | `/security-review` | Phân tích nhánh để tìm lỗ hổng bảo mật |
 | `/skills` | Liệt kê các skills có sẵn |
 | `/stats` | Trực quan hóa việc sử dụng hàng ngày, các phiên, chuỗi ngày |
-| `/stickers` | Đặt sticker Claude Code |
+| `/stickers` | Kiểm tra xem sticker Claude Code có sẵn không |
 | `/status` | Hiển thị phiên bản, mô hình, tài khoản |
 | `/statusline` | Cấu hình dòng trạng thái |
 | `/tasks` | Liệt kê/quản lý các tác vụ nền |

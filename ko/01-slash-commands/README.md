@@ -97,7 +97,7 @@
 | `/skill-doctor` | 로드된 스킬 중 사용되지 않는 스킬과 각 스킬이 컨텍스트에서 차지하는 비용을 보여주어, 어떤 스킬을 끌지 결정할 수 있게 합니다. 보고서는 `/plugin` 관리자의 **Stats** 탭에서 열리며, 비대화형 `-p` 모드에서는 텍스트로 출력됩니다. 원격 제어에서는 `Skill usage reports are not available on this connection.`이라고 응답하므로, 세션을 호스팅하는 머신의 터미널에서 실행하십시오 (v2.1.252+ 필요) |
 | `/skills` | 사용 가능한 스킬 나열 |
 | `/stats` | `/usage`의 타이핑 단축 별칭 — 통계 탭(일일 사용량, 세션, 연속 기록)을 엽니다 (v2.1.118+) |
-| `/stickers` | Claude Code 스티커 주문 |
+| `/stickers` | Claude Code 스티커를 구할 수 있는지 확인 |
 | `/status` | 버전, 모델, 계정, 그리고 `background job · attached`, `background job · unattended` 또는 `interactive`를 표시하는 `Session kind` 행을 보여줍니다 (행은 v2.1.221에 추가). Claude가 응답 중일 때도 열 수 있습니다 |
 | `/statusline` | 상태 표시줄 구성 |
 | `/tasks` | 백그라운드 작업 나열/관리 |
@@ -658,8 +658,8 @@ Deploy the application to production:
 
 ---
 
-**최종 업데이트**: 2026년 11월 12일
-**Claude Code 버전**: 2.1.322
+**최종 업데이트**: 2026년 11월 14일
+**Claude Code 버전**: 2.1.325
 **출처**:
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills
