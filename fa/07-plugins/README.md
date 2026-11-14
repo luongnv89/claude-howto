@@ -1161,7 +1161,7 @@ claude --plugin-url https://example.com/releases/my-plugin-0.3.0.zip
 > `extraKnownMarketplaces` و `/plugin marketplace add` — مقدار `repo` باید به یک
 > مخزن واحد اشاره کند.
 
-> **پلاگین‌های سازمان و `pluginDigests` (v2.1.325)**: پلاگین‌های یک مارکت‌پلیس راه دور که تنظیمات مدیریت‌شده آن‌ها را اعلام و فعال می‌کنند و در `prependPlugins` یا `appendPlugins` فهرست می‌کنند، اکنون پلاگین‌های سازمان به شمار می‌آیند، و `pluginDigests` منسوخ شده و نادیده گرفته می‌شود. مرجع تنظیمات `prependPlugins` و `appendPlugins` را مستند می‌کند؛ changelog منسوخ شدن `pluginDigests` را اضافه می‌کند که مستندات هنوز آن را فهرست نمی‌کنند.
+> **پلاگین‌های سازمان و `pluginDigests`**: پلاگین‌های یک مارکت‌پلیس راه دور که تنظیمات مدیریت‌شده آن‌ها را اعلام و فعال می‌کنند و در `prependPlugins` یا `appendPlugins` فهرست می‌کنند، اکنون پلاگین‌های سازمان به شمار می‌آیند. مستندات مدیریت مادها این را از v2.1.324 می‌داند؛ changelog آن را در v2.1.325 فهرست می‌کند. `pluginDigests` از v2.1.325 منسوخ شده و نادیده گرفته می‌شود؛ changelog این را اضافه می‌کند و مستندات هنوز آن را فهرست نمی‌کنند.
 
 این تنظیمات می‌توانند در سطح سازمان از طریق فایل‌های پیکربندی مدیریت‌شده اعمال شوند و بر تنظیمات سطح کاربر اولویت دارند.
 
@@ -1489,4 +1489,5 @@ claude plugin update plugin-name
 - https://code.claude.com/docs/en/plugins/marketplace-reference#marketplace-sources
 - https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk
 - https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
 **مدل‌های سازگار**: Claude Fable 5.2، Claude Fable 5.1، Claude Fable 5، Claude Opus 5.5، Claude Opus 5، Claude Sonnet 5.5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 5.5، Claude Haiku 4.5

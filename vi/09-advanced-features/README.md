@@ -2076,7 +2076,7 @@ Gợi ý prompt hiển thị các lệnh ví dụ màu xám dựa trên lịch s
 export CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false
 ```
 
-Hoặc đặt `promptSuggestionEnabled` thành `false` trong một file cài đặt, hoặc tắt **Prompt suggestions** trong `/config`. Trong VS Code, hãy đặt nó trong `~/.claude/settings.json`: các cuộc hội thoại mới sẽ ngừng hiển thị gợi ý, và các cuộc hội thoại đang mở cũng vậy sau khi bạn chạy **Developer: Reload Window**. `CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION` được ưu tiên hơn cài đặt này cho một phiên.
+Hoặc đặt `promptSuggestionEnabled` thành `false` trong một file cài đặt, hoặc tắt **Prompt suggestions** trong `/config`. Trong VS Code, hãy đặt nó trong `~/.claude/settings.json`: các cuộc hội thoại mới sẽ ngừng hiển thị gợi ý, và các cuộc hội thoại đang mở cũng vậy sau khi bạn chạy **Developer: Reload Window**. `CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION` được ưu tiên hơn cài đặt này, nên nếu bạn đã đặt nó thành `true`, hãy đổi thành `false` ở nơi bạn đặt.
 
 ---
 
@@ -2149,7 +2149,7 @@ Thêm `.claude` để mỗi worktree cũng nhận được `.claude/settings.jso
 | `WorktreeCreate` | Sự kiện hook được kích hoạt khi một worktree được tạo. Hãy để hook in ra đường dẫn thật: Claude Code từ chối một đường dẫn đi qua một symlink bên dưới thư mục gốc của repository, và từ v2.1.325 `EnterWorktree` cũng vậy |
 | `WorktreeRemove` | Sự kiện hook được kích hoạt khi một worktree bị xóa |
 
-Từ v2.1.157, các worktree do Claude quản lý được để ở trạng thái không khóa khi tác nhân hoàn thành, nên `git worktree remove`/`prune` có thể dọn dẹp chúng.
+Từ v2.1.157, các worktree do Claude quản lý được để ở trạng thái không khóa khi tác nhân hoàn thành, nên `git worktree remove`/`prune` có thể dọn dẹp chúng. Với các lần chạy không tương tác bằng `-p`, [tài liệu worktree](https://code.claude.com/docs/en/worktrees#clean-up-worktrees) cho biết Claude không dọn dẹp worktree của chúng, và Claude Code giữ nguyên khóa đã đặt trên mỗi worktree lúc tạo cho đến khi lượt quét khóa cũ (stale-lock sweep) của một phiên sau giải phóng nó.
 
 > **Worktree cô lập từ chối một số lệnh git (v2.1.325)**: changelog bổ sung rằng một phiên hoặc tác nhân worktree cô lập giờ bị từ chối `git bisect run`, `git maintenance register|start` và các lệnh thiết lập của `scalar`, và được cho biết những gì vẫn hoạt động. Tài liệu worktree chưa liệt kê điều này.
 
@@ -2188,7 +2188,7 @@ claude --settings '{"sandbox": {"enabled": true}}'
 
 > **Bật sandbox không còn bỏ qua lời nhắc quyền nữa (từ v2.1.324 theo settings reference; changelog liệt kê nó trong v2.1.325)**: `sandbox.autoAllowBashIfSandboxed` giờ mặc định là `false`, nên các lệnh Bash trong sandbox đi qua luồng quyền thông thường, và các rule allow cùng chế độ quyền của bạn sẽ quyết định. Tab **Mode** của `/sandbox` gọi đây là chế độ quyền thông thường (regular permissions); các ví dụ file cài đặt và theo từng phiên ở trên bắt đầu ở chế độ này. Để chạy các lệnh trong sandbox mà không có lời nhắc quyền (chế độ auto-allow), hãy đặt thêm `"autoAllowBashIfSandboxed": true` trong khối `sandbox`, ví dụ `claude --settings '{"sandbox": {"enabled": true, "autoAllowBashIfSandboxed": true}}'`. Trong cài đặt được quản lý (managed settings), hãy thêm nó vào khối `sandbox` của nguồn managed có thứ hạng cao nhất của bạn.
 >
-> Auto-allow vẫn có giới hạn: các lệnh không thể chạy trong sandbox đi qua luồng quyền thông thường; các rule `deny` và các rule `ask` theo nội dung như `Bash(git push *)` vẫn áp dụng, dù một rule ask `Bash` trần bị bỏ qua với các lệnh trong sandbox, trừ khi ở chế độ lập kế hoạch (plan mode); `rm` hoặc `rmdir` nhắm vào một đường dẫn quan trọng (critical path) đi qua luồng quyền thông thường; các lệnh của công cụ Monitor không được tự động phê duyệt; và `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` tắt auto-allow.
+> Auto-allow vẫn có giới hạn: các lệnh không thể chạy trong sandbox đi qua luồng quyền thông thường; các rule `deny` và các rule `ask` theo nội dung như `Bash(git push *)` vẫn áp dụng, dù một rule ask `Bash` trần bị bỏ qua với các lệnh trong sandbox, trừ khi ở chế độ lập kế hoạch (plan mode); `rm` hoặc `rmdir` nhắm vào một đường dẫn quan trọng (critical path) đi qua luồng quyền thông thường; các lệnh của công cụ Monitor không được tự động phê duyệt; và `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` tắt auto-allow. Một số lệnh trong sandbox, như `FOO=bar npm test`, `make CC=clang` hoặc `eval "ls"`, cũng đi qua luồng quyền thông thường, nơi các rule allow và chế độ quyền của bạn quyết định. Ở chế độ lập kế hoạch (plan mode), auto-allow không nới rộng việc phê duyệt. Xem danh sách đầy đủ tại [Auto-allow mode](https://code.claude.com/docs/en/sandboxing#auto-allow-mode).
 
 ### Các Cài Đặt Cấu Hình
 

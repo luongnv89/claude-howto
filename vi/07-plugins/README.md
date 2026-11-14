@@ -1161,7 +1161,7 @@ Các quản trị viên có thể kiểm soát hành vi plugin trên toàn tổ 
 > `extraKnownMarketplaces` và `/plugin marketplace add` — giá trị `repo` phải chỉ đúng
 > một repository.
 
-> **Plugin của tổ chức và `pluginDigests` (v2.1.325)**: các plugin của một marketplace từ xa mà managed settings khai báo, bật và liệt kê trong `prependPlugins` hoặc `appendPlugins` giờ được tính là của tổ chức, và `pluginDigests` đã bị deprecated và bị bỏ qua. Settings reference ghi tài liệu cho `prependPlugins` và `appendPlugins`; changelog bổ sung việc deprecated `pluginDigests`, điều mà tài liệu chưa liệt kê.
+> **Plugin của tổ chức và `pluginDigests`**: các plugin của một marketplace từ xa mà managed settings khai báo, bật và liệt kê trong `prependPlugins` hoặc `appendPlugins` giờ được tính là của tổ chức. Tài liệu quản trị mod ghi điều này là từ v2.1.324; changelog liệt kê nó trong v2.1.325. `pluginDigests` đã bị deprecated và bị bỏ qua từ v2.1.325; changelog bổ sung điều này, và tài liệu chưa liệt kê nó.
 
 Các cài đặt này có thể được áp dụng ở cấp tổ chức qua các file cấu hình được quản lý và được ưu tiên hơn các cài đặt cấp người dùng.
 
@@ -1489,4 +1489,5 @@ Nếu `claude plugin list` hiển thị `Version: unknown` cho một plugin lấ
 - https://code.claude.com/docs/en/plugins/marketplace-reference#marketplace-sources
 - https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk
 - https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

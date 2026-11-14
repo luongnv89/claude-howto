@@ -1631,7 +1631,7 @@ export CLAUDE_CODE_TASK_LIST_ID=my-project-sprint-3
 export CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false
 ```
 
-または、設定ファイルで `promptSuggestionEnabled` を `false` にするか、`/config` で **Prompt suggestions** をオフにする。VS Code では `~/.claude/settings.json` で設定する。新しい会話では候補が表示されなくなり、開いている会話では **Developer: Reload Window** を実行した後に表示されなくなる。`CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION` は 1 つのセッションに対して、この設定より優先される。
+または、設定ファイルで `promptSuggestionEnabled` を `false` にするか、`/config` で **Prompt suggestions** をオフにする。VS Code では `~/.claude/settings.json` で設定する。新しい会話では候補が表示されなくなり、開いている会話では **Developer: Reload Window** を実行した後に表示されなくなる。`CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION` はこの設定より優先されるため、`true` にしている場合は、設定した場所で `false` に変更する。
 
 ---
 
@@ -1677,6 +1677,8 @@ claude -w
 | `WorktreeCreate` | ワークツリー作成時に発火するフックイベント。フックには実際のパスを出力させること。Claude Code はリポジトリルート配下のシンボリックリンクを経由するパスを拒否し、v2.1.325 以降は `EnterWorktree` も同様に拒否する |
 | `WorktreeRemove` | ワークツリー削除時に発火するフックイベント |
 
+> **分離されたワークツリーは一部の git コマンドを拒否する（v2.1.325）：** changelog によると、分離されたワークツリーのセッションやエージェントでは `git bisect run`、`git maintenance register|start`、`scalar` のセットアップコマンドが拒否され、引き続き使える操作が案内されるようになった。ワークツリーのドキュメントにはまだ記載されていない。
+
 ### 自動クリーンアップ
 
 ワークツリーで変更が行われていない場合、セッション終了時に自動でクリーンアップされる。
@@ -1712,7 +1714,7 @@ claude --settings '{"sandbox": {"enabled": true}}'
 
 > **サンドボックスを有効にしてもプロンプトは省略されなくなった（設定リファレンスでは v2.1.324 以降、changelog では v2.1.325 に記載）：** `sandbox.autoAllowBashIfSandboxed` のデフォルトが `false` になったため、サンドボックス内の Bash コマンドは通常の権限フローを通り、allow ルールと権限モードによって判断される。`/sandbox` の **Mode** タブではこれを通常の権限（regular permissions）モードと呼び、上記の設定ファイルとセッション単位の例はこのモードで始まる。権限プロンプトなしでサンドボックス内のコマンドを実行するには（自動許可モード）、`sandbox` ブロックに `"autoAllowBashIfSandboxed": true` も設定する。例：`claude --settings '{"sandbox": {"enabled": true, "autoAllowBashIfSandboxed": true}}'`。マネージド設定では、優先順位が最も高いマネージドソースの `sandbox` ブロックに追加する。
 >
-> 自動許可にも制限がある。サンドボックスで実行できないコマンドは通常の権限フローを通る。`deny` ルールと `Bash(git push *)` のような内容を限定した `ask` ルールは引き続き適用される。ただし、単独の `Bash` ask ルールはサンドボックス内のコマンドに対してはスキップされる（プランモードを除く）。クリティカルパスを対象とする `rm` や `rmdir` は通常の権限フローを通る。Monitor ツールのコマンドは自動承認されない。そして `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` は自動許可をオフにする。
+> 自動許可にも制限がある。サンドボックスで実行できないコマンドは通常の権限フローを通る。`deny` ルールと `Bash(git push *)` のような内容を限定した `ask` ルールは引き続き適用される。ただし、単独の `Bash` ask ルールはサンドボックス内のコマンドに対してはスキップされる（プランモードを除く）。クリティカルパスを対象とする `rm` や `rmdir` は通常の権限フローを通る。Monitor ツールのコマンドは自動承認されない。そして `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` は自動許可をオフにする。また、`FOO=bar npm test`、`make CC=clang`、`eval "ls"` のような一部のサンドボックス内コマンドも通常の権限フローを通り、allow ルールと権限モードによって判断される。プランモードでは、自動許可によって承認範囲は広がらない。完全な一覧は [Auto-allow mode](https://code.claude.com/docs/en/sandboxing#auto-allow-mode) を参照。
 
 ### 設定項目
 

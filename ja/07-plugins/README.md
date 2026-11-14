@@ -881,7 +881,7 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 
 > **オーナーのワイルドカード（v2.1.223 以降）**：`"owner/*"` エントリは、ある GitHub オーナー配下のすべてのマーケットプレイスリポジトリを許可またはブロックする。**`strictKnownMarketplaces` と `blockedMarketplaces` でのみ受け付けられる。** `extraKnownMarketplaces` や `/plugin marketplace add` を含め、`github` ソースが登場する他の箇所では、`repo` の値は単一のリポジトリを指定しなければならない。
 
-> **組織のプラグインと `pluginDigests`（v2.1.325）**：管理対象設定が宣言・有効化し、`prependPlugins` または `appendPlugins` に列挙したリモートマーケットプレイスのプラグインは、組織のプラグインとして扱われるようになり、`pluginDigests` は非推奨となって無視される。settings リファレンスは `prependPlugins` と `appendPlugins` を記載している。`pluginDigests` の非推奨化は changelog が追加したもので、ドキュメントにはまだ記載がない。
+> **組織のプラグインと `pluginDigests`**：管理対象設定が宣言・有効化し、`prependPlugins` または `appendPlugins` に列挙したリモートマーケットプレイスのプラグインは、組織のプラグインとして扱われるようになった。mods の管理者向けドキュメントはこれを v2.1.324 以降としているが、changelog は v2.1.325 に記載している。`pluginDigests` は v2.1.325 以降非推奨となり無視される。これは changelog が追加したもので、ドキュメントにはまだ記載がない。
 
 これらの設定は管理対象設定ファイルで組織レベルに適用でき、ユーザーレベルの設定より優先される。
 
@@ -1151,4 +1151,5 @@ claude plugin update plugin-name
 - https://code.claude.com/docs/en/plugins/components
 - https://code.claude.com/docs/en/plugins/publish
 - https://code.claude.com/docs/en/plugins/overview
+- https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
 **対応モデル**: Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

@@ -772,7 +772,7 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 
 > **owner 通配符（v2.1.223+）**：`"owner/*"` 条目可允许或阻止某个 GitHub owner 名下的所有市场仓库。**仅在 `strictKnownMarketplaces` 和 `blockedMarketplaces` 中被接受。** 在其他出现 `github` 源的地方 —— 包括 `extraKnownMarketplaces` 和 `/plugin marketplace add` —— `repo` 的值必须指向单个仓库。
 
-> **组织插件与 `pluginDigests`（v2.1.325）**：托管设置所声明、启用并列在 `prependPlugins` 或 `appendPlugins` 中的远程市场插件，现在算作组织的插件，`pluginDigests` 已弃用并被忽略。settings 参考文档记载了 `prependPlugins` 和 `appendPlugins`；`pluginDigests` 的弃用由 changelog 新增，文档尚未列出。
+> **组织插件与 `pluginDigests`**：托管设置所声明、启用并列在 `prependPlugins` 或 `appendPlugins` 中的远程市场插件，现在算作组织的插件。mods 管理文档将此标注为 v2.1.324 起；changelog 将其列在 v2.1.325。自 v2.1.325 起 `pluginDigests` 已弃用并被忽略；这由 changelog 新增，文档尚未列出。
 
 这些设置可以通过托管配置文件应用到组织级别，并且优先于用户级设置。
 
@@ -1035,3 +1035,4 @@ claude plugin update plugin-name
 - https://code.claude.com/docs/en/plugins/components
 - https://code.claude.com/docs/en/plugins/publish
 - https://code.claude.com/docs/en/plugins/overview
+- https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods

@@ -1168,7 +1168,7 @@ claude --plugin-url https://example.com/releases/my-plugin-0.3.0.zip
 > (`extraKnownMarketplaces`와 `/plugin marketplace add` 포함)에서는 `repo` 값이
 > 단일 저장소를 지정해야 합니다.
 
-> **조직 플러그인과 `pluginDigests` (v2.1.325)**: 관리 설정이 선언하고, 활성화하고, `prependPlugins` 또는 `appendPlugins`에 나열한 원격 마켓플레이스의 플러그인은 이제 조직의 플러그인으로 간주되며, `pluginDigests`는 더 이상 사용되지 않고(deprecated) 무시됩니다. 설정 레퍼런스는 `prependPlugins`와 `appendPlugins`를 설명하며, `pluginDigests` 지원 중단은 변경 로그에 추가된 것으로 문서에는 아직 나와 있지 않습니다.
+> **조직 플러그인과 `pluginDigests`**: 관리 설정이 선언하고, 활성화하고, `prependPlugins` 또는 `appendPlugins`에 나열한 원격 마켓플레이스의 플러그인은 이제 조직의 플러그인으로 간주됩니다. 모드 관리 문서는 이를 v2.1.324부터로 표기하고, 변경 로그는 v2.1.325에 기재합니다. `pluginDigests`는 v2.1.325부터 더 이상 사용되지 않으며(deprecated) 무시됩니다. 이는 변경 로그에 추가된 것으로 문서에는 아직 나와 있지 않습니다.
 
 이 설정은 관리 구성 파일을 통해 조직 수준에서 적용할 수 있으며 사용자 수준 설정보다 우선합니다.
 
@@ -1503,4 +1503,5 @@ git 소스 플러그인에 대해 `claude plugin list`가 `Version: unknown`을 
 - https://code.claude.com/docs/en/plugins/marketplace-reference#marketplace-sources
 - https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk
 - https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
 **호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

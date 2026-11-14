@@ -2055,7 +2055,7 @@ export CLAUDE_CODE_TASK_LIST_ID=my-project-sprint-3
 export CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false
 ```
 
-또는 설정 파일에서 `promptSuggestionEnabled`를 `false`로 설정하거나 `/config`에서 **Prompt suggestions**를 끄십시오. VS Code에서는 `~/.claude/settings.json`에서 설정하십시오. 새 대화에서는 제안이 더 이상 표시되지 않으며, 열려 있는 대화에서는 **Developer: Reload Window**를 실행한 후부터 표시되지 않습니다. `CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION`은 한 세션 동안 이 설정보다 우선합니다.
+또는 설정 파일에서 `promptSuggestionEnabled`를 `false`로 설정하거나 `/config`에서 **Prompt suggestions**를 끄십시오. VS Code에서는 `~/.claude/settings.json`에서 설정하십시오. 새 대화에서는 제안이 더 이상 표시되지 않으며, 열려 있는 대화에서는 **Developer: Reload Window**를 실행한 후부터 표시되지 않습니다. `CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION`은 이 설정보다 우선하므로, `true`로 설정했다면 설정한 곳에서 `false`로 바꾸십시오.
 
 ---
 
@@ -2126,7 +2126,7 @@ claude -w
 | `WorktreeCreate` | 워크트리가 생성될 때 발생하는 훅 이벤트. 훅이 실제 경로를 출력하도록 하십시오. Claude Code는 저장소 루트 아래의 심볼릭 링크를 거치는 경로를 거부하며, v2.1.325부터는 `EnterWorktree`도 거부합니다 |
 | `WorktreeRemove` | 워크트리가 제거될 때 발생하는 훅 이벤트 |
 
-v2.1.157부터 Claude가 관리하는 워크트리는 에이전트가 작업을 마친 후 잠금 해제되므로 `git worktree remove`/`prune`으로 정리할 수 있습니다.
+v2.1.157부터 Claude가 관리하는 워크트리는 에이전트가 작업을 마친 후 잠금 해제되므로 `git worktree remove`/`prune`으로 정리할 수 있습니다. `-p`를 사용한 비대화형 실행의 경우, [워크트리 문서](https://code.claude.com/docs/en/worktrees#clean-up-worktrees)에 따르면 Claude는 해당 워크트리를 정리하지 않으며, Claude Code는 생성 시 각 워크트리에 건 잠금을 이후 세션의 오래된 잠금 정리(stale-lock sweep)가 해제할 때까지 그대로 둡니다.
 
 > **격리된 워크트리는 일부 git 명령어를 거부합니다 (v2.1.325)**: 변경 로그에 따르면 이제 격리된 워크트리 세션이나 에이전트에서는 `git bisect run`, `git maintenance register|start`, `scalar`의 설정 명령어가 거부되며, 여전히 사용할 수 있는 작업이 안내됩니다. 워크트리 문서에는 아직 이 내용이 나와 있지 않습니다.
 
@@ -2165,7 +2165,7 @@ claude --settings '{"sandbox": {"enabled": true}}'
 
 > **샌드박스를 켜도 더 이상 프롬프트를 건너뛰지 않습니다 (설정 참조 기준 v2.1.324부터; 변경 로그는 v2.1.325에 기재)**: `sandbox.autoAllowBashIfSandboxed`의 기본값이 이제 `false`이므로, 샌드박스 처리된 Bash 명령어는 일반 권한 흐름을 거치며 허용 규칙과 권한 모드가 결정합니다. `/sandbox`의 **Mode** 탭은 이를 일반 권한(regular permissions) 모드라고 부르며, 위의 설정 파일 및 세션별 예시는 이 모드로 시작합니다. 권한 프롬프트 없이 샌드박스 처리된 명령어를 실행하려면(자동 허용 모드), `sandbox` 블록에 `"autoAllowBashIfSandboxed": true`도 설정하십시오. 예: `claude --settings '{"sandbox": {"enabled": true, "autoAllowBashIfSandboxed": true}}'`. 관리형 설정에서는 가장 높은 순위의 관리형 소스의 `sandbox` 블록에 추가하십시오.
 >
-> 자동 허용에도 여전히 제한이 있습니다. 샌드박스에서 실행할 수 없는 명령어는 일반 권한 흐름을 거칩니다. `deny` 규칙과 `Bash(git push *)` 같은 내용 범위 `ask` 규칙은 계속 적용되지만, 단독 `Bash` ask 규칙은 샌드박스 처리된 명령어에 대해 건너뜁니다(계획 모드에서는 예외). 중요 경로(critical path)를 대상으로 하는 `rm` 또는 `rmdir`은 일반 권한 흐름을 거칩니다. Monitor 도구 명령어는 자동으로 승인되지 않습니다. 그리고 `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB`는 자동 허용을 끕니다.
+> 자동 허용에도 여전히 제한이 있습니다. 샌드박스에서 실행할 수 없는 명령어는 일반 권한 흐름을 거칩니다. `deny` 규칙과 `Bash(git push *)` 같은 내용 범위 `ask` 규칙은 계속 적용되지만, 단독 `Bash` ask 규칙은 샌드박스 처리된 명령어에 대해 건너뜁니다(계획 모드에서는 예외). 중요 경로(critical path)를 대상으로 하는 `rm` 또는 `rmdir`은 일반 권한 흐름을 거칩니다. Monitor 도구 명령어는 자동으로 승인되지 않습니다. 그리고 `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB`는 자동 허용을 끕니다. `FOO=bar npm test`, `make CC=clang`, `eval "ls"` 같은 일부 샌드박스 처리된 명령어도 일반 권한 흐름을 거치며, 이때 허용 규칙과 권한 모드가 결정합니다. 계획 모드에서는 자동 허용이 승인 범위를 넓히지 않습니다. 전체 목록은 [Auto-allow mode](https://code.claude.com/docs/en/sandboxing#auto-allow-mode)를 참고하십시오.
 
 ### 구성 설정
 

@@ -781,7 +781,7 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 
 > **Шаблони власника (v2.1.223+)**: запис `"owner/*"` дозволяє або блокує всі репозиторії маркетплейсів під одним власником GitHub. **Приймається лише у `strictKnownMarketplaces` та `blockedMarketplaces`.** Скрізь інде, де зʼявляється джерело `github` — включно з `extraKnownMarketplaces` і `/plugin marketplace add` — значення `repo` має вказувати на один репозиторій.
 
-> **Плагіни організації та `pluginDigests` (v2.1.325)**: плагіни віддаленого маркетплейсу, які керовані налаштування оголошують, вмикають і перелічують у `prependPlugins` або `appendPlugins`, тепер вважаються плагінами організації, а `pluginDigests` застарів і ігнорується. Довідка з налаштувань документує `prependPlugins` і `appendPlugins`; застарілість `pluginDigests` додає changelog, а документація її ще не наводить.
+> **Плагіни організації та `pluginDigests`**: плагіни віддаленого маркетплейсу, які керовані налаштування оголошують, вмикають і перелічують у `prependPlugins` або `appendPlugins`, тепер вважаються плагінами організації. Документація з адміністрування модів датує це v2.1.324; changelog наводить це у v2.1.325. З v2.1.325 `pluginDigests` застарів і ігнорується; це додає changelog, а документація цього ще не наводить.
 
 Ці налаштування можна застосувати на рівні організації через файли керованої конфігурації, і вони мають пріоритет над налаштуваннями рівня користувача.
 
@@ -1052,4 +1052,5 @@ claude plugin update plugin-name
 - https://code.claude.com/docs/en/plugins/components
 - https://code.claude.com/docs/en/plugins/publish
 - https://code.claude.com/docs/en/plugins/overview
+- https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
 **Сумісні моделі**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

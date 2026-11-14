@@ -2084,7 +2084,7 @@ Prompt Suggestions display grayed-out example commands based on your git history
 export CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false
 ```
 
-Or set `promptSuggestionEnabled` to `false` in a settings file, or turn off **Prompt suggestions** in `/config`. In VS Code, set it in `~/.claude/settings.json`: new conversations stop showing suggestions, and open ones do after you run **Developer: Reload Window**. `CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION` takes precedence over the setting for one session.
+Or set `promptSuggestionEnabled` to `false` in a settings file, or turn off **Prompt suggestions** in `/config`. In VS Code, set it in `~/.claude/settings.json`: new conversations stop showing suggestions, and open ones do after you run **Developer: Reload Window**. `CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION` takes precedence over the setting, so if you set it to `true`, change it to `false` where you set it.
 
 ---
 
@@ -2157,7 +2157,7 @@ Trade-off: `"none"` removes the safety net of worktree isolation — concurrent 
 | `WorktreeCreate` | Hook event fired when a worktree is created. Have the hook print the real path: Claude Code refuses a path that passes through a symlink below the repository root, and since v2.1.325 `EnterWorktree` does too |
 | `WorktreeRemove` | Hook event fired when a worktree is removed |
 
-As of v2.1.157, worktrees managed by Claude are left unlocked when the agent finishes, so `git worktree remove`/`prune` can clean them up.
+As of v2.1.157, worktrees managed by Claude are left unlocked when the agent finishes, so `git worktree remove`/`prune` can clean them up. For non-interactive runs with `-p`, the [worktree docs](https://code.claude.com/docs/en/worktrees#clean-up-worktrees) say Claude doesn't clean up their worktrees, and Claude Code leaves the lock it took on each one at creation in place until a later session's stale-lock sweep releases it.
 
 > **Isolated worktrees refuse some git commands (v2.1.325)**: the changelog adds that an isolated worktree session or agent is now refused `git bisect run`, `git maintenance register|start` and `scalar`'s set-up commands, and is told what still works. The worktree docs don't list this yet.
 
@@ -2196,7 +2196,7 @@ claude --settings '{"sandbox": {"enabled": true}}'
 
 > **Turning the sandbox on no longer skips prompts (since v2.1.324 per the settings reference; the changelog lists it in v2.1.325)**: `sandbox.autoAllowBashIfSandboxed` now defaults to `false`, so sandboxed Bash commands go through the regular permission flow, and your allow rules and permission mode decide. The `/sandbox` **Mode** tab calls this regular permissions mode; the settings-file and per-session examples above start in it. To run sandboxed commands without a permission prompt (auto-allow mode), also set `"autoAllowBashIfSandboxed": true` in the `sandbox` block, for example `claude --settings '{"sandbox": {"enabled": true, "autoAllowBashIfSandboxed": true}}'`. In managed settings, add it to the `sandbox` block of your highest-ranked managed source.
 >
-> Auto-allow still has limits: commands that can't run in the sandbox go through the regular permission flow; `deny` rules and content-scoped `ask` rules such as `Bash(git push *)` still apply, though a bare `Bash` ask rule is skipped for sandboxed commands, except in plan mode; `rm` or `rmdir` aimed at a critical path goes through the regular permission flow; Monitor tool commands aren't approved automatically; and `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` turns auto-allow off.
+> Auto-allow still has limits: commands that can't run in the sandbox go through the regular permission flow; `deny` rules and content-scoped `ask` rules such as `Bash(git push *)` still apply, though a bare `Bash` ask rule is skipped for sandboxed commands, except in plan mode; `rm` or `rmdir` aimed at a critical path goes through the regular permission flow; Monitor tool commands aren't approved automatically; and `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` turns auto-allow off. Some sandboxed commands, such as `FOO=bar npm test`, `make CC=clang` or `eval "ls"`, also go through the regular permission flow, where your allow rules and permission mode decide. In plan mode, auto-allow doesn't widen approvals. [Auto-allow mode](https://code.claude.com/docs/en/sandboxing#auto-allow-mode) has the full list.
 
 ### Configuration Settings
 

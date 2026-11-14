@@ -1161,7 +1161,7 @@ Administrators can control plugin behavior across an organization using managed 
 > `extraKnownMarketplaces` and `/plugin marketplace add` — the `repo` value must name a
 > single repository.
 
-> **Organization plugins and `pluginDigests` (v2.1.325)**: plugins of a remote marketplace that managed settings declare, enable and list in `prependPlugins` or `appendPlugins` now count as the organization's, and `pluginDigests` is deprecated and ignored. The settings reference documents `prependPlugins` and `appendPlugins`; the changelog adds the `pluginDigests` deprecation, which the docs don't list yet.
+> **Organization plugins and `pluginDigests`**: plugins of a remote marketplace that managed settings declare, enable and list in `prependPlugins` or `appendPlugins` now count as the organization's. The mods admin docs date this to v2.1.324; the changelog lists it in v2.1.325. `pluginDigests` is deprecated and ignored since v2.1.325; the changelog adds this, and the docs don't list it yet.
 
 These settings can be applied at the organization level via managed configuration files and take precedence over user-level settings.
 
@@ -1492,4 +1492,5 @@ If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, updat
 - https://code.claude.com/docs/en/plugins/marketplace-reference#marketplace-sources
 - https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk
 - https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
