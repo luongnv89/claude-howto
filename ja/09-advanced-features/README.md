@@ -675,6 +675,8 @@ in 45 minutes, run the integration tests
 - 定期タスクは作成から **7 日後** に自動失効する（最後に 1 回実行してから自身を削除する）
 - タスクは Claude Code の動作中のみ実行される — 取りこぼしの追加実行はない
 
+> **`allowed-tools` やフックを宣言したスキルは先に確認する（v2.1.325）：** changelog によると、スケジュールタスクと `/loop` は、`allowed-tools` またはフックを宣言したスキルを実行する前に確認するようになった。無人で実行するには `permissions.allow` に `Skill(name)` を追加する。また、Desktop・IDE・SDK ホストの「Always allow」は、保存するとそのコマンドが再び許可される場合にのみルール単体を提示するようになったため、それに頼っていたスケジュールタスクがユーザーの応答待ちになることがある。スケジュールタスクのドキュメントにはどちらの変更もまだ記載されていない。
+
 ### 挙動の詳細
 
 | 項目 | 詳細 |
@@ -1413,6 +1415,8 @@ claude remote-control --name "Auth Refactor"
 
 > **注意（v2.1.300）：** `claude remote-control` は `--sandbox` と `--no-sandbox` を受け付けなくなった（もともと効果はなく、どちらかを渡すとエラーで終了する）。Remote Control セッションをサンドボックス化するには、設定ファイルで `sandbox.enabled` を設定する。
 
+> **終了ステータスと共有リンク（v2.1.325）：** changelog によると、`claude remote-control` は自ら停止したときにステータス 4 で終了し（単一セッションの実行は引き続き 0 で終了）、登録できないときは 69 で終了するようになったため、サービスマネージャーが再起動できる。Remote Control のドキュメントにはこれらのコードはまだ記載されていない。接続中のセッションに共有リンクがある場合、または Claude Code がその有無を確認できない場合、`/resume` と `/teleport` は別の会話を開くときに Remote Control を切断する。そうしないと、リンクを持つ人にその会話が見えてしまうためだ。新しい会話を接続するには `/remote-control` を実行する。Remote Control のドキュメントは共有リンクのチェックを v2.1.324 としているが、changelog は v2.1.325 に記載している。
+
 ### セッションへの接続
 
 別デバイスから接続する 3 つの方法：
@@ -1616,15 +1620,18 @@ export CLAUDE_CODE_TASK_LIST_ID=my-project-sprint-3
 ### 仕組み
 
 - 候補は入力プロンプトの下にグレーアウトされたテキストとして表示される
-- `Tab` を押すと候補を受け入れる
-- `Enter` を押すと受け入れて即座に送信する
+- `Tab` または `Right arrow` を押すと候補がプロンプト入力欄に入り、`Enter` で送信する
+- 入力を始めると候補は消える
 - 候補はコンテキストを認識し、Git 履歴と会話状態から導出される
+- **VS Code（v2.1.325）：** Claude の応答後、拡張機能のパネルは空のプロンプトボックスに、次のプロンプトの候補をグレーの斜体テキストで表示することがある。`Tab` を押すと編集可能なテキストになるので、それから送信する。受け入れる前に `Enter` を押しても候補は送信されない。各候補は短いバックグラウンドリクエストを使い、プランの使用量上限または API コストに計上される
 
 ### プロンプト候補の無効化
 
 ```bash
 export CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false
 ```
+
+または、設定ファイルで `promptSuggestionEnabled` を `false` にするか、`/config` で **Prompt suggestions** をオフにする。VS Code では `~/.claude/settings.json` で設定する。新しい会話では候補が表示されなくなり、開いている会話では **Developer: Reload Window** を実行した後に表示されなくなる。`CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION` はこの設定より優先されるため、`true` にしている場合は、設定した場所で `false` に変更する。
 
 ---
 
@@ -1667,8 +1674,10 @@ claude -w
 | 項目 | 説明 |
 |------|-------------|
 | `ExitWorktree` | 現在のワークツリーを終了してクリーンアップするツール |
-| `WorktreeCreate` | ワークツリー作成時に発火するフックイベント |
+| `WorktreeCreate` | ワークツリー作成時に発火するフックイベント。フックには実際のパスを出力させること。Claude Code はリポジトリルート配下のシンボリックリンクを経由するパスを拒否し、v2.1.325 以降は `EnterWorktree` も同様に拒否する |
 | `WorktreeRemove` | ワークツリー削除時に発火するフックイベント |
+
+> **分離されたワークツリーは一部の git コマンドを拒否する（v2.1.325）：** changelog によると、分離されたワークツリーのセッションやエージェントでは `git bisect run`、`git maintenance register|start`、`scalar` のセットアップコマンドが拒否され、引き続き使える操作が案内されるようになった。ワークツリーのドキュメントにはまだ記載されていない。
 
 ### 自動クリーンアップ
 
@@ -1689,7 +1698,7 @@ claude -w
 
 ### サンドボックスの有効化
 
-**スラッシュコマンド**（このプロジェクトの `.claude/settings.local.json` に選択を保存）**：**
+**スラッシュコマンド**（**Mode** タブで自動許可（auto-allow）または通常の権限（regular permissions）を選択し、このプロジェクトの `.claude/settings.local.json` に選択を保存）**：**
 ```text
 /sandbox
 ```
@@ -1703,12 +1712,17 @@ claude --settings '{"sandbox": {"enabled": true}}'
 
 > `claude --sandbox` / `--no-sandbox` フラグは存在しない。v2.1.300 以降、これらを `claude remote-control` に渡すとエラーで終了する。
 
+> **サンドボックスを有効にしてもプロンプトは省略されなくなった（設定リファレンスでは v2.1.324 以降、changelog では v2.1.325 に記載）：** `sandbox.autoAllowBashIfSandboxed` のデフォルトが `false` になったため、サンドボックス内の Bash コマンドは通常の権限フローを通り、allow ルールと権限モードによって判断される。`/sandbox` の **Mode** タブではこれを通常の権限（regular permissions）モードと呼び、上記の設定ファイルとセッション単位の例はこのモードで始まる。権限プロンプトなしでサンドボックス内のコマンドを実行するには（自動許可モード）、`sandbox` ブロックに `"autoAllowBashIfSandboxed": true` も設定する。例：`claude --settings '{"sandbox": {"enabled": true, "autoAllowBashIfSandboxed": true}}'`。マネージド設定では、優先順位が最も高いマネージドソースの `sandbox` ブロックに追加する。
+>
+> 自動許可にも制限がある。サンドボックスで実行できないコマンドは通常の権限フローを通る。`deny` ルールと `Bash(git push *)` のような内容を限定した `ask` ルールは引き続き適用される。ただし、単独の `Bash` ask ルールはサンドボックス内のコマンドに対してはスキップされる（プランモードを除く）。クリティカルパスを対象とする `rm` や `rmdir` は通常の権限フローを通る。Monitor ツールのコマンドは自動承認されない。そして `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` は自動許可をオフにする。また、`FOO=bar npm test`、`make CC=clang`、`eval "ls"` のような一部のサンドボックス内コマンドも通常の権限フローを通り、allow ルールと権限モードによって判断される。プランモードでは、自動許可によって承認範囲は広がらない。完全な一覧は [Auto-allow mode](https://code.claude.com/docs/en/sandboxing#auto-allow-mode) を参照。
+
 ### 設定項目
 
 | 設定 | 説明 |
 |---------|-------------|
 | `sandbox.enabled` | サンドボックスを有効化／無効化 |
-| `sandbox.failIfUnavailable` | サンドボックスを起動できない場合に失敗させる |
+| `sandbox.failIfUnavailable` | サンドボックスを起動できない場合に失敗させる。Claude Code on the web、クラウドスケジュールタスク、Cowork のクラウドセッションは、この設定があっても起動する（v2.1.325）。ホストされたコンテナにはコマンドサンドボックスがないため。changelog で追加された内容で、設定リファレンスにはまだ記載されていない |
+| `sandbox.autoAllowBashIfSandboxed` | 権限プロンプトなしでサンドボックス内の Bash コマンドを実行する（自動許可モード）。設定リファレンスでは v2.1.324 以降デフォルト `false`（changelog では v2.1.325 に記載）のため、サンドボックス内のコマンドは allow ルールと権限モードを通る。`true` でも確認が出るケースは上記の注記を参照 |
 | `sandbox.filesystem.allowWrite` | 書き込みを許可するパス |
 | `sandbox.filesystem.allowRead` | 読み取りを許可するパス |
 | `sandbox.filesystem.denyRead` | 読み取りを拒否するパス |
@@ -1752,6 +1766,7 @@ claude --settings '{"sandbox": {"enabled": true}}'
 - Bash コマンドはファイルシステムアクセスを制限したサンドボックス環境で動作する
 - ネットワークアクセスを隔離して意図しない外部接続を防げる
 - 多層防御のため権限ルールと併用できる
+- サンドボックス内からの `.claude` の設定、スキル、エージェント、コマンド、フックへの書き込みは、起動フォルダと同様に追加ディレクトリでも拒否される（v2.1.325。changelog で追加された内容で、サンドボックスのドキュメントの保護パス一覧にはまだ追加ディレクトリが明記されていない）
 - macOS では Seatbelt がサンドボックスプロキシへの接続以外のすべてのネットワーク接続をブロックする。`sandbox.enableWeakerNetworkIsolation` はその隔離を**弱める**設定で、MITM の `httpProxyPort` プロキシ配下の Go 製 CLI などに限って使う
 
 ### ユースケース
@@ -2106,8 +2121,8 @@ Claude Code および関連機能の詳細：
 
 ---
 
-**最終更新：** 2026 年 11 月 13 日
-**Claude Code バージョン：** 2.1.323
+**最終更新：** 2026 年 11 月 14 日
+**Claude Code バージョン：** 2.1.325
 **情報源：**
 - https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
 - https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
@@ -2151,5 +2166,12 @@ Claude Code および関連機能の詳細：
 - https://code.claude.com/docs/en/scheduled-tasks#jitter
 - https://code.claude.com/docs/en/scheduled-tasks#limitations
 - https://code.claude.com/docs/en/changelog#2-1-323
+- https://code.claude.com/docs/en/settings-reference#sandbox-autoallowbashifsandboxed
+- https://code.claude.com/docs/en/sandboxing#auto-allow-mode
+- https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/interactive-mode#prompt-suggestions
+- https://code.claude.com/docs/en/vs-code#use-or-turn-off-suggested-prompts
+- https://code.claude.com/docs/en/settings-reference#promptsuggestionenabled
+- https://code.claude.com/docs/en/remote-control#what-connected-devices-see
 
 **互換モデル：** Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

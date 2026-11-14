@@ -245,6 +245,8 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 
 > **Siết chặt quyền (v2.1.323)**: Claude Code cảnh báo khi khởi động về một quy tắc allow của Bash có `*` trong giá trị của biến, chẳng hạn `Bash(PORT=* npm run dev)`. Bản này sửa các quy tắc allow có wildcard gắn liền, chẳng hạn `Bash(ls*)`, từng bỏ qua lời nhắc quyền trong một số trường hợp; một quy tắc nêu tên biến, chẳng hạn `Bash(NODE_ENV*)`, giờ sẽ hỏi. Các quy tắc deny và ask của Bash không còn bỏ sót một số lệnh chạy qua `sudo`, `env` và các wrapper tương tự, và một trường hợp công cụ Write và Edit có thể ghi vào đường dẫn thuộc phạm vi một quy tắc deny `Read` đã được sửa. Khi đặt `plansDirectory`, một lần ghi tệp kế hoạch không thể chứng minh là nằm trong dự án sẽ bị từ chối. Lời nhắc Bash không còn đưa ra "don't ask again" cho các lệnh ghi vào đường dẫn nhạy cảm như `.git` hoặc `.claude`, nơi quy tắc đã lưu không ngăn được lời nhắc tiếp theo, và "don't ask again" trên một quy tắc allow trông như chứa bí mật, hoặc sẽ được lưu vào một `settings.local.json` mà git theo dõi, chỉ có hiệu lực trong phiên và không được lưu.
 
+> **Siết chặt quyền (v2.1.325)**: các lệnh git chỉ đọc giờ hỏi trước khi chạy trong một repository không phải của dự án hoặc không phải repository bạn đã tin cậy; để chạy chúng ở đó mà không bị nhắc, hãy chỉ định repository đó bằng `--add-dir`, không phải bằng thiết lập `additionalDirectories`. Các quy tắc deny và ask tương đối như `Read(./.env)` vẫn bao phủ dự án sau một lệnh `cd`, và giờ cũng áp dụng trong các thư mục được thêm vào. Một số lệnh Bash ghép từng có thể chạy mà không hỏi giờ sẽ hỏi, một quy tắc allow của Bash không còn có thể chạy một chương trình khác với chương trình mà nó nêu tên, và một số quy tắc deny và ask từng không áp dụng cho một số lệnh Bash nhất định giờ đã áp dụng. Khi đặt `plansDirectory`, một lần sửa kế hoạch đã được duyệt mà thư mục đó không nhận được sẽ được lưu vào thư mục kế hoạch mặc định, kèm một cảnh báo cho biết ở đâu và vì sao. Những thay đổi này lấy từ changelog; tài liệu permissions chưa liệt kê các thay đổi về git và thư mục được thêm vào.
+
 ### Ví Dụ Quyền / Permission Examples
 
 ```bash
@@ -960,6 +962,7 @@ Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | Chỉ trên Linux: opt-in một memory cgroup áp dụng cho các lệnh Bash (v2.1.233) |
 | `ANTHROPIC_BEDROCK_REGION_PREFIX` | Ưu tiên một cross-region inference profile cụ thể của Bedrock (v2.1.224) |
 | `CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT` | Đặt `1` để khôi phục hành vi tự động compact trước v2.1.223 với các ID mô hình không nhận diện được (v2.1.223) |
+| `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Ghi đè kích thước cửa sổ ngữ cảnh, tính bằng token, mà Claude Code giả định cho mô hình đang dùng, chẳng hạn `400000` cho một gateway hoặc một ID mô hình tùy chỉnh. Với một ID mà nó không nhận diện được và không có `[1m]`, giá trị này tự áp dụng; điều đó bao gồm cả các ID bắt đầu bằng `claude-`, chẳng hạn `claude-sonnet-latest` của một gateway, kể từ v2.1.324 theo tài liệu cấu hình mô hình (changelog liệt kê thay đổi này ở v2.1.325). Với một ID không nhận diện được có `[1m]`, một giá trị dưới 1M cũng cần `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`; với một ID mà nó nhận diện được, giá trị này chỉ áp dụng khi có `DISABLE_COMPACT`, vốn tắt toàn bộ việc compact |
 | `CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS` | Đặt `0` để tắt việc giãn cách prefix khi fan-out workflow động (v2.1.229) |
 | `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS` | Ghi đè setting `dialogExpiry` (v2.1.224) |
 | `CLAUDE_CODE_PROJECT_DIR_NAME` | Ghi đè tên thư mục transcript theo project mà Claude Code suy ra từ đường dẫn project (v2.1.234) |
@@ -1119,8 +1122,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 13 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.323
+**Cập Nhật Lần Cuối**: Ngày 14 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.325
 **Nguồn**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/permission-modes#time-limits-and-denials-in-auto-and-bypasspermissions-modes
@@ -1206,4 +1209,6 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-323
 - https://code.claude.com/docs/en/permissions#wildcard-patterns
+- https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/model-config#which-ids-claude_code_max_context_tokens-applies-to
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

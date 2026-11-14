@@ -94,7 +94,7 @@
 | `/skill-doctor` | نشان می‌دهد کدام مهارت‌های بارگذاری‌شده بلااستفاده می‌مانند و هرکدام چقدر در زمینه هزینه دارند، تا تصمیم بگیرید کدام را خاموش کنید. گزارش در تب **Stats** مدیر `/plugin` باز می‌شود; در حالت `-p` غیرتعاملی به‌صورت متن چاپ می‌شود. روی Remote Control پاسخ می‌دهد `Skill usage reports are not available on this connection.` — آن را در ترمینال روی ماشینی که نشست را میزبانی می‌کند اجرا کنید (نیازمند v2.1.252+) |
 | `/skills` | لیست مهارت‌های در دسترس |
 | `/stats` | نام مستعار میانبر تایپ برای `/usage` — تب آمار را باز می‌کند (مصرف روزانه، نشست‌ها، streakها) (v2.1.118+) |
-| `/stickers` | سفارش استیکرهای Claude Code |
+| `/stickers` | بررسی در دسترس بودن استیکرهای Claude Code |
 | `/status` | نمایش نسخه، مدل، حساب و یک ردیف `Session kind` با محتوای `background job · attached`, `background job · unattended` یا `interactive` (ردیف اضافه شد در v2.1.221). در حین پاسخ‌گویی Claude قابل باز شدن است |
 | `/statusline` | پیکربندی خط وضعیت |
 | `/tasks` | لیست/مدیریت وظایف پس‌زمینه |
@@ -655,8 +655,8 @@ Deploy the application to production:
 
 ---
 
-**آخرین به‌روزرسانی**: ۱۲ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.322
+**آخرین به‌روزرسانی**: ۱۴ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.325
 **منبع**:
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills

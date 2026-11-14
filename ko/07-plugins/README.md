@@ -739,6 +739,8 @@ docs-helper       0.9.0     community  +610       Doc-style guide enforcement
 
 GitHub 및 git 소스는 버전 고정을 위해 선택적으로 `ref`(브랜치/태그) 및 `sha`(커밋 해시) 필드를 지원합니다.
 
+**마켓플레이스** 소스(`github` 또는 `git`, `extraKnownMarketplaces`에 지정하거나 마켓플레이스를 추가할 때 `owner/repo@ref` 형식으로 지정)도 `ref`를 받습니다. 값은 브랜치, 태그, 또는 브랜치나 태그에 있는 커밋의 전체 소문자 SHA입니다. SHA 고정에는 마켓플레이스 레퍼런스에 따르면 v2.1.324 이상이 필요하며(변경 로그에는 v2.1.325에 나와 있습니다), `claude-plugins-official` 같은 예약된 마켓플레이스 이름에는 거부됩니다. 그 이전 버전의 클라이언트는 이러한 고정을 클론할 수 없으므로, 이렇게 고정된 마켓플레이스는 그곳에서 로드되지 않게 됩니다.
+
 **소스 이름만 쓰기와 `metadata.pluginRoot`(v2.1.239)**: 이제 마켓플레이스의 `metadata.pluginRoot`가 적용됩니다. 카탈로그에서 플러그인 소스 이름만 쓰면 해당 루트 아래의 디렉터리로 해석되므로, 모든 항목에 전체 상대 경로를 적을 필요가 없습니다.
 
 **claude.ai에서 동기화된 스킬(v2.1.239)**: claude.ai에서 동기화된 플러그인은 `name@synced`로 표시됩니다. `claude plugin enable <name>@synced`와 `claude plugin disable <name>@synced`처럼 이 이름으로 지정하십시오. 동기화된 플러그인은 같은 이름의 설치된 플러그인을 절대 덮어쓰지 않으며, 두 플러그인은 `@synced` 접미사로 구분되어 공존합니다.
@@ -921,7 +923,7 @@ claude plugin init <name>                    # 새 플러그인 스캐폴드 생
 | `plugin validate` | `--strict` | 경고를 오류로 처리 |
 | `plugin validate` | `--json` | 기계가 읽을 수 있는 검증 보고서 출력(v2.1.259+) |
 
-`claude plugin validate`는 `.mcp.json` 항목도 검사하며(v2.1.281+), `outputStyles`, `themes`, `monitors`, `lspServers` 경로가 없거나 플러그인 디렉터리 밖을 가리키면 실패합니다(v2.1.283+). v2.1.323부터는 플러그인의 TypeScript 훅 모듈도 타입 검사하여 각 발견 사항을 경고로 보고하므로 `--strict`에서는 실패합니다. 또한 mod의 `engine.create` 훅이 추가, 보류 또는 대체하는 `$` 명사를 나열하고, `engine.create` 훅이 허용되는 단 하나의 형식으로 작성되지 않은 mod는 실패로 처리합니다. 이미 설치된 mod는 계속 로드됩니다. 이 세 가지 추가 사항은 변경 로그 기준이며 CLI 레퍼런스에는 아직 나와 있지 않습니다.
+`claude plugin validate`는 `.mcp.json` 항목도 검사하며(v2.1.281+), `outputStyles`, `themes`, `monitors`, `lspServers` 경로가 없거나 플러그인 디렉터리 밖을 가리키면 실패합니다(v2.1.283+). v2.1.323부터는 플러그인의 TypeScript 훅 모듈도 타입 검사하여 각 발견 사항을 경고로 보고하므로 `--strict`에서는 실패합니다. 또한 mod의 `engine.create` 훅이 추가, 보류 또는 대체하는 `$` 명사를 나열하고, `engine.create` 훅이 허용되는 단 하나의 형식으로 작성되지 않은 mod는 실패로 처리합니다. 이미 설치된 mod는 계속 로드됩니다. 이 세 가지 추가 사항은 변경 로그 기준이며 CLI 레퍼런스에는 아직 나와 있지 않습니다. v2.1.325부터 플러그인 로딩은 플러그인 폴더 안의 일부 안전하지 않은 경로와 링크를 건너뛰고, `claude plugin validate`는 이를 보고합니다(변경 로그 기준).
 
 예시: `claude plugin tag ./my-plugin`은 버전 문자열이 아니라 플러그인 **경로**를 받습니다. `plugin.json`에서 도출한 `{name}--v{version}` git 태그를 생성하며, `plugin.json`과 이를 감싸는 마켓플레이스 항목이 일치하는지 검증합니다. 배포를 위한 플러그인 릴리스를 만드는 권장 방법입니다.
 
@@ -1030,6 +1032,8 @@ claude --plugin-dir ./my-plugin.zip
 # 현재 세션용으로 URL에서 플러그인 .zip 아카이브를 가져옵니다(v2.1.129+, 반복 지정 가능)
 claude --plugin-url https://example.com/releases/my-plugin-0.3.0.zip
 ```
+
+> **로딩 변경 사항 (v2.1.325)**: `--plugin-dir` 플러그인 안의 `.claude/skills` 폴더는 더 이상 그 상위 위치에서 시작한 세션에서 로드되지 않습니다. 대신 플러그인 폴더에서 Claude Code를 시작하세요(변경 로그에 추가된 내용이며 문서에는 아직 나와 있지 않습니다). 플러그인 MCP 번들(`.mcpb`, `.dxt`)은 이제 플러그인 폴더의 `.mcpb-cache`가 아니라 플러그인 루트 아래 `mcpb/`에 압축 해제되므로 읽기 전용 플러그인 폴더도 로드되며, URL로 가져온 번들은 한 번 다시 다운로드됩니다. 플러그인 로딩 문서는 `mcpb/` 폴더를 v2.1.324로 표기하고, 변경 로그는 이 변경을 v2.1.325에 나열합니다.
 
 ### Git 저장소에서 설치
 ```bash
@@ -1163,6 +1167,8 @@ claude --plugin-url https://example.com/releases/my-plugin-0.3.0.zip
 > `blockedMarketplaces`에서만 허용됩니다.** 그 밖에 `github` 소스가 등장하는 모든 곳
 > (`extraKnownMarketplaces`와 `/plugin marketplace add` 포함)에서는 `repo` 값이
 > 단일 저장소를 지정해야 합니다.
+
+> **조직 플러그인과 `pluginDigests`**: 관리 설정이 선언하고, 활성화하고, `prependPlugins` 또는 `appendPlugins`에 나열한 원격 마켓플레이스의 플러그인은 이제 조직의 플러그인으로 간주됩니다. 모드 관리 문서는 이를 v2.1.324부터로 표기하고, 변경 로그는 v2.1.325에 기재합니다. `pluginDigests`는 v2.1.325부터 더 이상 사용되지 않으며(deprecated) 무시됩니다. 이는 변경 로그에 추가된 것으로 문서에는 아직 나와 있지 않습니다.
 
 이 설정은 관리 구성 파일을 통해 조직 수준에서 적용할 수 있으며 사용자 수준 설정보다 우선합니다.
 
@@ -1428,8 +1434,8 @@ git 소스 플러그인에 대해 `claude plugin list`가 `Version: unknown`을 
 
 ---
 
-**최종 업데이트**: 2026년 11월 13일
-**Claude Code 버전**: 2.1.323
+**최종 업데이트**: 2026년 11월 14일
+**Claude Code 버전**: 2.1.325
 **출처**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1494,4 +1500,8 @@ git 소스 플러그인에 대해 `claude plugin list`가 `Version: unknown`을 
 - https://code.claude.com/docs/en/changelog#2-1-321
 - https://code.claude.com/docs/en/changelog#2-1-323
 - https://code.claude.com/docs/en/plugins/troubleshooting#language-server-doesnt-start
+- https://code.claude.com/docs/en/plugins/marketplace-reference#marketplace-sources
+- https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk
+- https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
 **호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

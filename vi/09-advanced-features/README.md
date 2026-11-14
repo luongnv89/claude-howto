@@ -783,6 +783,8 @@ in 45 minutes, run the integration tests
 - Tác vụ lặp lại tự hết hạn **7 ngày** sau khi tạo (chúng kích hoạt một lần cuối rồi tự xóa)
 - Tác vụ chỉ kích hoạt khi Claude Code đang chạy — không bù cho các lần bị lỡ
 
+> **Skill khai báo `allowed-tools` hoặc hook sẽ hỏi trước (v2.1.325)**: changelog bổ sung rằng tác vụ theo lịch và `/loop` giờ sẽ hỏi trước khi chạy một skill khai báo `allowed-tools` hoặc hook; thêm `Skill(name)` vào `permissions.allow` để chạy nó mà không cần người giám sát. "Always allow" trong các host Desktop, IDE và SDK giờ chỉ đưa ra riêng một rule khi việc lưu rule đó sẽ cho phép lại chính lệnh đó, nên một tác vụ theo lịch từng dựa vào một rule như vậy giờ có thể phải chờ bạn. Tài liệu về tác vụ theo lịch chưa liệt kê thay đổi nào trong hai thay đổi này.
+
 ### Chi tiết hành vi
 
 | Khía cạnh | Chi tiết |
@@ -1829,6 +1831,8 @@ claude remote-control --name "Auth Refactor"
 
 > **Lưu ý (v2.1.300)**: `claude remote-control` không còn chấp nhận `--sandbox` hay `--no-sandbox` (chúng chưa bao giờ có tác dụng; truyền một trong hai giờ sẽ thoát với lỗi). Để sandbox các phiên Điều khiển từ xa, hãy đặt `sandbox.enabled` trong file cài đặt.
 
+> **Mã thoát và link chia sẻ (v2.1.325)**: changelog bổ sung rằng `claude remote-control` giờ thoát với mã trạng thái 4 khi nó tự dừng (các lần chạy một phiên vẫn thoát với 0) và 69 khi nó không thể đăng ký, để trình quản lý dịch vụ có thể khởi động lại nó; tài liệu Điều khiển từ xa chưa liệt kê các mã này. Nếu phiên đang kết nối có link chia sẻ, hoặc Claude Code không thể kiểm tra điều đó, `/resume` và `/teleport` sẽ ngắt kết nối Điều khiển từ xa khi một trong hai lệnh mở một cuộc hội thoại khác, vốn nếu không thì những người có link sẽ nhìn thấy; chạy `/remote-control` để kết nối cuộc hội thoại mới. Tài liệu Điều khiển từ xa ghi kiểm tra link chia sẻ là từ v2.1.324; changelog liệt kê nó trong v2.1.325.
+
 ### Kết nối tới một phiên
 
 Ba cách kết nối từ thiết bị khác:
@@ -2061,15 +2065,18 @@ Gợi ý prompt hiển thị các lệnh ví dụ màu xám dựa trên lịch s
 ### Cách Hoạt Động
 
 - Gợi ý xuất hiện dưới dạng văn bản màu xám bên dưới ô nhập prompt
-- Nhấn `Tab` để chấp nhận gợi ý
-- Nhấn `Enter` để chấp nhận và gửi ngay
+- Nhấn `Tab` hoặc `Right arrow` để đặt gợi ý vào ô nhập prompt, rồi nhấn `Enter` để gửi
+- Bắt đầu gõ để bỏ qua gợi ý
 - Gợi ý nhận biết ngữ cảnh, dựa trên lịch sử git và trạng thái hội thoại
+- **VS Code (v2.1.325)**: sau khi Claude trả lời, bảng điều khiển của extension có thể hiển thị một prompt tiếp theo được gợi ý dưới dạng chữ nghiêng màu xám trong ô prompt trống. Nhấn `Tab` để biến nó thành văn bản có thể chỉnh sửa, rồi gửi đi; nhấn `Enter` trước khi bạn chấp nhận sẽ không gửi gợi ý đó. Mỗi gợi ý dùng một yêu cầu nền ngắn, được tính vào giới hạn sử dụng của gói hoặc chi phí API của bạn
 
 ### Tắt Gợi Ý Prompt
 
 ```bash
 export CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false
 ```
+
+Hoặc đặt `promptSuggestionEnabled` thành `false` trong một file cài đặt, hoặc tắt **Prompt suggestions** trong `/config`. Trong VS Code, hãy đặt nó trong `~/.claude/settings.json`: các cuộc hội thoại mới sẽ ngừng hiển thị gợi ý, và các cuộc hội thoại đang mở cũng vậy sau khi bạn chạy **Developer: Reload Window**. `CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION` được ưu tiên hơn cài đặt này, nên nếu bạn đã đặt nó thành `true`, hãy đổi thành `false` ở nơi bạn đặt.
 
 ---
 
@@ -2139,10 +2146,12 @@ Thêm `.claude` để mỗi worktree cũng nhận được `.claude/settings.jso
 |------|-------------|
 | `EnterWorktree` | Công cụ để vào một worktree; từ v2.1.157 nó có thể chuyển giữa các worktree do Claude quản lý giữa chừng phiên |
 | `ExitWorktree` | Công cụ để thoát và dọn dẹp worktree hiện tại |
-| `WorktreeCreate` | Sự kiện hook được kích hoạt khi một worktree được tạo |
+| `WorktreeCreate` | Sự kiện hook được kích hoạt khi một worktree được tạo. Hãy để hook in ra đường dẫn thật: Claude Code từ chối một đường dẫn đi qua một symlink bên dưới thư mục gốc của repository, và từ v2.1.325 `EnterWorktree` cũng vậy |
 | `WorktreeRemove` | Sự kiện hook được kích hoạt khi một worktree bị xóa |
 
-Từ v2.1.157, các worktree do Claude quản lý được để ở trạng thái không khóa khi tác nhân hoàn thành, nên `git worktree remove`/`prune` có thể dọn dẹp chúng.
+Từ v2.1.157, các worktree do Claude quản lý được để ở trạng thái không khóa khi tác nhân hoàn thành, nên `git worktree remove`/`prune` có thể dọn dẹp chúng. Với các lần chạy không tương tác bằng `-p`, [tài liệu worktree](https://code.claude.com/docs/en/worktrees#clean-up-worktrees) cho biết Claude không dọn dẹp worktree của chúng, và Claude Code giữ nguyên khóa đã đặt trên mỗi worktree lúc tạo cho đến khi lượt quét khóa cũ (stale-lock sweep) của một phiên sau giải phóng nó.
+
+> **Worktree cô lập từ chối một số lệnh git (v2.1.325)**: changelog bổ sung rằng một phiên hoặc tác nhân worktree cô lập giờ bị từ chối `git bisect run`, `git maintenance register|start` và các lệnh thiết lập của `scalar`, và được cho biết những gì vẫn hoạt động. Tài liệu worktree chưa liệt kê điều này.
 
 ### Tự Động Dọn Dẹp
 
@@ -2163,7 +2172,7 @@ Sandboxing cung cấp khả năng cô lập hệ thống file và mạng ở c�
 
 ### Bật Sandboxing
 
-**Lệnh slash** (lưu lựa chọn của bạn vào `.claude/settings.local.json` cho dự án này):
+**Lệnh slash** (chọn tự động cho phép (auto-allow) hoặc quyền thông thường (regular permissions) trên tab **Mode** của nó; lưu lựa chọn của bạn vào `.claude/settings.local.json` cho dự án này):
 ```text
 /sandbox
 ```
@@ -2177,12 +2186,17 @@ claude --settings '{"sandbox": {"enabled": true}}'
 
 > Không có cờ `claude --sandbox` / `--no-sandbox`. Từ v2.1.300, truyền chúng cho `claude remote-control` sẽ thoát với lỗi.
 
+> **Bật sandbox không còn bỏ qua lời nhắc quyền nữa (từ v2.1.324 theo settings reference; changelog liệt kê nó trong v2.1.325)**: `sandbox.autoAllowBashIfSandboxed` giờ mặc định là `false`, nên các lệnh Bash trong sandbox đi qua luồng quyền thông thường, và các rule allow cùng chế độ quyền của bạn sẽ quyết định. Tab **Mode** của `/sandbox` gọi đây là chế độ quyền thông thường (regular permissions); các ví dụ file cài đặt và theo từng phiên ở trên bắt đầu ở chế độ này. Để chạy các lệnh trong sandbox mà không có lời nhắc quyền (chế độ auto-allow), hãy đặt thêm `"autoAllowBashIfSandboxed": true` trong khối `sandbox`, ví dụ `claude --settings '{"sandbox": {"enabled": true, "autoAllowBashIfSandboxed": true}}'`. Trong cài đặt được quản lý (managed settings), hãy thêm nó vào khối `sandbox` của nguồn managed có thứ hạng cao nhất của bạn.
+>
+> Auto-allow vẫn có giới hạn: các lệnh không thể chạy trong sandbox đi qua luồng quyền thông thường; các rule `deny` và các rule `ask` theo nội dung như `Bash(git push *)` vẫn áp dụng, dù một rule ask `Bash` trần bị bỏ qua với các lệnh trong sandbox, trừ khi ở chế độ lập kế hoạch (plan mode); `rm` hoặc `rmdir` nhắm vào một đường dẫn quan trọng (critical path) đi qua luồng quyền thông thường; các lệnh của công cụ Monitor không được tự động phê duyệt; và `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` tắt auto-allow. Một số lệnh trong sandbox, như `FOO=bar npm test`, `make CC=clang` hoặc `eval "ls"`, cũng đi qua luồng quyền thông thường, nơi các rule allow và chế độ quyền của bạn quyết định. Ở chế độ lập kế hoạch (plan mode), auto-allow không nới rộng việc phê duyệt. Xem danh sách đầy đủ tại [Auto-allow mode](https://code.claude.com/docs/en/sandboxing#auto-allow-mode).
+
 ### Các Cài Đặt Cấu Hình
 
 | Cài đặt | Mô tả |
 |---------|-------------|
 | `sandbox.enabled` | Bật hoặc tắt sandboxing |
-| `sandbox.failIfUnavailable` | Báo lỗi nếu không thể kích hoạt sandboxing |
+| `sandbox.failIfUnavailable` | Báo lỗi nếu không thể kích hoạt sandboxing. Claude Code trên web, tác vụ theo lịch trên cloud và các phiên cloud của Cowork vẫn khởi động bất chấp cài đặt này (v2.1.325): container được host không có sandbox cho lệnh. Changelog bổ sung điều này; settings reference chưa liệt kê nó |
+| `sandbox.autoAllowBashIfSandboxed` | Chạy các lệnh Bash trong sandbox mà không có lời nhắc quyền (chế độ auto-allow). Mặc định `false` từ v2.1.324 theo settings reference (changelog liệt kê nó trong v2.1.325), nên các lệnh trong sandbox đi qua các rule allow và chế độ quyền của bạn; xem ghi chú ở trên để biết những gì vẫn hỏi khi đặt `true` |
 | `sandbox.filesystem.allowWrite` | Các đường dẫn được phép ghi |
 | `sandbox.filesystem.allowRead` | Các đường dẫn được phép đọc |
 | `sandbox.filesystem.denyRead` | Các đường dẫn bị từ chối đọc |
@@ -2284,6 +2298,7 @@ và proxy của sandbox thay thế giá trị thật trên đường đi ra mạ
 - Lệnh Bash chạy trong môi trường sandbox với quyền truy cập hệ thống file bị hạn chế
 - Truy cập mạng có thể được cô lập để ngăn các kết nối ra ngoài ngoài ý muốn
 - Hoạt động cùng các rule quyền để phòng thủ nhiều lớp
+- Các thao tác ghi trong sandbox vào settings, skill, agent, command và hook trong `.claude` cũng bị từ chối trong các thư mục được thêm vào, giống như trong thư mục khởi chạy (v2.1.325; changelog bổ sung điều này, và danh sách đường dẫn được bảo vệ trong tài liệu sandboxing chưa nêu tên các thư mục được thêm vào)
 - Trên macOS, Seatbelt chặn mọi kết nối mạng ngoại trừ kết nối tới proxy của sandbox; `sandbox.enableWeakerNetworkIsolation` **làm yếu** sự cô lập đó và chỉ dành cho các công cụ như Go CLI đứng sau proxy MITM `httpProxyPort`
 
 ### Trường Hợp Sử Dụng
@@ -2777,8 +2792,8 @@ claude --teammate-mode in-process
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 13 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.323
+**Cập Nhật Lần Cuối**: Ngày 14 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.325
 **Nguồn**:
 - https://code.claude.com/docs/en/permission-modes#turn-off-the-critical-path-removal-prompt-in-bypasspermissions-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.314
@@ -2876,4 +2891,11 @@ claude --teammate-mode in-process
 - https://code.claude.com/docs/en/tools-reference#time-limit-for-background-commands
 - https://code.claude.com/docs/en/changelog#2-1-321
 - https://code.claude.com/docs/en/changelog#2-1-323
+- https://code.claude.com/docs/en/settings-reference#sandbox-autoallowbashifsandboxed
+- https://code.claude.com/docs/en/sandboxing#auto-allow-mode
+- https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/interactive-mode#prompt-suggestions
+- https://code.claude.com/docs/en/vs-code#use-or-turn-off-suggested-prompts
+- https://code.claude.com/docs/en/settings-reference#promptsuggestionenabled
+- https://code.claude.com/docs/en/remote-control#what-connected-devices-see
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

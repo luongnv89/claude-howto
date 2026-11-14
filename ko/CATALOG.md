@@ -92,7 +92,7 @@
 | `/subtask` | 대화를 상속하고 결과를 보고하는 포크된 서브에이전트 생성 (v2.1.212+) | 현재 위치를 잃지 않고 부수 작업 위임 |
 | `/stats` | `/usage`의 통계 탭을 여는 단축 별칭 (v2.1.118+) | 세션 통계 확인 |
 | `/statusline` | 상태 표시줄 구성 | 상태 표시 사용자 지정 |
-| `/stickers` | Claude Code 스티커 주문 | 재미 요소 |
+| `/stickers` | Claude Code 스티커를 구할 수 있는지 확인 | 재미 요소 |
 | `/fast` | 빠른 출력 모드 전환. **Fable 5.2**(v2.1.321+), **Opus 5.5**(v2.1.280부터 기본값), **Opus 5, Opus 4.8**에 적용 | 응답 속도 향상 |
 | `/terminal-setup` | 터미널 연동 설정 | 터미널 기능 설정 |
 | `/undo` | `/rewind`의 별칭 (v2.1.108) | `/rewind`와 동일 |
@@ -595,8 +595,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**최종 업데이트**: 2026년 11월 12일
-**Claude Code 버전**: 2.1.322
+**최종 업데이트**: 2026년 11월 14일
+**Claude Code 버전**: 2.1.325
 **출처**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

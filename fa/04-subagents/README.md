@@ -769,6 +769,8 @@ claude --teammate-mode tmux
 
 > **توجه**: حالت پنجره تقسیم‌شده به tmux یا iTerm2 نیاز دارد. در ترمینال VS Code، Windows Terminal یا Ghostty در دسترس نیست.
 
+> **توجه (v2.1.325)**: هم‌تیمی‌های tmux و iTerm2 اکنون در پوشهٔ نشست شروع می‌شوند، نه جایی که شل آخرین بار `cd` را اجرا کرده است. مقدار ناشناختهٔ `teammateMode` همچنان اعمال نمی‌شود، اما اکنون `claude -p`، هشدار راه‌اندازی و `claude doctor` آن را به‌عنوان یک مورد ردشده فهرست می‌کنند. هر دو تغییر از changelog آمده‌اند؛ مستندات تیم‌های ایجنت هنوز آن‌ها را فهرست نمی‌کنند.
+
 ### پیمایش
 
 برای جابه‌جایی بین هم‌تیمی‌ها، در پنل ایجنت از کلیدهای جهت بالا و پایین استفاده کنید و Enter را بزنید (حالت درون‌فرایندی)، یا روی پنجره یک هم‌تیمی کلیک کنید (حالت پنجره تقسیم‌شده).
@@ -1352,8 +1354,8 @@ graph TD
 
 ---
 
-**آخرین به‌روزرسانی**: ۱۲ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.322
+**آخرین به‌روزرسانی**: ۱۴ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.325
 **منابع**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1392,4 +1394,5 @@ graph TD
 - https://code.claude.com/docs/en/errors#a-command-line-deny-rule-cannot-be-handed-to-a-teammate-intact
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-317
+- https://code.claude.com/docs/en/changelog#2-1-325
 **مدل‌های سازگار**: Claude Fable 5.2، Claude Fable 5.1، Claude Fable 5، Claude Opus 5.5، Claude Opus 5، Claude Sonnet 5.5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 5.5، Claude Haiku 4.5

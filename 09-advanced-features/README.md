@@ -785,6 +785,8 @@ in 45 minutes, run the integration tests
 - Recurring tasks auto-expire **7 days** after creation (they fire one final time, then delete themselves)
 - Tasks only fire while Claude Code is running — no catch-up for missed fires
 
+> **Skills that declare `allowed-tools` or hooks ask first (v2.1.325)**: the changelog adds that scheduled tasks and `/loop` now ask before running a skill that declares `allowed-tools` or hooks; add `Skill(name)` to `permissions.allow` to run it unattended. "Always allow" in Desktop, IDE and SDK hosts now offers a rule alone only when saving it would allow that command again, so a scheduled task that relied on one can now wait for you. The scheduled tasks docs don't list either change yet.
+
 ### Behavior details
 
 | Aspect | Detail |
@@ -1836,6 +1838,8 @@ claude remote-control --name "Auth Refactor"
 
 > **Note (v2.1.300)**: `claude remote-control` no longer accepts `--sandbox` or `--no-sandbox` (they never had an effect; passing either now exits with an error). To sandbox Remote Control sessions, set `sandbox.enabled` in a settings file.
 
+> **Exit status and share links (v2.1.325)**: the changelog adds that `claude remote-control` now exits with status 4 when it stops by itself (single-session runs still exit 0) and 69 when it can't register, so a service manager can start it again; the Remote Control docs don't list these codes yet. If the connected session has a share link, or Claude Code can't check for one, `/resume` and `/teleport` disconnect Remote Control when either opens another conversation, which people with the link would otherwise see; run `/remote-control` to connect the new conversation. The Remote Control docs date the share-link check to v2.1.324; the changelog lists it in v2.1.325.
+
 ### Connecting to a session
 
 Three ways to connect from another device:
@@ -2069,15 +2073,18 @@ Prompt Suggestions display grayed-out example commands based on your git history
 ### How It Works
 
 - Suggestions appear as grayed-out text below your input prompt
-- Press `Tab` to accept the suggestion
-- Press `Enter` to accept and immediately submit
+- Press `Tab` or `Right arrow` to place the suggestion in the prompt input, then `Enter` to submit
+- Start typing to dismiss it
 - Suggestions are context-aware, drawing from git history and conversation state
+- **VS Code (v2.1.325)**: after Claude replies, the extension panel can show a suggested next prompt as gray italic text in the empty prompt box. Press `Tab` to turn it into editable text, then send it; pressing `Enter` before you accept it doesn't send the suggestion. Each suggestion uses a short background request that counts toward your plan's usage limits or API costs
 
 ### Disabling Prompt Suggestions
 
 ```bash
 export CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false
 ```
+
+Or set `promptSuggestionEnabled` to `false` in a settings file, or turn off **Prompt suggestions** in `/config`. In VS Code, set it in `~/.claude/settings.json`: new conversations stop showing suggestions, and open ones do after you run **Developer: Reload Window**. `CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION` takes precedence over the setting, so if you set it to `true`, change it to `false` where you set it.
 
 ---
 
@@ -2147,10 +2154,12 @@ Trade-off: `"none"` removes the safety net of worktree isolation — concurrent 
 |------|-------------|
 | `EnterWorktree` | Tool to enter a worktree; as of v2.1.157 it can switch between Claude-managed worktrees mid-session |
 | `ExitWorktree` | Tool to exit and clean up the current worktree |
-| `WorktreeCreate` | Hook event fired when a worktree is created |
+| `WorktreeCreate` | Hook event fired when a worktree is created. Have the hook print the real path: Claude Code refuses a path that passes through a symlink below the repository root, and since v2.1.325 `EnterWorktree` does too |
 | `WorktreeRemove` | Hook event fired when a worktree is removed |
 
-As of v2.1.157, worktrees managed by Claude are left unlocked when the agent finishes, so `git worktree remove`/`prune` can clean them up.
+As of v2.1.157, worktrees managed by Claude are left unlocked when the agent finishes, so `git worktree remove`/`prune` can clean them up. For non-interactive runs with `-p`, the [worktree docs](https://code.claude.com/docs/en/worktrees#clean-up-worktrees) say Claude doesn't clean up their worktrees, and Claude Code leaves the lock it took on each one at creation in place until a later session's stale-lock sweep releases it.
+
+> **Isolated worktrees refuse some git commands (v2.1.325)**: the changelog adds that an isolated worktree session or agent is now refused `git bisect run`, `git maintenance register|start` and `scalar`'s set-up commands, and is told what still works. The worktree docs don't list this yet.
 
 ### Auto-Cleanup
 
@@ -2171,7 +2180,7 @@ Sandboxing provides OS-level filesystem and network isolation for Bash commands 
 
 ### Enabling Sandboxing
 
-**Slash command** (saves your choice to `.claude/settings.local.json` for this project):
+**Slash command** (pick auto-allow or regular permissions on its **Mode** tab; saves your choice to `.claude/settings.local.json` for this project):
 ```text
 /sandbox
 ```
@@ -2185,12 +2194,17 @@ claude --settings '{"sandbox": {"enabled": true}}'
 
 > There is no `claude --sandbox` / `--no-sandbox` flag. Since v2.1.300, passing them to `claude remote-control` exits with an error.
 
+> **Turning the sandbox on no longer skips prompts (since v2.1.324 per the settings reference; the changelog lists it in v2.1.325)**: `sandbox.autoAllowBashIfSandboxed` now defaults to `false`, so sandboxed Bash commands go through the regular permission flow, and your allow rules and permission mode decide. The `/sandbox` **Mode** tab calls this regular permissions mode; the settings-file and per-session examples above start in it. To run sandboxed commands without a permission prompt (auto-allow mode), also set `"autoAllowBashIfSandboxed": true` in the `sandbox` block, for example `claude --settings '{"sandbox": {"enabled": true, "autoAllowBashIfSandboxed": true}}'`. In managed settings, add it to the `sandbox` block of your highest-ranked managed source.
+>
+> Auto-allow still has limits: commands that can't run in the sandbox go through the regular permission flow; `deny` rules and content-scoped `ask` rules such as `Bash(git push *)` still apply, though a bare `Bash` ask rule is skipped for sandboxed commands, except in plan mode; `rm` or `rmdir` aimed at a critical path goes through the regular permission flow; Monitor tool commands aren't approved automatically; and `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` turns auto-allow off. Some sandboxed commands, such as `FOO=bar npm test`, `make CC=clang` or `eval "ls"`, also go through the regular permission flow, where your allow rules and permission mode decide. In plan mode, auto-allow doesn't widen approvals. [Auto-allow mode](https://code.claude.com/docs/en/sandboxing#auto-allow-mode) has the full list.
+
 ### Configuration Settings
 
 | Setting | Description |
 |---------|-------------|
 | `sandbox.enabled` | Enable or disable sandboxing |
-| `sandbox.failIfUnavailable` | Fail if sandboxing cannot be activated |
+| `sandbox.failIfUnavailable` | Fail if sandboxing cannot be activated. Claude Code on the web, cloud scheduled tasks and Cowork cloud sessions start despite it (v2.1.325): the hosted container has no command sandbox. The changelog adds this; the settings reference doesn't list it yet |
+| `sandbox.autoAllowBashIfSandboxed` | Run sandboxed Bash commands without a permission prompt (auto-allow mode). Default `false` since v2.1.324 per the settings reference (the changelog lists it in v2.1.325), so sandboxed commands go through your allow rules and permission mode; see the note above for what still prompts with `true` |
 | `sandbox.filesystem.allowWrite` | Paths allowed for write access |
 | `sandbox.filesystem.allowRead` | Paths allowed for read access |
 | `sandbox.filesystem.denyRead` | Paths denied for read access |
@@ -2292,6 +2306,7 @@ and the sandbox proxy substitutes the real value on the way out to the network.
 - Bash commands run in a sandboxed environment with restricted filesystem access
 - Network access can be isolated to prevent unintended external connections
 - Works alongside permission rules for defense in depth
+- Sandboxed writes to `.claude` settings, skills, agents, commands and hooks are refused in added directories too, as in the launch folder (v2.1.325; the changelog adds this, and the sandboxing docs' protected-paths list doesn't name added directories yet)
 - On macOS, Seatbelt blocks all network connections except the one to the sandbox proxy; `sandbox.enableWeakerNetworkIsolation` **weakens** that isolation and is only for tools such as Go CLIs behind a MITM `httpProxyPort` proxy
 
 ### Use Cases
@@ -2797,8 +2812,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: November 13, 2026
-**Claude Code Version**: 2.1.323
+**Last Updated**: November 14, 2026
+**Claude Code Version**: 2.1.325
 **Sources**:
 - https://code.claude.com/docs/en/permission-modes#turn-off-the-critical-path-removal-prompt-in-bypasspermissions-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.314
@@ -2903,4 +2918,11 @@ For more information about Claude Code and related features:
 - https://code.claude.com/docs/en/tools-reference#bash-rules-that-deny-or-prompt-for-websocket-watches
 - https://code.claude.com/docs/en/tools-reference#addresses-and-hosts-denied-to-websocket-watches
 - https://code.claude.com/docs/en/changelog#2-1-323
+- https://code.claude.com/docs/en/settings-reference#sandbox-autoallowbashifsandboxed
+- https://code.claude.com/docs/en/sandboxing#auto-allow-mode
+- https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/interactive-mode#prompt-suggestions
+- https://code.claude.com/docs/en/vs-code#use-or-turn-off-suggested-prompts
+- https://code.claude.com/docs/en/settings-reference#promptsuggestionenabled
+- https://code.claude.com/docs/en/remote-control#what-connected-devices-see
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

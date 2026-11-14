@@ -638,6 +638,8 @@ claude --teammate-mode tmux
 
 > **Примітка**: Режим split-pane потребує tmux або iTerm2. Недоступний у VS Code terminal, Windows Terminal або Ghostty.
 
+> **Примітка (v2.1.325)**: Тіммейти в tmux та iTerm2 тепер запускаються в каталозі сесії, а не там, де оболонка востаннє виконала `cd`. Нерозпізнане значення `teammateMode` і далі не застосовується, але `claude -p`, попередження під час запуску та `claude doctor` тепер перелічують його серед пропущених записів. Обидва пункти взято з журналу змін; документація Agent Teams їх ще не перелічує.
+
 ### Навігація
 
 Щоб переходити між тіммейтами, використовуйте стрілки вгору/вниз на панелі агентів і натисніть Enter (режим in-process) або клацніть на панель тіммейта (режим split-pane).
@@ -1132,8 +1134,8 @@ graph TD
 - [Посібник хуків](../06-hooks/) — для автоматизації за подіями
 
 ---
-**Останнє оновлення**: 12 листопада 2026
-**Версія Claude Code**: 2.1.322
+**Останнє оновлення**: 14 листопада 2026
+**Версія Claude Code**: 2.1.325
 **Джерела**:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/commands
@@ -1150,4 +1152,5 @@ graph TD
 - https://code.claude.com/docs/en/agent-teams#assign-and-claim-tasks
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-317
+- https://code.claude.com/docs/en/changelog#2-1-325
 **Сумісні моделі**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

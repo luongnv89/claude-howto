@@ -769,6 +769,8 @@ You can also set the display mode in `settings.json`:
 
 > **Note**: Split-pane mode requires tmux or iTerm2. It is not available in VS Code terminal, Windows Terminal, or Ghostty.
 
+> **Note (v2.1.325)**: tmux and iTerm2 teammates now start in the session's folder instead of where the shell last ran `cd`. An unrecognized `teammateMode` value is still not applied, but `claude -p`, the startup warning and `claude doctor` now list it as a skipped entry. Both come from the changelog; the agent teams docs don't list them yet.
+
 ### Navigation
 
 To move between teammates, use the up and down arrow keys in the agent panel and press Enter (in-process mode), or click into a teammate's pane (split-pane mode).
@@ -1352,8 +1354,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: November 12, 2026
-**Claude Code Version**: 2.1.322
+**Last Updated**: November 14, 2026
+**Claude Code Version**: 2.1.325
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1393,4 +1395,5 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-317
 - https://code.claude.com/docs/en/changelog#2-1-318
+- https://code.claude.com/docs/en/changelog#2-1-325
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

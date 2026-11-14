@@ -572,6 +572,8 @@ graph TB
 
 GitHub 和 git 来源支持可选的 `ref`（分支/标签）和 `sha`（提交哈希）字段用于版本锁定。
 
+**市场**来源（`github` 或 `git`，写在 `extraKnownMarketplaces` 中，或在添加市场时写成 `owner/repo@ref`）同样接受 `ref`：一个分支、一个标签，或某个分支或标签上一次提交的完整小写 SHA。根据市场参考文档，SHA 锁定需要 v2.1.324 或更高版本（changelog 将其列在 v2.1.325），并且对 `claude-plugins-official` 这类保留市场名称会被拒绝。早于该版本的客户端无法克隆这种锁定，因此以这种方式锁定的市场在这些客户端上会停止加载。
+
 ### 分发方式
 
 **GitHub（推荐）**：
@@ -769,6 +771,8 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 > **更友好的别名（v2.1.232）**：`additionalMarketplaces` 被接受为 `extraKnownMarketplaces` 的别名，`allowedMarketplaces` 为 `strictKnownMarketplaces` 的别名。官方 settings 参考页面已在 [Marketplace key aliases](https://code.claude.com/docs/en/settings-reference#marketplace-key-aliases) 中列出这两个别名。旧版本会忽略别名，因此继续使用规范键名是安全的。
 
 > **owner 通配符（v2.1.223+）**：`"owner/*"` 条目可允许或阻止某个 GitHub owner 名下的所有市场仓库。**仅在 `strictKnownMarketplaces` 和 `blockedMarketplaces` 中被接受。** 在其他出现 `github` 源的地方 —— 包括 `extraKnownMarketplaces` 和 `/plugin marketplace add` —— `repo` 的值必须指向单个仓库。
+
+> **组织插件与 `pluginDigests`**：托管设置所声明、启用并列在 `prependPlugins` 或 `appendPlugins` 中的远程市场插件，现在算作组织的插件。mods 管理文档将此标注为 v2.1.324 起；changelog 将其列在 v2.1.325。自 v2.1.325 起 `pluginDigests` 已弃用并被忽略；这由 changelog 新增，文档尚未列出。
 
 这些设置可以通过托管配置文件应用到组织级别，并且优先于用户级设置。
 
@@ -1031,3 +1035,4 @@ claude plugin update plugin-name
 - https://code.claude.com/docs/en/plugins/components
 - https://code.claude.com/docs/en/plugins/publish
 - https://code.claude.com/docs/en/plugins/overview
+- https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods

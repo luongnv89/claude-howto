@@ -590,6 +590,8 @@ graph TB
 
 Джерела GitHub та git підтримують необовʼязкові поля `ref` (гілка/тег) та `sha` (хеш коміту) для фіксації версій.
 
+Джерело **маркетплейсу** (`github` або `git`, у `extraKnownMarketplaces` або як `owner/repo@ref` під час додавання маркетплейсу) також приймає `ref`: гілку, тег або повний SHA коміту малими літерами на гілці чи тезі. Фіксація за SHA потребує v2.1.324 або новішої версії згідно з довідкою з маркетплейсів (changelog наводить її у v2.1.325) і відхиляється для зарезервованої назви маркетплейсу, як-от `claude-plugins-official`. Клієнти до цієї версії не можуть клонувати таку фіксацію, тож маркетплейс, зафіксований у такий спосіб, перестає там завантажуватися.
+
 ### Методи дистрибуції
 
 **GitHub (рекомендовано)**:
@@ -778,6 +780,8 @@ claude --plugin-dir ./my-plugin --plugin-dir ./another-plugin
 > **Дружніші аліаси (v2.1.232)**: `additionalMarketplaces` приймається як аліас для `extraKnownMarketplaces`, а `allowedMarketplaces` — для `strictKnownMarketplaces`. Офіційна довідка з налаштувань наводить обидва в розділі [Marketplace key aliases](https://code.claude.com/docs/en/settings-reference#marketplace-key-aliases). Старіші версії ігнорують аліаси, тож канонічні ключі безпечно використовувати й далі.
 
 > **Шаблони власника (v2.1.223+)**: запис `"owner/*"` дозволяє або блокує всі репозиторії маркетплейсів під одним власником GitHub. **Приймається лише у `strictKnownMarketplaces` та `blockedMarketplaces`.** Скрізь інде, де зʼявляється джерело `github` — включно з `extraKnownMarketplaces` і `/plugin marketplace add` — значення `repo` має вказувати на один репозиторій.
+
+> **Плагіни організації та `pluginDigests`**: плагіни віддаленого маркетплейсу, які керовані налаштування оголошують, вмикають і перелічують у `prependPlugins` або `appendPlugins`, тепер вважаються плагінами організації. Документація з адміністрування модів датує це v2.1.324; changelog наводить це у v2.1.325. З v2.1.325 `pluginDigests` застарів і ігнорується; це додає changelog, а документація цього ще не наводить.
 
 Ці налаштування можна застосувати на рівні організації через файли керованої конфігурації, і вони мають пріоритет над налаштуваннями рівня користувача.
 
@@ -1048,4 +1052,5 @@ claude plugin update plugin-name
 - https://code.claude.com/docs/en/plugins/components
 - https://code.claude.com/docs/en/plugins/publish
 - https://code.claude.com/docs/en/plugins/overview
+- https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
 **Сумісні моделі**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
