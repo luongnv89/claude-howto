@@ -120,7 +120,7 @@ div.mermaid:has(> .pele-zoom:not([hidden])) {
 }
 
 /* Pygments syntax highlighting (paired with `markdown` codehilite extension). */
-.codehilite { background: transparent; }
+div.codehilite { background: transparent; }
 .codehilite .hll { background-color: #ffffcc }
 .codehilite .c, .codehilite .c1, .codehilite .cm { color: #999988; font-style: italic }
 .codehilite .k, .codehilite .kc, .codehilite .kd, .codehilite .kn, .codehilite .kp,
