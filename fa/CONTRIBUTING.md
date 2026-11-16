@@ -97,7 +97,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-اجرای نخست، Node.js 22 را برای هوک‌های Mermaid دانلود می‌کند (pre-commit آن را فراهم می‌کند، بنابراین حتی بدون Node.js سیستمی هم کار می‌کنند) و بسته‌های Pele را در `scripts/.vendor-cache/pele/` قرار می‌دهد؛ اجراهای بعدی به‌صورت آفلاین کار می‌کنند. هوک‌های Mermaid در حالت سخت‌گیرانه اجرا می‌شوند و اگر Pele اجرا نشود شکست می‌خورند. برای کامیت آفلاین پیش از آن دانلود نخست، آن‌ها را با `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid` رد کنید.
+اجرای نخست، بسته ثابت Pele را در `scripts/.vendor-cache/pele/` دانلود می‌کند؛ اجراهای بعدی به‌صورت آفلاین کار می‌کنند. هوک‌های Mermaid با `language: system` اجرا می‌شوند، بنابراین از `python` و Node.js >= 20 موجود در محیط شما استفاده می‌کنند نه از پیش‌فرض‌های pre-commit. هوک‌های Mermaid در حالت سخت‌گیرانه اجرا می‌شوند و اگر Pele اجرا نشود شکست می‌خورند. برای کامیت آفلاین پیش از آن دانلود نخست، آن‌ها را با `SKIP=mermaid,vietnamese-mermaid,japanese-mermaid,korean-mermaid,persian-mermaid` رد کنید.
 
 هوک‌هایی که در هر کامیت اجرا می‌شوند عبارت‌اند از:
 
