@@ -596,7 +596,7 @@ graph TD
 | 3. Project Rules | `.claude/rules/*.md` | プロジェクト | 高 | チーム（Git） | プロジェクト規約のモジュール化 |
 | 4. User | `~/.claude/CLAUDE.md` | 個人 | 中 | 個人 | 個人の好み |
 | 5. User Rules | `~/.claude/rules/*.md` | 個人 | 中 | 個人 | 個人ルールのモジュール化 |
-| 6. Local | `./CLAUDE.local.md` | ローカル | 低 | 共有しない | マシン固有設定 |
+| 6. Local | `./CLAUDE.local.md` | ローカル | 低 | 共有しない | プロジェクト固有の個人設定 |
 | 7. Auto Memory | 自動 | リポジトリ単位 | 最低 | 個人 | 学習された好み・パターン |
 
 ### Auto Memory

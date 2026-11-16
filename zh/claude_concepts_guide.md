@@ -508,7 +508,7 @@ graph TD
 | 3. Project Rules | `.claude/rules/*.md` | 项目级 | 高 | 团队（Git） | 模块化项目约定 |
 | 4. User | `~/.claude/CLAUDE.md` | 个人级 | 中 | 个人 | 个人偏好 |
 | 5. User Rules | `~/.claude/rules/*.md` | 个人级 | 中 | 个人 | 个人规则模块 |
-| 6. Local | `./CLAUDE.local.md` | 本地 | 低 | 不共享 | 机器相关设置 |
+| 6. Local | `./CLAUDE.local.md` | 本地 | 低 | 不共享 | 个人的项目专属偏好 |
 | 7. Auto Memory | 自动生成 | 仓库级 | 最低 | 个人 | 学到的偏好与模式 |
 
 ### Auto Memory
