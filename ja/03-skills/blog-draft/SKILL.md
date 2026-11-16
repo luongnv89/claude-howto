@@ -1,11 +1,11 @@
-<!-- i18n-source: 03-skills/blog-draft/SKILL.md -->
-<!-- i18n-source-sha: f396788 -->
-<!-- i18n-date: 2026-04-27 -->
-
 ---
 name: blog-draft
 description: アイデアとリソースからブログ記事の下書きを作成する。ブログ記事の執筆、リサーチからのコンテンツ作成、記事の下書き作成時に使用する。リサーチ、ブレインストーミング、アウトライン作成、バージョン管理付きの反復的な下書き作成を案内する。
 ---
+
+<!-- i18n-source: 03-skills/blog-draft/SKILL.md -->
+<!-- i18n-source-sha: f396788 -->
+<!-- i18n-date: 2026-04-27 -->
 
 ## ユーザー入力
 
