@@ -32,10 +32,12 @@ truncate_utf8() {
   printf '%s' "$s"
 }
 
-# Slack suggests keeping a message under 4,000 characters and cuts it off past
-# 40,000, so a notification only needs the start of the commit message. The caps
-# also bound the time json_string takes, which grows faster than the input when
-# a hostile commit fills it with quotes or control characters.
+# Slack's chat.postMessage docs recommend keeping `text` under 4,000 characters
+# and truncate past 40,000 (the incoming-webhook docs give no limit for the
+# attachment field used here), so a notification only needs the start of the
+# commit message. The caps also bound the time json_string takes, which grows
+# faster than the input when a hostile commit fills it with quotes or control
+# characters.
 COMMIT_MSG=$(truncate_utf8 "$COMMIT_MSG" 4000)
 AUTHOR=$(truncate_utf8 "$AUTHOR" 256)
 BRANCH=$(truncate_utf8 "$BRANCH" 256)

@@ -78,7 +78,7 @@ BLOCKED_PATTERNS=(
   "rm -rf \*"
   "dd if=/dev/zero"
   "dd if=/dev/random"
-  ":\(\)\{:\|:&\};:"  # フォーク爆弾（正規表現メタ文字をエスケープ）
+  ":[[:space:]]*\([[:space:]]*\)[[:space:]]*\{[[:space:]]*:[[:space:]]*\|[[:space:]]*:[[:space:]]*&[[:space:]]*\}[[:space:]]*;[[:space:]]*:"  # フォーク爆弾、空白の有無を問わない（正規表現メタ文字をエスケープ）
   "mkfs\."           # ファイルシステムのフォーマット
   "format c:"        # Windows のディスクフォーマット
 )

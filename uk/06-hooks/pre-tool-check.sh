@@ -80,7 +80,7 @@ BLOCKED_PATTERNS=(
   "rm -rf \*"
   "dd if=/dev/zero"
   "dd if=/dev/random"
-  ":\(\)\{:\|:&\};:"  # Fork bomb (regex metachars escaped)
+  ":[[:space:]]*\([[:space:]]*\)[[:space:]]*\{[[:space:]]*:[[:space:]]*\|[[:space:]]*:[[:space:]]*&[[:space:]]*\}[[:space:]]*;[[:space:]]*:"  # Fork bomb, spaced or not (regex metachars escaped)
   "mkfs\."           # Filesystem format
   "format c:"        # Windows disk format
 )
