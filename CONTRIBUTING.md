@@ -68,7 +68,7 @@ git checkout -b docs/improvement-area
 
 ### 3. Set Up Your Environment
 
-Pre-commit hooks run the same checks as CI locally before every commit. All five checks must pass before a PR will be accepted.
+Pre-commit hooks run the same checks as CI locally before every commit. Every hook listed below must pass before a PR will be accepted.
 
 **Required dependencies:**
 
@@ -103,11 +103,25 @@ The hooks that run on every commit are:
 
 | Hook | What it checks |
 |------|---------------|
+| `ruff-lint` | Python lint in `scripts/`, applying fixes |
+| `ruff-format` | Python formatting in `scripts/` |
+| `bandit-security` | Python security scan in `scripts/` (excluding `scripts/tests/`) |
+| `mypy-type-check` | Python type checking in `scripts/` (excluding `scripts/tests/`) |
+| `check-yaml` | YAML syntax, including multi-document files |
+| `check-toml` | TOML syntax |
+| `fix-end-of-file` | Files end with a newline |
+| `fix-trailing-whitespace` | No trailing whitespace |
+| `check-large-files` | No file larger than 1000 KB |
+| `check-merge-conflict` | No merge conflict markers |
 | `markdown-lint` | Markdown formatting and structure |
 | `cross-references` | Relative links, anchors, code fences |
-| `mermaid-syntax` | All ` ```mermaid ` blocks parse correctly |
+| `mermaid-syntax` | All ` ```mermaid ` blocks parse correctly (rendered with Pele) |
 | `link-check` | External URLs are reachable |
-| `build-epub` | EPUB generates without errors (on `.md` changes) |
+| `markdown-rendering` | Markdown renders as expected |
+| `vietnamese-*` | `vi/` files: markdown-lint, cross-references, mermaid-syntax, link-check |
+| `japanese-*` | `ja/` files: markdown-lint, cross-references, mermaid-syntax, link-check |
+
+The EPUB build is **not** a pre-commit hook. It runs in CI only, in the `build-epub` job of `.github/workflows/test.yml`, because it is a slow full-book build; the Mermaid hooks above already render every diagram with the same Pele bundle.
 
 ## Directory Structure
 
