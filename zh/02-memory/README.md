@@ -84,12 +84,23 @@ Claude 会按更接近当前上下文的规则优先使用更具体的 memory。
 
 ## 配置文件层级
 
-项目设置、用户设置和企业托管设置会共同影响 memory 的加载方式。你可以把它理解为：
+Claude Code 的设置（包括 `autoMemoryDirectory`、`claudeMdExcludes` 等配置）按优先级解析——与上面的 CLAUDE.md 文件不同，设置之间是真正"覆盖"，而不是拼接。同一个设置出现在多个层级时，高层级生效：
 
-1. 组织策略
-2. 项目设置
-3. 本地设置
-4. 临时会话输入
+| 层级 | 位置 | 作用范围 |
+|------|------|----------|
+| 1（最高） | 托管设置 — `managed-settings.json`、plist/注册表，或服务器托管 | 组织级强制，不可覆盖 |
+| 2 | 命令行参数 | 临时会话覆盖 |
+| 3 | `.claude/settings.local.json` | 本地覆盖（git 忽略） |
+| 4 | `.claude/settings.json` | 项目级（提交到 git） |
+| 5（最低） | `~/.claude/settings.json` | 用户偏好 |
+
+托管设置还支持在 `managed-settings.json` 旁放置 drop-in 目录 `managed-settings.d/`：基础文件先合并，目录中的 `*.json` 文件再按字母顺序叠加合并（标量覆盖，数组拼接并去重，对象深合并）。这样不同团队可以各自部署独立的策略片段，而不必修改同一个文件。注意这是 **settings.json** 的机制，不适用于上面提到的 CLAUDE.md 文件位置。
+
+权限规则（`allow`/`ask`/`deny`）与其他设置不同：它们跨层级合并，而不是由高层级替换低层级。
+
+**平台特定配置（v2.1.51+）**：macOS 通过 plist 文件、Windows 通过注册表配置。这些平台原生机制与 JSON 设置文件一起读取，遵循同样的优先级规则。
+
+> **注意（v2.1.119）**：`/config` 的修改现在会持久化到 `~/.claude/settings.json`。通过 `/config` 写入的值会进入上面的 policy/local/project 优先级链——不再仅限当前会话。交互式修改用 `/config`，脚本化或托管配置则直接编辑 `settings.json` 文件。
 
 ## 模块化规则系统
 
