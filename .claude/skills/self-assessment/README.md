@@ -10,6 +10,7 @@
 - Gap analysis with dependency-aware prioritization
 - Personalized learning path with specific exercises and success criteria
 - Follow-up actions: start learning, deep dive, practice project, or retake
+- Runs in your language: a Vietnamese, Chinese, Ukrainian, Japanese, Korean, or Persian assessment asks and reports in that language and links that translation's lessons
 
 ## When to Use
 
@@ -19,6 +20,7 @@
 | "where should I start" | Evaluate your experience and suggest a starting point |
 | "check my skills" | Produce a detailed skill profile across all 10 areas |
 | "what should I learn next" | Identify gaps and build a prioritized learning path |
+| "내 수준을 평가해 줘" | Run the assessment in Korean and link the `ko/` lessons |
 
 ## How It Works
 
@@ -51,8 +53,16 @@ graph TD
 ## Usage
 
 ```text
-/self-assessment
+/self-assessment [language]
 ```
+
+Examples:
+```text
+/self-assessment
+/self-assessment ko    # (same assessment in Korean; also vi, zh, uk, ja, fa)
+```
+
+Without a language argument the assessment uses the language you are writing in, and English if there is nothing to go on.
 
 ## Output
 

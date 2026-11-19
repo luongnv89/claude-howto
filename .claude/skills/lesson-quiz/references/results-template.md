@@ -1,6 +1,6 @@
 # Results Report Template
 
-The output format for Step 5 ("Score and Present Results"). Fill the bracketed placeholders; keep the headings and table columns as shown.
+The output format for Step 5 ("Score and Present Results"). Fill the bracketed placeholders; keep the headings and table columns as shown. For a non-English quiz, translate the headings, column names, labels, and messages into the quiz language and keep the structure.
 
 ```markdown
 ## Lesson Quiz Results: [Lesson Name]

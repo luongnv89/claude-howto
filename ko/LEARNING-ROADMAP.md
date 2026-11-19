@@ -526,7 +526,10 @@ done
 /lesson-quiz hooks                # Quiz on Lesson 06: Hooks
 /lesson-quiz 03                   # Quiz on Lesson 03: Skills
 /lesson-quiz advanced-features    # Quiz on Lesson 09
+/lesson-quiz hooks ko             # 같은 퀴즈를 한국어로 진행
 ```
+
+두 스킬 모두 학습자의 언어로 진행됩니다. Claude에게 한국어로 요청하거나 마지막 예시처럼 언어 코드를 붙이면, 스킬이 한국어 레슨(`ko/`)을 읽고 한국어로 문제를 내고 채점하고 결과를 알려 줍니다. 모든 세션에서 한국어를 기본으로 쓰려면 저장소 루트의 `CLAUDE.local.md`에 한국어로 답해 달라고 적어 두세요.
 
 ---
 

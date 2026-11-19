@@ -55,6 +55,27 @@
 | template | 템플릿 | |
 | deprecated | 지원 중단(deprecated) | 첫 등장 시 병기 |
 
+## 학습 스킬 용어
+
+`/lesson-quiz`와 `/self-assessment`는 한국어로 진행할 때 이 문서의 용어집을 읽고 따릅니다. 문제와 선택지는 영어 문제 은행을 그때그때 번역하며, 결과 화면의 고정 라벨은 아래 표기로 통일합니다.
+
+| English | 한국어 | 비고 |
+|---------|--------|------|
+| lesson quiz | 레슨 퀴즈 | 명령어 `/lesson-quiz`는 원문 유지 |
+| self-assessment | 자기 평가 | 명령어 `/self-assessment`는 원문 유지 |
+| lesson | 레슨 | |
+| pre-test / progress check / mastery check | 사전 테스트 / 진행 상황 확인 / 숙련도 확인 | 퀴즈 시점 |
+| conceptual / practical | 개념 / 실습 | 문제 유형 |
+| Correct / Incorrect | 정답 / 오답 | |
+| Mastered / Proficient / Developing / Beginning / Not yet | 숙달 / 능숙 / 발전 중 / 시작 단계 / 아직 부족 | 레슨 퀴즈 등급 |
+| Level 1: Beginner / Level 2: Intermediate / Level 3: Advanced | 레벨 1: 초급 / 레벨 2: 중급 / 레벨 3: 고급 | 자기 평가 수준 |
+| None / Basic / Proficient | 없음 / 기초 / 능숙 | 자기 평가 숙련도 |
+| Learn / Review / Mastered | 학습 필요 / 복습 / 숙달 | 자기 평가 상태 |
+| Checked / Gap | 보유 / 공백 | 빠른 평가 상태 |
+| skill profile | 스킬 프로필 | |
+| learning path | 학습 경로 | |
+| gap | 학습 공백 | |
+
 ## 번역하지 않는 고유명사
 
 Claude, Claude Code, Claude Desktop, Anthropic, CLAUDE.md, SKILL.md, Opus, Sonnet, Haiku, Fable, Mythos, MCP, LSP, CLI, SDK, API, GitHub, VS Code, JetBrains, 모든 명령어·플래그·환경 변수·설정 키·이벤트 이름(`PreToolUse` 등)

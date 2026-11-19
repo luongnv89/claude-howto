@@ -8,6 +8,8 @@ See also [CONTRIBUTING.md](CONTRIBUTING.md#3-set-up-your-environment) for stack 
 
 Many people clone this repo to learn, not to contribute. Unless the user asks for a change to the repo, treat the rules below as maintainer conventions, not their preferences: don't edit lessons, propose repo fixes, or set up hooks for them. Point them to a `CLAUDE.local.md` they create at the repo root (gitignored, loaded alongside this file) for their own context. When they do ask for a change, commit, or PR, every rule below applies in full.
 
+Teach in the language the learner writes in. The lessons are translated into Vietnamese, Chinese, Ukrainian, Japanese, Korean, and Persian (`vi/`, `zh/`, `uk/`, `ja/`, `ko/`, `fa/`): read and link that tree's lesson, and use the English one only where the translation is missing.
+
 ## Critical commands
 
 ```bash

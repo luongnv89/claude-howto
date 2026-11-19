@@ -84,7 +84,7 @@ Claude Code의 강력한 기능 중 90%를 활용하지 못하고 있으며, 무
 
 ### 1. 내 수준 찾기
 
-[자기 평가 퀴즈](LEARNING-ROADMAP.md#-수준-확인하기)를 진행하거나 Claude Code에서 `/self-assessment`를 실행하세요. 현재 수준에 맞는 개인화된 학습 로드맵을 제공합니다.
+[자기 평가 퀴즈](LEARNING-ROADMAP.md#-수준-확인하기)를 진행하거나 Claude Code에서 `/self-assessment`를 실행하세요. 현재 수준에 맞는 개인화된 학습 로드맵을 제공합니다. 명령어만 입력할 때는 `/self-assessment ko`, `/lesson-quiz hooks ko`처럼 끝에 `ko`를 붙이면 한국어로 진행됩니다.
 
 ### 2. 가이드 학습 경로 따라가기
 

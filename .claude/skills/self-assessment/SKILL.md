@@ -1,12 +1,42 @@
 ---
 name: self-assessment
-version: 2.5.8
+version: 2.6.0
 description: Comprehensive Claude Code self-assessment and learning path advisor. Runs a multi-category quiz covering 10 feature areas, produces a detailed skill profile with per-topic scores, identifies specific gaps, and generates a personalized learning path with prioritized next steps. Use when asked to "assess my level", "take the quiz", "find my level", "where should I start", "what should I learn next", "check my skills", "skill check", or "level up".
 ---
 
 # Self-Assessment & Learning Path Advisor
 
 Comprehensive interactive assessment that evaluates Claude Code proficiency across 10 feature areas, identifies specific skill gaps, and generates a personalized learning path to level up.
+
+## Language
+
+This skill is written in English, but the assessment runs in the learner's language. Before Step 1, resolve the **assessment language**. Take the first of these that applies:
+
+1. A language named in the request: an argument (`/self-assessment ko`, `/self-assessment korean`) or a sentence ("한국어로 진단해 줘", "assess me in Japanese").
+2. A standing instruction, already in the session's context, to respond in a particular language (for example from the learner's `CLAUDE.local.md`).
+3. The language the learner has been writing in.
+4. English.
+
+Keep that language for the whole run. If the learner asks to switch partway through, switch and carry on from the same step.
+
+The tutorial has a translated lesson tree for each of these languages:
+
+| Language | Code | Lesson tree |
+|----------|------|-------------|
+| Vietnamese | `vi` | `vi/` |
+| Chinese | `zh` | `zh/` |
+| Ukrainian | `uk` | `uk/` |
+| Japanese | `ja` | `ja/` |
+| Korean | `ko` | `ko/` |
+| Persian | `fa` | `fa/` |
+
+When the assessment language is not English:
+
+- **Translate the questions, don't rewrite them.** Present every AskUserQuestion question, header, option label, and option description in the assessment language, with the same meaning and in the same order. Scoring maps option numbers to topics, so the order must not change.
+- **Keep code and on-screen text verbatim.** Commands, flags, file names, paths, setting keys, event names, model names, keyboard shortcuts, menu items and other labels Claude Code shows in English, and anything in backticks stay exactly as written here. A translation in parentheses after a menu item is fine.
+- **Use the translation's terms.** If `<tree>/TRANSLATION_NOTES.md` exists, read its glossary and use those terms, so the assessment words things the way the lessons do.
+- **Localize the results.** The report headings, tables, level names, learning path, and follow-up prompt are all in the assessment language.
+- **Link and read the translated lessons.** Every tutorial link in the learning path, and every README you read in Step 5, comes from the language's tree (`ko/06-hooks/` instead of `06-hooks/`). If a lesson is missing there, or the language has no tree, use the English lesson and tell the learner once. A translation can lag the English lesson: if it does not cover something you recommend, say so and point to the English lesson as well.
 
 ## Instructions
 
@@ -428,6 +458,8 @@ If the user says something like "tell me about hooks" or "I want to learn MCP" d
 - "level up"
 - "how good am I at Claude Code"
 - "evaluate my Claude Code knowledge"
+- "내 Claude Code 수준을 평가해 줘" (Korean: "assess my Claude Code level")
+- "/self-assessment ko"
 
 **Should NOT trigger:**
 - "review my code"

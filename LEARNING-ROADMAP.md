@@ -522,7 +522,10 @@ This repository includes two interactive skills you can use anytime in Claude Co
 /lesson-quiz hooks                # Quiz on Lesson 06: Hooks
 /lesson-quiz 03                   # Quiz on Lesson 03: Skills
 /lesson-quiz advanced-features    # Quiz on Lesson 09
+/lesson-quiz hooks ko             # Same quiz in Korean
 ```
+
+Both skills run in your language. Write to Claude in Vietnamese, Chinese, Ukrainian, Japanese, Korean, or Persian, or add the language code as in the last example, and the skill reads that translation's lessons and asks, scores, and reports in that language. To make it the default for every session, say so in a `CLAUDE.local.md` at the repo root.
 
 ---
 

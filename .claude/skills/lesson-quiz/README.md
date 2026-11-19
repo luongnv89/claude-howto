@@ -9,6 +9,7 @@
 - Three timing modes: pre-test, progress check, or mastery verification
 - Per-question feedback with correct answers and explanations
 - Targeted review recommendations pointing to specific lesson sections
+- Runs in your language: a Vietnamese, Chinese, Ukrainian, Japanese, Korean, or Persian quiz reads that translation's lesson and asks, scores, and reports in that language
 - 100-question bank across all lessons in `references/question-bank.md`
 
 ## When to Use
@@ -19,6 +20,7 @@
 | "lesson quiz 03" | Test your knowledge of Lesson 03: Skills |
 | "do I understand MCP" | Assess your understanding of Lesson 05: MCP |
 | "practice quiz" | Let you pick a lesson, then quiz you |
+| "훅 퀴즈 내줘" | Run the Hooks quiz in Korean, reading `ko/06-hooks/README.md` |
 
 ## How It Works
 
@@ -34,7 +36,7 @@ graph TD
 ## Usage
 
 ```text
-/lesson-quiz [lesson-name-or-number]
+/lesson-quiz [lesson-name-or-number] [language]
 ```
 
 Examples:
@@ -43,7 +45,10 @@ Examples:
 /lesson-quiz 03
 /lesson-quiz advanced-features
 /lesson-quiz           # (prompts for lesson selection)
+/lesson-quiz hooks ko  # (same quiz in Korean; also vi, zh, uk, ja, fa)
 ```
+
+Without a language argument the quiz uses the language you are writing in, and English if there is nothing to go on.
 
 ## Output
 

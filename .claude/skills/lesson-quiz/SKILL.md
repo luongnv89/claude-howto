@@ -1,9 +1,9 @@
 ---
 name: lesson-quiz
-description: "Test a learner on a single Claude Code tutorial lesson (01-10) with 10 questions, scoring answers and flagging weak spots. Use before, during, or after a lesson. Don't use for whole-tutorial assessment or explaining a topic instead of testing it."
+description: "Test a learner on a single Claude Code tutorial lesson (01-10) with 10 questions, scoring answers and flagging weak spots. Runs in the learner's language when the tutorial has a translation. Use before, during, or after a lesson. Don't use for whole-tutorial assessment or explaining a topic instead of testing it."
 effort: high
 metadata:
-  version: 1.6.6
+  version: 1.7.0
   author: Luong NGUYEN
 ---
 
@@ -26,6 +26,37 @@ Before starting, confirm the target lesson's `README.md` exists. If it is missin
 - **Score accurately.** Track which shuffled position holds the correct answer for every question and validate each response against it — never guess a score.
 - **Confirm timing before scoring.** The pre/during/after choice changes how results are framed; do not skip it.
 
+## Language
+
+This skill and its question bank are written in English, but the quiz runs in the learner's language. Before Step 1, resolve the **quiz language**. Take the first of these that applies:
+
+1. A language named in the request: an extra argument (`/lesson-quiz hooks ko`, `/lesson-quiz 06 korean`, `/lesson-quiz ko`) or a sentence ("한국어로 퀴즈 내줘", "quiz me in Japanese").
+2. A standing instruction, already in the session's context, to respond in a particular language (for example from the learner's `CLAUDE.local.md`).
+3. The language the learner has been writing in.
+4. English.
+
+Keep that language for the whole run. If the learner asks to switch partway through, switch and carry on from the same question.
+
+The tutorial has a translated lesson tree for each of these languages:
+
+| Language | Code | Lesson tree |
+|----------|------|-------------|
+| Vietnamese | `vi` | `vi/` |
+| Chinese | `zh` | `zh/` |
+| Ukrainian | `uk` | `uk/` |
+| Japanese | `ja` | `ja/` |
+| Korean | `ko` | `ko/` |
+| Persian | `fa` | `fa/` |
+
+When the quiz language is not English:
+
+- **Read the translated lesson.** In Step 2, read `<tree>/<lesson-directory>/README.md` (Korean, Hooks: `ko/06-hooks/README.md`). If that file is missing, or the language has no tree, read the English README and tell the learner once that the lesson is not translated.
+- **Translate the bank, don't rewrite it.** Present each question, its options, and its explanation in the quiz language. Keep the meaning, the number of options, and which option is correct. A translated question is still a bank question, so the guardrails above hold unchanged: score against the bank's `Correct` label.
+- **Keep code and on-screen text verbatim.** Commands, flags, file names, paths, setting keys, event names, model names, menu items and other on-screen labels (including the ones offered as wrong answers), and anything in backticks stay exactly as the bank has them. A translation in parentheses after a menu item is fine. Two options must never end up reading the same.
+- **Use the translation's terms.** If `<tree>/TRANSLATION_NOTES.md` exists, read its glossary and use those terms, so the quiz words things the way the lesson does.
+- **Localize everything the learner sees.** AskUserQuestion questions, headers, option labels and descriptions, per-round feedback, the results report, and the follow-up prompt are all in the quiz language.
+- **Point review at the translated lesson.** The bank's `Review` field names an English section. Cite the matching heading in the translated README you read, and link that file. A translation can lag the English lesson: if it does not cover what the explanation says, say so and point to the English section as well.
+
 ## Instructions
 
 ### Step 1: Determine the Lesson
@@ -44,7 +75,9 @@ If the user provided a lesson as an argument (e.g., `/lesson-quiz hooks` or `/le
 - `09`, `advanced`, `advanced-features` → 09-advanced-features
 - `10`, `cli` → 10-cli
 
-If no argument was provided, present a selection prompt using AskUserQuestion:
+A language code or name in the arguments (`ko`, `korean`, `한국어`) sets the quiz language (see Language); it is not part of the lesson name. A lesson named in another language maps by meaning (`훅` → 06-hooks).
+
+If no lesson argument was provided, present a selection prompt using AskUserQuestion:
 
 **Question 1** (header: "Lesson"):
 "Which lesson do you want to quiz on?"
@@ -74,7 +107,7 @@ Options:
 ### Step 2: Read the Lesson Content
 
 Read the lesson README.md file to refresh context:
-- Read file: `<lesson-directory>/README.md`
+- Read file: `<lesson-directory>/README.md` (for a non-English quiz, the translated README — see Language)
 
 Then use the question bank from `references/question-bank.md` for that lesson (10 pre-written questions with answers and explanations). To stay within the context budget, read only the one selected lesson's README — not all ten.
 
@@ -154,7 +187,8 @@ A completed quiz run must satisfy all of these — verify each before presenting
 - The timing context (before / during / after) was captured via AskUserQuestion.
 - 10 questions from `references/question-bank.md` for that lesson were presented, in 5 rounds of 2, with answer options shuffled per question.
 - Every answer was scored against the tracked correct-position, producing an integer score in the range 0-10.
-- **Expected output**: a `## Lesson Quiz Results` report containing the score line (`Score: N/10` with a grade label), the per-question results table, an "Incorrect Answers — Review These" block for each miss, and a timing-specific message.
+- For a non-English quiz: the translated lesson README was read (or the learner was told it is missing), every question and option shown was a translation of a bank entry, and everything the learner saw was in the quiz language.
+- **Expected output**: a `## Lesson Quiz Results` report (headings translated for a non-English quiz) containing the score line (`Score: N/10` with a grade label), the per-question results table, an "Incorrect Answers — Review These" block for each miss, and a timing-specific message.
 - The follow-up prompt (retake / another lesson / explain / done) was offered.
 
 Example: for a 7/10 "after" run on Hooks, the report asserts `Score: 7/10 — Proficient`, lists all 10 rows in the results table, and expands the 3 incorrect questions with correct answer, explanation, and a review pointer.
@@ -188,6 +222,8 @@ If `references/question-bank.md` has no questions for the resolved lesson, tell 
 - "test me on checkpoints"
 - "how well do I know the CLI"
 - "quiz me before I start the memory lesson"
+- "훅 퀴즈 내줘" (Korean: "quiz me on hooks")
+- "/lesson-quiz hooks ko"
 
 **Should NOT trigger:**
 - "assess my overall level" (use /self-assessment)
