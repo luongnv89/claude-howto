@@ -959,7 +959,7 @@ claude plugin eval --help     # 전체 옵션 목록
 
 ### `--json`으로 기계가 읽을 수 있는 출력 (v2.1.268+)
 
-`--json`은 `install`, `uninstall`, `update`, `enable`, `disable`에서 사용할 수 있어 CI에서 플러그인 관리를 스크립트로 처리할 수 있습니다. `claude plugin list --json`의 각 행에는 `errorDetails`와 `noteDetails`도 포함되므로, 실패한 플러그인의 원인을 별도 명령어 없이 확인할 수 있습니다. v2.1.323부터 `claude plugin install --json` 결과에는 아직 설정되지 않은 `userConfig` 옵션의 개수인 `unsetOptionCount`도 포함됩니다(변경 로그 기준이며 CLI 레퍼런스의 JSON 결과 형식에는 아직 나와 있지 않음).
+`--json`은 `install`, `uninstall`, `update`, `enable`, `disable`에서 사용할 수 있어 CI에서 플러그인 관리를 스크립트로 처리할 수 있습니다. `claude plugin list --json`의 각 행에는 `errorDetails`와 `noteDetails`도 포함되므로, 실패한 플러그인의 원인을 별도 명령어 없이 확인할 수 있습니다. v2.1.323부터 `claude plugin install --json` 결과에는 아직 설정되지 않은 `userConfig` 옵션의 개수인 `unsetOptionCount`도 포함됩니다(변경 로그 기준이며 CLI 레퍼런스의 JSON 결과 형식에는 아직 나와 있지 않음). 마켓플레이스 항목이 `command` 소스를 사용하는 플러그인의 경우, v2.1.330부터 결과에 `commandPrinted`(설치에 성공했고 명령어가 stderr에 출력했을 때 `true`)와 `commandFailed`(명령어가 오류로 종료되었거나, 시그널로 강제 종료되었거나, 타임아웃되었을 때 `true`)도 포함됩니다.
 
 ```bash
 claude plugin install my-plugin@my-marketplace --json
@@ -1434,8 +1434,8 @@ git 소스 플러그인에 대해 `claude plugin list`가 `Version: unknown`을 
 
 ---
 
-**최종 업데이트**: 2026년 11월 14일
-**Claude Code 버전**: 2.1.325
+**최종 업데이트**: 2026년 11월 21일
+**Claude Code 버전**: 2.1.330
 **출처**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1504,4 +1504,5 @@ git 소스 플러그인에 대해 `claude plugin list`가 `Version: unknown`을 
 - https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk
 - https://code.claude.com/docs/en/changelog#2-1-325
 - https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
+- https://code.claude.com/docs/en/plugins/cli-reference#plugin-json-result
 **호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

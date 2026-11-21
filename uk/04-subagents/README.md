@@ -126,7 +126,7 @@ to solving problems.
 | `description` | Так | Опис призначення природною мовою. Включіть "use PROACTIVELY" для заохочення автоматичного виклику |
 | `tools` | Ні | Список інструментів через кому. Пропустіть для успадкування всіх. Підтримує синтаксис `Agent(agent_name)` для обмеження створюваних субагентів, коли агент працює як головний потік через `claude --agent`; усередині субагента список типів ігнорується. MCP: `mcp__<server>__*` надає доступ до всього сервера (v2.1.299+: збігається лише з точною назвою цього сервера). |
 | `disallowedTools` | Ні | Список заборонених інструментів через кому |
-| `model` | Ні | Модель: `sonnet`, `opus`, `haiku`, повний ID моделі або `inherit`. За замовч. — налаштована модель субагента |
+| `model` | Ні | Модель: `sonnet`, `opus`, `haiku`, повний ID моделі або `inherit`. За замовч. — налаштована модель субагента. Після відновлення субагент, запущений без моделі, лишається на моделі, з якою стартував, навіть після `/model` (v2.1.327). Якщо субагент перемикається на резервну (fallback) модель, агенти без моделі та форки, які він потім запускає, працюють на цій резервній моделі, а агенти, яких запускають вони, використовують її регіон Bedrock (v2.1.330). Обидва факти — з changelog |
 | `permissionMode` | Ні | `default` (режим Manual; `manual` приймається як псевдонім з v2.1.200), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. Коли батьківська сесія працює в `bypassPermissions`, `acceptEdits` або `auto`, `permissionMode` субагента ігнорується. Коли батьківська сесія в режимі `plan`, субагент залишається в режимі планування незалежно від `permissionMode` (якщо тільки він не працює як тіммейт Agent Teams); якщо ви встановите `dontAsk`, дії, про які запитав би режим планування, натомість відхиляються |
 | `maxTurns` | Ні | Максимальна кількість агентних кроків |
 | `skills` | Ні | Список навичок через кому для попереднього завантаження. Вставляє повний вміст навички в контекст при запуску |
@@ -1134,8 +1134,8 @@ graph TD
 - [Посібник хуків](../06-hooks/) — для автоматизації за подіями
 
 ---
-**Останнє оновлення**: 14 листопада 2026
-**Версія Claude Code**: 2.1.325
+**Останнє оновлення**: 21 листопада 2026
+**Версія Claude Code**: 2.1.330
 **Джерела**:
 - https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/commands
@@ -1153,4 +1153,5 @@ graph TD
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-317
 - https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/changelog#2-1-330
 **Сумісні моделі**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

@@ -82,7 +82,7 @@ Lệnh tích hợp sẵn là các lối tắt cho các hành động phổ biế
 | `/stickers` | Kiểm tra xem sticker Claude Code có sẵn không |
 | `/status` | Hiển thị phiên bản, mô hình, tài khoản |
 | `/statusline` | Cấu hình dòng trạng thái |
-| `/tasks` | Liệt kê/quản lý các tác vụ nền |
+| `/tasks` | Liệt kê/quản lý các tác vụ nền. Từ v2.1.329, lệnh này còn liệt kê các tác vụ theo lịch của phiên này, các lần đánh thức (wakeup) của `/loop`, mục tiêu (goal) và các fork của cuộc hội thoại này, và `x` dừng một mục sau khi hỏi xác nhận (lấy từ changelog; tài liệu tham chiếu lệnh chưa liệt kê các mục này) |
 | `/terminal-setup` | Cấu hình terminal keybindings |
 | `/theme` | Thay đổi chủ đề màu |
 | `/upgrade` | Mở trang nâng cấp cho tier cao hơn |

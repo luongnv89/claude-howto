@@ -46,6 +46,7 @@ Claude Code 的高级功能把基础能力扩展到了规划、推理、自动�
 - **Extended Thinking**：对复杂问题进行更深入的推理
 - **Auto Mode**：由后台安全分类器在每一步执行前进行审查
 - **Background Tasks**：长时间任务不阻塞对话
+- **Code Mode**（实验性，默认关闭）：Claude 编写 JavaScript，在一步内完成多次工具调用。在 shell 或用户设置中设置 `CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1` 即可开启（项目设置无法开启）；需要 v2.1.323+、交互式终端会话、Claude 订阅或 Console 账号（不支持网关或云提供商），以及 Opus 5.5、Sonnet 5.5、Haiku 5.5 或 Fable 5.2 — 参见 [Code Mode](https://code.claude.com/docs/en/code-mode)
 - **Permission Modes**：控制 Claude 可以做什么（`default`、`acceptEdits`、`plan`、`auto`、`dontAsk`、`bypassPermissions`）
 - **Print Mode**：非交互式运行，适合自动化和 CI/CD（`claude -p`）
 - **Session Management**：管理多个会话

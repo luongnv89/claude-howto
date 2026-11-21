@@ -434,6 +434,9 @@ claude mcp add-from-claude-desktop
 
 # Thêm server từ một chuỗi JSON (hữu ích cho thiết lập bằng script)
 claude mcp add-json events-server '{"type":"stdio","command":"npx","args":["@modelcontextprotocol/server-events"]}'
+
+# Hoặc truyền JSON qua pipe để token không nằm trên dòng lệnh (v2.1.327+; chạy lệnh này bên ngoài một phiên Claude Code)
+cat server.json | claude mcp add-json events-server -
 ```
 
 > **Lưu ý**: Trong cấu hình JSON — `.mcp.json`, `~/.claude.json` hoặc `claude mcp add-json` — trường `type` chấp nhận `streamable-http` như một bí danh của `http`. Đặc tả MCP dùng tên `streamable-http` cho giao thức này, nên cấu hình sao chép từ tài liệu của chính server vẫn hoạt động mà không cần sửa.
@@ -865,6 +868,8 @@ Mỗi mục là một object với **duy nhất một** key:
 Một setting được quản lý thứ ba, `managedMcpServers` (v2.1.259+), cho phép tổ chức cung cấp MCP server HTTP/SSE cho mọi người dùng. Các mục dùng cùng cấu trúc như `.mcp.json`; các mục chỉ định một lệnh để chạy sẽ bị bỏ qua.
 
 > **Lưu ý:** Khi cả `allowedMcpServers` và `deniedMcpServers` cùng khớp một server, quy tắc deny được ưu tiên.
+
+> **Lưu ý:** Trong `deniedMcpServers`, một mục `serverName` có thể chặn một claude.ai connector theo tên hiển thị của nó, chẳng hạn `{ "serverName": "claude.ai Slack" }`. Tên chỉ là một nhãn, không phải biện pháp kiểm soát bảo mật, nên hãy ưu tiên mục `serverUrl` khi quy tắc deny phải giữ hiệu lực dù connector bị đổi tên hoặc trùng tên. Từ v2.1.330, một mục theo tên chỉ ẩn connector được nêu tên, không ẩn các connector khác có cùng URL (changelog).
 
 ## MCP Server Do Plugin Cung Cấp
 
@@ -1364,8 +1369,8 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 1 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.316
+**Cập Nhật Lần Cuối**: Ngày 21 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.330
 **Nguồn**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
@@ -1398,4 +1403,5 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 - https://code.claude.com/docs/en/errors#mcp-server-rejected-the-elicitation-capability
 - https://code.claude.com/docs/en/mcp#elicitation-modes-claude-code-declares
 - https://code.claude.com/docs/en/mcp#use-oauth-with-a-server-behind-an-authenticating-proxy
+- https://code.claude.com/docs/en/changelog#2-1-330
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

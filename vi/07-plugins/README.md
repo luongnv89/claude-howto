@@ -955,7 +955,7 @@ claude plugin eval --help     # Danh sách tùy chọn đầy đủ
 
 ### Output dạng máy đọc với `--json` / Machine-readable output with `--json` (v2.1.268+)
 
-`--json` được chấp nhận trên `install`, `uninstall`, `update`, `enable`, và `disable`, giúp việc quản lý plugin có thể viết script trong CI. Mỗi dòng của `claude plugin list --json` cũng mang `errorDetails` và `noteDetails`, nên một plugin bị lỗi tự giải thích mà không cần lệnh thứ hai. Từ v2.1.323, kết quả của `claude plugin install --json` còn mang `unsetOptionCount`: số tùy chọn `userConfig` chưa được đặt (lấy từ changelog; phần JSON result format của CLI reference chưa liệt kê field này).
+`--json` được chấp nhận trên `install`, `uninstall`, `update`, `enable`, và `disable`, giúp việc quản lý plugin có thể viết script trong CI. Mỗi dòng của `claude plugin list --json` cũng mang `errorDetails` và `noteDetails`, nên một plugin bị lỗi tự giải thích mà không cần lệnh thứ hai. Từ v2.1.323, kết quả của `claude plugin install --json` còn mang `unsetOptionCount`: số tùy chọn `userConfig` chưa được đặt (lấy từ changelog; phần JSON result format của CLI reference chưa liệt kê field này). Với plugin có mục marketplace dùng nguồn `command`, kết quả còn mang `commandPrinted` (`true` khi cài đặt thành công và lệnh đã ghi ra stderr) và `commandFailed` (`true` khi lệnh thoát với lỗi, bị kết thúc bởi một signal, hoặc bị timeout), từ v2.1.330.
 
 ```bash
 claude plugin install my-plugin@my-marketplace --json
@@ -1416,8 +1416,8 @@ Nếu `claude plugin list` hiển thị `Version: unknown` cho một plugin lấ
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 14 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.325
+**Cập Nhật Lần Cuối**: Ngày 21 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.330
 **Nguồn**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1490,4 +1490,5 @@ Nếu `claude plugin list` hiển thị `Version: unknown` cho một plugin lấ
 - https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk
 - https://code.claude.com/docs/en/changelog#2-1-325
 - https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
+- https://code.claude.com/docs/en/plugins/cli-reference#plugin-json-result
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

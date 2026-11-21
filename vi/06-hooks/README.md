@@ -63,7 +63,7 @@ Hooks được cấu hình trong các file settings với cấu trúc cụ thể
 | `asyncRewake` | Nếu `true`, chạy nền và đánh thức Claude khi mã thoát là 2. Ngầm bật `async`. | `true` |
 | `shell` | Chấp nhận `"bash"` hoặc `"powershell"`. Mặc định `"bash"`, hoặc `"powershell"` trên Windows khi chưa cài Git Bash. Mã thoát 2 của hook PowerShell chỉ chặn được từ v2.1.309; hãy nâng cấp trước khi dựa vào một hook PowerShell làm lớp bảo vệ. | `"bash"` |
 | `statusMessage` | Thông điệp spinner tùy chỉnh hiển thị khi hook đang chạy | `"Đang định dạng…"` |
-| `onFailure` | Điều gì xảy ra với hành động khi một command hook hoặc HTTP hook thất bại (không khởi động được, hết thời gian, thoát với mã không mong đợi): `"continue"` (mặc định) hoặc `"block"` (v2.1.295+) | `"block"` |
+| `onFailure` | Điều gì xảy ra với hành động khi một command hook, HTTP hook hoặc `mcp_tool` hook thất bại (không khởi động được, hết thời gian, thoát với mã không mong đợi): `"continue"` (mặc định) hoặc `"block"` (v2.1.295+; với `mcp_tool` hook là v2.1.328+) | `"block"` |
 
 > **Lưu ý**: Một số sự kiện hạ thấp timeout mặc định. `UserPromptSubmit` hạ mặc định của `command`, `http` và `mcp_tool` xuống 30 giây, còn `MessageDisplay` hạ xuống 10 giây. Các hook `SessionEnd` dùng chung ngân sách 1,5 giây; nếu cài đặt của bạn khai báo `timeout` dài hơn cho một hook, Claude Code nâng ngân sách đó cho khớp, tối đa 60 giây. Trong các phiên `claude -p` và Agent SDK, Claude Code gửi một heartbeat tiến độ mỗi 30 giây khi hook chạy lâu (v2.1.323), để một host như Claude Desktop không kết thúc lượt vì cho rằng đã bị treo, một khi host đó đã bao gồm phiên bản này.
 
@@ -201,7 +201,7 @@ Prompts được đánh giá bởi LLM nơi nội dung hook là một prompt mà
 }
 ```
 
-LLM đánh giá prompt và trả về một quyết định có cấu trúc (xem [Prompt-Based Hooks](#hooks-dựa-trên-prompt--prompt-based-hooks) để biết chi tiết).
+LLM đánh giá prompt và trả về một quyết định có cấu trúc (xem [Prompt-Based Hooks](#hooks-dựa-trên-prompt--prompt-based-hooks) để biết chi tiết). Trường `model` (tùy chọn) xác định model đánh giá prompt; nếu không có trường này, Claude Code dùng model mà nó dùng cho các chức năng chạy nền. Từ v2.1.330, trường này cũng chấp nhận bí danh như `haiku` hoặc `sonnet` (changelog).
 
 ### MCP Tool Hooks / Hooks Công Cụ MCP
 
@@ -427,6 +427,8 @@ Chạy khi người dùng gửi prompt, trước khi Claude xử lý nó. Từ v
 Chạy khi Claude hoàn thành phản hồi (Stop) hoặc một subagent hoàn thành (SubagentStop). Hỗ trợ đánh giá dựa trên prompt để kiểm tra hoàn thành tác vụ thông minh.
 
 **Trường đầu vào thêm:** Cả hai hooks `Stop` và `SubagentStop` nhận một trường `last_assistant_message` trong đầu vào JSON của chúng, chứa thông báo cuối cùng từ Claude hoặc subagent trước khi dừng. Điều này hữu ích để đánh giá hoàn thành tác vụ.
+
+Cả hai cũng nhận các mảng `background_tasks` và `session_crons`, nhờ đó hook có thể phân biệt một phiên đã xong với một phiên đang chờ công việc nền hoặc một tác vụ theo lịch đánh thức nó. Mỗi mục trong `background_tasks` có nhãn `type` như `shell`, `subagent`, `monitor`, `workflow` hoặc `MCP task`; từ v2.1.329, script của một Monitor được liệt kê là `monitor`, không phải `shell` (changelog).
 
 **Cấu Hình:**
 ```json
@@ -791,6 +793,8 @@ Tất cả hooks nhận đầu vào JSON qua stdin:
 > **`retry` (PermissionDenied)**: Dùng JSON `hookSpecificOutput.retry: true` để báo cho model biết nó có thể thử lại lệnh gọi công cụ đã bị từ chối.
 
 > **Dạng quyết định `PreToolUse` đã lỗi thời**: Với `PreToolUse`, các trường `decision` và `reason` ở cấp cao nhất đã **lỗi thời** — hãy dùng `hookSpecificOutput.permissionDecision` (`allow` / `deny` / `ask` / `defer`) và `permissionDecisionReason` thay thế. Thứ tự ưu tiên giữa các quyết định là `deny` > `defer` > `ask` > `allow`. Cũng lưu ý rằng `suppressOutput` được chấp nhận nhưng **không có tác dụng**.
+
+> **`"decision": "block"` có hiệu lực trong nhiều trường hợp hơn (v2.1.326)**: theo changelog, `"decision": "block"` của một hook giờ có hiệu lực trong nhiều trường hợp hơn, nên một hook luôn in ra nó có thể bắt đầu chặn các lệnh gọi. Chỉ in nó khi bạn thực sự muốn chặn. Tài liệu hooks chưa liệt kê thay đổi này.
 
 > **Giới hạn đầu ra**: các chuỗi `additionalContext`, `systemMessage` và `initialUserMessage` của một hook, cùng stdout thuần của nó, mỗi thứ bị giới hạn ở 10.000 ký tự. Đầu ra dài hơn được lưu vào một file trong thư mục phiên và được thay bằng đường dẫn của file cùng bản xem trước 2.000 ký tự đầu tiên; Claude không được yêu cầu đọc file đó. Từ v2.1.314, điều này cũng áp dụng cho các hook `PreCompact`, vốn có đầu ra rất lớn có thể khiến việc compaction thất bại hoặc lặp lại.
 

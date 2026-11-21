@@ -178,7 +178,7 @@ paths: "src/api/**/*.ts"               # スキルの発火を制限する glob 
 | `disable-model-invocation` | `true` = ユーザーのみが `/name` で呼び出せる。Claude は自動呼び出ししない。 |
 | `user-invocable` | `false` = `/` メニューから非表示。Claude のみが自動呼び出し可能。 |
 | `allowed-tools` | 許可プロンプトなしでスキルが利用可能なツールのカンマ区切りリスト。 |
-| `model` | スキルが有効な間のモデルの上書き（例: `opus`, `sonnet`）。 |
+| `model` | スキルが有効な間のモデルの上書き（例: `opus`, `sonnet`）。上書きは現在のターンの残りの間だけ有効で、次のプロンプトを送るとセッションのモデルに戻る。`context: fork` の場合は、代わりにフォーク済みサブエージェントのモデルを設定する。v2.1.330 以降、Claude が `model` 設定を持つスキルを実行する場合（`context: fork` のスキルを除く）、サブエージェント、フォーク、圧縮、`/recap` はセッションのモデルのまま動作する（changelog）。 |
 | `effort` | 現在のターンの残りに適用される努力レベル（`CLAUDE_CODE_EFFORT_LEVEL` は上書きしない）: `low`, `medium`, `high`, `max`。 |
 | `context` | `fork` を指定するとスキルを独自のコンテキストウィンドウを持つフォーク済みサブエージェントコンテキストで実行する。 |
 | `agent` | `context: fork` の際のサブエージェントタイプ（例: `Explore`, `Plan`, `general-purpose`）。 |

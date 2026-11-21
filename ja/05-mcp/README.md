@@ -767,6 +767,8 @@ claude mcp add --transport stdio claude-agent -- claude mcp serve
 
 > **注意：** `allowedMcpServers` と `deniedMcpServers` の両方が同じサーバーにマッチする場合、deny ルールが優先される。
 
+> **注意：** `deniedMcpServers` では、`serverName` エントリで claude.ai コネクタを表示名によってブロックできる（例：`{ "serverName": "claude.ai Slack" }`）。名前はラベルにすぎずセキュリティ制御ではないため、名前の変更や衝突があっても拒否を維持したい場合は `serverUrl` エントリを優先すること。v2.1.330 以降、名前エントリは指定したコネクタだけを非表示にし、同じ URL の他のコネクタは非表示にしない（changelog）。
+
 ## プラグイン提供の MCP サーバー
 
 プラグインは独自の MCP サーバーをバンドルでき、プラグインのインストール時に自動的に利用可能になる。プラグイン提供の MCP サーバーは 2 つの方法で定義できる。

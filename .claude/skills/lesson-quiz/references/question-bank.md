@@ -439,7 +439,7 @@
 - **Question**: A hook script exits with code 2. What happens?
 - **Options**: A) Non-blocking warning shown | B) Blocking error — stderr is shown as an error to Claude, tool use is prevented | C) Hook is retried | D) Session ends
 - **Correct**: B
-- **Explanation**: Exit code 0 = success/continue, exit code 2 = blocking error (stderr shown as error), any other non-zero = non-blocking error (a `<hook name> hook error` notice with the first line of stderr appears in the transcript, and the action goes ahead). Since v2.1.295, setting `"onFailure": "block"` on a command or HTTP hook makes such failures block like exit 2.
+- **Explanation**: Exit code 0 = success/continue, exit code 2 = blocking error (stderr shown as error), any other non-zero = non-blocking error (a `<hook name> hook error` notice with the first line of stderr appears in the transcript, and the action goes ahead). Since v2.1.295, setting `"onFailure": "block"` on a command or HTTP hook (and, since v2.1.328, on an `mcp_tool` hook) makes such failures block like exit 2.
 - **Review**: Exit codes section
 
 ### Q3
@@ -844,8 +844,8 @@
 
 ---
 
-**Last Updated**: November 13, 2026
-**Claude Code Version**: 2.1.323
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/skills
@@ -881,3 +881,4 @@
 - https://code.claude.com/docs/en/checkpointing#rewind-and-summarize
 - https://code.claude.com/docs/en/mcp#variables-set-to-an-empty-string
 - https://code.claude.com/docs/en/changelog#2-1-323
+- https://code.claude.com/docs/en/hooks#block-the-action-when-a-hook-fails

@@ -347,6 +347,9 @@ claude mcp add-from-claude-desktop
 
 # Додати сервер із JSON-блоку (зручно для скриптового налаштування)
 claude mcp add-json events-server '{"type":"stdio","command":"npx","args":["@modelcontextprotocol/server-events"]}'
+
+# Або передайте JSON через pipe, щоб токени не потрапляли в командний рядок (v2.1.327+; запускайте поза сесією Claude Code)
+cat server.json | claude mcp add-json events-server -
 ```
 
 > **Примітка**: у JSON-конфігураціях — `.mcp.json`, `~/.claude.json` або `claude mcp add-json` — поле `type` приймає `streamable-http` як аліас для `http`. Специфікація MCP називає цей транспорт `streamable-http`, тому конфігурації, скопійовані з документації самого сервера, працюють без змін.
@@ -737,6 +740,8 @@ claude mcp add --transport stdio claude-agent -- claude mcp serve
 ```
 
 > **Примітка:** Коли і `allowedMcpServers`, і `deniedMcpServers` збігаються з сервером, правило заборони має пріоритет.
+
+> **Примітка:** У `deniedMcpServers` запис `serverName` може заблокувати конектор claude.ai за його відображуваною назвою, наприклад `{ "serverName": "claude.ai Slack" }`. Назва — це лише мітка, а не засіб безпеки, тож віддавайте перевагу запису `serverUrl`, коли заборона має витримати перейменування або збіг назв. З v2.1.330 запис за назвою приховує лише названий конектор, а не інші конектори з тією самою URL-адресою (changelog).
 
 ## MCP-сервери плагінів
 

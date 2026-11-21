@@ -182,7 +182,7 @@ paths: "src/api/**/*.ts"               # Glob patterns limiting when skill activ
 | `user-invocable` | `false` = hidden from the `/` menu. Only Claude can invoke it automatically. |
 | `allowed-tools` | Comma-separated list of tools the skill may use without permission prompts. When managed settings list `hooks` in `strictPluginOnlyCustomization`, a personal or project skill whose frontmatter declares `hooks` loses this pre-approval (v2.1.304); remove its `hooks` or move it into a plugin. |
 | `disallowed-tools` | Comma-separated list of tools to remove while the skill is active (complements `allowed-tools`). Added v2.1.152. |
-| `model` | Model override while the skill is active (e.g., `opus`, `sonnet`). |
+| `model` | Model override while the skill is active (e.g., `opus`, `sonnet`). The override lasts for the rest of the current turn, and the session model resumes with your next prompt; with `context: fork`, it sets the forked subagent's model instead. Since v2.1.330, when Claude runs a skill with a `model` setting (other than a `context: fork` skill), subagents, forks, compaction and `/recap` stay on the session's model (changelog). |
 | `effort` | Effort level for the rest of the current turn (with `context: fork`, the forked subagent's level instead). Overrides the session effort level but not the `CLAUDE_CODE_EFFORT_LEVEL` environment variable. Values: `low`, `medium`, `high`, `xhigh`, or `max` — all five are supported on Fable 5.2, Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, and Opus 4.7. The default effort is `high` on every model that supports effort, except Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5, which default to `medium`, and Opus 4.7, which defaults to `xhigh`. |
 | `context` | `fork` to run the skill in a forked subagent context with its own context window. |
 | `agent` | Subagent type when `context: fork` (e.g., `Explore`, `Plan`, `general-purpose`). |
@@ -906,8 +906,8 @@ Once you start building skills seriously, two things become essential: a library
 
 ---
 
-**Last Updated**: November 12, 2026
-**Claude Code Version**: 2.1.322
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/slash-commands
@@ -942,4 +942,5 @@ Once you start building skills seriously, two things become essential: a library
 - https://code.claude.com/docs/en/changelog#2-1-319
 - https://code.claude.com/docs/en/skills#load-skills-in-monorepos-and-subdirectories
 - https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-330
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

@@ -427,6 +427,9 @@ claude mcp add-from-claude-desktop
 
 # JSON 블롭으로 서버 추가(스크립트 설정에 유용)
 claude mcp add-json events-server '{"type":"stdio","command":"npx","args":["@modelcontextprotocol/server-events"]}'
+
+# 대신 JSON을 파이프로 전달해 토큰이 명령줄에 드러나지 않게 함(v2.1.327 이상, Claude Code 세션 밖에서 실행)
+cat server.json | claude mcp add-json events-server -
 ```
 
 > **참고**: JSON 구성(`.mcp.json`, `~/.claude.json`, `claude mcp add-json`)에서 `type` 필드는 `http`의 별칭으로 `streamable-http`를 받습니다. MCP 사양은 이 전송을 `streamable-http`라고 부르므로, 서버 자체 문서에서 복사한 구성을 수정 없이 사용할 수 있습니다.
@@ -858,6 +861,8 @@ claude mcp add --transport stdio claude-agent -- claude mcp serve
 세 번째 관리형 설정인 `managedMcpServers`(v2.1.259 이상)를 사용하면 조직이 모든 사용자에게 HTTP/SSE MCP 서버를 제공할 수 있습니다. 항목은 `.mcp.json`과 같은 형태이며, 실행할 명령어를 지정한 항목은 건너뜁니다.
 
 > **참고:** `allowedMcpServers`와 `deniedMcpServers`가 모두 서버와 일치할 경우, 거부 규칙이 우선권을 가집니다.
+
+> **참고:** `deniedMcpServers`에서 `serverName` 항목은 `{ "serverName": "claude.ai Slack" }`처럼 표시 이름으로 claude.ai 커넥터를 차단할 수 있습니다. 이름은 레이블일 뿐 보안 통제 수단이 아니므로, 이름이 바뀌거나 다른 이름과 겹쳐도 거부가 유지되어야 한다면 `serverUrl` 항목을 사용하는 편이 좋습니다. v2.1.330부터 이름 항목은 같은 URL의 다른 커넥터는 숨기지 않고 이름을 지정한 커넥터만 숨깁니다(changelog).
 
 ## 플러그인 제공 MCP 서버
 

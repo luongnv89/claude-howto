@@ -435,6 +435,9 @@ claude mcp add-from-claude-desktop
 
 # Add a server from a JSON blob (useful for scripted setup)
 claude mcp add-json events-server '{"type":"stdio","command":"npx","args":["@modelcontextprotocol/server-events"]}'
+
+# Pipe the JSON in instead, so tokens stay off the command line (v2.1.327+; run it outside a Claude Code session)
+cat server.json | claude mcp add-json events-server -
 ```
 
 > **Note**: In JSON configs — `.mcp.json`, `~/.claude.json`, or `claude mcp add-json` — the `type` field accepts `streamable-http` as an alias for `http`. The MCP specification uses the name `streamable-http` for this transport, so configurations copied from a server's own documentation work unmodified.
@@ -866,6 +869,8 @@ Each entry is an object with a **single** key:
 A third managed setting, `managedMcpServers` (v2.1.259+), lets an organization provide HTTP/SSE MCP servers to every user. Entries use the same shape as `.mcp.json`; entries that name a command to run are skipped.
 
 > **Note:** When both `allowedMcpServers` and `deniedMcpServers` match a server, the deny rule takes precedence.
+
+> **Note:** In `deniedMcpServers`, a `serverName` entry can block a claude.ai connector by its display name, such as `{ "serverName": "claude.ai Slack" }`. The name is a label, not a security control, so prefer a `serverUrl` entry when the deny must survive a rename or a name collision. Since v2.1.330, a name entry hides only the named connector, not other connectors at the same URL (changelog).
 
 ## Plugin-Provided MCP Servers
 
@@ -1365,8 +1370,8 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 
 ---
 
-**Last Updated**: November 1, 2026
-**Claude Code Version**: 2.1.316
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
@@ -1399,4 +1404,5 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 - https://code.claude.com/docs/en/errors#mcp-server-rejected-the-elicitation-capability
 - https://code.claude.com/docs/en/mcp#elicitation-modes-claude-code-declares
 - https://code.claude.com/docs/en/mcp#use-oauth-with-a-server-behind-an-authenticating-proxy
+- https://code.claude.com/docs/en/changelog#2-1-330
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

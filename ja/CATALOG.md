@@ -76,7 +76,7 @@
 | `/permissions` | 権限を管理 | アクセス制御 |
 | `/rename` | 現在のセッションを改名 | セッション整理 |
 | `/resume` | 過去のセッションを再開 | 作業の継続 |
-| `/tui [default\|fullscreen]` | ターミナル UI のレンダラーを設定（`fullscreen` = ちらつきのない代替スクリーン）。引数なしの `/tui` は現在のレンダラーを表示 | フルスクリーン / tmux でのちらつきのない描画 |
+| `/tui [classic\|fullscreen]` | ターミナル UI のレンダラーを設定（`fullscreen` = ちらつきのない代替スクリーン、`classic`（v2.1.327+）または `default` = クラシックレンダラー）。引数なしの `/tui` は現在のレンダラーを表示 | フルスクリーン / tmux でのちらつきのない描画 |
 | `/tasks` | バックグラウンドタスクを表示 | 非同期処理の監視 |
 | `/copy` | 直前の応答をクリップボードにコピー | 出力の素早い共有 |
 | `/teleport` | セッションを別マシンに転送 | リモートでの作業継続 |
@@ -461,7 +461,7 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **/focus** | 注意散漫を防ぐ出力表示のためのフォーカスビュー切替（v2.1.110） | `/focus` で長時間タスク中の視覚的ノイズを低減 |
 | **/proactive** | `/loop` のエイリアス — 同じ反復タスク動作（v2.1.105） | `/proactive` を `/loop` と互換に利用 |
 | **/recap** | 既存セッションに戻ったときに要約を表示（v2.1.108） | 離席後に `/recap` を実行して文脈を取り戻す |
-| **/tui** | ターミナル UI のレンダラーを設定：`/tui fullscreen` でちらつきのない描画、`/tui default` で元に戻す。引数なしなら現在のレンダラーを表示（v2.1.110） | フルスクリーンターミナルや tmux で `/tui fullscreen` を使う |
+| **/tui** | ターミナル UI のレンダラーを設定：`/tui fullscreen` でちらつきのない描画、`/tui classic`（v2.1.327+）または `/tui default` で元に戻す。引数なしなら現在のレンダラーを表示（v2.1.110） | フルスクリーンターミナルや tmux で `/tui fullscreen` を使う |
 | **/undo** | `/rewind` のエイリアス（v2.1.108） | `/undo`、`/checkpoint`、`/rewind` のどれでも同じように使える |
 | **Monitor ツール** | バックグラウンドコマンドの stdout を監視し、ポーリングではなくイベントで反応（v2.1.98+） | [高度な機能](09-advanced-features/) 経由で Monitor ツールを利用 |
 | **/team-onboarding** | プロジェクトの Claude Code 設定からオンボーディングガイドを自動生成（v2.1.101） | プロジェクトで `/team-onboarding` を実行 |

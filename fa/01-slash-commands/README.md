@@ -97,12 +97,12 @@
 | `/stickers` | بررسی در دسترس بودن استیکرهای Claude Code |
 | `/status` | نمایش نسخه، مدل، حساب و یک ردیف `Session kind` با محتوای `background job · attached`, `background job · unattended` یا `interactive` (ردیف اضافه شد در v2.1.221). در حین پاسخ‌گویی Claude قابل باز شدن است |
 | `/statusline` | پیکربندی خط وضعیت |
-| `/tasks` | لیست/مدیریت وظایف پس‌زمینه |
+| `/tasks` | لیست/مدیریت وظایف پس‌زمینه. از v2.1.329 وظایف زمان‌بندی‌شدهٔ این نشست، wakeupهای `/loop`، هدف (goal) و forkهای این گفت‌وگو را هم فهرست می‌کند و `x` پس از پرسیدن، یکی از آن‌ها را متوقف می‌کند (changelog؛ مرجع دستورات هنوز این‌ها را فهرست نمی‌کند). |
 | `/team-onboarding` | تولید راهنمای ramp-up هم‌تیمی از ۳۰ روز اخیر نشست‌ها، دستورات و استفاده از MCP Claude Code شما؛ در طرح‌های Team و Enterprise یک لینک اشتراک‌گذاری هم برمی‌گرداند (جدید در v2.1.101) |
 | `/teleport` | ازسرگیری یک نشست Claude Code on the web در این ترمینال; یک انتخاب‌گر از نشست‌های وب شما باز می‌کند (نام مستعار: `/tp`). نیازمند اشتراک claude.ai |
 | `/terminal-setup` | پیکربندی keybindingهای ترمینال |
 | `/theme` | باز کردن انتخاب‌گر تم / مدیریت تم‌های سفارشی (v2.1.118). تعریف تم‌های سفارشی از طریق JSON در `~/.claude/themes/<name>.json` |
-| `/tui [default\|fullscreen]` | تنظیم رندرر UI ترمینال (`fullscreen` رندر بدون پرش می‌دهد) و راه‌اندازی مجدد در آن; یک `/tui` ساده رندرر فعلی را چاپ می‌کند (اضافه شده در v2.1.110) |
+| `/tui [classic\|fullscreen]` | تنظیم رندرر UI ترمینال (`fullscreen` رندر بدون پرش می‌دهد) و راه‌اندازی مجدد در آن; `classic` (v2.1.327+) یا `default` رندرر کلاسیک را انتخاب می‌کند; یک `/tui` ساده رندرر فعلی را چاپ می‌کند (اضافه شده در v2.1.110) |
 | `/ultrareview` | بازبینی کد جامع مبتنی بر cloud با چند agent (اضافه شده در v2.1.111). فراخوانی ترجیحی اکنون `/code-review ultra` است; `/ultrareview` به‌عنوان نام مستعار باقی می‌ماند. شامل ۳ اجرای رایگان روی Pro، Max و Ultra، سپس نیازمند usage credit |
 | `/upgrade` | باز کردن صفحه ارتقا برای طرح بالاتر |
 | `/usage` | داشبورد استفاده کانونی (v2.1.118) — محدودیت‌های استفاده طرح، محدودیت‌های نرخ، هزینه و آمار نشست روزانه را ترکیب می‌کند. `/cost` و `/stats` نام‌های مستعار میانبر تایپ هستند که تب‌های خاصی را باز می‌کنند. در مورد تلاش max، گردش کارها، زمینه همیشه روشن و نتایج ابزار بزرگ هشدار می‌دهد (v2.1.299)؛ از v2.1.305 هر هشدار یک اصلاح یک‌خطی پیشنهاد می‌دهد و فشردن `f` آن‌هایی را که Claude Code می‌تواند انجام دهد اعمال می‌کند |
@@ -123,7 +123,7 @@
 | `/debug [description]` | فعال‌سازی لاگ دیباگ |
 | `/design [description]` | ایجاد یک **بوم طراحی** — یک طراحی بصری چندصفحه‌ای (mockupهای UI، جریان‌های صفحه، صفحات فرود، پوستر) که به‌عنوان artifact منتشر و به‌صورت بصری به‌جای کد اصلاح می‌شود. به‌جای نوشتن دستی HTML زمانی استفاده کنید که چیدمان چیزی است که می‌خواهید روی آن تکرار کنید. نیازمند v2.1.265+، یک نشست که در آن artifactها در دسترس‌اند، و یک حساب با قالب Design; در Bedrock، Vertex، Foundry یا Claude Platform on AWS در دسترس نیست. Claude Design مستقل (claude.ai/design) تا ۱۴ دسامبر ۲۰۲۶ بسته می‌شود. `/design consent` و `/design revoke` دسترسی Claude به Claude Design را اعطا یا لغو می‌کنند؛ وقتی Claude از شما می‌خواهد `/design consent` را اجرا کنید، خودتان آن را در خط فرمان تایپ کنید. |
 | `/loop [interval] [prompt]` | اجرای پرامپت تکراری روی بازه |
-| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [pr#\|branch\|path]` | بازبینی diff فعلی — یا یک شماره PR، شاخه یا مسیر ارسالی — برای باگ‌های صحت. `--fix` برای اعمال یافته‌ها، `--comment` برای ارسال آن‌ها به‌عنوان کامنت‌های درون‌خطی GitHub PR، یا `ultra` برای اجرای بازبینی عمیق cloud; با `ultra` روی هدف PR `github.com`، `--post` ارسال یافته‌ها به PR را پیش‌انتخاب می‌کند. بدون سطح تلاش داده‌شده، بازبینی آخرین سطح تایپ‌شده را بازاستفاده می‌کند (v2.1.223). در ابتدا `/simplify` را در v2.1.147 جذب کرد، اما `/simplify` در v2.1.154 به‌عنوان یک دستور مجزا بازگشت. `--max-findings <n>\|all` را برای گزارش بیشتر یا کمتر از حد معمول ارسال کنید; انتخاب تا زمانی که `--max-findings default` ارسال کنید بازاستفاده می‌شود (v2.1.288) |
+| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [pr#\|branch\|path]` | بازبینی diff فعلی — یا یک شماره PR، شاخه یا مسیر ارسالی — برای باگ‌های صحت. `--fix` برای اعمال یافته‌ها، `--comment` برای ارسال آن‌ها به‌عنوان کامنت‌های درون‌خطی GitHub PR، یا `ultra` برای اجرای بازبینی عمیق cloud; با `ultra` روی هدف PR `github.com`، `--post` ارسال یافته‌ها به PR را پیش‌انتخاب می‌کند. بدون سطح تلاش داده‌شده، بازبینی آخرین سطح تایپ‌شده را بازاستفاده می‌کند (v2.1.223). در ابتدا `/simplify` را در v2.1.147 جذب کرد، اما `/simplify` در v2.1.154 به‌عنوان یک دستور مجزا بازگشت. `--max-findings <n>\|all` را برای گزارش بیشتر یا کمتر از حد معمول ارسال کنید; انتخاب تا زمانی که `--max-findings default` ارسال کنید بازاستفاده می‌شود (v2.1.288). در بیشتر مدل‌ها فقط باگ‌ها و موارد نقض CLAUDE.md را گزارش می‌کند، هر یافته را Important، Pre-existing یا Nit علامت‌گذاری می‌کند و هر خلاصه را با یک اصلاح پیشنهادی به پایان می‌برد; برای پاکسازی‌های بازاستفاده، ساده‌سازی و کارایی `/simplify` را اجرا کنید (v2.1.328، changelog; مرجع دستورات می‌گوید که بسته به مدل و سطح تلاش شما، بازبینی فرصت‌های پاکسازی را هم پوشش می‌دهد) |
 | `/simplify` | اجرای یک بازبینی فقط-پاکسازی (بازاستفاده / ساده‌سازی / کارایی / ارتفاع) و اعمال راه‌حل‌ها; برای شکار باگ **نیست** — برای آن از `/code-review` استفاده کنید. به‌طور خلاصه یک نام مستعار `/code-review --fix` بود (v2.1.152)، در v2.1.154 فقط-پاکسازی شد |
 
 ### دستورات منسوخ‌شده
@@ -655,8 +655,8 @@ Deploy the application to production:
 
 ---
 
-**آخرین به‌روزرسانی**: ۱۴ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.325
+**آخرین به‌روزرسانی**: ۲۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.330
 **منبع**:
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills
@@ -699,6 +699,9 @@ Deploy the application to production:
 - https://code.claude.com/docs/en/changelog#2-1-316
 - https://code.claude.com/docs/en/model-config#when-a-new-effort-level-starts
 - https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-329
+- https://code.claude.com/docs/en/code-review-local
+- https://code.claude.com/docs/en/changelog#2-1-328
 **مدل‌های سازگار**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 
 *بخشی از سری راهنمای [Claude How To](../)*

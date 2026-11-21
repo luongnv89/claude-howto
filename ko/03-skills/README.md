@@ -186,7 +186,7 @@ paths: "src/api/**/*.ts"               # 스킬 활성화 시기를 제한하는
 | `user-invocable` | `false` = `/` 메뉴에서 숨겨집니다. Claude만 자동으로 호출할 수 있습니다. |
 | `allowed-tools` | 스킬이 권한 프롬프트 없이 사용할 수 있는 도구들의 쉼표로 구분된 목록. 관리형 설정의 `strictPluginOnlyCustomization`에 `hooks`가 포함되어 있으면, 프런트매터에 `hooks`를 선언한 개인 또는 프로젝트 스킬은 이 사전 승인을 잃습니다(v2.1.304). 해당 `hooks`를 제거하거나 스킬을 플러그인으로 옮기세요. |
 | `disallowed-tools` | 스킬이 활성 상태일 때 제거할 도구들의 쉼표로 구분된 목록 (`allowed-tools`를 보완합니다). v2.1.152에 추가됨. |
-| `model` | 스킬이 활성 상태일 때 모델 재정의 (예: `opus`, `sonnet`). |
+| `model` | 스킬이 활성 상태일 때 모델 재정의 (예: `opus`, `sonnet`). 재정의는 현재 턴이 끝날 때까지 유지되며, 다음 프롬프트를 보내면 세션 모델로 돌아갑니다. `context: fork`를 사용하면 대신 포크된 서브에이전트의 모델을 설정합니다. v2.1.330부터 Claude가 `model` 설정이 있는 스킬을 실행할 때(`context: fork` 스킬 제외) 서브에이전트, 포크, 압축, `/recap`은 세션 모델에 그대로 남습니다 (변경 로그 기준). |
 | `effort` | 스킬이 활성 상태일 때 노력 수준 재정의: `low`, `medium`, `high`, `xhigh` 또는 `max`. 다섯 가지 모두 Fable 5.2, Fable 5.1, Fable 5, Opus 5.5, Sonnet 5.5, Haiku 5.5, Opus 5, Sonnet 5, Opus 4.8, Opus 4.7에서 지원됩니다. 기본 노력 수준은 노력 설정을 지원하는 모든 모델에서 `high`이며, 예외로 Fable 5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5는 `medium`, Opus 4.7은 `xhigh`가 기본값입니다. |
 | `context` | `fork`는 스킬을 자체 컨텍스트 창을 가진 포크된 서브에이전트 컨텍스트에서 실행합니다. |
 | `agent` | `context: fork`일 때 서브에이전트 유형 (예: `Explore`, `Plan`, `general-purpose`). |

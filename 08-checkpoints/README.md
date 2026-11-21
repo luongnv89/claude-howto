@@ -254,6 +254,8 @@ Checkpoints have the following limitations:
 
 > **v2.1.216 update**: `/rewind` no longer restores or deletes files through symlinks or hard links at tracked paths. If a tracked path resolves through a symlink or hard link, rewind skips it rather than following the link (directory symlinks are no longer followed since v2.1.319), and it reports how many paths it skipped for this reason.
 
+> **v2.1.326 update**: on macOS, Linux and WSL, when the sandbox is on, `/rewind` leaves some files untouched and reports them as skipped. This comes from the changelog; the checkpointing docs don't list it yet.
+
 ## Troubleshooting
 
 ### Missing Checkpoints
@@ -342,8 +344,8 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 
 ---
 
-**Last Updated**: November 12, 2026
-**Claude Code Version**: 2.1.322
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/checkpointing
 - https://code.claude.com/docs/en/settings
@@ -360,4 +362,5 @@ Remember: checkpoints are not a replacement for git. Use checkpoints for rapid e
 - https://code.claude.com/docs/en/checkpointing#rewind-and-summarize
 - https://code.claude.com/docs/en/errors#no-files-were-restored
 - https://code.claude.com/docs/en/changelog#2-1-319
+- https://code.claude.com/docs/en/changelog#2-1-326
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

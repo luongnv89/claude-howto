@@ -136,7 +136,7 @@ to solving problems.
 | `description` | 예 | 목적에 대한 자연어 설명. 자동 호출을 장려하려면 "use PROACTIVELY"를 포함하십시오 |
 | `tools` | 아니요 | 특정 도구의 쉼표로 구분된 목록. 생략하면 모든 도구를 상속합니다. 에이전트가 `claude --agent`로 주 스레드로 실행될 때 생성 가능한 서브에이전트를 제한하는 `Agent(agent_name)` 구문을 지원하며, 서브에이전트 안에서는 유형 목록이 무시됩니다. MCP: `mcp__<server>__*`는 서버 전체를 허용합니다(v2.1.299+: 정확히 그 서버 이름에만 일치). |
 | `disallowedTools` | 아니요 | 서브에이전트가 사용해서는 안 되는 도구의 쉼표로 구분된 목록. 이름에 `__`가 포함된 MCP 서버의 경우: 여기에 `mcp__reports__*`를 쓰면 모든 `reports__v2` 도구도 함께 막히므로 `reports` 도구를 하나씩 나열하십시오. `tools`에서는 이런 서버를 `mcp__reports__v2__*`로 허용합니다 |
-| `model` | 아니요 | 사용할 모델: `sonnet`, `opus`, `haiku`, 전체 모델 ID 또는 `inherit`. 기본값은 구성된 서브에이전트 모델입니다 |
+| `model` | 아니요 | 사용할 모델: `sonnet`, `opus`, `haiku`, 전체 모델 ID 또는 `inherit`. 기본값은 구성된 서브에이전트 모델입니다. 모델 없이 시작된 서브에이전트는 재개될 때 `/model`을 실행한 뒤에도 처음 시작한 모델을 유지합니다(v2.1.327). 서브에이전트가 폴백 모델로 전환되면, 이후 시작하는 모델 미지정 에이전트와 포크는 그 폴백 모델에서 실행되고, 이들이 시작하는 에이전트는 해당 Bedrock 리전을 사용합니다(v2.1.330). 두 내용 모두 changelog에 나옵니다 |
 | `permissionMode` | 아니요 | `default`(Manual 모드, v2.1.200부터 `manual`도 별칭으로 허용), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. v2.1.212부터 Task 도구의 `mode` 호출 매개변수는 지원 중단(deprecated)되어 무시되며, 여기서 재정의하지 않으면 서브에이전트는 기본적으로 부모 세션의 권한 모드를 상속합니다. 부모가 `bypassPermissions`, `acceptEdits` 또는 `auto`로 실행 중이면 서브에이전트의 `permissionMode`는 무시됩니다. 부모가 `plan` 모드이면 `permissionMode` 값과 관계없이 서브에이전트도 계획 모드에 머물며(에이전트 팀 팀원으로 실행되는 경우 제외), `dontAsk`를 설정했다면 계획 모드에서 확인을 요청했을 작업이 대신 거부됩니다 |
 | `maxTurns` | 아니요 | 서브에이전트가 취할 수 있는 에이전트 턴의 최대 수 |
 | `skills` | 아니요 | 미리 로드할 스킬의 쉼표로 구분된 목록. 시작 시 전체 스킬 콘텐츠를 서브에이전트의 컨텍스트에 주입합니다. **v2.1.133+:** 서브에이전트도 Skill 도구를 통해 프로젝트, 사용자 및 플러그인 스킬을 발견합니다. 이는 주 세션과 동일한 카탈로그이며, 더 이상 자체 내장된 세트에 국한되지 않습니다. 미리 로드되는 스킬은 최대 32개이며 각각 한 번만 로드되고, Skill 도구가 있는 서브에이전트는 나머지도 호출할 수 있습니다(v2.1.295). |
@@ -1357,8 +1357,8 @@ graph TD
 
 ---
 
-**최종 업데이트**: 2026년 11월 14일
-**Claude Code 버전**: 2.1.325
+**최종 업데이트**: 2026년 11월 21일
+**Claude Code 버전**: 2.1.330
 **출처**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1392,4 +1392,5 @@ graph TD
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-317
 - https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/changelog#2-1-330
 **호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

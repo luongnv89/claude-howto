@@ -67,7 +67,7 @@
 | `asyncRewake` | `true`이면 백그라운드에서 실행하고 종료 코드 2일 때 Claude를 깨웁니다. `async`를 포함합니다. | `true` |
 | `shell` | `"bash"` 또는 `"powershell"`을 받습니다. 기본값은 `"bash"`이며, Git Bash가 설치되지 않은 Windows에서는 `"powershell"`입니다. PowerShell 훅의 종료 코드 2는 v2.1.309부터만 차단하므로, PowerShell 가드 훅에 의존하기 전에 업그레이드하십시오. | `"bash"` |
 | `statusMessage` | 훅이 실행되는 동안 표시할 사용자 정의 스피너 메시지 | `"Formatting…"` |
-| `onFailure` | command 또는 HTTP 훅이 실패했을 때(시작 불가, 타임아웃, 예상하지 못한 종료 코드) 동작을 어떻게 처리할지 지정합니다: `"continue"`(기본값) 또는 `"block"`(v2.1.295+) | `"block"` |
+| `onFailure` | command, HTTP 또는 `mcp_tool` 훅이 실패했을 때(시작 불가, 타임아웃, 예상하지 못한 종료 코드) 동작을 어떻게 처리할지 지정합니다: `"continue"`(기본값) 또는 `"block"`(v2.1.295+; `mcp_tool` 훅에서는 v2.1.328+) | `"block"` |
 
 > **참고**: 일부 이벤트는 기본 타임아웃을 낮춥니다. `UserPromptSubmit`은 `command`, `http`, `mcp_tool`의 기본값을 30초로, `MessageDisplay`는 10초로 낮춥니다. `SessionEnd` 훅은 1.5초 예산을 공유하며, 설정에서 훅별 `timeout`을 더 길게 지정하면 Claude Code가 그에 맞춰 예산을 최대 60초까지 늘립니다. `claude -p` 및 Agent SDK 세션에서는 훅이 오래 실행되는 동안 Claude Code가 30초마다 진행 상황 하트비트를 보내므로(v2.1.323), Claude Desktop 같은 호스트가 이 버전을 포함하게 되면 턴을 멈춘 것으로 보고 종료하지 않습니다.
 
@@ -203,7 +203,7 @@ Claude Code는 다섯 가지 훅 유형을 지원합니다.
 }
 ```
 
-LLM이 프롬프트를 평가하고 구조화된 결정을 반환합니다(자세한 내용은 [프롬프트 기반 훅](#프롬프트-기반-훅) 참고).
+LLM이 프롬프트를 평가하고 구조화된 결정을 반환합니다(자세한 내용은 [프롬프트 기반 훅](#프롬프트-기반-훅) 참고). 선택 사항인 `model` 필드로 프롬프트를 평가할 모델을 지정할 수 있으며, 지정하지 않으면 Claude Code가 백그라운드 기능에 사용하는 모델을 사용합니다. v2.1.330부터는 이 필드에 `haiku`나 `sonnet` 같은 별칭도 사용할 수 있습니다(changelog).
 
 ### MCP 도구 훅
 
@@ -429,6 +429,8 @@ Claude가 도구 매개변수를 만든 뒤, 처리하기 전에 실행됩니다
 Claude가 응답을 마칠 때(Stop) 또는 서브에이전트가 완료될 때(SubagentStop) 실행됩니다. 작업 완료 여부를 지능적으로 확인하기 위한 프롬프트 기반 평가를 지원합니다.
 
 **추가 입력 필드:** `Stop`과 `SubagentStop` 훅은 모두 JSON 입력에서 `last_assistant_message` 필드를 받으며, 여기에는 멈추기 전 Claude 또는 서브에이전트의 마지막 메시지가 들어 있습니다. 작업 완료를 평가할 때 유용합니다.
+
+두 훅은 `background_tasks`와 `session_crons` 배열도 받으므로, 훅은 끝난 세션과 백그라운드 작업이나 예약된 작업이 깨워 주기를 기다리는 세션을 구분할 수 있습니다. 각 `background_tasks` 항목에는 `shell`, `subagent`, `monitor`, `workflow`, `MCP task` 같은 `type` 레이블이 있으며, v2.1.329부터 Monitor의 스크립트는 `shell`이 아니라 `monitor`로 표시됩니다(changelog).
 
 **구성:**
 ```json
@@ -793,6 +795,8 @@ hooks:
 > **`retry`(PermissionDenied)**: JSON `hookSpecificOutput.retry: true`를 사용하면 거부된 도구 호출을 다시 시도해도 된다고 모델에게 알릴 수 있습니다.
 
 > **지원 중단(deprecated)된 `PreToolUse` 결정 형식**: `PreToolUse`에서 최상위 `decision` 및 `reason` 필드는 **지원 중단**되었습니다. 대신 `hookSpecificOutput.permissionDecision`(`allow` / `deny` / `ask` / `defer`)과 `permissionDecisionReason`을 사용하십시오. 결정 간 우선순위는 `deny` > `defer` > `ask` > `allow`입니다. 또한 `suppressOutput`은 허용되지만 **아무 효과가 없습니다**.
+
+> **`"decision": "block"`이 더 많은 경우에 적용됨(v2.1.326)**: changelog에 따르면 훅의 `"decision": "block"`이 이제 더 많은 경우에 적용되므로, 항상 이 값을 출력하는 훅이 호출을 차단하기 시작할 수 있습니다. 실제로 차단하려는 경우에만 출력하십시오. 훅 문서에는 아직 이 변경 사항이 나와 있지 않습니다.
 
 #### `terminalSequence`(v2.1.141)
 

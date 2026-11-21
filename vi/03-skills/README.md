@@ -173,7 +173,7 @@ hooks:                                      # Hooks được đăng ký khi skil
 | `disable-model-invocation` | `true` = chỉ người dùng có thể gọi qua `/name`. Claude sẽ không bao giờ tự gọi. |
 | `user-invocable` | `false` = ẩn từ menu `/`. Chỉ Claude có thể gọi nó tự động. |
 | `allowed-tools` | Danh sách phân tách bằng dấu phẩy của các công cụ mà skill có thể sử dụng mà không cần nhắc quyền. |
-| `model` | Ghi đè mô hình trong khi skill hoạt động (ví dụ: `opus`, `sonnet`). |
+| `model` | Ghi đè mô hình trong khi skill hoạt động (ví dụ: `opus`, `sonnet`). Việc ghi đè kéo dài đến hết lượt hiện tại, và mô hình của phiên được dùng lại từ prompt tiếp theo của bạn; với `context: fork`, giá trị này thay vào đó đặt mô hình cho tác nhân con được fork. Từ v2.1.330, khi Claude chạy một skill có thiết lập `model` (trừ skill `context: fork`), các tác nhân con, fork, quá trình nén bối cảnh và `/recap` vẫn dùng mô hình của phiên (changelog). |
 | `effort` | Mức nỗ lực cho phần còn lại của lượt hiện tại (không ghi đè `CLAUDE_CODE_EFFORT_LEVEL`): `low`, `medium`, `high`, hoặc `max`. |
 | `context` | `fork` để chạy skill trong bối cảnh tác nhân con được fork với cửa sổ bối cảnh riêng. |
 | `agent` | Loại tác nhân con khi `context: fork` (ví dụ: `Explore`, `Plan`, `general-purpose`). |

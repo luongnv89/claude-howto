@@ -52,6 +52,7 @@ Claude Code の高度な機能は、プランニング、推論、自動化、�
 - **拡張思考**：複雑な問題に対する深い推論を行う
 - **オートモード**：バックグラウンドの安全分類器が各アクションを実行前にレビューする
 - **バックグラウンドタスク**：会話をブロックせずに長時間処理を実行する
+- **コードモード**（実験的機能、デフォルトはオフ）：Claude が 1 ステップで複数のツール呼び出しを行う JavaScript を書く。シェルまたはユーザー設定で `CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1` を設定すると有効になる（プロジェクト設定では有効にできない）。v2.1.323 以降、対話型のターミナルセッション、Claude サブスクリプションまたは Console アカウント（ゲートウェイやクラウドプロバイダは不可）、および Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.2 のいずれかが必要 — [Code Mode](https://code.claude.com/docs/en/code-mode) を参照
 - **権限モード**：Claude が実行可能な操作を制御する（`default`、`acceptEdits`、`plan`、`auto`、`dontAsk`、`bypassPermissions`）
 - **プリントモード**：自動化や CI/CD のために Claude Code を非対話で実行する（`claude -p`）
 - **セッション管理**：複数の作業セッションを管理する
@@ -361,8 +362,8 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh
 
 - **プラン：** すべてのプラン
 - **組織：** Team と Enterprise では、オートモードはデフォルトで利用可能。管理者は managed settings で `permissions.disableAutoMode` を `"disable"` に設定すると、組織全体でオフにできる
-- **モデル：** Anthropic API と Claude Platform on AWS では Claude Opus 4.6 以降、Sonnet 4.6 以降、Haiku 5.5、または Fable モデル。Amazon Bedrock、Google Cloud の Agent Platform（Vertex AI）、Microsoft Foundry、サインイン済みの Claude apps gateway セッションでは Claude Sonnet 5 以降、Opus 4.7 以降、Haiku 5.5（v2.1.293+）、Fable モデルのみ。Sonnet 4.5、Opus 4.5、Haiku 4.5、claude-3 系の旧モデルはどのプロバイダでも非対応。`ANTHROPIC_BASE_URL` のゲートウェイ経由では、ゲートウェイ上の名前に "haiku" を含むモデルは `claude-haiku-5-5` を除き、Haiku 4.5 と同様に拒否される（v2.1.323）
-- **プロバイダ：** Anthropic API、Claude Platform on AWS、Amazon Bedrock、Google Cloud の Agent Platform（Vertex AI）、Microsoft Foundry、サインイン済みの Claude apps gateway セッションでデフォルトで利用可能。v2.1.158 から v2.1.206 までは、Anthropic API と Claude Platform on AWS 以外では `CLAUDE_CODE_ENABLE_AUTO_MODE=1` を設定するまでオートモードはオフだったが、v2.1.207 でこの要件は削除された。この変数は互換性のために引き続き受け付けられるが、v2.1.207 以降は効果がない
+- **モデル：** Anthropic API、Claude Platform on AWS、Claude Models on Google Cloud (Anthropic managed) では Claude Opus 4.6 以降、Sonnet 4.6 以降、Haiku 5.5、または Fable モデル。Amazon Bedrock、Google Cloud の Agent Platform（Vertex AI）、Microsoft Foundry、サインイン済みの Claude apps gateway セッションでは Claude Sonnet 5 以降、Opus 4.7 以降、Haiku 5.5（v2.1.293+）、Fable モデルのみ。Sonnet 4.5、Opus 4.5、Haiku 4.5、claude-3 系の旧モデルはどのプロバイダでも非対応。`ANTHROPIC_BASE_URL` のゲートウェイ経由では、ゲートウェイ上の名前に "haiku" を含むモデルは `claude-haiku-5-5` を除き、Haiku 4.5 と同様に拒否される（v2.1.323）
+- **プロバイダ：** Anthropic API、Claude Platform on AWS、Claude Models on Google Cloud (Anthropic managed)、Amazon Bedrock、Google Cloud の Agent Platform（Vertex AI）、Microsoft Foundry、サインイン済みの Claude apps gateway セッションでデフォルトで利用可能。v2.1.158 から v2.1.206 までは、Anthropic API と Claude Platform on AWS 以外では `CLAUDE_CODE_ENABLE_AUTO_MODE=1` を設定するまでオートモードはオフだったが、v2.1.207 でこの要件は削除された。この変数は互換性のために引き続き受け付けられるが、v2.1.207 以降は効果がない
 - **分類器：** 追加のトークンコストが発生する。ただし Enterprise プランと Claude API アカウントでは、v2.1.278 以降サーバー側でチェックが実行され、課金されない
 
 ### オートモードの有効化
@@ -400,6 +401,8 @@ claude --permission-mode auto
 2. **読み取り専用／編集の自動承認** — ファイル読み取りと編集は自動的に通過する
 3. **分類器** — バックグラウンド分類器がアクションをレビューする
 4. **フォールバック** — 連続 3 回または合計 20 回のブロック後、プロンプト確認に切り替わる
+
+> **オートモードでは広い allow ルールが外される：** オートモードに入ると、Claude Code は任意のコード実行を許す allow ルールを外す。たとえば包括的な `Bash(*)`、`Bash(python*)` のようなワイルドカード付きインタープリタ、ワイルドカードで始まるシェルルール、`Bash($HOME/bin/*)` のような一部のワイルドカード付きパス、パッケージマネージャの run コマンド、`Agent` と `Monitor` の allow ルールである。`Bash(npm test)` のような限定的なルールは引き続き有効で、外されたルールはオートモードを抜けると元に戻る。changelog はこのリストを広げている。v2.1.326 ではプログラム名を含まないものなど一部のワイルドカード付きシェルルールも無視され、v2.1.327 では `Bash(pnpm dlx *)` のように任意のパッケージを実行するルールと、すでに無視していたルールのパス形式やバージョン形式（`/usr/bin/npm run:*`）も無視される。それらのコマンドは代わりに安全チェックが判断する。
 
 ### デフォルトでブロックされる操作
 
@@ -673,6 +676,7 @@ in 45 minutes, run the integration tests
 - セッションあたり最大 **50 個のスケジュールタスク**
 - セッションスコープ — 期限切れでなければ `--resume`／`--continue` で復元される
 - 定期タスクは作成から **7 日後** に自動失効する（最後に 1 回実行してから自身を削除する）
+- 自己ペースの `/loop`（間隔なし）は、Claude が次の回を予約しないままイテレーションが終わったときにも停止することがある。`CLAUDE_CODE_LOOP_KEEPALIVE=1` を設定すると、対話型の自己ペースのループで 2 回目以降のイテレーションが何も予約されずに終わったとき、約 20 分後に追加のイテレーションを 1 回実行する
 - タスクは Claude Code の動作中のみ実行される — 取りこぼしの追加実行はない
 
 > **`allowed-tools` やフックを宣言したスキルは先に確認する（v2.1.325）：** changelog によると、スケジュールタスクと `/loop` は、`allowed-tools` またはフックを宣言したスキルを実行する前に確認するようになった。無人で実行するには `permissions.allow` に `Skill(name)` を追加する。また、Desktop・IDE・SDK ホストの「Always allow」は、保存するとそのコマンドが再び許可される場合にのみルール単体を提示するようになったため、それに頼っていたスケジュールタスクがユーザーの応答待ちになることがある。スケジュールタスクのドキュメントにはどちらの変更もまだ記載されていない。
@@ -684,7 +688,7 @@ in 45 minutes, run the integration tests
 | **定期実行のジッタ** | 次回実行までの間隔の半分まで遅れて開始する（最大 30 分）。`*/5 * * * *` のタスク（`/loop 5m` が作成するもの）は遅延せず、15 秒早く開始する |
 | **1 回限りのジッタ** | `:00` または `:30` に予定した場合、最大 90 秒早く実行される |
 | **取りこぼし** | キャッチアップなし — Claude Code が動いていなければスキップされる |
-| **永続化** | `--resume`／`--continue` で復元される。ただし期限切れのタスク、予定時刻を過ぎた 1 回限りのタスク、自己ペースの `/loop` は除く。取りこぼした実行の追加実行はない |
+| **永続化** | `--resume`／`--continue` で復元される。ただし期限切れのタスク、予定時刻を過ぎた 1 回限りのタスク、自己ペースの `/loop` は除く。取りこぼした実行の追加実行はない。ターンの合間に終了するときに **Exit and stop tasks** を選ぶと、このセッションのタスクは終了し、再開しても戻らない（v2.1.329） |
 
 ### クラウドスケジュールタスク
 
@@ -1234,7 +1238,7 @@ TUI（Text User Interface）モードは Claude Code をちらつきのない出
 
 ```bash
 /tui fullscreen               # switch to fullscreen from within a session
-/tui default                  # switch back to the classic renderer
+/tui classic                  # switch back to the classic renderer (v2.1.327+; /tui default also works)
 CLAUDE_CODE_NO_FLICKER=1 claude  # start directly in fullscreen
 ```
 
@@ -1721,7 +1725,7 @@ claude --settings '{"sandbox": {"enabled": true}}'
 | 設定 | 説明 |
 |---------|-------------|
 | `sandbox.enabled` | サンドボックスを有効化／無効化 |
-| `sandbox.failIfUnavailable` | サンドボックスを起動できない場合に失敗させる。Claude Code on the web、クラウドスケジュールタスク、Cowork のクラウドセッションは、この設定があっても起動する（v2.1.325）。ホストされたコンテナにはコマンドサンドボックスがないため。changelog で追加された内容で、設定リファレンスにはまだ記載されていない |
+| `sandbox.failIfUnavailable` | サンドボックスを起動できない場合、サンドボックスなしで実行する代わりに起動を拒否する。ただし Anthropic がホストする環境では、セッションはそれでも起動できる（設定リファレンス）。Claude Code on the web、クラウドスケジュールタスク、Cowork のクラウドセッションは、この設定があっても起動する（v2.1.325）。ホストされたコンテナにはコマンドサンドボックスがないため |
 | `sandbox.autoAllowBashIfSandboxed` | 権限プロンプトなしでサンドボックス内の Bash コマンドを実行する（自動許可モード）。設定リファレンスでは v2.1.324 以降デフォルト `false`（changelog では v2.1.325 に記載）のため、サンドボックス内のコマンドは allow ルールと権限モードを通る。`true` でも確認が出るケースは上記の注記を参照 |
 | `sandbox.filesystem.allowWrite` | 書き込みを許可するパス |
 | `sandbox.filesystem.allowRead` | 読み取りを許可するパス |
@@ -2121,8 +2125,8 @@ Claude Code および関連機能の詳細：
 
 ---
 
-**最終更新：** 2026 年 11 月 14 日
-**Claude Code バージョン：** 2.1.325
+**最終更新：** 2026 年 11 月 21 日
+**Claude Code バージョン：** 2.1.330
 **情報源：**
 - https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
 - https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
@@ -2173,5 +2177,10 @@ Claude Code および関連機能の詳細：
 - https://code.claude.com/docs/en/vs-code#use-or-turn-off-suggested-prompts
 - https://code.claude.com/docs/en/settings-reference#promptsuggestionenabled
 - https://code.claude.com/docs/en/remote-control#what-connected-devices-see
+- https://code.claude.com/docs/en/settings-reference#sandbox-failifunavailable
+- https://code.claude.com/docs/en/code-mode
+- https://code.claude.com/docs/en/changelog#2-1-327
+- https://code.claude.com/docs/en/scheduled-tasks#stop-a-loop
+- https://code.claude.com/docs/en/changelog#2-1-329
 
 **互換モデル：** Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

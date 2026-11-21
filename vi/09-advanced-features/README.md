@@ -53,6 +53,7 @@ Các tính năng nâng cao trong Claude Code mở rộng khả năng cốt lõi 
 - **Tư Duy Mở Rộng**: Suy luận sâu cho các vấn đề phức tạp
 - **Chế Độ Auto**: Bộ phân loại an toàn chạy nền review từng hành động trước khi thực thi
 - **Tác Vụ Nền**: Chạy các thao tác dài mà không chặn cuộc hội thoại
+- **Code Mode** (thử nghiệm, tắt mặc định): Claude viết JavaScript thực hiện nhiều lời gọi công cụ trong một bước. Bật nó bằng `CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1` trong shell hoặc cài đặt người dùng (cài đặt dự án không bật được); nó cần v2.1.323+, một phiên terminal tương tác, gói đăng ký Claude hoặc tài khoản Console (không phải gateway hay nhà cung cấp cloud), và Opus 5.5, Sonnet 5.5, Haiku 5.5 hoặc Fable 5.2 — xem [Code Mode](https://code.claude.com/docs/en/code-mode)
 - **Chế Độ Quyền**: Kiểm soát những gì Claude được làm (`manual` — trước đây là `default`, `acceptEdits`, `plan`, `auto`, `dontAsk`, `bypassPermissions`)
 - **Chế Độ Print**: Chạy Claude Code không tương tác cho tự động hóa và CI/CD (`claude -p`)
 - **Quản Lý Phiên**: Quản lý nhiều phiên làm việc
@@ -375,7 +376,7 @@ Bật/tắt trong phiên bằng `Alt+T` / `Option+T`, đặt effort bằng `/eff
 
 ## Chế Độ Auto
 
-Chế độ Auto là một chế độ quyền dùng bộ phân loại an toàn chạy nền để review từng hành động trước khi thực thi. Nó cho phép Claude làm việc tự chủ trong khi vẫn chặn các thao tác nguy hiểm. Chế độ này có trên mọi gói, nhưng cần model đủ điều kiện (Claude Opus 4.6 trở lên, Sonnet 4.6 trở lên, Haiku 5.5 hoặc một model Fable trên Anthropic API và Claude Platform on AWS; Sonnet 5 trở lên, Opus 4.7 trở lên, Haiku 5.5 hoặc một model Fable trên Bedrock, Vertex, Foundry và các phiên Claude apps gateway đã đăng nhập). Phía sau một gateway tại `ANTHROPIC_BASE_URL`, chế độ auto từ chối một model có tên trên gateway chứa "haiku", trừ `claude-haiku-5-5`, giống như cách nó từ chối Haiku 4.5 (v2.1.323). Trên gói Team và Enterprise, chế độ này bật mặc định — quản trị viên có thể tắt nó cho tổ chức trong cài đặt được quản lý.
+Chế độ Auto là một chế độ quyền dùng bộ phân loại an toàn chạy nền để review từng hành động trước khi thực thi. Nó cho phép Claude làm việc tự chủ trong khi vẫn chặn các thao tác nguy hiểm. Chế độ này có trên mọi gói, nhưng cần model đủ điều kiện (Claude Opus 4.6 trở lên, Sonnet 4.6 trở lên, Haiku 5.5 hoặc một model Fable trên Anthropic API, Claude Platform on AWS và Claude Models on Google Cloud (Anthropic managed); Sonnet 5 trở lên, Opus 4.7 trở lên, Haiku 5.5 hoặc một model Fable trên Bedrock, Vertex, Foundry và các phiên Claude apps gateway đã đăng nhập). Phía sau một gateway tại `ANTHROPIC_BASE_URL`, chế độ auto từ chối một model có tên trên gateway chứa "haiku", trừ `claude-haiku-5-5`, giống như cách nó từ chối Haiku 4.5 (v2.1.323). Trên gói Team và Enterprise, chế độ này bật mặc định — quản trị viên có thể tắt nó cho tổ chức trong cài đặt được quản lý.
 
 ### Yêu Cầu
 
@@ -383,8 +384,8 @@ Chế độ auto chỉ khả dụng khi tài khoản của bạn đáp ứng t�
 
 - **Gói**: mọi gói.
 - **Tổ chức**: trên Team và Enterprise, chế độ auto khả dụng mặc định. Quản trị viên có thể tắt nó cho tổ chức bằng cách đặt `permissions.disableAutoMode` thành `"disable"` trong cài đặt được quản lý.
-- **Model**: trên Anthropic API và Claude Platform on AWS — Claude Opus 4.6 trở lên, Sonnet 4.6 trở lên, Haiku 5.5 hoặc một model Fable. Trên Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry và các phiên Claude apps gateway đã đăng nhập — chỉ Claude Sonnet 5 trở lên, Opus 4.7 trở lên, Haiku 5.5 (v2.1.293+) và các model Fable. Các model cũ hơn — Sonnet 4.5, Opus 4.5, Haiku 4.5 và các model claude-3 — không được hỗ trợ trên bất kỳ nhà cung cấp nào.
-- **Nhà cung cấp**: khả dụng mặc định trên Anthropic API, Claude Platform on AWS, Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry và các phiên Claude apps gateway đã đăng nhập. Từ v2.1.158 đến v2.1.206, chế độ auto bị tắt trên tất cả các nhà cung cấp này trừ Anthropic API và Claude Platform on AWS cho đến khi bạn đặt `CLAUDE_CODE_ENABLE_AUTO_MODE=1`; v2.1.207 đã bỏ yêu cầu này. Biến này vẫn được chấp nhận để tương thích và không còn tác dụng từ v2.1.207 trở đi.
+- **Model**: trên Anthropic API, Claude Platform on AWS và Claude Models on Google Cloud (Anthropic managed) — Claude Opus 4.6 trở lên, Sonnet 4.6 trở lên, Haiku 5.5 hoặc một model Fable. Trên Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry và các phiên Claude apps gateway đã đăng nhập — chỉ Claude Sonnet 5 trở lên, Opus 4.7 trở lên, Haiku 5.5 (v2.1.293+) và các model Fable. Các model cũ hơn — Sonnet 4.5, Opus 4.5, Haiku 4.5 và các model claude-3 — không được hỗ trợ trên bất kỳ nhà cung cấp nào.
+- **Nhà cung cấp**: khả dụng mặc định trên Anthropic API, Claude Platform on AWS, Claude Models on Google Cloud (Anthropic managed), Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry và các phiên Claude apps gateway đã đăng nhập. Từ v2.1.158 đến v2.1.206, chế độ auto bị tắt trên tất cả các nhà cung cấp này trừ Anthropic API và Claude Platform on AWS cho đến khi bạn đặt `CLAUDE_CODE_ENABLE_AUTO_MODE=1`; v2.1.207 đã bỏ yêu cầu này. Biến này vẫn được chấp nhận để tương thích và không còn tác dụng từ v2.1.207 trở đi.
 - **Bộ phân loại**: tốn thêm chi phí token, trừ trên gói Enterprise và tài khoản Claude API, nơi v2.1.278+ chạy việc kiểm tra phía server miễn phí
 
 ### Bật Chế Độ Auto
@@ -426,6 +427,8 @@ Bộ phân loại chạy nền đánh giá từng hành động theo thứ tự 
 2. **Đọc/chỉnh sửa được tự động phê duyệt** -- Việc đọc và chỉnh sửa file được cho qua tự động
 3. **Bộ phân loại** -- Bộ phân loại chạy nền review hành động
 4. **Dự phòng** -- Quay về hỏi người dùng sau 3 lần chặn liên tiếp hoặc tổng cộng 20 lần chặn
+
+> **Các rule allow rộng bị gác lại trong chế độ auto**: khi vào chế độ auto, Claude Code bỏ các rule allow cấp quyền thực thi code tùy ý, như `Bash(*)` cho mọi lệnh, các trình thông dịch có wildcard như `Bash(python*)`, các rule shell bắt đầu bằng wildcard, một số đường dẫn có wildcard như `Bash($HOME/bin/*)`, các lệnh run của trình quản lý gói, và các rule allow `Agent` và `Monitor`. Các rule hẹp như `Bash(npm test)` vẫn có hiệu lực, và các rule bị bỏ sẽ quay lại khi bạn rời chế độ auto. Changelog mở rộng danh sách này: v2.1.326 còn bỏ qua một số rule shell có wildcard, chẳng hạn những rule không nêu tên chương trình nào, và v2.1.327 bỏ qua các rule chạy bất kỳ gói nào, như `Bash(pnpm dlx *)`, cùng các dạng đường dẫn hoặc phiên bản của những rule nó vốn đã bỏ qua (`/usr/bin/npm run:*`). Khi đó, bước kiểm tra an toàn sẽ quyết định các lệnh này.
 
 ### Các Hành Động Bị Chặn Mặc Định
 
@@ -781,6 +784,7 @@ in 45 minutes, run the integration tests
 - Tối đa **50 tác vụ theo lịch** mỗi phiên
 - Gắn với phiên — được khôi phục khi `--resume`/`--continue` nếu chưa hết hạn
 - Tác vụ lặp lại tự hết hạn **7 ngày** sau khi tạo (chúng kích hoạt một lần cuối rồi tự xóa)
+- Một `/loop` tự điều nhịp (không có khoảng thời gian) cũng có thể dừng khi một lần lặp kết thúc mà Claude không lên lịch cho lần tiếp theo; đặt `CLAUDE_CODE_LOOP_KEEPALIVE=1` để chạy thêm một lần lặp, khoảng 20 phút sau, khi lần lặp thứ hai trở đi của một loop tự điều nhịp tương tác kết thúc mà không có gì được lên lịch
 - Tác vụ chỉ kích hoạt khi Claude Code đang chạy — không bù cho các lần bị lỡ
 
 > **Skill khai báo `allowed-tools` hoặc hook sẽ hỏi trước (v2.1.325)**: changelog bổ sung rằng tác vụ theo lịch và `/loop` giờ sẽ hỏi trước khi chạy một skill khai báo `allowed-tools` hoặc hook; thêm `Skill(name)` vào `permissions.allow` để chạy nó mà không cần người giám sát. "Always allow" trong các host Desktop, IDE và SDK giờ chỉ đưa ra riêng một rule khi việc lưu rule đó sẽ cho phép lại chính lệnh đó, nên một tác vụ theo lịch từng dựa vào một rule như vậy giờ có thể phải chờ bạn. Tài liệu về tác vụ theo lịch chưa liệt kê thay đổi nào trong hai thay đổi này.
@@ -792,7 +796,7 @@ in 45 minutes, run the integration tests
 | **Jitter cho tác vụ lặp lại** | Chạy trễ tối đa một nửa khoảng cách tới lần chạy kế tiếp, không quá 30 phút; tác vụ `*/5 * * * *` (do `/loop 5m` tạo) không bị trễ và bắt đầu sớm 15 giây |
 | **Jitter cho tác vụ một lần** | Sớm tối đa 90 giây khi được lên lịch vào `:00` hoặc `:30` |
 | **Lần kích hoạt bị lỡ** | Không bù — bị bỏ qua nếu Claude Code không chạy |
-| **Tính bền vững** | Được khôi phục khi `--resume`/`--continue`, trừ tác vụ đã hết hạn, tác vụ một lần đã quá giờ và `/loop` tự điều nhịp; các lần chạy bị lỡ không được bù |
+| **Tính bền vững** | Được khôi phục khi `--resume`/`--continue`, trừ tác vụ đã hết hạn, tác vụ một lần đã quá giờ và `/loop` tự điều nhịp; các lần chạy bị lỡ không được bù; chọn **Exit and stop tasks** khi bạn thoát giữa các lượt sẽ kết thúc các tác vụ của phiên này để chúng không quay lại khi resume (v2.1.329) |
 
 ### Tác Vụ Theo Lịch Trên Cloud
 
@@ -835,7 +839,7 @@ Chế độ quyền kiểm soát những hành động Claude có thể thực h
 | `manual` | Chỉ đọc file; hỏi cho mọi hành động khác. Đổi tên từ `default` trong v2.1.200 — `default` vẫn được chấp nhận như alias |
 | `acceptEdits` | Đọc và chỉnh sửa file; hỏi khi chạy lệnh |
 | `plan` | Chỉ đọc file (chế độ nghiên cứu, không chỉnh sửa) |
-| `auto` | Mọi hành động, có kiểm tra của bộ phân loại an toàn chạy nền. Cần model đủ điều kiện (Sonnet 5 trở lên, Opus 4.7 trở lên, Haiku 5.5 hoặc một model Fable trên mọi nhà cung cấp; Opus 4.6 và Sonnet 4.6 cũng đủ điều kiện trên Anthropic API và Claude Platform on AWS) và nhà cung cấp phù hợp — có trên mọi gói, xem [Chế Độ Auto](#chế-độ-auto) |
+| `auto` | Mọi hành động, có kiểm tra của bộ phân loại an toàn chạy nền. Cần model đủ điều kiện (Sonnet 5 trở lên, Opus 4.7 trở lên, Haiku 5.5 hoặc một model Fable trên mọi nhà cung cấp; Opus 4.6 và Sonnet 4.6 cũng đủ điều kiện trên Anthropic API, Claude Platform on AWS và Claude Models on Google Cloud (Anthropic managed)) và nhà cung cấp phù hợp — có trên mọi gói, xem [Chế Độ Auto](#chế-độ-auto) |
 | `bypassPermissions` | Mọi hành động mà không hỏi, trừ những hành động không chế độ nào tự động phê duyệt, như các lệnh xóa `rm` trên đường dẫn quan trọng (nguy hiểm) |
 | `dontAsk` | Chỉ các công cụ đã được phê duyệt trước mới thực thi; mọi công cụ khác bị từ chối |
 
@@ -1644,7 +1648,7 @@ Chuyển renderer bằng lệnh `/tui`, hoặc đặt `CLAUDE_CODE_NO_FLICKER=1`
 
 ```bash
 /tui fullscreen               # chuyển sang toàn màn hình từ bên trong phiên
-/tui default                  # chuyển về renderer cổ điển
+/tui classic                  # chuyển về renderer cổ điển (v2.1.327+; /tui default vẫn dùng được)
 CLAUDE_CODE_NO_FLICKER=1 claude  # khởi động thẳng ở chế độ toàn màn hình
 ```
 
@@ -1929,7 +1933,7 @@ Hoặc từ bên trong REPL tương tác:
 ```
 
 `/tp` là alias của `/teleport`. Cả hai đều cần gói đăng ký claude.ai. Các phiên cloud
-hiển thị gợi ý `/teleport` giải thích cách tiếp tục ở cục bộ (v2.1.223). Nếu phiên cloud đã được nén (compact), chỉ phần tóm tắt được chuyển sang — các tin nhắn trước đó mà nó tóm tắt không được sao chép vào terminal của bạn (Claude Code cảnh báo điều này từ v2.1.311).
+hiển thị gợi ý `/teleport` giải thích cách tiếp tục ở cục bộ (v2.1.223). Nếu phiên cloud đã được nén (compact), chỉ phần tóm tắt được chuyển sang — các tin nhắn trước đó mà nó tóm tắt không được sao chép vào terminal của bạn (Claude Code cảnh báo điều này từ v2.1.311). Nếu `claude --teleport` in ra `was not checked out`, hãy dừng mọi lệnh Claude vẫn đang chạy trong bản checkout của bạn, rồi chạy các lệnh git mà nó in ra trong terminal của chính bạn; từ v2.1.330, trong một số thiết lập nó in các lệnh đó ra thay vì tự chạy, và với `-p` nó thoát với mã 1 cho đến khi bạn chuyển nhánh (changelog).
 
 > **Nguồn từ changelog**: changelog v2.1.223 cho thấy một dạng có đối số,
 > `claude --teleport <session id>`, nhảy thẳng tới một phiên đã biết. Tài liệu tham chiếu
@@ -2195,7 +2199,7 @@ claude --settings '{"sandbox": {"enabled": true}}'
 | Cài đặt | Mô tả |
 |---------|-------------|
 | `sandbox.enabled` | Bật hoặc tắt sandboxing |
-| `sandbox.failIfUnavailable` | Báo lỗi nếu không thể kích hoạt sandboxing. Claude Code trên web, tác vụ theo lịch trên cloud và các phiên cloud của Cowork vẫn khởi động bất chấp cài đặt này (v2.1.325): container được host không có sandbox cho lệnh. Changelog bổ sung điều này; settings reference chưa liệt kê nó |
+| `sandbox.failIfUnavailable` | Từ chối khởi động khi sandbox không thể khởi động, thay vì chạy mà không có sandbox — trừ trong môi trường do Anthropic host, nơi phiên vẫn có thể khởi động (settings reference). Claude Code trên web, tác vụ theo lịch trên cloud và các phiên cloud của Cowork vẫn khởi động bất chấp cài đặt này (v2.1.325): container được host không có sandbox cho lệnh |
 | `sandbox.autoAllowBashIfSandboxed` | Chạy các lệnh Bash trong sandbox mà không có lời nhắc quyền (chế độ auto-allow). Mặc định `false` từ v2.1.324 theo settings reference (changelog liệt kê nó trong v2.1.325), nên các lệnh trong sandbox đi qua các rule allow và chế độ quyền của bạn; xem ghi chú ở trên để biết những gì vẫn hỏi khi đặt `true` |
 | `sandbox.filesystem.allowWrite` | Các đường dẫn được phép ghi |
 | `sandbox.filesystem.allowRead` | Các đường dẫn được phép đọc |
@@ -2792,8 +2796,8 @@ claude --teammate-mode in-process
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 14 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.325
+**Cập Nhật Lần Cuối**: Ngày 21 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.330
 **Nguồn**:
 - https://code.claude.com/docs/en/permission-modes#turn-off-the-critical-path-removal-prompt-in-bypasspermissions-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.314
@@ -2898,4 +2902,11 @@ claude --teammate-mode in-process
 - https://code.claude.com/docs/en/vs-code#use-or-turn-off-suggested-prompts
 - https://code.claude.com/docs/en/settings-reference#promptsuggestionenabled
 - https://code.claude.com/docs/en/remote-control#what-connected-devices-see
+- https://code.claude.com/docs/en/settings-reference#sandbox-failifunavailable
+- https://code.claude.com/docs/en/code-mode
+- https://code.claude.com/docs/en/changelog#2-1-327
+- https://code.claude.com/docs/en/scheduled-tasks#stop-a-loop
+- https://code.claude.com/docs/en/changelog#2-1-329
+- https://code.claude.com/docs/en/claude-code-on-the-web
+- https://code.claude.com/docs/en/changelog#2-1-330
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

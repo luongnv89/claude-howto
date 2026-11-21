@@ -125,7 +125,7 @@ hooks:  # オプション — コンポーネントスコープのフック
 | `description` | はい | 用途の自然言語による説明。"use PROACTIVELY" を含めると自動呼び出しが促進される |
 | `tools` | いいえ | 特定ツールのカンマ区切りリスト。省略するとすべてのツールを継承。`Agent(agent_name)` 構文で生成可能なサブエージェントを制限できる（`claude --agent` でメインスレッドとして実行する場合のみ。サブエージェント内では型リストは無視される）。MCP：`mcp__<server>__*` でサーバー全体を許可（v2.1.299+：その正確なサーバー名のみに一致） |
 | `disallowedTools` | いいえ | サブエージェントが使用してはならないツールのカンマ区切りリスト |
-| `model` | いいえ | 使用モデル：`sonnet`、`opus`、`haiku`、フルモデル ID、または `inherit`。デフォルトは設定済みのサブエージェントモデル |
+| `model` | いいえ | 使用モデル：`sonnet`、`opus`、`haiku`、フルモデル ID、または `inherit`。デフォルトは設定済みのサブエージェントモデル。モデル未指定で起動したサブエージェントは、再開されても起動時のモデルのまま動作する（`/model` の後でも同様、v2.1.327）。サブエージェントがフォールバックモデルに切り替わると、その後に起動するモデル未指定のエージェントとフォークはそのフォールバックモデルで動作し、それらが起動するエージェントはその Bedrock リージョンを使う（v2.1.330）。いずれも changelog による |
 | `permissionMode` | いいえ | `default`（Manual モード。v2.1.200 以降 `manual` もエイリアスとして有効）、`acceptEdits`、`dontAsk`、`bypassPermissions`、`plan`、`auto`。親が `bypassPermissions`、`acceptEdits`、`auto` で動作している場合、サブエージェントの `permissionMode` は無視される。親が `plan` モードの場合、サブエージェントは `permissionMode` の値にかかわらずプランモードのままになる（Agent Teams のチームメイトとして実行される場合を除く）。`dontAsk` を設定した場合、プランモードなら確認を求めるアクションは代わりに拒否される |
 | `maxTurns` | いいえ | サブエージェントが取れるエージェント的ターンの最大数 |
 | `skills` | いいえ | プリロードするスキルのカンマ区切りリスト。起動時にスキルの全内容をサブエージェントのコンテキストに注入する |
@@ -1275,8 +1275,8 @@ graph TD
 
 ---
 
-**最終更新**：2026 年 11 月 14 日
-**Claude Code バージョン**：2.1.325
+**最終更新**：2026 年 11 月 21 日
+**Claude Code バージョン**：2.1.330
 **ソース**：
 
 - https://code.claude.com/docs/en/sub-agents
@@ -1298,5 +1298,6 @@ graph TD
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-317
 - https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/changelog#2-1-330
 
 **互換モデル**：Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Opus 4.8、Claude Haiku 5.5、Claude Haiku 4.5

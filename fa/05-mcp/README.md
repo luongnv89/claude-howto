@@ -435,6 +435,9 @@ claude mcp add-from-claude-desktop
 
 # افزودن سرور از یک بلاب JSON (برای راه‌اندازی اسکریپتی مفید است)
 claude mcp add-json events-server '{"type":"stdio","command":"npx","args":["@modelcontextprotocol/server-events"]}'
+
+# یا JSON را با pipe وارد کنید تا توکن‌ها روی خط فرمان نیایند (v2.1.327+؛ آن را بیرون از یک نشست Claude Code اجرا کنید)
+cat server.json | claude mcp add-json events-server -
 ```
 
 > **نکته**: در پیکربندی‌های JSON — `.mcp.json`، `~/.claude.json` یا `claude mcp add-json` — فیلد `type` مقدار `streamable-http` را به‌عنوان نام جایگزین برای `http` می‌پذیرد. مشخصات MCP برای این ترنسپورت از نام `streamable-http` استفاده می‌کند، بنابراین پیکربندی‌هایی که از مستندات خود سرور کپی شده‌اند، بدون تغییر کار می‌کنند.
@@ -866,6 +869,8 @@ claude mcp add --transport stdio claude-agent -- claude mcp serve
 یک تنظیم مدیریت‌شده سوم، `managedMcpServers` (v2.1.259+)، به سازمان اجازه می‌دهد سرورهای MCP از نوع HTTP/SSE را در اختیار همه کاربران قرار دهد. ورودی‌ها همان شکل `.mcp.json` را دارند؛ ورودی‌هایی که دستوری برای اجرا مشخص می‌کنند نادیده گرفته می‌شوند.
 
 > **توجه:** وقتی هم `allowedMcpServers` و هم `deniedMcpServers` با یک سرور مطابقت داشته باشند، قاعده مسدودسازی اولویت دارد.
+
+> **توجه:** در `deniedMcpServers`، یک مدخل `serverName` می‌تواند یک کانکتور claude.ai را با نام نمایشی‌اش مسدود کند، مثلاً `{ "serverName": "claude.ai Slack" }`. این نام فقط یک برچسب است، نه یک کنترل امنیتی؛ بنابراین وقتی مسدودسازی باید پس از تغییر نام یا تداخل نام‌ها هم پابرجا بماند، مدخل `serverUrl` را ترجیح دهید. از نسخه 2.1.330، یک مدخل نامی فقط کانکتور نام‌برده را پنهان می‌کند، نه کانکتورهای دیگری را که همان URL را دارند (changelog).
 
 ## سرورهای MCP ارائه‌شده توسط پلاگین
 
@@ -1365,8 +1370,8 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 
 ---
 
-**آخرین به‌روزرسانی**: ۱ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.316
+**آخرین به‌روزرسانی**: ۲۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.330
 **منابع**:
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/managed-mcp
@@ -1399,4 +1404,5 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token"
 - https://code.claude.com/docs/en/errors#mcp-server-rejected-the-elicitation-capability
 - https://code.claude.com/docs/en/mcp#elicitation-modes-claude-code-declares
 - https://code.claude.com/docs/en/mcp#use-oauth-with-a-server-behind-an-authenticating-proxy
+- https://code.claude.com/docs/en/changelog#2-1-330
 **مدل‌های سازگار**: Claude Fable 5.2، Claude Fable 5.1، Claude Fable 5، Claude Opus 5.5، Claude Opus 5، Claude Sonnet 5.5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 5.5، Claude Haiku 4.5
