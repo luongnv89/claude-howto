@@ -100,12 +100,12 @@
 | `/stickers` | Claude Code 스티커를 구할 수 있는지 확인 |
 | `/status` | 버전, 모델, 계정, 그리고 `background job · attached`, `background job · unattended` 또는 `interactive`를 표시하는 `Session kind` 행을 보여줍니다 (행은 v2.1.221에 추가). Claude가 응답 중일 때도 열 수 있습니다 |
 | `/statusline` | 상태 표시줄 구성 |
-| `/tasks` | 백그라운드 작업 나열/관리 |
+| `/tasks` | 백그라운드 작업 나열/관리. v2.1.329부터는 이 세션의 예약 작업, `/loop` 깨우기(wakeup), 목표(goal), 이 대화의 포크도 나열하며, `x`를 누르면 확인을 거쳐 그중 하나를 중지합니다 (변경 로그 기준이며 명령어 레퍼런스에는 아직 나와 있지 않습니다). |
 | `/team-onboarding` | 지난 30일간의 Claude Code 세션, 명령어, MCP 사용량으로 팀원 온보딩 가이드를 생성합니다. Team 및 Enterprise 플랜에서는 공유 링크도 반환합니다 (v2.1.101에 새로 추가) |
 | `/teleport` | 웹의 Claude Code 세션을 이 터미널에서 재개합니다. 웹 세션 선택기를 엽니다 (별칭: `/tp`). claude.ai 구독이 필요합니다 |
 | `/terminal-setup` | 터미널 키 바인딩 구성 |
 | `/theme` | 테마 선택기 열기 / 사용자 정의 테마 관리 (v2.1.118). `~/.claude/themes/<name>.json`의 JSON으로 사용자 정의 테마 정의 |
-| `/tui [default\|fullscreen]` | 터미널 UI 렌더러를 설정하고(`fullscreen`은 깜박임 없는 렌더링 제공) 해당 렌더러로 다시 실행합니다. 인자 없는 `/tui`는 현재 렌더러를 출력합니다 (v2.1.110에 추가) |
+| `/tui [classic\|fullscreen]` | 터미널 UI 렌더러를 설정하고(`fullscreen`은 깜박임 없는 렌더링 제공) 해당 렌더러로 다시 실행합니다. `classic`(v2.1.327+) 또는 `default`는 클래식 렌더러를 선택합니다. 인자 없는 `/tui`는 현재 렌더러를 출력합니다 (v2.1.110에 추가) |
 | `/ultrareview` | 포괄적인 클라우드 기반 다중 에이전트 코드 리뷰 (v2.1.111에 추가). 이제 권장 호출 방식은 `/code-review ultra`이며, `/ultrareview`는 별칭으로 남아 있습니다. Pro 및 Max에서 무료 실행 3회가 포함되며, 이후에는 사용량 크레딧이 필요합니다 |
 | `/upgrade` | 상위 플랜 티어 업그레이드 페이지 열기 |
 | `/usage` | 표준 사용량 대시보드 (v2.1.118) — 플랜 사용량 제한, 속도 제한, 비용, 일일 세션 통계를 결합합니다. `/cost`와 `/stats`는 특정 탭을 여는 타이핑 단축 별칭입니다. max 노력 수준, 워크플로, 상시 로드 컨텍스트, 큰 도구 결과에 대해 경고합니다 (v2.1.299). v2.1.305부터 각 경고는 한 줄짜리 수정 사항이며, `f`를 누르면 Claude Code가 적용할 수 있는 수정을 적용합니다 |
@@ -126,7 +126,7 @@
 | `/debug [description]` | 디버그 로깅 활성화 |
 | `/design [description]` | **디자인 캔버스**를 만듭니다 — 아티팩트로 게시되고 코드가 아닌 시각적으로 다듬는 다중 아트보드 비주얼 디자인(UI 목업, 화면 흐름, 랜딩 페이지, 포스터)입니다. 레이아웃 자체를 반복 개선하고 싶을 때 HTML을 직접 작성하는 대신 사용하십시오. v2.1.265+, 아티팩트를 사용할 수 있는 세션, Design 템플릿이 있는 계정이 필요하며, Bedrock, Vertex, Foundry, Claude Platform on AWS에서는 사용할 수 없습니다. 독립형 Claude Design(claude.ai/design)은 2026년 12월 14일까지 종료됩니다. `/design consent`와 `/design revoke`는 Claude Design에 대한 Claude의 접근 권한을 부여하거나 철회합니다. Claude가 `/design consent` 실행을 요청하면 프롬프트에 직접 입력하십시오. |
 | `/loop [interval] [prompt]` | 지정된 간격으로 프롬프트를 반복 실행합니다 |
-| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [pr#\|branch\|path]` | 현재 Diff 또는 전달한 PR 번호, 브랜치, 경로에서 정확성 버그를 검토합니다. `--fix`를 전달하면 발견 사항을 적용하고, `--comment`는 GitHub PR 인라인 댓글로 게시하며, `ultra`는 심층 클라우드 리뷰를 실행합니다. `github.com` PR 대상에 `ultra`를 사용할 때 `--post`는 발견 사항을 PR에 게시하도록 미리 선택합니다. 노력 수준을 지정하지 않으면 마지막으로 입력한 수준을 재사용합니다 (v2.1.223). 원래 v2.1.147에서 `/simplify`를 흡수했지만, v2.1.154에서 `/simplify`는 별도 명령어로 돌아왔습니다. `--max-findings <n>\|all`을 전달하면 일반적인 한도보다 많거나 적은 발견 사항을 보고하며, `--max-findings default`를 전달할 때까지 이 선택이 재사용됩니다 (v2.1.288) |
+| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [pr#\|branch\|path]` | 현재 Diff 또는 전달한 PR 번호, 브랜치, 경로에서 정확성 버그를 검토합니다. `--fix`를 전달하면 발견 사항을 적용하고, `--comment`는 GitHub PR 인라인 댓글로 게시하며, `ultra`는 심층 클라우드 리뷰를 실행합니다. `github.com` PR 대상에 `ultra`를 사용할 때 `--post`는 발견 사항을 PR에 게시하도록 미리 선택합니다. 노력 수준을 지정하지 않으면 마지막으로 입력한 수준을 재사용합니다 (v2.1.223). 원래 v2.1.147에서 `/simplify`를 흡수했지만, v2.1.154에서 `/simplify`는 별도 명령어로 돌아왔습니다. `--max-findings <n>\|all`을 전달하면 일반적인 한도보다 많거나 적은 발견 사항을 보고하며, `--max-findings default`를 전달할 때까지 이 선택이 재사용됩니다 (v2.1.288). 대부분의 모델에서는 버그와 CLAUDE.md 위반 사항만 보고하고, 각 발견 사항을 Important, Pre-existing 또는 Nit으로 표시하며, 각 요약을 수정 제안으로 마무리하고, 재사용, 단순화, 효율성 정리는 `/simplify`로 실행합니다 (v2.1.328, 변경 로그 기준이며, 명령어 레퍼런스에는 모델과 노력 수준에 따라 리뷰가 정리 기회도 다룬다고 나와 있습니다) |
 | `/simplify` | 정리 전용 검토(재사용 / 단순화 / 효율성 / 추상화 수준)를 실행하고 수정 사항을 적용합니다. 버그를 찾지 **않습니다** — 버그를 찾으려면 `/code-review`를 사용하십시오. 잠시 `/code-review --fix`의 별칭이었다가 (v2.1.152), v2.1.154에서 정리 전용이 되었습니다 |
 
 ### 지원 중단된 명령어
@@ -658,8 +658,8 @@ Deploy the application to production:
 
 ---
 
-**최종 업데이트**: 2026년 11월 14일
-**Claude Code 버전**: 2.1.325
+**최종 업데이트**: 2026년 11월 21일
+**Claude Code 버전**: 2.1.330
 **출처**:
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills
@@ -699,6 +699,9 @@ Deploy the application to production:
 - https://code.claude.com/docs/en/artifacts#find-an-artifact-again
 - https://code.claude.com/docs/en/auto-mode-config#generate-environment-entries-with-auto-mode-setup
 - https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-329
+- https://code.claude.com/docs/en/code-review-local
+- https://code.claude.com/docs/en/changelog#2-1-328
 **호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 
 *[Claude How To](../) 가이드 시리즈의 일부입니다*

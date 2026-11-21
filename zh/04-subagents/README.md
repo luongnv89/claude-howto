@@ -44,7 +44,7 @@ tools: Read, Grep, Bash
 | `name` | subagent 名称 |
 | `description` | 何时该调用它 |
 | `tools` | 允许使用的工具。MCP：`mcp__<server>__*` 授予整个服务器的工具（v2.1.299+：只匹配完全相同的服务器名） |
-| `model` | 指定模型 |
+| `model` | 指定模型。恢复时，未指定模型启动的 subagent 会继续使用它启动时的模型，即使之后执行过 `/model` 也一样（v2.1.327）。如果 subagent 切换到回退（fallback）模型，它之后启动的未指定模型的 agent 和分叉（fork）都会在该回退模型上运行，而它们再启动的 agent 会使用其 Bedrock 区域（v2.1.330）。两者均来自 changelog |
 | `prompt` | 任务提示词 |
 | `context` | 上下文策略 |
 

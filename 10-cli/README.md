@@ -65,7 +65,7 @@ The older JavaScript bundle is still produced for Windows and for environments t
 | `claude plugin prune` | Remove orphaned auto-installed plugin dependencies (parent plugin gone). `plugin uninstall --prune` does the same cascade after uninstalling a target (v2.1.121+) | `claude plugin prune` |
 | `claude ultrareview [target]` | Run `/ultrareview` non-interactively. Prints findings to stdout, exits 0 on success / 1 on failure / 130 if interrupted with Ctrl-C. Use `--json` for raw payload, `--timeout <minutes>` to override the 45-minute default (since v2.1.260), and `--post` / `--no-post` to control whether findings are posted back to the PR. In a folder you haven't trusted it asks on a terminal and otherwise exits 1; in scripts and CI, append `--trust-workspace` after the target (v2.1.309+). **Requires Claude Code v2.1.227 or later** | `claude ultrareview 1234 --json --no-post` |
 | `claude self-hosted-runner [setup\|doctor\|orchestrator]` | Start a runner that hosts Claude Code cloud sessions on your own machine or container. `setup` is a guided operator walkthrough, `doctor` diagnoses a deployed runner, `orchestrator` spawns on-demand runners (its `--shutdown-drain-sec`, v2.1.299, lets the in-flight poll and spawn hooks finish on SIGTERM). **Team and Enterprise plans; requires Claude Code v2.1.224 or later.** On Windows, startup requires an explicit `--base-dir` (v2.1.229). Since v2.1.307 checkout hooks are stopped after 30 minutes by default, which fails the session's setup; raise `--checkout-hook-timeout-min` or set it to `0`. Since v2.1.311, `--hold-idle-file <path>` and `--max-hold-min <n>` (default `1440`, `0` turns it off) keep an idle session while your host reports processes it left running | `claude self-hosted-runner setup` |
-| `claude auth login` | Log in (supports `--email`, `--sso`). Since v2.1.126, accepts the OAuth code pasted into the terminal as a fallback when the browser callback can't reach localhost (WSL2, SSH, containers) | `claude auth login --email user@example.com` |
+| `claude auth login` | Log in (supports `--email`, `--sso`). Since v2.1.126, accepts the OAuth code pasted into the terminal as a fallback when the browser callback can't reach localhost (WSL2, SSH, containers). If an Owner turned on sign-in from Claude Code for an organization managed in the Enterprise Admin Console, run it and select the organization in the browser; Claude Code then applies the organization's settings and uses its cloud provider or gateway, and the terminal shows `Signed in to the organization` (v2.1.330) | `claude auth login --email user@example.com` |
 | `claude auth logout` | Log out of current account | `claude auth logout` |
 | `claude auth status` | Check auth status (exit 0 if logged in, 1 if not); since v2.1.318 its output includes `loginExpiresAt`, the date a stored claude.ai sign-in ends | `claude auth status` |
 
@@ -249,6 +249,8 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 
 > **Permission hardening (v2.1.325)**: read-only git commands now ask first in a repository that isn't the project's or one you trusted; to run them there without prompts, name that repository with `--add-dir`, not the `additionalDirectories` setting. Relative deny and ask rules such as `Read(./.env)` keep covering the project after a `cd`, and now also apply in added directories. Some compound Bash commands that could run without asking now ask, a Bash allow rule can no longer run a different program than the one it names, and some deny and ask rules that didn't apply to certain Bash commands now do. With `plansDirectory` set, an approved plan edit that the folder can't take is saved in the default plans folder, and a warning says where and why. These come from the changelog; the permissions docs don't list the git and added-directory changes yet.
 
+> **Permission hardening (v2.1.326–v2.1.330)**: some `cp` and `mv` commands now ask first, and some tool calls in `bypassPermissions` mode ask for approval, or are denied where no one can be asked (v2.1.326). What counts as inside a working directory changed, so some paths now ask, and path checks refuse some symbolic links (v2.1.327). More `rm` commands aimed at the root, home, a top-level folder or the working folder ask for approval, and are refused where nobody can answer (v2.1.330); the permission modes docs call these targets critical paths. These come from the changelog.
+
 ### Permission Examples
 
 ```bash
@@ -300,7 +302,7 @@ claude -p --json-schema '{"type":"object","properties":{"bugs":{"type":"array"}}
 
 | Flag | Description | Example |
 |------|-------------|---------|
-| `--add-dir` | Add additional working directories | `claude --add-dir ../apps ../lib` |
+| `--add-dir` | Add additional working directories. Since v2.1.326, in local terminal sessions it (and `/add-dir`) shows the trust prompt for a folder you haven't trusted yet, and `claude --bg` refuses such a folder (changelog) | `claude --add-dir ../apps ../lib` |
 | `--setting-sources` | Comma-separated setting sources | `claude --setting-sources user,project` |
 
 > **`/config` persistence (v2.1.119)**: Changes made interactively via the `/config` command are now written to `~/.claude/settings.json` and participate in the normal precedence chain (policy → local → project → user). Before v2.1.119, some `/config` changes were session-only. See [Memory & Settings](../02-memory/README.md) for the full precedence order.
@@ -917,6 +919,13 @@ The "ultrathink" keyword in prompts activates deep reasoning; since v2.1.311, ty
 | `DISABLE_UPDATES` | Blocks all update paths including manual `claude update`. Stricter than `DISABLE_AUTOUPDATER`, which only blocks the background autoupdater (v2.1.118+) |
 | `CLAUDE_CODE_HIDE_CWD` | When set to `1`, hides the current working directory in the startup logo (privacy / screen-share use) (v2.1.119+) |
 | `CLAUDE_CODE_FORK_SUBAGENT` | Set to `0` to turn fork subagents off. Since v2.1.302 they are on by default in the terminal, `claude -p`, the Agent SDK, the desktop app and VS Code; before v2.1.302, set `1` to turn them on in `claude -p` and the Agent SDK. |
+| `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS` | Ceiling in milliseconds on idle waiting for background work, such as subagents and workflows, after the final turn of a `-p` run. Default `600000` (10 minutes); `0` waits indefinitely (v2.1.182+). Since v2.1.328, with `CLAUDE_CODE_FORK_SUBAGENT=0`, a background subagent and those it waits for count against one 10-minute wait; raise this for longer chains (changelog) |
+| `CLAUDE_CODE_DISABLE_DEFERRED_TOOL_RESUME` | Set to `1` to skip a tool call that a hook deferred when you resume or continue with `-p`; Claude can still repeat the call. Ignored in a settings `env` block (v2.1.328+) |
+| `CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT` | Choose the full system prompt or a shorter one with abbreviated tool descriptions. Unset: Haiku 4.5, Sonnet 5, Opus 4.7 and earlier models in those families use the full prompt, and newer models use the shorter one. `1` uses the shorter prompt on any model; `0` uses the full prompt on any model. Either prompt keeps the full tool set, hooks, MCP servers, and CLAUDE.md discovery. Since v2.1.330, unrecognized model names containing "sonnet" or "haiku" use the shorter prompt, like other unrecognized names (changelog) |
+| `CLAUDE_CODE_MAX_OUTPUT_TOKENS` | Maximum output tokens for most requests; a value above a model's cap is lowered to the cap. For a model ID Claude Code can't resolve, the default is 32000 and the cap is 128000. The changelog's retry history: v2.1.326 added an automatic retry when `max_tokens` exceeds a model's limit, v2.1.329 removed it (behind a gateway whose model takes fewer output tokens, set this variable to that limit), and v2.1.330 restored it |
+| `CLAUDE_CODE_FULL_SIGN_IN_LINK` | Set to `1` to print the full claude.ai sign-in link instead of the short one, when the short link shows an error or a script reads values from it. Set it in your shell or user settings (v2.1.330+) |
+| `OTEL_RESOURCE_INCLUDE_HOST` | Set to `1` to add the machine's name and ID to OpenTelemetry resource attributes as `host.name` and `host.id` (off by default). Set it in your shell, user settings, or managed settings; project and local settings ignore it (v2.1.326+) |
+| `CLAUDE_CODE_DISABLE_SHELL_HEAD_START` | Set to `1` to stop shell start-up files from running before a session's first Bash command is approved. Since v2.1.327 they may run early, even if the command is then refused, to speed it up. The changelog adds this; the env-vars docs don't list it yet |
 | `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN` | Set to `1` to opt out of the fullscreen alternate-screen renderer; the session stays in normal terminal scrollback. Useful when piping transcripts to logs or pairing with `script(1)` (v2.1.132+). |
 | `CLAUDE_CODE_SESSION_ID` | Set in every Bash tool subprocess launched by Claude Code; equals the `session_id` in hook input JSON. Use to correlate bash logs with hook telemetry (v2.1.132+). |
 | `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL` | Set to `1` to re-enable Anthropic's session-quality survey for organizations capturing OpenTelemetry data. Off by default in OTEL deployments (v2.1.136+). |
@@ -973,7 +982,7 @@ The "ultrathink" keyword in prompts activates deep reasoning; since v2.1.311, ty
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | Linux only: opt in to a memory cgroup applied to Bash commands (v2.1.233) |
 | `ANTHROPIC_BEDROCK_REGION_PREFIX` | Prefer a specific Bedrock cross-region inference profile (v2.1.224) |
 | `CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT` | Set to `1` to restore pre-v2.1.223 auto-compact behavior on unrecognized model IDs (v2.1.223) |
-| `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Override the context window size, in tokens, that Claude Code assumes for the active model, such as `400000` for a gateway or custom model ID. For an ID it doesn't recognize and that has no `[1m]`, the value applies on its own; that includes IDs starting with `claude-`, such as a gateway's `claude-sonnet-latest`, since v2.1.324 per the model configuration docs (the changelog lists it in v2.1.325). For an unrecognized ID with `[1m]`, a value under 1M also needs `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`; for an ID it recognizes, the value applies only with `DISABLE_COMPACT`, which turns off all compaction |
+| `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Override the context window size, in tokens, that Claude Code assumes for the active model, such as `400000` for a gateway or custom model ID. Since v2.1.323, Claude Code assumes a 1M window for a model ID it doesn't recognize (200K before), and the startup warning names the window it assumed. For an ID it doesn't recognize and that has no `[1m]`, the value applies on its own; that includes IDs starting with `claude-`, such as a gateway's `claude-sonnet-latest`, since v2.1.324 per the model configuration docs (the changelog lists it in v2.1.325). For an unrecognized ID with `[1m]`, a value under 1M also needs `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`; for an ID it recognizes, the value applies only with `DISABLE_COMPACT`, which turns off all compaction |
 | `CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS` | Set to `0` to disable prefix staggering on dynamic-workflow fan-out (v2.1.229) |
 | `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS` | Overrides the `dialogExpiry` setting (v2.1.224) |
 | `CLAUDE_CODE_PROJECT_DIR_NAME` | Overrides the per-project transcript directory name Claude Code derives from the project path (v2.1.234) |
@@ -1134,8 +1143,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Last Updated**: November 14, 2026
-**Claude Code Version**: 2.1.325
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/permission-modes#time-limits-and-denials-in-auto-and-bypasspermissions-modes
@@ -1233,4 +1242,10 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/permissions#wildcard-patterns
 - https://code.claude.com/docs/en/changelog#2-1-325
 - https://code.claude.com/docs/en/model-config#which-ids-claude_code_max_context_tokens-applies-to
+- https://code.claude.com/docs/en/changelog#2-1-326
+- https://code.claude.com/docs/en/changelog#2-1-327
+- https://code.claude.com/docs/en/changelog#2-1-330
+- https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id
+- https://code.claude.com/docs/en/permission-modes#critical-paths
+- https://code.claude.com/docs/en/authentication
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

@@ -46,6 +46,7 @@
 - **Розширене мислення**: Глибоке міркування для складних проблем
 - **Auto Mode**: Фоновий класифікатор безпеки перевіряє кожну дію перед виконанням
 - **Фонові завдання**: Виконання тривалих операцій без блокування розмови
+- **Code Mode** (експериментальний, за замовчуванням вимкнений): Claude пише JavaScript, який робить кілька викликів інструментів за один крок. Увімкніть його через `CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1` у вашій оболонці або користувацьких налаштуваннях (налаштування проєкту цього не можуть); потрібні v2.1.323+, інтерактивна сесія в терміналі, підписка Claude або акаунт Console (не шлюз і не хмарний провайдер), а також Opus 5.5, Sonnet 5.5, Haiku 5.5 чи Fable 5.2 — див. [Code Mode](https://code.claude.com/docs/en/code-mode)
 - **Режими дозволів**: Контроль дій Claude (`default`, `acceptEdits`, `plan`, `auto`, `dontAsk`, `bypassPermissions`)
 - **Режим друку**: Неінтерактивний запуск Claude Code для автоматизації та CI/CD (`claude -p`)
 - **Управління сесіями**: Управління кількома робочими сесіями
@@ -352,8 +353,8 @@ Auto mode доступний лише тоді, коли ваш акаунт в�
 
 - **План**: усі плани
 - **Організація**: у Team та Enterprise auto mode доступний за замовчуванням. Адміністратори можуть вимкнути його для організації, встановивши `permissions.disableAutoMode` у `"disable"` у managed settings
-- **Модель**: в Anthropic API та Claude Platform on AWS — Claude Opus 4.6 або новіша, Sonnet 4.6 або новіша, Haiku 5.5 чи модель Fable. В Amazon Bedrock, Agent Platform від Google Cloud (Vertex AI), Microsoft Foundry та сесіях Claude apps gateway із виконаним входом — лише Claude Sonnet 5 або новіша, Opus 4.7 або новіша, Haiku 5.5 (v2.1.293+) і моделі Fable. Старіші моделі — Sonnet 4.5, Opus 4.5, Haiku 4.5 і моделі claude-3 — не підтримуються в жодного провайдера. За шлюзом в `ANTHROPIC_BASE_URL` auto mode відхиляє модель, чия назва в шлюзі містить "haiku", окрім `claude-haiku-5-5`, так само як відхиляє Haiku 4.5 (v2.1.323)
-- **Провайдер**: доступний за замовчуванням в Anthropic API, Claude Platform on AWS, Amazon Bedrock, Agent Platform від Google Cloud (Vertex AI), Microsoft Foundry та сесіях Claude apps gateway із виконаним входом. З v2.1.158 по v2.1.206 auto mode був вимкнений у всіх цих провайдерів, окрім Anthropic API та Claude Platform on AWS, доки ви не встановлювали `CLAUDE_CODE_ENABLE_AUTO_MODE=1`; v2.1.207 прибрала цю вимогу. Змінна й далі приймається для сумісності, але з v2.1.207 не має жодного ефекту
+- **Модель**: в Anthropic API, Claude Platform on AWS та Claude Models on Google Cloud (Anthropic managed) — Claude Opus 4.6 або новіша, Sonnet 4.6 або новіша, Haiku 5.5 чи модель Fable. В Amazon Bedrock, Agent Platform від Google Cloud (Vertex AI), Microsoft Foundry та сесіях Claude apps gateway із виконаним входом — лише Claude Sonnet 5 або новіша, Opus 4.7 або новіша, Haiku 5.5 (v2.1.293+) і моделі Fable. Старіші моделі — Sonnet 4.5, Opus 4.5, Haiku 4.5 і моделі claude-3 — не підтримуються в жодного провайдера. За шлюзом в `ANTHROPIC_BASE_URL` auto mode відхиляє модель, чия назва в шлюзі містить "haiku", окрім `claude-haiku-5-5`, так само як відхиляє Haiku 4.5 (v2.1.323)
+- **Провайдер**: доступний за замовчуванням в Anthropic API, Claude Platform on AWS, Claude Models on Google Cloud (Anthropic managed), Amazon Bedrock, Agent Platform від Google Cloud (Vertex AI), Microsoft Foundry та сесіях Claude apps gateway із виконаним входом. З v2.1.158 по v2.1.206 auto mode був вимкнений у всіх цих провайдерів, окрім Anthropic API та Claude Platform on AWS, доки ви не встановлювали `CLAUDE_CODE_ENABLE_AUTO_MODE=1`; v2.1.207 прибрала цю вимогу. Змінна й далі приймається для сумісності, але з v2.1.207 не має жодного ефекту
 - **Класифікатор**: Додаткова вартість токенів, окрім планів Enterprise та акаунтів Claude API, де v2.1.278+ виконує перевірку на боці сервера без оплати
 
 ### Увімкнення Auto Mode
@@ -389,6 +390,8 @@ claude --permission-mode auto
 2. **Читання/редагування автоматично затверджуються** — Читання та редагування файлів проходять автоматично
 3. **Класифікатор** — Фоновий класифікатор перевіряє дію
 4. **Запасний варіант** — Повертається до запиту після 3 послідовних або 20 загальних блокувань
+
+> **Широкі правила allow відкладаються в auto mode**: при вході в auto mode Claude Code відкидає правила allow, що дозволяють виконувати довільний код, як-от загальне `Bash(*)`, інтерпретатори із символом підстановки на кшталт `Bash(python*)`, правила оболонки, що починаються із символу підстановки, деякі шляхи із символом підстановки на кшталт `Bash($HOME/bin/*)`, команди запуску менеджерів пакетів, а також правила allow для `Agent` і `Monitor`. Вузькі правила на кшталт `Bash(npm test)` залишаються чинними, а відкинуті правила повертаються, коли ви виходите з auto mode. Changelog розширює цей список: v2.1.326 також ігнорує деякі правила оболонки із символом підстановки, наприклад ті, що не називають жодної програми, а v2.1.327 — правила, які запускають будь-який пакет, як-от `Bash(pnpm dlx *)`, а також форми зі шляхом чи версією для правил, які вже ігнорувалися (`/usr/bin/npm run:*`). Натомість ці команди вирішує перевірка безпеки.
 
 ### Заблоковані дії за замовчуванням
 
@@ -597,6 +600,7 @@ in 45 minutes, run the integration tests
 - До **50 запланованих завдань** на сесію
 - Привʼязані до сесії — відновлюються через `--resume`/`--continue`, якщо термін не минув
 - Повторювані завдання автоматично закінчуються через **7 днів** після створення (спрацьовують востаннє, а потім видаляють себе)
+- Самокерований `/loop` (без інтервалу) також може зупинитися, коли ітерація завершується, а Claude не запланував наступну; встановіть `CLAUDE_CODE_LOOP_KEEPALIVE=1`, щоб запустити одну додаткову ітерацію приблизно через 20 хвилин, коли друга чи пізніша ітерація інтерактивного самокерованого циклу завершується, а нічого не заплановано
 - Завдання спрацьовують лише під час роботи Claude Code — пропущені запуски не компенсуються
 
 > **Навички, що оголошують `allowed-tools` або хуки, спершу питають (v2.1.325)**: changelog додає, що заплановані завдання та `/loop` тепер питають дозволу перед запуском навички, яка оголошує `allowed-tools` або хуки; додайте `Skill(name)` до `permissions.allow`, щоб запускати її без нагляду. "Always allow" у хостах Desktop, IDE та SDK тепер пропонує окреме правило лише тоді, коли його збереження знову дозволило б цю команду, тож заплановане завдання, яке покладалося на таке правило, тепер може чекати на вас. Документація запланованих завдань ще не описує жодної з цих змін.
@@ -608,7 +612,7 @@ in 45 minutes, run the integration tests
 | **Джитер повторюваних** | Запуск із запізненням до половини проміжку до наступного запуску, щонайбільше 30 хвилин; завдання `*/5 * * * *` (його створює `/loop 5m`) не затримується і стартує на 15 секунд раніше |
 | **Джитер одноразових** | До 90 секунд раніше, якщо заплановано на `:00` або `:30` |
 | **Пропущені запуски** | Без компенсації — пропускаються, якщо Claude Code не працював |
-| **Збереження** | Відновлюються через `--resume`/`--continue`, окрім завдань із вичерпаним терміном, прострочених одноразових завдань і самокерованого `/loop`; пропущені запуски не надолужуються |
+| **Збереження** | Відновлюються через `--resume`/`--continue`, окрім завдань із вичерпаним терміном, прострочених одноразових завдань і самокерованого `/loop`; пропущені запуски не надолужуються; якщо під час виходу між ходами вибрати **Exit and stop tasks**, завдання цієї сесії завершуються й не повертаються після відновлення (v2.1.329) |
 
 ### Хмарні заплановані завдання
 
@@ -1569,7 +1573,7 @@ claude --settings '{"sandbox": {"enabled": true}}'
 | Налаштування | Опис |
 |---------|-------------|
 | `sandbox.enabled` | Увімкнути або вимкнути пісочницю |
-| `sandbox.failIfUnavailable` | Зупинитись, якщо пісочницю неможливо активувати. Claude Code у вебі, хмарні заплановані завдання та хмарні сесії Cowork запускаються попри це (v2.1.325): розміщений контейнер не має пісочниці для команд. Changelog додає це; settings reference ще цього не описує |
+| `sandbox.failIfUnavailable` | Не запускатися, якщо пісочниця не може запуститися, замість роботи без пісочниці — окрім середовища, розміщеного Anthropic, де сесія все одно може запуститися (settings reference). Claude Code у вебі, хмарні заплановані завдання та хмарні сесії Cowork запускаються попри це (v2.1.325): розміщений контейнер не має пісочниці для команд |
 | `sandbox.autoAllowBashIfSandboxed` | Запускати Bash-команди в пісочниці без запиту дозволу (режим auto-allow). За замовчуванням `false` з v2.1.324 згідно з settings reference (changelog наводить це у v2.1.325), тож команди в пісочниці проходять через ваші правила allow та режим дозволів; що й далі запитує дозвіл при `true`, див. у примітці вище |
 | `sandbox.filesystem.allowWrite` | Шляхи з дозволом на запис |
 | `sandbox.filesystem.allowRead` | Шляхи з дозволом на читання |
@@ -1945,8 +1949,8 @@ claude --teammate-mode in-process
 - [Офіційна документація Agent Teams](https://code.claude.com/docs/en/agent-teams)
 
 ---
-**Останнє оновлення**: 14 листопада 2026
-**Версія Claude Code**: 2.1.325
+**Останнє оновлення**: 21 листопада 2026
+**Версія Claude Code**: 2.1.330
 **Джерела**:
 - https://code.claude.com/docs/en/desktop#run-a-session-in-its-own-worktree
 - https://code.claude.com/docs/en/settings-reference#worktree-sparsepaths
@@ -1991,4 +1995,9 @@ claude --teammate-mode in-process
 - https://code.claude.com/docs/en/vs-code#use-or-turn-off-suggested-prompts
 - https://code.claude.com/docs/en/settings-reference#promptsuggestionenabled
 - https://code.claude.com/docs/en/remote-control#what-connected-devices-see
+- https://code.claude.com/docs/en/settings-reference#sandbox-failifunavailable
+- https://code.claude.com/docs/en/code-mode
+- https://code.claude.com/docs/en/changelog#2-1-327
+- https://code.claude.com/docs/en/scheduled-tasks#stop-a-loop
+- https://code.claude.com/docs/en/changelog#2-1-329
 **Сумісні моделі**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

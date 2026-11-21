@@ -47,7 +47,7 @@ graph TD
 | `claude remote-control` | Запуск сервера Remote Control (серверний режим, без локальної інтерактивної сесії; обслуговує кілька сесій, `--capacity` за замовчуванням 32) | `claude remote-control --name "My Project"` |
 | `claude --remote-control [name]` | Запуск інтерактивної сесії з увімкненим Remote Control (аліас `--rc`) | `claude --rc` |
 | `claude plugin` | Управління плагінами (встановлення, увімкнення, вимкнення) | `claude plugin install my-plugin` |
-| `claude auth login` | Вхід (підтримує `--email`, `--sso`) | `claude auth login --email user@example.com` |
+| `claude auth login` | Вхід (підтримує `--email`, `--sso`). Якщо Owner увімкнув вхід із Claude Code для організації, якою керують в Enterprise Admin Console, запустіть цю команду й виберіть організацію в браузері; тоді Claude Code застосовує налаштування організації та використовує її хмарного провайдера або шлюз, а термінал показує `Signed in to the organization` (v2.1.330) | `claude auth login --email user@example.com` |
 | `claude auth logout` | Вихід з поточного облікового запису | `claude auth logout` |
 | `claude auth status` | Перевірка статусу авторизації (код виходу 0 = увійшов, 1 = ні) | `claude auth status` |
 
@@ -228,7 +228,7 @@ claude -p --json-schema '{"type":"object","properties":{"bugs":{"type":"array"}}
 
 | Прапорець | Опис | Приклад |
 |-----------|------|---------|
-| `--add-dir` | Додати додаткові робочі каталоги | `claude --add-dir ../apps ../lib` |
+| `--add-dir` | Додати додаткові робочі каталоги. Починаючи з v2.1.326, у локальних сесіях термінала цей прапорець (і `/add-dir`) показує запит на довіру для каталогу, якому ви ще не довіряєте, а `claude --bg` відмовляється працювати з таким каталогом (за changelog) | `claude --add-dir ../apps ../lib` |
 | `--setting-sources` | Джерела налаштувань через кому | `claude --setting-sources user,project` |
 | `--settings` | Завантажити налаштування з файлу або JSON | `claude --settings ./settings.json` |
 | `--plugin-dir` | Завантажити плагіни з каталогу (повторюваний) | `claude --plugin-dir ./my-plugin` |

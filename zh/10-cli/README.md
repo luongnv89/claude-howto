@@ -43,7 +43,7 @@ graph TD
 | `claude remote-control` | 启动 Remote Control 服务器（服务器模式，没有本地交互式会话；可服务多个会话，`--capacity` 默认 32） | `claude remote-control --name "My Project"` |
 | `claude --remote-control [name]` | 启动启用了 Remote Control 的交互式会话（别名 `--rc`） | `claude --rc` |
 | `claude plugin` | 管理插件（安装、启用、禁用） | `claude plugin install my-plugin` |
-| `claude auth login` | 登录（支持 `--email`、`--sso`） | `claude auth login --email user@example.com` |
+| `claude auth login` | 登录（支持 `--email`、`--sso`）。如果 Owner 已为在 Enterprise Admin Console 中管理的组织开启从 Claude Code 登录，运行此命令并在浏览器中选择该组织；随后 Claude Code 会应用该组织的设置并使用其云提供商或网关，终端会显示 `Signed in to the organization`（v2.1.330） | `claude auth login --email user@example.com` |
 | `claude auth logout` | 注销当前账号 | `claude auth logout` |
 | `claude auth status` | 检查登录状态（已登录返回 0，否则返回 1） | `claude auth status` |
 
@@ -225,7 +225,7 @@ claude -p --json-schema '{"type":"object","properties":{"bugs":{"type":"array"}}
 | 参数 | 说明 | 示例 |
 |------|-------------|---------|
 | `--working-directory` | 设置工作目录 | `claude --working-directory /path/to/project` |
-| `--add-dir` | 追加额外工作目录 | `claude --add-dir /path/to/other/project` |
+| `--add-dir` | 追加额外工作目录。自 v2.1.326 起，在本地终端会话中，它（以及 `/add-dir`）会为你尚未信任的文件夹显示信任提示，而 `claude --bg` 会拒绝这样的文件夹（来自 changelog） | `claude --add-dir /path/to/other/project` |
 
 ### 多目录示例
 

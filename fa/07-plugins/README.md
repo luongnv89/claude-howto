@@ -955,7 +955,7 @@ claude plugin eval --help     # فهرست کامل گزینه‌ها
 
 ### خروجی ماشین‌خوان با `--json` (v2.1.268+)
 
-`--json` روی `install`، `uninstall`، `update`، `enable` و `disable` پذیرفته می‌شود، که مدیریت پلاگین را در CI قابل اسکریپت‌نویسی می‌کند. هر سطر `claude plugin list --json` همچنین `errorDetails` و `noteDetails` را حمل می‌کند، تا یک پلاگین خراب بدون فرمان دوم خودش را توضیح دهد. از v2.1.323، نتیجه `claude plugin install --json` همچنین `unsetOptionCount` را حمل می‌کند: تعداد گزینه‌های `userConfig` که هنوز تنظیم نشده‌اند (برگرفته از changelog؛ بخش JSON result format در مرجع CLI هنوز آن را فهرست نکرده است).
+`--json` روی `install`، `uninstall`، `update`، `enable` و `disable` پذیرفته می‌شود، که مدیریت پلاگین را در CI قابل اسکریپت‌نویسی می‌کند. هر سطر `claude plugin list --json` همچنین `errorDetails` و `noteDetails` را حمل می‌کند، تا یک پلاگین خراب بدون فرمان دوم خودش را توضیح دهد. از v2.1.323، نتیجه `claude plugin install --json` همچنین `unsetOptionCount` را حمل می‌کند: تعداد گزینه‌های `userConfig` که هنوز تنظیم نشده‌اند (برگرفته از changelog؛ بخش JSON result format در مرجع CLI هنوز آن را فهرست نکرده است). برای پلاگینی که ورودی مارکت‌پلیس آن از منبع `command` استفاده می‌کند، از v2.1.330 نتیجه همچنین `commandPrinted` (`true` وقتی نصب موفق بوده و فرمان در stderr نوشته است) و `commandFailed` (`true` وقتی فرمان با خطا خارج شده، با یک سیگنال خاتمه یافته یا دچار timeout شده است) را حمل می‌کند.
 
 ```bash
 claude plugin install my-plugin@my-marketplace --json
@@ -1416,8 +1416,8 @@ claude plugin update plugin-name
 
 ---
 
-**آخرین به‌روزرسانی**: ۱۴ نوامبر ۲۰۲۶
-**نسخه Claude Code**: 2.1.325
+**آخرین به‌روزرسانی**: ۲۱ نوامبر ۲۰۲۶
+**نسخه Claude Code**: 2.1.330
 **منابع**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1490,4 +1490,5 @@ claude plugin update plugin-name
 - https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk
 - https://code.claude.com/docs/en/changelog#2-1-325
 - https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
+- https://code.claude.com/docs/en/plugins/cli-reference#plugin-json-result
 **مدل‌های سازگار**: Claude Fable 5.2، Claude Fable 5.1، Claude Fable 5، Claude Opus 5.5، Claude Opus 5، Claude Sonnet 5.5، Claude Sonnet 5، Claude Sonnet 4.6، Claude Opus 4.8، Claude Haiku 5.5، Claude Haiku 4.5

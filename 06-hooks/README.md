@@ -63,7 +63,7 @@ Hooks are configured in settings files with a specific structure:
 | `asyncRewake` | If `true`, runs in the background and wakes Claude on exit code 2. Implies `async`. | `true` |
 | `shell` | Accepts `"bash"` or `"powershell"`. Defaults to `"bash"`, or to `"powershell"` on Windows when Git Bash isn't installed. A PowerShell hook's exit code 2 blocks only from v2.1.309; upgrade before relying on a PowerShell guard hook. | `"bash"` |
 | `statusMessage` | Custom spinner message displayed while the hook runs | `"Formatting…"` |
-| `onFailure` | What happens to the action when a command or HTTP hook fails (can't start, times out, exits with an unexpected code): `"continue"` (default) or `"block"` (v2.1.295+). Agent SDK hook callbacks set this on the matcher: `onFailure: "block"` in TypeScript (Agent SDK v0.3.317+) or `on_failure="block"` in Python (v0.2.177+) blocks the action when the callback fails, instead of letting it run. | `"block"` |
+| `onFailure` | What happens to the action when a command, HTTP, or `mcp_tool` hook fails (can't start, times out, exits with an unexpected code): `"continue"` (default) or `"block"` (v2.1.295+; on `mcp_tool` hooks, v2.1.328+). Agent SDK hook callbacks set this on the matcher: `onFailure: "block"` in TypeScript (Agent SDK v0.3.317+) or `on_failure="block"` in Python (v0.2.177+) blocks the action when the callback fails, instead of letting it run. | `"block"` |
 
 > **Note**: Some events lower the default timeout. `UserPromptSubmit` lowers the `command`, `http`, and `mcp_tool` default to 30 seconds, and `MessageDisplay` lowers it to 10 seconds. `SessionEnd` hooks share a 1.5-second budget; if your settings set a longer per-hook `timeout`, Claude Code raises that budget to match, up to 60 seconds. In `claude -p` and Agent SDK sessions, Claude Code sends a progress heartbeat every 30 seconds while hooks run long (v2.1.323), so a host such as Claude Desktop won't end the turn as hung once it includes that version.
 
@@ -201,7 +201,7 @@ LLM-evaluated prompts where the hook content is a prompt that Claude evaluates. 
 }
 ```
 
-The LLM evaluates the prompt and returns a structured decision (see [Prompt-Based Hooks](#prompt-based-hooks) for details).
+The LLM evaluates the prompt and returns a structured decision (see [Prompt-Based Hooks](#prompt-based-hooks) for details). An optional `model` field picks the model that evaluates the prompt; without it, Claude Code uses the model it uses for background functionality. Since v2.1.330 the field also accepts aliases such as `haiku` or `sonnet` (changelog).
 
 ### MCP Tool Hooks
 
@@ -427,6 +427,8 @@ Runs when user submits a prompt, before Claude processes it. Since v2.1.299 it r
 Run when Claude finishes responding (Stop) or a subagent completes (SubagentStop). Supports prompt-based evaluation for intelligent task completion checking.
 
 **Additional input field:** Both `Stop` and `SubagentStop` hooks receive a `last_assistant_message` field in their JSON input, containing the final message from Claude or the subagent before stopping. This is useful for evaluating task completion.
+
+Both also receive `background_tasks` and `session_crons` arrays, so a hook can tell a finished session from one that is waiting for background work or a scheduled task to wake it. Each `background_tasks` entry has a `type` label such as `shell`, `subagent`, `monitor`, `workflow` or `MCP task`; since v2.1.329 a Monitor's script is listed as `monitor`, not `shell` (changelog).
 
 **Configuration:**
 ```json
@@ -791,6 +793,8 @@ All hooks receive JSON input via stdin:
 > **`retry` (PermissionDenied)**: Use JSON `hookSpecificOutput.retry: true` to tell the model it may retry the denied tool call.
 
 > **Deprecated `PreToolUse` decision form**: For `PreToolUse`, the top-level `decision` and `reason` fields are **deprecated** — use `hookSpecificOutput.permissionDecision` (`allow` / `deny` / `ask` / `defer`) and `permissionDecisionReason` instead. Precedence among decisions is `deny` > `defer` > `ask` > `allow`. Note also that `suppressOutput` is accepted but **has no effect**.
+
+> **`"decision": "block"` holds in more cases (v2.1.326)**: the changelog says a hook's `"decision": "block"` now holds in more cases, so a hook that always prints one may start blocking calls. Print it only when you mean to block. The hooks docs don't list this change.
 
 > **Output cap**: a hook's `additionalContext`, `systemMessage`, and `initialUserMessage` strings, and its plain stdout, are each capped at 10,000 characters. Longer output is saved to a file in the session directory and replaced with its path and a preview of the first 2,000 characters; Claude isn't asked to read the file. Since v2.1.314 this also applies to `PreCompact` hooks, whose very large output could make compaction fail or repeat.
 
@@ -1653,8 +1657,8 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 
 ---
 
-**Last Updated**: November 13, 2026
-**Claude Code Version**: 2.1.323
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1691,4 +1695,9 @@ Edit `~/.claude/settings.json` or `.claude/settings.json` with the hook configur
 - https://code.claude.com/docs/en/changelog#2-1-319
 - https://code.claude.com/docs/en/hooks#posttooluse-after-an-interrupt
 - https://code.claude.com/docs/en/changelog#2-1-323
+- https://code.claude.com/docs/en/hooks#block-the-action-when-a-hook-fails
+- https://code.claude.com/docs/en/changelog#2-1-330
+- https://code.claude.com/docs/en/hooks#stop-input
+- https://code.claude.com/docs/en/changelog#2-1-329
+- https://code.claude.com/docs/en/changelog#2-1-326
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

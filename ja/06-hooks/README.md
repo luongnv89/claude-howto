@@ -141,7 +141,7 @@ LLM が評価するプロンプトで、フック内容は Claude が評価す�
 }
 ```
 
-LLM はプロンプトを評価し、構造化された判定を返す（詳細は [Prompt ベースのフック](#prompt-ベースのフック) を参照）。
+LLM はプロンプトを評価し、構造化された判定を返す（詳細は [Prompt ベースのフック](#prompt-ベースのフック) を参照）。任意の `model` フィールドで、プロンプトを評価するモデルを指定できる。省略すると、Claude Code はバックグラウンド機能に使うモデルを使用する。v2.1.330 以降、このフィールドは `haiku` や `sonnet` などのエイリアスも受け付ける（changelog）。
 
 ### MCP Tool フック
 
@@ -335,6 +335,8 @@ Claude がツールパラメータを生成した後、処理開始前に動作�
 Claude が応答を終えたとき（Stop）、サブエージェントが完了したとき（SubagentStop）に動作する。知的なタスク完了チェックのために、prompt ベースの評価をサポートする。
 
 **追加入力フィールド：** `Stop` と `SubagentStop` の両フックは、JSON 入力に `last_assistant_message` フィールドを受け取る。これは停止前の Claude もしくはサブエージェントからの最終メッセージを含み、タスク完了の評価に有用である。
+
+両フックは `background_tasks` と `session_crons` の配列も受け取るため、フックは終了したセッションと、バックグラウンド作業やスケジュールされたタスクによって再び起こされるのを待っているセッションとを区別できる。`background_tasks` の各エントリには `shell`、`subagent`、`monitor`、`workflow`、`MCP task` などの `type` ラベルがある。v2.1.329 以降、Monitor のスクリプトは `shell` ではなく `monitor` として示される（changelog）。
 
 **設定：**
 ```json

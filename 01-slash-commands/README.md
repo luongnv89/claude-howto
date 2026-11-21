@@ -97,12 +97,12 @@ Built-in commands are shortcuts for common actions. There are **60+ built-in com
 | `/stickers` | Check Claude Code sticker availability |
 | `/status` | Show version, model, account, and a `Session kind` row reading `background job · attached`, `background job · unattended`, or `interactive` (row added v2.1.221). Openable while Claude is responding |
 | `/statusline` | Configure status line |
-| `/tasks` | List/manage background tasks. Since v2.1.319 an **Earlier in this session** row lists finished subagents, so you can reopen one and message it even after it leaves the list or you restart. |
+| `/tasks` | List/manage background tasks. Since v2.1.319 an **Earlier in this session** row lists finished subagents, so you can reopen one and message it even after it leaves the list or you restart. Since v2.1.329 it also lists this session's scheduled tasks, `/loop` wakeups, the goal and this conversation's forks, and `x` stops one after asking (changelog; the commands reference doesn't list these yet). |
 | `/team-onboarding` | Generate a teammate ramp-up guide from your last 30 days of Claude Code sessions, commands, and MCP usage; on Team and Enterprise plans it also returns a share link (new in v2.1.101) |
 | `/teleport` | Resume a Claude Code on the web session in this terminal; opens a picker of your web sessions (alias: `/tp`). Requires a claude.ai subscription |
 | `/terminal-setup` | Configure terminal keybindings |
 | `/theme` | Open theme picker / manage custom themes (v2.1.118). Define custom themes via JSON in `~/.claude/themes/<name>.json` |
-| `/tui [default\|fullscreen]` | Set the terminal UI renderer (`fullscreen` gives flicker-free rendering) and relaunch into it; a bare `/tui` prints the current renderer (added v2.1.110) |
+| `/tui [classic\|fullscreen]` | Set the terminal UI renderer (`fullscreen` gives flicker-free rendering) and relaunch into it; `classic` (v2.1.327+) or `default` selects the classic renderer; a bare `/tui` prints the current renderer (added v2.1.110) |
 | `/ultrareview` | Comprehensive cloud-based multi-agent code review (added v2.1.111). The preferred invocation is now `/code-review ultra`; `/ultrareview` remains as an alias. Includes 3 free runs on Pro, Max, and Ultra, then requires usage credits |
 | `/upgrade` | Open upgrade page for higher plan tier |
 | `/usage` | Canonical usage dashboard (v2.1.118) — combines plan usage limits, rate limits, cost, and daily session stats. `/cost` and `/stats` are typing-shortcut aliases that open specific tabs. Warns about max effort, workflows, always-on context and large tool results (v2.1.299); since v2.1.305 each warning is a one-line fix and pressing `f` applies the ones Claude Code can make |
@@ -123,7 +123,7 @@ These skills ship with Claude Code and are invoked like slash commands:
 | `/debug [description]` | Enable debug logging |
 | `/design [description]` | Create a **design canvas** — a multi-artboard visual design (UI mockups, screen flows, landing pages, posters) published as an artifact and refined visually rather than in code. Use it instead of hand-writing HTML when the layout is what you want to iterate on. Requires v2.1.265+, a session where artifacts are available, and an account with the Design template; not available on Bedrock, Vertex, Foundry, or Claude Platform on AWS. Standalone Claude Design (claude.ai/design) closes by December 14, 2026. `/design consent` and `/design revoke` grant or withdraw Claude's access to Claude Design; when Claude asks you to run `/design consent`, type it at the prompt yourself. |
 | `/loop [interval] [prompt]` | Run prompt repeatedly on interval |
-| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [pr#\|branch\|path]` | Review the current diff — or a PR number, branch, or path you pass — for correctness bugs. Pass `--fix` to apply findings, `--comment` to post them as inline GitHub PR comments, or `ultra` to run a deep cloud review; with `ultra` on a `github.com` PR target, `--post` preselects posting the findings to the PR. With no effort level given, the review reuses the last level you typed (v2.1.223). Originally absorbed `/simplify` in v2.1.147, but `/simplify` returned as a distinct command in v2.1.154. Pass `--max-findings <n>\|all` to report more or fewer findings than the usual limit; the choice is reused until you pass `--max-findings default` (v2.1.288) |
+| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [pr#\|branch\|path]` | Review the current diff — or a PR number, branch, or path you pass — for correctness bugs. Pass `--fix` to apply findings, `--comment` to post them as inline GitHub PR comments, or `ultra` to run a deep cloud review; with `ultra` on a `github.com` PR target, `--post` preselects posting the findings to the PR. With no effort level given, the review reuses the last level you typed (v2.1.223). Originally absorbed `/simplify` in v2.1.147, but `/simplify` returned as a distinct command in v2.1.154. Pass `--max-findings <n>\|all` to report more or fewer findings than the usual limit; the choice is reused until you pass `--max-findings default` (v2.1.288). On most models it reports only bugs and CLAUDE.md violations, marks each finding Important, Pre-existing or Nit, and ends each summary with a suggested fix; run `/simplify` for reuse, simplification and efficiency cleanups (v2.1.328, changelog; the commands reference says that, depending on your model and effort level, the review also covers cleanup opportunities) |
 | `/simplify` | Run a cleanup-only review (reuse / simplification / efficiency / altitude) and apply the fixes; does **not** hunt for bugs — use `/code-review` for that. Briefly an alias of `/code-review --fix` (v2.1.152), it became cleanup-only in v2.1.154 |
 
 ### Deprecated Commands
@@ -655,8 +655,8 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 
 ---
 
-**Last Updated**: November 14, 2026
-**Claude Code Version**: 2.1.325
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/output-styles
 - https://code.claude.com/docs/en/skills
@@ -702,6 +702,9 @@ If both exist with the same name, the **skill takes precedence**. Remove one or 
 - https://code.claude.com/docs/en/changelog#2-1-319
 - https://code.claude.com/docs/en/vs-code#run-cli-in-vs-code
 - https://code.claude.com/docs/en/changelog#2-1-318
+- https://code.claude.com/docs/en/changelog#2-1-329
+- https://code.claude.com/docs/en/code-review-local
+- https://code.claude.com/docs/en/changelog#2-1-328
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
 
 *Part of the [Claude How To](../) guide series*

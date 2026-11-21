@@ -65,7 +65,7 @@ Bundle JavaScript cũ vẫn được build cho Windows và cho các môi trườ
 | `claude plugin prune` | Gỡ các dependency plugin tự cài đã mồ côi (plugin cha không còn). `plugin uninstall --prune` làm cùng việc dọn dây chuyền này sau khi gỡ plugin đích (v2.1.121+) | `claude plugin prune` |
 | `claude ultrareview [target]` | Chạy `/ultrareview` không tương tác. In kết quả ra stdout, thoát với mã 0 khi thành công / 1 khi thất bại / 130 nếu bị ngắt bằng Ctrl-C. Dùng `--json` để lấy payload thô, `--timeout <minutes>` để ghi đè mặc định 45 phút (từ v2.1.260), và `--post` / `--no-post` để quyết định có đăng kết quả lại lên PR hay không. Trong thư mục bạn chưa tin cậy, nó hỏi trên terminal và nếu không thì thoát với mã 1; trong scripts và CI, thêm `--trust-workspace` sau target (v2.1.309+). **Yêu cầu Claude Code v2.1.227 trở lên** | `claude ultrareview 1234 --json --no-post` |
 | `claude self-hosted-runner [setup\|doctor\|orchestrator]` | Khởi động một runner để host các phiên cloud của Claude Code trên máy hoặc container của bạn. `setup` là hướng dẫn từng bước cho người vận hành, `doctor` chẩn đoán một runner đã triển khai, `orchestrator` tạo runner theo nhu cầu (cờ `--shutdown-drain-sec` của nó, v2.1.299, cho phép các hook poll và spawn đang chạy hoàn tất khi nhận SIGTERM). **Gói Team và Enterprise; yêu cầu Claude Code v2.1.224 trở lên.** Trên Windows, khởi động cần `--base-dir` tường minh (v2.1.229). Từ v2.1.307, checkout hooks bị dừng sau 30 phút theo mặc định, khiến bước thiết lập phiên thất bại; hãy tăng `--checkout-hook-timeout-min` hoặc đặt nó về `0`. Từ v2.1.311, `--hold-idle-file <path>` và `--max-hold-min <n>` (mặc định `1440`, `0` để tắt) giữ lại một phiên nhàn rỗi trong khi host của bạn báo cáo các tiến trình mà phiên đó để lại đang chạy | `claude self-hosted-runner setup` |
-| `claude auth login` | Đăng nhập (hỗ trợ `--email`, `--sso`). Từ v2.1.126, chấp nhận mã OAuth dán vào terminal làm phương án dự phòng khi callback của trình duyệt không tới được localhost (WSL2, SSH, container) | `claude auth login --email user@example.com` |
+| `claude auth login` | Đăng nhập (hỗ trợ `--email`, `--sso`). Từ v2.1.126, chấp nhận mã OAuth dán vào terminal làm phương án dự phòng khi callback của trình duyệt không tới được localhost (WSL2, SSH, container). Nếu một Owner đã bật đăng nhập từ Claude Code cho một tổ chức được quản lý trong Enterprise Admin Console, hãy chạy lệnh này và chọn tổ chức đó trong trình duyệt; khi đó Claude Code áp dụng cài đặt của tổ chức và dùng nhà cung cấp cloud hoặc gateway của tổ chức, và terminal hiển thị `Signed in to the organization` (v2.1.330) | `claude auth login --email user@example.com` |
 | `claude auth logout` | Đăng xuất khỏi tài khoản hiện tại | `claude auth logout` |
 | `claude auth status` | Kiểm tra trạng thái xác thực (thoát 0 nếu đã đăng nhập, 1 nếu chưa) | `claude auth status` |
 
@@ -247,6 +247,8 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 
 > **Siết chặt quyền (v2.1.325)**: các lệnh git chỉ đọc giờ hỏi trước khi chạy trong một repository không phải của dự án hoặc không phải repository bạn đã tin cậy; để chạy chúng ở đó mà không bị nhắc, hãy chỉ định repository đó bằng `--add-dir`, không phải bằng thiết lập `additionalDirectories`. Các quy tắc deny và ask tương đối như `Read(./.env)` vẫn bao phủ dự án sau một lệnh `cd`, và giờ cũng áp dụng trong các thư mục được thêm vào. Một số lệnh Bash ghép từng có thể chạy mà không hỏi giờ sẽ hỏi, một quy tắc allow của Bash không còn có thể chạy một chương trình khác với chương trình mà nó nêu tên, và một số quy tắc deny và ask từng không áp dụng cho một số lệnh Bash nhất định giờ đã áp dụng. Khi đặt `plansDirectory`, một lần sửa kế hoạch đã được duyệt mà thư mục đó không nhận được sẽ được lưu vào thư mục kế hoạch mặc định, kèm một cảnh báo cho biết ở đâu và vì sao. Những thay đổi này lấy từ changelog; tài liệu permissions chưa liệt kê các thay đổi về git và thư mục được thêm vào.
 
+> **Siết chặt quyền (v2.1.326–v2.1.330)**: một số lệnh `cp` và `mv` giờ hỏi trước, và một số lần gọi công cụ ở chế độ `bypassPermissions` sẽ xin phê duyệt, hoặc bị từ chối khi không có ai để hỏi (v2.1.326). Cách xác định thế nào là nằm trong một thư mục làm việc đã thay đổi, nên một số đường dẫn giờ sẽ hỏi, và các bước kiểm tra đường dẫn từ chối một số symbolic link (v2.1.327). Nhiều lệnh `rm` hơn nhắm vào thư mục gốc, thư mục home, một thư mục cấp cao nhất hoặc thư mục làm việc sẽ xin phê duyệt, và bị từ chối khi không ai có thể trả lời (v2.1.330); tài liệu permission modes gọi các đích này là đường dẫn quan trọng (critical paths). Những thay đổi này lấy từ changelog.
+
 ### Ví Dụ Quyền / Permission Examples
 
 ```bash
@@ -298,7 +300,7 @@ claude -p --json-schema '{"type":"object","properties":{"bugs":{"type":"array"}}
 
 | Cờ | Mô Tả | Ví Dụ |
 |------|-------------|---------|
-| `--add-dir` | Thêm các thư mục làm việc bổ sung | `claude --add-dir ../apps ../lib` |
+| `--add-dir` | Thêm các thư mục làm việc bổ sung. Từ v2.1.326, trong các phiên terminal cục bộ, cờ này (và `/add-dir`) hiển thị lời nhắc tin cậy cho một thư mục bạn chưa tin cậy, và `claude --bg` từ chối thư mục như vậy (changelog) | `claude --add-dir ../apps ../lib` |
 | `--setting-sources` | Các nguồn settings phân cách bằng dấu phẩy | `claude --setting-sources user,project` |
 
 > **Lưu `/config` (v2.1.119)**: Các thay đổi thực hiện tương tác qua lệnh `/config` giờ được ghi vào `~/.claude/settings.json` và tham gia chuỗi ưu tiên thông thường (policy → local → project → user). Trước v2.1.119, một số thay đổi `/config` chỉ có hiệu lực trong phiên. Xem [Bộ Nhớ & Settings](../02-memory/README.md) để biết thứ tự ưu tiên đầy đủ.
@@ -906,6 +908,13 @@ Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311
 | `DISABLE_UPDATES` | Chặn mọi đường cập nhật, kể cả `claude update` thủ công. Chặt hơn `DISABLE_AUTOUPDATER`, vốn chỉ chặn trình tự động cập nhật chạy nền (v2.1.118+) |
 | `CLAUDE_CODE_HIDE_CWD` | Khi đặt `1`, ẩn thư mục làm việc hiện tại trong logo khởi động (để bảo mật / khi chia sẻ màn hình) (v2.1.119+) |
 | `CLAUDE_CODE_FORK_SUBAGENT` | Đặt `0` để tắt fork subagent. Từ v2.1.302 chúng được bật mặc định trong terminal, `claude -p`, Agent SDK, ứng dụng desktop và VS Code; trước v2.1.302, đặt `1` để bật chúng trong `claude -p` và Agent SDK. |
+| `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS` | Mức trần, tính bằng mili giây, cho thời gian chờ rảnh để đợi công việc nền, chẳng hạn subagent và workflow, sau lượt cuối cùng của một lần chạy `-p`. Mặc định `600000` (10 phút); `0` chờ vô thời hạn (v2.1.182+). Từ v2.1.328, khi có `CLAUDE_CODE_FORK_SUBAGENT=0`, một subagent nền và các subagent mà nó chờ được tính chung vào một lần chờ 10 phút; hãy tăng giá trị này cho các chuỗi dài hơn (changelog) |
+| `CLAUDE_CODE_DISABLE_DEFERRED_TOOL_RESUME` | Đặt `1` để bỏ qua lần gọi công cụ mà một hook đã hoãn khi bạn resume hoặc continue với `-p`; Claude vẫn có thể lặp lại lần gọi đó. Bị bỏ qua trong khối `env` của settings (v2.1.328+) |
+| `CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT` | Chọn system prompt đầy đủ hoặc một bản ngắn hơn với mô tả công cụ được rút gọn. Không đặt: Haiku 4.5, Sonnet 5, Opus 4.7 và các mô hình cũ hơn trong các dòng đó dùng prompt đầy đủ, còn các mô hình mới hơn dùng bản ngắn hơn. `1` dùng prompt ngắn hơn trên mọi mô hình; `0` dùng prompt đầy đủ trên mọi mô hình. Prompt nào cũng giữ đủ bộ công cụ, hooks, MCP server, và việc khám phá CLAUDE.md. Từ v2.1.330, các tên mô hình không nhận diện được có chứa "sonnet" hoặc "haiku" dùng prompt ngắn hơn, giống các tên không nhận diện được khác (changelog) |
+| `CLAUDE_CODE_MAX_OUTPUT_TOKENS` | Số token đầu ra tối đa cho hầu hết các request; giá trị vượt mức trần của một mô hình được hạ xuống bằng mức trần đó. Với một ID mô hình mà Claude Code không phân giải được, mặc định là 32000 và mức trần là 128000. Lịch sử thử lại theo changelog: v2.1.326 thêm việc tự động thử lại khi `max_tokens` vượt giới hạn của mô hình, v2.1.329 gỡ bỏ nó (khi đứng sau một gateway có mô hình nhận ít token đầu ra hơn, hãy đặt biến này bằng giới hạn đó), và v2.1.330 khôi phục lại |
+| `CLAUDE_CODE_FULL_SIGN_IN_LINK` | Đặt `1` để in link đăng nhập claude.ai đầy đủ thay vì link rút gọn, khi link rút gọn báo lỗi hoặc khi một script đọc giá trị từ link. Đặt nó trong shell hoặc user settings (v2.1.330+) |
+| `OTEL_RESOURCE_INCLUDE_HOST` | Đặt `1` để thêm tên và ID của máy vào các thuộc tính resource của OpenTelemetry dưới dạng `host.name` và `host.id` (mặc định tắt). Đặt nó trong shell, user settings, hoặc managed settings; project và local settings bỏ qua biến này (v2.1.326+) |
+| `CLAUDE_CODE_DISABLE_SHELL_HEAD_START` | Đặt `1` để ngăn các file khởi động của shell chạy trước khi lệnh Bash đầu tiên của phiên được phê duyệt. Từ v2.1.327, chúng có thể chạy sớm để tăng tốc lệnh, ngay cả khi lệnh đó sau đó bị từ chối. Lấy từ changelog; trang tài liệu env-vars chưa liệt kê biến này |
 | `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN` | Đặt `1` để không dùng renderer alternate-screen toàn màn hình; phiên giữ nguyên trong scrollback thông thường của terminal. Hữu ích khi pipe transcript vào log hoặc dùng cùng `script(1)` (v2.1.132+). |
 | `CLAUDE_CODE_SESSION_ID` | Được đặt trong mọi tiến trình con của công cụ Bash do Claude Code khởi chạy; bằng `session_id` trong JSON đầu vào của hook. Dùng để đối chiếu log bash với telemetry của hook (v2.1.132+). |
 | `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL` | Đặt `1` để bật lại khảo sát chất lượng phiên của Anthropic cho các tổ chức thu thập dữ liệu OpenTelemetry. Mặc định tắt trong các triển khai OTEL (v2.1.136+). |
@@ -962,7 +971,7 @@ Từ khóa "ultrathink" trong prompt kích hoạt suy luận sâu; từ v2.1.311
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | Chỉ trên Linux: opt-in một memory cgroup áp dụng cho các lệnh Bash (v2.1.233) |
 | `ANTHROPIC_BEDROCK_REGION_PREFIX` | Ưu tiên một cross-region inference profile cụ thể của Bedrock (v2.1.224) |
 | `CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT` | Đặt `1` để khôi phục hành vi tự động compact trước v2.1.223 với các ID mô hình không nhận diện được (v2.1.223) |
-| `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Ghi đè kích thước cửa sổ ngữ cảnh, tính bằng token, mà Claude Code giả định cho mô hình đang dùng, chẳng hạn `400000` cho một gateway hoặc một ID mô hình tùy chỉnh. Với một ID mà nó không nhận diện được và không có `[1m]`, giá trị này tự áp dụng; điều đó bao gồm cả các ID bắt đầu bằng `claude-`, chẳng hạn `claude-sonnet-latest` của một gateway, kể từ v2.1.324 theo tài liệu cấu hình mô hình (changelog liệt kê thay đổi này ở v2.1.325). Với một ID không nhận diện được có `[1m]`, một giá trị dưới 1M cũng cần `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`; với một ID mà nó nhận diện được, giá trị này chỉ áp dụng khi có `DISABLE_COMPACT`, vốn tắt toàn bộ việc compact |
+| `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Ghi đè kích thước cửa sổ ngữ cảnh, tính bằng token, mà Claude Code giả định cho mô hình đang dùng, chẳng hạn `400000` cho một gateway hoặc một ID mô hình tùy chỉnh. Từ v2.1.323, Claude Code giả định cửa sổ 1M cho một ID mô hình mà nó không nhận diện được (trước đó là 200K), và cảnh báo khi khởi động nêu rõ cửa sổ mà nó đã giả định. Với một ID mà nó không nhận diện được và không có `[1m]`, giá trị này tự áp dụng; điều đó bao gồm cả các ID bắt đầu bằng `claude-`, chẳng hạn `claude-sonnet-latest` của một gateway, kể từ v2.1.324 theo tài liệu cấu hình mô hình (changelog liệt kê thay đổi này ở v2.1.325). Với một ID không nhận diện được có `[1m]`, một giá trị dưới 1M cũng cần `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`; với một ID mà nó nhận diện được, giá trị này chỉ áp dụng khi có `DISABLE_COMPACT`, vốn tắt toàn bộ việc compact |
 | `CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS` | Đặt `0` để tắt việc giãn cách prefix khi fan-out workflow động (v2.1.229) |
 | `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS` | Ghi đè setting `dialogExpiry` (v2.1.224) |
 | `CLAUDE_CODE_PROJECT_DIR_NAME` | Ghi đè tên thư mục transcript theo project mà Claude Code suy ra từ đường dẫn project (v2.1.234) |
@@ -1122,8 +1131,8 @@ claude -p --output-format json "query"
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 14 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.325
+**Cập Nhật Lần Cuối**: Ngày 21 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.330
 **Nguồn**:
 - https://code.claude.com/docs/en/agent-sdk/agent-loop#turns-and-messages
 - https://code.claude.com/docs/en/permission-modes#time-limits-and-denials-in-auto-and-bypasspermissions-modes
@@ -1211,4 +1220,10 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/permissions#wildcard-patterns
 - https://code.claude.com/docs/en/changelog#2-1-325
 - https://code.claude.com/docs/en/model-config#which-ids-claude_code_max_context_tokens-applies-to
+- https://code.claude.com/docs/en/changelog#2-1-326
+- https://code.claude.com/docs/en/changelog#2-1-327
+- https://code.claude.com/docs/en/changelog#2-1-330
+- https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id
+- https://code.claude.com/docs/en/permission-modes#critical-paths
+- https://code.claude.com/docs/en/authentication
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

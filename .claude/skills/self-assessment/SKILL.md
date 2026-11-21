@@ -1,6 +1,6 @@
 ---
 name: self-assessment
-version: 2.5.8
+version: 2.5.9
 description: Comprehensive Claude Code self-assessment and learning path advisor. Runs a multi-category quiz covering 10 feature areas, produces a detailed skill profile with per-topic scores, identifies specific gaps, and generates a personalized learning path with prioritized next steps. Use when asked to "assess my level", "take the quiz", "find my level", "where should I start", "what should I learn next", "check my skills", "skill check", or "level up".
 ---
 
@@ -317,7 +317,7 @@ Use these specific recommendations when a topic is a gap:
 - Done when: A hook blocks dangerous commands before execution
 
 **Hooks (score 1 — review)**:
-- Focus on: All 33 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult, Setup, UserPromptExpansion, MessageDisplay, PreModelSwitch, PostModelSwitch — the last two added in v2.1.251), 5 hook types (command, http, mcp_tool, prompt, agent — agent hooks are experimental and may change), hooks in SKILL.md frontmatter (they persist for the session after invocation; subagent-frontmatter hooks end with the subagent), HTTP hooks with allowedEnvVars, `onFailure: "block"` to block the action when a command or HTTP hook fails (v2.1.295+), `CLAUDE_ENV_FILE` for SessionStart, Setup, CwdChanged and FileChanged
+- Focus on: All 33 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult, Setup, UserPromptExpansion, MessageDisplay, PreModelSwitch, PostModelSwitch — the last two added in v2.1.251), 5 hook types (command, http, mcp_tool, prompt, agent — agent hooks are experimental and may change), hooks in SKILL.md frontmatter (they persist for the session after invocation; subagent-frontmatter hooks end with the subagent), HTTP hooks with allowedEnvVars, `onFailure: "block"` to block the action when a command or HTTP hook (v2.1.295+) or an `mcp_tool` hook (v2.1.328+) fails, `CLAUDE_ENV_FILE` for SessionStart, Setup, CwdChanged and FileChanged
 - Done when: You can create a prompt-based Stop hook and a hook in a skill's frontmatter (and you know it stays registered for the rest of the session)
 
 **MCP (score 0)**:

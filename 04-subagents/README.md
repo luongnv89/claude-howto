@@ -132,7 +132,7 @@ to solving problems.
 | `description` | Yes | Natural language description of purpose. Include "use PROACTIVELY" to encourage automatic invocation |
 | `tools` | No | Comma-separated list of specific tools. Omit to inherit all tools. Supports `Agent(agent_name)` syntax to restrict spawnable subagents when the agent runs as the main thread with `claude --agent`; inside a subagent the type list is ignored. MCP: `mcp__<server>__*` grants a whole server (v2.1.299+: matches only that exact server name). |
 | `disallowedTools` | No | Comma-separated list of tools the subagent must not use. For MCP servers whose names contain `__`: `mcp__reports__*` here also withholds every `reports__v2` tool, so list `reports` tools one by one instead; in `tools`, grant such a server as `mcp__reports__v2__*` |
-| `model` | No | Model to use: `sonnet`, `opus`, `haiku`, full model ID, or `inherit`. Defaults to configured subagent model. Claude can also pass a `model` when it calls the Agent tool, but only as an alias (`sonnet`, `opus`, `haiku`, or `fable`), not a full model ID or `inherit` |
+| `model` | No | Model to use: `sonnet`, `opus`, `haiku`, full model ID, or `inherit`. Defaults to configured subagent model. Claude can also pass a `model` when it calls the Agent tool, but only as an alias (`sonnet`, `opus`, `haiku`, or `fable`), not a full model ID or `inherit`. When resumed, a subagent launched without a model stays on the model it started on, even after `/model` (v2.1.327). If a subagent switches to a fallback model, the agents with no model and the forks it then starts run on that fallback, and the agents they start use its Bedrock region (v2.1.330). Both come from the changelog |
 | `permissionMode` | No | `default` (Manual mode; `manual` accepted as an alias since v2.1.200), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. As of v2.1.212, the Task tool's `mode` invocation parameter is deprecated and ignored — subagents inherit the parent session's permission mode by default unless overridden here. When the parent runs in `bypassPermissions`, `acceptEdits` or `auto`, the subagent's `permissionMode` is ignored. When the parent is in `plan` mode, the subagent stays in plan mode whatever `permissionMode` says (unless it runs as an agent-team teammate); if you set `dontAsk`, actions plan mode would ask about are denied instead |
 | `maxTurns` | No | Maximum number of agentic turns the subagent can take |
 | `skills` | No | Comma-separated list of skills to preload. Injects full skill content into the subagent's context at startup. **v2.1.133+:** subagents also discover project, user, and plugin skills via the Skill tool — same catalog as the main session, no longer limited to their own embedded set. At most 32 skills are preloaded, each once; a subagent with the Skill tool can still invoke the rest (v2.1.295). |
@@ -1354,8 +1354,8 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 
 ---
 
-**Last Updated**: November 14, 2026
-**Claude Code Version**: 2.1.325
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1396,4 +1396,5 @@ See the OpenTelemetry section in [Advanced Features → Telemetry](../09-advance
 - https://code.claude.com/docs/en/changelog#2-1-317
 - https://code.claude.com/docs/en/changelog#2-1-318
 - https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/changelog#2-1-330
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

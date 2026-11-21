@@ -53,6 +53,7 @@ Advanced features in Claude Code extend the core capabilities with planning, rea
 - **Extended Thinking**: Deep reasoning for complex problems
 - **Auto Mode**: Background safety classifier reviews each action before execution
 - **Background Tasks**: Run long operations without blocking the conversation
+- **Code Mode** (experimental, off by default): Claude writes JavaScript that makes several tool calls in one step. Turn it on with `CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1` in your shell or user settings (project settings can't); it needs v2.1.323+, an interactive terminal session, a Claude subscription or Console account (not a gateway or cloud provider), and Opus 5.5, Sonnet 5.5, Haiku 5.5 or Fable 5.2 — see [Code Mode](https://code.claude.com/docs/en/code-mode)
 - **Permission Modes**: Control what Claude can do (`manual` — formerly `default`, `acceptEdits`, `plan`, `auto`, `dontAsk`, `bypassPermissions`)
 - **Print Mode**: Run Claude Code non-interactively for automation and CI/CD (`claude -p`)
 - **Session Management**: Manage multiple work sessions
@@ -375,7 +376,7 @@ Toggle during a session with `Alt+T` / `Option+T`, set effort with `/effort`, or
 
 ## Auto Mode
 
-Auto Mode is a permission mode that uses a background safety classifier to review each action before execution. It allows Claude to work autonomously while blocking dangerous operations. It's available on all plans, but requires an eligible model (Claude Opus 4.6 or later, Sonnet 4.6 or later, Haiku 5.5, or a Fable model on the Anthropic API and Claude Platform on AWS; Sonnet 5 or later, Opus 4.7 or later, Haiku 5.5, or a Fable model on Bedrock, Vertex, Foundry, and signed-in Claude apps gateway sessions). Behind a gateway at `ANTHROPIC_BASE_URL`, auto mode refuses a model whose gateway name contains "haiku", other than `claude-haiku-5-5`, as it refuses Haiku 4.5 (v2.1.323). On Team and Enterprise it is on by default — administrators can turn it off for the organization in managed settings.
+Auto Mode is a permission mode that uses a background safety classifier to review each action before execution. It allows Claude to work autonomously while blocking dangerous operations. It's available on all plans, but requires an eligible model (Claude Opus 4.6 or later, Sonnet 4.6 or later, Haiku 5.5, or a Fable model on the Anthropic API, Claude Platform on AWS, and Claude Models on Google Cloud (Anthropic managed); Sonnet 5 or later, Opus 4.7 or later, Haiku 5.5, or a Fable model on Bedrock, Vertex, Foundry, and signed-in Claude apps gateway sessions). Behind a gateway at `ANTHROPIC_BASE_URL`, auto mode refuses a model whose gateway name contains "haiku", other than `claude-haiku-5-5`, as it refuses Haiku 4.5 (v2.1.323). On Team and Enterprise it is on by default — administrators can turn it off for the organization in managed settings.
 
 ### Requirements
 
@@ -383,8 +384,8 @@ Auto mode is available only when your account meets all of these requirements:
 
 - **Plan**: all plans.
 - **Organization**: on Team and Enterprise, auto mode is available by default. Administrators can turn it off for the organization by setting `permissions.disableAutoMode` to `"disable"` in managed settings.
-- **Model**: on the Anthropic API and Claude Platform on AWS — Claude Opus 4.6 or later, Sonnet 4.6 or later, Haiku 5.5, or a Fable model. On Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions — only Claude Sonnet 5 or later, Opus 4.7 or later, Haiku 5.5 (v2.1.293+), and the Fable models. Older models — Sonnet 4.5, Opus 4.5, Haiku 4.5, and claude-3 models — are not supported on any provider.
-- **Provider**: available by default on the Anthropic API, Claude Platform on AWS, Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions. In v2.1.158 through v2.1.206, auto mode was off on all of these except the Anthropic API and Claude Platform on AWS until you set `CLAUDE_CODE_ENABLE_AUTO_MODE=1`; v2.1.207 removed the requirement. The variable is still accepted for compatibility and has no effect from v2.1.207 onward.
+- **Model**: on the Anthropic API, Claude Platform on AWS, and Claude Models on Google Cloud (Anthropic managed) — Claude Opus 4.6 or later, Sonnet 4.6 or later, Haiku 5.5, or a Fable model. On Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions — only Claude Sonnet 5 or later, Opus 4.7 or later, Haiku 5.5 (v2.1.293+), and the Fable models. Older models — Sonnet 4.5, Opus 4.5, Haiku 4.5, and claude-3 models — are not supported on any provider.
+- **Provider**: available by default on the Anthropic API, Claude Platform on AWS, Claude Models on Google Cloud (Anthropic managed), Amazon Bedrock, Google Cloud's Agent Platform (Vertex AI), Microsoft Foundry, and signed-in Claude apps gateway sessions. In v2.1.158 through v2.1.206, auto mode was off on all of these except the Anthropic API and Claude Platform on AWS until you set `CLAUDE_CODE_ENABLE_AUTO_MODE=1`; v2.1.207 removed the requirement. The variable is still accepted for compatibility and has no effect from v2.1.207 onward.
 - **Classifier**: adds extra token cost, except on Enterprise plans and Claude API accounts, where v2.1.278+ runs the check server-side at no charge
 
 ### Enabling Auto Mode
@@ -426,6 +427,8 @@ The background classifier evaluates each action using the following decision ord
 2. **Read-only/edits auto-approved** -- File reads and edits pass automatically
 3. **Classifier** -- The background classifier reviews the action
 4. **Fallback** -- Falls back to prompting after 3 consecutive or 20 total blocks
+
+> **Broad allow rules are set aside in auto mode**: on entering auto mode, Claude Code drops allow rules that grant arbitrary code execution, such as blanket `Bash(*)`, wildcarded interpreters like `Bash(python*)`, shell rules that start with a wildcard, some wildcarded paths like `Bash($HOME/bin/*)`, package-manager run commands, and `Agent` and `Monitor` allow rules. Narrow rules like `Bash(npm test)` stay in effect, and the dropped rules come back when you leave auto mode. The changelog widens the list: v2.1.326 also ignores some wildcard shell rules, such as ones that name no program, and v2.1.327 rules that run any package, like `Bash(pnpm dlx *)`, plus path or version forms of rules it already ignored (`/usr/bin/npm run:*`). The safety check decides those commands instead.
 
 ### Default Blocked Actions
 
@@ -783,6 +786,7 @@ in 45 minutes, run the integration tests
 - Up to **50 scheduled tasks** per session
 - Session-scoped — restored on `--resume`/`--continue` unless expired
 - Recurring tasks auto-expire **7 days** after creation (they fire one final time, then delete themselves)
+- A self-paced `/loop` (no interval) can also stop when an iteration ends without Claude scheduling the next one; set `CLAUDE_CODE_LOOP_KEEPALIVE=1` to run one extra iteration, about 20 minutes later, when an interactive self-paced loop's second or later iteration ends with nothing scheduled
 - Tasks only fire while Claude Code is running — no catch-up for missed fires
 
 > **Skills that declare `allowed-tools` or hooks ask first (v2.1.325)**: the changelog adds that scheduled tasks and `/loop` now ask before running a skill that declares `allowed-tools` or hooks; add `Skill(name)` to `permissions.allow` to run it unattended. "Always allow" in Desktop, IDE and SDK hosts now offers a rule alone only when saving it would allow that command again, so a scheduled task that relied on one can now wait for you. The scheduled tasks docs don't list either change yet.
@@ -794,7 +798,7 @@ in 45 minutes, run the integration tests
 | **Recurring jitter** | Runs late by up to half the gap to the next run, at most 30 minutes; a `*/5 * * * *` task (what `/loop 5m` creates) isn't delayed and starts 15 seconds early |
 | **One-shot jitter** | Up to 90 seconds early when scheduled for `:00` or `:30` |
 | **Missed fires** | No catch-up — skipped if Claude Code was not running |
-| **Persistence** | Restored on `--resume`/`--continue`, except expired tasks, past-due one-shot tasks, and a self-paced `/loop`; missed runs aren't caught up |
+| **Persistence** | Restored on `--resume`/`--continue`, except expired tasks, past-due one-shot tasks, and a self-paced `/loop`; missed runs aren't caught up; choosing **Exit and stop tasks** when you exit between turns ends this session's tasks so they don't come back on resume (v2.1.329) |
 
 ### Cloud Scheduled Tasks
 
@@ -837,7 +841,7 @@ Permission modes control what actions Claude can take without explicit approval.
 | `manual` | Read files only; prompts for all other actions. Renamed from `default` in v2.1.200 — `default` is still accepted as an alias |
 | `acceptEdits` | Read and edit files; prompts for commands |
 | `plan` | Read files only (research mode, no edits) |
-| `auto` | All actions with background safety classifier checks. Requires an eligible model (Sonnet 5 or later, Opus 4.7 or later, Haiku 5.5, or a Fable model on every provider; Opus 4.6 and Sonnet 4.6 also qualify on the Anthropic API and Claude Platform on AWS) and provider — available on all plans, see [Auto Mode](#auto-mode) |
+| `auto` | All actions with background safety classifier checks. Requires an eligible model (Sonnet 5 or later, Opus 4.7 or later, Haiku 5.5, or a Fable model on every provider; Opus 4.6 and Sonnet 4.6 also qualify on the Anthropic API, Claude Platform on AWS, and Claude Models on Google Cloud (Anthropic managed)) and provider — available on all plans, see [Auto Mode](#auto-mode) |
 | `bypassPermissions` | All actions without prompts, except the actions no mode auto-approves, such as critical-path `rm` removals (dangerous) |
 | `dontAsk` | Only pre-approved tools execute; all others denied |
 
@@ -1650,7 +1654,7 @@ Switch renderers with the `/tui` command, or set `CLAUDE_CODE_NO_FLICKER=1` befo
 
 ```bash
 /tui fullscreen               # switch to fullscreen from within a session
-/tui default                  # switch back to the classic renderer
+/tui classic                  # switch back to the classic renderer (v2.1.327+; /tui default also works)
 CLAUDE_CODE_NO_FLICKER=1 claude  # start directly in fullscreen
 ```
 
@@ -1937,7 +1941,7 @@ Or from within an interactive REPL:
 ```
 
 `/tp` is an alias for `/teleport`. Both require a claude.ai subscription. Cloud sessions
-show a `/teleport` hint explaining how to continue locally (v2.1.223). If the cloud session was compacted, only the summary comes over — the earlier messages it summarized aren't copied to your terminal (Claude Code warns about this since v2.1.311).
+show a `/teleport` hint explaining how to continue locally (v2.1.223). If the cloud session was compacted, only the summary comes over — the earlier messages it summarized aren't copied to your terminal (Claude Code warns about this since v2.1.311). If `claude --teleport` prints `was not checked out`, stop any commands Claude is still running in your checkout, then run the git commands it prints in your own terminal; since v2.1.330 it prints them instead of running them in some setups, and with `-p` it exits 1 until you switch (changelog).
 
 > **Changelog-sourced**: the v2.1.223 changelog shows an argument form,
 > `claude --teleport <session id>`, that jumps straight to a known session. The CLI
@@ -2203,7 +2207,7 @@ claude --settings '{"sandbox": {"enabled": true}}'
 | Setting | Description |
 |---------|-------------|
 | `sandbox.enabled` | Enable or disable sandboxing |
-| `sandbox.failIfUnavailable` | Fail if sandboxing cannot be activated. Claude Code on the web, cloud scheduled tasks and Cowork cloud sessions start despite it (v2.1.325): the hosted container has no command sandbox. The changelog adds this; the settings reference doesn't list it yet |
+| `sandbox.failIfUnavailable` | Refuse to start when the sandbox can't, instead of running unsandboxed — except in an Anthropic-hosted environment, where the session can start anyway (settings reference). Claude Code on the web, cloud scheduled tasks and Cowork cloud sessions start despite it (v2.1.325): the hosted container has no command sandbox |
 | `sandbox.autoAllowBashIfSandboxed` | Run sandboxed Bash commands without a permission prompt (auto-allow mode). Default `false` since v2.1.324 per the settings reference (the changelog lists it in v2.1.325), so sandboxed commands go through your allow rules and permission mode; see the note above for what still prompts with `true` |
 | `sandbox.filesystem.allowWrite` | Paths allowed for write access |
 | `sandbox.filesystem.allowRead` | Paths allowed for read access |
@@ -2812,8 +2816,8 @@ For more information about Claude Code and related features:
 
 ---
 
-**Last Updated**: November 14, 2026
-**Claude Code Version**: 2.1.325
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/permission-modes#turn-off-the-critical-path-removal-prompt-in-bypasspermissions-mode
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.314
@@ -2925,4 +2929,11 @@ For more information about Claude Code and related features:
 - https://code.claude.com/docs/en/vs-code#use-or-turn-off-suggested-prompts
 - https://code.claude.com/docs/en/settings-reference#promptsuggestionenabled
 - https://code.claude.com/docs/en/remote-control#what-connected-devices-see
+- https://code.claude.com/docs/en/settings-reference#sandbox-failifunavailable
+- https://code.claude.com/docs/en/code-mode
+- https://code.claude.com/docs/en/changelog#2-1-327
+- https://code.claude.com/docs/en/scheduled-tasks#stop-a-loop
+- https://code.claude.com/docs/en/changelog#2-1-329
+- https://code.claude.com/docs/en/claude-code-on-the-web
+- https://code.claude.com/docs/en/changelog#2-1-330
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

@@ -955,7 +955,7 @@ claude plugin eval --help     # Full option list
 
 ### Machine-readable output with `--json` (v2.1.268+)
 
-`--json` is accepted on `install`, `uninstall`, `update`, `enable`, and `disable`, which makes plugin management scriptable in CI. Each row of `claude plugin list --json` also carries `errorDetails` and `noteDetails`, so a failing plugin explains itself without a second command. Since v2.1.323, the `claude plugin install --json` result also carries `unsetOptionCount`: how many `userConfig` options are not yet set (changelog-sourced; the CLI reference's JSON result format doesn't list it yet).
+`--json` is accepted on `install`, `uninstall`, `update`, `enable`, and `disable`, which makes plugin management scriptable in CI. Each row of `claude plugin list --json` also carries `errorDetails` and `noteDetails`, so a failing plugin explains itself without a second command. Since v2.1.323, the `claude plugin install --json` result also carries `unsetOptionCount`: how many `userConfig` options are not yet set (changelog-sourced; the CLI reference's JSON result format doesn't list it yet). For a plugin whose marketplace entry uses a `command` source, the result also carries `commandPrinted` (`true` when the install succeeded and the command wrote to stderr) and `commandFailed` (`true` when the command exited with an error, was killed by a signal, or timed out), since v2.1.330.
 
 ```bash
 claude plugin install my-plugin@my-marketplace --json
@@ -1416,8 +1416,8 @@ If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, updat
 
 ---
 
-**Last Updated**: November 14, 2026
-**Claude Code Version**: 2.1.325
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/plugins-reference
@@ -1493,4 +1493,5 @@ If `claude plugin list` shows `Version: unknown` for a git-sourced plugin, updat
 - https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk
 - https://code.claude.com/docs/en/changelog#2-1-325
 - https://code.claude.com/docs/en/plugins/mods/admin#install-your-organizations-mods
+- https://code.claude.com/docs/en/plugins/cli-reference#plugin-json-result
 **Compatible Models**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

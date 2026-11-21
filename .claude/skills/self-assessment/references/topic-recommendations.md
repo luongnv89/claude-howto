@@ -39,7 +39,7 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - Done when: A hook blocks dangerous commands before execution
 
 **Hooks (score 1 — review)**:
-- Focus on: All 33 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult, Setup, UserPromptExpansion, MessageDisplay, PreModelSwitch, PostModelSwitch — the last two added in v2.1.251), 5 hook types (command, http, mcp_tool, prompt, agent — agent hooks are experimental and may change), hooks in SKILL.md frontmatter (they persist for the session after invocation; subagent-frontmatter hooks end with the subagent), HTTP hooks with allowedEnvVars, `onFailure: "block"` to block the action when a command or HTTP hook fails (v2.1.295+), `CLAUDE_ENV_FILE` for SessionStart, Setup, CwdChanged and FileChanged
+- Focus on: All 33 hook events (including PostToolUseFailure, StopFailure, TaskCreated, CwdChanged, FileChanged, PostCompact, Elicitation, ElicitationResult, Setup, UserPromptExpansion, MessageDisplay, PreModelSwitch, PostModelSwitch — the last two added in v2.1.251), 5 hook types (command, http, mcp_tool, prompt, agent — agent hooks are experimental and may change), hooks in SKILL.md frontmatter (they persist for the session after invocation; subagent-frontmatter hooks end with the subagent), HTTP hooks with allowedEnvVars, `onFailure: "block"` to block the action when a command or HTTP hook (v2.1.295+) or an `mcp_tool` hook (v2.1.328+) fails, `CLAUDE_ENV_FILE` for SessionStart, Setup, CwdChanged and FileChanged
 - Done when: You can create a prompt-based Stop hook and a hook in a skill's frontmatter (and you know it stays registered for the rest of the session)
 
 **MCP (score 0)**:
@@ -100,8 +100,8 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 
 ---
 
-**Last Updated**: November 12, 2026
-**Claude Code Version**: 2.1.322
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/hooks
 - https://code.claude.com/docs/en/memory
@@ -127,3 +127,4 @@ Use these specific recommendations when a topic is a gap. Paths are relative to 
 - https://code.claude.com/docs/en/changelog#2-1-311
 - https://code.claude.com/docs/en/model-config#use-ultrathink-for-one-off-deep-reasoning
 - https://code.claude.com/docs/en/plugins/anthropic-marketplaces#deprecated-claude-code-plugins-marketplace
+- https://code.claude.com/docs/en/hooks#block-the-action-when-a-hook-fails

@@ -132,7 +132,7 @@ của tác nhân con để giải quyết vấn đề.
 | `description` | Có | Mô tả bằng ngôn ngữ tự nhiên về mục đích. Bao gồm "use PROACTIVELY" để khuyến khích gọi tự động |
 | `tools` | Không | Danh sách phân tách bằng dấu phẩy của các công cụ cụ thể. Bỏ qua để kế thừa tất cả công cụ. Hỗ trợ cú pháp `Agent(agent_name)` để hạn chế tác nhân con có thể tạo khi tác nhân chạy như luồng chính với `claude --agent`; bên trong một tác nhân con, danh sách loại bị bỏ qua. MCP: `mcp__<server>__*` cấp quyền cho toàn bộ một server (v2.1.299+: chỉ khớp đúng tên server đó). |
 | `disallowedTools` | Không | Danh sách phân tách bằng dấu phẩy của các công cụ mà tác nhân con không được sử dụng. Với các MCP server có tên chứa `__`: `mcp__reports__*` ở đây cũng chặn luôn mọi công cụ của `reports__v2`, vì vậy hãy liệt kê từng công cụ của `reports`; trong `tools`, cấp quyền cho server như vậy bằng `mcp__reports__v2__*` |
-| `model` | Không | Mô hình để sử dụng: `sonnet`, `opus`, `haiku`, ID mô hình đầy đủ, hoặc `inherit`. Mặc định là mô hình tác nhân con được cấu hình. Claude cũng có thể truyền `model` khi gọi công cụ Agent, nhưng chỉ dưới dạng bí danh (`sonnet`, `opus`, `haiku`, hoặc `fable`), không phải ID mô hình đầy đủ hay `inherit` |
+| `model` | Không | Mô hình để sử dụng: `sonnet`, `opus`, `haiku`, ID mô hình đầy đủ, hoặc `inherit`. Mặc định là mô hình tác nhân con được cấu hình. Claude cũng có thể truyền `model` khi gọi công cụ Agent, nhưng chỉ dưới dạng bí danh (`sonnet`, `opus`, `haiku`, hoặc `fable`), không phải ID mô hình đầy đủ hay `inherit`. Khi được tiếp tục (resume), một tác nhân con được khởi chạy mà không chỉ định mô hình sẽ giữ nguyên mô hình mà nó đã bắt đầu, kể cả sau `/model` (v2.1.327). Nếu một tác nhân con chuyển sang mô hình dự phòng (fallback), các tác nhân không chỉ định mô hình và các fork mà nó khởi chạy sau đó sẽ chạy trên mô hình dự phòng đó, và các tác nhân do chúng khởi chạy dùng Bedrock region của nó (v2.1.330). Cả hai điều này đều đến từ changelog |
 | `permissionMode` | Không | `default` (chế độ Manual; `manual` được chấp nhận như bí danh từ v2.1.200), `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`, `auto`. Kể từ v2.1.212, tham số gọi `mode` của công cụ Task bị deprecated và bị bỏ qua — tác nhân con mặc định kế thừa chế độ quyền của phiên cha trừ khi được ghi đè ở đây. Khi tác nhân cha chạy ở `bypassPermissions`, `acceptEdits` hoặc `auto`, `permissionMode` của tác nhân con bị bỏ qua. Khi tác nhân cha ở chế độ `plan`, tác nhân con vẫn ở chế độ lập kế hoạch bất kể `permissionMode` là gì (trừ khi nó chạy như một đồng nghiệp trong Agent Teams); nếu bạn đặt `dontAsk`, những hành động mà chế độ lập kế hoạch lẽ ra sẽ hỏi sẽ bị từ chối |
 | `maxTurns` | Không | Số lượng lượt tác nhân tối đa mà tác nhân con có thể thực hiện |
 | `skills` | Không | Danh sách phân tách bằng dấu phẩy của các skills để tải trước. Tiêm toàn bộ nội dung skill vào bối cảnh của tác nhân con khi khởi động. **v2.1.133+:** tác nhân con cũng khám phá các skill của dự án, người dùng và plugin qua công cụ Skill — cùng danh mục với phiên chính, không còn giới hạn ở tập skill nhúng của riêng nó. Tối đa 32 skill được tải trước, mỗi skill một lần; tác nhân con có công cụ Skill vẫn có thể gọi các skill còn lại (v2.1.295). |
@@ -1354,8 +1354,8 @@ Xem phần OpenTelemetry trong [Tính Năng Nâng Cao → Telemetry](../09-advan
 
 ---
 
-**Cập Nhật Lần Cuối**: Ngày 14 tháng 11 năm 2026
-**Phiên Bản Claude Code**: 2.1.325
+**Cập Nhật Lần Cuối**: Ngày 21 tháng 11 năm 2026
+**Phiên Bản Claude Code**: 2.1.330
 **Nguồn**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
@@ -1395,4 +1395,5 @@ Xem phần OpenTelemetry trong [Tính Năng Nâng Cao → Telemetry](../09-advan
 - https://code.claude.com/docs/en/model-config#effort-level-of-subagents-and-teammates
 - https://code.claude.com/docs/en/changelog#2-1-317
 - https://code.claude.com/docs/en/changelog#2-1-325
+- https://code.claude.com/docs/en/changelog#2-1-330
 **Các Mô Hình Tương Thích**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

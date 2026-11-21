@@ -79,7 +79,7 @@
 | `/auto-mode-setup` | 프로젝트와 최근 세션을 바탕으로 `autoMode.environment` 항목 초안을 만들고, 검토한 뒤 사용자 설정에 저장. Pro/Max/Team은 v2.1.228+(네이티브 Windows는 v2.1.233+), Enterprise 또는 Console API 키는 v2.1.283+, Bedrock·Vertex·Foundry 및 원격 측정이 꺼진 세션은 v2.1.304+. 클라우드 세션에서는 사용 불가 | 자동 모드에 환경 정보 알려 주기 |
 | `/rename` | 현재 세션 이름 변경 | 세션 정리 |
 | `/resume` | 이전 세션 이어서 작업 | 작업 계속하기 |
-| `/tui [default\|fullscreen]` | 터미널 UI 렌더러 설정(`fullscreen` = 깜빡임 없는 대체 화면). 인수 없는 `/tui`는 현재 렌더러를 출력 | 전체 화면/tmux에서 깜빡임 없는 렌더링 |
+| `/tui [classic\|fullscreen]` | 터미널 UI 렌더러 설정(`fullscreen` = 깜빡임 없는 대체 화면, `classic`(v2.1.327+) 또는 `default` = 클래식 렌더러). 인수 없는 `/tui`는 현재 렌더러를 출력 | 전체 화면/tmux에서 깜빡임 없는 렌더링 |
 | `/tasks` | 백그라운드 작업 표시 | 비동기 작업 모니터링 |
 | `/schedule [description]` | 일정, API 호출 또는 GitHub 이벤트에 따라 Anthropic 클라우드에서 실행되는 클라우드 예약 작업(이전 이름 routines)을 생성, 수정, 조회, 실행. 별칭: `/routines` | 내 컴퓨터 없이 실행되는 반복 자동화 |
 | `/copy` | 마지막 응답을 클립보드로 복사 | 출력물 빠르게 공유 |
@@ -489,7 +489,7 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **/focus** | 집중 보기를 전환하여 방해 요소 없이 출력 표시 (v2.1.110) | 긴 작업 중 시각적 방해를 줄이려면 `/focus` 실행 |
 | **/proactive** | `/loop`의 별칭으로 동일한 반복 작업 동작 제공 (v2.1.105) | `/loop` 대신 `/proactive` 사용 가능 |
 | **/recap** | 기존 세션으로 돌아왔을 때 작업 요약 표시 (v2.1.108) | 자리를 비운 뒤 `/recap` 실행 |
-| **/tui** | 터미널 UI 렌더러 설정: 깜빡임 없는 렌더링은 `/tui fullscreen`, 되돌리려면 `/tui default`. 인수 없는 `/tui`는 현재 렌더러를 출력 (v2.1.110) | 전체 화면 터미널 또는 tmux에서 `/tui fullscreen` 사용 |
+| **/tui** | 터미널 UI 렌더러 설정: 깜빡임 없는 렌더링은 `/tui fullscreen`, 되돌리려면 `/tui classic`(v2.1.327+) 또는 `/tui default`. 인수 없는 `/tui`는 현재 렌더러를 출력 (v2.1.110) | 전체 화면 터미널 또는 tmux에서 `/tui fullscreen` 사용 |
 | **/undo** | `/rewind`의 별칭 (v2.1.108) | `/undo`, `/checkpoint`, `/rewind`를 같은 용도로 사용 |
 | **Monitor Tool** | 폴링 대신 백그라운드 명령의 stdout 스트림을 감시하고 이벤트에 반응 (v2.1.98+) | [Advanced Features](09-advanced-features/)의 Monitor Tool 사용 |
 | **Output Styles** | 시스템 프롬프트를 통해 Claude의 역할, 어조, 기본 응답 형식 변경. 기본 제공: Default, Proactive, Explanatory, Learning, Concise | `/config` → Output style, `outputStyle` 설정, 또는 `/output-style` 실행(v2.1.91에서 제거된 뒤 v2.1.269에서 다시 추가). [Advanced Features](09-advanced-features/README.md#출력-스타일) 참고 |
@@ -595,8 +595,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**최종 업데이트**: 2026년 11월 14일
-**Claude Code 버전**: 2.1.325
+**최종 업데이트**: 2026년 11월 21일
+**Claude Code 버전**: 2.1.330
 **출처**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

@@ -62,7 +62,7 @@ graph TD
 | `claude plugin` | プラグインを管理（インストール・有効化・無効化） | `claude plugin install my-plugin` |
 | `claude plugin tag [path]` | `[path]` のプラグインに対し `{name}--v{version}` のリリース git タグを作成。`plugin.json` と（存在すれば）マーケットプレイスのエントリが一致しているか検証する（v2.1.118+） | `claude plugin tag ./my-plugin` |
 | `claude install [version]` | 指定したネイティブバイナリのバージョンをインストール。`stable`、`latest`、明示的なバージョン文字列を受け付ける | `claude install 2.1.119` |
-| `claude auth login` | ログイン（`--email`、`--sso` をサポート） | `claude auth login --email user@example.com` |
+| `claude auth login` | ログイン（`--email`、`--sso` をサポート）。Enterprise Admin Console で管理されている組織に対して Owner が Claude Code からのサインインを有効にしている場合は、このコマンドを実行してブラウザで組織を選択する。Claude Code はその組織の設定を適用して組織のクラウドプロバイダーまたはゲートウェイを使用し、ターミナルには `Signed in to the organization` と表示される（v2.1.330） | `claude auth login --email user@example.com` |
 | `claude auth logout` | 現在のアカウントからログアウト | `claude auth logout` |
 | `claude auth status` | 認証状態を確認（ログイン中なら exit 0、未ログインなら 1） | `claude auth status` |
 
@@ -247,7 +247,7 @@ claude -p --json-schema '{"type":"object","properties":{"bugs":{"type":"array"}}
 
 | フラグ | 説明 | 例 |
 |------|------|-----|
-| `--add-dir` | 追加の作業ディレクトリを指定 | `claude --add-dir ../apps ../lib` |
+| `--add-dir` | 追加の作業ディレクトリを指定。v2.1.326 以降、ローカルのターミナルセッションでは、このフラグ（および `/add-dir`）はまだ信頼していないフォルダに対して信頼プロンプトを表示し、`claude --bg` はそのようなフォルダを拒否する（changelog） | `claude --add-dir ../apps ../lib` |
 | `--setting-sources` | カンマ区切りの設定ソース | `claude --setting-sources user,project` |
 
 > **`/config` の永続化（v2.1.119）**: `/config` コマンドで対話的に行った変更は `~/.claude/settings.json` に書き込まれ、通常の優先順位チェーン（policy → local → project → user）に組み込まれるようになった。v2.1.119 以前は一部の `/config` 変更がセッション限定だった。完全な優先順位については [メモリと設定](../02-memory/README.md) を参照。
@@ -768,6 +768,13 @@ export CLAUDE_CODE_EFFORT_LEVEL=xhigh   # low, medium, high, xhigh (default on O
 | `DISABLE_UPDATES` | 手動の `claude update` を含むすべての更新経路をブロックする。バックグラウンドの自動更新のみブロックする `DISABLE_AUTOUPDATER` より厳密（v2.1.118+） |
 | `CLAUDE_CODE_HIDE_CWD` | `1` に設定すると、起動時ロゴでカレント作業ディレクトリを隠す（プライバシー／画面共有用途）（v2.1.119+） |
 | `CLAUDE_CODE_FORK_SUBAGENT` | `0` を設定するとフォークサブエージェントを無効化する。v2.1.302 以降、ターミナル、`claude -p`、Agent SDK、デスクトップアプリ、VS Code でデフォルト有効。v2.1.302 より前は、`claude -p` と Agent SDK で有効にするには `1` を設定する。 |
+| `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS` | `-p` 実行の最終ターン後に、サブエージェントやワークフローなどのバックグラウンド処理を待つアイドル待機時間の上限（ミリ秒）。デフォルトは `600000`（10 分）、`0` で無期限に待つ（v2.1.182+）。v2.1.328 以降、`CLAUDE_CODE_FORK_SUBAGENT=0` のときは、バックグラウンドのサブエージェントとそれが待つサブエージェントが 1 回の 10 分の待機にまとめて数えられる。より長い連鎖ではこの値を引き上げる（changelog） |
+| `CLAUDE_CODE_DISABLE_DEFERRED_TOOL_RESUME` | `1` を設定すると、`-p` で再開（resume）または継続（continue）するときに、フックが保留（defer）したツール呼び出しをスキップする。Claude がその呼び出しを再度行うことはできる。設定の `env` ブロックでは無視される（v2.1.328+） |
+| `CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT` | 完全なシステムプロンプトか、ツール説明を省略した短いプロンプトかを選ぶ。未設定の場合、Haiku 4.5、Sonnet 5、Opus 4.7 と、それらのファミリーのそれ以前のモデルは完全なプロンプトを使い、より新しいモデルは短いプロンプトを使う。`1` はどのモデルでも短いプロンプトを、`0` はどのモデルでも完全なプロンプトを使う。どちらのプロンプトでも、ツール一式、フック、MCP サーバー、CLAUDE.md の検出は維持される。v2.1.330 以降、"sonnet" または "haiku" を含む認識されないモデル名も、他の認識されない名前と同様に短いプロンプトを使う（changelog） |
+| `CLAUDE_CODE_MAX_OUTPUT_TOKENS` | ほとんどのリクエストの最大出力トークン数。モデルの上限を超える値はその上限まで引き下げられる。Claude Code が解決できないモデル ID では、デフォルトは 32000、上限は 128000。changelog によるリトライの経緯は次のとおり。v2.1.326 で `max_tokens` がモデルの上限を超えたときの自動リトライが追加され、v2.1.329 で削除され（出力トークン数の少ないモデルを使うゲートウェイの背後では、この変数をその上限に設定する）、v2.1.330 で復活した |
+| `CLAUDE_CODE_FULL_SIGN_IN_LINK` | `1` を設定すると、短いリンクの代わりに claude.ai の完全なサインインリンクを表示する。短いリンクでエラーが表示される場合や、スクリプトがリンクから値を読み取る場合に使う。シェルまたはユーザー設定で設定する（v2.1.330+） |
+| `OTEL_RESOURCE_INCLUDE_HOST` | `1` を設定すると、マシンの名前と ID を OpenTelemetry のリソース属性 `host.name` と `host.id` として追加する（デフォルトはオフ）。シェル、ユーザー設定、またはマネージド設定で設定する。プロジェクト設定とローカル設定では無視される（v2.1.326+） |
+| `CLAUDE_CODE_DISABLE_SHELL_HEAD_START` | `1` を設定すると、セッションの最初の Bash コマンドが承認される前にシェルの起動ファイルが実行されるのを止める。v2.1.327 以降、高速化のため、コマンドがその後拒否された場合でも起動ファイルが先に実行されることがある。changelog で追加された内容で、env-vars ドキュメントにはまだ記載されていない |
 | `OTEL_LOG_TOOL_DETAILS` | `1` を設定すると OpenTelemetry イベント中のカスタムおよび MCP コマンド名のリダクションを解除する（v2.1.117+）。デフォルトはリダクション有効。 |
 
 > **Agent Platform（Vertex AI）とゲートウェイでの `ENABLE_TOOL_SEARCH`**: v2.1.221 より前は、`ENABLE_TOOL_SEARCH=true` を設定しない限り Google Cloud の Agent Platform ではツール検索がオフだった。現在は同プラットフォームで Claude Opus 4.5、Sonnet 4.5、Haiku 4.5 以降のモデルに対して有効である（それ以前のモデルはすべての MCP ツールを事前に読み込み、`true` を設定しても変わらない）。ツール検索はデフォルトで有効で、v2.1.304 以降はカスタムの `ANTHROPIC_BASE_URL` ゲートウェイ経由でも有効になる（v2.1.305 以降、ツール検索を 400 または 422 で拒否するゲートウェイに対してはツール検索なしで再試行される）。すべてのツールを事前に読み込むには `ENABLE_TOOL_SEARCH=false` を設定する。

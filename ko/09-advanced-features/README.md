@@ -57,6 +57,7 @@ Claude Code의 고급 기능은 계획, 추론, 자동화 및 제어 메커니�
 - **확장 사고**: 복잡한 문제에 대한 심층적인 추론
 - **자동 모드**: 백그라운드 안전 분류기가 각 작업 실행 전에 검토
 - **백그라운드 작업**: 대화를 차단하지 않고 긴 작업 실행
+- **코드 모드** (실험적 기능, 기본적으로 꺼짐): Claude가 여러 도구 호출을 한 단계에서 수행하는 JavaScript를 작성합니다. 셸 또는 사용자 설정에서 `CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1`로 켭니다(프로젝트 설정으로는 켤 수 없음). v2.1.323+, 대화형 터미널 세션, Claude 구독 또는 Console 계정(게이트웨이나 클라우드 제공자는 불가), 그리고 Opus 5.5, Sonnet 5.5, Haiku 5.5 또는 Fable 5.2가 필요합니다 — [Code Mode](https://code.claude.com/docs/en/code-mode) 참조
 - **권한 모드**: Claude가 수행할 수 있는 작업 제어 (`manual` — 이전 명칭 `default`, `acceptEdits`, `plan`, `auto`, `dontAsk`, `bypassPermissions`)
 - **인쇄 모드**: 자동화 및 CI/CD를 위해 Claude Code를 비대화형으로 실행 (`claude -p`)
 - **세션 관리**: 여러 작업 세션 관리
@@ -379,7 +380,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high
 
 ## 자동 모드
 
-자동 모드는 백그라운드 안전 분류기를 사용하여 각 작업을 실행하기 전에 검토하는 권한 모드입니다. Claude가 자율적으로 작업하면서 위험한 작업을 차단할 수 있도록 합니다. 모든 플랜에서 사용할 수 있지만 적격한 모델이 필요합니다(Anthropic API 및 Claude Platform on AWS에서는 Claude Opus 4.6 이상, Sonnet 4.6 이상, Haiku 5.5 또는 Fable 모델, Bedrock, Vertex, Foundry 및 로그인된 Claude apps gateway 세션에서는 Sonnet 5 이상, Opus 4.7 이상, Haiku 5.5 또는 Fable 모델). `ANTHROPIC_BASE_URL`의 게이트웨이 뒤에서는 자동 모드가 게이트웨이 이름에 "haiku"가 포함된 모델을 `claude-haiku-5-5`를 제외하고 Haiku 4.5와 마찬가지로 거부합니다(v2.1.323). Team 및 Enterprise에서는 기본적으로 켜져 있으며, 관리자는 관리형 설정에서 조직 전체에 대해 끌 수 있습니다.
+자동 모드는 백그라운드 안전 분류기를 사용하여 각 작업을 실행하기 전에 검토하는 권한 모드입니다. Claude가 자율적으로 작업하면서 위험한 작업을 차단할 수 있도록 합니다. 모든 플랜에서 사용할 수 있지만 적격한 모델이 필요합니다(Anthropic API, Claude Platform on AWS 및 Claude Models on Google Cloud (Anthropic managed)에서는 Claude Opus 4.6 이상, Sonnet 4.6 이상, Haiku 5.5 또는 Fable 모델, Bedrock, Vertex, Foundry 및 로그인된 Claude apps gateway 세션에서는 Sonnet 5 이상, Opus 4.7 이상, Haiku 5.5 또는 Fable 모델). `ANTHROPIC_BASE_URL`의 게이트웨이 뒤에서는 자동 모드가 게이트웨이 이름에 "haiku"가 포함된 모델을 `claude-haiku-5-5`를 제외하고 Haiku 4.5와 마찬가지로 거부합니다(v2.1.323). Team 및 Enterprise에서는 기본적으로 켜져 있으며, 관리자는 관리형 설정에서 조직 전체에 대해 끌 수 있습니다.
 
 ### 요구 사항
 
@@ -387,8 +388,8 @@ export CLAUDE_CODE_EFFORT_LEVEL=high
 
 - **플랜**: 모든 플랜.
 - **조직**: Team 및 Enterprise에서는 자동 모드를 기본적으로 사용할 수 있습니다. 관리자는 관리형 설정에서 `permissions.disableAutoMode`를 `"disable"`로 설정하여 조직 전체에 대해 끌 수 있습니다.
-- **모델**: Anthropic API 및 Claude Platform on AWS에서는 Claude Opus 4.6 이상, Sonnet 4.6 이상, Haiku 5.5 또는 Fable 모델. Amazon Bedrock, Google Cloud's Agent Platform(Vertex AI), Microsoft Foundry 및 로그인된 Claude apps gateway 세션에서는 Claude Sonnet 5 이상, Opus 4.7 이상, Haiku 5.5(v2.1.293+), Fable 모델만 해당합니다. 이전 모델 — Sonnet 4.5, Opus 4.5, Haiku 4.5 및 claude-3 모델 — 은 어떤 제공자에서도 지원되지 않습니다.
-- **제공자**: Anthropic API, Claude Platform on AWS, Amazon Bedrock, Google Cloud's Agent Platform(Vertex AI), Microsoft Foundry 및 로그인된 Claude apps gateway 세션에서 기본적으로 사용할 수 있습니다. v2.1.158부터 v2.1.206까지는 Anthropic API와 Claude Platform on AWS를 제외한 모든 제공자에서 `CLAUDE_CODE_ENABLE_AUTO_MODE=1`을 설정하기 전까지 자동 모드가 꺼져 있었으며, v2.1.207에서 이 요구 사항이 제거되었습니다. 이 변수는 호환성을 위해 여전히 허용되지만 v2.1.207부터는 효과가 없습니다.
+- **모델**: Anthropic API, Claude Platform on AWS 및 Claude Models on Google Cloud (Anthropic managed)에서는 Claude Opus 4.6 이상, Sonnet 4.6 이상, Haiku 5.5 또는 Fable 모델. Amazon Bedrock, Google Cloud's Agent Platform(Vertex AI), Microsoft Foundry 및 로그인된 Claude apps gateway 세션에서는 Claude Sonnet 5 이상, Opus 4.7 이상, Haiku 5.5(v2.1.293+), Fable 모델만 해당합니다. 이전 모델 — Sonnet 4.5, Opus 4.5, Haiku 4.5 및 claude-3 모델 — 은 어떤 제공자에서도 지원되지 않습니다.
+- **제공자**: Anthropic API, Claude Platform on AWS, Claude Models on Google Cloud (Anthropic managed), Amazon Bedrock, Google Cloud's Agent Platform(Vertex AI), Microsoft Foundry 및 로그인된 Claude apps gateway 세션에서 기본적으로 사용할 수 있습니다. v2.1.158부터 v2.1.206까지는 Anthropic API와 Claude Platform on AWS를 제외한 모든 제공자에서 `CLAUDE_CODE_ENABLE_AUTO_MODE=1`을 설정하기 전까지 자동 모드가 꺼져 있었으며, v2.1.207에서 이 요구 사항이 제거되었습니다. 이 변수는 호환성을 위해 여전히 허용되지만 v2.1.207부터는 효과가 없습니다.
 - **분류기**: 추가 토큰 비용이 발생합니다. 단, Enterprise 플랜과 Claude API 계정에서는 v2.1.278+부터 검사를 서버 측에서 무료로 실행합니다
 
 ### 자동 모드 활성화
@@ -430,6 +431,8 @@ claude --permission-mode auto
 2. **읽기 전용/편집 자동 승인** -- 파일 읽기 및 편집은 자동으로 통과됩니다.
 3. **분류기** -- 백그라운드 분류기가 작업을 검토합니다.
 4. **대체** -- 3회 연속 또는 총 20회 차단 후 프롬프트로 대체됩니다.
+
+> **자동 모드에서는 광범위한 허용 규칙이 보류됩니다**: 자동 모드에 들어가면 Claude Code는 임의 코드 실행을 허용하는 허용 규칙을 제외합니다. 예를 들어 포괄적인 `Bash(*)`, `Bash(python*)` 같은 와일드카드 인터프리터, 와일드카드로 시작하는 셸 규칙, `Bash($HOME/bin/*)` 같은 일부 와일드카드 경로, 패키지 관리자 run 명령어, `Agent` 및 `Monitor` 허용 규칙이 해당합니다. `Bash(npm test)` 같은 좁은 규칙은 계속 적용되며, 제외된 규칙은 자동 모드를 벗어나면 돌아옵니다. 변경 로그는 이 목록을 넓힙니다. v2.1.326은 프로그램 이름이 없는 규칙 등 일부 와일드카드 셸 규칙도 무시하고, v2.1.327은 `Bash(pnpm dlx *)`처럼 임의의 패키지를 실행하는 규칙과 이미 무시하던 규칙의 경로 또는 버전 형식(`/usr/bin/npm run:*`)도 무시합니다. 이러한 명령어는 대신 안전 검사가 결정합니다.
 
 ### 기본 차단 작업
 
@@ -783,6 +786,7 @@ in 45 minutes, run the integration tests
 - 세션당 최대 **50개의 예약된 작업**
 - 세션 범위 — 만료되지 않았다면 `--resume`/`--continue` 시 복원됩니다
 - 반복 작업은 생성 후 **7일**이 지나면 자동 만료됩니다(마지막으로 한 번 실행된 뒤 스스로 삭제됩니다)
+- 자체 페이스 `/loop`(간격 없음)는 Claude가 다음 회차를 예약하지 않은 채 한 회차가 끝날 때에도 멈출 수 있습니다. `CLAUDE_CODE_LOOP_KEEPALIVE=1`을 설정하면 대화형 자체 페이스 루프의 두 번째 이후 회차가 아무것도 예약되지 않은 채 끝났을 때 약 20분 뒤에 추가 회차를 한 번 실행합니다
 - Claude Code가 실행 중일 때만 작업이 발생합니다 — 놓친 작업에 대한 따라잡기는 없습니다
 
 > **`allowed-tools` 또는 훅을 선언한 스킬은 먼저 확인합니다 (v2.1.325)**: 변경 로그에 따르면 이제 예약된 작업과 `/loop`는 `allowed-tools` 또는 훅을 선언한 스킬을 실행하기 전에 확인을 요청합니다. 무인으로 실행하려면 `permissions.allow`에 `Skill(name)`을 추가하십시오. Desktop, IDE, SDK 호스트의 "Always allow"는 이제 규칙을 저장하면 해당 명령어가 다시 허용되는 경우에만 규칙 단독 옵션을 제공하므로, 이에 의존하던 예약된 작업이 이제 사용자를 기다릴 수 있습니다. 예약된 작업 문서에는 아직 두 변경 사항 모두 나와 있지 않습니다.
@@ -794,7 +798,7 @@ in 45 minutes, run the integration tests
 | **반복 지터** | 다음 실행까지 간격의 최대 절반만큼 늦게 실행되며 최대 30분; `*/5 * * * *` 작업(`/loop 5m`이 만드는 작업)은 지연되지 않고 15초 일찍 시작됩니다 |
 | **일회성 지터** | `:00` 또는 `:30`으로 예약하면 최대 90초 일찍 실행됩니다 |
 | **놓친 발동** | 따라잡기 없음 — Claude Code가 실행 중이 아니면 건너뜀 |
-| **영속성** | `--resume`/`--continue` 시 복원됨. 단, 만료된 작업, 예정 시각이 지난 일회성 작업, 자체 페이스 `/loop`는 제외; 놓친 실행은 따라잡지 않음 |
+| **영속성** | `--resume`/`--continue` 시 복원됨. 단, 만료된 작업, 예정 시각이 지난 일회성 작업, 자체 페이스 `/loop`는 제외; 놓친 실행은 따라잡지 않음; 턴 사이에 종료할 때 **Exit and stop tasks**를 선택하면 이 세션의 작업이 종료되어 재개 시 다시 나타나지 않음(v2.1.329) |
 
 ### 클라우드 예약 작업
 
@@ -837,7 +841,7 @@ export CLAUDE_CODE_DISABLE_CRON=1
 | `manual` | 파일만 읽음; 다른 모든 작업에 대해 프롬프트를 표시. v2.1.200에서 `default`에서 이름이 바뀌었으며, `default`는 여전히 별칭으로 허용됩니다 |
 | `acceptEdits` | 파일 읽기 및 편집; 명령어에 대해 프롬프트를 표시 |
 | `plan` | 파일만 읽음 (연구 모드, 편집 불가) |
-| `auto` | 백그라운드 안전 분류기 검사를 거쳐 모든 작업 수행. 적격한 모델(모든 제공자에서 Sonnet 5 이상, Opus 4.7 이상, Haiku 5.5 또는 Fable 모델. Anthropic API 및 Claude Platform on AWS에서는 Opus 4.6과 Sonnet 4.6도 해당)과 제공자가 필요합니다. 모든 플랜에서 사용 가능하며, [자동 모드](#자동-모드)를 참조하십시오 |
+| `auto` | 백그라운드 안전 분류기 검사를 거쳐 모든 작업 수행. 적격한 모델(모든 제공자에서 Sonnet 5 이상, Opus 4.7 이상, Haiku 5.5 또는 Fable 모델. Anthropic API, Claude Platform on AWS 및 Claude Models on Google Cloud (Anthropic managed)에서는 Opus 4.6과 Sonnet 4.6도 해당)과 제공자가 필요합니다. 모든 플랜에서 사용 가능하며, [자동 모드](#자동-모드)를 참조하십시오 |
 | `bypassPermissions` | 모든 작업, 권한 검사 없음 (위험) |
 | `dontAsk` | 미리 승인된 도구만 실행; 다른 모든 것은 거부 |
 
@@ -1629,7 +1633,7 @@ TUI (텍스트 사용자 인터페이스) 모드는 Claude Code를 깜빡임 없
 
 ```bash
 /tui fullscreen               # 세션 내에서 전체 화면으로 전환
-/tui default                  # 기존 렌더러로 되돌리기
+/tui classic                  # 기존 렌더러로 되돌리기 (v2.1.327+; /tui default도 사용 가능)
 CLAUDE_CODE_NO_FLICKER=1 claude  # 전체 화면으로 직접 시작
 ```
 
@@ -1909,7 +1913,7 @@ claude --teleport
 /teleport
 ```
 
-`/tp`는 `/teleport`의 별칭입니다. 둘 다 claude.ai 구독이 필요합니다. 클라우드 세션에는 로컬에서 계속하는 방법을 설명하는 `/teleport` 힌트가 표시됩니다 (v2.1.223).
+`/tp`는 `/teleport`의 별칭입니다. 둘 다 claude.ai 구독이 필요합니다. 클라우드 세션에는 로컬에서 계속하는 방법을 설명하는 `/teleport` 힌트가 표시됩니다 (v2.1.223). `claude --teleport`가 `was not checked out`을 출력하면 체크아웃에서 Claude가 아직 실행 중인 명령어를 모두 중지한 다음, 출력된 git 명령어를 직접 터미널에서 실행하십시오. v2.1.330부터 일부 환경에서는 이 명령어를 실행하는 대신 출력하며, `-p`를 사용하면 브랜치를 전환할 때까지 종료 코드 1로 종료합니다(변경 로그).
 
 > **변경 로그 기반**: v2.1.223 변경 로그에는 알려진 세션으로 바로 이동하는 인수 형식
 > `claude --teleport <session id>`가 나와 있습니다. CLI 참조 문서는 인수 없는 선택기 형식만
@@ -2172,7 +2176,7 @@ claude --settings '{"sandbox": {"enabled": true}}'
 | 설정 | 설명 |
 |---------|-------------|
 | `sandbox.enabled` | 샌드박싱 활성화 또는 비활성화 |
-| `sandbox.failIfUnavailable` | 샌드박싱을 활성화할 수 없는 경우 실패. 웹의 Claude Code, 클라우드 예약 작업, Cowork 클라우드 세션은 이 설정이 있어도 시작됩니다(v2.1.325). 호스팅된 컨테이너에는 명령어 샌드박스가 없기 때문입니다. 변경 로그에 이 내용이 추가되었으며, 설정 참조에는 아직 나와 있지 않습니다 |
+| `sandbox.failIfUnavailable` | 샌드박스를 시작할 수 없을 때 샌드박스 없이 실행하는 대신 시작을 거부합니다. 단, Anthropic이 호스팅하는 환경에서는 세션이 그래도 시작될 수 있습니다(설정 참조). 웹의 Claude Code, 클라우드 예약 작업, Cowork 클라우드 세션은 이 설정이 있어도 시작됩니다(v2.1.325). 호스팅된 컨테이너에는 명령어 샌드박스가 없기 때문입니다 |
 | `sandbox.autoAllowBashIfSandboxed` | 권한 프롬프트 없이 샌드박스 처리된 Bash 명령어를 실행합니다(자동 허용 모드). 설정 참조 기준 v2.1.324부터 기본값 `false`(변경 로그는 v2.1.325에 기재)이므로, 샌드박스 처리된 명령어는 허용 규칙과 권한 모드를 거칩니다. `true`일 때도 여전히 확인을 요청하는 경우는 위의 참고를 확인하십시오 |
 | `sandbox.filesystem.allowWrite` | 쓰기 액세스 허용 경로 |
 | `sandbox.filesystem.allowRead` | 읽기 액세스 허용 경로 |
@@ -2760,8 +2764,8 @@ Claude Code 및 관련 기능에 대한 자세한 정보는 다음을 참조하�
 
 ---
 
-**최종 업데이트**: 2026년 11월 14일
-**Claude Code 버전**: 2.1.325
+**최종 업데이트**: 2026년 11월 21일
+**Claude Code 버전**: 2.1.330
 **출처**:
 - https://code.claude.com/docs/en/output-styles
 - https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
@@ -2855,4 +2859,11 @@ Claude Code 및 관련 기능에 대한 자세한 정보는 다음을 참조하�
 - https://code.claude.com/docs/en/vs-code#use-or-turn-off-suggested-prompts
 - https://code.claude.com/docs/en/settings-reference#promptsuggestionenabled
 - https://code.claude.com/docs/en/remote-control#what-connected-devices-see
+- https://code.claude.com/docs/en/settings-reference#sandbox-failifunavailable
+- https://code.claude.com/docs/en/code-mode
+- https://code.claude.com/docs/en/changelog#2-1-327
+- https://code.claude.com/docs/en/scheduled-tasks#stop-a-loop
+- https://code.claude.com/docs/en/changelog#2-1-329
+- https://code.claude.com/docs/en/claude-code-on-the-web
+- https://code.claude.com/docs/en/changelog#2-1-330
 **호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5

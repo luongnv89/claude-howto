@@ -76,7 +76,7 @@ Commands are user-invoked shortcuts that execute specific actions.
 | `/rename` | Rename current session | Organize sessions |
 | `/resume` | Resume previous session | Continue work |
 | `/restart` | Restart Claude Code and resume this session, applying an installed update (alias `/update`). Pro/Max/Ultra plans, native install on macOS or Linux (not WSL), v2.1.288+ | After the footer says an update has installed |
-| `/tui [default\|fullscreen]` | Set the terminal UI renderer (`fullscreen` = flicker-free alt-screen); bare `/tui` prints the active one | Flicker-free rendering in fullscreen/tmux |
+| `/tui [classic\|fullscreen]` | Set the terminal UI renderer (`fullscreen` = flicker-free alt-screen; `classic`, v2.1.327+, or `default` = the classic renderer); bare `/tui` prints the active one | Flicker-free rendering in fullscreen/tmux |
 | `/tasks` | View background tasks | Monitor async operations |
 | `/schedule [description]` | Create, update, list, or run cloud scheduled tasks (formerly routines) that run on Anthropic's cloud on a schedule, API call, or GitHub event. Alias: `/routines` | Recurring automation that runs without your machine |
 | `/copy` | Copy last response to clipboard | Share output quickly |
@@ -486,7 +486,7 @@ cp 02-memory/personal-CLAUDE.md ~/.claude/CLAUDE.md
 | **/focus** | Toggle focus view for distraction-free output display (v2.1.110) | Run `/focus` to reduce visual noise during long tasks |
 | **/proactive** | Alias for `/loop` — same recurring-task behavior (v2.1.105) | Use `/proactive` interchangeably with `/loop` |
 | **/recap** | Show a session recap when returning to an existing session (v2.1.108) | Run `/recap` after being away to get context on what was done |
-| **/tui** | Set the terminal UI renderer: `/tui fullscreen` for flicker-free rendering, `/tui default` to switch back; bare `/tui` prints the active renderer (v2.1.110) | Use `/tui fullscreen` in fullscreen terminals or tmux |
+| **/tui** | Set the terminal UI renderer: `/tui fullscreen` for flicker-free rendering, `/tui classic` (v2.1.327+) or `/tui default` to switch back; bare `/tui` prints the active renderer (v2.1.110) | Use `/tui fullscreen` in fullscreen terminals or tmux |
 | **/undo** | Alias for `/rewind` (v2.1.108) | Use `/undo`, `/checkpoint`, or `/rewind` interchangeably |
 | **Monitor Tool** | Watch a background command's stdout stream and react to events instead of polling (v2.1.98+) | Use the Monitor tool via [Advanced Features](09-advanced-features/) |
 | **Output Styles** | Change Claude's role, tone, and default response format via the system prompt. Built-ins: Default, Proactive, Explanatory, Learning, Concise | `/config` → Output style, set `outputStyle`, or run `/output-style` (re-added in v2.1.269 after removal in v2.1.91). See [Advanced Features](09-advanced-features/#output-styles) |
@@ -592,8 +592,8 @@ chmod +x ~/.claude/hooks/*.sh
 
 ---
 
-**Last Updated**: November 14, 2026
-**Claude Code Version**: 2.1.325
+**Last Updated**: November 21, 2026
+**Claude Code Version**: 2.1.330
 **Sources**:
 - https://code.claude.com/docs/en/sub-agents
 - https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md

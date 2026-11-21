@@ -68,7 +68,7 @@ graph TD
 | `claude plugin prune` | 고아 상태의 자동 설치 플러그인 종속성을 제거합니다 (부모 플러그인 없음). `plugin uninstall --prune`은 대상 제거 후 동일한 연쇄 제거를 수행합니다 (v2.1.121+) | `claude plugin prune` |
 | `claude ultrareview [target]` | `/ultrareview`를 비대화형으로 실행합니다. 결과를 표준 출력으로 출력하고, 성공 시 0, 실패 시 1, Ctrl-C로 중단 시 130을 반환합니다. 원시 페이로드를 위해서는 `--json`을, 45분 기본값(v2.1.260부터)을 재정의하려면 `--timeout <minutes>`를, 발견 사항을 PR에 게시할지 제어하려면 `--post` / `--no-post`를 사용하십시오. 신뢰하지 않은 폴더에서는 터미널이면 묻고, 그렇지 않으면 1로 종료합니다. 스크립트와 CI에서는 대상 뒤에 `--trust-workspace`를 덧붙이십시오 (v2.1.309+). **Claude Code v2.1.227 이상 필요** | `claude ultrareview 1234 --json --no-post` |
 | `claude self-hosted-runner [setup\|doctor\|orchestrator]` | 자신의 머신이나 컨테이너에서 Claude Code 클라우드 세션을 호스팅하는 러너를 시작합니다. `setup`은 운영자용 안내 절차, `doctor`는 배포된 러너 진단, `orchestrator`는 필요 시 러너를 생성합니다(`--shutdown-drain-sec`, v2.1.299는 SIGTERM 시 진행 중인 폴링과 생성 훅이 끝나도록 합니다). **Team 및 Enterprise 플랜, Claude Code v2.1.224 이상 필요.** Windows에서는 시작 시 명시적인 `--base-dir`이 필요합니다 (v2.1.229). v2.1.307부터 체크아웃 훅은 기본적으로 30분 후 중지되어 세션 설정이 실패하므로, `--checkout-hook-timeout-min`을 늘리거나 `0`으로 설정하십시오 | `claude self-hosted-runner setup` |
-| `claude auth login` | 로그인합니다 (`--email`, `--sso` 지원). v2.1.126부터 브라우저 콜백이 로컬호스트에 도달할 수 없을 때 (WSL2, SSH, 컨테이너) 터미널에 붙여넣은 OAuth 코드를 폴백으로 받습니다 | `claude auth login --email user@example.com` |
+| `claude auth login` | 로그인합니다 (`--email`, `--sso` 지원). v2.1.126부터 브라우저 콜백이 로컬호스트에 도달할 수 없을 때 (WSL2, SSH, 컨테이너) 터미널에 붙여넣은 OAuth 코드를 폴백으로 받습니다. Owner가 Enterprise Admin Console에서 관리되는 조직에 대해 Claude Code에서의 로그인을 켰다면, 이 명령을 실행하고 브라우저에서 조직을 선택하세요. 그러면 Claude Code가 조직의 설정을 적용하고 조직의 클라우드 제공자 또는 게이트웨이를 사용하며, 터미널에 `Signed in to the organization`이 표시됩니다 (v2.1.330) | `claude auth login --email user@example.com` |
 | `claude auth logout` | 현재 계정에서 로그아웃합니다 | `claude auth logout` |
 | `claude auth status` | 인증 상태를 확인합니다 (로그인되어 있으면 0, 아니면 1을 반환) | `claude auth status` |
 
@@ -250,6 +250,8 @@ claude -p --system-prompt-file ./prompts/code-reviewer.txt "review main.py"
 
 > **권한 강화 (v2.1.325)**: 읽기 전용 git 명령은 이제 프로젝트의 저장소도 아니고 신뢰한 저장소도 아닌 저장소에서 먼저 확인을 요청합니다. 그곳에서 프롬프트 없이 실행하려면 `additionalDirectories` 설정이 아니라 `--add-dir`로 해당 저장소를 지정하세요. `Read(./.env)` 같은 상대 경로 거부 및 확인(ask) 규칙은 `cd` 이후에도 계속 프로젝트에 적용되며, 이제 추가된 디렉터리에도 적용됩니다. 확인 없이 실행될 수 있던 일부 복합 Bash 명령은 이제 확인을 요청하고, Bash 허용 규칙은 더 이상 규칙에 지정된 프로그램과 다른 프로그램을 실행할 수 없으며, 특정 Bash 명령에 적용되지 않던 일부 거부 및 확인 규칙이 이제 적용됩니다. `plansDirectory`가 설정된 경우, 승인된 계획 편집을 해당 폴더가 받을 수 없으면 기본 계획 폴더에 저장되고, 어디에 왜 저장되었는지 경고가 표시됩니다. 이 내용은 변경 로그에서 가져온 것이며, 권한 문서에는 git 및 추가된 디렉터리 관련 변경 사항이 아직 나와 있지 않습니다.
 
+> **권한 강화 (v2.1.326–v2.1.330)**: 일부 `cp` 및 `mv` 명령은 이제 먼저 확인을 요청하고, `bypassPermissions` 모드의 일부 도구 호출은 승인을 요청하거나, 물어볼 사람이 없는 경우 거부됩니다 (v2.1.326). 작업 디렉터리 안으로 간주되는 범위가 바뀌어 일부 경로는 이제 확인을 요청하며, 경로 검사는 일부 심볼릭 링크를 거부합니다 (v2.1.327). 루트, 홈, 최상위 폴더 또는 작업 폴더를 대상으로 하는 더 많은 `rm` 명령이 승인을 요청하고, 응답할 사람이 없는 경우 거부됩니다 (v2.1.330). 권한 모드 문서는 이러한 대상을 중요 경로(critical paths)라고 부릅니다. 이 내용은 변경 로그에서 가져온 것입니다.
+
 ### 권한 예시
 
 ```bash
@@ -301,7 +303,7 @@ claude -p --json-schema '{"type":"object","properties":{"bugs":{"type":"array"}}
 
 | Flag | Description | Example |
 |------|-------------|---------|
-| `--add-dir` | 추가 작업 디렉터리를 추가합니다 | `claude --add-dir ../apps ../lib` |
+| `--add-dir` | 추가 작업 디렉터리를 추가합니다. v2.1.326부터 로컬 터미널 세션에서는 이 플래그(및 `/add-dir`)가 아직 신뢰하지 않은 폴더에 대해 신뢰 프롬프트를 표시하며, `claude --bg`는 그런 폴더를 거부합니다 (변경 로그 기반) | `claude --add-dir ../apps ../lib` |
 | `--setting-sources` | 쉼표로 구분된 설정 소스 | `claude --setting-sources user,project` |
 
 > **`/config` 영속성 (v2.1.119)**: `/config` 명령을 통해 대화형으로 변경된 사항은 이제 `~/.claude/settings.json`에 기록되며 일반적인 우선 순위 체인(정책 → 로컬 → 프로젝트 → 사용자)에 참여합니다. v2.1.119 이전에는 일부 `/config` 변경 사항이 세션 전용이었습니다. 전체 우선 순위 순서는 [메모리 및 설정](../02-memory/README.md)을 참조하십시오.
@@ -909,6 +911,13 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Fable models,
 | `DISABLE_UPDATES` | 수동 `claude update`를 포함한 모든 업데이트 경로를 차단합니다. 백그라운드 자동 업데이트만 차단하는 `DISABLE_AUTOUPDATER`보다 엄격합니다 (v2.1.118+) |
 | `CLAUDE_CODE_HIDE_CWD` | `1`로 설정하면 시작 로고에 현재 작업 디렉터리를 숨깁니다 (개인 정보 보호 / 화면 공유 사용) (v2.1.119+) |
 | `CLAUDE_CODE_FORK_SUBAGENT` | 포크 서브에이전트를 끄려면 `0`으로 설정합니다. v2.1.302부터 터미널, `claude -p`, Agent SDK, 데스크톱 앱, VS Code에서 기본적으로 켜져 있습니다. v2.1.302 이전에는 `claude -p`와 Agent SDK에서 켜려면 `1`로 설정했습니다. |
+| `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS` | `-p` 실행의 마지막 턴 이후 서브에이전트, 워크플로 같은 백그라운드 작업을 유휴 상태로 기다리는 시간의 상한(밀리초). 기본값 `600000`(10분), `0`이면 무기한 기다립니다 (v2.1.182+). v2.1.328부터 `CLAUDE_CODE_FORK_SUBAGENT=0`일 때는 백그라운드 서브에이전트와 그 서브에이전트가 기다리는 서브에이전트들이 하나의 10분 대기에 함께 계산되므로, 더 긴 체인에서는 이 값을 높이십시오 (변경 로그 기반) |
+| `CLAUDE_CODE_DISABLE_DEFERRED_TOOL_RESUME` | `-p`로 재개(resume)하거나 계속(continue)할 때 훅이 보류(defer)한 도구 호출을 건너뛰려면 `1`로 설정합니다. Claude는 여전히 그 호출을 다시 할 수 있습니다. 설정 `env` 블록에서는 무시됩니다 (v2.1.328+) |
+| `CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT` | 전체 시스템 프롬프트와 도구 설명을 줄인 짧은 프롬프트 중 하나를 선택합니다. 설정하지 않으면 Haiku 4.5, Sonnet 5, Opus 4.7 및 해당 제품군의 이전 모델은 전체 프롬프트를, 더 새로운 모델은 짧은 프롬프트를 사용합니다. `1`은 모든 모델에서 짧은 프롬프트를, `0`은 모든 모델에서 전체 프롬프트를 사용합니다. 어느 프롬프트든 전체 도구 세트, 훅, MCP 서버, CLAUDE.md 탐색은 그대로 유지됩니다. v2.1.330부터 "sonnet" 또는 "haiku"가 포함된 인식되지 않는 모델 이름도 다른 인식되지 않는 이름처럼 짧은 프롬프트를 사용합니다 (변경 로그 기반) |
+| `CLAUDE_CODE_MAX_OUTPUT_TOKENS` | 대부분의 요청에 대한 최대 출력 토큰 수. 모델 상한을 넘는 값은 상한으로 낮춰집니다. Claude Code가 해석할 수 없는 모델 ID에서는 기본값이 32000, 상한이 128000입니다. 변경 로그의 재시도 이력: v2.1.326에서 `max_tokens`가 모델 한도를 넘을 때의 자동 재시도가 추가되었고, v2.1.329에서 제거되었으며(출력 토큰을 더 적게 받는 모델을 쓰는 게이트웨이 뒤에서는 이 변수를 그 한도로 설정), v2.1.330에서 복원되었습니다 |
+| `CLAUDE_CODE_FULL_SIGN_IN_LINK` | 짧은 링크에 오류가 표시되거나 스크립트가 링크에서 값을 읽을 때, 짧은 링크 대신 claude.ai 전체 로그인 링크를 출력하려면 `1`로 설정합니다. 셸 또는 사용자 설정에서 설정합니다 (v2.1.330+) |
+| `OTEL_RESOURCE_INCLUDE_HOST` | 머신의 이름과 ID를 OpenTelemetry 리소스 속성 `host.name`과 `host.id`로 추가하려면 `1`로 설정합니다(기본값은 꺼짐). 셸, 사용자 설정 또는 관리형 설정에서 설정하며, 프로젝트 및 로컬 설정에서는 무시됩니다 (v2.1.326+) |
+| `CLAUDE_CODE_DISABLE_SHELL_HEAD_START` | 세션의 첫 Bash 명령이 승인되기 전에 셸 시작 파일이 실행되지 않도록 하려면 `1`로 설정합니다. v2.1.327부터는 속도를 높이기 위해, 명령이 나중에 거부되더라도 시작 파일이 미리 실행될 수 있습니다. 변경 로그에서 추가된 내용이며 env-vars 문서에는 아직 나와 있지 않습니다 |
 | `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN` | 전체 화면 대체 화면 렌더러를 사용하지 않으려면 `1`로 설정합니다. 세션은 일반 터미널 스크롤백에 유지됩니다. 대본을 로그로 파이프하거나 `script(1)`와 페어링할 때 유용합니다 (v2.1.132+). |
 | `CLAUDE_CODE_SESSION_ID` | Claude Code가 시작한 모든 Bash 도구 서브프로세스에 설정됩니다. 훅 입력 JSON의 `session_id`와 같습니다. Bash 로그를 훅 원격 측정과 연관시키는 데 사용합니다 (v2.1.132+). |
 | `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL` | OpenTelemetry 데이터를 캡처하는 조직을 위해 Anthropic의 세션 품질 설문조사를 다시 활성화하려면 `1`로 설정합니다. OTEL 배포에서는 기본적으로 꺼져 있습니다 (v2.1.136+). |
@@ -961,7 +970,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=high   # low, medium, high, xhigh (Fable models,
 | `CLAUDE_CODE_TOOL_MEMORY_LIMIT` | Linux 전용: Bash 명령에 메모리 cgroup을 적용하도록 옵트인합니다 (v2.1.233) |
 | `ANTHROPIC_BEDROCK_REGION_PREFIX` | 특정 Bedrock 교차 리전 추론 프로필을 우선 사용합니다 (v2.1.224) |
 | `CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT` | 인식되지 않는 모델 ID에서 v2.1.223 이전의 자동 압축 동작을 복원하려면 `1`로 설정합니다 (v2.1.223) |
-| `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Claude Code가 활성 모델에 대해 가정하는 컨텍스트 윈도우 크기(토큰 단위)를 재정의합니다(예: 게이트웨이 또는 사용자 지정 모델 ID에 `400000`). 인식하지 못하고 `[1m]`이 없는 ID에서는 이 값이 단독으로 적용됩니다. 여기에는 게이트웨이의 `claude-sonnet-latest`처럼 `claude-`로 시작하는 ID도 포함되며, 모델 구성 문서에 따르면 v2.1.324부터입니다(변경 로그에는 v2.1.325에 나와 있습니다). `[1m]`이 있는 인식되지 않는 ID에서 1M 미만의 값을 쓰려면 `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`도 필요합니다. 인식하는 ID에서는 모든 압축을 끄는 `DISABLE_COMPACT`가 있을 때만 이 값이 적용됩니다 |
+| `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Claude Code가 활성 모델에 대해 가정하는 컨텍스트 윈도우 크기(토큰 단위)를 재정의합니다(예: 게이트웨이 또는 사용자 지정 모델 ID에 `400000`). v2.1.323부터 Claude Code는 인식하지 못하는 모델 ID에 대해 1M 윈도우를 가정하며(이전에는 200K), 시작 시 표시되는 경고에 가정한 윈도우가 나옵니다. 인식하지 못하고 `[1m]`이 없는 ID에서는 이 값이 단독으로 적용됩니다. 여기에는 게이트웨이의 `claude-sonnet-latest`처럼 `claude-`로 시작하는 ID도 포함되며, 모델 구성 문서에 따르면 v2.1.324부터입니다(변경 로그에는 v2.1.325에 나와 있습니다). `[1m]`이 있는 인식되지 않는 ID에서 1M 미만의 값을 쓰려면 `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`도 필요합니다. 인식하는 ID에서는 모든 압축을 끄는 `DISABLE_COMPACT`가 있을 때만 이 값이 적용됩니다 |
 | `CLAUDE_CODE_WORKFLOW_PREFIX_STAGGER_MS` | 동적 워크플로 팬아웃에서 접두사 스태거링을 비활성화하려면 `0`으로 설정합니다 (v2.1.229) |
 | `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS` | `dialogExpiry` 설정을 재정의합니다 (v2.1.224) |
 | `CLAUDE_CODE_PROJECT_DIR_NAME` | Claude Code가 프로젝트 경로에서 파생하는 프로젝트별 대화 기록 디렉터리 이름을 재정의합니다 (v2.1.234) |
@@ -1121,8 +1130,8 @@ claude -p --output-format json "query"
 
 ---
 
-**최종 업데이트**: 2026년 11월 14일
-**Claude Code 버전**: 2.1.325
+**최종 업데이트**: 2026년 11월 21일
+**Claude Code 버전**: 2.1.330
 **출처**:
 - https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
 - https://code.claude.com/docs/en/workflows#set-a-size-guideline
@@ -1199,4 +1208,10 @@ claude -p --output-format json "query"
 - https://code.claude.com/docs/en/permissions#wildcard-patterns
 - https://code.claude.com/docs/en/changelog#2-1-325
 - https://code.claude.com/docs/en/model-config#which-ids-claude_code_max_context_tokens-applies-to
+- https://code.claude.com/docs/en/changelog#2-1-326
+- https://code.claude.com/docs/en/changelog#2-1-327
+- https://code.claude.com/docs/en/changelog#2-1-330
+- https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id
+- https://code.claude.com/docs/en/permission-modes#critical-paths
+- https://code.claude.com/docs/en/authentication
 **호환 모델**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
