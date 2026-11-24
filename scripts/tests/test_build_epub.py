@@ -467,6 +467,28 @@ graph TD
         soup = BeautifulSoup(html, "html.parser")
         assert soup.select_one('li img[src="images/mermaid_1.svg"]') is not None
 
+    @pytest.mark.parametrize("indent", [" ", "  ", "   "], ids=["1", "2", "3"])
+    def test_tight_list_diagram_ends_the_list(
+        self, indent: str, tmp_path: Path, state: BuildState, logger: logging.Logger
+    ) -> None:
+        # Below four columns, directly under the item text, the diagram cannot
+        # continue the item. The website places it the same way.
+        state.mermaid_cache[f"graph LR\n{indent}C --> D"] = (b"<svg/>", "m.svg")
+        md = (
+            f"- One\n{indent}```mermaid\n{indent}graph LR\n{indent}C --> D\n"
+            f"{indent}```\n- Two\n"
+        )
+
+        html = md_to_html(
+            md, tmp_path / "README.md", tmp_path, epub.EpubBook(), state, logger
+        )
+
+        soup = BeautifulSoup(html, "html.parser")
+        image = soup.select_one('img[src="images/m.svg"]')
+        assert image is not None
+        assert image.find_parent("li") is None
+        assert [li.get_text(strip=True) for li in soup.select("li")] == ["One", "Two"]
+
     def test_process_mermaid_blocks_ignores_hyphenated_language(
         self, state: BuildState, logger: logging.Logger
     ) -> None:

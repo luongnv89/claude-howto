@@ -593,12 +593,22 @@ def replace_mermaid_blocks(md_content: str) -> str:
     as numeric character references, which keeps the block on one line with
     nothing to format. They decode back to the source in the parsed HTML and
     in `textContent`. A block at 0-3 columns is raw HTML and stays as is.
+
+    A 1-3 column fence directly under a line of text (no blank line) cannot
+    continue a list item, and its indent would keep the `<pre>` in that
+    line's `<p>`. Its indent is dropped, so the `<pre>` follows the paragraph
+    and ends the list, as in the EPUB.
     """
 
     def _replace(match: re.Match[str]) -> str:
         indent = match.group("indent")
         code = html.escape(match.group("code"))
-        if len(indent.expandtabs(4)) > RAW_HTML_MAX_INDENT:
+        start = match.start()
+        previous_line = match.string[: max(start - 1, 0)].rpartition("\n")[2]
+        columns = len(indent.expandtabs(4))
+        if 0 < columns <= RAW_HTML_MAX_INDENT and previous_line.strip():
+            indent = ""
+        if columns > RAW_HTML_MAX_INDENT:
             code = MARKDOWN_SIGNIFICANT_RE.sub(lambda c: f"&#{ord(c.group())};", code)
         return f'{indent}<pre class="mermaid">{code}</pre>'
 
