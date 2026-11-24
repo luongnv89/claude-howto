@@ -46,6 +46,8 @@ TRUTHY = {"1", "true", "yes"}
 # From this indent on, Markdown reads a fence outside a list item as an
 # indented code block. A tab advances to the next multiple of 4 columns.
 CODE_BLOCK_INDENT = 4
+# The start of a list item: `-`, `*`, `+` or `N.`, then whitespace.
+LIST_ITEM_RE = re.compile(r"^[ \t]*(?:[-*+]|\d+\.)(?:[ \t]|$)")
 
 
 @dataclass(frozen=True)
@@ -57,6 +59,7 @@ class MermaidBlock:
     index: int
     source: str
     indent_columns: int = 0
+    in_list_item: bool = False
 
 
 def _env_truthy(name: str) -> bool:
@@ -77,6 +80,23 @@ def find_markdown_files(root: Path) -> list[Path]:
     )
 
 
+def follows_list_item(content: str, start: int) -> bool:
+    """True when the line before offset `start` belongs to a list item.
+
+    Blank lines are skipped. The first non-blank line must start a list item,
+    or be indented content of one: indented lines are skipped until a list
+    item, or a line at column 0 that is not one, is found.
+    """
+    for line in reversed(content[:start].splitlines()):
+        if not line.strip():
+            continue
+        if LIST_ITEM_RE.match(line):
+            return True
+        if not line[0].isspace():
+            return False
+    return False
+
+
 def extract_blocks(path: Path) -> list[MermaidBlock]:
     """Return every ```mermaid block in `path` with its fence line number."""
     content = path.read_text(encoding="utf-8")
@@ -87,6 +107,7 @@ def extract_blocks(path: Path) -> list[MermaidBlock]:
             index=index,
             source=match.group("code"),
             indent_columns=len(match.group("indent").expandtabs(CODE_BLOCK_INDENT)),
+            in_list_item=follows_list_item(content, match.start()),
         )
         for index, match in enumerate(MERMAID_BLOCK_RE.finditer(content), start=1)
     ]
@@ -124,10 +145,11 @@ def warn_indented_fences(blocks: list[MermaidBlock]) -> None:
     """Warn about fences indented 4+ columns. The warning never fails the run.
 
     Such a fence is still validated, but the website and the EPUB render it as
-    a diagram only when it is nested in a list item.
+    a diagram only when it is nested in a list item, so a fence that follows a
+    list item is not reported.
     """
     for block in blocks:
-        if block.indent_columns >= CODE_BLOCK_INDENT:
+        if block.indent_columns >= CODE_BLOCK_INDENT and not block.in_list_item:
             print(
                 f"⚠ {block.path}:{block.line} (block {block.index}): fence indented "
                 f"{CODE_BLOCK_INDENT}+ columns ({block.indent_columns}) — it renders "

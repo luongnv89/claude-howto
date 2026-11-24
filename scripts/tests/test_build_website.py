@@ -411,6 +411,27 @@ class TestReplaceMermaidBlocks:
             f'{indent}<pre class="mermaid">{indent}A[x] --&gt; B\n{indent}</pre>\n'
         )
 
+    @pytest.mark.parametrize("indent", [" ", "  ", "   "], ids=["1", "2", "3"])
+    def test_tight_list_diagram_ends_the_list(self, indent: str) -> None:
+        # Below four columns, directly under the item text, the diagram cannot
+        # continue the item: it follows the list, as in the EPUB, and is not
+        # left inside the item's <p> with a stray <br/>.
+        md = f"- One\n{indent}```mermaid\n{indent}A-->B\n{indent}```\n- Two\n"
+        html_content = render_markdown(md)
+        soup = BeautifulSoup(html_content, "html.parser")
+        diagram = soup.select_one("pre.mermaid")
+        assert diagram is not None
+        assert diagram.parent.name == "[document]"
+        assert diagram.get_text() == MERMAID_BLOCK_RE.search(md).group("code")
+        assert [li.get_text(strip=True) for li in soup.select("li")] == ["One", "Two"]
+        assert "<br/>" not in html_content
+
+    def test_diagram_under_paragraph_text_follows_the_paragraph(self) -> None:
+        md = "Intro\n  ```mermaid\n  A-->B\n  ```\n"
+        assert render_markdown(md) == (
+            '<p>Intro</p>\n<pre class="mermaid">  A--&gt;B\n  </pre>'
+        )
+
     def test_nested_diagram_is_not_wrapped_in_a_paragraph(self) -> None:
         md = (
             "- Step one\n\n"

@@ -362,6 +362,51 @@ class TestIndentedFenceWarning:
         assert check_mermaid.main(["--strict"]) == 0
         assert "⚠" not in capsys.readouterr().out
 
+    @pytest.mark.parametrize(
+        "before",
+        [
+            "- Item\n",
+            "* Item\n\n",
+            "+ Item\n",
+            "12. Item\n\n",
+            "1. Item\n\n    More\n\n",
+        ],
+        ids=["dash", "star", "plus", "numbered", "item-content"],
+    )
+    def test_no_warning_in_list_item(
+        self,
+        project: Path,
+        fake_render: FakeRenderer,
+        capsys: pytest.CaptureFixture[str],
+        before: str,
+    ) -> None:
+        (project / "a.md").write_text(
+            before + _indented_fence("    ", FLOW), encoding="utf-8"
+        )
+
+        assert check_mermaid.main(["--strict"]) == 0
+        assert "⚠" not in capsys.readouterr().out
+        assert len(fake_render.calls) == 1
+
+    @pytest.mark.parametrize(
+        "before",
+        ["Text\n\n", "- Item\n\nText\n\n", "    code\n\n", "-Item\n\n"],
+        ids=["paragraph", "after-list", "code-block", "not-an-item"],
+    )
+    def test_still_warns_outside_list_item(
+        self,
+        project: Path,
+        fake_render: FakeRenderer,
+        capsys: pytest.CaptureFixture[str],
+        before: str,
+    ) -> None:
+        (project / "a.md").write_text(
+            before + _indented_fence("    ", FLOW), encoding="utf-8"
+        )
+
+        assert check_mermaid.main(["--strict"]) == 0
+        assert "fence indented 4+ columns" in capsys.readouterr().out
+
     def test_warning_does_not_change_failures(
         self,
         project: Path,
