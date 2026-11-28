@@ -33,10 +33,17 @@ const path = require('path');
 const SKIP_WORDS = ['sudo', 'env', 'time', 'nohup', 'exec', 'command',
   'if', 'then', 'else', 'elif', 'do', 'while', 'until', '{', '!'];
 
+// Strip quoted strings and heredoc bodies in one left-to-right pass, so
+// whichever construct opens first wins. Two separate passes were wrong: a
+// `<<WORD` inside a multi-line quoted string swallowed the closing quote and
+// exposed a deploy verb, while an apostrophe on a heredoc opening line hid a
+// real deploy that followed.
+const QUOTED = /'[^']*'|"(?:\\.|[^"\\])*"/g;
+
 function isDeployCommand(command) {
-  const text = command
-    .replace(/(<<-?\s*['"]?(\w+)['"]?[^\n]*)\n[\s\S]*?(?:\n\s*\2\s*(?=\n|$)|$)/g, '$1\n') // heredoc bodies (keep the opening line)
-    .replace(/'[^']*'|"(?:\\.|[^"\\])*"/g, "''"); // quoted strings
+  const text = command.replace(
+    /'[^']*'|"(?:\\.|[^"\\])*"|(<<-?\s*['"]?(\w+)['"]?[^\n]*)\n[\s\S]*?(?:\n\s*\2\s*(?=\n|$)|$)/g,
+    (m, open) => (open === undefined ? "''" : open.replace(QUOTED, "''") + '\n'));
 
   return text.split(/&&|\|\||[\n;|&()`]/).some((piece) => {
     const words = piece.trim().split(/\s+/).filter(Boolean);
