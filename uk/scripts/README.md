@@ -3,6 +3,19 @@
   <img alt="Claude How To" src="../../resources/logos/claude-howto-logo.svg">
 </picture>
 
+# Скрипти збірки
+
+Цей каталог містить два генератори, що перетворюють markdown-файли посібника
+у формати для розповсюдження:
+
+- [**Конструктор EPUB**](#скрипт-збірки-epub) — `build_epub.py`
+- [**Статичний конструктор вебсайту**](#статичний-конструктор-вебсайту) — `build_website.py`
+
+Обидва вважають `.md`-файли єдиним джерелом істини — після редагування markdown
+перезапустіть відповідний скрипт, щоб згенерувати вихід заново.
+
+---
+
 # Скрипт збірки EPUB
 
 Збірка EPUB-книги з markdown-файлів Claude How-To.
@@ -115,3 +128,73 @@ uv run --with pytest --with pytest-asyncio \
 **Помилка завантаження або контрольної суми бандла Pele**: Перша збірка завантажує закріплений бандл Pele з cdn.jsdelivr.net і перевіряє sha256 кожного файлу. Офлайн або за проксі виконайте одну збірку з доступом до мережі; наступні збірки використовують кеш у `scripts/.vendor-cache/pele/<version>/`. Невідповідність контрольної суми означає, що завантаження змінене або обірване: видаліть цю папку й зберіть знову.
 
 **Відсутній логотип**: Скрипт генерує текстову обкладинку, якщо `claude-howto-logo.png` не знайдено.
+
+---
+
+# Статичний конструктор вебсайту
+
+Згенеруйте елегантний, зручний для мобільних пристроїв статичний вебсайт з тих самих markdown-файлів, які використовує збірка EPUB. Вебсайт — це лише відрендерений вигляд; `.md`-файли залишаються єдиним джерелом істини.
+
+## Функції
+
+- Одна HTML-сторінка на кожен markdown-джерело — внутрішні `.md`-посилання переписуються на відповідні сторінки сайту
+- Посилання на не-markdown файли репозиторію (шаблони, скрипти, JSON) стають GitHub blob URL, що відкривають джерело на github.com
+- Mermaid-діаграми рендеряться на клієнті через Pele (`pele.global.js`), який подається зі зібраного сайту (без CDN у runtime); вони слідують за перемикачем темної теми
+- Tailwind CSS компілюється standalone CLI (Go-бінарник, без Node.js) і подається зі зібраного сайту — адаптивний макет із бічною навігацією, внутрішньосторінковим змістом, перемикачем темної теми та навігацією попередня/наступна сторінка
+- Шрифти Inter + JetBrains Mono самолокалізуються поруч із CSS — жодних сторонніх запитів під час завантаження сторінки
+- Віддзеркалює порядок навчальної програми EPUB (`01-` … `10-` плюс документи верхнього рівня)
+- Хоститься як звичайні статичні файли — розроблено для розгортання на GitHub Pages
+
+## Швидкий старт
+
+```bash
+# Збірка англійського вебсайту в ./site/
+uv run scripts/build_website.py
+
+# Локальний перегляд
+python -m http.server --directory site 8080
+# потім відкрийте http://localhost:8080
+```
+
+## Параметри командного рядка
+
+```
+usage: build_website.py [-h] [--root ROOT] [--output OUTPUT]
+                        [--lang {en,vi,zh,ja,uk,ko,fa}] [--repo-url REPO_URL]
+                        [--branch BRANCH] [--verbose]
+
+options:
+  --root, -r ROOT       Source root (default: repo root)
+  --output, -o OUTPUT   Output directory (default: <repo>/site)
+  --lang LANG           Language to build: en | vi | zh | ja | uk | ko | fa
+  --repo-url URL        GitHub repo for blob links (default: luongnv89/claude-howto)
+  --branch BRANCH       Branch for blob links (default: main)
+  --verbose, -v         Enable verbose logging
+```
+
+## Розгортання на GitHub Pages
+
+У репозиторії є workflow `.github/workflows/pages.yml`, який збирає сайт
+при кожному пуші в `main` (коли змінюється будь-який `.md` або файл генератора)
+і публікує через `actions/deploy-pages`. Увімкніть GitHub Pages у налаштуваннях
+репозиторію, обравши **Source: GitHub Actions**.
+
+## Архітектура
+
+`build_website.py` повторно використовує логіку порядку розділів із `build_epub.py` і
+постачає HTML-шаблони в `scripts/website_templates/`:
+
+- `page.html.j2` — Jinja2-шаблон сторінки з бічною навігацією, змістом,
+  навігацією попередня/наступна сторінка
+- `tailwind.config.js`, `tailwind.input.css` — конфігурація та вхідний CSS для
+  Tailwind standalone CLI; CLI сканує зібраний HTML і створює
+  `site/assets/tailwind.css` лише з реально використовуваних утиліт
+- `site.css` — невеликий шар специфічних для сайту стилів плюс тема Pygments
+
+Бінарник Tailwind CLI, бандл Pele і файли шрифтів завантажуються
+під час першої збірки в `scripts/.vendor-cache/` (у gitignore) — див.
+`scripts/vendor_assets.py`.
+
+Анкори заголовків генеруються за точно таким самим алгоритмом з
+`check_cross_references.heading_to_anchor`, тож посилання `#anchor`, перевірені
+pre-commit-хуком, коректно розв'язуються на відрендереному сайті.
