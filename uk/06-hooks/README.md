@@ -76,8 +76,11 @@
 |--------|------|---------|
 | Точний рядок | Відповідає конкретному інструменту | `"Write"` |
 | Regex-шаблон | Відповідає кільком інструментам | `"Edit\|Write"` |
+| Розділені комою | Відповідає будь-якому інструменту зі списку (v2.1.191+) | `"Write,Edit"` |
 | Підстановочний знак | Відповідає всім інструментам | `"*"` або `""` |
 | MCP-інструменти | Шаблон сервера та інструмента | `"mcp__memory__.*"` |
+
+> **Matcher збігаються точно (v2.1.195+).** Ідентифікатор із дефісом (наприклад, назва MCP-інструмента, що містить дефіс) більше не збігається випадково за підрядком з іншим інструментом. Matcher, розділені комою, як-от `"Write,Edit"`, спрацьовують на будь-який інструмент зі списку — попередні збірки мовчки ніколи їх не запускали.
 
 **Значення matcher для InstructionsLoaded:**
 
@@ -87,9 +90,52 @@
 | `nested_traversal` | Інструкції завантажені при обході вкладених каталогів |
 | `path_glob_match` | Інструкції завантажені через відповідність glob-шаблону шляху |
 
+### Звуження за умовами `if` (шляхи аргументів інструмента)
+
+Поле `matcher` обирає хук за **назвою інструмента** (`"Write"`, `"Edit|Write"`, `"*"`). Щоб відфільтрувати вужче за **аргументами** інструмента — наприклад, запускати хук лише коли правка торкається `src/`, або охопити читання файлів із секретами — додайте умову `if` до окремого обробника хука. Це відрізняється від matcher за назвою інструмента: `matcher` визначає *який інструмент*, а `if` — *який виклик*.
+
+`if` використовує [синтаксис правил дозволів](https://code.claude.com/docs/en/permissions) (`ToolName(pattern)`) і обчислюється водночас для назви інструмента **та** його аргументів. Для `Read`/`Edit`/`Write` шаблон шляху слідує семантиці gitignore з тими самими якорями, що й правила дозволів: гола назва на кшталт `.env` збігається на будь-якій глибині, `src/**` — відносно поточного каталогу, `/src/**` — відносно кореня проєкту, `~/...` — відносно вашого домашнього каталогу, а `//...` — абсолютний шлях файлової системи.
+
+Поле `if` розташовується на **рівні обробника хука** — це сусід `type` і `command`, всередині масиву `hooks`, — а не на `matcher`:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Edit(src/**)",
+            "command": "./hooks/lint-src.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Read(.env)",
+            "command": "./hooks/block-secret-read.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Приклади дійсних шаблонів `if`: `Edit(src/**)` (редагування в `src/`), `Read(~/.ssh/**)` (читання будь-яких SSH-ключів), `Read(.env)` (будь-який `.env` у поточному каталозі та нижче), `Bash(git push *)` (лише підкоманди `git push`).
+
+> **Оновлення v2.1.214**: односегментний шаблон `dir/**` в умові `if` хука (як `Edit(src/**)`) тепер збігається лише з `<cwd>/dir` — а не з цим каталогом на будь-якій глибині дерева. Раніше `src/**` збігався також із `foo/src/**`. Якщо потрібен збіг на будь-якій глибині, використовуйте `**/dir/**`. **Важливо**: це звуження стосується лише умов `if:` хуків і авто-затвердження allow-правил — правила дозволів deny/ask досі збігаються з `dir/**` на будь-якій глибині.
+
+> **Оновлення v2.1.314**: шаблони `if` на кшталт `Monitor(tail *)` збігаються з shell-командами, які запускає інструмент Monitor, так само як `Bash(tail *)` збігається з командами Bash. Хуки з matcher `Bash` також запускаються на shell-командах Monitor; вони можуть блокувати чи питати, але не затверджувати або переписувати їх.
+
 ## Типи хуків
 
-Claude Code підтримує чотири типи хуків:
+Claude Code підтримує пʼять типів хуків:
 
 ### Command-хуки
 
@@ -102,6 +148,23 @@ Claude Code підтримує чотири типи хуків:
   "timeout": 60
 }
 ```
+
+#### Exec-форма (`args`)
+
+> Додано у v2.1.139.
+
+Замість shell-форми `"command": "..."` command-хук може запускати бінарник напряму через `execve()` за допомогою масиву `args`. Парсингу shell немає, тому заповнювачі шляхів не потребують лапок, а конфігурація імунна до вразливостей shell-інʼєкцій.
+
+```json
+{
+  "type": "command",
+  "command": "python3",
+  "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/validate.py", "--strict"],
+  "timeout": 60
+}
+```
+
+`command` завжди обовʼязковий: коли задано `args`, `command` — це виконуваний файл для запуску (розвʼязується через `PATH`), а `args` — вектор його аргументів. Пропустіть `args` (shell-форма), коли потрібні пайпи, перенаправлення, ланцюжки `&&` або shell-розширення; використовуйте `args`, коли викликаєте один бінарник з аргументами.
 
 ### HTTP-хуки
 
@@ -129,28 +192,6 @@ Claude Code підтримує чотири типи хуків:
 - Маршрутизується через sandbox, коли sandbox увімкнено
 - Вимагає явного списку `allowedEnvVars` для будь-якої інтерполяції змінних оточення у значеннях `headers`
 
-### MCP tool-хуки
-
-> Додано у v2.1.118.
-
-Тип `mcp_tool` викликає налаштований MCP-інструмент напряму; конфігурація посилається на ім'я MCP-сервера та інструмента, а не на shell-команду чи URL. Корисно, коли логіка валідації або реакції вже живе в налаштованому вами MCP-сервері.
-
-```json
-{
-  "matcher": "Edit",
-  "hooks": [{
-    "type": "mcp_tool",
-    "server": "my-mcp-server",
-    "tool": "validate_edit"
-  }]
-}
-```
-
-**Ключові властивості:**
-- `"type": "mcp_tool"` — ідентифікує як MCP tool-хук
-- `"server"` — ім'я налаштованого MCP-сервера
-- `"tool"` — ім'я інструмента, який слід викликати на цьому сервері
-
 ### Prompt-хуки
 
 Промпти, оцінювані LLM, де вміст хука є промптом, який оцінює Claude. Переважно використовуються з подіями `Stop` та `SubagentStop` для інтелектуальної перевірки завершення завдань.
@@ -164,6 +205,32 @@ Claude Code підтримує чотири типи хуків:
 ```
 
 LLM оцінює промпт і повертає структуроване рішення (деталі див. у [Хуки на основі промптів](#хуки-на-основі-промптів)).
+
+### MCP tool-хуки
+
+> Додано у v2.1.118.
+
+Тип `mcp_tool` викликає налаштований MCP-інструмент напряму; конфігурація посилається на ім'я MCP-сервера та інструмента, а не на shell-команду чи URL. Корисно, коли логіка валідації або реакції вже живе в налаштованому вами MCP-сервері.
+
+```json
+{
+  "matcher": "Edit",
+  "hooks": [{
+    "type": "mcp_tool",
+    "server": "my-mcp-server",
+    "tool": "validate_edit",
+    "input": { "file_path": "${tool_input.file_path}" }
+  }]
+}
+```
+
+**Ключові властивості:**
+- `"type": "mcp_tool"` — ідентифікує як MCP tool-хук
+- `"server"` — ім'я налаштованого MCP-сервера
+- `"tool"` — ім'я інструмента, який слід викликати на цьому сервері
+- `"input"` — необовʼязкові аргументи, передані інструменту; рядкові значення підтримують підстановку `${path}` із JSON-входу хука, як-от `"${tool_input.file_path}"`
+
+Аргументи інструмента походять з `input` (з підстановкою `${path}`), а не безпосередньо з входу хука. Налаштування MCP-серверів див. у [налаштуванні MCP-серверів](../05-mcp/README.md). Якщо Claude Code не може прочитати відповідь інструмента (наприклад, відповідь понад 16 MiB від stdio- чи HTTP-сервера), хук `mcp_tool` на `PreToolUse` не дає вердикту, і виклик інструмента відхилено (v2.1.321; раніші версії пропускали хук).
 
 ### Agent-хуки
 
@@ -291,6 +358,37 @@ Claude Code підтримує **33 події хуків**:
 - Рішення `"block"` подає Claude зворотний звʼязок
 - `additionalContext`: Контекст, доданий для Claude
 
+**Додаткові поля введення (v2.1.119):**
+
+| Поле | Тип | Опис |
+|------|-----|------|
+| `duration_ms` | number | Час виконання інструмента в мілісекундах. Не враховує час у запитах дозволів та виконанні хуків PreToolUse. Доступне і в хуках `PostToolUse`, і в `PostToolUseFailure`. |
+
+#### Відновлювані блокування (`continueOnBlock`, v2.1.139)
+
+Command-хук, який повертає `"decision": "block"` на `PostToolUse`, додає `reason` поруч із результатом інструмента; Claude все ще бачить оригінальний вивід. `continueOnBlock` — поле **prompt**-хука (у command- і agent-хуків його немає): за замовчуванням prompt-хук, що повернув `ok: false` на `PostToolUse`, завершує хід і показує reason як рядок попередження. Встановіть `"continueOnBlock": true` на prompt-хуку, щоб натомість повернути reason до Claude та продовжити хід — модель прочитає відгук і спробує знову або скоригується.
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check this edit against our write policy (for example, read-only paths). Hook input: $ARGUMENTS",
+            "continueOnBlock": true
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Використовуйте це, коли `reason` хука — те, з чим Claude може щось зробити (наприклад, «цей файл лише для читання; пишіть в інше місце»); залишайте вимкненим, коли блокування має повністю зупинити хід.
+
 ### UserPromptSubmit
 
 Запускається, коли користувач подає промпт, перед тим як Claude його обробить. З v2.1.299 хук запускається до розгортання навички чи кастомної команди, тож блокування промпту зупиняє й рядки оболонки `!` цієї команди; `UserPromptExpansion` спрацьовує після нього.
@@ -343,6 +441,19 @@ Claude Code підтримує **33 події хуків**:
 }
 ```
 
+> **Ліміт безпеки на послідовні блокування (v2.1.143)**: якщо хук `Stop` повертає `"decision": "block"` (або встановлює `continue: false`) **8 разів підряд** в межах одного ходу, Claude Code перекриває наступне блокування і завершує хід. Пороговий ліміт можна перевизначити змінною оточення `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP=<ціле>` (значення `0` повністю вимикає ліміт). Це захищає від зациклення ходу несправним Stop-хуком.
+
+**Поле повернення (v2.1.163):** хук `Stop` або `SubagentStop` може повернути `hookSpecificOutput.additionalContext`, щоб дати Claude відгук і **продовжити хід без показу мітки помилки**. Раніше вплинути на модель із Stop-хука було незручно; тепер хук може чисто впорскнути контекст, уникаючи поведінки мітки помилки старих шляхів зворотного звʼязку (як-от `"decision": "block"`).
+
+```json
+{
+  "hookSpecificOutput": {
+    "hookEventName": "Stop",
+    "additionalContext": "Reminder: run the test suite before declaring done."
+  }
+}
+```
+
 ### SubagentStart
 
 Запускається при початку виконання субагента. Вхід matcher — назва типу агента, що дозволяє хукам націлюватися на конкретні типи субагентів.
@@ -384,12 +495,26 @@ fi
 exit 0
 ```
 
+**Сесійні виходи (v2.1.152):** хук `SessionStart` може повернути JSON для повторного сканування навичок і встановлення заголовка сесії:
+
+```json
+{
+  "reloadSkills": true,
+  "hookSpecificOutput": {
+    "sessionTitle": "Payments migration"
+  }
+}
+```
+
+Значення верхнього рівня `reloadSkills: true` запускає повторне сканування навичок у тій самій сесії (та сама дія, що й команда `/reload-skills`), роблячи щойно встановлені хуком навички одразу доступними. `hookSpecificOutput.sessionTitle` встановлює показуваний заголовок сесії при старті та відновленні.
+
 ### SessionEnd
 
 Запускається при завершенні сесії для очищення або фінального логування. Не може блокувати завершення.
 
 **Значення поля reason:**
 - `clear` — користувач очистив сесію
+- `resume` — сесію змінено через інтерактивну `/resume`
 - `logout` — користувач вийшов із системи
 - `prompt_input_exit` — користувач вийшов через введення промпта
 - `other` — інша причина
@@ -418,7 +543,100 @@ exit 0
 - `permission_prompt` — сповіщення про запит дозволу
 - `idle_prompt` — сповіщення про стан простою
 - `auth_success` — успішна автентифікація
-- `elicitation_dialog` — діалог, показаний користувачу
+- `elicitation_dialog` — MCP-сервер відкрив форму elicitation
+- `elicitation_url_dialog` — MCP-сервер просить відкрити URL у браузері
+- `elicitation_complete` — elicitation у режимі URL повідомив про завершення
+- `elicitation_response` — відповідь elicitation надіслано назад серверу
+- `agent_needs_input` — фоновий агент потребує введення (v2.1.198)
+- `agent_completed` — фоновий агент завершив роботу (v2.1.198)
+- `quota_auto_resume_fired` / `quota_auto_resume_stale` / `quota_auto_resume_disabled` — результати авто-відновлення після ліміту використання (v2.1.234)
+- `plugin_notification` — мод викликав сповіщення через `$.ui.notify`; `title` хука — імʼя мода, якщо мод не задав власне
+
+### PreModelSwitch
+
+Запускається **перед** тим, як Claude Code застосує запитану зміну моделі — наприклад, коли ви виконуєте `/model`, або коли компонент просить іншу модель. Потребує v2.1.251 або новішої.
+
+**Matcher:** канонічна назва моделі, на яку відбувається перехід, похідна від `to_model`. Збігайте точну модель (`claude-opus-5`) або сімейство через regex (`.*opus.*`).
+
+**Поля введення:** крім загальних полів, хук отримує `from_model` (модель, що використовувалася до переходу) та `to_model` (запитана модель).
+
+**Може блокувати:** так. Код виходу `2` блокує зміну і показує stderr як помилку, тож сесія зберігає поточну модель. Використовуйте для контролю чи вето змін моделі — наприклад, щоб у проекті з бюджетом не опинитися на найдорожчій моделі.
+
+**Таймаут:** ця подія знижує типовий таймаут для `command`, `http` і `mcp_tool` до 30 секунд.
+
+**Конфігурація:**
+```json
+{
+  "hooks": {
+    "PreModelSwitch": [
+      {
+        "matcher": ".*opus.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/gate-model-switch.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+```bash
+#!/bin/bash
+# gate-model-switch.sh - refuse a switch to Opus on this project
+input=$(cat)
+to_model=$(echo "$input" | jq -r '.to_model')
+
+if [[ "$to_model" == *opus* ]]; then
+  echo "This project is budgeted for Sonnet; staying on the current model." >&2
+  exit 2
+fi
+
+exit 0
+```
+
+### PostModelSwitch
+
+Запускається **після** зміни моделі сесії. Він також спрацьовує для змін, які Claude Code робить сам — як-от відновлення раніше обраної моделі при відновленні сесії — а не лише для запитаних вами переходів. Потребує v2.1.251 або новішої.
+
+**Matcher:** як у `PreModelSwitch` — канонічна назва, похідна від `to_model`.
+
+**Поля введення:** `from_model` та `to_model` разом із загальними полями.
+
+**Може блокувати:** ні. Зміна вже відбулася; хук може лише спостерігати та реагувати.
+
+**Таймаут:** ця подія знижує типовий таймаут для `command`, `http` і `mcp_tool` до 30 секунд.
+
+**Конфігурація:**
+```json
+{
+  "hooks": {
+    "PostModelSwitch": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/log-model-switch.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+```bash
+#!/bin/bash
+# log-model-switch.sh - append every model change to a session log
+input=$(cat)
+from=$(echo "$input" | jq -r '.from_model')
+to=$(echo "$input" | jq -r '.to_model')
+
+echo "$(date -Iseconds) $from -> $to" >> ~/.claude/model-switches.log
+exit 0
+```
 
 ## Хуки з областю дії компонентів
 
@@ -500,7 +718,8 @@ hooks:
   "tool_use_id": "toolu_01ABC123...",
   "agent_id": "agent-abc123",
   "agent_type": "security-reviewer",
-  "worktree": "/path/to/worktree"
+  "worktree": "/path/to/worktree",
+  "effort": { "level": "medium" }
 }
 ```
 
@@ -511,10 +730,12 @@ hooks:
 | `session_id` | Унікальний ідентифікатор сесії |
 | `transcript_path` | Шлях до файлу транскрипту розмови |
 | `cwd` | Поточний робочий каталог |
+| `prompt_id` | UUID промпта, що обробляється; корелює з атрибутом OpenTelemetry `prompt.id` (v2.1.196) |
 | `hook_event_name` | Назва події, що запустила хук |
 | `agent_id` | Ідентифікатор агента, що запускає хук |
 | `agent_type` | Ім'я агента (наприклад, `"Explore"` або `"security-reviewer"`); присутнє лише тоді, коли сесія використовує `--agent` або хук спрацьовує всередині субагента |
 | `worktree` | Шлях до git worktree, якщо агент працює в ньому |
+| `effort.level` | (v2.1.133+) Рівень зусилля (effort) на момент запуску хука, включно з рівнем навички, субагента чи `ultrathink`: `low`, `medium`, `high`, `xhigh` або `max`. Щойно змінений рівень може з'явитися тут до того, як набере чинності |
 
 ### Коди виходу
 
@@ -545,6 +766,44 @@ hooks:
 
 > **`retry` (PermissionDenied)**: Використайте JSON `hookSpecificOutput.retry: true`, щоб повідомити модель, що вона може повторити відхилений виклик інструмента.
 
+> **Галузь застосування (v2.1.121+):** `hookSpecificOutput.updatedToolOutput` тепер діє для **всіх** інструментів, а не лише MCP-інструментів. Хук `PostToolUse` на `Bash`, `Edit`, `Read` тощо може переписати вивід інструмента до того, як його побачить Claude — корисно для видалення секретів, нормалізації дифів чи фільтрації шумного виводу команд. Значення має відповідати структурі виводу інструмента — `Bash` повертає обʼєкт із `stdout`, `stderr`, `interrupted` та `isImage`; для вбудованих інструментів значення, що не відповідає, ігнорується і використовується оригінальний вивід. Приклад (видалення ANSI-керівних послідовностей з виводу `Bash`):
+>
+> ```json
+> {
+>   "hookSpecificOutput": {
+>     "hookEventName": "PostToolUse",
+>     "updatedToolOutput": {
+>       "stdout": "<output with ANSI escapes removed>",
+>       "stderr": "",
+>       "interrupted": false,
+>       "isImage": false
+>     }
+>   }
+> }
+> ```
+
+> **Застаріла форма рішення `PreToolUse`**: для `PreToolUse` поля верхнього рівня `decision` і `reason` **застарілі** — використовуйте натомість `hookSpecificOutput.permissionDecision` (`allow` / `deny` / `ask` / `defer`) та `permissionDecisionReason`. Пріоритет серед рішень: `deny` > `defer` > `ask` > `allow`. Зверніть увагу: `suppressOutput` приймається, але **не має жодного ефекту**.
+
+> **Ліміт виводу**: рядки `additionalContext`, `systemMessage` та `initialUserMessage` хука, а також його простий stdout, кожен обмежені 10 000 символів. Довший вивід зберігається у файл у каталозі сесії і замінюється його шляхом та передпруженням перших 2 000 символів; Claude не просять читати файл. З v2.1.314 це стосується і хуків `PreCompact`, чиїй дуже великій вивід міг змусити компакцію зазнати невдачі або повторитися.
+
+#### `terminalSequence` (v2.1.141)
+
+Хуки можуть надсилати сирі OSC (operating system command) escape-послідовності, встановивши `terminalSequence` у JSON-виводі. Хост записує послідовність у свій керівний термінал, коли хук повертається — корисно для десктопних сповіщень, оновлень заголовка вікна та термінальних дзвіночків без власного TTY.
+
+| Поле | Тип | Опис |
+|-------|------|-------------|
+| `terminalSequence` | string | Сира escape-послідовність (зазвичай OSC 9 / OSC 0 / OSC 777). Записується в термінал хоста дослівно. |
+
+Приклад — десктопне сповіщення OSC 9, коли довге завдання завершується. ESC і BEL записуйте як JSON-escape (`\u001b`, `\u0007`) або будуйте значення через `printf` і `jq`; сирі керівні байти всередині JSON-рядка не розбираються:
+
+```json
+{
+  "terminalSequence": "\u001b]9;Task complete\u0007"
+}
+```
+
+Налаштуйте це на хуку `Stop`, щоб сповіщення спрацьовувало, коли Claude завершує хід. Підтримка послідовностей залежить від термінала: iTerm2, Windows Terminal і WezTerm підтримують OSC 9, а Kitty використовує OSC 99.
+
 ## Змінні оточення
 
 | Змінна | Доступність | Опис |
@@ -555,6 +814,9 @@ hooks:
 | `${CLAUDE_PLUGIN_ROOT}` | Хуки плагінів | Шлях до каталогу плагіна |
 | `${CLAUDE_PLUGIN_DATA}` | Хуки плагінів | Шлях до каталогу даних плагіна |
 | `CLAUDE_CODE_SESSIONEND_HOOKS_TIMEOUT_MS` | Хуки SessionEnd | Налаштовуваний таймаут у мілісекундах для хуків SessionEnd (перевизначає стандартний) |
+| `CLAUDE_CODE_SESSION_ID` | Субпроцеси інструмента Bash (v2.1.132+) | UUID сесії; збігається з полем `session_id` у JSON-вході хука. Використовуйте для кореляції bash-логів із телеметрією хуків. |
+| `CLAUDE_EFFORT` | Субпроцеси інструмента Bash і команди хуків (v2.1.133+) | Рівень зусилля (effort) на момент старту субпроцесу (`low`/`medium`/`high`/`xhigh`/`max`); збігається з `effort.level` у JSON-вході хука. |
+| `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` | На рівні процесу (v2.1.143+) | Максимум послідовних блокувань Stop-хуків, після якого Claude Code перекриває наступне блокування і завершує хід (типово `8`). Значення `0` вимикає ліміт. |
 
 ## Хуки на основі промптів
 
@@ -988,6 +1250,162 @@ python3 09-advanced-features/setup-auto-mode-permissions.py
 - `DROP TABLE`, `kubectl delete`, `terraform destroy`
 - `npm publish`, `curl | bash`, деплої на продакшн
 
+### Приклад 8: Логер прогресу навчання (SessionEnd)
+
+Записуйте в кінці кожної сесії Claude Code, які модулі ви вивчали. Прогрес зберігається
+у `~/.claude-howto-progress.json` — поза репозиторієм, тож він переживе `git pull`,
+не будучи перезаписаним.
+
+**Чому `SessionEnd`, а не `Stop`?**
+`Stop` спрацьовує після *кожної* відповіді Claude. `SessionEnd` спрацьовує один раз,
+коли сесія завершується — саме те, що потрібно для щоденника наприкінці сесії.
+
+**Чому немає інтерактивного запиту?**
+Хуки виконуються без керівного термінала, тож `/dev/tty` недоступний і хук не може
+запитати вас. Передавайте модулі (і необовʼязкові нотатки) через змінні оточення
+під час запуску Claude Code, наприклад `CLAUDE_HOWTO_MODULES=06,07 claude`.
+
+**Файл:** `06-hooks/session-end.sh`
+
+```bash
+#!/usr/bin/env bash
+# SessionEnd hook: records the modules worked on, then appends a session record
+# to ~/.claude-howto-progress.json for persistent learning progress tracking.
+
+PROGRESS_FILE="$HOME/.claude-howto-progress.json"
+
+# Guard: only run inside this repo
+if [[ "$CLAUDE_PROJECT_DIR" != *"claude-howto"* ]] && [[ "$PWD" != *"claude-howto"* ]]; then
+  exit 0
+fi
+
+if [ ! -f "$PROGRESS_FILE" ]; then
+  echo '{"sessions":[]}' > "$PROGRESS_FILE"
+fi
+
+DATE=$(date +"%Y-%m-%d")
+TIME=$(date +"%H:%M")
+
+# Modules worked on, e.g. launch with: CLAUDE_HOWTO_MODULES=06,07 claude
+# 01=Slash  02=Memory  03=Skills  04=Subagents  05=MCP
+# 06=Hooks  07=Plugins 08=Checkpoints 09=Advanced 10=CLI
+INPUT="${CLAUDE_HOWTO_MODULES:-}"
+
+if [ -z "$INPUT" ] || [ "$INPUT" = "skip" ]; then
+  exit 0
+fi
+
+MODULES_JSON=$(echo "$INPUT" | tr ',' '\n' | tr -d ' ' | while read -r m; do
+  case "$m" in
+    01) echo '"01-slash-commands"' ;;
+    02) echo '"02-memory"' ;;
+    03) echo '"03-skills"' ;;
+    04) echo '"04-subagents"' ;;
+    05) echo '"05-mcp"' ;;
+    06) echo '"06-hooks"' ;;
+    07) echo '"07-plugins"' ;;
+    08) echo '"08-checkpoints"' ;;
+    09) echo '"09-advanced-features"' ;;
+    10) echo '"10-cli"' ;;
+    *)  echo "\"$m\"" ;;
+  esac
+done | paste -sd ',' -)
+
+# Optional notes, e.g. CLAUDE_HOWTO_NOTES="tried the pre-commit example"
+NOTES="${CLAUDE_HOWTO_NOTES:-}"
+
+# Pass NOTES as a separate argument so Python handles JSON escaping —
+# avoids broken JSON when notes contain quotes or backslashes.
+python3 - "$PROGRESS_FILE" "$DATE" "$TIME" "$MODULES_JSON" "$NOTES" <<'PYEOF'
+import sys, json
+
+path, date, time_str, modules_raw, notes = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]
+
+new_session = {
+    "date": date,
+    "time": time_str,
+    "modules": json.loads(f"[{modules_raw}]") if modules_raw else [],
+    "notes": notes,
+}
+
+with open(path, 'r') as f:
+    data = json.load(f)
+
+data.setdefault('sessions', []).append(new_session)
+
+with open(path, 'w') as f:
+    json.dump(data, f, indent=2)
+PYEOF
+
+echo " Saved to $PROGRESS_FILE"
+```
+
+**Встановлення** — скопіюйте скрипт до каталогу хуків проекту, щоб шлях у `settings.json` розвʼязувався:
+
+```bash
+mkdir -p .claude/hooks
+cp 06-hooks/session-end.sh .claude/hooks/
+chmod +x .claude/hooks/session-end.sh
+```
+
+**Конфігурація** (у `.claude/settings.json`):
+
+```json
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/session-end.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Хуки SessionEnd мають типовий бюджет 1,5 секунди. Встановлення `"timeout"` для окремого хука (у секундах) піднімає бюджет до цього значення, максимум 60 секунд; хук без власного `timeout` скасовується після 1,5 секунди.
+
+**Вивід — `~/.claude-howto-progress.json`:**
+
+```json
+{
+  "sessions": [
+    {
+      "date": "2026-04-18",
+      "time": "14:32",
+      "modules": ["06-hooks", "07-plugins"],
+      "notes": "Installed first hook, tried pre-commit example"
+    }
+  ]
+}
+```
+
+**Продемонстровані ключові шаблони:**
+
+| Шаблон | Чому це важливо |
+|---------|----------------|
+| Подія `SessionEnd` | Спрацьовує один раз при виході — не після кожної відповіді, як `Stop` |
+| `INPUT="${CLAUDE_HOWTO_MODULES:-}"` | Хуки не мають термінала (`/dev/tty` недоступний), тож вхід — зі змінних оточення |
+| `"timeout": 10` | Хуки SessionEnd скасовуються після 1,5 с, якщо не встановлять власний `timeout` |
+| `$CLAUDE_PROJECT_DIR` | Портативний шлях — ніколи не хардкодьте `/Users/yourname/...` |
+| Охоронна умова на початку | Уникає запуску хука в нерелевантних проектах, якщо встановлено глобально |
+| Зберігання поза репозиторієм | Шлях `~/` переживає `git pull` без перезапису даних |
+
+**Компаньйон: візуальний трекер прогресу**
+
+Для повного UI з чекбоксами по всіх 10 модулях відкрийте вбудований трекер у браузері:
+
+```bash
+open ../../local-progress/index.html
+```
+
+Прогрес зберігається в `localStorage` браузера (ніколи не записується на диск всередині репозиторію). Кнопкою **Експорт** збережіть знімок у JSON, кнопкою **Імпорт** відновіть його.
+
 ## Хуки плагінів
 
 Плагіни можуть включати хуки у файлі `hooks/hooks.json`:
@@ -1222,19 +1640,42 @@ chmod +x ~/.claude/hooks/*.sh
 - **[Посібник з памʼяті](../02-memory/)** — конфігурація постійного контексту
 
 ---
-**Останнє оновлення**: 1 листопада 2026
-**Версія Claude Code**: 2.1.316
+**Останнє оновлення**: 13 листопада 2026
+**Версія Claude Code**: 2.1.323
 **Джерела**:
 - https://code.claude.com/docs/en/hooks
-- https://code.claude.com/docs/en/plugins/manifest-reference#quoting-and-path-separators
+- https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+- https://code.claude.com/docs/en/sub-agents
 - https://code.claude.com/docs/en/permissions
 - https://code.claude.com/docs/en/tools-reference#task-tool-availability
+- https://code.claude.com/docs/en/plugins/manifest-reference#quoting-and-path-separators
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.295
 - https://code.claude.com/docs/en/hooks#pretooluse
 - https://code.claude.com/docs/en/hooks#pretooluse-decision-control
 - https://code.claude.com/docs/en/hooks#hook-lifecycle
 - https://code.claude.com/docs/en/hooks#userpromptsubmit-input
 - https://code.claude.com/docs/en/changelog#2-1-299
 - https://code.claude.com/docs/en/changelog#2-1-300
+- https://code.claude.com/docs/en/changelog#2-1-301
+- https://code.claude.com/docs/en/changelog#2-1-302
 - https://code.claude.com/docs/en/hooks#defer-a-tool-call-for-later
+- https://code.claude.com/docs/en/hooks-guide#limitations
+- https://code.claude.com/docs/en/hooks#notification
+- https://code.claude.com/docs/en/changelog#2-1-304
+- https://code.claude.com/docs/en/hooks#limits-on-skill-hooks
+- https://code.claude.com/docs/en/changelog#2-1-309
+- https://code.claude.com/docs/en/hooks#failed-hooks-on-windows-without-git-bash
 - https://code.claude.com/docs/en/changelog#2-1-312
+- https://code.claude.com/docs/en/changelog#2-1-314
+- https://code.claude.com/docs/en/hooks#pretooluse-ask-decisions-in-auto-mode
+- https://code.claude.com/docs/en/hooks#common-input-fields
+- https://code.claude.com/docs/en/hooks#json-output
+- https://code.claude.com/docs/en/env-vars#variables
+- https://code.claude.com/docs/en/model-config#extended-context
+- https://code.claude.com/docs/en/agent-sdk/hooks#block-the-action-when-a-callback-fails
+- https://code.claude.com/docs/en/hooks#mcp-tool-hook-fields
+- https://code.claude.com/docs/en/changelog#2-1-321
+- https://code.claude.com/docs/en/changelog#2-1-319
+- https://code.claude.com/docs/en/hooks#posttooluse-after-an-interrupt
+- https://code.claude.com/docs/en/changelog#2-1-323
 **Сумісні моделі**: Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Opus 4.8, Claude Haiku 5.5, Claude Haiku 4.5
