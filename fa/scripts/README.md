@@ -50,7 +50,7 @@ uv venv
 
 # فعال‌سازی و نصب وابستگی‌ها
 source .venv/bin/activate
-uv pip install -r requirements-dev.txt
+uv pip install -r scripts/requirements-dev.txt
 
 # اجرای تست‌ها
 pytest scripts/tests/ -v
