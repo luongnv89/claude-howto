@@ -781,7 +781,7 @@ Claude:
 
 ```bash
 # 開発依存関係をインストール
-uv pip install -r requirements-dev.txt
+uv pip install -r scripts/requirements-dev.txt
 
 # 全ユニットテストを実行
 pytest scripts/tests/ -v
@@ -794,7 +794,7 @@ ruff check scripts/
 ruff format --check scripts/
 
 # セキュリティスキャン
-bandit -c pyproject.toml -r scripts/ --exclude scripts/tests/
+bandit -c scripts/pyproject.toml -r scripts/ --exclude scripts/tests/
 
 # 型チェック
 mypy scripts/ --ignore-missing-imports
