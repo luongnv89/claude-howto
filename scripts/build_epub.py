@@ -751,15 +751,25 @@ def create_cover_image(
 
 
 def create_chapter_html(
-    display_name: str, file_title: str, html_content: str, is_overview: bool = False
+    display_name: str,
+    file_title: str,
+    html_content: str,
+    is_overview: bool = False,
+    lang: str = "en",
 ) -> str:
-    """Create chapter HTML with proper escaping."""
+    """Create chapter HTML with proper escaping.
+
+    ``lang`` carries the book language so each chapter's XHTML declares the
+    content language (readers use it for fonts, line breaking and screen
+    readers). It is restricted to the whitelisted --lang choices.
+    """
     safe_display = html.escape(display_name)
     safe_title = html.escape(file_title)
+    safe_lang = html.escape(lang)
 
     if is_overview:
         return f"""<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{safe_lang}">
 <head>
     <meta charset="utf-8"/>
     <title>{safe_display}</title>
@@ -771,7 +781,7 @@ def create_chapter_html(
 </html>"""
     else:
         return f"""<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{safe_lang}">
 <head>
     <meta charset="utf-8"/>
     <title>{safe_title}</title>
@@ -1080,7 +1090,7 @@ def build_epub_async(
         chapter = epub.EpubHtml(
             title=chapter_info.file_title,
             file_name=chapter_info.chapter_filename,
-            lang="en",
+            lang=config.language,
         )
 
         chapter.content = create_chapter_html(
@@ -1089,6 +1099,7 @@ def build_epub_async(
             html_content,
             is_overview=chapter_info.is_folder_overview
             or chapter_info.folder_name is None,
+            lang=config.language,
         )
         chapter.add_item(nav_css)
         book.add_item(chapter)
