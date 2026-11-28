@@ -775,7 +775,7 @@ Claude：
 
 ```bash
 # 安装开发依赖
-uv pip install -r requirements-dev.txt
+uv pip install -r scripts/requirements-dev.txt
 
 # 运行全部单元测试
 pytest scripts/tests/ -v
@@ -788,7 +788,7 @@ ruff check scripts/
 ruff format --check scripts/
 
 # 运行安全扫描
-bandit -c pyproject.toml -r scripts/ --exclude scripts/tests/
+bandit -c scripts/pyproject.toml -r scripts/ --exclude scripts/tests/
 
 # 运行类型检查
 mypy scripts/ --ignore-missing-imports
