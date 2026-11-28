@@ -174,3 +174,49 @@ def test_in_page_link_missing_combining_mark_is_reported(
 
     assert check_cross_references.main() == 1
     assert "broken anchor" in capsys.readouterr().out
+
+
+# --- duplicate-heading anchors (GitHub's -1/-2 suffixes, cf. build_website) ---
+
+
+def test_duplicate_heading_suffix_anchor_passes(
+    repo: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    (repo / "README.md").write_text(
+        "# Intro\n\n## Duplicate\n\nfirst\n\n## Duplicate\n\n"
+        "[first](#duplicate) [second](#duplicate-1)\n"
+    )
+
+    assert check_cross_references.main() == 0
+    assert "broken anchor" not in capsys.readouterr().out
+
+
+def test_third_duplicate_gets_minus_two_suffix(
+    repo: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    (repo / "README.md").write_text(
+        "# Intro\n\n## Dup\n\n## Dup\n\n## Dup\n\n[third](#dup-2)\n"
+    )
+
+    assert check_cross_references.main() == 0
+
+
+def test_suffixed_anchor_without_duplicate_is_still_broken(
+    repo: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # Only one occurrence: GitHub would render no -1 anchor.
+    (repo / "README.md").write_text("# Doc\n\n## Unique\n\n[bad](#unique-1)\n")
+
+    assert check_cross_references.main() == 1
+    assert "broken anchor → '#unique-1'" in capsys.readouterr().out
+
+
+def test_collect_valid_anchors_matches_website_suffix_rule() -> None:
+    headings = ["Install", "Install", "Install"]
+    assert check_cross_references.collect_valid_anchors(headings) == {
+        "install",
+        "install-1",
+        "install-2",
+    }
+    # Distinct headings keep bare anchors.
+    assert check_cross_references.collect_valid_anchors(["A", "B"]) == {"a", "b"}
