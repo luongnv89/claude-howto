@@ -90,6 +90,17 @@
 
 ---
 
+## Нам довіряють розробники
+
+- **Зірки на GitHub** від розробників, які щодня працюють з Claude Code
+- **Форки** від команд, що адаптують цей посібник під власні робочі процеси
+- **Активно підтримується** — синхронізується з кожним релізом Claude Code (остання версія: v2.1.325, листопад 2026)
+- **Розвивається спільнотою** — внески від розробників, які діляться своїми реальними конфігураціями
+
+[![Star History Chart](https://api.star-history.com/svg?repos=luongnv89/claude-howto&type=Date)](https://star-history.com/#luongnv89/claude-howto&Date)
+
+---
+
 ## Не знаєш з чого почати?
 
 Пройдіть самооцінку або оберіть свій рівень:
@@ -434,6 +445,23 @@ cp 06-hooks/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
 ```
 
+Налаштуйте хуки у `~/.claude/settings.json`:
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          { "type": "command", "command": "~/.claude/hooks/format-code.sh" },
+          { "type": "command", "command": "~/.claude/hooks/security-scan.sh" }
+        ]
+      }
+    ]
+  }
+}
+```
+
 **Використання**: Хуки виконуються автоматично за подіями
 
 **Типи хуків** (5): `command`, `http`, `prompt`, `mcp_tool`, `agent` — як саме виконується хук.
@@ -601,6 +629,72 @@ Claude:
 </details>
 
 <details>
+<summary>Структура каталогів</summary>
+
+```
+├── 01-slash-commands/
+│   ├── optimize.md
+│   ├── pr.md
+│   ├── generate-api-docs.md
+│   └── README.md
+├── 02-memory/
+│   ├── project-CLAUDE.md
+│   ├── directory-api-CLAUDE.md
+│   ├── personal-CLAUDE.md
+│   └── README.md
+├── 03-skills/
+│   ├── code-review-specialist/
+│   │   ├── SKILL.md
+│   │   ├── scripts/
+│   │   └── templates/
+│   ├── brand-voice/
+│   │   ├── SKILL.md
+│   │   └── templates/
+│   ├── doc-generator/
+│   │   ├── SKILL.md
+│   │   └── generate-docs.py
+│   └── README.md
+├── 04-subagents/
+│   ├── code-reviewer.md
+│   ├── test-engineer.md
+│   ├── documentation-writer.md
+│   ├── secure-reviewer.md
+│   ├── implementation-agent.md
+│   └── README.md
+├── 05-mcp/
+│   ├── github-mcp.json
+│   ├── database-mcp.json
+│   ├── filesystem-mcp.json
+│   ├── multi-mcp.json
+│   └── README.md
+├── 06-hooks/
+│   ├── format-code.sh
+│   ├── pre-commit.sh
+│   ├── security-scan.sh
+│   ├── log-bash.sh
+│   ├── validate-prompt.sh
+│   ├── notify-team.sh
+│   └── README.md
+├── 07-plugins/
+│   ├── pr-review/
+│   ├── devops-automation/
+│   ├── documentation/
+│   └── README.md
+├── 08-checkpoints/
+│   ├── checkpoint-examples.md
+│   └── README.md
+├── 09-advanced-features/
+│   ├── config-examples.json
+│   ├── planning-mode-examples.md
+│   └── README.md
+├── 10-cli/
+│   └── README.md
+└── README.md (цей файл)
+```
+
+</details>
+
+<details>
 <summary>Найкращі практики</summary>
 
 ### Робіть
@@ -642,6 +736,103 @@ Claude:
 2. Перевірте чіткість опису агента
 3. Перевірте складність завдання
 4. Протестуйте агента окремо
+
+</details>
+
+<details>
+<summary>Тестування</summary>
+
+Проєкт має вичерпну автоматизовану перевірку:
+
+- **Модульні тести**: Python-тести на pytest (Python 3.10, 3.11, 3.12)
+- **Якість коду**: лінтинг і форматування з Ruff
+- **Безпека**: сканування вразливостей з Bandit
+- **Перевірка типів**: статичний аналіз типів з mypy
+- **Перевірка збірки**: тестування генерації EPUB
+- **Відстеження покриття**: інтеграція з Codecov
+
+```bash
+# Встановити залежності для розробки
+uv pip install -r scripts/requirements-dev.txt
+
+# Запустити всі модульні тести
+pytest scripts/tests/ -v
+
+# Запустити тести зі звітом про покриття
+pytest scripts/tests/ -v --cov=scripts --cov-report=html
+
+# Запустити перевірки якості коду
+ruff check scripts/
+ruff format --check scripts/
+
+# Запустити скан безпеки
+bandit -c scripts/pyproject.toml -r scripts/ --exclude scripts/tests/
+
+# Запустити перевірку типів
+mypy scripts/ --ignore-missing-imports
+```
+
+Тести запускаються автоматично при кожному push до `main`/`develop` та кожному PR до `main`. Детальніше — у [TESTING.md](../.github/TESTING.md) (англійською).
+
+</details>
+
+<details>
+<summary>Генерація EPUB</summary>
+
+Хочете читати цей посібник офлайн? Згенеруйте EPUB-книгу:
+
+```bash
+uv run scripts/build_epub.py
+```
+
+Створюється `claude-howto-guide.epub` з усім контентом, включно з відрендереними Mermaid-діаграмами.
+
+Більше опцій — у [scripts/README.md](scripts/README.md).
+
+</details>
+
+<details>
+<summary>Внесок</summary>
+
+Знайшли проблему або хочете поділитися прикладом? Будемо раді вашій допомозі!
+
+**Прочитайте [CONTRIBUTING.md](CONTRIBUTING.md) — там детальні настанови про:**
+- Типи внесків (приклади, документація, функції, баги, відгуки)
+- Як налаштувати середовище розробки
+- Структуру каталогів і як додавати контент
+- Правила написання та найкращі практики
+- Процес комітів і PR
+
+**Наші стандарти спільноти:**
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — як ми ставимось одне до одного
+- [SECURITY.md](SECURITY.md) — політика безпеки та повідомлення про вразливості
+
+### Повідомлення про проблеми безпеки
+
+Якщо ви виявили вразливість безпеки, повідомте про це відповідально:
+
+1. **Використовуйте приватне повідомлення про вразливості GitHub**: https://github.com/luongnv89/claude-howto/security/advisories
+2. **Або прочитайте** [.github/SECURITY_REPORTING.md](../.github/SECURITY_REPORTING.md) (англійською) для детальних інструкцій
+3. **НЕ** створюйте публічний issue для вразливостей безпеки
+
+Швидкий старт:
+1. Зробіть форк і клонуйте репозиторій
+2. Створіть описову гілку (`add/feature-name`, `fix/bug`, `docs/improvement`)
+3. Внесіть зміни відповідно до настанов
+4. Надішліть pull request з чітким описом
+
+**Потрібна допомога?** Створіть issue чи discussion — ми допоможемо розібратися з процесом.
+
+</details>
+
+<details>
+<summary>Додаткові ресурси</summary>
+
+- [Документація Claude Code](https://code.claude.com/docs/en/overview)
+- [Специфікація протоколу MCP](https://modelcontextprotocol.io)
+- [Репозиторій навичок](https://github.com/luongnv89/skills) — колекція готових до використання навичок
+- [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
+- [Робочий процес Бориса Черного (Boris Cherny) для Claude Code](https://x.com/bcherny/status/2007179832300581177) — автор Claude Code ділиться своєю систематизованою схемою роботи: паралельні агенти, спільний CLAUDE.md, режим Plan, слеш-команди, субагенти та хуки верифікації для автономних довготривалих сесій.
 
 </details>
 
