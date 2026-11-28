@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 import xml.etree.ElementTree as ET
 import zipfile
 from pathlib import Path
@@ -569,6 +570,41 @@ class TestHTMLGeneration:
         # Note: Python's html.escape uses &#x27; for single quotes
         assert "<script>alert" not in html
 
+    def test_create_chapter_html_declares_book_language(self) -> None:
+        """Chapter XHTML must declare the content language, not a hardcoded en."""
+        html = create_chapter_html(
+            display_name="Giới thiệu",
+            file_title="Giới thiệu",
+            html_content="<p>Nội dung</p>",
+            is_overview=True,
+            lang="vi",
+        )
+
+        assert 'lang="vi"' in html
+        assert 'lang="en"' not in html
+
+    def test_create_chapter_html_defaults_to_english(self) -> None:
+        """Callers that omit lang keep the previous English behaviour."""
+        html = create_chapter_html(
+            display_name="Intro",
+            file_title="Intro",
+            html_content="<p>Content</p>",
+        )
+
+        assert 'lang="en"' in html
+
+    def test_create_chapter_html_escapes_lang(self) -> None:
+        """lang is interpolated into an attribute, so it must be escaped."""
+        html = create_chapter_html(
+            display_name="T",
+            file_title="T",
+            html_content="<p>Content</p>",
+            lang='vi"><script>',
+        )
+
+        assert "<script>" not in html
+        assert 'lang="vi&quot;&gt;&lt;script&gt;"' in html
+
 
 # =============================================================================
 # Chapter Order Tests
@@ -894,6 +930,34 @@ class TestIntegration:
         assert "SVG not found" not in chapter
         assert "var(" not in svg
         assert check_epub(config.output_path) == []
+
+    def test_build_writes_book_language_into_chapters(
+        self, tmp_project: Path, logger: logging.Logger
+    ) -> None:
+        """--lang vi chapters must carry lang="vi", both in metadata and XHTML."""
+        import zipfile
+
+        from build_epub import build_epub_async
+
+        config = EPUBConfig(
+            root_path=tmp_project,
+            output_path=tmp_project / "vi.epub",
+            language="vi",
+        )
+
+        with patch("build_epub.get_chapter_order") as mock_order:
+            mock_order.return_value = [("README.md", "Introduction")]
+            build_epub_async(config, logger)
+
+        with zipfile.ZipFile(config.output_path) as zf:
+            opf_name = next(n for n in zf.namelist() if n.endswith(".opf"))
+            opf = zf.read(opf_name).decode("utf-8")
+            chapter = zf.read("EPUB/chap_01.xhtml").decode("utf-8")
+
+        assert "<dc:language>vi</dc:language>" in opf
+        opening_tag = re.search(r"<html\b[^>]*>", chapter).group()
+        assert 'lang="vi"' in opening_tag
+        assert 'lang="en"' not in opening_tag
 
 
 # =============================================================================
