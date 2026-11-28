@@ -69,6 +69,24 @@ def heading_to_anchor(heading: str) -> str:
     return anchor.rstrip("-")
 
 
+def collect_valid_anchors(headings: list[str]) -> set[str]:
+    """
+    Valid in-page anchors for *headings*, in document order.
+
+    GitHub (and build_website.py's normalise_heading_ids_in_soup) give the
+    second and later occurrences of a repeated heading `-1`, `-2`, ... suffix
+    anchors. Links to those are valid and must not be reported as broken.
+    """
+    counts: dict[str, int] = {}
+    anchors: set[str] = set()
+    for heading in headings:
+        base = heading_to_anchor(heading)
+        seen = counts.get(base, 0)
+        counts[base] = seen + 1
+        anchors.add(base if seen == 0 else f"{base}-{seen}")
+    return anchors
+
+
 def strip_code_blocks(content: str) -> str:
     """Remove fenced code blocks and inline code spans to avoid scanning example links."""
     # Strip fenced code blocks (``` ... ```)
@@ -100,7 +118,7 @@ def main() -> int:
         anchors = re.findall(r"\[[^\]]+\]\(#([^)]+)\)", scannable)
         if anchors:
             headings = re.findall(r"^#{1,6}\s+(.+)$", content, re.MULTILINE)
-            valid_anchors = {heading_to_anchor(h) for h in headings}
+            valid_anchors = collect_valid_anchors(headings)
             errors.extend(
                 f"{file_path}: broken anchor → '#{anchor}'"
                 for anchor in anchors
