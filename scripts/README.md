@@ -50,7 +50,7 @@ uv venv
 
 # Activate and install dependencies
 source .venv/bin/activate
-uv pip install -r requirements-dev.txt
+uv pip install -r scripts/requirements-dev.txt
 
 # Run tests
 pytest scripts/tests/ -v

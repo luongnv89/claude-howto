@@ -40,7 +40,7 @@ uv venv
 
 # 有効化して依存関係をインストール
 source .venv/bin/activate
-uv pip install -r requirements-dev.txt
+uv pip install -r scripts/requirements-dev.txt
 
 # テストを実行
 pytest scripts/tests/ -v
