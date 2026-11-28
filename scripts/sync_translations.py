@@ -15,6 +15,33 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+# Locale roots hold translations of the English tree, never English sources.
+# Without this set, every other locale (ja/, zh/, ...) was swept into the
+# "English" file list and reported as an untranslated Vietnamese file.
+LOCALE_ROOTS = {"vi", "zh", "ja", "ko", "uk", "fa"}
+
+# Tooling / environment directories that mirror nothing in vi/.
+NON_SOURCE_DIRS = {".claude", ".venv", "venv", "__pycache__", ".git", "node_modules"}
+
+EXCLUDED_DIRS = LOCALE_ROOTS | NON_SOURCE_DIRS
+
+
+def is_english_source(path: Path, root_path: Path) -> bool:
+    """
+    True when *path* is an English source document.
+
+    Compares path *parts* rather than the string form, so the check also
+    works on Windows where ``Path`` stringifies with backslashes (a ``vi/``
+    substring test never matched there, and even vi/ files were treated as
+    English sources).
+    """
+    try:
+        parts = path.relative_to(root_path).parts
+    except ValueError:
+        # Not under root_path: not a source document.
+        return False
+    return not (set(parts) & EXCLUDED_DIRS)
+
 
 def check_translation_status(
     root_path: Path | None = None, verbose: bool = False
@@ -32,12 +59,10 @@ def check_translation_status(
     if root_path is None:
         root_path = Path(__file__).parent.parent
 
-    # Get all English markdown files (excluding vi/ directory)
-    en_files = [
-        f
-        for f in root_path.rglob("*.md")
-        if "vi/" not in str(f) and ".claude" not in str(f)
-    ]
+    # English sources: everything outside locale roots and tooling dirs.
+    # Mirrored trees such as scripts/, resources/, docs/ and .github/ stay in,
+    # since vi/ carries their translations too.
+    en_files = [f for f in root_path.rglob("*.md") if is_english_source(f, root_path)]
 
     # Get all Vietnamese markdown files
     vi_dir = root_path / "vi"
